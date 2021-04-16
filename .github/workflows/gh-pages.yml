@@ -19,4 +19,4 @@ jobs:
           TARGET_REPO: zellij-org/zellij.dev
           TARGET_BRANCH: gh-pages
           TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-          CNAME: zellij-org.github.io
+          #CNAME: zellij.dev
