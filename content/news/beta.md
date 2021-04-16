@@ -28,7 +28,9 @@ While Zellij is highly configurable in both these regards, its default interface
 
 ### Built in layouts
 
-Do you find yourself re-creating the same pane layout every time? Zellij comes with a layout engine that allows you to create yaml files to describe that layout. A simple `zellij --layout /path/to/your/layout.yaml` should save you that time.
+Do you find yourself re-creating the same pane layout every time? Zellij comes with a layout engine that allows you to create yaml files to describe that layout.
+
+ A simple `zellij --layout /path/to/your/layout.yaml` should save you that time.
 
 {{<figure src="/img/beta-post-layout.png" class="center">}}
 
