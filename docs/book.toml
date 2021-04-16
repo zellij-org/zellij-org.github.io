@@ -1,0 +1,6 @@
+[book]
+authors = ["Brooks J Rady"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Zellij User Guide"
