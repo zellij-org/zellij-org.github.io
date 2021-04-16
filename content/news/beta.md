@@ -8,6 +8,7 @@ type:
 - posts
 title: Zellij hits beta!
 images: ["/img/beta-post-preview.png"]
+description: "The rusty terminal multiplexer releases a beta version"
 weight: 10
 ---
 
