@@ -1,6 +1,6 @@
 ---
-author:
-  name: "Aram Drevekenin"
+author: "Aram Drevekenin"
+authorlink: "https://twitter.com/im_snif"
 date: 2020-04-20
 linktitle: Zellij hits beta!
 type:

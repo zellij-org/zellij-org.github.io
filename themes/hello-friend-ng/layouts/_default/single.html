@@ -33,7 +33,20 @@
                 <hr />
             {{ end }}
 
-            <div class="post-content">
+                  {{ if .Params.Date }}
+                <span class="post-date">
+                  {{ .Date.Format "2006-01-02" }}
+                </span>
+                {{ end }}
+                {{ if .Params.Author }}
+                  <span class="post-author">::
+                    {{ if .Params.Authorlink }}
+                    <a href="{{ .Params.Authorlink }}">{{ .Params.Author }}</a>
+                    {{ else }}
+                      {{ .Params.Author }}
+                    {{ end }}
+                  </span>
+                {{ end }}
                 {{ .Content }}
             </div>
         </article>

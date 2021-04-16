@@ -56,7 +56,7 @@ disableHugoGeneratorInject = false
   # Metadata mostly used in document's head
   # 
   description = "A terminal workspace with batteries included"
-  keywords = ""
+  keywords = "rust,terminal,multiplexer"
   images = ["static/img/beta-post-preview.png"]
 
   # Home subtitle of the index page.
