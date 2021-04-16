@@ -16,7 +16,7 @@ jobs:
         uses: benmatselby/hugo-deploy-gh-pages@master
         env:
           HUGO_VERSION: 0.82.0
+          HUGO_EXTENDED: true
           TARGET_REPO: zellij-org/zellij.dev
           TARGET_BRANCH: gh-pages
           TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-          #CNAME: zellij.dev
