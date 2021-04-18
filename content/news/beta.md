@@ -16,7 +16,11 @@ After long months of work by a dedicated team of enthusiasts, today we are proud
 
 [Zellij](https://github.com/zellij-org/zellij) is a terminal workspace and multiplexer written in Rust, aiming to become a general purpose application development platform in the future.
 
-{{<figure src="/img/beta-post-preview.png" class="center">}}
+{{<figure src="/img/zellij-preview-animated.gif" class="center">}}
+
+## How to install?
+
+`<Installation instructions here>`
 
 ## Why is Zellij different?
 Zellij is constantly evolving, and even in this early stage it still shines. Including the basic features of a terminal multiplexer with some fundamental infrastructure changes, as well as some extra goodies included from the get-go.
@@ -35,10 +39,11 @@ Do you find yourself re-creating the same pane layout every time? Zellij comes w
 
 {{<figure src="/img/beta-post-layout.png" class="center">}}
 
-### Webassembly plugin system
+### WebAssembly plugin system
 
 Zellij is built with extendability in mind.
-One can extend Zellij, creating pane types beyond a simple terminal. This can be done with any compiled language. For examples and API documentation, see: `<plugin documentation link>`.
+
+One can extend Zellij, creating pane types beyond a simple terminal. This can be done with [any language that compiles to WebAssembly](https://github.com/appcypher/awesome-wasm-langs). For examples and API documentation, see: `<plugin documentation link>`.
 
 {{<figure src="/img/beta-post-plugins.png" class="center">}}
 
@@ -57,10 +62,6 @@ With Zellij, there is no such limitation:
 ## Stability
 
 This beta release marks Zellij as stable for every day use. While some bugs may pop up here and there, they should be the very edge of edge cases. If you find them, we would very much appreciate an issue report!
-
-## How to install?
-
-`<Installation instructions here>`
 
 ## What's next?
 The team behind Zellij is still hard at work improving the tool. Some key improvements we're working on right now:

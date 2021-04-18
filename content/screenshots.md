@@ -12,3 +12,6 @@ Strider is a ranger clone and comes built-in with Zellij. To run, load its layou
  `zellij --layout strider`
 
 {{<figure src="/img/screenshots-strider.gif" class="center">}}
+
+### Basic multiplexer functionality demonstration
+{{<figure src="/img/zellij-preview-animated.gif" class="center">}}
