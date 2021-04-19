@@ -14,9 +14,9 @@ Zellij includes a layout engine, allowing users to define a map of panes in a ya
 
 {{<figure src="/img/beta-post-layout.png" class="center">}}
 
-For more information: /* TBD: link to layout documentation */
+For more information, see the [layout documentation](/documentation/layouts.html).
 
 ### Extend Zellij with plugins written in any compiled language
-Zellij also has some special panes which are not terminals. These panes are called plugins. Zellij comes with some prebuilt plugins such as the Strider file explorer /* TBD link */. Zellij uses Webassembly and WASI in order to load these panes and give them access to the host machine, so they can be written in any compiled language. To learn more, see: /* TBD link to plugin docs */
+Zellij also has some special panes which are not terminals. These panes are called plugins. Zellij comes with some prebuilt plugins such as the [Strider file explorer](https://github.com/zellij-org/zellij/tree/main/default-tiles/strider). Zellij uses Webassembly and WASI in order to load these panes and give them access to the host machine, so they can be written in any compiled language. To learn more, see the [plugin documentation](/documentation/plugins.html)
 
 {{<figure src="/img/beta-post-plugins.png" class="center">}}

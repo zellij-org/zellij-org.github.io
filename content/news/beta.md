@@ -43,7 +43,7 @@ Do you find yourself re-creating the same pane layout every time? Zellij comes w
 
 Zellij is built with extendability in mind.
 
-One can extend Zellij, creating pane types beyond a simple terminal. This can be done with [any language that compiles to WebAssembly](https://github.com/appcypher/awesome-wasm-langs). For examples and API documentation, see: `<plugin documentation link>`.
+One can extend Zellij, creating pane types beyond a simple terminal. This can be done with [any language that compiles to WebAssembly](https://github.com/appcypher/awesome-wasm-langs). For examples and API documentation, see the [plugin documentation](/documentation/plugins.html)
 
 {{<figure src="/img/beta-post-plugins.png" class="center">}}
 
