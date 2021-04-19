@@ -1,4 +1,4 @@
-baseURL = "https://zellij-org.github.io/"
+baseURL = "https://zellij.dev/"
 title   = "Zellij"
 languageCode = "en-us"
 theme = "hello-friend-ng"
