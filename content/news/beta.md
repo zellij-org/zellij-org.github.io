@@ -1,7 +1,7 @@
 ---
 author: "Aram Drevekenin"
 authorlink: "https://twitter.com/im_snif"
-date: 2020-04-20
+date: 2021-04-20
 linktitle: "Zellij: a Rusty terminal workspace releases a beta"
 type:
 - post
