@@ -97,7 +97,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Chapter 1</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">1.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">1.1.</strong> Configuring Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">1.1.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">1.1.2.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-actions.html"><strong aria-hidden="true">1.1.3.</strong> Actions</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">2.</strong> Layouts</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -165,8 +165,180 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="chapter-1"><a class="header" href="#chapter-1">Chapter 1</a></h1>
-<p>Here is some super helpful information telling you how to use Zellij!</p>
+                        <h1 id="configuration"><a class="header" href="#configuration">Configuration</a></h1>
+<p>Zellij will look for a file <code>config.yaml</code> in the default configuration location of your os:</p>
+<p><strong>Linux</strong>: <code>/home/alice/.config/zellij</code></p>
+<p><strong>Mac</strong>: <code>/Users/Alice/Library/Application Support/com.Zellij-Contributors.zellij</code></p>
+<p>To ignore the default config file location:</p>
+<pre><code>zellij config --clean
+</code></pre>
+<p>To pass a config file directly to zellij:</p>
+<pre><code>zellij config [FILE]
+</code></pre>
+<h1 id="configuring-keybindings"><a class="header" href="#configuring-keybindings">Configuring Keybindings</a></h1>
+<p>Zellij comes with a default set of keybindings that try to fit as many different users and use cases while trying to maximize comfort for everyone.</p>
+<p>It is possible to add to these defaults or even override them with an external configuration. For more information about the file, see <a href="./configuration.html">Configuration</a>.</p>
+<p>The structure of the <code>keybinds</code> section of the file is as follows:</p>
+<pre><code>keybinds:
+    normal:
+        - action: []
+          key: []
+</code></pre>
+<p>Under the main <code>keybinds</code> section one can list the new bindings they'd like to add grouped under the different <a href="keybindings-modes.html">Modes</a> (<code>normal</code> in this example).
+The <a href="./keybindings-actions.html"><code>action</code></a> is a sequence of one or more instructions sent to Zellij through this keybinding. The <a href="keybindings-keys.html"><code>key</code></a> is a list of one or more keys, any one of them alone would trigger the sequence of actions.</p>
+<p>For example:</p>
+<pre><code>keybinds:
+    normal:
+        - action: [ NewTab, GoToTab: 1,]
+          key: [ Char: 'c',]
+</code></pre>
+<p>Will create a new tab and then switch to tab number 1 on pressing the
+<code>c</code> key.
+Whereas:</p>
+<pre><code>keybinds:
+    normal:
+        - action: [ NewTab,]
+          key: [ Char: 'c', Char: 'd',]
+</code></pre>
+<p>Will create a new tab on pressing either the <code>c</code> or the <code>d</code> key.</p>
+<h2 id="to-override-the-default-keybindings"><a class="header" href="#to-override-the-default-keybindings">To override the default Keybindings</a></h2>
+<pre><code>keybinds:
+    unbind: true
+</code></pre>
+<h2 id="example"><a class="header" href="#example">Example</a></h2>
+<p>This configuration can be used to configure Zellij's default keybindings: <a href="https://github.com/zellij-org/zellij/blob/main/example/default.yaml">default.yaml</a></p>
+<h1 id="modes"><a class="header" href="#modes">Modes</a></h1>
+<p>The Zellij <a href="./keybindings.html">keybindings</a> are grouped into different <code>modes</code>, which are a logical separation meant to reduce the mental overhead and allow to duplicate shortcuts in different situations.</p>
+<h2 id="normal"><a class="header" href="#normal">normal</a></h2>
+<p>This is the default mode Zellij starts with. By default it provides the ability to switch to different modes, as well as some quick navigation shortcuts.</p>
+<h2 id="locked"><a class="header" href="#locked">locked</a></h2>
+<p>This mode &quot;locks&quot; the interface, disabling all keybindings except one that would switch to &quot;normal&quot; mode (<code>ctrl-g</code> by default).
+It is intended to give users a workaround in case one of the default keybindings overrides something they use in their terminal. (eg. <code>ctrl-r</code> for reverse history search in bash).</p>
+<h2 id="pane"><a class="header" href="#pane">pane</a></h2>
+<p>This mode includes instructions that manipulate the different panes. Eg. adding new panes, closing panes and moving the focused pane.</p>
+<h2 id="tab"><a class="header" href="#tab">tab</a></h2>
+<p>This mode includes instructions that manipulate the different tabs. Eg. adding new tabs, closing tabs and moving the active tab.</p>
+<h2 id="resize"><a class="header" href="#resize">resize</a></h2>
+<p>This mode allows the resizing of the focused pane.</p>
+<h2 id="scroll"><a class="header" href="#scroll">scroll</a></h2>
+<p>This mode allows scrolling up/down within the focused pane.</p>
+<h1 id="keys"><a class="header" href="#keys">Keys</a></h1>
+<p>These are the possible keys and key combinations one can set in the <a href="./keybindings.html">Keybindings configuration</a>.
+For more information, please see: <a href="https://docs.rs/termion/1.5.6/termion/event/enum.Key.html">https://docs.rs/termion/1.5.6/termion/event/enum.Key.html</a></p>
+<h2 id="char-character"><a class="header" href="#char-character"><code>Char: &lt;character&gt;</code></a></h2>
+<p>A single character with no modifier, eg. <code>Char: f</code></p>
+<h2 id="alt-character"><a class="header" href="#alt-character"><code>Alt: &lt;character&gt;</code></a></h2>
+<p>A single character preceded by the <code>Alt</code> modifier, eg. <code>Alt: f</code>.</p>
+<h2 id="ctrl-character"><a class="header" href="#ctrl-character"><code>Ctrl: &lt;character&gt;</code></a></h2>
+<p>A single character preceded by the <code>Ctrl</code> modifier, eg. <code>Ctrl: f</code>.</p>
+<h2 id="f-1-12"><a class="header" href="#f-1-12"><code>F: &lt;1-12&gt;</code></a></h2>
+<p>One of the <code>F</code> characters (usually at the top of the keyboard). eg. <code>F: 11</code></p>
+<h2 id="backspace"><a class="header" href="#backspace"><code>Backspace</code></a></h2>
+<p>The Backspace key.</p>
+<h2 id="left--right--up--down"><a class="header" href="#left--right--up--down"><code>Left</code> / <code>Right</code> / <code>Up</code> / <code>Down</code></a></h2>
+<p>The arrow keys on the keyboard.</p>
+<h2 id="home"><a class="header" href="#home"><code>Home</code></a></h2>
+<p>The home key.</p>
+<h2 id="end"><a class="header" href="#end"><code>End</code></a></h2>
+<p>The End key.</p>
+<h2 id="pageup--pagedown"><a class="header" href="#pageup--pagedown"><code>PageUp</code> / <code>PageDown</code></a></h2>
+<p>The PageUp or PageDown keys.</p>
+<h2 id="backtab"><a class="header" href="#backtab"><code>BackTab</code></a></h2>
+<p>The backward Tab key.</p>
+<h2 id="delete"><a class="header" href="#delete"><code>Delete</code></a></h2>
+<p>The delete key.</p>
+<h2 id="insert"><a class="header" href="#insert"><code>Insert</code></a></h2>
+<p>The insert key.</p>
+<h2 id="esc"><a class="header" href="#esc"><code>Esc</code></a></h2>
+<p>The Esc key.</p>
+<h1 id="actions"><a class="header" href="#actions">Actions</a></h1>
+<p>These are the actions that can be assigned to key sequences when <a href="./keybindings.html">configuring keybindings</a>.</p>
+<h2 id="quit"><a class="header" href="#quit"><code>Quit</code></a></h2>
+<p>Quit Zellij.</p>
+<h2 id="switchtomode-inputmode"><a class="header" href="#switchtomode-inputmode"><code>SwitchToMode: &lt;InputMode&gt;</code></a></h2>
+<p>Switch to the specified <a href="./keybindings-modes.html">input mode</a>.
+The mode should be capitalized, eg. <code>SwitchToMode: Normal</code>.</p>
+<p>Note that there's a &quot;hidden&quot; mode called <code>RenameTab</code> which can be used in order to trigger the renaming of a tab.</p>
+<h2 id="resize-direction"><a class="header" href="#resize-direction"><code>Resize: &lt;Direction&gt;</code></a></h2>
+<p>Resize focused pane in specified direction.
+Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code> or <code>Down</code>.</p>
+<p>eg. <code>Resize: Down</code></p>
+<h2 id="focusnextpane"><a class="header" href="#focusnextpane"><code>FocusNextPane</code></a></h2>
+<p>Switch focus to next pane to the right or below if on screen edge.</p>
+<h2 id="focuspreviouspane"><a class="header" href="#focuspreviouspane"><code>FocusPreviousPane</code></a></h2>
+<p>Switch focus to next pane to the left or above if on screen edge.</p>
+<h2 id="switchfocus"><a class="header" href="#switchfocus"><code>SwitchFocus</code></a></h2>
+<p>Switch focus to pane with the next ID (this is mostly left around for legacy support, <code>FocusNextPane</code> or <code>FocusPreviousPane</code> should be preferred).</p>
+<h2 id="movefocus-direction"><a class="header" href="#movefocus-direction"><code>MoveFocus: &lt;Direction&gt;</code></a></h2>
+<p>Move focus to the pane with the greatest overlap with the current pane in the specified direction. 
+Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code> or <code>Down</code>.</p>
+<p>eg. <code>MoveFocus: Left</code></p>
+<h2 id="scrollup"><a class="header" href="#scrollup"><code>ScrollUp</code></a></h2>
+<p>Scroll up 1 line inside the focused pane.</p>
+<h2 id="scrolldown"><a class="header" href="#scrolldown"><code>ScrollDown</code></a></h2>
+<p>Scroll down 1 line inside the focused pane.</p>
+<h2 id="togglefocusfullscreen"><a class="header" href="#togglefocusfullscreen"><code>ToggleFocusFullscreen</code></a></h2>
+<p>Toggle between fullscreen focus pane and normal layout.</p>
+<h2 id="newpane-direction"><a class="header" href="#newpane-direction"><code>NewPane: &lt;Direction&gt;</code></a></h2>
+<p>Open a new pane in the specified direction (relative to focus).
+If no direction is specified, will try to use the biggest available space.
+Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code> or <code>Down</code>.
+Specifying no direction should be done by introducing a space character (this is a bug and should be fixed).</p>
+<p>eg. <code>NewPane: Left</code> or <code>NewPane: </code></p>
+<h2 id="closefocus"><a class="header" href="#closefocus"><code>CloseFocus</code></a></h2>
+<p>Close the focused pane.</p>
+<h2 id="newtab"><a class="header" href="#newtab"><code>NewTab</code></a></h2>
+<p>Create a new tab.</p>
+<h2 id="gotonexttab"><a class="header" href="#gotonexttab"><code>GoToNextTab</code></a></h2>
+<p>Go to the next tab.</p>
+<h2 id="gotoprevioustab"><a class="header" href="#gotoprevioustab"><code>GoToPreviousTab</code></a></h2>
+<p>Go to the previous tab.</p>
+<h2 id="closetab"><a class="header" href="#closetab"><code>CloseTab</code></a></h2>
+<p>Close the current tab.</p>
+<h2 id="gototab-index"><a class="header" href="#gototab-index"><code>GoToTab: &lt;index&gt;</code></a></h2>
+<p>Go to the tab of the specified index.</p>
+<h1 id="layouts"><a class="header" href="#layouts">Layouts</a></h1>
+<p>Layouts are yaml configuration files which Zellij can load on startup. These files can describe a layout of terminal panes and plugins that Zellij will create when it loads.
+To load a layout with Zellij:</p>
+<pre><code>zellij --layout /path/to/your/layout_file.yaml
+</code></pre>
+<h2 id="example-1"><a class="header" href="#example-1">Example</a></h2>
+<p>This file:</p>
+<pre><code class="language-yaml">---
+direction: Vertical
+parts:
+  - direction: Horizontal
+    split_size:
+      Percent: 50
+    parts:
+      - direction: Vertical
+        split_size:
+          Percent: 50
+      - direction: Vertical
+        split_size:
+          Percent: 50
+  - direction: Horizontal
+    split_size:
+      Percent: 50
+</code></pre>
+<p>Will instruct Zellij to create this layout:</p>
+<pre><code>┌─────┬─────┐
+│     │     │
+├─────┤     │
+│     │     │
+└─────┴─────┘
+</code></pre>
+<h2 id="creating-a-layout-file"><a class="header" href="#creating-a-layout-file">Creating a layout file</a></h2>
+<p>A layout file is a nested tree structure. Each node describes either a pane, or a space in which its parts (children) will be created.</p>
+<p>Each node has the following fields:</p>
+<h3 id="direction-horizontal--vertical"><a class="header" href="#direction-horizontal--vertical"><code>direction: Horizontal / Vertical</code></a></h3>
+<p>If the node has children, they will be created as splits in this direction.</p>
+<h3 id="split_size-percent-1-100--fixed-linescolumns"><a class="header" href="#split_size-percent-1-100--fixed-linescolumns"><code>split_size: Percent: &lt;1-100&gt; / Fixed: &lt;lines/columns&gt;</code></a></h3>
+<p>This indicates either a percentage of the node's parent's space or a fixed size of columns/rows from its parent's space.</p>
+<h3 id="plugin-pathtopluginwasm"><a class="header" href="#plugin-pathtopluginwasm"><code>plugin: /path/to/plugin.wasm</code></a></h3>
+<p>This is an optional path to a compiled Zellij plugin. If indicated, instead of loading a terminal, this plugin will be loaded. For more information, please see the plugin documentation of this guide.</p>
+<h2 id="further-examples"><a class="header" href="#further-examples">Further examples</a></h2>
+<p>Please see the default layouts that come with Zellij: <a href="https://github.com/zellij-org/zellij/tree/main/assets/layouts">layouts</a></p>
 
                     </main>
 
