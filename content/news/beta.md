@@ -2,13 +2,13 @@
 author: "Aram Drevekenin"
 authorlink: "https://twitter.com/im_snif"
 date: 2020-04-20
-linktitle: Zellij hits beta!
+linktitle: "Zellij: a Rusty terminal workspace releases a beta"
 type:
 - post
 - posts
-title: Zellij hits beta!
+title: "Zellij: a Rusty terminal workspace releases a beta"
 images: ["/img/beta-post-preview.png"]
-description: "The rusty terminal multiplexer releases a beta version"
+description: "After long months of work by a dedicated team of enthusiasts, today we are proud to announce the release of the beta version of Zellij"
 weight: 10
 ---
 

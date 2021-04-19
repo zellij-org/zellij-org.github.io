@@ -15,15 +15,15 @@
 //   }
 
   &-title {
-    font-size: 2.625rem;
+    font-size: 1.3rem;
     margin: 0 0 20px;
     @media #{$media-size-phone} {
-      font-size: 2rem;
+      font-size: 1.3rem;
     }
 
     a {
       text-decoration: none;
-      border-bottom: dashed 5px;
+      border-bottom: dashed 2px;
     }
   }
 
