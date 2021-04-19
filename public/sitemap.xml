@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://zellij-org.github.io/news/beta/</loc>
+    <lastmod>2020-04-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://zellij-org.github.io/news/</loc>
+    <lastmod>2020-04-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://zellij-org.github.io/</loc>
+    <lastmod>2020-04-20T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://zellij-org.github.io/about/</loc>
+  </url><url>
+    <loc>https://zellij-org.github.io/categories/</loc>
+  </url><url>
+    <loc>https://zellij-org.github.io/screenshots/</loc>
+  </url><url>
+    <loc>https://zellij-org.github.io/series/</loc>
+  </url><url>
+    <loc>https://zellij-org.github.io/tags/</loc>
+  </url>
+</urlset>

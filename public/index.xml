@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Zellij</title>
+    <link>https://zellij-org.github.io/</link>
+    <description>Recent content on Zellij</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+    <lastBuildDate>Mon, 20 Apr 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://zellij-org.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Zellij hits beta!</title>
+      <link>https://zellij-org.github.io/news/beta/</link>
+      <pubDate>Mon, 20 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://zellij-org.github.io/news/beta/</guid>
+      <description>After long months of work by a dedicated team of enthusiasts, today we are proud to announce the release of the beta version of Zellij!
+Zellij is a terminal workspace and multiplexer written in Rust, aiming to become a general purpose application development platform in the future.
+ Why is Zellij different? Zellij is constantly evolving, and even in this early stage it still shines. Including the basic features of a terminal multiplexer with some fundamental infrastructure changes, as well as some extra goodies included from the get-go.</description>
+    </item>
+    
+    <item>
+      <title>About Zellij</title>
+      <link>https://zellij-org.github.io/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://zellij-org.github.io/about/</guid>
+      <description>Zellij is a terminal workspace. It has the base functionality of a terminal multiplexer (similar to tmux or screen) but includes many built-in features that would allow users to extend it and create their own personalized environment.
+Split the terminal into different panes and tabs Like other multiplexers, Zellij allows users to split their terminal into different panes and tabs:
+ Layout Engine Zellij includes a layout engine, allowing users to define a map of panes in a yaml file and load it when they start the app.</description>
+    </item>
+    
+    <item>
+      <title>Screenshots</title>
+      <link>https://zellij-org.github.io/screenshots/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://zellij-org.github.io/screenshots/</guid>
+      <description>Default interface with a few panes and tabs  Zellij with the Strider plugin Strider is a ranger clone and comes built-in with Zellij. To run, load its layout with:
+zellij --layout strider
+ </description>
+    </item>
+    
+  </channel>
+</rss>
