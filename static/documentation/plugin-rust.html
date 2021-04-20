@@ -435,6 +435,16 @@ Tue Apr 20 10:20:57 2021: Entered Scroll Mode
 Tue Apr 20 10:21:00 2021: Entered Locked Mode
 Tue Apr 20 10:21:02 2021: Entered Normal Mode
 </code></pre>
+<p>And that's all, folks! The full code for this example can be found in the <a href="https://github.com/zellij-org/rust-plugin-example/blob/main/src/main.rs"><code>rust-plugin-example</code></a> repository.</p>
+<h2 id="further-steps"><a class="header" href="#further-steps">Further Steps</a></h2>
+<p>There are a <em>lot</em> of ways that this plugin could be improved! Here are a couple of the things that you might want to try implementing if you're looking for the extra practice:</p>
+<ul>
+<li><strong>Support for scrolling ::</strong> you'll need to use <code>rows</code> and save a cursor position in <code>State</code></li>
+<li><strong>Make it pretty ::</strong> our default plugins use the <a href="https://crates.io/crates/colored"><code>colored</code></a> crate for fancy formatting</li>
+<li><strong>Make it more stable ::</strong> if you make the logger pane too small, the plugin will crash!</li>
+<li><strong>Add a help bar ::</strong> there is currently no UI telling the user about the clear and save features</li>
+</ul>
+<p>Have fun, and don't hesitate to get in touch if you find any bugs or would like some guidance :)</p>
 
                     </main>
 
@@ -473,6 +483,21 @@ Tue Apr 20 10:21:02 2021: Entered Normal Mode
 
         </div>
 
+        
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            var socket = new WebSocket("ws://localhost:3000/__livereload");
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
         
 
         
