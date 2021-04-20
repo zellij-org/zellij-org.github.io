@@ -93,7 +93,7 @@ parts:
 
 This is a Zellij [Layout](./layouts.md) that loads a mostly default instance of Zellij, but with the middle terminal pane replaced by the plugin being developed. The `plugin: target/wasm32-wasi/debug/mode-logger.wasm` line should point Zellij to the development version of our plugin.
 
-The will likely be a better way of loading plugins in the future, but custom Layouts are currently the only way to do so.
+There will likely be a better way of loading plugins in the future, but custom Layouts are currently the only way to do so.
 
 ### `src/main.rs`
 
@@ -153,7 +153,7 @@ zellij -l plugin.yaml
 
 ## Implementing the Event Logger
 
-That was pretty easy, so let's try to do something a bit more interesting! Let subscribe to some `Event`s by adding the following code to `load()`:
+That was pretty easy, so let's try to do something a bit more interesting! Let's subscribe to some `Event`s by adding the following code to `load()`:
 
 ```rs
 fn load(&mut self) {
@@ -342,7 +342,7 @@ fn update(&mut self, event: Event) {
 
 When matching against `KeyPress` events, you might find it helpful to explore the [zellij_tile::Key][key] enum.
 
-Also note that we need the catch-all case `_ => ()` because, even though we've only subscribed to the `ModeUpdate` and `KeyPress` events, the Rust compiler on it's own can't guarantee that only those events will be passed to `update()`.
+Also note that we need the catch-all case `_ => ()` because, even though we've only subscribed to the `ModeUpdate` and `KeyPress` events, the Rust compiler on its own can't guarantee that only those events will be passed to `update()`.
 
 [key]: https://docs.rs/zellij-tile/1.0.0/zellij_tile/data/enum.Key.html
 
@@ -378,7 +378,7 @@ fn update(&mut self, event: Event) {
 }
 ```
 
-A couple of new things here, but all of them are vanilla Rust – nothing changes when writing a plugin! `File::create("mode-log.txt")` is just normal code for creating a file named `mode-log.txt` in the current directory. After the file is created, we're again looping through all of the log events and writing them out (but this time to a file!). The format of the log file is also a bit different from the log we show on-screen. First of all, we're write things to the log file in *chronological* order (that's why we're reversing our log with `self.log.iter().rev()`), and we've also changed to a more verbose timestamp. The `%c` should look something like this: `Tue Apr 20 10:21:02 2021`.
+A couple of new things here, but all of them are vanilla Rust – nothing changes when writing a plugin! `File::create("mode-log.txt")` is just normal code for creating a file named `mode-log.txt` in the current directory. After the file is created, we're again looping through all of the log events and writing them out (but this time to a file!). The format of the log file is also a bit different from the log we show on-screen. First of all, we're writing things to the log file in *chronological* order (that's why we're reversing our log with `self.log.iter().rev()`), and we've also changed to a more verbose timestamp. The `%c` should look something like this: `Tue Apr 20 10:21:02 2021`.
 
 Let's run Zellij again, change some modes, then press `Ctrl-W`:
 

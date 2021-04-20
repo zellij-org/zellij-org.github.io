@@ -1,6 +1,6 @@
 # Plugins
 
-One feature that makes Zellij unique is its [WebAssembly][wasm] plugin system. This allows plugin developers to write their plugin in anything language that can run on [WASI][wasi]! Rust offers first-class [support for WASI][rust], but other languages like [C/C++][c], [AssemblyScript][asmscript], even [Python][python] should be supported.
+One feature that makes Zellij unique is its [WebAssembly][wasm] plugin system. This allows plugin developers to write their plugin in anyu language that can run on [WASI][wasi]! Rust offers first-class [support for WASI][rust], but other languages like [C/C++][c], [AssemblyScript][asmscript], even [Python][python] should be supported.
 
 **Disclaimer: The API for plugins is very much a work in progress. Don't be shy to request new features on our [tracking issue][pluginapi]!**
 

@@ -347,7 +347,7 @@ parts:
 <h2 id="further-examples"><a class="header" href="#further-examples">Further examples</a></h2>
 <p>Please see the default layouts that come with Zellij: <a href="https://github.com/zellij-org/zellij/tree/main/assets/layouts">layouts</a></p>
 <h1 id="plugins"><a class="header" href="#plugins">Plugins</a></h1>
-<p>One feature that makes Zellij unique is its <a href="https://webassembly.org/">WebAssembly</a> plugin system. This allows plugin developers to write their plugin in anything language that can run on <a href="https://wasi.dev/">WASI</a>! Rust offers first-class <a href="https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-tutorial.md#from-rust">support for WASI</a>, but other languages like <a href="https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-tutorial.md#from-c">C/C++</a>, <a href="https://wasmbyexample.dev/examples/wasi-hello-world/wasi-hello-world.assemblyscript.en-us.html">AssemblyScript</a>, even <a href="https://wapm.io/package/rustpython">Python</a> should be supported.</p>
+<p>One feature that makes Zellij unique is its <a href="https://webassembly.org/">WebAssembly</a> plugin system. This allows plugin developers to write their plugin in anyu language that can run on <a href="https://wasi.dev/">WASI</a>! Rust offers first-class <a href="https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-tutorial.md#from-rust">support for WASI</a>, but other languages like <a href="https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-tutorial.md#from-c">C/C++</a>, <a href="https://wasmbyexample.dev/examples/wasi-hello-world/wasi-hello-world.assemblyscript.en-us.html">AssemblyScript</a>, even <a href="https://wapm.io/package/rustpython">Python</a> should be supported.</p>
 <p><strong>Disclaimer: The API for plugins is very much a work in progress. Don't be shy to request new features on our <a href="https://github.com/zellij-org/zellij/issues/280">tracking issue</a>!</strong></p>
 <h1 id="developing-a-plugin"><a class="header" href="#developing-a-plugin">Developing a Plugin</a></h1>
 <p>Currently we have a complete guide for developing plugins in <a href="./plugin-rust.html">Rust</a> and plan to add more guides for other languages in the future. If you are feeling particularly brave, you can try to write plugins in another language today! The <a href="./plugin-other.html">Other Languages</a> section will get you started.</p>
@@ -412,7 +412,7 @@ parts:
     plugin: status-bar
 </code></pre>
 <p>This is a Zellij <a href="./layouts.html">Layout</a> that loads a mostly default instance of Zellij, but with the middle terminal pane replaced by the plugin being developed. The <code>plugin: target/wasm32-wasi/debug/mode-logger.wasm</code> line should point Zellij to the development version of our plugin.</p>
-<p>The will likely be a better way of loading plugins in the future, but custom Layouts are currently the only way to do so.</p>
+<p>There will likely be a better way of loading plugins in the future, but custom Layouts are currently the only way to do so.</p>
 <h3 id="srcmainrs"><a class="header" href="#srcmainrs"><code>src/main.rs</code></a></h3>
 <pre><code class="language-rs">use zellij_tile::prelude::*;
 
@@ -457,7 +457,7 @@ zellij -l plugin.yaml
 </code></pre>
 <p><img src="img/rust-plugin-1.png" alt="Our Plugin" /></p>
 <h2 id="implementing-the-event-logger"><a class="header" href="#implementing-the-event-logger">Implementing the Event Logger</a></h2>
-<p>That was pretty easy, so let's try to do something a bit more interesting! Let subscribe to some <code>Event</code>s by adding the following code to <code>load()</code>:</p>
+<p>That was pretty easy, so let's try to do something a bit more interesting! Let's subscribe to some <code>Event</code>s by adding the following code to <code>load()</code>:</p>
 <pre><code class="language-rs">fn load(&amp;mut self) {
     subscribe(&amp;[EventType::ModeUpdate]);
 }
@@ -584,7 +584,7 @@ struct State {
 }
 </code></pre>
 <p>When matching against <code>KeyPress</code> events, you might find it helpful to explore the <a href="https://docs.rs/zellij-tile/1.0.0/zellij_tile/data/enum.Key.html">zellij_tile::Key</a> enum.</p>
-<p>Also note that we need the catch-all case <code>_ =&gt; ()</code> because, even though we've only subscribed to the <code>ModeUpdate</code> and <code>KeyPress</code> events, the Rust compiler on it's own can't guarantee that only those events will be passed to <code>update()</code>.</p>
+<p>Also note that we need the catch-all case <code>_ =&gt; ()</code> because, even though we've only subscribed to the <code>ModeUpdate</code> and <code>KeyPress</code> events, the Rust compiler on its own can't guarantee that only those events will be passed to <code>update()</code>.</p>
 <p>Let's try running this, changing modes a couple of times, then pressing <code>Ctrl-L</code>:</p>
 <p><img src="img/rust-plugin-5.png" alt="Our Plugin" /></p>
 <p>Incredibly blank! Nicely done!</p>
@@ -611,7 +611,7 @@ fn update(&amp;mut self, event: Event) {
     }
 }
 </code></pre>
-<p>A couple of new things here, but all of them are vanilla Rust – nothing changes when writing a plugin! <code>File::create(&quot;mode-log.txt&quot;)</code> is just normal code for creating a file named <code>mode-log.txt</code> in the current directory. After the file is created, we're again looping through all of the log events and writing them out (but this time to a file!). The format of the log file is also a bit different from the log we show on-screen. First of all, we're write things to the log file in <em>chronological</em> order (that's why we're reversing our log with <code>self.log.iter().rev()</code>), and we've also changed to a more verbose timestamp. The <code>%c</code> should look something like this: <code>Tue Apr 20 10:21:02 2021</code>.</p>
+<p>A couple of new things here, but all of them are vanilla Rust – nothing changes when writing a plugin! <code>File::create(&quot;mode-log.txt&quot;)</code> is just normal code for creating a file named <code>mode-log.txt</code> in the current directory. After the file is created, we're again looping through all of the log events and writing them out (but this time to a file!). The format of the log file is also a bit different from the log we show on-screen. First of all, we're writing things to the log file in <em>chronological</em> order (that's why we're reversing our log with <code>self.log.iter().rev()</code>), and we've also changed to a more verbose timestamp. The <code>%c</code> should look something like this: <code>Tue Apr 20 10:21:02 2021</code>.</p>
 <p>Let's run Zellij again, change some modes, then press <code>Ctrl-W</code>:</p>
 <p><img src="img/rust-plugin-6.png" alt="Our Plugin" /></p>
 <p>We can then look at <code>mode-log.txt</code>, which should look something like this:</p>
@@ -646,21 +646,6 @@ Tue Apr 20 10:21:02 2021: Entered Normal Mode
 
         </div>
 
-        
-        <!-- Livereload script (if served using the cli tool) -->
-        <script type="text/javascript">
-            var socket = new WebSocket("ws://localhost:3000/__livereload");
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
         
 
         
