@@ -1,13 +1,13 @@
 # Writing a Plugin in Another Language
 
-This page is very much still a work in progress! If you're familiar with WASM and Rust, then understanding the [`zellij-tile`][zellij-tile] is a great place to start.
+This page is very much a work in progress! If you're familiar with WASM and Rust, then understanding the [`zellij-tile`][zellij-tile] library is a great place to start.
 
 In short, Zellij expects your WASI module to export three functions:
 - `main()` :: called once on plugin load
 - `update()` :: called after event subscriptions are triggered
 - `render(i32, i32)` :: called when the plugin needs to be rendered
 
-The `render(i32, i32)` function is passed the size of the plugin pane, first the rows, then the columns (e.g. `render(rows, cols)`).
+The `render(i32, i32)` function is passed the size of the plugin pane, first the rows, then the columns – e.g. `render(rows, cols)`.
 
 Complex types are sent over stdin as JSON objects. Before `update()` is called, Zellij writes an event to the plugin's stdin that can be read back in the `update()` function.
 

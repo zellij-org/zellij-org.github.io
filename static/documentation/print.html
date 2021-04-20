@@ -634,14 +634,14 @@ Tue Apr 20 10:21:02 2021: Entered Normal Mode
 </ul>
 <p>Have fun, and don't hesitate to get in touch if you find any bugs or would like some guidance :)</p>
 <h1 id="writing-a-plugin-in-another-language"><a class="header" href="#writing-a-plugin-in-another-language">Writing a Plugin in Another Language</a></h1>
-<p>This page is very much still a work in progress! If you're familiar with WASM and Rust, then understanding the <a href="https://github.com/zellij-org/zellij/tree/main/zellij-tile"><code>zellij-tile</code></a> is a great place to start.</p>
+<p>This page is very much a work in progress! If you're familiar with WASM and Rust, then understanding the <a href="https://github.com/zellij-org/zellij/tree/main/zellij-tile"><code>zellij-tile</code></a> library is a great place to start.</p>
 <p>In short, Zellij expects your WASI module to export three functions:</p>
 <ul>
 <li><code>main()</code> :: called once on plugin load</li>
 <li><code>update()</code> :: called after event subscriptions are triggered</li>
 <li><code>render(i32, i32)</code> :: called when the plugin needs to be rendered</li>
 </ul>
-<p>The <code>render(i32, i32)</code> function is passed the size of the plugin pane, first the rows, then the columns (e.g. <code>render(rows, cols)</code>).</p>
+<p>The <code>render(i32, i32)</code> function is passed the size of the plugin pane, first the rows, then the columns – e.g. <code>render(rows, cols)</code>.</p>
 <p>Complex types are sent over stdin as JSON objects. Before <code>update()</code> is called, Zellij writes an event to the plugin's stdin that can be read back in the <code>update()</code> function.</p>
 <p>Host functions, for communicating with Zellij, are best documented by the <code>extern</code> section of <a href="https://github.com/zellij-org/zellij/blob/main/zellij-tile/src/shim.rs"><code>zellij-tile::shim</code></a> and are found in a WASM module named <code>zellij</code>.</p>
 <p><strong>Help Add More Language Guides!</strong> If you'd like to contribute, either drop us a line on <a href="https://discord.gg/CrUAFH3">Discord</a> or open a PR improving <a href="https://github.com/zellij-org/zellij-org.github.io/tree/main/docs">these docs</a>!</p>
