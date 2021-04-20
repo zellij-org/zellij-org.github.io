@@ -430,3 +430,18 @@ hr {
 .highlight {
   margin: 30px auto;
 }
+
+.download-hover {
+  position: relative;
+  display: inline-block;
+}
+.download-hover .img-top {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+.download-hover:hover .img-top {
+    display: inline;
+}

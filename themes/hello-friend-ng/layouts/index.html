@@ -13,6 +13,20 @@
             {{- with .Site.Params.homeSubtitle }}
                 <p style="font-size: 1.5rem; margin-bottom: 45px">{{.}}</p>
             {{- end }}
+            <div class="container" style="display: flex; align-items: center; justify-content: center; flex-direction: row; justify-content: space-between; width: 400px; margin: auto; margin-bottom: 50px;">
+              <a href="https://github.com/zellij-org/zellij/releases/download/untagged-d0aaa3e0c6001c57a0ec/zellij-linux-musl-x86_64.tar.gz">
+                <div class="download-hover">
+                  <img src="/img/linux-download.png"/>
+                  <img src="/img/linux-download-hover.png" class="img-top"/>
+                </div>
+              </a>
+              <a href="https://github.com/zellij-org/zellij/releases/download/untagged-d0aaa3e0c6001c57a0ec/zellij-macos-x86_64.tar.gz">
+                <div class="download-hover">
+                  <img src="/img/macos-download.png"/>
+                  <img src="/img/macos-download-hover.png" class="img-top"/>
+                </div>
+              </a>
+            </div>
 
             {{- with .Site.Params.social }}
                 <div>

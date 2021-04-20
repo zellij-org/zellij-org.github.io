@@ -20,7 +20,12 @@ After long months of work by a dedicated team of enthusiasts, today we are proud
 
 ## How to install?
 
-`<Installation instructions here>`
+Download a prebuilt binary for [linux](https://github.com/zellij-org/zellij/releases/download/untagged-d0aaa3e0c6001c57a0ec/zellij-linux-musl-x86_64.tar.gz) or [macOS](https://github.com/zellij-org/zellij/releases/download/untagged-d0aaa3e0c6001c57a0ec/zellij-macos-x86_64.tar.gz).
+
+Or install with cargo:
+```
+cargo install zellij
+```
 
 ## Why is Zellij different?
 Zellij is constantly evolving, and even in this early stage it still shines. Including the basic features of a terminal multiplexer with some fundamental infrastructure changes, as well as some extra goodies included from the get-go.
