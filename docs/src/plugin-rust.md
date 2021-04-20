@@ -395,3 +395,20 @@ Tue Apr 20 10:20:57 2021: Entered Scroll Mode
 Tue Apr 20 10:21:00 2021: Entered Locked Mode
 Tue Apr 20 10:21:02 2021: Entered Normal Mode
 ```
+
+And that's all, folks! The full code for this example can be found in the [`rust-plugin-example`][code] repository.
+
+[code]: https://github.com/zellij-org/rust-plugin-example/blob/main/src/main.rs
+
+## Further Steps
+
+There are a *lot* of ways that this plugin could be improved! Here are a couple of the things that you might want to try implementing if you're looking for the extra practice:
+
+- **Support for scrolling ::** you'll need to use `rows` and save a cursor position in `State`
+- **Make it pretty ::** our default plugins use the [`colored`][colored] crate for fancy formatting
+- **Make it more stable ::** if you make the logger pane too small, the plugin will crash!
+- **Add a help bar ::** there is currently no UI telling the user about the clear and save features
+
+Have fun, and don't hesitate to get in touch if you find any bugs or would like some guidance :)
+
+[colored]: https://crates.io/crates/colored
