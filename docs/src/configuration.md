@@ -4,7 +4,7 @@ Zellij will look for a file `config.yaml` in the default configuration location 
 
 **Linux**: `/home/alice/.config/zellij`
 
-**Mac**: `/Users/Alice/Library/Application Support/com.Zellij-Contributors.zellij`
+**Mac**: `/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij`
 
 To ignore the default config file location:
 
