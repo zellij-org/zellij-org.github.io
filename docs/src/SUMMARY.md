@@ -11,3 +11,4 @@
   - [Developing a Plugin](./plugin-writing.md)
     - [Rust](./plugin-rust.md)
     - [Other Languages](./plugin-other.md)
+- [Compatibility](./compatibility.md)

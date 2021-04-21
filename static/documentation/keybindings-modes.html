@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">2.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">2.1.</strong> Configuring Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html" class="active"><strong aria-hidden="true">2.1.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">2.1.2.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-actions.html"><strong aria-hidden="true">2.1.3.</strong> Actions</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">3.</strong> Layouts</a></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">4.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-writing.html"><strong aria-hidden="true">4.1.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-rust.html"><strong aria-hidden="true">4.1.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="plugin-other.html"><strong aria-hidden="true">4.1.2.</strong> Other Languages</a></li></ol></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">2.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">2.1.</strong> Configuring Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html" class="active"><strong aria-hidden="true">2.1.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">2.1.2.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-actions.html"><strong aria-hidden="true">2.1.3.</strong> Actions</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">3.</strong> Layouts</a></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">4.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-writing.html"><strong aria-hidden="true">4.1.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-rust.html"><strong aria-hidden="true">4.1.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="plugin-other.html"><strong aria-hidden="true">4.1.2.</strong> Other Languages</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="compatibility.html"><strong aria-hidden="true">5.</strong> Compatibility</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,20 +163,20 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="modes"><a class="header" href="#modes">Modes</a></h1>
+                        <h1><a class="header" href="#modes" id="modes">Modes</a></h1>
 <p>The Zellij <a href="./keybindings.html">keybindings</a> are grouped into different <code>modes</code>, which are a logical separation meant to reduce the mental overhead and allow to duplicate shortcuts in different situations.</p>
-<h2 id="normal"><a class="header" href="#normal">normal</a></h2>
+<h2><a class="header" href="#normal" id="normal">normal</a></h2>
 <p>This is the default mode Zellij starts with. By default it provides the ability to switch to different modes, as well as some quick navigation shortcuts.</p>
-<h2 id="locked"><a class="header" href="#locked">locked</a></h2>
+<h2><a class="header" href="#locked" id="locked">locked</a></h2>
 <p>This mode &quot;locks&quot; the interface, disabling all keybindings except one that would switch to &quot;normal&quot; mode (<code>ctrl-g</code> by default).
 It is intended to give users a workaround in case one of the default keybindings overrides something they use in their terminal. (eg. <code>ctrl-r</code> for reverse history search in bash).</p>
-<h2 id="pane"><a class="header" href="#pane">pane</a></h2>
+<h2><a class="header" href="#pane" id="pane">pane</a></h2>
 <p>This mode includes instructions that manipulate the different panes. Eg. adding new panes, closing panes and moving the focused pane.</p>
-<h2 id="tab"><a class="header" href="#tab">tab</a></h2>
+<h2><a class="header" href="#tab" id="tab">tab</a></h2>
 <p>This mode includes instructions that manipulate the different tabs. Eg. adding new tabs, closing tabs and moving the active tab.</p>
-<h2 id="resize"><a class="header" href="#resize">resize</a></h2>
+<h2><a class="header" href="#resize" id="resize">resize</a></h2>
 <p>This mode allows the resizing of the focused pane.</p>
-<h2 id="scroll"><a class="header" href="#scroll">scroll</a></h2>
+<h2><a class="header" href="#scroll" id="scroll">scroll</a></h2>
 <p>This mode allows scrolling up/down within the focused pane.</p>
 
                     </main>
@@ -216,21 +216,6 @@ It is intended to give users a workaround in case one of the default keybindings
 
         </div>
 
-        
-        <!-- Livereload script (if served using the cli tool) -->
-        <script type="text/javascript">
-            var socket = new WebSocket("ws://localhost:3000/__livereload");
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
         
 
         
