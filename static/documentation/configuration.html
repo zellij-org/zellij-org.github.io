@@ -163,10 +163,10 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="configuration"><a class="header" href="#configuration">Configuration</a></h1>
+                        <h1><a class="header" href="#configuration" id="configuration">Configuration</a></h1>
 <p>Zellij will look for a file <code>config.yaml</code> in the default configuration location of your os:</p>
 <p><strong>Linux</strong>: <code>/home/alice/.config/zellij</code></p>
-<p><strong>Mac</strong>: <code>/Users/Alice/Library/Application Support/com.Zellij-Contributors.zellij</code></p>
+<p><strong>Mac</strong>: <code>/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij</code></p>
 <p>To ignore the default config file location:</p>
 <pre><code>zellij config --clean
 </code></pre>
@@ -211,21 +211,6 @@
 
         </div>
 
-        
-        <!-- Livereload script (if served using the cli tool) -->
-        <script type="text/javascript">
-            var socket = new WebSocket("ws://localhost:3000/__livereload");
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
         
 
         
