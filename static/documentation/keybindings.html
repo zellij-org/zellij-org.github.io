@@ -163,7 +163,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="configuring-keybindings"><a class="header" href="#configuring-keybindings">Configuring Keybindings</a></h1>
+                        <h1><a class="header" href="#configuring-keybindings" id="configuring-keybindings">Configuring Keybindings</a></h1>
 <p>Zellij comes with a default set of keybindings that try to fit as many different users and use cases while trying to maximize comfort for everyone.</p>
 <p>It is possible to add to these defaults or even override them with an external configuration. For more information about the file, see <a href="./configuration.html">Configuration</a>.</p>
 <p>The structure of the <code>keybinds</code> section of the file is as follows:</p>
@@ -189,11 +189,11 @@ Whereas:</p>
           key: [ Char: 'c', Char: 'd',]
 </code></pre>
 <p>Will create a new tab on pressing either the <code>c</code> or the <code>d</code> key.</p>
-<h2 id="to-override-the-default-keybindings"><a class="header" href="#to-override-the-default-keybindings">To override the default Keybindings</a></h2>
+<h2><a class="header" href="#to-override-the-default-keybindings" id="to-override-the-default-keybindings">To override the default Keybindings</a></h2>
 <pre><code>keybinds:
     unbind: true
 </code></pre>
-<h2 id="example"><a class="header" href="#example">Example</a></h2>
+<h2><a class="header" href="#example" id="example">Example</a></h2>
 <p>This configuration can be used to configure Zellij's default keybindings: <a href="https://github.com/zellij-org/zellij/blob/main/example/default.yaml">default.yaml</a></p>
 
                     </main>
@@ -233,21 +233,6 @@ Whereas:</p>
 
         </div>
 
-        
-        <!-- Livereload script (if served using the cli tool) -->
-        <script type="text/javascript">
-            var socket = new WebSocket("ws://localhost:3000/__livereload");
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
         
 
         
