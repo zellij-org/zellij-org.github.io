@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Layouts - Zellij User Guide</title>
+        <title>Compatibility - Zellij User Guide</title>
         
         
 
@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">2.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">2.1.</strong> Configuring Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">2.1.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">2.1.2.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-actions.html"><strong aria-hidden="true">2.1.3.</strong> Actions</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="layouts.html" class="active"><strong aria-hidden="true">3.</strong> Layouts</a></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">4.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-writing.html"><strong aria-hidden="true">4.1.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-rust.html"><strong aria-hidden="true">4.1.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="plugin-other.html"><strong aria-hidden="true">4.1.2.</strong> Other Languages</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="compatibility.html"><strong aria-hidden="true">5.</strong> Compatibility</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">2.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">2.1.</strong> Configuring Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">2.1.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">2.1.2.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-actions.html"><strong aria-hidden="true">2.1.3.</strong> Actions</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">3.</strong> Layouts</a></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">4.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-writing.html"><strong aria-hidden="true">4.1.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-rust.html"><strong aria-hidden="true">4.1.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="plugin-other.html"><strong aria-hidden="true">4.1.2.</strong> Other Languages</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="compatibility.html" class="active"><strong aria-hidden="true">5.</strong> Compatibility</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -163,63 +163,26 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#layouts" id="layouts">Layouts</a></h1>
-<p>Layouts are yaml configuration files which Zellij can load on startup. These files can describe a layout of terminal panes and plugins that Zellij will create when it loads.
-To load a layout with Zellij:</p>
-<pre><code>zellij --layout /path/to/your/layout_file.yaml
-</code></pre>
-<h2><a class="header" href="#example" id="example">Example</a></h2>
-<p>This file:</p>
-<pre><code class="language-yaml">---
-direction: Vertical
-parts:
-  - direction: Horizontal
-    split_size:
-      Percent: 50
-    parts:
-      - direction: Vertical
-        split_size:
-          Percent: 50
-      - direction: Vertical
-        split_size:
-          Percent: 50
-  - direction: Horizontal
-    split_size:
-      Percent: 50
-</code></pre>
-<p>Will instruct Zellij to create this layout:</p>
-<pre><code>┌─────┬─────┐
-│     │     │
-├─────┤     │
-│     │     │
-└─────┴─────┘
-</code></pre>
-<h2><a class="header" href="#creating-a-layout-file" id="creating-a-layout-file">Creating a layout file</a></h2>
-<p>A layout file is a nested tree structure. Each node describes either a pane, or a space in which its parts (children) will be created.</p>
-<p>Each node has the following fields:</p>
-<h3><a class="header" href="#direction-horizontal--vertical" id="direction-horizontal--vertical"><code>direction: Horizontal / Vertical</code></a></h3>
-<p>If the node has children, they will be created as splits in this direction.</p>
-<h3><a class="header" href="#split_size-percent-1-100--fixed-linescolumns" id="split_size-percent-1-100--fixed-linescolumns"><code>split_size: Percent: &lt;1-100&gt; / Fixed: &lt;lines/columns&gt;</code></a></h3>
-<p>This indicates either a percentage of the node's parent's space or a fixed size of columns/rows from its parent's space.</p>
-<h3><a class="header" href="#plugin-pathtopluginwasm" id="plugin-pathtopluginwasm"><code>plugin: /path/to/plugin.wasm</code></a></h3>
-<p>This is an optional path to a compiled Zellij plugin. If indicated, instead of loading a terminal, this plugin will be loaded. For more information, please see the plugin documentation of this guide.</p>
-<h2><a class="header" href="#further-examples" id="further-examples">Further examples</a></h2>
-<p>Please see the default layouts that come with Zellij: <a href="https://github.com/zellij-org/zellij/tree/main/assets/layouts">layouts</a></p>
+                        <h1><a class="header" href="#compatibility--known-issues" id="compatibility--known-issues">Compatibility &amp; Known Issues</a></h1>
+<h2><a class="header" href="#the-status-bar-fonts-dont-render-correctly" id="the-status-bar-fonts-dont-render-correctly">The status bar fonts don't render correctly:</a></h2>
+<p>This most likely is caused by a missing character in the font.</p>
+<p>Fonts from <a href="https://github.com/ryanoasis/nerd-fonts">nerdfonts</a> can fix this problem.</p>
+<p>Some Options:</p>
+<table><thead><tr><th>Package Manager</th><th align="center">Name</th></tr></thead><tbody>
+<tr><td>apt</td><td align="center">fonts-powerline</td></tr>
+<tr><td>nix</td><td align="center">nerdfonts</td></tr>
+</tbody></table>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="keybindings-actions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="plugin-other.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
-                        
-                            <a rel="next" href="plugins.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
                         
 
                         <div style="clear: both"></div>
@@ -229,15 +192,11 @@ parts:
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="keybindings-actions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="plugin-other.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
-                
-                    <a rel="next" href="plugins.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
                 
             </nav>
 
