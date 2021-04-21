@@ -165,14 +165,14 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
 <p>This is the documentation for the Zellij terminal workspace.</p>
 <ul>
 <li>For configuring Zellij, see: <a href="./configuration.html">Configuration</a></li>
 <li>For setting up layouts: <a href="./configuration.html">Layouts</a></li>
 <li>For developing plugins: <a href="./plugins.html">Plugins</a></li>
 </ul>
-<h1><a class="header" href="#configuration" id="configuration">Configuration</a></h1>
+<h1 id="configuration"><a class="header" href="#configuration">Configuration</a></h1>
 <p>Zellij will look for a file <code>config.yaml</code> in the default configuration location of your os:</p>
 <p><strong>Linux</strong>: <code>/home/alice/.config/zellij</code></p>
 <p><strong>Mac</strong>: <code>/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij</code></p>
@@ -182,7 +182,7 @@
 <p>To pass a config file directly to zellij:</p>
 <pre><code>zellij config [FILE]
 </code></pre>
-<h1><a class="header" href="#configuring-keybindings" id="configuring-keybindings">Configuring Keybindings</a></h1>
+<h1 id="configuring-keybindings"><a class="header" href="#configuring-keybindings">Configuring Keybindings</a></h1>
 <p>Zellij comes with a default set of keybindings that try to fit as many different users and use cases while trying to maximize comfort for everyone.</p>
 <p>It is possible to add to these defaults or even override them with an external configuration. For more information about the file, see <a href="./configuration.html">Configuration</a>.</p>
 <p>The structure of the <code>keybinds</code> section of the file is as follows:</p>
@@ -208,108 +208,108 @@ Whereas:</p>
           key: [ Char: 'c', Char: 'd',]
 </code></pre>
 <p>Will create a new tab on pressing either the <code>c</code> or the <code>d</code> key.</p>
-<h2><a class="header" href="#to-override-the-default-keybindings" id="to-override-the-default-keybindings">To override the default Keybindings</a></h2>
+<h2 id="to-override-the-default-keybindings"><a class="header" href="#to-override-the-default-keybindings">To override the default Keybindings</a></h2>
 <pre><code>keybinds:
     unbind: true
 </code></pre>
-<h2><a class="header" href="#example" id="example">Example</a></h2>
+<h2 id="example"><a class="header" href="#example">Example</a></h2>
 <p>This configuration can be used to configure Zellij's default keybindings: <a href="https://github.com/zellij-org/zellij/blob/main/example/default.yaml">default.yaml</a></p>
-<h1><a class="header" href="#modes" id="modes">Modes</a></h1>
+<h1 id="modes"><a class="header" href="#modes">Modes</a></h1>
 <p>The Zellij <a href="./keybindings.html">keybindings</a> are grouped into different <code>modes</code>, which are a logical separation meant to reduce the mental overhead and allow to duplicate shortcuts in different situations.</p>
-<h2><a class="header" href="#normal" id="normal">normal</a></h2>
+<h2 id="normal"><a class="header" href="#normal">normal</a></h2>
 <p>This is the default mode Zellij starts with. By default it provides the ability to switch to different modes, as well as some quick navigation shortcuts.</p>
-<h2><a class="header" href="#locked" id="locked">locked</a></h2>
+<h2 id="locked"><a class="header" href="#locked">locked</a></h2>
 <p>This mode &quot;locks&quot; the interface, disabling all keybindings except one that would switch to &quot;normal&quot; mode (<code>ctrl-g</code> by default).
 It is intended to give users a workaround in case one of the default keybindings overrides something they use in their terminal. (eg. <code>ctrl-r</code> for reverse history search in bash).</p>
-<h2><a class="header" href="#pane" id="pane">pane</a></h2>
+<h2 id="pane"><a class="header" href="#pane">pane</a></h2>
 <p>This mode includes instructions that manipulate the different panes. Eg. adding new panes, closing panes and moving the focused pane.</p>
-<h2><a class="header" href="#tab" id="tab">tab</a></h2>
+<h2 id="tab"><a class="header" href="#tab">tab</a></h2>
 <p>This mode includes instructions that manipulate the different tabs. Eg. adding new tabs, closing tabs and moving the active tab.</p>
-<h2><a class="header" href="#resize" id="resize">resize</a></h2>
+<h2 id="resize"><a class="header" href="#resize">resize</a></h2>
 <p>This mode allows the resizing of the focused pane.</p>
-<h2><a class="header" href="#scroll" id="scroll">scroll</a></h2>
+<h2 id="scroll"><a class="header" href="#scroll">scroll</a></h2>
 <p>This mode allows scrolling up/down within the focused pane.</p>
-<h1><a class="header" href="#keys" id="keys">Keys</a></h1>
+<h1 id="keys"><a class="header" href="#keys">Keys</a></h1>
 <p>These are the possible keys and key combinations one can set in the <a href="./keybindings.html">Keybindings configuration</a>.
 For more information, please see: <a href="https://docs.rs/termion/1.5.6/termion/event/enum.Key.html">https://docs.rs/termion/1.5.6/termion/event/enum.Key.html</a></p>
-<h2><a class="header" href="#char-character" id="char-character"><code>Char: &lt;character&gt;</code></a></h2>
+<h2 id="char-character"><a class="header" href="#char-character"><code>Char: &lt;character&gt;</code></a></h2>
 <p>A single character with no modifier, eg. <code>Char: f</code></p>
-<h2><a class="header" href="#alt-character" id="alt-character"><code>Alt: &lt;character&gt;</code></a></h2>
+<h2 id="alt-character"><a class="header" href="#alt-character"><code>Alt: &lt;character&gt;</code></a></h2>
 <p>A single character preceded by the <code>Alt</code> modifier, eg. <code>Alt: f</code>.</p>
-<h2><a class="header" href="#ctrl-character" id="ctrl-character"><code>Ctrl: &lt;character&gt;</code></a></h2>
+<h2 id="ctrl-character"><a class="header" href="#ctrl-character"><code>Ctrl: &lt;character&gt;</code></a></h2>
 <p>A single character preceded by the <code>Ctrl</code> modifier, eg. <code>Ctrl: f</code>.</p>
-<h2><a class="header" href="#f-1-12" id="f-1-12"><code>F: &lt;1-12&gt;</code></a></h2>
+<h2 id="f-1-12"><a class="header" href="#f-1-12"><code>F: &lt;1-12&gt;</code></a></h2>
 <p>One of the <code>F</code> characters (usually at the top of the keyboard). eg. <code>F: 11</code></p>
-<h2><a class="header" href="#backspace" id="backspace"><code>Backspace</code></a></h2>
+<h2 id="backspace"><a class="header" href="#backspace"><code>Backspace</code></a></h2>
 <p>The Backspace key.</p>
-<h2><a class="header" href="#left--right--up--down" id="left--right--up--down"><code>Left</code> / <code>Right</code> / <code>Up</code> / <code>Down</code></a></h2>
+<h2 id="left--right--up--down"><a class="header" href="#left--right--up--down"><code>Left</code> / <code>Right</code> / <code>Up</code> / <code>Down</code></a></h2>
 <p>The arrow keys on the keyboard.</p>
-<h2><a class="header" href="#home" id="home"><code>Home</code></a></h2>
+<h2 id="home"><a class="header" href="#home"><code>Home</code></a></h2>
 <p>The home key.</p>
-<h2><a class="header" href="#end" id="end"><code>End</code></a></h2>
+<h2 id="end"><a class="header" href="#end"><code>End</code></a></h2>
 <p>The End key.</p>
-<h2><a class="header" href="#pageup--pagedown" id="pageup--pagedown"><code>PageUp</code> / <code>PageDown</code></a></h2>
+<h2 id="pageup--pagedown"><a class="header" href="#pageup--pagedown"><code>PageUp</code> / <code>PageDown</code></a></h2>
 <p>The PageUp or PageDown keys.</p>
-<h2><a class="header" href="#backtab" id="backtab"><code>BackTab</code></a></h2>
+<h2 id="backtab"><a class="header" href="#backtab"><code>BackTab</code></a></h2>
 <p>The backward Tab key.</p>
-<h2><a class="header" href="#delete" id="delete"><code>Delete</code></a></h2>
+<h2 id="delete"><a class="header" href="#delete"><code>Delete</code></a></h2>
 <p>The delete key.</p>
-<h2><a class="header" href="#insert" id="insert"><code>Insert</code></a></h2>
+<h2 id="insert"><a class="header" href="#insert"><code>Insert</code></a></h2>
 <p>The insert key.</p>
-<h2><a class="header" href="#esc" id="esc"><code>Esc</code></a></h2>
+<h2 id="esc"><a class="header" href="#esc"><code>Esc</code></a></h2>
 <p>The Esc key.</p>
-<h1><a class="header" href="#actions" id="actions">Actions</a></h1>
+<h1 id="actions"><a class="header" href="#actions">Actions</a></h1>
 <p>These are the actions that can be assigned to key sequences when <a href="./keybindings.html">configuring keybindings</a>.</p>
-<h2><a class="header" href="#quit" id="quit"><code>Quit</code></a></h2>
+<h2 id="quit"><a class="header" href="#quit"><code>Quit</code></a></h2>
 <p>Quit Zellij.</p>
-<h2><a class="header" href="#switchtomode-inputmode" id="switchtomode-inputmode"><code>SwitchToMode: &lt;InputMode&gt;</code></a></h2>
+<h2 id="switchtomode-inputmode"><a class="header" href="#switchtomode-inputmode"><code>SwitchToMode: &lt;InputMode&gt;</code></a></h2>
 <p>Switch to the specified <a href="./keybindings-modes.html">input mode</a>.
 The mode should be capitalized, eg. <code>SwitchToMode: Normal</code>.</p>
 <p>Note that there's a &quot;hidden&quot; mode called <code>RenameTab</code> which can be used in order to trigger the renaming of a tab.</p>
-<h2><a class="header" href="#resize-direction" id="resize-direction"><code>Resize: &lt;Direction&gt;</code></a></h2>
+<h2 id="resize-direction"><a class="header" href="#resize-direction"><code>Resize: &lt;Direction&gt;</code></a></h2>
 <p>Resize focused pane in specified direction.
 Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code> or <code>Down</code>.</p>
 <p>eg. <code>Resize: Down</code></p>
-<h2><a class="header" href="#focusnextpane" id="focusnextpane"><code>FocusNextPane</code></a></h2>
+<h2 id="focusnextpane"><a class="header" href="#focusnextpane"><code>FocusNextPane</code></a></h2>
 <p>Switch focus to next pane to the right or below if on screen edge.</p>
-<h2><a class="header" href="#focuspreviouspane" id="focuspreviouspane"><code>FocusPreviousPane</code></a></h2>
+<h2 id="focuspreviouspane"><a class="header" href="#focuspreviouspane"><code>FocusPreviousPane</code></a></h2>
 <p>Switch focus to next pane to the left or above if on screen edge.</p>
-<h2><a class="header" href="#switchfocus" id="switchfocus"><code>SwitchFocus</code></a></h2>
+<h2 id="switchfocus"><a class="header" href="#switchfocus"><code>SwitchFocus</code></a></h2>
 <p>Switch focus to pane with the next ID (this is mostly left around for legacy support, <code>FocusNextPane</code> or <code>FocusPreviousPane</code> should be preferred).</p>
-<h2><a class="header" href="#movefocus-direction" id="movefocus-direction"><code>MoveFocus: &lt;Direction&gt;</code></a></h2>
+<h2 id="movefocus-direction"><a class="header" href="#movefocus-direction"><code>MoveFocus: &lt;Direction&gt;</code></a></h2>
 <p>Move focus to the pane with the greatest overlap with the current pane in the specified direction. 
 Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code> or <code>Down</code>.</p>
 <p>eg. <code>MoveFocus: Left</code></p>
-<h2><a class="header" href="#scrollup" id="scrollup"><code>ScrollUp</code></a></h2>
+<h2 id="scrollup"><a class="header" href="#scrollup"><code>ScrollUp</code></a></h2>
 <p>Scroll up 1 line inside the focused pane.</p>
-<h2><a class="header" href="#scrolldown" id="scrolldown"><code>ScrollDown</code></a></h2>
+<h2 id="scrolldown"><a class="header" href="#scrolldown"><code>ScrollDown</code></a></h2>
 <p>Scroll down 1 line inside the focused pane.</p>
-<h2><a class="header" href="#togglefocusfullscreen" id="togglefocusfullscreen"><code>ToggleFocusFullscreen</code></a></h2>
+<h2 id="togglefocusfullscreen"><a class="header" href="#togglefocusfullscreen"><code>ToggleFocusFullscreen</code></a></h2>
 <p>Toggle between fullscreen focus pane and normal layout.</p>
-<h2><a class="header" href="#newpane-direction" id="newpane-direction"><code>NewPane: &lt;Direction&gt;</code></a></h2>
+<h2 id="newpane-direction"><a class="header" href="#newpane-direction"><code>NewPane: &lt;Direction&gt;</code></a></h2>
 <p>Open a new pane in the specified direction (relative to focus).
 If no direction is specified, will try to use the biggest available space.
 Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code> or <code>Down</code>.
 Specifying no direction should be done by introducing a space character (this is a bug and should be fixed).</p>
 <p>eg. <code>NewPane: Left</code> or <code>NewPane: </code></p>
-<h2><a class="header" href="#closefocus" id="closefocus"><code>CloseFocus</code></a></h2>
+<h2 id="closefocus"><a class="header" href="#closefocus"><code>CloseFocus</code></a></h2>
 <p>Close the focused pane.</p>
-<h2><a class="header" href="#newtab" id="newtab"><code>NewTab</code></a></h2>
+<h2 id="newtab"><a class="header" href="#newtab"><code>NewTab</code></a></h2>
 <p>Create a new tab.</p>
-<h2><a class="header" href="#gotonexttab" id="gotonexttab"><code>GoToNextTab</code></a></h2>
+<h2 id="gotonexttab"><a class="header" href="#gotonexttab"><code>GoToNextTab</code></a></h2>
 <p>Go to the next tab.</p>
-<h2><a class="header" href="#gotoprevioustab" id="gotoprevioustab"><code>GoToPreviousTab</code></a></h2>
+<h2 id="gotoprevioustab"><a class="header" href="#gotoprevioustab"><code>GoToPreviousTab</code></a></h2>
 <p>Go to the previous tab.</p>
-<h2><a class="header" href="#closetab" id="closetab"><code>CloseTab</code></a></h2>
+<h2 id="closetab"><a class="header" href="#closetab"><code>CloseTab</code></a></h2>
 <p>Close the current tab.</p>
-<h2><a class="header" href="#gototab-index" id="gototab-index"><code>GoToTab: &lt;index&gt;</code></a></h2>
+<h2 id="gototab-index"><a class="header" href="#gototab-index"><code>GoToTab: &lt;index&gt;</code></a></h2>
 <p>Go to the tab of the specified index.</p>
-<h1><a class="header" href="#layouts" id="layouts">Layouts</a></h1>
+<h1 id="layouts"><a class="header" href="#layouts">Layouts</a></h1>
 <p>Layouts are yaml configuration files which Zellij can load on startup. These files can describe a layout of terminal panes and plugins that Zellij will create when it loads.
 To load a layout with Zellij:</p>
 <pre><code>zellij --layout /path/to/your/layout_file.yaml
 </code></pre>
-<h2><a class="header" href="#example-1" id="example-1">Example</a></h2>
+<h2 id="example-1"><a class="header" href="#example-1">Example</a></h2>
 <p>This file:</p>
 <pre><code class="language-yaml">---
 direction: Vertical
@@ -335,32 +335,32 @@ parts:
 │     │     │
 └─────┴─────┘
 </code></pre>
-<h2><a class="header" href="#creating-a-layout-file" id="creating-a-layout-file">Creating a layout file</a></h2>
+<h2 id="creating-a-layout-file"><a class="header" href="#creating-a-layout-file">Creating a layout file</a></h2>
 <p>A layout file is a nested tree structure. Each node describes either a pane, or a space in which its parts (children) will be created.</p>
 <p>Each node has the following fields:</p>
-<h3><a class="header" href="#direction-horizontal--vertical" id="direction-horizontal--vertical"><code>direction: Horizontal / Vertical</code></a></h3>
+<h3 id="direction-horizontal--vertical"><a class="header" href="#direction-horizontal--vertical"><code>direction: Horizontal / Vertical</code></a></h3>
 <p>If the node has children, they will be created as splits in this direction.</p>
-<h3><a class="header" href="#split_size-percent-1-100--fixed-linescolumns" id="split_size-percent-1-100--fixed-linescolumns"><code>split_size: Percent: &lt;1-100&gt; / Fixed: &lt;lines/columns&gt;</code></a></h3>
+<h3 id="split_size-percent-1-100--fixed-linescolumns"><a class="header" href="#split_size-percent-1-100--fixed-linescolumns"><code>split_size: Percent: &lt;1-100&gt; / Fixed: &lt;lines/columns&gt;</code></a></h3>
 <p>This indicates either a percentage of the node's parent's space or a fixed size of columns/rows from its parent's space.</p>
-<h3><a class="header" href="#plugin-pathtopluginwasm" id="plugin-pathtopluginwasm"><code>plugin: /path/to/plugin.wasm</code></a></h3>
+<h3 id="plugin-pathtopluginwasm"><a class="header" href="#plugin-pathtopluginwasm"><code>plugin: /path/to/plugin.wasm</code></a></h3>
 <p>This is an optional path to a compiled Zellij plugin. If indicated, instead of loading a terminal, this plugin will be loaded. For more information, please see the plugin documentation of this guide.</p>
-<h2><a class="header" href="#further-examples" id="further-examples">Further examples</a></h2>
+<h2 id="further-examples"><a class="header" href="#further-examples">Further examples</a></h2>
 <p>Please see the default layouts that come with Zellij: <a href="https://github.com/zellij-org/zellij/tree/main/assets/layouts">layouts</a></p>
-<h1><a class="header" href="#plugins" id="plugins">Plugins</a></h1>
+<h1 id="plugins"><a class="header" href="#plugins">Plugins</a></h1>
 <p>One feature that makes Zellij unique is its <a href="https://webassembly.org/">WebAssembly</a> plugin system. This allows plugin developers to write their plugin in any language that can run on <a href="https://wasi.dev/">WASI</a>! Rust offers first-class <a href="https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-tutorial.md#from-rust">support for WASI</a>, but other languages like <a href="https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-tutorial.md#from-c">C/C++</a>, <a href="https://wasmbyexample.dev/examples/wasi-hello-world/wasi-hello-world.assemblyscript.en-us.html">AssemblyScript</a>, even <a href="https://wapm.io/package/rustpython">Python</a> should be supported.</p>
 <p><strong>Disclaimer: The API for plugins is very much a work in progress. Don't be shy to request new features on our <a href="https://github.com/zellij-org/zellij/issues/280">tracking issue</a>!</strong></p>
-<h1><a class="header" href="#developing-a-plugin" id="developing-a-plugin">Developing a Plugin</a></h1>
+<h1 id="developing-a-plugin"><a class="header" href="#developing-a-plugin">Developing a Plugin</a></h1>
 <p>Currently we have a complete guide for developing plugins in <a href="./plugin-rust.html">Rust</a> and plan to add more guides for other languages in the future. If you are feeling particularly brave, you can try to write plugins in another language today! The <a href="./plugin-other.html">Other Languages</a> section will get you started.</p>
-<h1><a class="header" href="#writing-a-plugin-in-rust" id="writing-a-plugin-in-rust">Writing a Plugin in Rust</a></h1>
+<h1 id="writing-a-plugin-in-rust"><a class="header" href="#writing-a-plugin-in-rust">Writing a Plugin in Rust</a></h1>
 <p>Writing a Zellij plugin in Rust is incredibly easy thanks to Rust's first-class support for WebAssembly and the simple <a href="https://docs.rs/zellij-tile/"><code>zellij-tile</code></a> scaffolding library. This guide will walk through implementing the <a href="https://github.com/zellij-org/rust-plugin-example"><code>rust-plugin-example</code></a>, a simple event logger that records mode-changes within Zellij.</p>
-<h2><a class="header" href="#getting-started" id="getting-started">Getting Started</a></h2>
-<h3><a class="header" href="#installing-rust--zellij" id="installing-rust--zellij">Installing Rust &amp; Zellij</a></h3>
+<h2 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h2>
+<h3 id="installing-rust--zellij"><a class="header" href="#installing-rust--zellij">Installing Rust &amp; Zellij</a></h3>
 <p>First things first, to develop a plugin in Rust, you'll need Rust installed! The easiest way to do this is by using <a href="https://rustup.rs/">rustup</a>.</p>
 <p>Once you have Rust and Cargo installed, getting the latest version of Zellij is as easy as running:</p>
 <pre><code>cargo install zellij
 </code></pre>
 <p>You'll also want to add the installed binary to your path!</p>
-<h3><a class="header" href="#cloning-the-template-repository" id="cloning-the-template-repository">Cloning The Template Repository</a></h3>
+<h3 id="cloning-the-template-repository"><a class="header" href="#cloning-the-template-repository">Cloning The Template Repository</a></h3>
 <p>To streamline the development experience, we provide a <a href="https://github.com/zellij-org/rust-plugin-template">template repository</a> that contains everything you need to get started quickly!</p>
 <p>You can use a tool called <a href="https://github.com/cargo-generate/cargo-generate"><code>cargo-generate</code></a> to fill in a couple of the gaps automatically:</p>
 <pre><code class="language-sh"># First install `cargo-generate`
@@ -369,7 +369,7 @@ cargo install cargo-generate
 cargo generate --git https://github.com/zellij-org/rust-plugin-template.git --name mode-logger
 cd mode-logger
 </code></pre>
-<h2><a class="header" href="#the-basic-structure-of-a-rust-plugin" id="the-basic-structure-of-a-rust-plugin">The Basic Structure of a Rust Plugin</a></h2>
+<h2 id="the-basic-structure-of-a-rust-plugin"><a class="header" href="#the-basic-structure-of-a-rust-plugin">The Basic Structure of a Rust Plugin</a></h2>
 <p>After cloning the template repository, you should have a directory that looks a little bit like this: </p>
 <pre><code>.
 ├── .cargo
@@ -380,12 +380,12 @@ cd mode-logger
 └── src
     └── main.rs
 </code></pre>
-<h3><a class="header" href="#cargoconfigtoml" id="cargoconfigtoml"><code>.cargo/config.toml</code></a></h3>
+<h3 id="cargoconfigtoml"><a class="header" href="#cargoconfigtoml"><code>.cargo/config.toml</code></a></h3>
 <pre><code class="language-toml">[build]
 target = &quot;wasm32-wasi&quot;
 </code></pre>
 <p>This file specifies a default target for our project. In this case, the correct WASI target is <code>wasm32-wasi</code>.</p>
-<h3><a class="header" href="#cargotoml" id="cargotoml"><code>Cargo.toml</code></a></h3>
+<h3 id="cargotoml"><a class="header" href="#cargotoml"><code>Cargo.toml</code></a></h3>
 <pre><code class="language-toml">[package]
 name = &quot;mode-logger&quot;
 version = &quot;0.1.0&quot;
@@ -396,7 +396,7 @@ edition = &quot;2018&quot;
 zellij-tile = &quot;1.0.0&quot;
 </code></pre>
 <p>This is a quite standard package file that <code>cargo-generate</code> has partially filled in for us. Note the dependency on <code>zellij-tile</code> which provides some helpful functionality for avoiding boilerplate and writing <code>unsafe</code> code.</p>
-<h3><a class="header" href="#pluginyaml" id="pluginyaml"><code>plugin.yaml</code></a></h3>
+<h3 id="pluginyaml"><a class="header" href="#pluginyaml"><code>plugin.yaml</code></a></h3>
 <pre><code class="language-yaml">---
 direction: Horizontal
 parts:
@@ -413,7 +413,7 @@ parts:
 </code></pre>
 <p>This is a Zellij <a href="./layouts.html">Layout</a> that loads a mostly default instance of Zellij, but with the middle terminal pane replaced by the plugin being developed. The <code>plugin: target/wasm32-wasi/debug/mode-logger.wasm</code> line should point Zellij to the development version of our plugin.</p>
 <p>There will likely be a better way of loading plugins in the future, but custom Layouts are currently the only way to do so.</p>
-<h3><a class="header" href="#srcmainrs" id="srcmainrs"><code>src/main.rs</code></a></h3>
+<h3 id="srcmainrs"><a class="header" href="#srcmainrs"><code>src/main.rs</code></a></h3>
 <pre><code class="language-rs">use zellij_tile::prelude::*;
 
 #[derive(Default)]
@@ -431,7 +431,7 @@ impl ZellijPlugin for State {
 </code></pre>
 <p>When using the <code>zellij-tile</code> library, plugins are written as Structs that implement the <code>ZellijPlugin</code> trait. The magic line here is <code>register_plugin!(State)</code>, which wraps up the <code>State</code> struct in a way that neatly exposes its <code>ZellijPlugin</code> implementation for Zellij to find.</p>
 <p>Note that <code>load()</code>, <code>update()</code>, and <code>render()</code> have default implementations, so you only need to define the callbacks used by your plugin.</p>
-<h2><a class="header" href="#hello-zellij" id="hello-zellij">Hello, Zellij!</a></h2>
+<h2 id="hello-zellij"><a class="header" href="#hello-zellij">Hello, Zellij!</a></h2>
 <p>Let's tweak our <code>main.rs</code> a little to say hello!</p>
 <pre><code class="language-rs">use zellij_tile::prelude::*;
 
@@ -456,7 +456,7 @@ impl ZellijPlugin for State {
 zellij -l plugin.yaml
 </code></pre>
 <p><img src="img/rust-plugin-1.png" alt="Our Plugin" /></p>
-<h2><a class="header" href="#implementing-the-event-logger" id="implementing-the-event-logger">Implementing the Event Logger</a></h2>
+<h2 id="implementing-the-event-logger"><a class="header" href="#implementing-the-event-logger">Implementing the Event Logger</a></h2>
 <p>That was pretty easy, so let's try to do something a bit more interesting! Let's subscribe to some <code>Event</code>s by adding the following code to <code>load()</code>:</p>
 <pre><code class="language-rs">fn load(&amp;mut self) {
     subscribe(&amp;[EventType::ModeUpdate]);
@@ -624,7 +624,7 @@ Tue Apr 20 10:21:00 2021: Entered Locked Mode
 Tue Apr 20 10:21:02 2021: Entered Normal Mode
 </code></pre>
 <p>And that's all, folks! The full code for this example can be found in the <a href="https://github.com/zellij-org/rust-plugin-example/blob/main/src/main.rs"><code>rust-plugin-example</code></a> repository.</p>
-<h2><a class="header" href="#further-steps" id="further-steps">Further Steps</a></h2>
+<h2 id="further-steps"><a class="header" href="#further-steps">Further Steps</a></h2>
 <p>There are a <em>lot</em> of ways that this plugin could be improved! Here are a couple of the things that you might want to try implementing if you're looking for the extra practice:</p>
 <ul>
 <li><strong>Support for scrolling ::</strong> you'll need to use <code>rows</code> and save a cursor position in <code>State</code></li>
@@ -633,7 +633,7 @@ Tue Apr 20 10:21:02 2021: Entered Normal Mode
 <li><strong>Add a help bar ::</strong> there is currently no UI telling the user about the clear and save features</li>
 </ul>
 <p>Have fun, and don't hesitate to get in touch if you find any bugs or would like some guidance :)</p>
-<h1><a class="header" href="#writing-a-plugin-in-another-language" id="writing-a-plugin-in-another-language">Writing a Plugin in Another Language</a></h1>
+<h1 id="writing-a-plugin-in-another-language"><a class="header" href="#writing-a-plugin-in-another-language">Writing a Plugin in Another Language</a></h1>
 <p>This page is very much a work in progress! If you're familiar with WASM and Rust, then understanding the <a href="https://github.com/zellij-org/zellij/tree/main/zellij-tile"><code>zellij-tile</code></a> library is a great place to start.</p>
 <p>In short, Zellij expects your WASI module to export three functions:</p>
 <ul>
