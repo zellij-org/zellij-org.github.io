@@ -182,6 +182,22 @@
 <p>To pass a config file directly to zellij:</p>
 <pre><code>zellij config [FILE]
 </code></pre>
+<h2><a class="header" href="#current-main" id="current-main">Current Main:</a></h2>
+<p>This changed in the current main branch.</p>
+<p>To ignore the default config file location:</p>
+<pre><code>zellij option --clean
+</code></pre>
+<p>To pass a config file directly to zellij:</p>
+<pre><code>zellij --config [FILE]
+</code></pre>
+<p>Or use the <code>ZELLIJ_CONFIG</code> environment variable,
+in order to pass the location.</p>
+<p>The config order is as follows:</p>
+<ol>
+<li><code>--config</code> flag</li>
+<li><code>ZELLIJ_CONFIG</code> variable</li>
+<li>default location</li>
+</ol>
 <h1><a class="header" href="#configuring-keybindings" id="configuring-keybindings">Configuring Keybindings</a></h1>
 <p>Zellij comes with a default set of keybindings that try to fit as many different users and use cases while trying to maximize comfort for everyone.</p>
 <p>It is possible to add to these defaults or even override them with an external configuration. For more information about the file, see <a href="./configuration.html">Configuration</a>.</p>
