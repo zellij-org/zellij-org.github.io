@@ -37,6 +37,12 @@ Scroll up 1 line inside the focused pane.
 ## `ScrollDown`
 Scroll down 1 line inside the focused pane.
 
+## `PageScrollUp`
+Scroll up 1 page inside the focused pane.
+
+## `PageScrollDown`
+Scroll down 1 page inside the focused pane.
+
 ## `ToggleFocusFullscreen`
 Toggle between fullscreen focus pane and normal layout.
 
