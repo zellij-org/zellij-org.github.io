@@ -163,51 +163,51 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#actions" id="actions">Actions</a></h1>
+                        <h1 id="actions"><a class="header" href="#actions">Actions</a></h1>
 <p>These are the actions that can be assigned to key sequences when <a href="./keybindings.html">configuring keybindings</a>.</p>
-<h2><a class="header" href="#quit" id="quit"><code>Quit</code></a></h2>
+<h2 id="quit"><a class="header" href="#quit"><code>Quit</code></a></h2>
 <p>Quit Zellij.</p>
-<h2><a class="header" href="#switchtomode-inputmode" id="switchtomode-inputmode"><code>SwitchToMode: &lt;InputMode&gt;</code></a></h2>
+<h2 id="switchtomode-inputmode"><a class="header" href="#switchtomode-inputmode"><code>SwitchToMode: &lt;InputMode&gt;</code></a></h2>
 <p>Switch to the specified <a href="./keybindings-modes.html">input mode</a>.
 The mode should be capitalized, eg. <code>SwitchToMode: Normal</code>.</p>
 <p>Note that there's a &quot;hidden&quot; mode called <code>RenameTab</code> which can be used in order to trigger the renaming of a tab.</p>
-<h2><a class="header" href="#resize-direction" id="resize-direction"><code>Resize: &lt;Direction&gt;</code></a></h2>
+<h2 id="resize-direction"><a class="header" href="#resize-direction"><code>Resize: &lt;Direction&gt;</code></a></h2>
 <p>Resize focused pane in specified direction.
 Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code> or <code>Down</code>.</p>
 <p>eg. <code>Resize: Down</code></p>
-<h2><a class="header" href="#focusnextpane" id="focusnextpane"><code>FocusNextPane</code></a></h2>
+<h2 id="focusnextpane"><a class="header" href="#focusnextpane"><code>FocusNextPane</code></a></h2>
 <p>Switch focus to next pane to the right or below if on screen edge.</p>
-<h2><a class="header" href="#focuspreviouspane" id="focuspreviouspane"><code>FocusPreviousPane</code></a></h2>
+<h2 id="focuspreviouspane"><a class="header" href="#focuspreviouspane"><code>FocusPreviousPane</code></a></h2>
 <p>Switch focus to next pane to the left or above if on screen edge.</p>
-<h2><a class="header" href="#switchfocus" id="switchfocus"><code>SwitchFocus</code></a></h2>
+<h2 id="switchfocus"><a class="header" href="#switchfocus"><code>SwitchFocus</code></a></h2>
 <p>Switch focus to pane with the next ID (this is mostly left around for legacy support, <code>FocusNextPane</code> or <code>FocusPreviousPane</code> should be preferred).</p>
-<h2><a class="header" href="#movefocus-direction" id="movefocus-direction"><code>MoveFocus: &lt;Direction&gt;</code></a></h2>
+<h2 id="movefocus-direction"><a class="header" href="#movefocus-direction"><code>MoveFocus: &lt;Direction&gt;</code></a></h2>
 <p>Move focus to the pane with the greatest overlap with the current pane in the specified direction. 
 Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code> or <code>Down</code>.</p>
 <p>eg. <code>MoveFocus: Left</code></p>
-<h2><a class="header" href="#scrollup" id="scrollup"><code>ScrollUp</code></a></h2>
+<h2 id="scrollup"><a class="header" href="#scrollup"><code>ScrollUp</code></a></h2>
 <p>Scroll up 1 line inside the focused pane.</p>
-<h2><a class="header" href="#scrolldown" id="scrolldown"><code>ScrollDown</code></a></h2>
+<h2 id="scrolldown"><a class="header" href="#scrolldown"><code>ScrollDown</code></a></h2>
 <p>Scroll down 1 line inside the focused pane.</p>
-<h2><a class="header" href="#togglefocusfullscreen" id="togglefocusfullscreen"><code>ToggleFocusFullscreen</code></a></h2>
+<h2 id="togglefocusfullscreen"><a class="header" href="#togglefocusfullscreen"><code>ToggleFocusFullscreen</code></a></h2>
 <p>Toggle between fullscreen focus pane and normal layout.</p>
-<h2><a class="header" href="#newpane-direction" id="newpane-direction"><code>NewPane: &lt;Direction&gt;</code></a></h2>
+<h2 id="newpane-direction"><a class="header" href="#newpane-direction"><code>NewPane: &lt;Direction&gt;</code></a></h2>
 <p>Open a new pane in the specified direction (relative to focus).
 If no direction is specified, will try to use the biggest available space.
 Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code> or <code>Down</code>.
 Specifying no direction should be done by introducing a space character (this is a bug and should be fixed).</p>
 <p>eg. <code>NewPane: Left</code> or <code>NewPane: </code></p>
-<h2><a class="header" href="#closefocus" id="closefocus"><code>CloseFocus</code></a></h2>
+<h2 id="closefocus"><a class="header" href="#closefocus"><code>CloseFocus</code></a></h2>
 <p>Close the focused pane.</p>
-<h2><a class="header" href="#newtab" id="newtab"><code>NewTab</code></a></h2>
+<h2 id="newtab"><a class="header" href="#newtab"><code>NewTab</code></a></h2>
 <p>Create a new tab.</p>
-<h2><a class="header" href="#gotonexttab" id="gotonexttab"><code>GoToNextTab</code></a></h2>
+<h2 id="gotonexttab"><a class="header" href="#gotonexttab"><code>GoToNextTab</code></a></h2>
 <p>Go to the next tab.</p>
-<h2><a class="header" href="#gotoprevioustab" id="gotoprevioustab"><code>GoToPreviousTab</code></a></h2>
+<h2 id="gotoprevioustab"><a class="header" href="#gotoprevioustab"><code>GoToPreviousTab</code></a></h2>
 <p>Go to the previous tab.</p>
-<h2><a class="header" href="#closetab" id="closetab"><code>CloseTab</code></a></h2>
+<h2 id="closetab"><a class="header" href="#closetab"><code>CloseTab</code></a></h2>
 <p>Close the current tab.</p>
-<h2><a class="header" href="#gototab-index" id="gototab-index"><code>GoToTab: &lt;index&gt;</code></a></h2>
+<h2 id="gototab-index"><a class="header" href="#gototab-index"><code>GoToTab: &lt;index&gt;</code></a></h2>
 <p>Go to the tab of the specified index.</p>
 
                     </main>
