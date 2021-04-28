@@ -1,7 +1,7 @@
 # Summary
 
 - [Introduction](./introduction.md)
-- [Installation](./installation.md)
+    - [Installation](./installation.md)
 - [Configuration](./configuration.md)
   - [Configuring Keybindings](./keybindings.md)
     - [Modes](./keybindings-modes.md)
