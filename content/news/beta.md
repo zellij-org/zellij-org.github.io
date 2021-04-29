@@ -20,7 +20,9 @@ After long months of work by a dedicated team of enthusiasts, today we are proud
 
 ## How to install?
 
-Download a prebuilt binary for [linux](https://github.com/zellij-org/zellij/releases/latest/download/zellij-linux-musl-x86_64.tar.gz) or [macOS](https://github.com/zellij-org/zellij/releases/latest/download/zellij-macos-x86_64.tar.gz).
+Download a prebuilt binary for [linux](
+https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz) or [macOS](https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-apple-darwin.tar.gz).
+
 
 Or install with cargo:
 ```
