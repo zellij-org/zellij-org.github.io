@@ -164,11 +164,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#configuration" id="configuration">Configuration</a></h1>
-<p>Zellij will look for a file <code>config.yaml</code> in the <code>config</code> directory.</p>
-<p>The config order is as follows:</p>
+<p>By default Zellij will look for <code>config.yaml</code> in the <code>config</code> directory.</p>
+<p>The default <code>config</code> directory order is as follows:</p>
 <ul>
-<li><code>--config</code> flag</li>
-<li><code>ZELLIJ_CONFIG_FILE</code> env variable</li>
 <li><code>--config-dir</code> flag</li>
 <li><code>ZELLIJ_CONFIG_DIR</code> env variable</li>
 <li>default location</li>
@@ -178,9 +176,10 @@
 <p>The default configuration location of your os:</p>
 <p><strong>Linux</strong>: <code>/home/alice/.config/zellij</code></p>
 <p><strong>Mac</strong>: <code>/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij</code></p>
-<p>To pass a config file directly to zellij:</p>
+<p>In order to  pass a config file directly to zellij:</p>
 <pre><code>zellij --config [FILE]
 </code></pre>
+<p>or use the <code>ZELLIJ_CONFIG_FILE</code> environment variable.</p>
 <p>To start without loading configuration from default directories:</p>
 <pre><code>zellij option --clean
 </code></pre>
