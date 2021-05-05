@@ -164,31 +164,26 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#configuration" id="configuration">Configuration</a></h1>
-<p>Zellij will look for a file <code>config.yaml</code> in the default configuration location of your os:</p>
+<p>Zellij will look for a file <code>config.yaml</code> in the <code>config</code> directory.</p>
+<p>The config order is as follows:</p>
+<ul>
+<li><code>--config</code> flag</li>
+<li><code>ZELLIJ_CONFIG_FILE</code> env variable</li>
+<li><code>--config-dir</code> flag</li>
+<li><code>ZELLIJ_CONFIG_DIR</code> env variable</li>
+<li>default location</li>
+<li><code>$HOME/.config/zellij</code></li>
+<li>system location (<code>/etc/zellij</code>)</li>
+</ul>
+<p>The default configuration location of your os:</p>
 <p><strong>Linux</strong>: <code>/home/alice/.config/zellij</code></p>
 <p><strong>Mac</strong>: <code>/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij</code></p>
-<p>To ignore the default config file location:</p>
-<pre><code>zellij config --clean
-</code></pre>
-<p>To pass a config file directly to zellij:</p>
-<pre><code>zellij config [FILE]
-</code></pre>
-<h2><a class="header" href="#current-main" id="current-main">Current Main:</a></h2>
-<p>This changed in the current main branch.</p>
-<p>To ignore the default config file location:</p>
-<pre><code>zellij option --clean
-</code></pre>
 <p>To pass a config file directly to zellij:</p>
 <pre><code>zellij --config [FILE]
 </code></pre>
-<p>Or use the <code>ZELLIJ_CONFIG</code> environment variable,
-in order to pass the location.</p>
-<p>The config order is as follows:</p>
-<ol>
-<li><code>--config</code> flag</li>
-<li><code>ZELLIJ_CONFIG</code> variable</li>
-<li>default location</li>
-</ol>
+<p>To start without loading configuration from default directories:</p>
+<pre><code>zellij option --clean
+</code></pre>
 
                     </main>
 
