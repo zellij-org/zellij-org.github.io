@@ -97,7 +97,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">2.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">2.1.</strong> Configuring Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">2.1.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">2.1.2.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-actions.html"><strong aria-hidden="true">2.1.3.</strong> Actions</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">3.</strong> Layouts</a></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">4.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-writing.html"><strong aria-hidden="true">4.1.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-rust.html"><strong aria-hidden="true">4.1.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="plugin-other.html"><strong aria-hidden="true">4.1.2.</strong> Other Languages</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="compatibility.html"><strong aria-hidden="true">5.</strong> Compatibility</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">1.1.</strong> Installation</a></li></ol></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">2.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">2.1.</strong> Configuring Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">2.1.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">2.1.2.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-actions.html"><strong aria-hidden="true">2.1.3.</strong> Actions</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">3.</strong> Layouts</a></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">4.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-writing.html"><strong aria-hidden="true">4.1.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-rust.html"><strong aria-hidden="true">4.1.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="plugin-other.html"><strong aria-hidden="true">4.1.2.</strong> Other Languages</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="compatibility.html"><strong aria-hidden="true">5.</strong> Compatibility</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -168,14 +168,42 @@
                         <h1><a class="header" href="#introduction" id="introduction">Introduction</a></h1>
 <p>This is the documentation for the Zellij terminal workspace.</p>
 <ul>
+<li>For installing Zellij, see: <a href="./installation.html">Installation</a></li>
 <li>For configuring Zellij, see: <a href="./configuration.html">Configuration</a></li>
+<li>For Operating System Compatibility and Known Issues, see: <a href="./compatibility.html">Compatibility</a></li>
 <li>For setting up layouts: <a href="./configuration.html">Layouts</a></li>
 <li>For developing plugins: <a href="./plugins.html">Plugins</a></li>
 </ul>
+<h1><a class="header" href="#installation" id="installation">Installation</a></h1>
+<p>Installation options for Zellij are currently limited as the app is undergoing very heavy development.</p>
+<p>Currently Binaries are produced for both Linux and MacOS.</p>
+<p>However it is available in some public repositories.</p>
+<hr />
+<h2><a class="header" href="#rust---cargo" id="rust---cargo">Rust - Cargo</a></h2>
+<p>For instructions on how to install Cargo see <a href="https://doc.rust-lang.org/cargo/getting-started/installation.html">here:</a></p>
+<p>Once installed run:</p>
+<p><code>cargo install zellij</code></p>
+<hr />
+<h2><a class="header" href="#binary-download" id="binary-download">Binary Download</a></h2>
+<p>Binaries are made available each release for the Linux and MacOS operating systems.</p>
+<p>It is possible to download the binaries for these here:
+https://github.com/zellij-org/zellij/releases</p>
+<p>Once downloaded, untar the file:</p>
+<p><code>tar -xvf zellij*.tar.gz</code></p>
+<p>check for the execution bit:</p>
+<p><code>chmod +x zellij</code></p>
+<p>and then execute Zellij:</p>
+<p><code>./zellij</code></p>
+<p>Include the directory Zellij is in, in your <a href="https://www.baeldung.com/linux/path-variable">PATH Variable</a> if you wish to be able to execute it anywhere.</p>
+<p>'Or'</p>
+<p>move Zellij to a directory already in your PATH Variable.</p>
+<hr />
+<h2><a class="header" href="#compiling-zellij-from-source" id="compiling-zellij-from-source">Compiling Zellij From Source</a></h2>
+<p>&quot;Under Construction&quot;</p>
 <h1><a class="header" href="#configuration" id="configuration">Configuration</a></h1>
 <p>Zellij will look for a file <code>config.yaml</code> in the default configuration location of your os:</p>
 <p><strong>Linux</strong>: <code>/home/alice/.config/zellij</code></p>
-<p><strong>Mac</strong>: <code>/Users/Alice/Library/Application Support/com.Zellij-Contributors.zellij</code></p>
+<p><strong>Mac</strong>: <code>/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij</code></p>
 <p>To ignore the default config file location:</p>
 <pre><code>zellij config --clean
 </code></pre>
@@ -661,7 +689,15 @@ Tue Apr 20 10:21:02 2021: Entered Normal Mode
 <p>Complex types are sent over stdin as JSON objects. Before <code>update()</code> is called, Zellij writes an event to the plugin's stdin that can be read back in the <code>update()</code> function.</p>
 <p>Host functions, for communicating with Zellij, are best documented by the <code>extern</code> section of <a href="https://github.com/zellij-org/zellij/blob/main/zellij-tile/src/shim.rs"><code>zellij-tile::shim</code></a> and are found in a WASM module named <code>zellij</code>.</p>
 <p><strong>Help Add More Language Guides!</strong> If you'd like to contribute, either drop us a line on <a href="https://discord.gg/CrUAFH3">Discord</a> or open a PR improving <a href="https://github.com/zellij-org/zellij-org.github.io/tree/main/docs">these docs</a>!</p>
-<h1><a class="header" href="#compatibility--known-issues" id="compatibility--known-issues">Compatibility &amp; Known Issues</a></h1>
+<h1><a class="header" href="#compatibility" id="compatibility">Compatibility</a></h1>
+<p>##Operating System Compatibility:
+Currently tested on these systems, though most recent Linux kernels, and MacOS versions should run it with minimal issue. Please report issues on different Operating Systems <a href="https://github.com/zellij-org/zellij/issues">here.</a></p>
+<h3><a class="header" href="#linux" id="linux">Linux</a></h3>
+<p>Ubuntu 21.04</p>
+<h3><a class="header" href="#macos" id="macos">MacOS</a></h3>
+<p>10.15 Catalina</p>
+<hr />
+<p>#Known Issues</p>
 <h2><a class="header" href="#the-status-bar-fonts-dont-render-correctly" id="the-status-bar-fonts-dont-render-correctly">The status bar fonts don't render correctly:</a></h2>
 <p>This most likely is caused by a missing character in the font.</p>
 <p>Fonts from <a href="https://github.com/ryanoasis/nerd-fonts">nerdfonts</a> can fix this problem.</p>
