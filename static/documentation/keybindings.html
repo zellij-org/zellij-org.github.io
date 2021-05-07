@@ -189,10 +189,26 @@ Whereas:</p>
           key: [ Char: 'c', Char: 'd',]
 </code></pre>
 <p>Will create a new tab on pressing either the <code>c</code> or the <code>d</code> key.</p>
-<h2><a class="header" href="#to-override-the-default-keybindings" id="to-override-the-default-keybindings">To override the default Keybindings</a></h2>
+<h2><a class="header" href="#to-unbind-the-default-keybindings" id="to-unbind-the-default-keybindings">To unbind the default Keybindings</a></h2>
+<p>The default keybinds can be unbound either for a specific mode, or for every mode. It supports either a list of keybinds, or a bool indicating that every keybind should be unbound:</p>
 <pre><code>keybinds:
     unbind: true
 </code></pre>
+<p>Will unbind every default binding.</p>
+<pre><code>keybinds:
+    unbind: [ Ctrl: 'p']
+</code></pre>
+<p>Will unbind every default <code>^P</code> binding for each mode.</p>
+<pre><code>keybinds:
+    normal:
+        - unbind: true
+</code></pre>
+<p>Will unbind every default keybind for the normal mode.</p>
+<pre><code>keybinds:
+    normal:
+        - unbind: [ Alt: 'n', Ctrl: 'g']
+</code></pre>
+<p>Will unbind every default keybind for <code>n</code> and <code>^g</code> for the normal mode.</p>
 <h2><a class="header" href="#example" id="example">Example</a></h2>
 <p>This configuration can be used to configure Zellij's default keybindings: <a href="https://github.com/zellij-org/zellij/blob/main/example/default.yaml">default.yaml</a></p>
 

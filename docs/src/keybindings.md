@@ -33,12 +33,37 @@ keybinds:
 ```
 Will create a new tab on pressing either the `c` or the `d` key.
 
-## To override the default Keybindings
+## To unbind the default Keybindings
+
+The default keybinds can be unbound either for a specific mode, or for every mode. It supports either a list of keybinds, or a bool indicating that every keybind should be unbound:
 
 ```
 keybinds:
     unbind: true
 ```
+
+Will unbind every default binding.
+
+```
+keybinds:
+    unbind: [ Ctrl: 'p']
+```
+
+Will unbind every default `^P` binding for each mode.
+
+```
+keybinds:
+    normal:
+        - unbind: true
+```
+
+Will unbind every default keybind for the normal mode.
+```
+keybinds:
+    normal:
+        - unbind: [ Alt: 'n', Ctrl: 'g']
+```
+Will unbind every default keybind for `n` and `^g` for the normal mode.
 
 ## Example
 This configuration can be used to configure Zellij's default keybindings: [default.yaml](https://github.com/zellij-org/zellij/blob/main/example/default.yaml)
