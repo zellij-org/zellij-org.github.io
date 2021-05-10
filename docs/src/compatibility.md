@@ -1,7 +1,7 @@
 # Compatibility
 
 
-##Operating System Compatibility:
+## Operating System Compatibility:
 Currently tested on these systems, though most recent Linux kernels, and MacOS versions should run it with minimal issue. Please report issues on different Operating Systems [here.](https://github.com/zellij-org/zellij/issues)
 
 ### Linux
@@ -12,7 +12,7 @@ Ubuntu 21.04
 
 ---------------------------
 
-#Known Issues
+# Known Issues
 
 ## The status bar fonts don't render correctly:
 
