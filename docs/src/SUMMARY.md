@@ -3,6 +3,7 @@
 - [Introduction](./introduction.md)
     - [Installation](./installation.md)
 - [Configuration](./configuration.md)
+  - [Options](./options.md)
   - [Configuring Keybindings](./keybindings.md)
     - [Modes](./keybindings-modes.md)
     - [Keys](./keybindings-keys.md)
