@@ -6,8 +6,8 @@ The default `config` directory order is as follows:
 
 - `--config-dir` flag
 - `ZELLIJ_CONFIG_DIR` env variable
-- default location
 - `$HOME/.config/zellij`
+- default location
 - system location (`/etc/zellij`)
 
 The default configuration location of your os:
