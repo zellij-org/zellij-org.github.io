@@ -33,5 +33,5 @@ zellij option --clean
 
 To show the current default configuration:
 ```
-zellij setup --dump-default-config
+zellij setup --dump-config
 ```
