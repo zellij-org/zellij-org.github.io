@@ -170,12 +170,14 @@
 <li><code>--config-dir</code> flag</li>
 <li><code>ZELLIJ_CONFIG_DIR</code> env variable</li>
 <li><code>$HOME/.config/zellij</code></li>
-<li>default location</li>
+<li>default location
+<ul>
+<li>Linux: <code>/home/alice/.config/zellij</code></li>
+<li>Mac: <code>/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij</code></li>
+</ul>
+</li>
 <li>system location (<code>/etc/zellij</code>)</li>
 </ul>
-<p>The default <code>config</code> directory of your os:</p>
-<p><strong>Linux</strong>: <code>/home/alice/.config/zellij</code></p>
-<p><strong>Mac</strong>: <code>/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij</code></p>
 <p>In order to  pass a config file directly to zellij:</p>
 <pre><code>zellij --config [FILE]
 </code></pre>
