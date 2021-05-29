@@ -10,7 +10,7 @@ The default `config` directory order is as follows:
 - default location
 - system location (`/etc/zellij`)
 
-The default configuration location of your os:
+The default `config` directory of your os:
 
 **Linux**: `/home/alice/.config/zellij`
 
