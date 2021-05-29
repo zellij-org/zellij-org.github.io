@@ -5,6 +5,7 @@ You can make use of these options either by invoking zellij with
 
 Eg. `zellij options --simplified-ui` is equivalent to `simplified_ui: true` in the config file.
 
-|Option | Config   |      Default      | Description
+|Option         | Config            |      Default   | Description
 |---------------|-------------------|:--------------:|------------|
-| simplified-ui| simplified_ui  | false | Request the Plugins to use a more compatible ui.  |
+| default-mode  | default_mode      | normal         | The first mode on startup. |
+| simplified-ui | simplified_ui     | false          | Request the Plugins to use a more compatible ui.  |

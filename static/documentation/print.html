@@ -204,16 +204,25 @@ https://github.com/zellij-org/zellij/releases</p>
 <p>By default Zellij will look for <code>config.yaml</code> in the <code>config</code> directory.</p>
 <p>The default <code>config</code> directory order is as follows:</p>
 <ul>
-<li><code>--config-dir</code> flag</li>
-<li><code>ZELLIJ_CONFIG_DIR</code> env variable</li>
-<li><code>$HOME/.config/zellij</code></li>
-<li>default location
+<li>
+<p><code>--config-dir</code> flag</p>
+</li>
+<li>
+<p><code>ZELLIJ_CONFIG_DIR</code> env variable</p>
+</li>
+<li>
+<p><code>$HOME/.config/zellij</code></p>
+</li>
+<li>
+<p>default location</p>
 <ul>
 <li>Linux: <code>/home/alice/.config/zellij</code></li>
 <li>Mac: <code>/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij</code></li>
 </ul>
 </li>
-<li>system location (<code>/etc/zellij</code>)</li>
+<li>
+<p>system location (<code>/etc/zellij</code>)</p>
+</li>
 </ul>
 <p>In order to  pass a config file directly to zellij:</p>
 <pre><code>zellij --config [FILE]
@@ -230,6 +239,7 @@ https://github.com/zellij-org/zellij/releases</p>
 <code>zellij options [OPTION]</code> or binding them in the configuration file.</p>
 <p>Eg. <code>zellij options --simplified-ui</code> is equivalent to <code>simplified_ui: true</code> in the config file.</p>
 <table><thead><tr><th>Option</th><th>Config</th><th align="center">Default</th><th>Description</th></tr></thead><tbody>
+<tr><td>default-mode</td><td>default_mode</td><td align="center">normal</td><td>The first mode on startup.</td></tr>
 <tr><td>simplified-ui</td><td>simplified_ui</td><td align="center">false</td><td>Request the Plugins to use a more compatible ui.</td></tr>
 </tbody></table>
 <h1><a class="header" href="#configuring-keybindings" id="configuring-keybindings">Configuring Keybindings</a></h1>
