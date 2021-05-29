@@ -8,13 +8,10 @@ The default `config` directory order is as follows:
 - `ZELLIJ_CONFIG_DIR` env variable
 - `$HOME/.config/zellij`
 - default location
+    - Linux: `/home/alice/.config/zellij`
+    - Mac: `/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij`
+
 - system location (`/etc/zellij`)
-
-The default `config` directory of your os:
-
-**Linux**: `/home/alice/.config/zellij`
-
-**Mac**: `/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij`
 
 In order to  pass a config file directly to zellij:
 
