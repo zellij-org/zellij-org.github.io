@@ -15,3 +15,5 @@ This mode includes instructions that manipulate the different tabs. Eg. adding n
 This mode allows the resizing of the focused pane.
 ## scroll
 This mode allows scrolling up/down within the focused pane.
+## session
+This mode allows detaching from a session.

@@ -8,6 +8,7 @@
     - [Modes](./keybindings-modes.md)
     - [Keys](./keybindings-keys.md)
     - [Actions](./keybindings-actions.md)
+  - [Themes](./themes.md)
 - [Layouts](./layouts.md)
 - [Plugins](./plugins.md)
   - [Developing a Plugin](./plugin-writing.md)
