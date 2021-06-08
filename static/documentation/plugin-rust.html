@@ -265,7 +265,7 @@ impl ZellijPlugin for State {
 <p>It really is as simple as that! Anything printed to stdout by the <code>render()</code> method will be automatically drawn to the screen in the pane where the plugin is active.</p>
 <p>Let's build our plugin and test things out:</p>
 <pre><code class="language-sh">cargo build
-zellij -l plugin.yaml
+zellij --layout-path plugin.yaml
 </code></pre>
 <p><img src="img/rust-plugin-1.png" alt="Our Plugin" /></p>
 <h2><a class="header" href="#implementing-the-event-logger" id="implementing-the-event-logger">Implementing the Event Logger</a></h2>

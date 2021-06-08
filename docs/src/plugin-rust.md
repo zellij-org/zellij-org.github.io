@@ -146,7 +146,7 @@ It really is as simple as that! Anything printed to stdout by the `render()` met
 Let's build our plugin and test things out:
 ```sh
 cargo build
-zellij -l plugin.yaml
+zellij --layout-path plugin.yaml
 ```
 
 ![Our Plugin](img/rust-plugin-1.png)
