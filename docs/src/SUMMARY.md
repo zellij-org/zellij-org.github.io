@@ -2,6 +2,7 @@
 
 - [Introduction](./introduction.md)
     - [Installation](./installation.md)
+- [Commands](./commands.md)
 - [Configuration](./configuration.md)
   - [Options](./options.md)
   - [Configuring Keybindings](./keybindings.md)
