@@ -66,10 +66,10 @@ Close the current tab.
 ## `GoToTab: <index>`
 Go to the tab of the specified index.
 
-## `RunCommand: {command: <path>}`
+## `Run: {cmd: <path>}`
 Run the specified command in a new pane.
 A comma separated list of arguments, or the split
 direction is optional:
 
-`RunCommand: {command: <path>, args: [ARGS], direction: <direction>}`
+`Run: {cmd: <path>, args: [ARGS], direction: <direction>}`
 
