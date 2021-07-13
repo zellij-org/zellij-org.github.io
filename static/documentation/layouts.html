@@ -136,13 +136,15 @@
                         </a>
                         
                         
+                        
+
                     </div>
                 </div>
 
                 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -163,12 +165,12 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#layouts" id="layouts">Layouts</a></h1>
+                        <h1 id="layouts"><a class="header" href="#layouts">Layouts</a></h1>
 <p>Layouts are yaml configuration files which Zellij can load on startup. These files can describe a layout of terminal panes and plugins that Zellij will create when it loads.
 To load a layout with Zellij:</p>
-<pre><code>zellij --layout /path/to/your/layout_file.yaml
+<pre><code>zellij --layout-path /path/to/your/layout_file.yaml
 </code></pre>
-<h2><a class="header" href="#example" id="example">Example</a></h2>
+<h2 id="example"><a class="header" href="#example">Example</a></h2>
 <p>This file:</p>
 <pre><code class="language-yaml">---
 direction: Vertical
@@ -194,17 +196,17 @@ parts:
 │     │     │
 └─────┴─────┘
 </code></pre>
-<h2><a class="header" href="#creating-a-layout-file" id="creating-a-layout-file">Creating a layout file</a></h2>
+<h2 id="creating-a-layout-file"><a class="header" href="#creating-a-layout-file">Creating a layout file</a></h2>
 <p>A layout file is a nested tree structure. Each node describes either a pane, or a space in which its parts (children) will be created.</p>
 <p>Each node has the following fields:</p>
-<h3><a class="header" href="#direction-horizontal--vertical" id="direction-horizontal--vertical"><code>direction: Horizontal / Vertical</code></a></h3>
+<h3 id="direction-horizontal--vertical"><a class="header" href="#direction-horizontal--vertical"><code>direction: Horizontal / Vertical</code></a></h3>
 <p>If the node has children, they will be created as splits in this direction.</p>
-<h3><a class="header" href="#split_size-percent-1-100--fixed-linescolumns" id="split_size-percent-1-100--fixed-linescolumns"><code>split_size: Percent: &lt;1-100&gt; / Fixed: &lt;lines/columns&gt;</code></a></h3>
+<h3 id="split_size-percent-1-100--fixed-linescolumns"><a class="header" href="#split_size-percent-1-100--fixed-linescolumns"><code>split_size: Percent: &lt;1-100&gt; / Fixed: &lt;lines/columns&gt;</code></a></h3>
 <p>This indicates either a percentage of the node's parent's space or a fixed size of columns/rows from its parent's space.</p>
-<h3><a class="header" href="#plugin-pathtopluginwasm" id="plugin-pathtopluginwasm"><code>plugin: /path/to/plugin.wasm</code></a></h3>
+<h3 id="plugin-pathtopluginwasm"><a class="header" href="#plugin-pathtopluginwasm"><code>plugin: /path/to/plugin.wasm</code></a></h3>
 <p>This is an optional path to a compiled Zellij plugin. If indicated, instead of loading a terminal, this plugin will be loaded. For more information, please see the plugin documentation of this guide.</p>
-<h2><a class="header" href="#further-examples" id="further-examples">Further examples</a></h2>
-<p>Please see the default layouts that come with Zellij: <a href="https://github.com/zellij-org/zellij/tree/main/assets/layouts">layouts</a></p>
+<h2 id="further-examples"><a class="header" href="#further-examples">Further examples</a></h2>
+<p>Please see the default layouts that come with Zellij: <a href="https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts">layouts</a>, or the layouts that reside in the example directory: <a href="https://github.com/zellij-org/zellij/tree/main/example">examples</a>.</p>
 
                     </main>
 

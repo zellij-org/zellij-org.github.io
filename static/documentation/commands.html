@@ -136,13 +136,15 @@
                         </a>
                         
                         
+                        
+
                     </div>
                 </div>
 
                 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -163,19 +165,19 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#commands" id="commands">Commands</a></h1>
+                        <h1 id="commands"><a class="header" href="#commands">Commands</a></h1>
 <p>These commands can be invoked with <code>zellij [SUBCOMMAND]</code>.</p>
-<h2><a class="header" href="#attach-session-name" id="attach-session-name"><code>attach [session-name]</code></a></h2>
+<h2 id="attach-session-name"><a class="header" href="#attach-session-name"><code>attach [session-name]</code></a></h2>
 <p>Zellij will attempt to attach to an already running session, with the name
 <code>[session-name]</code>.</p>
-<h2><a class="header" href="#list-sessions" id="list-sessions"><code>list-sessions</code></a></h2>
+<h2 id="list-sessions"><a class="header" href="#list-sessions"><code>list-sessions</code></a></h2>
 <p>short: <code>ls</code></p>
 <p>Will list all the names of currently running sessions.</p>
-<h2><a class="header" href="#options" id="options"><code>options</code></a></h2>
+<h2 id="options"><a class="header" href="#options"><code>options</code></a></h2>
 <p>Can be used to change the behaviour of zellij on startup.
 Will supercede options defined in the config file.
 To see a list of options look <a href="./options.html">here</a>.</p>
-<h2><a class="header" href="#setup" id="setup"><code>setup</code></a></h2>
+<h2 id="setup"><a class="header" href="#setup"><code>setup</code></a></h2>
 <p>Functionality to help with the setup of zellij.</p>
 <table><thead><tr><th align="left">Flag</th><th>Description</th></tr></thead><tbody>
 <tr><td align="left">--check</td><td>Checks the configuration</td></tr>

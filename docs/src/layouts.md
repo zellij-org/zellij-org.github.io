@@ -3,7 +3,7 @@ Layouts are yaml configuration files which Zellij can load on startup. These fil
 To load a layout with Zellij:
 
 ```
-zellij --layout /path/to/your/layout_file.yaml
+zellij --layout-path /path/to/your/layout_file.yaml
 ```
 
 ## Example
@@ -51,5 +51,5 @@ This indicates either a percentage of the node's parent's space or a fixed size 
 This is an optional path to a compiled Zellij plugin. If indicated, instead of loading a terminal, this plugin will be loaded. For more information, please see the plugin documentation of this guide.
 
 ## Further examples
-Please see the default layouts that come with Zellij: [layouts](https://github.com/zellij-org/zellij/tree/main/assets/layouts)
+Please see the default layouts that come with Zellij: [layouts](https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts), or the layouts that reside in the example directory: [examples](https://github.com/zellij-org/zellij/tree/main/example).
 

@@ -136,13 +136,15 @@
                         </a>
                         
                         
+                        
+
                     </div>
                 </div>
 
                 
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -163,7 +165,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#plugins" id="plugins">Plugins</a></h1>
+                        <h1 id="plugins"><a class="header" href="#plugins">Plugins</a></h1>
 <p>One feature that makes Zellij unique is its <a href="https://webassembly.org/">WebAssembly</a> plugin system. This allows plugin developers to write their plugin in any language that can run on <a href="https://wasi.dev/">WASI</a>! Rust offers first-class <a href="https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-tutorial.md#from-rust">support for WASI</a>, but other languages like <a href="https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-tutorial.md#from-c">C/C++</a>, <a href="https://wasmbyexample.dev/examples/wasi-hello-world/wasi-hello-world.assemblyscript.en-us.html">AssemblyScript</a>, even <a href="https://wapm.io/package/rustpython">Python</a> should be supported.</p>
 <p><strong>Disclaimer: The API for plugins is very much a work in progress. Don't be shy to request new features on our <a href="https://github.com/zellij-org/zellij/issues/280">tracking issue</a>!</strong></p>
 
