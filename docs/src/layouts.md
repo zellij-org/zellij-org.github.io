@@ -39,6 +39,22 @@ Will instruct Zellij to create this layout:
 ## Creating a layout file
 A layout file is a nested tree structure. Each node describes either a pane, or a space in which its parts (children) will be created.
 
+### `parts: <layout>`
+
+Layouts are composed through the optional `parts` section, if a layout has a non empty parts section
+it is a node that is split up into these respective parts.
+
+Example:
+```
+parts:
+  - direction: Vertical
+    split_size:
+      Percent: 50
+  - direction: Vertical
+    split_size:
+      Percent: 50
+```
+
 Each node has the following fields:
 
 ### `direction: Horizontal / Vertical`
@@ -47,9 +63,38 @@ If the node has children, they will be created as splits in this direction.
 ### `split_size: Percent: <1-100> / Fixed: <lines/columns>`
 This indicates either a percentage of the node's parent's space or a fixed size of columns/rows from its parent's space.
 
-### `plugin: /path/to/plugin.wasm`
-This is an optional path to a compiled Zellij plugin. If indicated, instead of loading a terminal, this plugin will be loaded. For more information, please see the plugin documentation of this guide.
+### `run: plugin: <plugin> / command: <command>`
+This is an optional instruction to either run a command, or a plugin.
+If indicated, instead of loading the default shell in a terminal pane,
+the run action will be executed.
+
+* `plugin: </path/to/plugin.wasm>`
+
+This is an optional path to a compiled Zellij plugin. 
+If indicated, instead of loading a terminal, this plugin will be loaded.
+For more information, please see the plugin documentation of this guide.
+In case the plugin resides in the `plugin` directory, specifying the name of the plugin is sufficient.
+
+Example:
+```
+run:
+  plugin: status-bar
+```
+For more information, please see the plugin documentation of this guide.
+
+* `command: {cmd: <path/to/command> , args: <optional-arguments> }`
+
+This is an optional path to a command. If indicated, instead of loading
+a pane with the default shell, this command will be executed.
+Optionally it's arguments can be passed as a vector of strings.
+
+Example:
+```
+run:
+  command: {cmd: htop, args: ["-C"]}
+```
+
 
 ## Further examples
-Please see the default layouts that come with Zellij: [layouts](https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts), or the layouts that reside in the example directory: [examples](https://github.com/zellij-org/zellij/tree/main/example).
+Please take a look at the [default](https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts) layouts that come with Zellij, or the layouts that reside in the [example](https://github.com/zellij-org/zellij/tree/main/example) directory for more complete layouts.
 

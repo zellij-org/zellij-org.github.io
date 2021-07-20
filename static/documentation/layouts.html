@@ -198,15 +198,51 @@ parts:
 </code></pre>
 <h2 id="creating-a-layout-file"><a class="header" href="#creating-a-layout-file">Creating a layout file</a></h2>
 <p>A layout file is a nested tree structure. Each node describes either a pane, or a space in which its parts (children) will be created.</p>
+<h3 id="parts-layout"><a class="header" href="#parts-layout"><code>parts: &lt;layout&gt;</code></a></h3>
+<p>Layouts are composed through the optional <code>parts</code> section, if a layout has a non empty parts section
+it is a node that is split up into these respective parts.</p>
+<p>Example:</p>
+<pre><code>parts:
+  - direction: Vertical
+    split_size:
+      Percent: 50
+  - direction: Vertical
+    split_size:
+      Percent: 50
+</code></pre>
 <p>Each node has the following fields:</p>
 <h3 id="direction-horizontal--vertical"><a class="header" href="#direction-horizontal--vertical"><code>direction: Horizontal / Vertical</code></a></h3>
 <p>If the node has children, they will be created as splits in this direction.</p>
 <h3 id="split_size-percent-1-100--fixed-linescolumns"><a class="header" href="#split_size-percent-1-100--fixed-linescolumns"><code>split_size: Percent: &lt;1-100&gt; / Fixed: &lt;lines/columns&gt;</code></a></h3>
 <p>This indicates either a percentage of the node's parent's space or a fixed size of columns/rows from its parent's space.</p>
-<h3 id="plugin-pathtopluginwasm"><a class="header" href="#plugin-pathtopluginwasm"><code>plugin: /path/to/plugin.wasm</code></a></h3>
-<p>This is an optional path to a compiled Zellij plugin. If indicated, instead of loading a terminal, this plugin will be loaded. For more information, please see the plugin documentation of this guide.</p>
+<h3 id="run-plugin-plugin--command-command"><a class="header" href="#run-plugin-plugin--command-command"><code>run: plugin: &lt;plugin&gt; / command: &lt;command&gt;</code></a></h3>
+<p>This is an optional instruction to either run a command, or a plugin.
+If indicated, instead of loading the default shell in a terminal pane,
+the run action will be executed.</p>
+<ul>
+<li><code>plugin: &lt;/path/to/plugin.wasm&gt;</code></li>
+</ul>
+<p>This is an optional path to a compiled Zellij plugin. 
+If indicated, instead of loading a terminal, this plugin will be loaded.
+For more information, please see the plugin documentation of this guide.
+In case the plugin resides in the <code>plugin</code> directory, specifying the name of the plugin is sufficient.</p>
+<p>Example:</p>
+<pre><code>run:
+  plugin: status-bar
+</code></pre>
+<p>For more information, please see the plugin documentation of this guide.</p>
+<ul>
+<li><code>command: {cmd: &lt;path/to/command&gt; , args: &lt;optional-arguments&gt; }</code></li>
+</ul>
+<p>This is an optional path to a command. If indicated, instead of loading
+a pane with the default shell, this command will be executed.
+Optionally it's arguments can be passed as a vector of strings.</p>
+<p>Example:</p>
+<pre><code>run:
+  command: {cmd: htop, args: [&quot;-C&quot;]}
+</code></pre>
 <h2 id="further-examples"><a class="header" href="#further-examples">Further examples</a></h2>
-<p>Please see the default layouts that come with Zellij: <a href="https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts">layouts</a>, or the layouts that reside in the example directory: <a href="https://github.com/zellij-org/zellij/tree/main/example">examples</a>.</p>
+<p>Please take a look at the <a href="https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts">default</a> layouts that come with Zellij, or the layouts that reside in the <a href="https://github.com/zellij-org/zellij/tree/main/example">example</a> directory for more complete layouts.</p>
 
                     </main>
 
