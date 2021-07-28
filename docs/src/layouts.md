@@ -6,6 +6,15 @@ To load a layout with Zellij:
 zellij --layout-path /path/to/your/layout_file.yaml
 ```
 
+By default Zellij will load the `default.yaml` layout, that is found in the
+`layout` directory (by default a subdirectory of the `config`
+directory [config/layouts]). Falling back to an internal default layout,
+if not found.
+Layouts residing in the default directory can be accessed as follows:
+```
+zellij --layout [layout_name]
+```
+
 ## Example
 This file:
 ```yaml
