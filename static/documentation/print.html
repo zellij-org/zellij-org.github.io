@@ -455,6 +455,13 @@ To specify a different theme, run zellij with:</p>
 To load a layout with Zellij:</p>
 <pre><code>zellij --layout-path /path/to/your/layout_file.yaml
 </code></pre>
+<p>By default Zellij will load the <code>default.yaml</code> layout, that is found in the
+<code>layout</code> directory (by default a subdirectory of the <code>config</code>
+directory [config/layouts]). Falling back to an internal default layout,
+if not found.
+Layouts residing in the default directory can be accessed as follows:</p>
+<pre><code>zellij --layout [layout_name]
+</code></pre>
 <h2 id="example-1"><a class="header" href="#example-1">Example</a></h2>
 <p>This file:</p>
 <pre><code class="language-yaml">---
