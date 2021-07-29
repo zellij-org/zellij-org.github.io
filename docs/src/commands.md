@@ -27,4 +27,5 @@ Functionality to help with the setup of zellij.
 | --check                             |  Checks the configuration |
 | --clean                             |  Start with default configuration|
 | --dump-config                       |  Dump the default configuration file to stdout|
+| --dump-layout [LAYOUT]      |  Dump a specified default layout file to stdout |
 | --generate-completions [SHELL]      |  Generate completions for the specified shell|
