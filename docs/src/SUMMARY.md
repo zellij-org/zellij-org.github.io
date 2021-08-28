@@ -9,6 +9,7 @@
     - [Modes](./keybindings-modes.md)
     - [Keys](./keybindings-keys.md)
     - [Actions](./keybindings-actions.md)
+    - [Examples](./keybindings-examples.md)
   - [Themes](./themes.md)
 - [Layouts](./layouts.md)
 - [Plugins](./plugins.md)
