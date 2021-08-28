@@ -12,7 +12,7 @@ a layer of shortcuts, or more special modes to switch to.
 
 Eg:
 - Open a pane: ^b - n
-- Open a pane to the right: ^b - p - n
+- Open a pane to the right: ^b - p - r
 - Open a tab: ^b - N
 - Open multiple tabs: ^b - t - N - n
 - Switch to a specific pane or tab: ^b - h/j/k/l
