@@ -40,6 +40,9 @@ Scroll down 1 line inside the focused pane.
 ## `ToggleFocusFullscreen`
 Toggle between fullscreen focus pane and normal layout.
 
+## `TogglePaneFrames`
+Toggle between pane frames and normal layout.
+
 ## `NewPane: <Direction>`
 Open a new pane in the specified direction (relative to focus).
 If no direction is specified, will try to use the biggest available space.
