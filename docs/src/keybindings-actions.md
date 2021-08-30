@@ -54,8 +54,22 @@ eg. `NewPane: Left` or `NewPane: `
 ## `CloseFocus`
 Close the focused pane.
 
-## `NewTab`
-Create a new tab.
+## `NewTab: <TabLayout>`
+Create a new tab. Optionally with the provided tab-layout.
+
+Example:
+```
+NewTab:
+```
+or
+```
+NewTab: {
+  direction: Vertical,
+  parts: [
+  direction: Vertical,
+  direction: Horizontal,
+  ],}
+```
 
 ## `GoToNextTab`
 Go to the next tab.

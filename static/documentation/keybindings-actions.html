@@ -203,8 +203,19 @@ Specifying no direction should be done by introducing a space character (this is
 <p>eg. <code>NewPane: Left</code> or <code>NewPane: </code></p>
 <h2 id="closefocus"><a class="header" href="#closefocus"><code>CloseFocus</code></a></h2>
 <p>Close the focused pane.</p>
-<h2 id="newtab"><a class="header" href="#newtab"><code>NewTab</code></a></h2>
-<p>Create a new tab.</p>
+<h2 id="newtab-tablayout"><a class="header" href="#newtab-tablayout"><code>NewTab: &lt;TabLayout&gt;</code></a></h2>
+<p>Create a new tab. Optionally with the provided tab-layout.</p>
+<p>Example:</p>
+<pre><code>NewTab:
+</code></pre>
+<p>or</p>
+<pre><code>NewTab: {
+  direction: Vertical,
+  parts: [
+  direction: Vertical,
+  direction: Horizontal,
+  ],}
+</code></pre>
 <h2 id="gotonexttab"><a class="header" href="#gotonexttab"><code>GoToNextTab</code></a></h2>
 <p>Go to the next tab.</p>
 <h2 id="gotoprevioustab"><a class="header" href="#gotoprevioustab"><code>GoToPreviousTab</code></a></h2>
