@@ -4,7 +4,7 @@ Here are example configurations to possibly inspire you.
 
 ## Prefix Example
 
-This certain example works as if it had a prefix key. 
+This certain example works as if it had a prefix key.
 
 Zellij starts in locked mode and only the prefix key
 switches to normal mode, from then on it is possible to have
@@ -26,7 +26,6 @@ Eg:
 
 Here is one possible example of that:
 ```
----
 default_mode: locked
 keybinds:
     unbind: true
@@ -149,22 +148,30 @@ keybinds:
           key: [ Alt: 'k', Up,]
         - action: [SwitchFocus,]
           key: [Char: 'p']
-        - action: [NewPane: ,]
+        - action: [NewPane: , SwitchToMode: Locked,]
           key: [Char: 'n', Alt: 'n',]
+        - action: [NewPane: ,]
+          key: [Char: 'N', ]
         - action: [NewPane: Down, SwitchToMode: Locked,]
           key: [Char: 'd',]
         - action: [NewPane: Right, SwitchToMode: Locked,]
           key: [Char: 'r',]
-        - action: [NewPane: ,]
-          key: [Char: 'N', ]
+        - action: [TogglePaneFrames, SwitchToMode: Locked,]
+          key: [Char: 'z',]
+        - action: [TogglePaneFrames,]
+          key: [Char: 'Z',]
         - action: [NewPane: Down,]
           key: [Char: 'D',]
         - action: [NewPane: Right,]
           key: [Char: 'R',]
-        - action: [CloseFocus,]
+        - action: [CloseFocus, SwitchToMode: Locked,]
           key: [Char: 'x',]
-        - action: [ToggleFocusFullscreen,]
+        - action: [CloseFocus,]
+          key: [Char: 'X',]
+        - action: [ToggleFocusFullscreen, SwitchToMode: Locked,]
           key: [Char: 'f',]
+        - action: [ToggleFocusFullscreen,]
+          key: [Char: 'F',]
         - action: [FocusPreviousPane,]
           key: [ Alt: '[',]
         - action: [FocusNextPane,]

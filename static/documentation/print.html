@@ -418,7 +418,7 @@ direction is optional:</p>
 <p>Zellij's keybindings can be configured to behave in multiple ways. 
 Here are example configurations to possibly inspire you.</p>
 <h2 id="prefix-example"><a class="header" href="#prefix-example">Prefix Example</a></h2>
-<p>This certain example works as if it had a prefix key. </p>
+<p>This certain example works as if it had a prefix key.</p>
 <p>Zellij starts in locked mode and only the prefix key
 switches to normal mode, from then on it is possible to have
 a layer of shortcuts, or more special modes to switch to.</p>
@@ -437,8 +437,7 @@ a layer of shortcuts, or more special modes to switch to.</p>
 <li>Quit zellij: ^b - ^q</li>
 </ul>
 <p>Here is one possible example of that:</p>
-<pre><code>---
-default_mode: locked
+<pre><code>default_mode: locked
 keybinds:
     unbind: true
     # the prefix key ^b
@@ -560,22 +559,30 @@ keybinds:
           key: [ Alt: 'k', Up,]
         - action: [SwitchFocus,]
           key: [Char: 'p']
-        - action: [NewPane: ,]
+        - action: [NewPane: , SwitchToMode: Locked,]
           key: [Char: 'n', Alt: 'n',]
+        - action: [NewPane: ,]
+          key: [Char: 'N', ]
         - action: [NewPane: Down, SwitchToMode: Locked,]
           key: [Char: 'd',]
         - action: [NewPane: Right, SwitchToMode: Locked,]
           key: [Char: 'r',]
-        - action: [NewPane: ,]
-          key: [Char: 'N', ]
+        - action: [TogglePaneFrames, SwitchToMode: Locked,]
+          key: [Char: 'z',]
+        - action: [TogglePaneFrames,]
+          key: [Char: 'Z',]
         - action: [NewPane: Down,]
           key: [Char: 'D',]
         - action: [NewPane: Right,]
           key: [Char: 'R',]
-        - action: [CloseFocus,]
+        - action: [CloseFocus, SwitchToMode: Locked,]
           key: [Char: 'x',]
-        - action: [ToggleFocusFullscreen,]
+        - action: [CloseFocus,]
+          key: [Char: 'X',]
+        - action: [ToggleFocusFullscreen, SwitchToMode: Locked,]
           key: [Char: 'f',]
+        - action: [ToggleFocusFullscreen,]
+          key: [Char: 'F',]
         - action: [FocusPreviousPane,]
           key: [ Alt: '[',]
         - action: [FocusNextPane,]
