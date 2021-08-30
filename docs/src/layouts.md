@@ -22,18 +22,10 @@ This file:
 direction: Vertical
 parts:
   - direction: Horizontal
-    split_size:
-      Percent: 50
     parts:
       - direction: Vertical
-        split_size:
-          Percent: 50
       - direction: Vertical
-        split_size:
-          Percent: 50
   - direction: Horizontal
-    split_size:
-      Percent: 50
 ```
 
 Will instruct Zellij to create this layout:
@@ -57,11 +49,7 @@ Example:
 ```
 parts:
   - direction: Vertical
-    split_size:
-      Percent: 50
   - direction: Vertical
-    split_size:
-      Percent: 50
 ```
 
 Each node has the following fields:
@@ -70,7 +58,18 @@ Each node has the following fields:
 If the node has children, they will be created as splits in this direction.
 
 ### `split_size: Percent: <1-100> / Fixed: <lines/columns>`
-This indicates either a percentage of the node's parent's space or a fixed size of columns/rows from its parent's space.
+This indicates either a percentage of the node's parent's space or a fixed size of columns/rows from its parent's space. By default the splits are proportional.
+
+Example:
+```
+parts:
+  - direction: Vertical
+    split_size:
+      Percent: 50
+  - direction: Vertical
+    split_size:
+      Percent: 50
+```
 
 ### `run: plugin: <plugin> / command: <command>`
 This is an optional instruction to either run a command, or a plugin.

@@ -773,18 +773,10 @@ Layouts residing in the default directory can be accessed as follows:</p>
 direction: Vertical
 parts:
   - direction: Horizontal
-    split_size:
-      Percent: 50
     parts:
       - direction: Vertical
-        split_size:
-          Percent: 50
       - direction: Vertical
-        split_size:
-          Percent: 50
   - direction: Horizontal
-    split_size:
-      Percent: 50
 </code></pre>
 <p>Will instruct Zellij to create this layout:</p>
 <pre><code>┌─────┬─────┐
@@ -801,17 +793,22 @@ it is a node that is split up into these respective parts.</p>
 <p>Example:</p>
 <pre><code>parts:
   - direction: Vertical
+  - direction: Vertical
+</code></pre>
+<p>Each node has the following fields:</p>
+<h3 id="direction-horizontal--vertical"><a class="header" href="#direction-horizontal--vertical"><code>direction: Horizontal / Vertical</code></a></h3>
+<p>If the node has children, they will be created as splits in this direction.</p>
+<h3 id="split_size-percent-1-100--fixed-linescolumns"><a class="header" href="#split_size-percent-1-100--fixed-linescolumns"><code>split_size: Percent: &lt;1-100&gt; / Fixed: &lt;lines/columns&gt;</code></a></h3>
+<p>This indicates either a percentage of the node's parent's space or a fixed size of columns/rows from its parent's space. By default the splits are proportional.</p>
+<p>Example:</p>
+<pre><code>parts:
+  - direction: Vertical
     split_size:
       Percent: 50
   - direction: Vertical
     split_size:
       Percent: 50
 </code></pre>
-<p>Each node has the following fields:</p>
-<h3 id="direction-horizontal--vertical"><a class="header" href="#direction-horizontal--vertical"><code>direction: Horizontal / Vertical</code></a></h3>
-<p>If the node has children, they will be created as splits in this direction.</p>
-<h3 id="split_size-percent-1-100--fixed-linescolumns"><a class="header" href="#split_size-percent-1-100--fixed-linescolumns"><code>split_size: Percent: &lt;1-100&gt; / Fixed: &lt;lines/columns&gt;</code></a></h3>
-<p>This indicates either a percentage of the node's parent's space or a fixed size of columns/rows from its parent's space.</p>
 <h3 id="run-plugin-plugin--command-command"><a class="header" href="#run-plugin-plugin--command-command"><code>run: plugin: &lt;plugin&gt; / command: &lt;command&gt;</code></a></h3>
 <p>This is an optional instruction to either run a command, or a plugin.
 If indicated, instead of loading the default shell in a terminal pane,
