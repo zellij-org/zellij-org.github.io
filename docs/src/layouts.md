@@ -1,5 +1,6 @@
 # Layouts
-Layouts are yaml configuration files which Zellij can load on startup. These files can describe a layout of terminal panes and plugins that Zellij will create when it loads.
+Layouts are yaml configuration files which Zellij can load on startup.
+These files can describe a layout of terminal panes and plugins that Zellij will create when it loads.
 To load a layout with Zellij:
 
 ```
@@ -19,13 +20,14 @@ zellij --layout [layout_name]
 This file:
 ```yaml
 ---
-direction: Vertical
-parts:
-  - direction: Horizontal
+tabs:
+  - direction: Vertical
     parts:
-      - direction: Vertical
-      - direction: Vertical
-  - direction: Horizontal
+      - direction: Horizontal
+        parts:
+          - direction: Vertical
+          - direction: Vertical
+      - direction: Horizontal
 ```
 
 Will instruct Zellij to create this layout:
@@ -38,7 +40,16 @@ Will instruct Zellij to create this layout:
 ```
 
 ## Creating a layout file
-A layout file is a nested tree structure. Each node describes either a pane, or a space in which its parts (children) will be created.
+A layout file is a nested tree structure.
+Each node describes either a pane, or a space in which its parts (children) will be created.
+The layout file is divided in to two sections: `templates` and `tabs`.
+
+The templates describe the structure of the layout and what part of the ui
+should be tab agnostic.
+The tabs describe which part of the layout should be tab specific.
+For this mechanism the templates make use of an extra attribute called `body`,
+if it is specified each single tab will be inserted in to the template and then
+started by zellij.
 
 ### `parts: <layout>`
 

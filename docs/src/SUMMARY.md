@@ -12,6 +12,7 @@
     - [Examples](./keybindings-examples.md)
   - [Themes](./themes.md)
 - [Layouts](./layouts.md)
+    - [Templates](./layouts-templates.md)
 - [Plugins](./plugins.md)
   - [Developing a Plugin](./plugin-writing.md)
     - [Rust](./plugin-rust.md)
