@@ -57,7 +57,7 @@ disableHugoGeneratorInject = false
   # 
   description = "A terminal workspace with batteries included"
   keywords = "rust,terminal,multiplexer"
-  images = ["static/img/beta-post-preview.png"]
+  images = ["/img/zellij-preview.png"]
 
   # Home subtitle of the index page.
   #
@@ -164,11 +164,6 @@ disableHugoGeneratorInject = false
 #     name = "stackoverflow"
 #     url  = "https://www.stackoverflow.com/"
 
-[languages]
-  [languages.en]
-    weight    = 1
-    copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
-
 [menu]
   [[menu.main]]
     weight = 1
@@ -195,5 +190,3 @@ disableHugoGeneratorInject = false
     identifier = "repository"
     name       = "Repository"
     url        = "https://github.com/zellij-org/zellij"
-
-
