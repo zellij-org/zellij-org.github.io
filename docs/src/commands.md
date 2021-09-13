@@ -7,6 +7,8 @@ These commands can be invoked with `zellij [SUBCOMMAND]`.
 Zellij will attempt to attach to an already running session, with the name
 `[session-name]`.
 
+The attach subcommand also will accept the optional `options` subcommand.
+
 ## `list-sessions`
 short: `ls`
 
