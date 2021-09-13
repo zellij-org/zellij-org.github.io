@@ -858,6 +858,15 @@ Optionally it's arguments can be passed as a vector of strings.</p>
 <pre><code>run:
   command: {cmd: htop, args: [&quot;-C&quot;]}
 </code></pre>
+<h3 id="name-name-of-the-tab"><a class="header" href="#name-name-of-the-tab"><code>name: &lt;name-of-the-tab&gt;</code></a></h3>
+<p>This is an optional command that can be used to name the <code>tab</code> in the tab layout
+section. </p>
+<p>Example:</p>
+<pre><code>tabs:
+  - direction: Vertical
+    name: &quot;&lt;name-of-the-tab&gt;&quot;
+</code></pre>
+<p>This is currently limited to the tabs section.</p>
 <h2 id="further-examples"><a class="header" href="#further-examples">Further examples</a></h2>
 <p>Please take a look at the <a href="https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts">default</a> layouts that come with Zellij, or the layouts that reside in the <a href="https://github.com/zellij-org/zellij/tree/main/example">example</a> directory for more complete layouts.</p>
 <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h2 id="layout-templates"><a class="header" href="#layout-templates">Layout Templates</a></h2>
