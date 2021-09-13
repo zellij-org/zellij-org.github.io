@@ -113,6 +113,19 @@ run:
   command: {cmd: htop, args: ["-C"]}
 ```
 
+### `name: <name-of-the-tab>`
+This is an optional command that can be used to name the `tab` in the tab layout
+section. 
+
+Example:
+```
+tabs:
+  - direction: Vertical
+    name: "<name-of-the-tab>"
+```
+
+This is currently limited to the tabs section.
+
 
 ## Further examples
 Please take a look at the [default](https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts) layouts that come with Zellij, or the layouts that reside in the [example](https://github.com/zellij-org/zellij/tree/main/example) directory for more complete layouts.
