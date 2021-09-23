@@ -2,6 +2,12 @@
 
 By default Zellij will look for `config.yaml` in the `config` directory.
 
+Quickstart:
+```
+mkdir ~/.config/zellij
+zellij setup --dump-config > ~/.config/zellij/config.yaml
+```
+
 The default `config` directory order is as follows:
 
 - `--config-dir` flag
