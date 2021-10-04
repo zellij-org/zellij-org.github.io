@@ -166,31 +166,40 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
-<p>Installation options for Zellij are currently limited as the app is undergoing very heavy development.</p>
 <p>Currently Binaries are produced for both Linux and MacOS.</p>
 <p>However it is available in some public repositories.</p>
 <hr />
 <h2 id="rust---cargo"><a class="header" href="#rust---cargo">Rust - Cargo</a></h2>
 <p>For instructions on how to install Cargo see <a href="https://doc.rust-lang.org/cargo/getting-started/installation.html">here:</a></p>
 <p>Once installed run:</p>
-<p><code>cargo install zellij</code></p>
+<pre><code>cargo install zellij
+</code></pre>
+<p>If experiencing errors, if installed through rustup, please try running:</p>
+<pre><code>rustup update
+</code></pre>
 <hr />
 <h2 id="binary-download"><a class="header" href="#binary-download">Binary Download</a></h2>
 <p>Binaries are made available each release for the Linux and MacOS operating systems.</p>
-<p>It is possible to download the binaries for these here:
-https://github.com/zellij-org/zellij/releases</p>
+<p>It is possible to download the binaries for these on the <a href="https://github.com/zellij-org/zellij/releases">release</a> page.</p>
 <p>Once downloaded, untar the file:</p>
-<p><code>tar -xvf zellij*.tar.gz</code></p>
+<pre><code>tar -xvf zellij*.tar.gz
+</code></pre>
 <p>check for the execution bit:</p>
-<p><code>chmod +x zellij</code></p>
+<pre><code>chmod +x zellij
+</code></pre>
 <p>and then execute Zellij:</p>
-<p><code>./zellij</code></p>
+<pre><code>./zellij
+</code></pre>
 <p>Include the directory Zellij is in, in your <a href="https://www.baeldung.com/linux/path-variable">PATH Variable</a> if you wish to be able to execute it anywhere.</p>
 <p>'Or'</p>
-<p>move Zellij to a directory already in your PATH Variable.</p>
+<p>move Zellij to a directory already included in your [$PATH] Variable.</p>
 <hr />
 <h2 id="compiling-zellij-from-source"><a class="header" href="#compiling-zellij-from-source">Compiling Zellij From Source</a></h2>
-<p>&quot;Under Construction&quot;</p>
+<p>Instructions on how to compile Zellij from source can be found <a href="https://github.com/zellij-org/zellij/blob/main/CONTRIBUTING.md">here</a>.</p>
+<h2 id="third-party-repositories"><a class="header" href="#third-party-repositories">Third party repositories</a></h2>
+<p>Zellij is packaged in some third part repositories.
+Please keep in mind that they are not directly affiliated with zellij maintainers:</p>
+<p><a href="https://repology.org/project/zellij/versions"><img src="https://repology.org/badge/vertical-allrepos/zellij.svg" alt="Packaging status" /></a></p>
 
                     </main>
 
