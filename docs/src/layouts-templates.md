@@ -58,7 +58,6 @@ template:
           location: "zellij:status-bar"
 tabs:
   - name: "tab 1" # tab 1
-    direction: Vertical
   - name: "tab 2" # tab 2
     direction: Vertical
     parts:
