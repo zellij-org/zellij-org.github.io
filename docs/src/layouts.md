@@ -120,8 +120,7 @@ section.
 Example:
 ```
 tabs:
-  - direction: Vertical
-    name: "<name-of-the-tab>"
+  - name: "<name-of-the-tab>"
 ```
 
 This is currently limited to the tabs section.
