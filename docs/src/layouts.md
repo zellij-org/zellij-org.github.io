@@ -97,9 +97,14 @@ In case the plugin resides in the `plugin` directory, specifying the name of the
 Example:
 ```
 run:
-  plugin: status-bar
+  plugin:
+    location: "zellij:status-bar"
+    _allow_exec_host_cmd: false # Optional and false by default
 ```
 For more information, please see the plugin documentation of this guide.
+The `_allow_exec_host_cmd` is preliminary and allows plugins to run commands
+on the host system, if the plugins need that functionality the user can opt in
+to it.
 
 * `command: {cmd: <path/to/command> , args: <optional-arguments> }`
 

@@ -860,9 +860,14 @@ For more information, please see the plugin documentation of this guide.
 In case the plugin resides in the <code>plugin</code> directory, specifying the name of the plugin is sufficient.</p>
 <p>Example:</p>
 <pre><code>run:
-  plugin: status-bar
+  plugin:
+    location: &quot;zellij:status-bar&quot;
+    _allow_exec_host_cmd: false # Optional and false by default
 </code></pre>
-<p>For more information, please see the plugin documentation of this guide.</p>
+<p>For more information, please see the plugin documentation of this guide.
+The <code>_allow_exec_host_cmd</code> is preliminary and allows plugins to run commands
+on the host system, if the plugins need that functionality the user can opt in
+to it.</p>
 <ul>
 <li><code>command: {cmd: &lt;path/to/command&gt; , args: &lt;optional-arguments&gt; }</code></li>
 </ul>
