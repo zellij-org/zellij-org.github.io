@@ -1,7 +1,5 @@
 # Installation
 
-Installation options for Zellij are currently limited as the app is undergoing very heavy development.
-
 Currently Binaries are produced for both Linux and MacOS.
 
 However it is available in some public repositories.
@@ -14,7 +12,14 @@ For instructions on how to install Cargo see [here:](https://doc.rust-lang.org/c
 
 Once installed run:
 
-`cargo install zellij`
+```
+cargo install zellij
+```
+
+If experiencing errors, if installed through rustup, please try running:
+```
+rustup update
+```
 
 -------------------------------
 
@@ -22,29 +27,40 @@ Once installed run:
 
 Binaries are made available each release for the Linux and MacOS operating systems.
 
-It is possible to download the binaries for these here:
-https://github.com/zellij-org/zellij/releases
+It is possible to download the binaries for these on the [release](https://github.com/zellij-org/zellij/releases) page.
 
 Once downloaded, untar the file:
-
-`tar -xvf zellij*.tar.gz`
+```
+tar -xvf zellij*.tar.gz
+```
 
 check for the execution bit:
 
-`chmod +x zellij`
+```
+chmod +x zellij
+```
 
 and then execute Zellij:
 
-`./zellij`
+```
+./zellij
+```
 
 Include the directory Zellij is in, in your [PATH Variable](https://www.baeldung.com/linux/path-variable) if you wish to be able to execute it anywhere.
 
 'Or'
 
-move Zellij to a directory already in your PATH Variable.
+move Zellij to a directory already included in your [$PATH] Variable.
 
 -------------------------------
 
 ## Compiling Zellij From Source
 
-"Under Construction"
+Instructions on how to compile Zellij from source can be found [here](https://github.com/zellij-org/zellij/blob/main/CONTRIBUTING.md).
+
+## Third party repositories
+
+Zellij is packaged in some third part repositories.
+Please keep in mind that they are not directly affiliated with zellij maintainers:
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/zellij.svg)](https://repology.org/project/zellij/versions)
