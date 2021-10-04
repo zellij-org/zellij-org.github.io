@@ -14,7 +14,8 @@ template:
       split_size:
         Fixed: 1
       run:
-        plugin: tab-bar
+        plugin:
+          location: "zellij:tab-bar"
     - direction: Vertical # part 2
       body: true
     - direction: Vertical # part 3
@@ -22,7 +23,8 @@ template:
       split_size:
         Fixed: 2
       run:
-        plugin: status-bar
+        plugin:
+          location: "zellij:status-bar"
 ```
 The default layout consists of three parts.
 The plugin tab-bar (part 1), a body (part 2) and the status-bar plugin (part 3).
@@ -30,7 +32,7 @@ The plugin tab-bar (part 1), a body (part 2) and the status-bar plugin (part 3).
 Since the `tabs` section is empty, a default pane will be inserted in to the
 body section
 
-![Default Layout](img/layout-template-example-1.png)
+![Default Layout](img/layout-template-example-pane-1.png)
 
 Let us now use the default layout and build upon it:
 ```
@@ -43,7 +45,8 @@ template:
       split_size:
         Fixed: 1
       run:
-        plugin: tab-bar
+        plugin:
+          location: "zellij:tab-bar"
     - direction: Vertical # part 2
       body: true
     - direction: Vertical # part 3
@@ -51,14 +54,18 @@ template:
       split_size:
         Fixed: 2
       run:
-        plugin: status-bar
+        plugin:
+          location: "zellij:status-bar"
 tabs:
-  - direction: Vertical # tab 1
-  - direction: Vertical # tab 2
+  - name: "tab 1" # tab 1
+    direction: Vertical
+  - name: "tab 2" # tab 2
+    direction: Vertical
     parts:
       - direction: Horizontal
       - direction: Horizontal
-  - direction: Vertical # tab 3
+  - name: "tab 3" # tab 3
+    direction: Vertical
     parts:
       - direction: Horizontal
       - direction: Horizontal
@@ -67,6 +74,15 @@ tabs:
           - direction: Vertical
 ```
 This layout will create the following tabs upon loading.
+
+Tab 1:
+![Tab #1 ](img/layout-template-example-pane-1-tab-1.png)
+Tab 2:
+![Tab #2 ](img/layout-template-example-pane-1-tab-2.png)
+Tab 3:
+![Tab #3 ](img/layout-template-example-pane-1-tab-3.png)
+
+This is how the tabs would look like with pane frames disabled.
 
 Tab 1:
 ![Tab #1 ](img/layout-template-example-1-tab-1.png)

@@ -898,7 +898,8 @@ template:
       split_size:
         Fixed: 1
       run:
-        plugin: tab-bar
+        plugin:
+          location: &quot;zellij:tab-bar&quot;
     - direction: Vertical # part 2
       body: true
     - direction: Vertical # part 3
@@ -906,13 +907,14 @@ template:
       split_size:
         Fixed: 2
       run:
-        plugin: status-bar
+        plugin:
+          location: &quot;zellij:status-bar&quot;
 </code></pre>
 <p>The default layout consists of three parts.
 The plugin tab-bar (part 1), a body (part 2) and the status-bar plugin (part 3).</p>
 <p>Since the <code>tabs</code> section is empty, a default pane will be inserted in to the
 body section</p>
-<p><img src="img/layout-template-example-1.png" alt="Default Layout" /></p>
+<p><img src="img/layout-template-example-pane-1.png" alt="Default Layout" /></p>
 <p>Let us now use the default layout and build upon it:</p>
 <pre><code>---
 template:
@@ -923,7 +925,8 @@ template:
       split_size:
         Fixed: 1
       run:
-        plugin: tab-bar
+        plugin:
+          location: &quot;zellij:tab-bar&quot;
     - direction: Vertical # part 2
       body: true
     - direction: Vertical # part 3
@@ -931,14 +934,18 @@ template:
       split_size:
         Fixed: 2
       run:
-        plugin: status-bar
+        plugin:
+          location: &quot;zellij:status-bar&quot;
 tabs:
-  - direction: Vertical # tab 1
-  - direction: Vertical # tab 2
+  - name: &quot;tab 1&quot; # tab 1
+    direction: Vertical
+  - name: &quot;tab 2&quot; # tab 2
+    direction: Vertical
     parts:
       - direction: Horizontal
       - direction: Horizontal
-  - direction: Vertical # tab 3
+  - name: &quot;tab 3&quot; # tab 3
+    direction: Vertical
     parts:
       - direction: Horizontal
       - direction: Horizontal
@@ -947,6 +954,13 @@ tabs:
           - direction: Vertical
 </code></pre>
 <p>This layout will create the following tabs upon loading.</p>
+<p>Tab 1:
+<img src="img/layout-template-example-pane-1-tab-1.png" alt="Tab #1 " />
+Tab 2:
+<img src="img/layout-template-example-pane-1-tab-2.png" alt="Tab #2 " />
+Tab 3:
+<img src="img/layout-template-example-pane-1-tab-3.png" alt="Tab #3 " /></p>
+<p>This is how the tabs would look like with pane frames disabled.</p>
 <p>Tab 1:
 <img src="img/layout-template-example-1-tab-1.png" alt="Tab #1 " />
 Tab 2:
