@@ -35,7 +35,7 @@ The status-bar should have guided us through:
 ![Status tab 2](img/overview-status-tab-2.png)
 And this is our current state:
 ![Default state 1](img/overview-default-1.png)
-Zellij doesn't a terminal to keep commands running, because it uses a client
+Zellij doesn't need a terminal to keep commands running, because it uses a client
 and server system. Let us disconnect and reconnect to the same session now:
 
 1. <kbd>Ctrl</kbd> + <kbd>o</kbd>
