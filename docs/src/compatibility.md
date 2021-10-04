@@ -1,14 +1,8 @@
 # Compatibility
 
 
-## Operating System Compatibility:
-Currently tested on these systems, though most recent Linux kernels, and MacOS versions should run it with minimal issue. Please report issues on different Operating Systems [here.](https://github.com/zellij-org/zellij/issues)
-
-### Linux
-Ubuntu 21.04
-
-### MacOS
-10.15 Catalina
+## Issues
+Please report issues [here.](https://github.com/zellij-org/zellij/issues)
 
 ---------------------------
 
@@ -27,3 +21,14 @@ Some Options:
 |-------------------|:--------------:|
 | apt               |fonts-powerline |
 | nix               |    nerdfonts   |
+
+## Alt button mapping on darwin systems:
+
+This can be mitigated individually on a terminal emulator level,
+some inspiration can be found [here](https://github.com/zellij-org/zellij/issues/265).
+
+
+## Pane frame title has issues with kitty:
+
+This sadly seems to be an issue that can not be mitigated easily,
+more information can be found [here](https://github.com/zellij-org/zellij/issues/689#issuecomment-914057955).
