@@ -90,3 +90,9 @@ direction is optional:
 
 `Run: {cmd: <path>, args: [ARGS], direction: <direction>}`
 
+## `Write: [bytes]`
+Write the specified bytes in the focused pane.
+
+## `WriteChars: <characters>`
+Write the specified characters in the focused pane.
+
