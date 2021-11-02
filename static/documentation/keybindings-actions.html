@@ -169,6 +169,10 @@
 <p>These are the actions that can be assigned to key sequences when <a href="./keybindings.html">configuring keybindings</a>.</p>
 <h2 id="quit"><a class="header" href="#quit"><code>Quit</code></a></h2>
 <p>Quit Zellij.</p>
+<h2 id="detach"><a class="header" href="#detach"><code>Detach</code></a></h2>
+<p>Detach from the currently running Zellij session.</p>
+<h2 id="movepane-direction"><a class="header" href="#movepane-direction"><code>MovePane: &lt;Direction&gt;</code></a></h2>
+<p>Move the currently focused pane in a direction.</p>
 <h2 id="switchtomode-inputmode"><a class="header" href="#switchtomode-inputmode"><code>SwitchToMode: &lt;InputMode&gt;</code></a></h2>
 <p>Switch to the specified <a href="./keybindings-modes.html">input mode</a>.
 The mode should be capitalized, eg. <code>SwitchToMode: Normal</code>.</p>
@@ -191,10 +195,18 @@ Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code
 <p>Scroll up 1 line inside the focused pane.</p>
 <h2 id="scrolldown"><a class="header" href="#scrolldown"><code>ScrollDown</code></a></h2>
 <p>Scroll down 1 line inside the focused pane.</p>
+<h2 id="pagescrollup"><a class="header" href="#pagescrollup"><code>PageScrollUp</code></a></h2>
+<p>Scroll up one page in the focused pane.</p>
+<h2 id="pagescrolldown"><a class="header" href="#pagescrolldown"><code>PageScrollDown</code></a></h2>
+<p>Scroll down one page in the focused pane.</p>
 <h2 id="togglefocusfullscreen"><a class="header" href="#togglefocusfullscreen"><code>ToggleFocusFullscreen</code></a></h2>
 <p>Toggle between fullscreen focus pane and normal layout.</p>
 <h2 id="togglepaneframes"><a class="header" href="#togglepaneframes"><code>TogglePaneFrames</code></a></h2>
 <p>Toggle between pane frames and normal layout.</p>
+<h2 id="toggleactivesynctab"><a class="header" href="#toggleactivesynctab"><code>ToggleActiveSyncTab</code></a></h2>
+<p>Toggle between sending text commands to all panes on the current tab and just the focused pane.</p>
+<h2 id="toggletab"><a class="header" href="#toggletab"><code>ToggleTab</code></a></h2>
+<p>Switch between the most recently used tabs.</p>
 <h2 id="newpane-direction"><a class="header" href="#newpane-direction"><code>NewPane: &lt;Direction&gt;</code></a></h2>
 <p>Open a new pane in the specified direction (relative to focus).
 If no direction is specified, will try to use the biggest available space.
