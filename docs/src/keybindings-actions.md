@@ -4,6 +4,12 @@ These are the actions that can be assigned to key sequences when [configuring ke
 ## `Quit`
 Quit Zellij.
 
+## `Detach`
+Detach from the currently running Zellij session.
+
+## `MovePane: <Direction>`
+Move the currently focused pane in a direction.
+
 ## `SwitchToMode: <InputMode>`
 Switch to the specified [input mode](./keybindings-modes.md).
 The mode should be capitalized, eg. `SwitchToMode: Normal`.
@@ -37,11 +43,25 @@ Scroll up 1 line inside the focused pane.
 ## `ScrollDown`
 Scroll down 1 line inside the focused pane.
 
+##    `PageScrollUp`
+Scroll up one page in the focused pane.
+
+##    `PageScrollDown`
+Scroll down one page in the focused pane.
+
 ## `ToggleFocusFullscreen`
 Toggle between fullscreen focus pane and normal layout.
 
 ## `TogglePaneFrames`
 Toggle between pane frames and normal layout.
+
+## `ToggleActiveSyncTab`
+Toggle between sending text commands to all panes on the current tab and just the focused pane.
+
+## `ToggleTab`
+Switch between the most recently used tabs.
+
+
 
 ## `NewPane: <Direction>`
 Open a new pane in the specified direction (relative to focus).
