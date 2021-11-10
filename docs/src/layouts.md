@@ -130,6 +130,30 @@ tabs:
 
 This is currently limited to the tabs section.
 
+### `session: <session-configuration>`
+This is an optional configuration option that can be used to modify the session
+behavior of the layout.
+
+Current options include:
+```
+session:
+  name: "zellij" # a string, that names the session
+  attach: true # default `true`. If session exists, re-attach.
+```
+
+Example:
+```
+session:
+  name: "zellij"
+```
+
+Adding this to the layout would name the session `zellij` and upon loading
+the layout again will try to attach to an existing session that is called
+`zellij`.
+If the `attach` configuration is `false`, then zellij will show an error
+message on trying to create the layout, if the layout name already exists.
+
+
 
 ## Further examples
 Please take a look at the [default](https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts) layouts that come with Zellij, or the layouts that reside in the [example](https://github.com/zellij-org/zellij/tree/main/example) directory for more complete layouts.

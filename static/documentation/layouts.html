@@ -268,6 +268,23 @@ section. </p>
   - name: &quot;&lt;name-of-the-tab&gt;&quot;
 </code></pre>
 <p>This is currently limited to the tabs section.</p>
+<h3 id="session-session-configuration"><a class="header" href="#session-session-configuration"><code>session: &lt;session-configuration&gt;</code></a></h3>
+<p>This is an optional configuration option that can be used to modify the session
+behavior of the layout.</p>
+<p>Current options include:</p>
+<pre><code>session:
+  name: &quot;zellij&quot; # a string, that names the session
+  attach: true # default `true`. If session exists, re-attach.
+</code></pre>
+<p>Example:</p>
+<pre><code>session:
+  name: &quot;zellij&quot;
+</code></pre>
+<p>Adding this to the layout would name the session <code>zellij</code> and upon loading
+the layout again will try to attach to an existing session that is called
+<code>zellij</code>.
+If the <code>attach</code> configuration is <code>false</code>, then zellij will show an error
+message on trying to create the layout, if the layout name already exists.</p>
 <h2 id="further-examples"><a class="header" href="#further-examples">Further examples</a></h2>
 <p>Please take a look at the <a href="https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts">default</a> layouts that come with Zellij, or the layouts that reside in the <a href="https://github.com/zellij-org/zellij/tree/main/example">example</a> directory for more complete layouts.</p>
 
