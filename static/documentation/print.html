@@ -269,6 +269,10 @@ We can get the name in the following way:</p>
 <h2 id="list-sessions"><a class="header" href="#list-sessions"><code>list-sessions</code></a></h2>
 <p>short: <code>ls</code></p>
 <p>Will list all the names of currently running sessions.</p>
+<h2 id="kill-sessions-target-session"><a class="header" href="#kill-sessions-target-session"><code>kill-sessions [target-session]</code></a></h2>
+<p>short: <code>k</code></p>
+<p>Will kill the session with the name of <code>[target-session]</code>, if it is currently
+running.</p>
 <h2 id="options"><a class="header" href="#options"><code>options</code></a></h2>
 <p>Can be used to change the behaviour of zellij on startup.
 Will supercede options defined in the config file.
@@ -281,6 +285,13 @@ To see a list of options look <a href="./options.html">here</a>.</p>
 <tr><td align="left">--dump-config</td><td>Dump the default configuration file to stdout</td></tr>
 <tr><td align="left">--dump-layout [LAYOUT]</td><td>Dump a specified default layout file to stdout</td></tr>
 <tr><td align="left">--generate-completions [SHELL]</td><td>Generate completions for the specified shell</td></tr>
+</tbody></table>
+<h1 id="flags"><a class="header" href="#flags">Flags</a></h1>
+<p>These flags can be invoked with <code>zellij --flag</code>.</p>
+<table><thead><tr><th align="left">Flag</th><th>Description</th></tr></thead><tbody>
+<tr><td align="left">--help</td><td>Display the help prompt</td></tr>
+<tr><td align="left">--debug</td><td>Gather additional debug information</td></tr>
+<tr><td align="left">--version</td><td>Print version information</td></tr>
 </tbody></table>
 <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="configuration"><a class="header" href="#configuration">Configuration</a></h1>
 <p>By default Zellij will look for <code>config.yaml</code> in the <code>config</code> directory.</p>
