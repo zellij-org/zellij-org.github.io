@@ -65,4 +65,4 @@ Please keep in mind that they are not directly affiliated with zellij maintainer
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/zellij.svg)](https://repology.org/project/zellij/versions)
 
-More information about third party installation can be found [here](https://github.com/zellij-org/zellij/blob/main/THIRD_PARTY_INSTALL.md)
+More information about third party installation can be found [here](https://github.com/zellij-org/zellij/blob/main/THIRD_PARTY_INSTALL.md).
