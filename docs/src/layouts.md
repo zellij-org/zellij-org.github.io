@@ -153,6 +153,12 @@ the layout again will try to attach to an existing session that is called
 If the `attach` configuration is `false`, then zellij will show an error
 message on trying to create the layout, if the layout name already exists.
 
+### `configuration`
+The layout supports all the configuration options from the [Configuration](https://zellij.dev/documentation/configuration.html) page.
+
+If an option is specified in a layout, it has precedence over the config file
+itself.
+
 
 
 ## Further examples
