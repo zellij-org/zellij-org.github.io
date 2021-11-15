@@ -17,10 +17,10 @@ The mode should be capitalized, eg. `SwitchToMode: Normal`.
 Note that there's a "hidden" mode called `RenameTab` which can be used in order to trigger the renaming of a tab.
 
 ## `Resize: <Direction>`
-Resize focused pane in specified direction.
-Direction should be one of `Left`, `Right`, `Up` or `Down`.
+Resize focused pane in the specified direction.
+Direction should be one of `Left`, `Right`, `Up`, `Down`, `Increase`, or `Decrease`.
 
-eg. `Resize: Down`
+Example: `Resize: Down`
 
 ## `FocusNextPane`
 Switch focus to next pane to the right or below if on screen edge.
