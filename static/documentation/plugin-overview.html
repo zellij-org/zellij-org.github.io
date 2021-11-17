@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Commands - Zellij User Guide</title>
+        <title>Overview - Zellij User Guide</title>
         
         
 
@@ -95,7 +95,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">1.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="overview.html"><strong aria-hidden="true">1.2.</strong> Overview</a></li></ol></li><li class="chapter-item expanded "><a href="commands.html" class="active"><strong aria-hidden="true">2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">3.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="options.html"><strong aria-hidden="true">3.1.</strong> Options</a></li><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">3.2.</strong> Configuring Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">3.2.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">3.2.2.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-actions.html"><strong aria-hidden="true">3.2.3.</strong> Actions</a></li><li class="chapter-item expanded "><a href="keybindings-examples.html"><strong aria-hidden="true">3.2.4.</strong> Examples</a></li></ol></li><li class="chapter-item expanded "><a href="themes.html"><strong aria-hidden="true">3.3.</strong> Themes</a></li></ol></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">4.</strong> Layouts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="layouts-templates.html"><strong aria-hidden="true">4.1.</strong> Templates</a></li></ol></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">5.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-overview.html"><strong aria-hidden="true">5.1.</strong> Overview</a></li><li class="chapter-item expanded "><a href="plugin-writing.html"><strong aria-hidden="true">5.2.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-rust.html"><strong aria-hidden="true">5.2.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="plugin-other.html"><strong aria-hidden="true">5.2.2.</strong> Other Languages</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="compatibility.html"><strong aria-hidden="true">6.</strong> Compatibility</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">1.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="overview.html"><strong aria-hidden="true">1.2.</strong> Overview</a></li></ol></li><li class="chapter-item expanded "><a href="commands.html"><strong aria-hidden="true">2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">3.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="options.html"><strong aria-hidden="true">3.1.</strong> Options</a></li><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">3.2.</strong> Configuring Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">3.2.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">3.2.2.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-actions.html"><strong aria-hidden="true">3.2.3.</strong> Actions</a></li><li class="chapter-item expanded "><a href="keybindings-examples.html"><strong aria-hidden="true">3.2.4.</strong> Examples</a></li></ol></li><li class="chapter-item expanded "><a href="themes.html"><strong aria-hidden="true">3.3.</strong> Themes</a></li></ol></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">4.</strong> Layouts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="layouts-templates.html"><strong aria-hidden="true">4.1.</strong> Templates</a></li></ol></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">5.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-overview.html" class="active"><strong aria-hidden="true">5.1.</strong> Overview</a></li><li class="chapter-item expanded "><a href="plugin-writing.html"><strong aria-hidden="true">5.2.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-rust.html"><strong aria-hidden="true">5.2.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="plugin-other.html"><strong aria-hidden="true">5.2.2.</strong> Other Languages</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="compatibility.html"><strong aria-hidden="true">6.</strong> Compatibility</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -165,52 +165,25 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="commands"><a class="header" href="#commands">Commands</a></h1>
-<p>These commands can be invoked with <code>zellij [SUBCOMMAND]</code>.</p>
-<h2 id="attach-session-name"><a class="header" href="#attach-session-name"><code>attach [session-name]</code></a></h2>
-<p>Zellij will attempt to attach to an already running session, with the name
-<code>[session-name]</code>.</p>
-<p>The attach subcommand also will accept the optional <code>options</code> subcommand.</p>
-<h2 id="list-sessions"><a class="header" href="#list-sessions"><code>list-sessions</code></a></h2>
-<p>short: <code>ls</code></p>
-<p>Will list all the names of currently running sessions.</p>
-<h2 id="kill-sessions-target-session"><a class="header" href="#kill-sessions-target-session"><code>kill-sessions [target-session]</code></a></h2>
-<p>short: <code>k</code></p>
-<p>Will kill the session with the name of <code>[target-session]</code>, if it is currently
-running.</p>
-<h2 id="options"><a class="header" href="#options"><code>options</code></a></h2>
-<p>Can be used to change the behaviour of zellij on startup.
-Will supercede options defined in the config file.
-To see a list of options look <a href="./options.html">here</a>.</p>
-<h2 id="setup"><a class="header" href="#setup"><code>setup</code></a></h2>
-<p>Functionality to help with the setup of zellij.</p>
-<table><thead><tr><th align="left">Flag</th><th>Description</th></tr></thead><tbody>
-<tr><td align="left">--check</td><td>Checks the configuration</td></tr>
-<tr><td align="left">--clean</td><td>Start with default configuration</td></tr>
-<tr><td align="left">--dump-config</td><td>Dump the default configuration file to stdout</td></tr>
-<tr><td align="left">--dump-layout [LAYOUT]</td><td>Dump a specified default layout file to stdout</td></tr>
-<tr><td align="left">--generate-completions [SHELL]</td><td>Generate completions for the specified shell</td></tr>
-</tbody></table>
-<h1 id="flags"><a class="header" href="#flags">Flags</a></h1>
-<p>These flags can be invoked with <code>zellij --flag</code>.</p>
-<table><thead><tr><th align="left">Flag</th><th>Description</th></tr></thead><tbody>
-<tr><td align="left">--help</td><td>Display the help prompt</td></tr>
-<tr><td align="left">--debug</td><td>Gather additional debug information</td></tr>
-<tr><td align="left">--version</td><td>Print version information</td></tr>
-</tbody></table>
+                        <h1 id="plugin-overview"><a class="header" href="#plugin-overview">Plugin Overview</a></h1>
+<p>This is an overview of zellij plugins, please do keep in mind that they are
+not necessarily connected to zellij maintainers:</p>
+<ul>
+<li><a href="https://github.com/tw4452852/zellij-pomodoro-plugin">zellij-pomodoro-plugin</a></li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
-                            <a rel="prev" href="overview.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="plugins.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
                         
 
                         
-                            <a rel="next" href="configuration.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="plugin-writing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -222,13 +195,13 @@ To see a list of options look <a href="./options.html">here</a>.</p>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
-                    <a rel="prev" href="overview.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="plugins.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
                 
 
                 
-                    <a rel="next" href="configuration.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="plugin-writing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
