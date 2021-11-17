@@ -15,6 +15,7 @@
 - [Layouts](./layouts.md)
     - [Templates](./layouts-templates.md)
 - [Plugins](./plugins.md)
+  - [Overview](./plugin-overview.md)
   - [Developing a Plugin](./plugin-writing.md)
     - [Rust](./plugin-rust.md)
     - [Other Languages](./plugin-other.md)
