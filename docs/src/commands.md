@@ -9,8 +9,9 @@ short: `a`
 
 Zellij will attempt to attach to an already running session, with the name
 `[session-name]`.
+If given no `[session-name]` and there is only one running session, it will attach to that session.
 
-The attach subcommand also will accept the optional `options` subcommand.
+The attach subcommand will also accept the optional `options` subcommand.
 
 ## `list-sessions`
 short: `ls`
