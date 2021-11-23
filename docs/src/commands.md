@@ -1,13 +1,17 @@
 # Commands
 
 These commands can be invoked with `zellij [SUBCOMMAND]`.
+For more details, each command has its own help section when run with the
+`--help` flag (`zellij [SUBCOMMAND] --help`).
 
 ## `attach [session-name]`
+short: `a`
 
 Zellij will attempt to attach to an already running session, with the name
 `[session-name]`.
+If given no `[session-name]` and there is only one running session, it will attach to that session.
 
-The attach subcommand also will accept the optional `options` subcommand.
+The attach subcommand will also accept the optional `options` subcommand.
 
 ## `list-sessions`
 short: `ls`
@@ -20,6 +24,10 @@ short: `k`
 Will kill the session with the name of `[target-session]`, if it is currently
 running.
 
+## `kill-all-sessions`
+short: `ka`
+
+Will prompt the user to kill all running sessions.
 
 ## `options`
 
