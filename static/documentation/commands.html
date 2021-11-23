@@ -166,11 +166,15 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="commands"><a class="header" href="#commands">Commands</a></h1>
-<p>These commands can be invoked with <code>zellij [SUBCOMMAND]</code>.</p>
+<p>These commands can be invoked with <code>zellij [SUBCOMMAND]</code>.
+For more details, each command has its own help section when run with the
+<code>--help</code> flag (<code>zellij [SUBCOMMAND] --help</code>).</p>
 <h2 id="attach-session-name"><a class="header" href="#attach-session-name"><code>attach [session-name]</code></a></h2>
+<p>short: <code>a</code></p>
 <p>Zellij will attempt to attach to an already running session, with the name
-<code>[session-name]</code>.</p>
-<p>The attach subcommand also will accept the optional <code>options</code> subcommand.</p>
+<code>[session-name]</code>.
+If given no <code>[session-name]</code> and there is only one running session, it will attach to that session.</p>
+<p>The attach subcommand will also accept the optional <code>options</code> subcommand.</p>
 <h2 id="list-sessions"><a class="header" href="#list-sessions"><code>list-sessions</code></a></h2>
 <p>short: <code>ls</code></p>
 <p>Will list all the names of currently running sessions.</p>
@@ -178,6 +182,9 @@
 <p>short: <code>k</code></p>
 <p>Will kill the session with the name of <code>[target-session]</code>, if it is currently
 running.</p>
+<h2 id="kill-all-sessions"><a class="header" href="#kill-all-sessions"><code>kill-all-sessions</code></a></h2>
+<p>short: <code>ka</code></p>
+<p>Will prompt the user to kill all running sessions.</p>
 <h2 id="options"><a class="header" href="#options"><code>options</code></a></h2>
 <p>Can be used to change the behaviour of zellij on startup.
 Will supercede options defined in the config file.
