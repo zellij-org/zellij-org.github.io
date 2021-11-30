@@ -1,7 +1,7 @@
 # Commands
 
 These commands can be invoked with `zellij [SUBCOMMAND]`.
-For more details, each command has its own help section when run with the
+For more details, each subcommand has its own help section when run with the
 `--help` flag (`zellij [SUBCOMMAND] --help`).
 
 ## `attach [session-name]`
