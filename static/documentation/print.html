@@ -342,13 +342,15 @@ zellij setup --dump-config &gt; ~/.config/zellij/config.yaml
 <div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="options-1"><a class="header" href="#options-1">Options</a></h1>
 <p>You can make use of these options either by invoking zellij with
 <code>zellij options [OPTION]</code> or binding them in the configuration file.</p>
-<p>Eg. <code>zellij options --simplified-ui</code> is equivalent to <code>simplified_ui: true</code> in the config file.</p>
+<p>Eg. <code>zellij options --simplified-ui true</code> is equivalent to <code>simplified_ui: true</code> in the config file.</p>
 <table><thead><tr><th>Option</th><th>Config</th><th align="center">Default</th><th>Description</th></tr></thead><tbody>
 <tr><td>default-mode</td><td>default_mode</td><td align="center">normal</td><td>The first mode on startup.</td></tr>
 <tr><td>default-shell</td><td>default_shell</td><td align="center">$SHELL</td><td>The default shell.</td></tr>
-<tr><td>disable-mouse-mode</td><td>disable_mouse_mode</td><td align="center">false</td><td>Enable mouse mode.</td></tr>
+<tr><td>mouse-mode</td><td>mouse_mode</td><td align="center">true</td><td>Enable mouse mode.</td></tr>
+<tr><td>disable-mouse-mode</td><td>-</td><td align="center">false</td><td>Disable mouse mode.</td></tr>
 <tr><td>simplified-ui</td><td>simplified_ui</td><td align="center">false</td><td>Request the Plugins to use a more compatible ui.</td></tr>
-<tr><td>no-pane-frames</td><td>no_pane_frames</td><td align="center">false</td><td>Display frames around the frames.</td></tr>
+<tr><td>pane-frames</td><td>pane_frames</td><td align="center">true</td><td>Display frames around the panes.</td></tr>
+<tr><td>no-pane-frames</td><td>-</td><td align="center">false</td><td>Disable display of frames around the panes.</td></tr>
 <tr><td>on-force-close</td><td>on_force_close</td><td align="center">detach</td><td>What to do when receiving a SIGTERM, SIGINT, SIGQUIT or SIGHUP.</td></tr>
 <tr><td>theme</td><td>theme</td><td align="center">default</td><td>Switch to a theme configured under the <code>themes</code> section.</td></tr>
 </tbody></table>
