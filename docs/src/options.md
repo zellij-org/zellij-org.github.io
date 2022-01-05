@@ -16,3 +16,4 @@ Eg. `zellij options --simplified-ui true` is equivalent to `simplified_ui: true`
 | no-pane-frames | -   | false          | Disable display of frames around the panes. |
 | on-force-close| on_force_close    | detach         | What to do when receiving a SIGTERM, SIGINT, SIGQUIT or SIGHUP.|
 | theme         | theme             | default        | Switch to a theme configured under the `themes` section.  |
+| scroll-buffer-size| scroll_buffer_size | 10000 | The number of lines zellij stores for each pane in the scroll back buffer.|
