@@ -8,6 +8,7 @@ themes:
     fg: [0,0,0]
     bg: [0,0,0]
     black: [0,0,0]
+    gray: [0,0,0]
     red: [0,0,0]
     green: [0,0,0]
     yellow: [0,0,0]
@@ -24,6 +25,7 @@ themes:
     fg: 0
     bg: 0
     black: 0
+    gray: 0
     red: 0
     green: 0
     yellow: 0
