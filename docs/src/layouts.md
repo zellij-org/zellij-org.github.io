@@ -154,13 +154,13 @@ If the `attach` configuration is `false`, then zellij will show an error
 message on trying to create the layout, if the layout name already exists.
 
 ### `focus: <bool>`
-This is an optional configuration option that can be used to initial focus
+This is an optional configuration option that can be used to specify the initial focus of
 the `tab` or `pane`.
 
-This option is not set by default. So, all `tab` and `pane` basically
+This option is not set by default. So, every `tab` and `pane` basically
 focus the first target.
 
-Example One:
+Example one:
 ```yaml
 tabs:
 - direction: Vertical
@@ -179,7 +179,7 @@ tabs:
 If the option is duplicated, the first declared focus has priority.
 This applies to both `tab` and `pane`.
 
-Example Two:
+Example two:
 ```yaml
 tabs:
 - direction: Vertical
