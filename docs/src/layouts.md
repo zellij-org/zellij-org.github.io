@@ -160,8 +160,8 @@ the `tab` or `pane`.
 This option is not set by default. So, all `tab` and `pane` basically
 focus the first target.
 
-Example:
-```
+Example One:
+```yaml
 tabs:
 - direction: Vertical
 - direction: Vertical
@@ -179,8 +179,8 @@ tabs:
 If the option is duplicated, the first declared focus has priority.
 This applies to both `tab` and `pane`.
 
-Example2:
-```
+Example Two:
+```yaml
 tabs:
 - direction: Vertical
   focus: true # [duplicated] focus first tab. 
