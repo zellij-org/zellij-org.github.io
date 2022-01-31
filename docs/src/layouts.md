@@ -153,6 +153,50 @@ the layout again will try to attach to an existing session that is called
 If the `attach` configuration is `false`, then zellij will show an error
 message on trying to create the layout, if the layout name already exists.
 
+### `focus: <bool>`
+This is an optional configuration option that can be used to initial focus
+the `tab` or `pane`.
+
+This option is not set by default. So, all `tab` and `pane` basically
+focus the first target.
+
+Example:
+```
+tabs:
+- direction: Vertical
+- direction: Vertical
+  focus: true # focus second tab.
+  parts:
+  - direction: Vertical
+    split_size:
+      Percent: 50
+  - direction: Vertical
+    focus: true # focus right pane.
+    split_size:
+      Percent: 50
+```
+
+If the option is duplicated, the first declared focus has priority.
+This applies to both `tab` and `pane`.
+
+Example2:
+```
+tabs:
+- direction: Vertical
+  focus: true # [duplicated] focus first tab. 
+- direction: Vertical
+  focus: true # [duplicated] ignored.
+  parts:
+  - direction: Vertical
+    split_size:
+      Percent: 50
+  - direction: Vertical
+    focus: true # focus right pane.
+    split_size:
+      Percent: 50
+- direction: Vertical
+```
+
 ### `configuration`
 The layout supports all the configuration options from the [Configuration](https://zellij.dev/documentation/configuration.html) page.
 
