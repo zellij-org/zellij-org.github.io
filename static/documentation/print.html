@@ -4,26 +4,39 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Zellij User Guide</title>
+        
         <meta name="robots" content="noindex" />
+        
+        
 
 
         <!-- Custom HTML head -->
+        
+
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
+        
         <link rel="icon" href="favicon.svg">
+        
+        
         <link rel="shortcut icon" href="favicon.png">
+        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
+        
         <link rel="stylesheet" href="css/print.css" media="print">
+        
 
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        
         <link rel="stylesheet" href="fonts/fonts.css">
+        
 
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
@@ -31,7 +44,9 @@
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+        
 
+        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -90,6 +105,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
+                
                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
@@ -106,21 +122,28 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
+                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
+                        
                     </div>
 
                     <h1 class="menu-title">Zellij User Guide</h1>
 
                     <div class="right-buttons">
+                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+                        
+                        
+                        
 
                     </div>
                 </div>
 
+                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
                         <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
@@ -131,6 +154,7 @@
                         </ul>
                     </div>
                 </div>
+                
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script type="text/javascript">
@@ -152,7 +176,7 @@
 <li>For setting up layouts: <a href="./layouts.html">Layouts</a></li>
 <li>For developing plugins: <a href="./plugins.html">Plugins</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
 <p>Currently Binaries are produced for both Linux and MacOS.</p>
 <p>However it is available in some public repositories.</p>
 <hr />
@@ -188,7 +212,7 @@
 Please keep in mind that they are not directly affiliated with zellij maintainers:</p>
 <p><a href="https://repology.org/project/zellij/versions"><img src="https://repology.org/badge/vertical-allrepos/zellij.svg" alt="Packaging status" /></a></p>
 <p>More information about third party installation can be found <a href="https://github.com/zellij-org/zellij/blob/main/THIRD_PARTY_INSTALL.md">here</a>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
 <p>Zellij is a workspace aimed at developers, ops-oriented people and
 anyone who loves the terminal.
 At its core, it is a terminal multiplexer (similar to tmux and screen),
@@ -237,7 +261,7 @@ We can get the name in the following way:</p>
 <p>And now we reattach to the currently running session:</p>
 <pre><code>zellij attach hilarious-kitty
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="commands"><a class="header" href="#commands">Commands</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="commands"><a class="header" href="#commands">Commands</a></h1>
 <p>These commands can be invoked with <code>zellij [SUBCOMMAND]</code>.
 For more details, each subcommand has its own help section when run with the
 <code>--help</code> flag (<code>zellij [SUBCOMMAND] --help</code>).</p>
@@ -263,21 +287,21 @@ Will supercede options defined in the config file.
 To see a list of options look <a href="./options.html">here</a>.</p>
 <h2 id="setup"><a class="header" href="#setup"><code>setup</code></a></h2>
 <p>Functionality to help with the setup of zellij.</p>
-<table><thead><tr><th style="text-align: left">Flag</th><th>Description</th></tr></thead><tbody>
-<tr><td style="text-align: left">--check</td><td>Checks the configuration</td></tr>
-<tr><td style="text-align: left">--clean</td><td>Start with default configuration</td></tr>
-<tr><td style="text-align: left">--dump-config</td><td>Dump the default configuration file to stdout</td></tr>
-<tr><td style="text-align: left">--dump-layout [LAYOUT]</td><td>Dump a specified default layout file to stdout</td></tr>
-<tr><td style="text-align: left">--generate-completions [SHELL]</td><td>Generate completions for the specified shell</td></tr>
+<table><thead><tr><th align="left">Flag</th><th>Description</th></tr></thead><tbody>
+<tr><td align="left">--check</td><td>Checks the configuration</td></tr>
+<tr><td align="left">--clean</td><td>Start with default configuration</td></tr>
+<tr><td align="left">--dump-config</td><td>Dump the default configuration file to stdout</td></tr>
+<tr><td align="left">--dump-layout [LAYOUT]</td><td>Dump a specified default layout file to stdout</td></tr>
+<tr><td align="left">--generate-completions [SHELL]</td><td>Generate completions for the specified shell</td></tr>
 </tbody></table>
 <h1 id="flags"><a class="header" href="#flags">Flags</a></h1>
 <p>These flags can be invoked with <code>zellij --flag</code>.</p>
-<table><thead><tr><th style="text-align: left">Flag</th><th>Description</th></tr></thead><tbody>
-<tr><td style="text-align: left">--help</td><td>Display the help prompt</td></tr>
-<tr><td style="text-align: left">--debug</td><td>Gather additional debug information</td></tr>
-<tr><td style="text-align: left">--version</td><td>Print version information</td></tr>
+<table><thead><tr><th align="left">Flag</th><th>Description</th></tr></thead><tbody>
+<tr><td align="left">--help</td><td>Display the help prompt</td></tr>
+<tr><td align="left">--debug</td><td>Gather additional debug information</td></tr>
+<tr><td align="left">--version</td><td>Print version information</td></tr>
 </tbody></table>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="configuration"><a class="header" href="#configuration">Configuration</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="configuration"><a class="header" href="#configuration">Configuration</a></h1>
 <p>By default Zellij will look for <code>config.yaml</code> in the <code>config</code> directory.</p>
 <p>Quickstart:</p>
 <pre><code>mkdir ~/.config/zellij
@@ -315,23 +339,23 @@ zellij setup --dump-config &gt; ~/.config/zellij/config.yaml
 <p>To show the current default configuration:</p>
 <pre><code>zellij setup --dump-config
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="options-1"><a class="header" href="#options-1">Options</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="options-1"><a class="header" href="#options-1">Options</a></h1>
 <p>You can make use of these options either by invoking zellij with
 <code>zellij options [OPTION]</code> or binding them in the configuration file.</p>
 <p>Eg. <code>zellij options --simplified-ui true</code> is equivalent to <code>simplified_ui: true</code> in the config file.</p>
-<table><thead><tr><th>Option</th><th>Config</th><th style="text-align: center">Default</th><th>Description</th></tr></thead><tbody>
-<tr><td>default-mode</td><td>default_mode</td><td style="text-align: center">normal</td><td>The first mode on startup.</td></tr>
-<tr><td>default-shell</td><td>default_shell</td><td style="text-align: center">$SHELL</td><td>The default shell.</td></tr>
-<tr><td>mouse-mode</td><td>mouse_mode</td><td style="text-align: center">true</td><td>Enable mouse mode.</td></tr>
-<tr><td>disable-mouse-mode</td><td>-</td><td style="text-align: center">false</td><td>Disable mouse mode.</td></tr>
-<tr><td>simplified-ui</td><td>simplified_ui</td><td style="text-align: center">false</td><td>Request the Plugins to use a more compatible ui.</td></tr>
-<tr><td>pane-frames</td><td>pane_frames</td><td style="text-align: center">true</td><td>Display frames around the panes.</td></tr>
-<tr><td>no-pane-frames</td><td>-</td><td style="text-align: center">false</td><td>Disable display of frames around the panes.</td></tr>
-<tr><td>on-force-close</td><td>on_force_close</td><td style="text-align: center">detach</td><td>What to do when receiving a SIGTERM, SIGINT, SIGQUIT or SIGHUP.</td></tr>
-<tr><td>theme</td><td>theme</td><td style="text-align: center">default</td><td>Switch to a theme configured under the <code>themes</code> section.</td></tr>
-<tr><td>scroll-buffer-size</td><td>scroll_buffer_size</td><td style="text-align: center">10000</td><td>The number of lines zellij stores for each pane in the scroll back buffer.</td></tr>
+<table><thead><tr><th>Option</th><th>Config</th><th align="center">Default</th><th>Description</th></tr></thead><tbody>
+<tr><td>default-mode</td><td>default_mode</td><td align="center">normal</td><td>The first mode on startup.</td></tr>
+<tr><td>default-shell</td><td>default_shell</td><td align="center">$SHELL</td><td>The default shell.</td></tr>
+<tr><td>mouse-mode</td><td>mouse_mode</td><td align="center">true</td><td>Enable mouse mode.</td></tr>
+<tr><td>disable-mouse-mode</td><td>-</td><td align="center">false</td><td>Disable mouse mode.</td></tr>
+<tr><td>simplified-ui</td><td>simplified_ui</td><td align="center">false</td><td>Request the Plugins to use a more compatible ui.</td></tr>
+<tr><td>pane-frames</td><td>pane_frames</td><td align="center">true</td><td>Display frames around the panes.</td></tr>
+<tr><td>no-pane-frames</td><td>-</td><td align="center">false</td><td>Disable display of frames around the panes.</td></tr>
+<tr><td>on-force-close</td><td>on_force_close</td><td align="center">detach</td><td>What to do when receiving a SIGTERM, SIGINT, SIGQUIT or SIGHUP.</td></tr>
+<tr><td>theme</td><td>theme</td><td align="center">default</td><td>Switch to a theme configured under the <code>themes</code> section.</td></tr>
+<tr><td>scroll-buffer-size</td><td>scroll_buffer_size</td><td align="center">10000</td><td>The number of lines zellij stores for each pane in the scroll back buffer.</td></tr>
 </tbody></table>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="configuring-keybindings"><a class="header" href="#configuring-keybindings">Configuring Keybindings</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="configuring-keybindings"><a class="header" href="#configuring-keybindings">Configuring Keybindings</a></h1>
 <p>Zellij comes with a default set of keybindings that try to fit as many different users and use cases while trying to maximize comfort for everyone.</p>
 <p>It is possible to add to these defaults or even override them with an external configuration. For more information about the file, see <a href="./configuration.html">Configuration</a>.</p>
 <p>The structure of the <code>keybinds</code> section of the file is as follows:</p>
@@ -379,7 +403,7 @@ Whereas:</p>
 <p>Will unbind every default keybind for <code>n</code> and <code>^g</code> for the normal mode.</p>
 <h2 id="example"><a class="header" href="#example">Example</a></h2>
 <p>This configuration can be used to configure Zellij's default keybindings: <a href="https://github.com/zellij-org/zellij/blob/main/example/default.yaml">default.yaml</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="modes"><a class="header" href="#modes">Modes</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="modes"><a class="header" href="#modes">Modes</a></h1>
 <p>The Zellij <a href="./keybindings.html">keybindings</a> are grouped into different <code>modes</code>, which are a logical separation meant to reduce the mental overhead and allow to duplicate shortcuts in different situations.</p>
 <h2 id="normal"><a class="header" href="#normal">normal</a></h2>
 <p>This is the default mode Zellij starts with. By default it provides the ability to switch to different modes, as well as some quick navigation shortcuts.</p>
@@ -396,7 +420,7 @@ It is intended to give users a workaround in case one of the default keybindings
 <p>This mode allows scrolling up/down within the focused pane.</p>
 <h2 id="session"><a class="header" href="#session">session</a></h2>
 <p>This mode allows detaching from a session.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="keys"><a class="header" href="#keys">Keys</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="keys"><a class="header" href="#keys">Keys</a></h1>
 <p>These are the possible keys and key combinations one can set in the <a href="./keybindings.html">Keybindings configuration</a>.
 For more information, please see: <a href="https://docs.rs/termion/1.5.6/termion/event/enum.Key.html">https://docs.rs/termion/1.5.6/termion/event/enum.Key.html</a></p>
 <h2 id="char-character"><a class="header" href="#char-character"><code>Char: &lt;character&gt;</code></a></h2>
@@ -425,7 +449,7 @@ For more information, please see: <a href="https://docs.rs/termion/1.5.6/termion
 <p>The insert key.</p>
 <h2 id="esc"><a class="header" href="#esc"><code>Esc</code></a></h2>
 <p>The Esc key.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="actions"><a class="header" href="#actions">Actions</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="actions"><a class="header" href="#actions">Actions</a></h1>
 <p>These are the actions that can be assigned to key sequences when <a href="./keybindings.html">configuring keybindings</a>.</p>
 <h2 id="quit"><a class="header" href="#quit"><code>Quit</code></a></h2>
 <p>Quit Zellij.</p>
@@ -505,7 +529,7 @@ direction is optional:</p>
 <p>Write the specified bytes in the focused pane.</p>
 <h2 id="writechars-characters"><a class="header" href="#writechars-characters"><code>WriteChars: &lt;characters&gt;</code></a></h2>
 <p>Write the specified characters in the focused pane.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
 <p>Zellij's keybindings can be configured to behave in multiple ways. 
 Here are example configurations to possibly inspire you.</p>
 <h2 id="prefix-example"><a class="header" href="#prefix-example">Prefix Example</a></h2>
@@ -808,7 +832,7 @@ keybinds:
         - action: [Detach,]
           key: [Char: 'd',]
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="themes"><a class="header" href="#themes">Themes</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="themes"><a class="header" href="#themes">Themes</a></h1>
 <p>You can specify a color theme, that will be picked up by
 zellij in the following way:</p>
 <pre><code>themes:
@@ -816,6 +840,7 @@ zellij in the following way:</p>
     fg: [0,0,0]
     bg: [0,0,0]
     black: [0,0,0]
+    gray: [0,0,0]
     red: [0,0,0]
     green: [0,0,0]
     yellow: [0,0,0]
@@ -831,6 +856,7 @@ zellij in the following way:</p>
     fg: 0
     bg: 0
     black: 0
+    gray: 0
     red: 0
     green: 0
     yellow: 0
@@ -846,7 +872,7 @@ To specify a different theme, run zellij with:</p>
 <pre><code>zellij options --theme [NAME]
 </code></pre>
 <p>or put the name in the configuration file with <code>theme: [NAME]</code>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="layouts"><a class="header" href="#layouts">Layouts</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="layouts"><a class="header" href="#layouts">Layouts</a></h1>
 <p>Layouts are yaml configuration files which Zellij can load on startup.
 These files can describe a layout of terminal panes and plugins that Zellij will create when it loads.
 To load a layout with Zellij:</p>
@@ -966,13 +992,50 @@ the layout again will try to attach to an existing session that is called
 <code>zellij</code>.
 If the <code>attach</code> configuration is <code>false</code>, then zellij will show an error
 message on trying to create the layout, if the layout name already exists.</p>
+<h3 id="focus-bool"><a class="header" href="#focus-bool"><code>focus: &lt;bool&gt;</code></a></h3>
+<p>This is an optional configuration option that can be used to specify the initial focus of
+the <code>tab</code> or <code>pane</code>.</p>
+<p>This option is not set by default. So, every <code>tab</code> and <code>pane</code> basically
+focus the first target.</p>
+<p>Example one:</p>
+<pre><code class="language-yaml">tabs:
+- direction: Vertical
+- direction: Vertical
+  focus: true # focus second tab.
+  parts:
+  - direction: Vertical
+    split_size:
+      Percent: 50
+  - direction: Vertical
+    focus: true # focus right pane.
+    split_size:
+      Percent: 50
+</code></pre>
+<p>If the option is duplicated, the first declared focus has priority.
+This applies to both <code>tab</code> and <code>pane</code>.</p>
+<p>Example two:</p>
+<pre><code class="language-yaml">tabs:
+- direction: Vertical
+  focus: true # [duplicated] focus first tab. 
+- direction: Vertical
+  focus: true # [duplicated] ignored.
+  parts:
+  - direction: Vertical
+    split_size:
+      Percent: 50
+  - direction: Vertical
+    focus: true # focus right pane.
+    split_size:
+      Percent: 50
+- direction: Vertical
+</code></pre>
 <h3 id="configuration-1"><a class="header" href="#configuration-1"><code>configuration</code></a></h3>
 <p>The layout supports all the configuration options from the <a href="https://zellij.dev/documentation/configuration.html">Configuration</a> page.</p>
 <p>If an option is specified in a layout, it has precedence over the config file
 itself.</p>
 <h2 id="further-examples"><a class="header" href="#further-examples">Further examples</a></h2>
 <p>Please take a look at the <a href="https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts">default</a> layouts that come with Zellij, or the layouts that reside in the <a href="https://github.com/zellij-org/zellij/tree/main/example">example</a> directory for more complete layouts.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="layout-templates"><a class="header" href="#layout-templates">Layout Templates</a></h2>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h2 id="layout-templates"><a class="header" href="#layout-templates">Layout Templates</a></h2>
 <p>The templates section of the layout file describes the structure of the layout.
 To understand how it works let us look at the default layout a little bit closer.</p>
 <ul>
@@ -1055,10 +1118,10 @@ Tab 2:
 <img src="img/layout-template-example-1-tab-2.png" alt="Tab #2 " />
 Tab 3:
 <img src="img/layout-template-example-1-tab-3.png" alt="Tab #3 " /></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="plugins"><a class="header" href="#plugins">Plugins</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="plugins"><a class="header" href="#plugins">Plugins</a></h1>
 <p>One feature that makes Zellij unique is its <a href="https://webassembly.org/">WebAssembly</a> plugin system. This allows plugin developers to write their plugin in any language that can run on <a href="https://wasi.dev/">WASI</a>! Rust offers first-class <a href="https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-tutorial.md#from-rust">support for WASI</a>, but other languages like <a href="https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-tutorial.md#from-c">C/C++</a>, <a href="https://wasmbyexample.dev/examples/wasi-hello-world/wasi-hello-world.assemblyscript.en-us.html">AssemblyScript</a>, even <a href="https://wapm.io/package/rustpython">Python</a> should be supported.</p>
 <p><strong>Disclaimer: The API for plugins is very much a work in progress. Don't be shy to request new features on our <a href="https://github.com/zellij-org/zellij/issues/280">tracking issue</a>!</strong></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-overview"><a class="header" href="#plugin-overview">Plugin Overview</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="plugin-overview"><a class="header" href="#plugin-overview">Plugin Overview</a></h1>
 <p>This is a small list of default plugins that zellij ships with:</p>
 <ul>
 <li><a href="https://github.com/zellij-org/zellij/tree/main/default-plugins/tab-bar">tab-bar</a></li>
@@ -1070,9 +1133,9 @@ not necessarily connected to zellij maintainers:</p>
 <ul>
 <li><a href="https://github.com/tw4452852/zellij-pomodoro-plugin">zellij-pomodoro-plugin</a></li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="developing-a-plugin"><a class="header" href="#developing-a-plugin">Developing a Plugin</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="developing-a-plugin"><a class="header" href="#developing-a-plugin">Developing a Plugin</a></h1>
 <p>Currently we have a complete guide for developing plugins in <a href="./plugin-rust.html">Rust</a> and plan to add more guides for other languages in the future. If you are feeling particularly brave, you can try to write plugins in another language today! The <a href="./plugin-other.html">Other Languages</a> section will get you started.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="writing-a-plugin-in-rust"><a class="header" href="#writing-a-plugin-in-rust">Writing a Plugin in Rust</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="writing-a-plugin-in-rust"><a class="header" href="#writing-a-plugin-in-rust">Writing a Plugin in Rust</a></h1>
 <p>Writing a Zellij plugin in Rust is incredibly easy thanks to Rust's first-class support for WebAssembly and the simple <a href="https://docs.rs/zellij-tile/"><code>zellij-tile</code></a> scaffolding library. This guide will walk through implementing the <a href="https://github.com/zellij-org/rust-plugin-example"><code>rust-plugin-example</code></a>, a simple event logger that records mode-changes within Zellij.</p>
 <h2 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h2>
 <h3 id="installing-rust--zellij"><a class="header" href="#installing-rust--zellij">Installing Rust &amp; Zellij</a></h3>
@@ -1354,7 +1417,7 @@ Tue Apr 20 10:21:02 2021: Entered Normal Mode
 <li><strong>Add a help bar ::</strong> there is currently no UI telling the user about the clear and save features</li>
 </ul>
 <p>Have fun, and don't hesitate to get in touch if you find any bugs or would like some guidance :)</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="writing-a-plugin-in-another-language"><a class="header" href="#writing-a-plugin-in-another-language">Writing a Plugin in Another Language</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="writing-a-plugin-in-another-language"><a class="header" href="#writing-a-plugin-in-another-language">Writing a Plugin in Another Language</a></h1>
 <p>This page is very much a work in progress! If you're familiar with WASM and Rust, then understanding the <a href="https://github.com/zellij-org/zellij/tree/main/zellij-tile"><code>zellij-tile</code></a> library is a great place to start.</p>
 <p>In short, Zellij expects your WASI module to export three functions:</p>
 <ul>
@@ -1366,7 +1429,7 @@ Tue Apr 20 10:21:02 2021: Entered Normal Mode
 <p>Complex types are sent over stdin as JSON objects. Before <code>update()</code> is called, Zellij writes an event to the plugin's stdin that can be read back in the <code>update()</code> function.</p>
 <p>Host functions, for communicating with Zellij, are best documented by the <code>extern</code> section of <a href="https://github.com/zellij-org/zellij/blob/main/zellij-tile/src/shim.rs"><code>zellij-tile::shim</code></a> and are found in a WASM module named <code>zellij</code>.</p>
 <p><strong>Help Add More Language Guides!</strong> If you'd like to contribute, either drop us a line on <a href="https://discord.gg/CrUAFH3">Discord</a> or open a PR improving <a href="https://github.com/zellij-org/zellij-org.github.io/tree/main/docs">these docs</a>!</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="compatibility"><a class="header" href="#compatibility">Compatibility</a></h1>
+<div id="chapter_begin" style="break-before: page; page-break-before: always;"></div><h1 id="compatibility"><a class="header" href="#compatibility">Compatibility</a></h1>
 <h2 id="issues"><a class="header" href="#issues">Issues</a></h2>
 <p>Please report issues <a href="https://github.com/zellij-org/zellij/issues">here.</a></p>
 <hr />
@@ -1375,9 +1438,9 @@ Tue Apr 20 10:21:02 2021: Entered Normal Mode
 <p>This most likely is caused by a missing character in the font.</p>
 <p>Fonts from <a href="https://github.com/ryanoasis/nerd-fonts">nerdfonts</a> can fix this problem.</p>
 <p>Some Options:</p>
-<table><thead><tr><th>Package Manager</th><th style="text-align: center">Name</th></tr></thead><tbody>
-<tr><td>apt</td><td style="text-align: center">fonts-powerline</td></tr>
-<tr><td>nix</td><td style="text-align: center">nerdfonts</td></tr>
+<table><thead><tr><th>Package Manager</th><th align="center">Name</th></tr></thead><tbody>
+<tr><td>apt</td><td align="center">fonts-powerline</td></tr>
+<tr><td>nix</td><td align="center">nerdfonts</td></tr>
 </tbody></table>
 <h2 id="alt-button-mapping-on-darwin-systems"><a class="header" href="#alt-button-mapping-on-darwin-systems">Alt button mapping on darwin systems:</a></h2>
 <p>This can be mitigated individually on a terminal emulator level,
@@ -1395,7 +1458,9 @@ the terminal handle selection, clicking on links, copying, scrolling.</p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                        
 
+                        
 
                         <div style="clear: both"></div>
                     </nav>
@@ -1403,34 +1468,49 @@ the terminal handle selection, clicking on links, copying, scrolling.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
 
+                
             </nav>
 
         </div>
 
+        
 
+        
 
+        
 
+        
         <script type="text/javascript">
             window.playground_copyable = true;
         </script>
+        
 
+        
 
+        
         <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        
 
         <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
         <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
         <script src="book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
+        
 
+        
+        
         <script type="text/javascript">
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });
         </script>
+        
+        
 
     </body>
 </html>
