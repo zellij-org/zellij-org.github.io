@@ -39,3 +39,18 @@ escape mechanism in the form of the `SHIFT` Key, once it is pressed zellij lets
 the terminal handle selection, clicking on links, copying, scrolling.
 
 More information can be found [here](https://github.com/zellij-org/zellij/issues/627)
+
+
+## Clipboard not working:
+
+This is a known problem which mostly occurs in specific terminal emulators
+under Linux/OS X such as GNOMEs default Terminal, terminator, and more.
+
+A workaround for this was added in zellij > 0.24.0 and enables the user to
+specify a custom command that copies selected text to the system clipboard.
+Refer to lines containing "copy_command" from the output of `zellij setup
+--dump-config`.
+
+For technical background, refer to [this
+issue](https://github.com/zellij-org/zellij/issues/627) and [this merge
+request](https://github.com/zellij-org/zellij/pull/996)
