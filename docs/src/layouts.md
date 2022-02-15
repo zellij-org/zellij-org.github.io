@@ -203,6 +203,11 @@ The layout supports all the configuration options from the [Configuration](https
 If an option is specified in a layout, it has precedence over the config file
 itself.
 
+Example:
+```yaml
+default_shell: fish
+```
+
 
 
 ## Further examples
