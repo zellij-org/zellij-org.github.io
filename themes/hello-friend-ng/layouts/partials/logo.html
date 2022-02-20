@@ -6,7 +6,7 @@
         <!-- <span class="logo__mark">{{ with .Site.Params.Logo.logoMark }}{{ . }}{{ else }}>{{ end }}</span> -->
             <span class="logo__mark"><img src="/img/logo.png" alt="Zellij logo"></span>
             <!-- <span class="logo__text">{{ with .Site.Params.Logo.logoText }}{{ . }}{{ else }}hello{{ end }}</span> -->
-            <span class="logo__text">~/zellij{{ .URL }}</span>
+            <span class="logo__text">~/zellij{{ .RelPermalink }}</span>
             <span class="logo__cursor" style=
                   "{{ with.Site.Params.Logo.logoCursorDisabled }}visibility:hidden;{{ end }}
                    {{ with.Site.Params.Logo.logoCursorColor    }}background-color:{{ . }};{{ end }}
