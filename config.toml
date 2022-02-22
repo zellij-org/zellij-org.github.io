@@ -57,7 +57,7 @@ disableHugoGeneratorInject = false
   # 
   description = "A terminal workspace with batteries included"
   keywords = "rust,terminal,multiplexer"
-  images = ["/img/zellij-preview.png"]
+  images = ["/img/floating-panes-preview.png"]
 
   # Home subtitle of the index page.
   #
