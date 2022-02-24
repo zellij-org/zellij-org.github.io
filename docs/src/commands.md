@@ -41,11 +41,11 @@ Functionality to help with the setup of zellij.
 
 | Flag                                |  Description|
 |:------------------------------------|------------------|
-| --check                             |  Checks the configuration |
+| --check                             |  Check the configuration |
 | --clean                             |  Start with default configuration|
 | --dump-config                       |  Dump the default configuration file to stdout|
 | --dump-layout [LAYOUT]      |  Dump a specified default layout file to stdout |
-| --generate-completions [SHELL]      |  Generate completions for the specified shell|
+| --generate-completion [SHELL]      |  Generate completions for the specified shell|
 
 # Flags
 These flags can be invoked with `zellij --flag`.
