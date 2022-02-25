@@ -9,12 +9,14 @@ This is an overview of zellij plugins, please do keep in mind that they are
 not necessarily connected to zellij maintainers:
 
 * [zellij-pomodoro-plugin][zellij-pomodoro-plugin]
+* [z-tab-bar][z-tab-bar]: a tmux-like tab-bar.
 
 
 
 
 
 [zellij-pomodoro-plugin]: https://github.com/tw4452852/zellij-pomodoro-plugin
+[z-tab-bar]: https://github.com/casonadams/z-tab-bar
 [tab-bar]: https://github.com/zellij-org/zellij/tree/main/default-plugins/tab-bar
 [strider]: https://github.com/zellij-org/zellij/tree/main/default-plugins/strider
 [status-bar]: https://github.com/zellij-org/zellij/tree/main/default-plugins/status-bar
