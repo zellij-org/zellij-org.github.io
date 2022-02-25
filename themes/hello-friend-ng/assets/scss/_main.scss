@@ -265,15 +265,15 @@ pre {
     @media (prefers-color-scheme: dark) {
       color: inherit;
     }
-  
+
     @media (prefers-color-scheme: light) {
       color: #ccc;
     }
-  
+
     [data-theme=dark] & {
       color: inherit;
     }
-  
+
     [data-theme=light] & {
       color: #ccc;
     }
@@ -434,14 +434,16 @@ hr {
 .download-hover {
   position: relative;
   display: inline-block;
-}
-.download-hover .img-top {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 99;
-}
-.download-hover:hover .img-top {
-    display: inline;
+
+  color: $dark-color-secondary;
+  background-color: transparent;
+
+  border-radius: 30px;
+  border-width: medium;
+  border-color: $dark-color-secondary;
+
+  &:hover {
+    color: $dark-background;
+    background-color: $dark-color-secondary;
+  }
 }
