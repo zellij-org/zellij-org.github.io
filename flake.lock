@@ -33,8 +33,8 @@
     },
     "nixpkgs": {
       "locked": {
-        "narHash": "sha256-h6nq9WXgP/ucMUJsgkzQxWW/OqNZf/+hE5Csg/EhctY=",
-        "path": "/nix/store/p1dp0ashngik3iialjf7kkzva9hqr334-source",
+        "narHash": "sha256-4va4MvJ076XyPp5h8sm5eMQvCrJ6yZAbBmyw95dGyw4=",
+        "path": "/nix/store/d9wpzgyjlpw1424kw2lyilah6690fnk3-source",
         "type": "path"
       },
       "original": {
