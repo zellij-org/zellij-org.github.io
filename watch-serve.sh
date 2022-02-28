@@ -19,14 +19,14 @@ if $(_exists podman); then
     echo "Using '$CRT' as container runtime"
 
     $CRT build --tag "$CONTAINER_NAME" -f Containerfile
-    $CRT run --userns keep-id --user "$(id -u):$(id -g)" -v "$PWD:$PWD:z" -w "$PWD" -p 1313:1313 $CONTAINER_NAME
+    $CRT run --rm -it --userns keep-id --user "$(id -u):$(id -g)" -v "$PWD:$PWD:z" -w "$PWD" -p 1313:1313 $CONTAINER_NAME
 
 elif $(_exists docker); then
     CRT="$(which docker)"
     echo "Using '$CRT' as container runtime"
 
     $CRT build --tag "$CONTAINER_NAME" <Containerfile
-    $CRT run --user "$(id -u):$(id -g)" -v "$PWD:$PWD" -w "$PWD" -p 1313:1313 $CONTAINER_NAME
+    $CRT run --rm -it --user "$(id -u):$(id -g)" -v "$PWD:$PWD" -w "$PWD" -p 1313:1313 $CONTAINER_NAME
 
 else
     echo "You must have installed either of:"
