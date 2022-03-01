@@ -5,7 +5,7 @@ function _exists {
     command -v "$1" >/dev/null
 }
 
-if [[ $(_exists mdbook) && $(_exists hugo) ]]; then
+if $(_exists mdbook) && $(_exists hugo); then
     { mdbook watch docs/ -d ../static/documentation & hugo server; }
     exit 0
 fi
@@ -14,7 +14,12 @@ fi
 CRT=""
 CONTAINER_NAME="zellij-docs:latest"
 
-if $(_exists podman); then
+if $(_exists nix-shell); then
+    echo "Using nix to execute script"
+
+    nix-shell --command "$0"
+
+elif $(_exists podman); then
     CRT="$(which podman)"
     echo "Using '$CRT' as container runtime"
 
@@ -31,6 +36,7 @@ elif $(_exists docker); then
 else
     echo "You must have installed either of:"
     echo ""
+    echo "  - nix"
     echo "  - docker"
     echo "  - podman"
     echo "  - mdbook AND hugo"
