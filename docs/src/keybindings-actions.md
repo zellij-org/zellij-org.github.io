@@ -61,6 +61,11 @@ Toggle between sending text commands to all panes on the current tab and just th
 ## `ToggleTab`
 Switch between the most recently used tabs.
 
+## `ToggleFloatingPanes`
+Toggle between floating, and embedded panes.
+
+## `TogglePaneEmbedOrFloating`
+Toggle a specific pane between floating, and embedded mode.
 
 
 ## `NewPane: <Direction>`
@@ -89,6 +94,18 @@ NewTab: {
   direction: Vertical,
   direction: Horizontal,
   ],}
+```
+a slightly more expansive example:
+```
+        - action: [
+          NewTab: {
+  name: "a new tab",
+  parts: [
+    {direction: Vertical, parts: [ pane_name: "testing", pane_name: "building" ]},
+    {pane_name: "I should have focus", focus: true},
+  ],},
+        ]
+          key: [ Char: '7',]
 ```
 
 ## `GoToNextTab`
