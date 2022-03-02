@@ -185,6 +185,10 @@ Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code
 <p>Toggle between sending text commands to all panes on the current tab and just the focused pane.</p>
 <h2 id="toggletab"><a class="header" href="#toggletab"><code>ToggleTab</code></a></h2>
 <p>Switch between the most recently used tabs.</p>
+<h2 id="togglefloatingpanes"><a class="header" href="#togglefloatingpanes"><code>ToggleFloatingPanes</code></a></h2>
+<p>Toggle between floating, and embedded panes.</p>
+<h2 id="togglepaneembedorfloating"><a class="header" href="#togglepaneembedorfloating"><code>TogglePaneEmbedOrFloating</code></a></h2>
+<p>Toggle a specific pane between floating, and embedded mode.</p>
 <h2 id="newpane-direction"><a class="header" href="#newpane-direction"><code>NewPane: &lt;Direction&gt;</code></a></h2>
 <p>Open a new pane in the specified direction (relative to focus).
 If no direction is specified, will try to use the biggest available space.
@@ -205,6 +209,17 @@ Specifying no direction should be done by introducing a space character (this is
   direction: Vertical,
   direction: Horizontal,
   ],}
+</code></pre>
+<p>a slightly more expansive example:</p>
+<pre><code>        - action: [
+          NewTab: {
+  name: &quot;a new tab&quot;,
+  parts: [
+    {direction: Vertical, parts: [ pane_name: &quot;testing&quot;, pane_name: &quot;building&quot; ]},
+    {pane_name: &quot;I should have focus&quot;, focus: true},
+  ],},
+        ]
+          key: [ Char: '7',]
 </code></pre>
 <h2 id="gotonexttab"><a class="header" href="#gotonexttab"><code>GoToNextTab</code></a></h2>
 <p>Go to the next tab.</p>
