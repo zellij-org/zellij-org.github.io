@@ -14,10 +14,16 @@ fi
 CRT=""
 CONTAINER_NAME="zellij-docs:latest"
 
-if $(_exists nix-shell); then
-    echo "Using nix to execute script"
+if $(_exists nix); then
+    echo "Trying 'nix develop' to execute script"
 
-    nix-shell --command "$0"
+    nix develop --command "$0"
+
+    if [[ $? -ne 0 ]] && $(_exists nix-shell); then
+        echo "Using 'nix-shell' to execute script instead"
+
+        nix-shell --command "$0"
+    fi
 
 elif $(_exists podman); then
     CRT="$(which podman)"
