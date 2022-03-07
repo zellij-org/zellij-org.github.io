@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout master
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3
 
       - name: Deploy the site
         uses: benmatselby/hugo-deploy-gh-pages@master
