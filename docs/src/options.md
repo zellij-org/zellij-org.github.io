@@ -17,3 +17,14 @@ Eg. `zellij options --simplified-ui true` is equivalent to `simplified_ui: true`
 | on-force-close| on_force_close    | detach         | What to do when receiving a SIGTERM, SIGINT, SIGQUIT or SIGHUP.|
 | theme         | theme             | default        | Switch to a theme configured under the `themes` section.  |
 | scroll-buffer-size| scroll_buffer_size | 10000 | The number of lines zellij stores for each pane in the scroll back buffer.|
+| _ | env | empty | A map of key value pairs for environment variables. |
+
+
+
+A small example:
+```
+default_mode: locked
+mouse_mode: false
+env:
+  RUST_BACKTRACE: 1 # set RUST_BACKTRACE=1
+```

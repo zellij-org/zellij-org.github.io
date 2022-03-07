@@ -158,7 +158,14 @@
 <tr><td>on-force-close</td><td>on_force_close</td><td align="center">detach</td><td>What to do when receiving a SIGTERM, SIGINT, SIGQUIT or SIGHUP.</td></tr>
 <tr><td>theme</td><td>theme</td><td align="center">default</td><td>Switch to a theme configured under the <code>themes</code> section.</td></tr>
 <tr><td>scroll-buffer-size</td><td>scroll_buffer_size</td><td align="center">10000</td><td>The number of lines zellij stores for each pane in the scroll back buffer.</td></tr>
+<tr><td>_</td><td>env</td><td align="center">empty</td><td>A map of key value pairs for environment variables.</td></tr>
 </tbody></table>
+<p>A small example:</p>
+<pre><code>default_mode: locked
+mouse_mode: false
+env:
+  RUST_BACKTRACE: 1 # set RUST_BACKTRACE=1
+</code></pre>
 
                     </main>
 
