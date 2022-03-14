@@ -3,6 +3,7 @@
 - [Introduction](./introduction.md)
     - [Installation](./installation.md)
     - [Overview](./overview.md)
+    - [Integration](./integration.md)
 - [Commands](./commands.md)
 - [Configuration](./configuration.md)
   - [Options](./options.md)
