@@ -1,8 +1,9 @@
 # Themes
+## Color
 You can specify a color theme, that will be picked up by
 zellij in the following way:
 
-```
+```yaml
 themes:
   default:
     fg: [0,0,0]
@@ -19,7 +20,7 @@ themes:
     orange: [0,0,0]
 ```
 for truecolor, or:
-```
+```yaml
 themes:
   default:
     fg: 0
@@ -43,3 +44,18 @@ To specify a different theme, run zellij with:
 zellij options --theme [NAME]
 ```
 or put the name in the configuration file with `theme: [NAME]`.
+
+## UI
+Certain non-color aspects of Zellij's interface can also be customized.
+
+### Rounded Pane Corners
+If your font has support for rounded corners (most do), then you can enable
+them by adding the following to your configuration file:
+
+```yaml
+ui:
+  pane_frames:
+    rounded_corners: true
+```
+
+Zellij should pick up this change automatically next time the config is loaded.
