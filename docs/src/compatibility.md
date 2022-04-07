@@ -54,3 +54,7 @@ Refer to lines containing "copy_command" from the output of `zellij setup
 For technical background, refer to [this
 issue](https://github.com/zellij-org/zellij/issues/627) and [this merge
 request](https://github.com/zellij-org/zellij/pull/996)
+
+## Backspace sending ctrl-h (entering into `Move` mode)
+This can happen in some terminal emulators (eg. Xterm). It can be remedied either on the terminal emulator side by getting the terminal emulator to send `^?` instead of `^H`, or on the Zellij side by remapping ctrl-h to some other key. Here's an example fix in xterm: http://www.hypexr.org/linux_ruboff.php
+
