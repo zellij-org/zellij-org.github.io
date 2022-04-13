@@ -9,7 +9,6 @@ themes:
     fg: [0,0,0]
     bg: [0,0,0]
     black: [0,0,0]
-    gray: [0,0,0]
     red: [0,0,0]
     green: [0,0,0]
     yellow: [0,0,0]
@@ -26,7 +25,6 @@ themes:
     fg: 0
     bg: 0
     black: 0
-    gray: 0
     red: 0
     green: 0
     yellow: 0
@@ -44,6 +42,8 @@ To specify a different theme, run zellij with:
 zellij options --theme [NAME]
 ```
 or put the name in the configuration file with `theme: [NAME]`.
+
+Here are [some example themes](https://github.com/zellij-org/zellij/tree/main/example/themes).
 
 ## UI
 Certain non-color aspects of Zellij's interface can also be customized.
