@@ -25,6 +25,37 @@ else
 end
 ```
 
+other ways, zellij provides a pre-defined auto start scripts.
+
+### bash
+```
+echo 'eval "$(zellij setup --generate-auto-start bash)"' >> ~/.bashrc
+```
+
+### zsh
+```
+echo 'eval "$(zellij setup --generate-auto-start zsh)"' >> ~/.zshrc
+```
+
+### fish
+Add 
+
+```fish
+if status is-interactive
+    ...
+    zellij setup --generate-auto-start fish | source
+end
+```
+
+to `$HOME/.config/fish/config.fish` file
+
+The following environment variables can also be used in the provided script.
+
+| Variable             | Description                                                                                          | default |
+|----------------------|------------------------------------------------------------------------------------------------------|---------|
+| `ZELLIJ_AUTO_ATTACH` | If the zellij session already exists, attach to the default session. (not starting as a new session) |  false  |
+| `ZELLIJ_AUTO_EXIT`   | When zellij exits, the shell exits as well.                                                          |  false  |
+
 ## List current sessions
 List current sessions, attach to a running session, or create a new one.
 Depends on `sk` & `bash`
