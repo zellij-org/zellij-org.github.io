@@ -118,6 +118,14 @@ run:
   command: {cmd: htop, args: ["-C"]}
 ```
 
+This can be used to open a pane in a specified directory by making use of your shell's `command` flag and `cd path/to/direcotyr && <shell>`.
+
+Example:
+```
+run:
+  command: { cmd: zsh, args: ["-c", "cd ~/Documents/code/zellij && zsh"] }
+```
+
 ### `name: <name-of-the-tab>`
 This is an optional command that can be used to name the `tab` in the tab layout
 section. 
