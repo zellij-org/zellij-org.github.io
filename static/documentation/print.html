@@ -247,6 +247,26 @@ else
   zellij
 end
 </code></pre>
+<p>other ways, zellij provides a pre-defined auto start scripts.</p>
+<h3 id="bash"><a class="header" href="#bash">bash</a></h3>
+<pre><code>echo 'eval &quot;$(zellij setup --generate-auto-start bash)&quot;' &gt;&gt; ~/.bashrc
+</code></pre>
+<h3 id="zsh"><a class="header" href="#zsh">zsh</a></h3>
+<pre><code>echo 'eval &quot;$(zellij setup --generate-auto-start zsh)&quot;' &gt;&gt; ~/.zshrc
+</code></pre>
+<h3 id="fish"><a class="header" href="#fish">fish</a></h3>
+<p>Add </p>
+<pre><code class="language-fish">if status is-interactive
+    ...
+    zellij setup --generate-auto-start fish | source
+end
+</code></pre>
+<p>to <code>$HOME/.config/fish/config.fish</code> file</p>
+<p>The following environment variables can also be used in the provided script.</p>
+<table><thead><tr><th>Variable</th><th>Description</th><th>default</th></tr></thead><tbody>
+<tr><td><code>ZELLIJ_AUTO_ATTACH</code></td><td>If the zellij session already exists, attach to the default session. (not starting as a new session)</td><td>false</td></tr>
+<tr><td><code>ZELLIJ_AUTO_EXIT</code></td><td>When zellij exits, the shell exits as well.</td><td>false</td></tr>
+</tbody></table>
 <h2 id="list-current-sessions"><a class="header" href="#list-current-sessions">List current sessions</a></h2>
 <p>List current sessions, attach to a running session, or create a new one.
 Depends on <code>sk</code> &amp; <code>bash</code></p>
@@ -1024,7 +1044,7 @@ To load a layout with Zellij:</p>
 <pre><code>zellij --layout-path /path/to/your/layout_file.yaml
 </code></pre>
 <p>By default Zellij will load the <code>default.yaml</code> layout, that is found in the
-<code>layout</code> directory (by default a subdirectory of the <code>config</code>
+<code>layouts</code> directory (by default a subdirectory of the <code>config</code>
 directory [config/layouts]). Falling back to an internal default layout,
 if not found.
 Layouts residing in the default directory can be accessed as follows:</p>
@@ -1281,6 +1301,7 @@ not necessarily connected to zellij maintainers:</p>
 <ul>
 <li><a href="https://github.com/tw4452852/zellij-pomodoro-plugin">zellij-pomodoro-plugin</a></li>
 <li><a href="https://github.com/casonadams/z-tab-bar">z-tab-bar</a>: a tmux-like tab-bar.</li>
+<li><a href="https://mzte.de/git/LordMZTE/zellij-compact-status">zellij-compact-status</a>: a compact status bar.</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="developing-a-plugin"><a class="header" href="#developing-a-plugin">Developing a Plugin</a></h1>
 <p>Currently we have a complete guide for developing plugins in <a href="./plugin-rust.html">Rust</a> and plan to add more guides for other languages in the future. If you are feeling particularly brave, you can try to write plugins in another language today! The <a href="./plugin-other.html">Other Languages</a> section will get you started.</p>

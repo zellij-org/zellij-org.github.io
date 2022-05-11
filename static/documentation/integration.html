@@ -152,6 +152,26 @@ else
   zellij
 end
 </code></pre>
+<p>other ways, zellij provides a pre-defined auto start scripts.</p>
+<h3 id="bash"><a class="header" href="#bash">bash</a></h3>
+<pre><code>echo 'eval &quot;$(zellij setup --generate-auto-start bash)&quot;' &gt;&gt; ~/.bashrc
+</code></pre>
+<h3 id="zsh"><a class="header" href="#zsh">zsh</a></h3>
+<pre><code>echo 'eval &quot;$(zellij setup --generate-auto-start zsh)&quot;' &gt;&gt; ~/.zshrc
+</code></pre>
+<h3 id="fish"><a class="header" href="#fish">fish</a></h3>
+<p>Add </p>
+<pre><code class="language-fish">if status is-interactive
+    ...
+    zellij setup --generate-auto-start fish | source
+end
+</code></pre>
+<p>to <code>$HOME/.config/fish/config.fish</code> file</p>
+<p>The following environment variables can also be used in the provided script.</p>
+<table><thead><tr><th>Variable</th><th>Description</th><th>default</th></tr></thead><tbody>
+<tr><td><code>ZELLIJ_AUTO_ATTACH</code></td><td>If the zellij session already exists, attach to the default session. (not starting as a new session)</td><td>false</td></tr>
+<tr><td><code>ZELLIJ_AUTO_EXIT</code></td><td>When zellij exits, the shell exits as well.</td><td>false</td></tr>
+</tbody></table>
 <h2 id="list-current-sessions"><a class="header" href="#list-current-sessions">List current sessions</a></h2>
 <p>List current sessions, attach to a running session, or create a new one.
 Depends on <code>sk</code> &amp; <code>bash</code></p>
