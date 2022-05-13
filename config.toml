@@ -176,6 +176,11 @@ disableHugoGeneratorInject = false
     name       = "News"
     url        = "news/"
   [[menu.main]]
+    weight = 2
+    identifier = "roadmap"
+    name       = "Roadmap"
+    url        = "roadmap/"
+  [[menu.main]]
     weight = 3
     identifier = "screenshots"
     name       = "Screenshots"
