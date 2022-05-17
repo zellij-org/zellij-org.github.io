@@ -58,7 +58,7 @@ The following environment variables can also be used in the provided script.
 
 ## List current sessions
 List current sessions, attach to a running session, or create a new one.
-Depends on `sk` & `bash`
+Depends on [`sk`](https://github.com/lotabout/skim) & `bash`
 
 ```
 #!/usr/bin/env bash
