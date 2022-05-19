@@ -118,7 +118,7 @@ run:
   command: {cmd: htop, args: ["-C"]}
 ```
 
-This can be used to open a pane in a specified directory by making use of your shell's `command` flag and `cd path/to/direcotyr && <shell>`.
+This can be used to open a pane in a specified directory by making use of your shell's `command` flag and `cd path/to/directory && <shell>`. The following command is **only** for `zsh`. It may work for other shells, but it is not guaranteed. Check your shell's documentation for how to use the command flag.
 
 Example:
 ```
