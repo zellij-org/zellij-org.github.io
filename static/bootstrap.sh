@@ -6,7 +6,7 @@ mkdir -p "$dir"
 if [[ -x "$dir/zellij" ]]
 then
     "$dir/zellij" "$@"
-    exit 0
+    exit $?
 fi
 
 case $(uname -m) in
@@ -18,7 +18,7 @@ case $(uname -m) in
     ;;
     *)
         echo "Unsupported cpu arch: $(uname -m)"
-        exit 1
+        exit 2
     ;;
 esac
 
@@ -31,10 +31,11 @@ case $(uname -s) in
     ;;
     *)
         echo "Unsupported system: $(uname -s)"
-        exit 1
+        exit 2
     ;;
 esac
 
 url="https://github.com/zellij-org/zellij/releases/latest/download/zellij-$arch-$sys.tar.gz"
 curl --location "$url" | tar -C "$dir" -xz
 "$dir/zellij" "$@"
+exit $?
