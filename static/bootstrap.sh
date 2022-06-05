@@ -2,11 +2,10 @@
 
 dir="/tmp/zellij/bootstrap"
 mkdir -p "$dir"
-cd "$dir" || exit 1
 
-if [[ -x zellij ]]
+if [[ -x "$dir/zellij" ]]
 then
-    ./zellij "$@"
+    "$dir/zellij" "$@"
     exit 0
 fi
 
@@ -37,5 +36,5 @@ case $(uname -s) in
 esac
 
 url="https://github.com/zellij-org/zellij/releases/latest/download/zellij-$arch-$sys.tar.gz"
-curl --location "$url" | tar -xz
-./zellij "$@"
+curl --location "$url" | tar -C "$dir" -xz
+"$dir/zellij" "$@"
