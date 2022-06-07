@@ -10,6 +10,22 @@ const chosenTheme = window.localStorage && window.localStorage.getItem("theme");
 const chosenThemeIsDark = chosenTheme == "dark";
 const chosenThemeIsLight = chosenTheme == "light";
 
+function copyOnClick(id) {
+  var copyText = document.getElementById(id);
+  navigator.clipboard.writeText(copyText.innerText);
+  var btn = document.getElementById(id + "Btn");
+  btn.textContent = "Copied!"
+
+  var otherBtn;
+  if (id === "fishCmd") {
+    otherBtn = "bashCmdBtn";
+  } else if (id === "bashCmd") {
+    otherBtn = "fishCmdBtn";
+  }
+  var otherBtn = document.getElementById(otherBtn);
+  otherBtn.textContent = "Copy"
+}
+
 // Detect the color scheme the operating system prefers.
 function detectOSColorTheme() {
   if (chosenThemeIsDark) {
