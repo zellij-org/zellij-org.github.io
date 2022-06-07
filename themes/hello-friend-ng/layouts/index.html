@@ -23,8 +23,8 @@
             </div>
 
             <div style="margin-bottom: 15px;">
-              <h4 style="margin: 0px; border-bottom: 1px solid #ddd; justify-content: center;">Try Zellij without installing</h4>
-              <table>
+              <h4 style="margin: 0px; border-bottom: 1px solid #ddd; justify-content: center;">Try Zellij Without Installing</h4>
+              <table style="text-align: left;">
                 <tr style="display: flexbox;">
                   <th>For bash/zsh:</th>
                   <td><code type="text" id="bashCmd">bash <(curl -L zellij.dev/launch)</code></td>
@@ -36,7 +36,7 @@
                   <td><button id="fishCmdBtn" onclick="copyOnClick('fishCmd')">Copy</button></td>
                 </tr>
               </table>
-              <p style="margin: 0; border-top: 1px solid #ddd;">View the script that will be executed <a href="/launch">here</a></p>
+              <p style="margin: 0; border-top: 1px solid #ddd; margin-bottom: 40px">View the script that will be executed <a href="/launch">here</a></p>
             </div>
 
             {{- with .Site.Params.social }}

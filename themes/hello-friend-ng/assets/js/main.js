@@ -14,7 +14,7 @@ function copyOnClick(id) {
   var copyText = document.getElementById(id);
   navigator.clipboard.writeText(copyText.innerText);
   var btn = document.getElementById(id + "Btn");
-  btn.textContent = "Copied!"
+  btn.style.background = "#A3BD8D"
 
   var otherBtn;
   if (id === "fishCmd") {
@@ -23,7 +23,11 @@ function copyOnClick(id) {
     otherBtn = "fishCmdBtn";
   }
   var otherBtn = document.getElementById(otherBtn);
-  otherBtn.textContent = "Copy"
+  window.setTimeout(function () {
+    var btn = document.getElementById(id + "Btn");
+    btn.style.background = "#1B1C1D"
+  }, 300);
+  otherBtn.style.background = "#1B1C1D"
 }
 
 // Detect the color scheme the operating system prefers.
