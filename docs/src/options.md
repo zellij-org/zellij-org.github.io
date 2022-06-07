@@ -9,6 +9,7 @@ Eg. `zellij options --simplified-ui true` is equivalent to `simplified_ui: true`
 |---------------|-------------------|:--------------:|------------|
 | default-mode  | default_mode      | normal         | The first mode on startup. |
 | default-shell | default_shell     | $SHELL         | The default shell.         |
+| default-layout | default_layout     | default         | The name of the default layout.        |
 | mouse-mode | mouse_mode     | true         | Enable mouse mode.         |
 | disable-mouse-mode | -     | false         | Disable mouse mode.         |
 | simplified-ui | simplified_ui     | false          | Request the Plugins to use a more compatible ui.  |
