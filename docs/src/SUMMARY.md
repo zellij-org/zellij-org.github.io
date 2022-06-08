@@ -4,6 +4,7 @@
     - [Installation](./installation.md)
     - [Overview](./overview.md)
     - [Integration](./integration.md)
+    - [FAQ](./faq.md)
 - [Commands](./commands.md)
 - [Configuration](./configuration.md)
   - [Options](./options.md)

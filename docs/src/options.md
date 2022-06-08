@@ -22,6 +22,7 @@ Eg. `zellij options --simplified-ui true` is equivalent to `simplified_ui: true`
 | copy-command | copy_command | _ | Command to execute when copying text, instead of using OSC52 (for example wl-copy, xclip, pbcopy). |
 | copy-clipboard | copy_clipboard | system | Destination selection buffer (x11/linux) for OSC52 copy, can be system or primary. |
 | copy-on-select | copy_on_select | true | Automatically copy when selecting text. |
+| scrollback-editor | scrollback_editor | - | Path to the editor to use to edit scrollback (eg. `/usr/bin/vim`) |
 
 
 

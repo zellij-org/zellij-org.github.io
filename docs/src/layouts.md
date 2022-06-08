@@ -4,7 +4,7 @@ These files can describe a layout of terminal panes and plugins that Zellij will
 To load a layout with Zellij:
 
 ```
-zellij --layout-path /path/to/your/layout_file.yaml
+zellij --layout /path/to/your/layout_file.yaml
 ```
 
 By default Zellij will load the `default.yaml` layout, that is found in the
@@ -12,9 +12,12 @@ By default Zellij will load the `default.yaml` layout, that is found in the
 directory [config/layouts]). Falling back to an internal default layout,
 if not found.
 Layouts residing in the default directory can be accessed as follows:
+
 ```
 zellij --layout [layout_name]
 ```
+
+The difference being: if a path (either absolute or relative) is supplied to `--layout`, it will load the layout from that path. If a bare name is suppled, it will load a built-in layout from the default directory
 
 ## Example
 This file:
