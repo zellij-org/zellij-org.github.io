@@ -307,6 +307,11 @@ fi
 <h2 id="the-ui-takes-up-too-much-space-what-can-i-do-about-it"><a class="header" href="#the-ui-takes-up-too-much-space-what-can-i-do-about-it">The UI takes up too much space, what can I do about it?</a></h2>
 <p>You can load the <code>compact</code> layout with <code>zellij --layout compact</code>.</p>
 <p>Additionally, you can disable pane frames either at runtime with <code>Ctrl + &lt;p&gt; + &lt;z&gt;</code> or through the <a href="./configuration.html">config</a> with <code>pane_frames: false</code>.</p>
+<h2 id="i-see-broken-characters-in-the-default-ui-how-can-i-fix-this"><a class="header" href="#i-see-broken-characters-in-the-default-ui-how-can-i-fix-this">I see broken characters in the default UI, how can I fix this?</a></h2>
+<p>This means your default terminal font doesn't include some special characters used by Zellij. A safe bet would be to install and use a font from <a href="https://www.nerdfonts.com">nerdfonts</a>.</p>
+<p>If you don't want to install a new font, you can also load the simplified UI that doesn't use these characters, with:</p>
+<pre><code>zellij options --simplified-ui true
+</code></pre>
 <h2 id="how-can-i-use-floating-panes"><a class="header" href="#how-can-i-use-floating-panes">How can I use floating panes?</a></h2>
 <p>You can toggle showing/hiding floating panes with <code>Ctrl + &lt;p&gt; + &lt;w&gt;</code> (if no floating panes are open, one will be opened when they are shown).</p>
 <p>In this mode you can create additional windows as you would normally create panes (eg. with <code>Alt + &lt;n&gt;</code>). Move them with the mouse or the keyboard, and resize them as you would normally resize or move Zellij panes.</p>

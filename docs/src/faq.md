@@ -13,6 +13,14 @@ You can load the `compact` layout with `zellij --layout compact`.
 
 Additionally, you can disable pane frames either at runtime with `Ctrl + <p> + <z>` or through the [config](./configuration.md) with `pane_frames: false`.
 
+## I see broken characters in the default UI, how can I fix this?
+This means your default terminal font doesn't include some special characters used by Zellij. A safe bet would be to install and use a font from [nerdfonts](https://www.nerdfonts.com).
+
+If you don't want to install a new font, you can also load the simplified UI that doesn't use these characters, with:
+```
+zellij options --simplified-ui true
+```
+
 ## How can I use floating panes?
 You can toggle showing/hiding floating panes with `Ctrl + <p> + <w>` (if no floating panes are open, one will be opened when they are shown).
 
