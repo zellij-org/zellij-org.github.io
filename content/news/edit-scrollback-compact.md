@@ -27,7 +27,7 @@ Imagine you're working in a session and you'd like to:
 2. Copy parts of the scrollback and save them in a different file
 3. Search through the scrollback just like you would through a normal file
 
-Starting with this version, you can issue a `Ctrl + <s> + <e>` and Zellij will open the editor you have defined in `$EDITOR` or `$VISUAL` in place instead of your pane.
+Starting with this version, you can issue a `Ctrl + <s> + <e>` and Zellij will open the editor you have defined in `$EDITOR` or `$VISUAL` (eg. /usr/bin/vim) in place instead of your pane.
 There you can edit the file, save it, copy from it or search inside it. Once you close the editor (or close the pane normally with `Ctrl + <p> + <x>`), you'll be back in your pane where you started.
 
 {{< video "/video/edit-buffer-demo.mp4" "my-5" >}}
