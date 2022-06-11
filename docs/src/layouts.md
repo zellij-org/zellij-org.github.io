@@ -17,7 +17,7 @@ Layouts residing in the default directory can be accessed as follows:
 zellij --layout [layout_name]
 ```
 
-The difference being: if a path (either absolute or relative) is supplied to `--layout`, it will load the layout from that path. If a bare name is suppled, it will load a built-in layout from the default directory
+The difference being: if a path (either absolute or relative) is supplied to `--layout`, it will load the layout from that path. If a bare name is supplied, it will load a built-in layout from the default directory.
 
 ## Example
 This file:
@@ -220,7 +220,5 @@ default_shell: fish
 ```
 
 
-
 ## Further examples
 Please take a look at the [default](https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts) layouts that come with Zellij, or the layouts that reside in the [example](https://github.com/zellij-org/zellij/tree/main/example) directory for more complete layouts.
-
