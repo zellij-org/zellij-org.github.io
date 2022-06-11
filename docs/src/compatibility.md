@@ -21,6 +21,8 @@ Some Options:
 | apt               |fonts-powerline |
 | nix               |    nerdfonts   |
 
+Post installation the appropriate environment needs to be aware of the font.
+
 ## Alt button mapping on darwin systems:
 
 This can be mitigated individually on a terminal emulator level,
