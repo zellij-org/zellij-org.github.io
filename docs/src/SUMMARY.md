@@ -20,5 +20,6 @@
   - [Overview](./plugin-overview.md)
   - [Developing a Plugin](./plugin-writing.md)
     - [Rust](./plugin-rust.md)
+    - [Zig](./plugin-zig.md)
     - [Other Languages](./plugin-other.md)
 - [Compatibility](./compatibility.md)
