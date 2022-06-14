@@ -2,7 +2,7 @@
   description = "Shell for working on the site";
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
-  inputs.zellij.url = "github:a-kenji/zellij/ce6747e4994ca927d60ad730bbdaf8537c90081e";
+  inputs.zellij.url = "github:zellij-org/zellij";
   inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
 

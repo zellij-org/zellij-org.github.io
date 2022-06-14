@@ -14,6 +14,7 @@
     - [Actions](./keybindings-actions.md)
     - [Examples](./keybindings-examples.md)
   - [Themes](./themes.md)
+    - [Theme Gallery](./theme-gallery.md)
 - [Layouts](./layouts.md)
     - [Templates](./layouts-templates.md)
 - [Plugins](./plugins.md)

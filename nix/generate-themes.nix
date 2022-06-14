@@ -152,7 +152,7 @@ in
         for option in options:
           machine.execute(f"sudo -u alice alacritty --command zellij --config {path} --layout {layout} options --theme {path.stem} {option} >&2 &")
           machine.wait_for_window(r"alice.*?machine")
-          machine.sleep(5)
+          machine.sleep(20)
           screenshot_path = path.stem.replace('-','_')
           machine.screenshot(f"{screenshot_path}_{layout}_{option.replace('-','_').replace(' ','_')}_screenshot")
           machine.execute('sudo -u alice zellij ka --yes')
