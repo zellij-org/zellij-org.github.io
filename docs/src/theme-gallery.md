@@ -113,4 +113,3 @@ inside of the main zellij [repository](https://github.com/zellij-org/zellij/tree
 ![Tokyo Night Storm Compact Simplified](img/theme-gallery/tokyo_night_storm_compact___simplified_ui_true_screenshot.png)
 
 </details>
-
