@@ -1,5 +1,6 @@
 # Actions
 These are the actions that can be assigned to key sequences when [configuring keybindings](./keybindings.md).
+Or that can be invoked by the `zellij action` command.
 
 ## `Quit`
 Quit Zellij.
@@ -132,4 +133,3 @@ Write the specified bytes in the focused pane.
 
 ## `WriteChars: <characters>`
 Write the specified characters in the focused pane.
-
