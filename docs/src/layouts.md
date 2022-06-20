@@ -4,7 +4,7 @@ These files can describe a layout of terminal panes and plugins that Zellij will
 To load a layout with Zellij:
 
 ```
-zellij --layout-path /path/to/your/layout_file.yaml
+zellij --layout /path/to/your/layout_file.yaml
 ```
 
 By default Zellij will load the `default.yaml` layout, that is found in the
@@ -12,9 +12,12 @@ By default Zellij will load the `default.yaml` layout, that is found in the
 directory [config/layouts]). Falling back to an internal default layout,
 if not found.
 Layouts residing in the default directory can be accessed as follows:
+
 ```
 zellij --layout [layout_name]
 ```
+
+The difference being: if a path (either absolute or relative) is supplied to `--layout`, it will load the layout from that path. If a bare name is supplied, it will load a built-in layout from the default directory.
 
 ## Example
 This file:
@@ -118,6 +121,14 @@ run:
   command: {cmd: htop, args: ["-C"]}
 ```
 
+This can be used to open a pane in a specified directory by making use of your shell's `command` flag and `cd path/to/directory && <shell>`. The following command is **only** for `zsh`. It may work for other shells, but it is not guaranteed. Check your shell's documentation for how to use the command flag.
+
+Example:
+```
+run:
+  command: { cmd: zsh, args: ["-c", "cd ~/Documents/code/zellij && zsh"] }
+```
+
 ### `name: <name-of-the-tab>`
 This is an optional command that can be used to name the `tab` in the tab layout
 section. 
@@ -209,7 +220,5 @@ default_shell: fish
 ```
 
 
-
 ## Further examples
 Please take a look at the [default](https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts) layouts that come with Zellij, or the layouts that reside in the [example](https://github.com/zellij-org/zellij/tree/main/example) directory for more complete layouts.
-
