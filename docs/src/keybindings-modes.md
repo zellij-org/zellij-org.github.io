@@ -10,7 +10,7 @@ It is intended to give users a workaround in case one of the default keybindings
 ## pane
 This mode includes instructions that manipulate the different panes. Eg. adding new panes, closing panes and moving the focused pane.
 ## tab
-This mode includes instructions that manipulate the different tabs. Eg. adding new tabs, closing tabs and moving the active tab.
+This mode includes instructions that manipulate the different tabs. Eg. adding new tabs, closing tabs, moving the active tab, and toggling a "sync" mode that sends text to all panes in the current tab.
 ## resize
 This mode allows the resizing of the focused pane.
 ## scroll
