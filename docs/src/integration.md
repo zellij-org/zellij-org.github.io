@@ -38,16 +38,20 @@ echo 'eval "$(zellij setup --generate-auto-start zsh)"' >> ~/.zshrc
 ```
 
 ### fish
+
+⚠️ Depending on the version of the `fish` shell, the setting may not work. In that case, check out this [issue](https://github.com/zellij-org/zellij/issues/1534).
+
 Add 
 
 ```fish
 if status is-interactive
     ...
-    zellij setup --generate-auto-start fish | source
+    eval (zellij setup --generate-auto-start fish | string collect)
 end
 ```
 
-to `$HOME/.config/fish/config.fish` file
+to `$HOME/.config/fish/config.fish` file.
+
 
 The following environment variables can also be used in the provided script.
 
