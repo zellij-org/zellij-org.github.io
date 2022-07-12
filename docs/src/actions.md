@@ -1,141 +1,87 @@
 # Actions
-These are the actions that can be assigned to key sequences when [configuring keybindings](./keybindings.md).
-Or that can be invoked by the `zellij action` command.
 
-## `Quit`
-Quit Zellij.
+Actions are assigned to key sequences through the [keybinding
+configuration](./keybindings.md). All actions are documented in the code,
+viewable [on docs.rs](https://docs.rs/zellij-utils/latest/zellij_utils/input/actions/enum.Action.html),
+along with how these actions translate (serialize) to the configuration file.
 
-## `Detach`
-Detach from the currently running Zellij session.
+In addition, actions can be invoked with the `zellij action` command.
 
-## `MovePane: <Direction>`
-Move the currently focused pane in a direction.
-
-## `SwitchToMode: <InputMode>`
-Switch to the specified [input mode](./keybindings-modes.md).
-The mode should be capitalized, eg. `SwitchToMode: Normal`.
-
-Note that there's a "hidden" mode called `RenameTab` which can be used in order to trigger the renaming of a tab.
-
-## `Resize: <Direction>`
-Resize focused pane in the specified direction.
-Direction should be one of `Left`, `Right`, `Up`, `Down`, `Increase`, or `Decrease`.
-
-Example: `Resize: Down`
-
-## `FocusNextPane`
-Switch focus to next pane to the right or below if on screen edge.
-
-## `FocusPreviousPane`
-Switch focus to next pane to the left or above if on screen edge.
-
-## `SwitchFocus`
-Switch focus to pane with the next ID (this is mostly left around for legacy support, `FocusNextPane` or `FocusPreviousPane` should be preferred).
-
-## `MoveFocus: <Direction>`
-Move focus to the pane with the greatest overlap with the current pane in the specified direction. 
-Direction should be one of `Left`, `Right`, `Up` or `Down`.
-
-eg. `MoveFocus: Left`
-
-## `ScrollUp`
-Scroll up 1 line inside the focused pane.
-
-## `ScrollDown`
-Scroll down 1 line inside the focused pane.
-
-##    `PageScrollUp`
-Scroll up one page in the focused pane.
-
-##    `PageScrollDown`
-Scroll down one page in the focused pane.
-
-## `ToggleFocusFullscreen`
-Toggle between fullscreen focus pane and normal layout.
-
-## `TogglePaneFrames`
-Toggle between pane frames and normal layout.
-
-## `ToggleActiveSyncTab`
-Toggle between sending text commands to all panes on the current tab and just the focused pane.
-
-## `ToggleTab`
-Switch between the most recently used tabs.
-
-## `ToggleFloatingPanes`
-Toggle between floating, and embedded panes.
-
-## `TogglePaneEmbedOrFloating`
-Toggle a specific pane between floating, and embedded mode.
+Here you fill find some examples for actions that can be bound to keys, as well
+as ways to combine/chain actions together.
 
 
-## `NewPane: <Direction>`
-Open a new pane in the specified direction (relative to focus).
-If no direction is specified, will try to use the biggest available space.
-Direction should be one of `Left`, `Right`, `Up` or `Down`.
-Specifying no direction should be done by introducing a space character (this is a bug and should be fixed).
 
-eg. `NewPane: Left` or `NewPane: `
+## Switching Input Modes
 
-## `CloseFocus`
-Close the focused pane.
+[Input modes](./keybindings-modes.md) can be switched with the `SwitchToMode`
+action. Beyond what is documented here, you will find additional input modes
+[on docs.rs][10].
 
-## `NewTab: <TabLayout>`
-Create a new tab. Optionally with the provided tab-layout.
+The default configuration already contains keybindings to switch to all the
+input modes. When defining your own custom keybindings, you can choose whether
+you want to enter a different input mode like this:
 
-Example:
-```
-NewTab:
-```
-or
-```
-NewTab: {
-  direction: Vertical,
-  parts: [
-  direction: Vertical,
-  direction: Horizontal,
-  ],}
-```
-a slightly more expansive example:
-```
-        - action: [
-          NewTab: {
-  name: "a new tab",
-  parts: [
-    {direction: Vertical, parts: [ pane_name: "testing", pane_name: "building" ]},
-    {pane_name: "I should have focus", focus: true},
-  ],},
-        ]
-          key: [ Char: '7',]
+```yaml
+- action: [NewPane: , SwitchToMode: Pane]
+  key: [...]
 ```
 
-## `GoToNextTab`
-Go to the next tab.
+This will create a new pane and switch to `Pane` input mode immediately
+afterwards.
 
-## `GoToPreviousTab`
-Go to the previous tab.
+Likewise, by default the key combination `Ctrl + p, x` will close the focused
+pane and switch to `Normal` input mode. If you change the keybinding from:
 
-## `CloseTab`
-Close the current tab.
+```yaml
+- action: [CloseFocus, SwitchToMode: Normal,]
+  key: [Char: 'x',]
+```
 
-## `GoToTab: <index>`
-Go to the tab of the specified index.
+to
 
-## `Run: {cmd: <path>}`
-Run the specified command in a new pane.
-A comma separated list of arguments, or the split
-direction is optional:
+```yaml
+- action: [CloseFocus,]
+  key: [Char: 'x',]
+```
 
-`Run: {cmd: <path>, args: [ARGS], direction: <direction>}`
+the focused pane is closed, but you remain in the `Pane` input mode.
 
-## `Write: [bytes]`
-Write the specified bytes in the focused pane.
 
-## `WriteChars: <characters>`
-Write the specified characters in the focused pane.
 
-## `DumpScreen: <path>`
-Dump the scrollback of the currently selected pane inside of a selected file.
+## Running commands on key presses
 
-## `EditScrollback`
-Edit the scrollback buffer inside of your specified $EDITOR, or  $VISUAL.
+The [`Run` action][20] allows you to execute arbitrary commands upon
+key presses. The argument is of type [`RunCommandAction`][21] and constructed
+like this:
+
+```yaml
+{
+    cmd: "bash",
+    args: ["-c", "ls"],
+    cwd: ,
+    direction: Right,
+}
+```
+
+This will create a new pane to the right of the focused pane, stay in the
+current working directory and run `bash -c ls` on the host.
+
+When running commands like this it is important to keep in mind that once the
+command exits, the pane will close itself immediately. Hence, if we wrote `cmd:
+"ls", args: [], ...` instead, the `ls` command is executed, terminates and the
+pane is closed afterwards.
+
+Here's an example that spawns a new pane running `htop` when pressing `Alt +
+t`:
+
+```yaml
+- action: [Run: {cmd: "htop", args: [], cwd: , direction: },]
+  key: [Alt: 't',]
+```
+
+
+
+[10]: https://docs.rs/zellij-tile/latest/zellij_tile/data/enum.InputMode.html
+[20]: https://docs.rs/zellij-utils/latest/zellij_utils/input/actions/enum.Action.html#variant.Run
+[21]: https://docs.rs/zellij-utils/latest/zellij_utils/input/command/struct.RunCommandAction.html
