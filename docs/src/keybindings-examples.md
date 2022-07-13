@@ -28,6 +28,8 @@ Eg:
 
 Here is one possible example of that:
 ```
+---
+default_mode: locked
 keybinds:
     unbind: true
     # the prefix key ^b
@@ -116,11 +118,13 @@ keybinds:
         - action: [Resize: Right,]
           key: [ Right, ]
         - action: [ToggleTab]
-          key: [ Char: "\t" ]
+          key: [ Char: "\t", Char: 't' ]
         - action: [SwitchToMode: RenamePane, PaneNameInput: [0],]
           key: [Char: 'c']
         - action: [SwitchToMode: RenameTab, TabNameInput: [0],]
           key: [Char: 'C']
+        - action: [EditScrollback, SwitchToMode: Locked]
+          key: [Char: 'e']
     resize:
         - action: [SwitchToMode: Locked,]
           key: [Ctrl: 'b']
@@ -306,6 +310,8 @@ keybinds:
           key: [ Alt: '[',]
         - action: [FocusNextPane,]
           key: [ Alt: ']',]
+        - action: [EditScrollback, SwitchToMode: Locked]
+          key: [Char: 'e']
     renametab:
         - action: [SwitchToMode: Normal,]
           key: [Ctrl: 'r']
