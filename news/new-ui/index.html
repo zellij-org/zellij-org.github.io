@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Aram Drevekenin">
+<meta name="description" content="Updates and a walkthrough through some of the many improvements in Zellij&#39;s latest release" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/news/new-ui/" />
+
+
+    <title>
+        
+            Zellij 0.16.0: new UI, many bugfixes and more!
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.b5de92719d097c8592c245e03d1bb57e3979f824b61da4b1bc06cc3bb7b5b8a9.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Zellij 0.16.0: new UI, many bugfixes and more!">
+<meta itemprop="description" content="Updates and a walkthrough through some of the many improvements in Zellij&#39;s latest release"><meta itemprop="datePublished" content="2021-08-31T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2021-08-31T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="650"><meta itemprop="image" content="https://zellij.dev/img/zellij-preview.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/zellij-preview.png"/>
+
+<meta name="twitter:title" content="Zellij 0.16.0: new UI, many bugfixes and more!"/>
+<meta name="twitter:description" content="Updates and a walkthrough through some of the many improvements in Zellij&#39;s latest release"/>
+
+
+
+    <meta property="og:title" content="Zellij 0.16.0: new UI, many bugfixes and more!" />
+<meta property="og:description" content="Updates and a walkthrough through some of the many improvements in Zellij&#39;s latest release" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/news/new-ui/" /><meta property="og:image" content="https://zellij.dev/img/zellij-preview.png" /><meta property="article:section" content="news" />
+<meta property="article:published_time" content="2021-08-31T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-08-31T00:00:00&#43;00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2021-08-31 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/news/new-ui/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/screenshots/">Screenshots</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/news/new-ui/">Zellij 0.16.0: new UI, many bugfixes and more!</a></h2>
+
+            
+            
+            
+
+                  
+                <span class="post-date">
+                  2021-08-31
+                </span>
+                
+                
+                  <span class="post-author">::
+                    
+                    <a href="https://twitter.com/im_snif">Aram Drevekenin</a>
+                    
+                  </span>
+                
+                <p><a href="https://github.com/zellij-org/zellij/releases/tag/v0.16.0">Zellij 0.16.0 is out</a>!</p>
+<p>You can download a prebuilt binary in the above link or install it through cargo with <code>cargo install zellij</code> (unaffiliated releases might also be available for your distribution or in homebrew).</p>
+<p>We&rsquo;re constantly working on improving <a href="https://github.com/zellij-org/zellij">Zellij</a> and releasing new features and bug fixes. Today, on this last day of August, we&rsquo;re releasing a large version with so many fixes and improvements we felt it warranted a post with a walkthrough.</p>
+<p>So what&rsquo;s new?</p>
+<h3 id="new-pane-ui">New Pane UI</h3>
+<p>Screens today are getting larger and terminal windows can take up more space. We feel we can take advantage of that space by having Zellij draw a frame around each pane.</p>
+<p>Not only does this provide for a clearer and more sleek display, it also allows us to see the pane title (what would normally be displayed as the window title in a terminal window) as well as display the scrollback position for each pane.</p>
+<figure class="center">
+    <img src="https://zellij.dev/img/sixteen-post-frames.png"/> 
+</figure>
+
+<p>If you don&rsquo;t like this feature, you can toggle it on/off at at runtime with <code>Ctrl-p</code> + <code>z</code>. You can also start Zellij with this option turned off, either as a command line option:</p>
+<p><code>zellij options --no-pane-frames</code></p>
+<p>Or by adding the following line to your configuration:</p>
+<p><code>no_pane_frames: true</code></p>
+<p>In the future, we plan to present more information here such as the users focused on this pane in multiple-user sessions, the last command exit code, and more.</p>
+<h3 id="the-session-name-is-now-displayed-in-the-top-bar">The session name is now displayed in the top bar</h3>
+<p>This makes it much easier to attach and re-attach to the same session later. The random yet Human-readable session names are generated by the cool <a href="https://crates.io/crates/names">names</a> package.</p>
+<figure>
+    <img src="https://zellij.dev/img/sixteen-post-session-name.png"/> 
+</figure>
+
+<figure>
+    <img src="https://zellij.dev/img/sixteen-post-list-sessions.png"/> 
+</figure>
+
+<h3 id="resizing-panes-with-ctrl-r-has-been-changed-to-ctrl-n">Resizing panes with <code>Ctrl-r</code> has been changed to <code>Ctrl-n</code></h3>
+<p>Keybindings, especially in an application such as Zellij, are a hard problem. We tried to choose ones that are both intuitive and unintrusive. We&rsquo;ve received a lot of feedback on this one and so decided to change it.</p>
+<p>Zellij will no longer &ldquo;hijack&rdquo; <code>Ctrl-r</code> - which is a very popular keybinding in both bash and vim - and instead use <code>Ctrl-n</code>.</p>
+<p>While this has always been configurable (and one could also lock the interface with <code>Ctrl-g</code> to get around this problem) - sane defaults are important to us. And so we made this change.</p>
+<h3 id="new-resizing-algorithm">New resizing algorithm</h3>
+<p>Resizing the whole terminal window now keeps panes in their proportional sizes.
+This is a big deal for us, since Zellij does not keep track of panes in a tree structure like most multiplexers do, in order to allow for greater freedom when resizing panes.</p>
+<p>We implemented a constraint system in order to achieve this that in the future will allow users to describe layouts in the form of &ldquo;pane X is above pane Y and always smaller than pane Z&rdquo; instead of dictating a rigid YAML tree structure.</p>
+<h3 id="indication-when-text-is-copied-to-the-clipboard">Indication when text is copied to the clipboard</h3>
+<p>Copying text to the clipboard in Zellij is possible with the mouse in a way that is pane and scrollback aware. This is done on mouse-release once text is marked. Up until now, it has been a little confusing if you&rsquo;re unaware this is happening. So now we indicate this in the UI.</p>
+<figure>
+    <img src="https://zellij.dev/img/sixteen-post-clipboard.png"/> 
+</figure>
+
+<p>Note that copying to the clipboard doesn&rsquo;t yet work with Gnome Terminal due to this issue: <a href="https://gitlab.gnome.org/GNOME/vte/-/issues/125">https://gitlab.gnome.org/GNOME/vte/-/issues/125</a></p>
+<h3 id="layout-changes">Layout Changes</h3>
+<p>This release separates the pane layouts into &ldquo;template&rdquo; and &ldquo;tabs&rdquo;. This currently allows specifying a layout that is common to all tabs, as well as different layouts for each tab. We hope this will make it easier to start Zellij with a more complex layout for creating dashboards and workspaces. For more information and examples: <a href="https://zellij.dev/documentation/layouts-templates.html">https://zellij.dev/documentation/layouts-templates.html</a></p>
+<p>The Zellij default layouts can now also be dumped to STDOUT to make it easier for layout authors to get started: <code>zellij setup --dump-layout [LAYOUT_]</code> [default, strider, disable-status]</p>
+<h3 id="and-many-more">And many more!</h3>
+<p>This release includes quite a few more features and bug fixes. For the full changelog, see the release:</p>
+<p><a href="https://github.com/zellij-org/zellij/releases/tag/v0.16.0">https://github.com/zellij-org/zellij/releases/tag/v0.16.0</a></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

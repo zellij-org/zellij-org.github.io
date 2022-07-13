@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Aram Drevekenin">
+<meta name="description" content="The latest Zellij version introduces multiplayer sessions, allowing multiple users to connect to the same Zellij session, each with their own cursor." />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/news/multiplayer-sessions/" />
+
+
+    <title>
+        
+            Share your Terminal with Multiple Cursors
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.b5de92719d097c8592c245e03d1bb57e3979f824b61da4b1bc06cc3bb7b5b8a9.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Share your Terminal with Multiple Cursors">
+<meta itemprop="description" content="The latest Zellij version introduces multiplayer sessions, allowing multiple users to connect to the same Zellij session, each with their own cursor."><meta itemprop="datePublished" content="2021-12-22T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2021-12-22T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="421"><meta itemprop="image" content="https://zellij.dev/img/multiple-users-zellij-screenshot.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/multiple-users-zellij-screenshot.png"/>
+
+<meta name="twitter:title" content="Share your Terminal with Multiple Cursors"/>
+<meta name="twitter:description" content="The latest Zellij version introduces multiplayer sessions, allowing multiple users to connect to the same Zellij session, each with their own cursor."/>
+
+
+
+    <meta property="og:title" content="Share your Terminal with Multiple Cursors" />
+<meta property="og:description" content="The latest Zellij version introduces multiplayer sessions, allowing multiple users to connect to the same Zellij session, each with their own cursor." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/news/multiplayer-sessions/" /><meta property="og:image" content="https://zellij.dev/img/multiple-users-zellij-screenshot.png" /><meta property="article:section" content="news" />
+<meta property="article:published_time" content="2021-12-22T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2021-12-22T00:00:00&#43;00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2021-12-22 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/news/multiplayer-sessions/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/screenshots/">Screenshots</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/news/multiplayer-sessions/">Share your Terminal with Multiple Cursors</a></h2>
+
+            
+            
+            
+
+                  
+                <span class="post-date">
+                  2021-12-22
+                </span>
+                
+                
+                  <span class="post-author">::
+                    
+                    <a href="https://twitter.com/im_snif">Aram Drevekenin</a>
+                    
+                  </span>
+                
+                <figure>
+    <img src="https://zellij.dev/img/multiplayer-sessions.gif"/> 
+</figure>
+
+<p>We just released <a href="https://github.com/zellij-org/zellij/releases/tag/v0.23.0">Zellij 0.23.0</a>, which adds collaboration features to our terminal multiplexer.</p>
+<p>This solution allows multiple users to be attached to the same Zellij session and each have their own cursor. The cursors appear in different colors, giving a Google-docs like experience in the terminal and allowing users to be focused not only on different tabs, but on different panes in the same tab. That way they can see each other type in real time.</p>
+<p>We feel this is a great solution to pair program in the terminal or to receive outside assistance on local environment problems.</p>
+<h2 id="how-can-i-try-it-out">How can I try it out?</h2>
+<ol>
+<li><a href="https://github.com/zellij-org/zellij#how-do-i-install-it">Install the latest version</a></li>
+<li>Start it up and assign your session a name: <code>zellij attach --create my-cool-session</code> (you can also just start it up normally and be assigned a random session name).</li>
+<li>Open a new terminal window and connect to your existing session: <code>zellij attach my-cool-session</code></li>
+<li>Open a new pane with <code>ctrl-p</code> + <code>n</code> and see one different colored cursor for each window.</li>
+<li>You can also open a new tab with <code>ctrl-t</code> + <code>n</code> and see an indication that the cursor is focused on that tab.</li>
+</ol>
+<p>A fun use-case for this is to have several terminal windows connected to the same Zellij session, one on each screen, focused on different tabs. That way you can natively switch between the contents of each screen without having to move windows around by switching your tab focus.</p>
+<figure>
+    <img src="https://zellij.dev/img/multiplayer-screens.png"/> 
+</figure>
+
+<h2 id="how-can-i-try-it-out-with-a-friend">How can I try it out with a friend?</h2>
+<p>In order to do this, you&rsquo;ll need your friend to ssh into your computer and attach to your existing session. If you are not in the same physical location (and/or on the same network), you&rsquo;ll unfortunately have to do some extra work:</p>
+<p>The safest way to do it is to use some sort of VPN service (there are some free options out there). Or if you&rsquo;d like to try it out and are feeling brave, you can use <a href="https://ngrok.com/">ngrok</a> to expose your ssh server to the world-wide-web. Be careful with this please.</p>
+<figure>
+    <img src="https://zellij.dev/img/multiplayer-remote.png"/> 
+</figure>
+
+<h2 id="is-there-an-easier-way-to-connect-to-a-remote-session">Is there an easier way to connect to a remote session?</h2>
+<p>Not yet, but we&rsquo;re working on it!</p>
+<p>Right now we&rsquo;re in the process of seeking funds in order to start a free service that would allow users to receive a shareable and secure URL from within Zellij and just share it with their friends, giving them permission and moderating who is connected.</p>
+<p>If you&rsquo;re as excited about this as we are, you can help out by registering for early access: <a href="https://www.devsession.is">https://www.devsession.is</a></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

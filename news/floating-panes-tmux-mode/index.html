@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Aram Drevekenin">
+<meta name="description" content="The latest Zellij version introduces floating panes you can move with your mouse, a built-in tmux mode to help those migrating and much more!" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/news/floating-panes-tmux-mode/" />
+
+
+    <title>
+        
+            Zellij 0.25.0: floating panes, tmux mode and more!
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.b5de92719d097c8592c245e03d1bb57e3979f824b61da4b1bc06cc3bb7b5b8a9.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Zellij 0.25.0: floating panes, tmux mode and more!">
+<meta itemprop="description" content="The latest Zellij version introduces floating panes you can move with your mouse, a built-in tmux mode to help those migrating and much more!"><meta itemprop="datePublished" content="2022-02-22T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2022-02-22T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="289"><meta itemprop="image" content="https://zellij.dev/img/floating-panes-preview.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/floating-panes-preview.png"/>
+
+<meta name="twitter:title" content="Zellij 0.25.0: floating panes, tmux mode and more!"/>
+<meta name="twitter:description" content="The latest Zellij version introduces floating panes you can move with your mouse, a built-in tmux mode to help those migrating and much more!"/>
+
+
+
+    <meta property="og:title" content="Zellij 0.25.0: floating panes, tmux mode and more!" />
+<meta property="og:description" content="The latest Zellij version introduces floating panes you can move with your mouse, a built-in tmux mode to help those migrating and much more!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/news/floating-panes-tmux-mode/" /><meta property="og:image" content="https://zellij.dev/img/floating-panes-preview.png" /><meta property="article:section" content="news" />
+<meta property="article:published_time" content="2022-02-22T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-02-22T00:00:00&#43;00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-02-22 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/news/floating-panes-tmux-mode/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/screenshots/">Screenshots</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/news/floating-panes-tmux-mode/">Zellij 0.25.0: floating panes, tmux mode and more!</a></h2>
+
+            
+            
+            
+
+                  
+                <span class="post-date">
+                  2022-02-22
+                </span>
+                
+                
+                  <span class="post-author">::
+                    
+                    <a href="https://twitter.com/im_snif">Aram Drevekenin</a>
+                    
+                  </span>
+                
+                <figure>
+    <img src="https://zellij.dev/img/floating-panes-demo.gif"/> 
+</figure>
+
+<p>We just released <a href="https://github.com/zellij-org/zellij/releases/tag/v0.25.0">Zellij 0.25.0</a>, which adds a few features we are very excited about!</p>
+<p>The new release is already available through crates.io with a <code>cargo install zellij</code>, a prebuilt binary can be downloaded directly from the release page, or you can check our <a href="https://github.com/zellij-org/zellij/blob/main/THIRD_PARTY_INSTALL.md">third party release page</a> to see if it&rsquo;s already available for your distro.</p>
+<p>So what&rsquo;s new?</p>
+<h3 id="floating-panes">Floating Panes</h3>
+<p>Floating panes can stack and move freely. Their visibility can be toggled on and off with <code>ctrl-p</code> + <code>w</code> (if there are no open floating panes, toggling their visibility on will open a new one).</p>
+<p>These panes can be resized or moved like normal panes (try <code>Alt+</code> or <code>Alt-</code>), and you can even drag them around with the mouse by clicking their frame.</p>
+<p>You can also turn an embedded pane into a floating one by focusing on it and pressing <code>ctrl-p</code> + <code>e</code>, or embed a floating pane in the same way.</p>
+<h3 id="tmux-mode">Tmux mode</h3>
+<p>Zellij has a slightly different idea about its keybindings than Tmux. This has made it difficult for Tmux users to migrate. We would like to make Tmux users comfortable and feeling at home, rather than forcing them to work against years of muscle memory.</p>
+<p>And so starting this version, Zellij supports the basic Tmux shortcuts out of the box, without extra configuration. It even includes a helpful tip that appears once you press the initial <code>ctrl-b</code></p>
+<figure>
+    <img src="https://zellij.dev/img/tmux-shortcuts.png"/> 
+</figure>
+
+<h3 id="copy-directly-to-the-system-clipboard">Copy directly to the system clipboard</h3>
+<p>Zellij uses the <code>OSC 52</code> escape code to copy contents to the user&rsquo;s clipboard. Not all terminal emulators support this though, and so this version provides a workaround. This workaround is a configuration parameter that tells Zellij to use the system clipboard directly instead.</p>
+<p>For more information: <a href="https://zellij.dev/documentation/compatibility.html#clipboard-not-working">https://zellij.dev/documentation/compatibility.html#clipboard-not-working</a></p>
+<h3 id="and-lots-morehttpsgithubcomzellij-orgzellijreleasestagv0250"><a href="https://github.com/zellij-org/zellij/releases/tag/v0.25.0">And lots more!</a></h3>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>
