@@ -82,6 +82,57 @@ t`:
 
 
 
+## Allowing specific commands in Locked mode
+
+Locked mode is very handy when working with applications that use the same
+keybindings as zellij. That is because, by default, in locked mode all
+keystrokes (except to leave locked mode) are passed directly to the
+application.
+
+When you use Locked mode often, e.g. to work in `vim`, you may find that
+sometimes it is impractical to:
+
+1. First have to leave locked mode in order to switch to another pane with e.g.
+   `Alt + <hjkl>`,
+2. Work inside this pane e.g. to enter a new command, and then
+3. Switch back to the previous pane and enter locked mode again.
+
+If you often find yourself in a situation like this, you can alleviate this
+problem by adding keybindings to locked mode.
+What makes locked mode special is merely the fact that, in the default
+configuration, it only has a single keybinding assigned: To switch back to
+normal mode. Hence, all other keybindings are passed through to the application
+in the pane. If you want to be able to e.g. move around panes in locked mode,
+you can extend this snippet of the config:
+
+```yaml
+    locked:
+        - action: [SwitchToMode: Normal,]
+          key: [Ctrl: 'g',]
+```
+
+to look like this:
+
+```yaml
+    locked:
+        - action: [SwitchToMode: Normal,]
+          key: [Ctrl: 'g',]
+        - action: [MoveFocusOrTab: Left,]
+          key: [ Alt: 'h', Alt: Left]
+        - action: [MoveFocusOrTab: Right,]
+          key: [ Alt: 'l', Alt: Right ]
+        - action: [MoveFocus: Down,]
+          key: [ Alt: 'j', Alt: Down]
+        - action: [MoveFocus: Up,]
+          key: [ Alt: 'k', Alt: Up, ]
+```
+
+There are no limits to the keybindings you can add to locked mode. Just keep in
+mind that, due do the purpose of this input mode, you will not get any key
+hints in the status bar.
+
+
+
 [10]: https://docs.rs/zellij-tile/latest/zellij_tile/data/enum.InputMode.html
 [20]: https://docs.rs/zellij-utils/latest/zellij_utils/input/actions/enum.Action.html#variant.Run
 [21]: https://docs.rs/zellij-utils/latest/zellij_utils/input/command/struct.RunCommandAction.html
