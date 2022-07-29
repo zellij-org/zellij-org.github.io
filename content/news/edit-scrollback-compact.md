@@ -15,7 +15,7 @@ weight: 10
 
 We just released [Zellij 0.30.0](https://github.com/zellij-org/zellij/releases/tag/v0.30.0), which adds a few very exciting features.
 
-The new release is available through crates.io with a `cargo install zellij`, a prebuilt binary can be downloaded directly from the release page, or you can check our [third party release page](https://github.com/zellij-org/zellij/blob/main/THIRD_PARTY_INSTALL.md) to see if it's already available for your distro.
+The new release is available through crates.io with a `cargo install zellij`, a prebuilt binary can be downloaded directly from the release page, or you can check our [third party release page](https://github.com/zellij-org/zellij/blob/main/docs/THIRD_PARTY_INSTALL.md) to see if it's already available for your distro.
 
 Starting this release, you can also try Zellij without installing it (check out the main page: [https://zellij.dev](https://zellij.dev)).
 
