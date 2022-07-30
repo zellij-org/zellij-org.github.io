@@ -13,7 +13,7 @@ For instructions on how to install Cargo see [here:](https://doc.rust-lang.org/c
 Once installed run:
 
 ```
-cargo install zellij
+cargo install --locked zellij
 ```
 
 If experiencing errors, if installed through rustup, please try running:
