@@ -38,17 +38,17 @@ for 256 color, or you can use hexdecimal color:
 ```yaml
 themes:
   default:
-    fg: #000000
-    bg: #000000
-    black: #000000
-    red: #000000
-    green: #000000
-    yellow: #000000
-    blue: #000000
-    magenta: #000000
-    cyan: #000000
-    white: #000000
-    orange: #000000
+    fg: "#000000"
+    bg: "#000000"
+    black: "#000000"
+    red: "#000000"
+    green: "#000000"
+    yellow: "#000000"
+    blue: "#000000"
+    magenta: "#000000"
+    cyan: "#000000"
+    white: "#000000"
+    orange: "#000000"
 ```
 
 If the theme is called `default`, then zellij will pick it on startup.
