@@ -138,7 +138,7 @@
 <p>You can make use of these options either by invoking zellij with
 <code>zellij options [OPTION]</code> or binding them in the configuration file.</p>
 <p>Eg. <code>zellij options --simplified-ui true</code> is equivalent to <code>simplified_ui: true</code> in the config file.</p>
-<table><thead><tr><th>Option</th><th>Config</th><th style="text-align: center">Default</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Option</th><th>Config</th><th style="text-align: center">Default</th><th>Description</th></tr></thead><tbody>
 <tr><td>default-mode</td><td>default_mode</td><td style="text-align: center">normal</td><td>The first mode on startup.</td></tr>
 <tr><td>default-shell</td><td>default_shell</td><td style="text-align: center">$SHELL</td><td>The default shell.</td></tr>
 <tr><td>default-layout</td><td>default_layout</td><td style="text-align: center">default</td><td>The name of the default layout.</td></tr>
@@ -156,6 +156,7 @@
 <tr><td>copy-on-select</td><td>copy_on_select</td><td style="text-align: center">true</td><td>Automatically copy when selecting text. If false, the <code>Copy</code> action should be bound in normal and scroll mode.</td></tr>
 <tr><td>scrollback-editor</td><td>scrollback_editor</td><td style="text-align: center">-</td><td>Path to the editor to use to edit scrollback (eg. <code>/usr/bin/vim</code>)</td></tr>
 </tbody></table>
+</div>
 <p>A small example:</p>
 <pre><code>default_mode: locked
 mouse_mode: false

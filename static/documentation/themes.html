@@ -167,12 +167,41 @@ zellij in the following way:</p>
     white: 0
     orange: 0
 </code></pre>
-<p>for 256 color.</p>
+<p>for 256 color, or you can use hexdecimal color:</p>
+<pre><code class="language-yaml">themes:
+  default:
+    fg: &quot;#000000&quot;
+    bg: &quot;#000000&quot;
+    black: &quot;#000000&quot;
+    red: &quot;#000000&quot;
+    green: &quot;#000000&quot;
+    yellow: &quot;#000000&quot;
+    blue: &quot;#000000&quot;
+    magenta: &quot;#000000&quot;
+    cyan: &quot;#000000&quot;
+    white: &quot;#000000&quot;
+    orange: &quot;#000000&quot;
+</code></pre>
 <p>If the theme is called <code>default</code>, then zellij will pick it on startup.
 To specify a different theme, run zellij with:</p>
 <pre><code>zellij options --theme [NAME]
 </code></pre>
-<p>or put the name in the configuration file with <code>theme: [NAME]</code>.</p>
+<p>or put the name in the configuration file with <code>theme: [NAME]</code> as follows:</p>
+<pre><code class="language-yaml">keybinds:
+  ...
+
+# Choose the theme that is specified in the themes section.
+theme: default
+
+themes:
+  default:
+    fg: #000000
+    ...
+</code></pre>
+<p>or If you don't want to modify the configuration file, just add a theme, you can use the <code>themes</code> directory.</p>
+<p><code>themes</code> is located in <code>CONFIG_DIR/themes</code> by default. You can check it through <code>zelij setup --check</code>.</p>
+<p>If you place the theme file in this folder, zelij will automatically merge the themes.</p>
+<p>And you can set the theme through the options (<code>options --theme</code>) as in the first method. </p>
 <p>Here are <a href="https://github.com/zellij-org/zellij/tree/main/example/themes">some example themes</a>.</p>
 <h2 id="ui"><a class="header" href="#ui">UI</a></h2>
 <p>Certain non-color aspects of Zellij's interface can also be customized.</p>

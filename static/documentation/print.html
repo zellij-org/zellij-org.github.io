@@ -264,10 +264,11 @@ end
 </code></pre>
 <p>to <code>$HOME/.config/fish/config.fish</code> file.</p>
 <p>The following environment variables can also be used in the provided script.</p>
-<table><thead><tr><th>Variable</th><th>Description</th><th>default</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Variable</th><th>Description</th><th>default</th></tr></thead><tbody>
 <tr><td><code>ZELLIJ_AUTO_ATTACH</code></td><td>If the zellij session already exists, attach to the default session. (not starting as a new session)</td><td>false</td></tr>
 <tr><td><code>ZELLIJ_AUTO_EXIT</code></td><td>When zellij exits, the shell exits as well.</td><td>false</td></tr>
 </tbody></table>
+</div>
 <h2 id="list-current-sessions"><a class="header" href="#list-current-sessions">List current sessions</a></h2>
 <p>List current sessions, attach to a running session, or create a new one.
 Depends on <a href="https://github.com/lotabout/skim"><code>sk</code></a> &amp; <code>bash</code></p>
@@ -349,21 +350,22 @@ Will supercede options defined in the config file.
 To see a list of options look <a href="./options.html">here</a>.</p>
 <h2 id="setup"><a class="header" href="#setup"><code>setup</code></a></h2>
 <p>Functionality to help with the setup of zellij.</p>
-<table><thead><tr><th style="text-align: left">Flag</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Flag</th><th>Description</th></tr></thead><tbody>
 <tr><td style="text-align: left">--check</td><td>Check the configuration</td></tr>
 <tr><td style="text-align: left">--clean</td><td>Start with default configuration</td></tr>
 <tr><td style="text-align: left">--dump-config</td><td>Dump the default configuration file to stdout</td></tr>
 <tr><td style="text-align: left">--dump-layout [LAYOUT]</td><td>Dump a specified default layout file to stdout</td></tr>
 <tr><td style="text-align: left">--generate-completion [SHELL]</td><td>Generate completions for the specified shell</td></tr>
 </tbody></table>
+</div>
 <h1 id="flags"><a class="header" href="#flags">Flags</a></h1>
 <p>These flags can be invoked with <code>zellij --flag</code>.</p>
-<table><thead><tr><th style="text-align: left">Flag</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Flag</th><th>Description</th></tr></thead><tbody>
 <tr><td style="text-align: left">--help</td><td>Display the help prompt</td></tr>
 <tr><td style="text-align: left">--debug</td><td>Gather additional debug information</td></tr>
 <tr><td style="text-align: left">--version</td><td>Print version information</td></tr>
 </tbody></table>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="configuration"><a class="header" href="#configuration">Configuration</a></h1>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="configuration"><a class="header" href="#configuration">Configuration</a></h1>
 <p>By default Zellij will look for <code>config.yaml</code> in the <code>config</code> directory.</p>
 <p>Quickstart:</p>
 <pre><code>mkdir ~/.config/zellij
@@ -405,7 +407,7 @@ zellij setup --dump-config &gt; ~/.config/zellij/config.yaml
 <p>You can make use of these options either by invoking zellij with
 <code>zellij options [OPTION]</code> or binding them in the configuration file.</p>
 <p>Eg. <code>zellij options --simplified-ui true</code> is equivalent to <code>simplified_ui: true</code> in the config file.</p>
-<table><thead><tr><th>Option</th><th>Config</th><th style="text-align: center">Default</th><th>Description</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Option</th><th>Config</th><th style="text-align: center">Default</th><th>Description</th></tr></thead><tbody>
 <tr><td>default-mode</td><td>default_mode</td><td style="text-align: center">normal</td><td>The first mode on startup.</td></tr>
 <tr><td>default-shell</td><td>default_shell</td><td style="text-align: center">$SHELL</td><td>The default shell.</td></tr>
 <tr><td>default-layout</td><td>default_layout</td><td style="text-align: center">default</td><td>The name of the default layout.</td></tr>
@@ -423,6 +425,7 @@ zellij setup --dump-config &gt; ~/.config/zellij/config.yaml
 <tr><td>copy-on-select</td><td>copy_on_select</td><td style="text-align: center">true</td><td>Automatically copy when selecting text. If false, the <code>Copy</code> action should be bound in normal and scroll mode.</td></tr>
 <tr><td>scrollback-editor</td><td>scrollback_editor</td><td style="text-align: center">-</td><td>Path to the editor to use to edit scrollback (eg. <code>/usr/bin/vim</code>)</td></tr>
 </tbody></table>
+</div>
 <p>A small example:</p>
 <pre><code>default_mode: locked
 mouse_mode: false
@@ -540,7 +543,7 @@ this page.</p>
 combinations available for keybindings.</p>
 <p><strong>Note that combining any of the <code>Ctrl</code>, <code>Alt</code> or <code>Char</code> bindings with the
 special keys mentioned above isn't possible.</strong></p>
-<table><thead><tr><th style="text-align: center">Keys</th><th style="text-align: center"><code>Ctrl: ' '</code></th><th style="text-align: center"><code>Alt: ' '</code></th><th style="text-align: center"><code>Char: ' '</code></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Keys</th><th style="text-align: center"><code>Ctrl: ' '</code></th><th style="text-align: center"><code>Alt: ' '</code></th><th style="text-align: center"><code>Char: ' '</code></th></tr></thead><tbody>
 <tr><td style="text-align: center"><code>a-z</code></td><td style="text-align: center">yes</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
 <tr><td style="text-align: center"><code>A-Z</code></td><td style="text-align: center">no</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
 <tr><td style="text-align: center"><code>0-9</code></td><td style="text-align: center">no</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
@@ -552,7 +555,7 @@ special keys mentioned above isn't possible.</strong></p>
 <tr><td style="text-align: center"><code>[]^_\|{}~</code></td><td style="text-align: center">no</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
 <tr><td style="text-align: center"><code>äöüß</code></td><td style="text-align: center">no</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
 </tbody></table>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
 <p>Zellij's keybindings can be configured to behave in multiple ways. 
 Here are example configurations to possibly inspire you.</p>
 <h2 id="prefix-example"><a class="header" href="#prefix-example">Prefix Example</a></h2>
@@ -960,12 +963,41 @@ zellij in the following way:</p>
     white: 0
     orange: 0
 </code></pre>
-<p>for 256 color.</p>
+<p>for 256 color, or you can use hexdecimal color:</p>
+<pre><code class="language-yaml">themes:
+  default:
+    fg: &quot;#000000&quot;
+    bg: &quot;#000000&quot;
+    black: &quot;#000000&quot;
+    red: &quot;#000000&quot;
+    green: &quot;#000000&quot;
+    yellow: &quot;#000000&quot;
+    blue: &quot;#000000&quot;
+    magenta: &quot;#000000&quot;
+    cyan: &quot;#000000&quot;
+    white: &quot;#000000&quot;
+    orange: &quot;#000000&quot;
+</code></pre>
 <p>If the theme is called <code>default</code>, then zellij will pick it on startup.
 To specify a different theme, run zellij with:</p>
 <pre><code>zellij options --theme [NAME]
 </code></pre>
-<p>or put the name in the configuration file with <code>theme: [NAME]</code>.</p>
+<p>or put the name in the configuration file with <code>theme: [NAME]</code> as follows:</p>
+<pre><code class="language-yaml">keybinds:
+  ...
+
+# Choose the theme that is specified in the themes section.
+theme: default
+
+themes:
+  default:
+    fg: #000000
+    ...
+</code></pre>
+<p>or If you don't want to modify the configuration file, just add a theme, you can use the <code>themes</code> directory.</p>
+<p><code>themes</code> is located in <code>CONFIG_DIR/themes</code> by default. You can check it through <code>zelij setup --check</code>.</p>
+<p>If you place the theme file in this folder, zelij will automatically merge the themes.</p>
+<p>And you can set the theme through the options (<code>options --theme</code>) as in the first method. </p>
 <p>Here are <a href="https://github.com/zellij-org/zellij/tree/main/example/themes">some example themes</a>.</p>
 <h2 id="ui"><a class="header" href="#ui">UI</a></h2>
 <p>Certain non-color aspects of Zellij's interface can also be customized.</p>
@@ -1981,10 +2013,11 @@ pub fn render(rows: i32, cols: i32) void {
 <p>This most likely is caused by a missing character in the font.</p>
 <p>Fonts from <a href="https://github.com/ryanoasis/nerd-fonts">nerdfonts</a> can fix this problem.</p>
 <p>Some Options:</p>
-<table><thead><tr><th>Package Manager</th><th style="text-align: center">Name</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Package Manager</th><th style="text-align: center">Name</th></tr></thead><tbody>
 <tr><td>apt</td><td style="text-align: center">fonts-powerline</td></tr>
 <tr><td>nix</td><td style="text-align: center">nerdfonts</td></tr>
 </tbody></table>
+</div>
 <p>Post installation the appropriate environment needs to be aware of the font.</p>
 <h2 id="alt-button-mapping-on-darwin-systems"><a class="header" href="#alt-button-mapping-on-darwin-systems">Alt button mapping on darwin systems:</a></h2>
 <p>This can be mitigated individually on a terminal emulator level,
