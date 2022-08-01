@@ -73,7 +73,7 @@ themes:
 
 or If you don't want to modify the configuration file, just add a theme, you can use the `themes` directory.
 
-`themes` is located in `CONFIG_DIR/themes` by default. You can check it through `zelij setup --check`.
+`themes` is located in `CONFIG_DIR/themes` by default. You can check it through `zellij setup --check`.
 
 If you place the theme file in this folder, zelij will automatically merge the themes.
 
