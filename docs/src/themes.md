@@ -34,14 +34,50 @@ themes:
     white: 0
     orange: 0
 ```
-for 256 color.
+for 256 color, or you can use hexdecimal color:
+```yaml
+themes:
+  default:
+    fg: #000000
+    bg: #000000
+    black: #000000
+    red: #000000
+    green: #000000
+    yellow: #000000
+    blue: #000000
+    magenta: #000000
+    cyan: #000000
+    white: #000000
+    orange: #000000
+```
 
 If the theme is called `default`, then zellij will pick it on startup.
 To specify a different theme, run zellij with:
 ```
 zellij options --theme [NAME]
 ```
-or put the name in the configuration file with `theme: [NAME]`.
+or put the name in the configuration file with `theme: [NAME]` as follows:
+
+```yaml
+keybinds:
+  ...
+
+# Choose the theme that is specified in the themes section.
+theme: default
+
+themes:
+  default:
+    fg: #000000
+    ...
+```
+
+or If you don't want to modify the configuration file, just add a theme, you can use the `themes` directory.
+
+`themes` is located in `CONFIG_DIR/themes` by default. You can check it through `zelij setup --check`.
+
+If you place the theme file in this folder, zelij will automatically merge the themes.
+
+And you can set the theme through the options (`options --theme`) as in the first method. 
 
 Here are [some example themes](https://github.com/zellij-org/zellij/tree/main/example/themes).
 
