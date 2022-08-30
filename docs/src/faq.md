@@ -21,6 +21,18 @@ If you don't want to install a new font, you can also load the simplified UI tha
 zellij options --simplified-ui true
 ```
 
+## Copy / Paste isn't working, how can I fix this?
+Some terminals don't support the the OSC 52 signal, which is the method Zellij uses by default to copy text to the clipboard. To get around this, you can either switch to a supported terminal (eg. Alacritty or xterm) or configure Zellij to use an external utility when copy pasting (eg. xclip, wl-copy or pbcopy).
+
+To do the latter, add one of the following to your [Zellij Config](./configuration.md):
+```
+copy_command: "xclip -selection clipboard" # x11
+copy_command: "wl-copy"                    # wayland
+copy_command: "pbcopy"                     # osx
+```
+
+Note that the only method that works when connecting to a remote Zellij session (eg. through SSH) is OSC 52. If you require this functionality, please consider using a terminal that supports it.
+
 ## How can I use floating panes?
 You can toggle showing/hiding floating panes with `Ctrl + <p> + <w>` (if no floating panes are open, one will be opened when they are shown).
 
