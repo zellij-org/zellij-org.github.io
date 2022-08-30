@@ -147,6 +147,14 @@
 <p>If you don't want to install a new font, you can also load the simplified UI that doesn't use these characters, with:</p>
 <pre><code>zellij options --simplified-ui true
 </code></pre>
+<h2 id="copy--paste-isnt-working-how-can-i-fix-this"><a class="header" href="#copy--paste-isnt-working-how-can-i-fix-this">Copy / Paste isn't working, how can I fix this?</a></h2>
+<p>Some terminals don't support the the OSC 52 signal, which is the method Zellij uses by default to copy text to the clipboard. To get around this, you can either switch to a supported terminal (eg. Alacritty or xterm) or configure Zellij to use an external utility when copy pasting (eg. xclip, wl-copy or pbcopy).</p>
+<p>To do the latter, add one of the following to your <a href="./configuration.html">Zellij Config</a>:</p>
+<pre><code>copy_command: &quot;xclip -selection clipboard&quot; # x11
+copy_command: &quot;wl-copy&quot;                    # wayland
+copy_command: &quot;pbcopy&quot;                     # osx
+</code></pre>
+<p>Note that the only method that works when connecting to a remote Zellij session (eg. through SSH) is OSC 52. If you require this functionality, please consider using a terminal that supports it.</p>
 <h2 id="how-can-i-use-floating-panes"><a class="header" href="#how-can-i-use-floating-panes">How can I use floating panes?</a></h2>
 <p>You can toggle showing/hiding floating panes with <code>Ctrl + &lt;p&gt; + &lt;w&gt;</code> (if no floating panes are open, one will be opened when they are shown).</p>
 <p>In this mode you can create additional windows as you would normally create panes (eg. with <code>Alt + &lt;n&gt;</code>). Move them with the mouse or the keyboard, and resize them as you would normally resize or move Zellij panes.</p>
