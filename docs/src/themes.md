@@ -81,6 +81,24 @@ And you can set the theme through the options (`options --theme`) as in the firs
 
 Here are [some example themes](https://github.com/zellij-org/zellij/tree/main/example/themes).
 
+To declare one or more custom themes to choose from:
+```yaml
+# select a theme other than "default"
+theme: mytheme1
+# declare one or more custom themes
+themes:
+  mytheme1:
+    fg: [169,177,214] #A9B1D6
+    bg: [26,27,38] #1A1B26
+    black: [56,62,90] #383E5A
+    ...
+  mytheme2:
+    fg: [9,17,214] 
+    bg: [26,27,138] 
+    black: [56,22,90] 
+    ...
+```
+
 ## UI
 Certain non-color aspects of Zellij's interface can also be customized.
 
