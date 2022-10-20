@@ -1,0 +1,349 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Layouts - Zellij User Guide</title>
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">1.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="overview.html"><strong aria-hidden="true">1.2.</strong> Overview</a></li><li class="chapter-item expanded "><a href="integration.html"><strong aria-hidden="true">1.3.</strong> Integration</a></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">1.4.</strong> FAQ</a></li></ol></li><li class="chapter-item expanded "><a href="commands.html"><strong aria-hidden="true">2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">3.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="options.html"><strong aria-hidden="true">3.1.</strong> Options</a></li><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">3.2.</strong> Configuring Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">3.2.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">3.2.2.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-examples.html"><strong aria-hidden="true">3.2.3.</strong> Examples</a></li></ol></li><li class="chapter-item expanded "><a href="themes.html"><strong aria-hidden="true">3.3.</strong> Themes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="theme-gallery.html"><strong aria-hidden="true">3.3.1.</strong> Theme Gallery</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="actions.html"><strong aria-hidden="true">4.</strong> Actions</a></li><li class="chapter-item expanded "><a href="layouts.html" class="active"><strong aria-hidden="true">5.</strong> Layouts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="layouts-templates.html"><strong aria-hidden="true">5.1.</strong> Templates</a></li></ol></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">6.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-overview.html"><strong aria-hidden="true">6.1.</strong> Overview</a></li><li class="chapter-item expanded "><a href="plugin-writing.html"><strong aria-hidden="true">6.2.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-rust.html"><strong aria-hidden="true">6.2.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="plugin-zig.html"><strong aria-hidden="true">6.2.2.</strong> Zig</a></li><li class="chapter-item expanded "><a href="plugin-other.html"><strong aria-hidden="true">6.2.3.</strong> Other Languages</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="compatibility.html"><strong aria-hidden="true">7.</strong> Compatibility</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="layouts"><a class="header" href="#layouts">Layouts</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>Layouts are yaml configuration files which Zellij can load on startup.
+These files can describe a layout of terminal panes and plugins that Zellij will create when it loads.
+To load a layout with Zellij:</p>
+<pre><code>zellij --layout /path/to/your/layout_file.yaml
+</code></pre>
+<p>By default Zellij will load the <code>default.yaml</code> layout, that is found in the
+<code>layouts</code> directory (by default a subdirectory of the <code>config</code>
+directory [config/layouts]). Falling back to an internal default layout,
+if not found.
+Layouts residing in the default directory can be accessed as follows:</p>
+<pre><code>zellij --layout [layout_name]
+</code></pre>
+<p>The difference being: if a path (either absolute or relative) is supplied to <code>--layout</code>, it will load the layout from that path. If a bare name is supplied, it will load a built-in layout from the default directory.</p>
+<h2 id="example"><a class="header" href="#example">Example</a></h2>
+<p>This file:</p>
+<pre><code class="language-yaml">---
+tabs:
+  - direction: Vertical
+    parts:
+      - direction: Horizontal
+        parts:
+          - direction: Vertical
+          - direction: Vertical
+      - direction: Horizontal
+</code></pre>
+<p>Will instruct Zellij to create this layout:</p>
+<pre><code>┌─────┬─────┐
+│     │     │
+├─────┤     │
+│     │     │
+└─────┴─────┘
+</code></pre>
+<h2 id="creating-a-layout-file"><a class="header" href="#creating-a-layout-file">Creating a layout file</a></h2>
+<p>A layout file is a nested tree structure.
+Each node describes either a pane, or a space in which its parts (children) will be created.
+The layout file is divided in to two sections: <code>templates</code> and <code>tabs</code>.</p>
+<p>The templates describe the structure of the layout and what part of the ui
+should be tab agnostic.
+The tabs describe which part of the layout should be tab specific.
+For this mechanism the templates make use of an extra attribute called <code>body</code>,
+if it is specified each single tab will be inserted in to the template and then
+started by zellij.</p>
+<h3 id="parts-layout"><a class="header" href="#parts-layout"><code>parts: &lt;layout&gt;</code></a></h3>
+<p>Layouts are composed through the optional <code>parts</code> section, if a layout has a non empty parts section
+it is a node that is split up into these respective parts.</p>
+<p>Example:</p>
+<pre><code>parts:
+  - direction: Vertical
+  - direction: Vertical
+</code></pre>
+<p>Each node has the following fields:</p>
+<h3 id="direction-horizontal--vertical"><a class="header" href="#direction-horizontal--vertical"><code>direction: Horizontal / Vertical</code></a></h3>
+<p>If the node has children, they will be created as splits in this direction.</p>
+<h3 id="split_size-percent-1-100--fixed-linescolumns"><a class="header" href="#split_size-percent-1-100--fixed-linescolumns"><code>split_size: Percent: &lt;1-100&gt; / Fixed: &lt;lines/columns&gt;</code></a></h3>
+<p>This indicates either a percentage of the node's parent's space or a fixed size of columns/rows from its parent's space. By default the splits are proportional.</p>
+<p>Example:</p>
+<pre><code>parts:
+  - direction: Vertical
+    split_size:
+      Percent: 50
+  - direction: Vertical
+    split_size:
+      Percent: 50
+</code></pre>
+<h3 id="run-plugin-plugin--command-command"><a class="header" href="#run-plugin-plugin--command-command"><code>run: plugin: &lt;plugin&gt; / command: &lt;command&gt;</code></a></h3>
+<p>This is an optional instruction to either run a command, or a plugin.
+If indicated, instead of loading the default shell in a terminal pane,
+the run action will be executed.</p>
+<ul>
+<li><code>plugin: &lt;/path/to/plugin.wasm&gt;</code></li>
+</ul>
+<p>This is an optional path to a compiled Zellij plugin. 
+If indicated, instead of loading a terminal, this plugin will be loaded.
+For more information, please see the plugin documentation of this guide.
+In case the plugin resides in the <code>plugin</code> directory, specifying the name of the plugin is sufficient.</p>
+<p>Example:</p>
+<pre><code>run:
+  plugin:
+    location: &quot;zellij:status-bar&quot;
+    _allow_exec_host_cmd: false # Optional and false by default
+</code></pre>
+<p>For more information, please see the plugin documentation of this guide.
+The <code>_allow_exec_host_cmd</code> is preliminary and allows plugins to run commands
+on the host system, if the plugins need that functionality the user can opt in
+to it.</p>
+<ul>
+<li><code>command: {cmd: &lt;path/to/command&gt; , args: &lt;optional-arguments&gt; }</code></li>
+</ul>
+<p>This is an optional path to a command. If indicated, instead of loading
+a pane with the default shell, this command will be executed.
+Optionally it's arguments can be passed as a vector of strings.</p>
+<p>Example:</p>
+<pre><code>run:
+  command: {cmd: htop, args: [&quot;-C&quot;]}
+</code></pre>
+<p>This can be used to open a pane in a specified directory by making use of your shell's <code>command</code> flag and <code>cd path/to/directory &amp;&amp; &lt;shell&gt;</code>. The following command is <strong>only</strong> for <code>zsh</code>. It may work for other shells, but it is not guaranteed. Check your shell's documentation for how to use the command flag.</p>
+<p>Example:</p>
+<pre><code>run:
+  command: { cmd: zsh, args: [&quot;-c&quot;, &quot;cd ~/Documents/code/zellij &amp;&amp; zsh&quot;] }
+</code></pre>
+<h3 id="name-name-of-the-tab"><a class="header" href="#name-name-of-the-tab"><code>name: &lt;name-of-the-tab&gt;</code></a></h3>
+<p>This is an optional command that can be used to name the <code>tab</code> in the tab layout
+section. </p>
+<p>Example:</p>
+<pre><code>tabs:
+  - name: &quot;&lt;name-of-the-tab&gt;&quot;
+</code></pre>
+<p>This is currently limited to the tabs section.</p>
+<h3 id="session-session-configuration"><a class="header" href="#session-session-configuration"><code>session: &lt;session-configuration&gt;</code></a></h3>
+<p>This is an optional configuration option that can be used to modify the session
+behavior of the layout.</p>
+<p>Current options include:</p>
+<pre><code>session:
+  name: &quot;zellij&quot; # a string, that names the session
+  attach: true # default `true`. If session exists, re-attach.
+</code></pre>
+<p>Example:</p>
+<pre><code>session:
+  name: &quot;zellij&quot;
+</code></pre>
+<p>Adding this to the layout would name the session <code>zellij</code> and upon loading
+the layout again will try to attach to an existing session that is called
+<code>zellij</code>.
+If the <code>attach</code> configuration is <code>false</code>, then zellij will show an error
+message on trying to create the layout, if the layout name already exists.</p>
+<h3 id="focus-bool"><a class="header" href="#focus-bool"><code>focus: &lt;bool&gt;</code></a></h3>
+<p>This is an optional configuration option that can be used to specify the initial focus of
+the <code>tab</code> or <code>pane</code>.</p>
+<p>This option is not set by default. So, every <code>tab</code> and <code>pane</code> basically
+focus the first target.</p>
+<p>Example one:</p>
+<pre><code class="language-yaml">tabs:
+- direction: Vertical
+- direction: Vertical
+  focus: true # focus second tab.
+  parts:
+  - direction: Vertical
+    split_size:
+      Percent: 50
+  - direction: Vertical
+    focus: true # focus right pane.
+    split_size:
+      Percent: 50
+</code></pre>
+<p>If the option is duplicated, the first declared focus has priority.
+This applies to both <code>tab</code> and <code>pane</code>.</p>
+<p>Example two:</p>
+<pre><code class="language-yaml">tabs:
+- direction: Vertical
+  focus: true # [duplicated] focus first tab. 
+- direction: Vertical
+  focus: true # [duplicated] ignored.
+  parts:
+  - direction: Vertical
+    split_size:
+      Percent: 50
+  - direction: Vertical
+    focus: true # focus right pane.
+    split_size:
+      Percent: 50
+- direction: Vertical
+</code></pre>
+<h3 id="configuration"><a class="header" href="#configuration"><code>configuration</code></a></h3>
+<p>The layout supports all the configuration options from the <a href="https://zellij.dev/documentation/configuration.html">Configuration</a> page.</p>
+<p>If an option is specified in a layout, it has precedence over the config file
+itself.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">default_shell: fish
+</code></pre>
+<h2 id="further-examples"><a class="header" href="#further-examples">Further examples</a></h2>
+<p>Please take a look at the <a href="https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts">default</a> layouts that come with Zellij, or the layouts that reside in the <a href="https://github.com/zellij-org/zellij/tree/main/example">example</a> directory for more complete layouts.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="actions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a rel="next" href="layouts-templates.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="actions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a rel="next" href="layouts-templates.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+    </body>
+</html>
