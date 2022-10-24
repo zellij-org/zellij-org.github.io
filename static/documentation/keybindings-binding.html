@@ -138,7 +138,7 @@
 <p>Keys are bound with <code>bind</code> instructions inside each mode. A <code>bind</code> instruction consists of a list of keys to be bound, as well as a list of actions to be bound to each of those keys.</p>
 <p><em>Note</em>: All actions will be performed with no sequential guarantees.</p>
 <p>eg.</p>
-<pre><code class="language-kdl">    // bind the Alt-n to open a new pane
+<pre><code class="language-javascript">    // bind the Alt-n to open a new pane
     bind &quot;Alt n&quot; { NewPane; }
     // bind both the &quot;h&quot; key and the left-arrow key to move pane focus left
     bind &quot;h&quot; &quot;Left&quot; { MoveFocus &quot;Left&quot;; }
@@ -148,7 +148,7 @@
 <h1 id="overriding-keys"><a class="header" href="#overriding-keys">Overriding keys</a></h1>
 <p>When configured, keybindings override the default <code>keybinds</code> of the application individually (if a certain key was bound in the configuration, it overrides that key in the default configuration).</p>
 <p>It's possible to explicitly unbind a key:</p>
-<pre><code class="language-kdl">keybinds {
+<pre><code class="language-javascript">keybinds {
     unbind &quot;Ctrl g&quot; // unbind in all modes
     normal {
         unbind &quot;Alt h&quot; &quot;Alt n&quot; // unbind one or more keys in a specific mode
@@ -156,13 +156,13 @@
 }
 </code></pre>
 <p>It's also possible to use the special <code>clear-defaults=true</code> attribute either globally or in a specific mode:</p>
-<pre><code class="language-kdl">keybinds clear-defaults=true { // will clear all default keybinds
+<pre><code class="language-javascript">keybinds clear-defaults=true { // will clear all default keybinds
     normal {
         // ...
     }
 }
 </code></pre>
-<pre><code class="language-kdl">keybinds {
+<pre><code class="language-javascript">keybinds {
     normal clear-defaults=true { // will clear all keybinds in normal mode
         // ...
     }

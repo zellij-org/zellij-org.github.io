@@ -140,138 +140,138 @@
 <p><code>CloseFocus</code> - close the focused pane</p>
 <p><strong>Possible arguments</strong>: None</p>
 <p>eg.</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { CloseFocus; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { CloseFocus; }
 </code></pre>
 </li>
 <li>
 <p><code>CloseTab</code> - close the focused tab</p>
 <p><strong>Possible arguments</strong>: None</p>
 <p>eg.</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { CloseTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { CloseTab; }
 </code></pre>
 </li>
 <li>
 <p><code>Detach</code> - detach from the current session, leaving it running in the background</p>
 <p><strong>Possible arguments</strong>: None</p>
 <p>eg.</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { Detach; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { Detach; }
 </code></pre>
 </li>
 <li>
 <p><code>DumpScreen</code> - dump the contents of the focused pane, including its entire scrollback, to the specified file.</p>
 <p><strong>Required arguments</strong>: A path to a file on the hard-drive</p>
 <p>eg.</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { DumpScreen &quot;/tmp/my-dump.txt&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { DumpScreen &quot;/tmp/my-dump.txt&quot;; }
 </code></pre>
 </li>
 <li>
 <p><code>EditScrollback</code> - edit the scrollback of the currently focused pane with the user's default editor.</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { EditScrollback; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { EditScrollback; }
 </code></pre>
 </li>
 <li>
 <p><code>FocusNextPane</code> - change focus to the next pane (order not guaranteed)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { FocusNextPane; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { FocusNextPane; }
 </code></pre>
 </li>
 <li>
 <p><code>FocusPreviousPane</code> - change focus to the previous pane (order not guaranteed)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { FocusPreviousPane; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { FocusPreviousPane; }
 </code></pre>
 </li>
 <li>
 <p><code>GoToNextTab</code> - change focus to the next tab</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { GoToNextTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { GoToNextTab; }
 </code></pre>
 </li>
 <li>
 <p><code>GoToPreviousTab</code> - change focus to the previous tab</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { GoToPreviousTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { GoToPreviousTab; }
 </code></pre>
 </li>
 <li>
 <p><code>GoToTab</code> - change focus to a tab with a specific index</p>
 <p><strong>Required arguments</strong>: numeric tab index (eg. 1)</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { GoToTab 1; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { GoToTab 1; }
 </code></pre>
 </li>
 <li>
 <p><code>HalfPageScrollDown</code> - scroll the focused pane half a page down</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { HalfPageScrollDown; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { HalfPageScrollDown; }
 </code></pre>
 </li>
 <li>
 <p><code>HalfPageScrollUp</code> - scroll the focused pane half a page up</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { HalfPageScrollUp; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { HalfPageScrollUp; }
 </code></pre>
 </li>
 <li>
 <p><code>MoveFocus</code> - move focus in a specific direction</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code></p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { MoveFocus &quot;Left&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { MoveFocus &quot;Left&quot;; }
 </code></pre>
 </li>
 <li>
 <p><code>MoveFocusOrTab</code> - move focus left or right, or to the next or previous tab if on screen edge</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code></p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { MoveFocusOrTab &quot;Left&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { MoveFocusOrTab &quot;Left&quot;; }
 </code></pre>
 </li>
 <li>
 <p><code>MovePane</code> - move the position of the focused pane in the specific direction</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code></p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { MovePane &quot;Left&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { MovePane &quot;Left&quot;; }
 </code></pre>
 </li>
 <li>
 <p><code>NewPane</code> - open a new pane (in the specified direction)</p>
 <p><strong>Possible arguments</strong>: <code>Down</code> | <code>Right</code></p>
 <p><strong>Behaviour without arguments</strong>: Opens a pane in the largest available space or if floating panes are visible, in the next floating pane position.</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { NewPane &quot;Right&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { NewPane &quot;Right&quot;; }
 </code></pre>
 </li>
 <li>
 <p><code>NewTab</code> - open a new tab</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { NewTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { NewTab; }
 </code></pre>
 </li>
 <li>
 <p><code>PageScrollDown</code> - scroll the focused pane one page down</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { PageScrollDown; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { PageScrollDown; }
 </code></pre>
 </li>
 <li>
 <p><code>PageScrollUp</code> - scroll the focused pane one page up</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { PageScrollUp; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { PageScrollUp; }
 </code></pre>
 </li>
 <li>
 <p><code>Quit</code> - quit Zellij :(</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { Quit; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { Quit; }
 </code></pre>
 </li>
 <li>
 <p><code>Resize</code> - resize the focused pane either in the specified direction or increase/decrease its size automatically</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code> | <code>Increase</code> | <code>Decrease</code></p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { Resize &quot;Increase&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { Resize &quot;Increase&quot;; }
 </code></pre>
 </li>
 <li>
 <p><code>Run</code> - run the specified command</p>
 <p><strong>Required arguments</strong>: The command to run, followed by optional arguments</p>
 <p><strong>Possible arguments</strong>: <code>cwd</code> - current working directory, <code>direction</code> - the direction to open the new command pane</p>
-<pre><code class="language-kdl">    // will run &quot;tail -f /tmp/foo&quot; in a pane opened below the focused one
+<pre><code class="language-javascript">    // will run &quot;tail -f /tmp/foo&quot; in a pane opened below the focused one
     bind &quot;a&quot; {
         Run &quot;tail&quot; &quot;-f&quot; &quot;foo&quot; {
             cwd &quot;/tmp&quot;
@@ -283,97 +283,97 @@
 <li>
 <p>ScrollDown - scroll the focused pane down 1 line</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ScrollDown; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ScrollDown; }
 </code></pre>
 </li>
 <li>
 <p>ScrollToBottom - scroll the focused pane completely down</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ScrollToBottom; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ScrollToBottom; }
 </code></pre>
 </li>
 <li>
 <p>ScrollUp - scroll the focused pane up 1 line</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ScrollUp; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ScrollUp; }
 </code></pre>
 </li>
 <li>
 <p>Search - when searching, move to the next or previous search occurrence</p>
 <p><strong>Required arguments</strong>: &quot;down&quot; | &quot;up&quot;</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { Search &quot;up&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { Search &quot;up&quot;; }
 </code></pre>
 </li>
 <li>
 <p>SearchToggleOption - toggle various search options on/off</p>
 <p><strong>Required arguments</strong>: &quot;CaseSensitivity&quot; | &quot;Wrap&quot; | &quot;WhileWord&quot;</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { SearchToggleOption &quot;CaseSensitivity&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { SearchToggleOption &quot;CaseSensitivity&quot;; }
 </code></pre>
 </li>
 <li>
 <p>SwitchToMode - switch the current input mode</p>
 <p><strong>Required arguments</strong>: See <a href="#modes">Modes</a></p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { SwitchToMode &quot;locked&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { SwitchToMode &quot;locked&quot;; }
 </code></pre>
 </li>
 <li>
 <p>ToggleActiveSyncTab - toggle the syncing of input between all panes in the focused tab</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ToggleActiveSyncTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleActiveSyncTab; }
 </code></pre>
 </li>
 <li>
 <p>ToggleFloatingPanes - show/hide floating panes; if none are open, one will be opened</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ToggleFloatingPanes; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleFloatingPanes; }
 </code></pre>
 </li>
 <li>
 <p>ToggleFocusFullscreen - toggle the focused pane as fullscreen on/off</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ToggleFocusFullscreen; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleFocusFullscreen; }
 </code></pre>
 </li>
 <li>
 <p>TogglePaneEmbedOrFloating - float focused embedded pane or embed focused floating pane</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { TogglePaneEmbedOrFloating; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { TogglePaneEmbedOrFloating; }
 </code></pre>
 </li>
 <li>
 <p>TogglePaneFrames - show/hide the frames around panes (notice, these might have valuable UX info)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { TogglePaneFrames; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { TogglePaneFrames; }
 </code></pre>
 </li>
 <li>
 <p>ToggleTab - change the tab focus</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ToggleTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleTab; }
 </code></pre>
 </li>
 <li>
 <p>UndoRenamePane - undo a rename pane operation currently in progress (reverting to the previous name)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { UndoRenamePane; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { UndoRenamePane; }
 </code></pre>
 </li>
 <li>
 <p>UndoRenameTab - undo a rename tab operation currently in progress (reverting to the previous name)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { UndoRenameTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { UndoRenameTab; }
 </code></pre>
 </li>
 <li>
 <p>Write - write bytes to the active pane</p>
 <p><strong>Required arguments</strong>: the bytes to write as integers</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { Write 102 111 111; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { Write 102 111 111; }
 </code></pre>
 </li>
 <li>
 <p>WriteChars - write a string of characters to the active pane</p>
 <p><strong>Required arguments</strong>: the string of characters to write</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { WriteChars &quot;hi there!&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { WriteChars &quot;hi there!&quot;; }
 </code></pre>
 </li>
 </ul>

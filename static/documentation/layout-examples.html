@@ -136,7 +136,7 @@
                     <main>
                         <h1 id="example-layouts"><a class="header" href="#example-layouts">Example layouts</a></h1>
 <h2 id="classic-three-pane-with-vertical-root"><a class="header" href="#classic-three-pane-with-vertical-root">Classic three pane with vertical root</a></h2>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane
         pane split_direction=&quot;horizontal&quot; {
@@ -149,7 +149,7 @@
 <p>Will provide:</p>
 <p><img src="./img/basic-layout-vertical.png" alt="generic project explorer" /></p>
 <h2 id="classic-three-panes-with-vertical-root-and-compact-status-bar"><a class="header" href="#classic-three-panes-with-vertical-root-and-compact-status-bar">Classic three panes with vertical root and compact status bar</a></h2>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane
         pane split_direction=&quot;horizontal&quot; {
@@ -166,7 +166,7 @@
 <p><img src="./img/basic-layout-vertical-compact.png" alt="generic project explorer" /></p>
 <h2 id="quick-generic-project-explorer"><a class="header" href="#quick-generic-project-explorer">Quick generic project explorer</a></h2>
 <p>Cloned a new project, want to quickly explore it without much fuss?</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane
         pane split_direction=&quot;horizontal&quot; {
@@ -184,7 +184,7 @@
 <p><img src="./img/quick-generic-project-explorer.png" alt="generic project explorer" /></p>
 <h2 id="basic-rust-project"><a class="header" href="#basic-rust-project">Basic Rust project</a></h2>
 <p>Basic layout for a rust executable project</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; size=&quot;60%&quot; {
         pane edit=&quot;src/main.rs&quot;
         pane edit=&quot;Cargo.toml&quot;
@@ -203,7 +203,7 @@
 <p>When started in a project just created with <code>cargo init</code>, looks like this:</p>
 <p><img src="./img/basic-rust-project-layout.png" alt="basic rust project layout" /></p>
 <p>For convenience, here's a version that also loads Zellij's interface</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane size=1 borderless=true {
         plugin location=&quot;zellij:tab-bar&quot;
     }
@@ -228,7 +228,7 @@
 <h2 id="a-more-complex-example-zellij-development"><a class="header" href="#a-more-complex-example-zellij-development">A more complex example (Zellij development)</a></h2>
 <p>Here's a layout used internally for Zellij development.</p>
 <p>It can help on-board new developers by tying together related files and their tests, as well as useful plugins here and there.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     default_tab_template {
         pane size=1 borderless=true {
             plugin location=&quot;zellij:tab-bar&quot;

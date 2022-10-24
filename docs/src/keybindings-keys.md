@@ -1,6 +1,6 @@
 # Keys
 Keys are defined in a single quoted string, with space delimiting modifier keys.
-```kdl
+```javascript
 bind "a" // bind the individual character a
 bind "Ctrl a" // bind a with the ctrl modifier
 bind "Alt a" // bind a with the alt modifier

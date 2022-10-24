@@ -2,7 +2,7 @@
 The keybindings are divided into several modes. Each mode has its separate keybindings.
 
 eg.
-```kdl
+```javascript
 keybinds {
     normal {
         // keybindings available in normal mode

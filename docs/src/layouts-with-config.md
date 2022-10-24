@@ -8,7 +8,7 @@ Items in this configuration take precedence over items in the loaded Zellij conf
 
 ## Example
 
-```kdl
+```javascript
 layout {
     pane split_direction="vertical" {
         pane

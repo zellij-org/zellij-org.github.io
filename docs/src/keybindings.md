@@ -6,7 +6,7 @@ It is possible to add to these defaults or even override them with an external c
 
 Keybindings can be configured in the `keybinds` block of the file.
 
-```kdl
+```javascript
 keybinds {
     // keybinds are divided into modes
     normal {

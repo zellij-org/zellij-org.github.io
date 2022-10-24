@@ -1,7 +1,7 @@
 # Shared bindings
 There are three special node types that can be used when defining keybindings:
 
-```kdl
+```javascript
 keybinds {
     shared {
         // these keybindings will be present in all modes

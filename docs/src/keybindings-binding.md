@@ -4,7 +4,7 @@ Keys are bound with `bind` instructions inside each mode. A `bind` instruction c
 *Note*: All actions will be performed with no sequential guarantees.
 
 eg.
-```kdl
+```javascript
     // bind the Alt-n to open a new pane
     bind "Alt n" { NewPane; }
     // bind both the "h" key and the left-arrow key to move pane focus left
@@ -18,7 +18,7 @@ When configured, keybindings override the default `keybinds` of the application 
 
 It's possible to explicitly unbind a key:
 
-```kdl
+```javascript
 keybinds {
     unbind "Ctrl g" // unbind in all modes
     normal {
@@ -29,7 +29,7 @@ keybinds {
 
 It's also possible to use the special `clear-defaults=true` attribute either globally or in a specific mode:
 
-```kdl
+```javascript
 keybinds clear-defaults=true { // will clear all default keybinds
     normal {
         // ...
@@ -37,7 +37,7 @@ keybinds clear-defaults=true { // will clear all default keybinds
 }
 ```
 
-```kdl
+```javascript
 keybinds {
     normal clear-defaults=true { // will clear all keybinds in normal mode
         // ...

@@ -137,7 +137,7 @@
                         <h1 id="themes"><a class="header" href="#themes">Themes</a></h1>
 <p>Themes can be specified either in the <a href="./configuration.html">configuration file</a> under the <code>themes</code> section, or directly in a separate file.</p>
 <h2 id="truecolor-themes"><a class="header" href="#truecolor-themes">Truecolor themes</a></h2>
-<pre><code class="language-kdl">themes {
+<pre><code class="language-javascript">themes {
    dracula {
         fg 248 248 242
         bg 40 42 54
@@ -154,7 +154,7 @@
 }
 </code></pre>
 <h2 id="256-color-themes"><a class="header" href="#256-color-themes">256 color themes</a></h2>
-<pre><code class="language-kdl">themes {
+<pre><code class="language-javascript">themes {
     default {
         fg 1
         bg 10
@@ -171,7 +171,7 @@
 }
 </code></pre>
 <h2 id="hexadecimal-color-themes"><a class="header" href="#hexadecimal-color-themes">Hexadecimal color themes</a></h2>
-<pre><code class="language-kdl">themes {
+<pre><code class="language-javascript">themes {
     nord {
         fg &quot;#D8DEE9&quot;
         bg &quot;#2E3440&quot;
@@ -193,7 +193,7 @@ To specify a different theme, run zellij with:</p>
 <pre><code>zellij options --theme [NAME]
 </code></pre>
 <p>or put the name in the configuration file with <code>theme: [NAME]</code> as follows:</p>
-<pre><code class="language-kdl">keybinds {
+<pre><code class="language-javascript">keybinds {
     // ...
 }
 // ...

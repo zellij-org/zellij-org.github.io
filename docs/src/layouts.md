@@ -9,7 +9,7 @@ You can read more about [creating a layout](./creating-a-layout.md)
 ### Example
 
 A basic layout can look like this:
-```kdl
+```javascript
 // layout_file.kdl
 
 layout {

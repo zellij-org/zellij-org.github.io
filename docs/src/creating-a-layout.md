@@ -18,7 +18,7 @@ Within it are several possible node types:
 `pane` nodes are the basic building blocks of a layout.
 
 They could represent standalone panes:
-```kdl
+```javascript
 layout {
     pane // panes can be bare
     pane command="htop" // panes can have arguments on the same line
@@ -34,7 +34,7 @@ layout {
 ```
 
 They could also represent logical containers:
-```kdl
+```javascript
 layout {
     pane split_direction="vertical" {
         pane
@@ -53,7 +53,7 @@ layout {
 **Default value if omitted:** `"horizontal"`
 
 eg.
-```kdl
+```javascript
 layout {
     pane split_direction="vertical" {
         pane
@@ -69,7 +69,7 @@ layout {
 
 **Note**: The `layout` node itself has a set value of "horizontal". It can be changed by adding a logical pane container:
 
-```kdl
+```javascript
 layout {
     pane split_direction="vertical" {
         pane
@@ -86,7 +86,7 @@ layout {
 **Note**: specifying fixed values that are not `unselectable` plugins is **currently unstable** and might lead to unexpected behaviour when resizing or closing panes. Please see [this issue](https://github.com/zellij-org/zellij/issues/1758).
 
 eg.
-```kdl
+```javascript
 layout {
     pane size=5
     pane split_direction="vertical" {
@@ -105,7 +105,7 @@ layout {
 **Default value if omitted:** false
 
 eg.
-```kdl
+```javascript
 layout {
     pane borderless=true
     pane {
@@ -123,7 +123,7 @@ layout {
 **Note**: specifying multiple panes with focus will result in the first one of them being focused.
 
 eg.
-```kdl
+```javascript
 layout {
     pane focus=true
     pane {
@@ -138,7 +138,7 @@ layout {
 **Possible values:** "a quoted string"
 
 eg.
-```kdl
+```javascript
 layout {
     pane name="my awesome pane"
     pane {
@@ -154,7 +154,7 @@ A pane can have a `cwd` argument, pointing to its Current Working Directory.
 **Note**: If the `cwd` is a relative path, it will be appended to its containers' cwd [read more about cwd composition](#cwd-composition)
 
 eg.
-```kdl
+```javascript
 layout {
     pane cwd="/"
     pane {
@@ -171,7 +171,7 @@ layout {
 **Possible values:** "/path/to/some/executable" | "executable" (the latter should be accessible through PATH)
 
 eg.
-```kdl
+```javascript
 layout {
     pane command="htop"
     pane {
@@ -190,7 +190,7 @@ A pane with a `command` can also have an `args` argument. This argument can incl
 **Note**: `args` must be inside the `pane`'s child-braces and cannot be specified on the same line as the pane.
 
 eg.
-```kdl
+```javascript
 layout {
     pane command="tail" {
         args "-f" "/path/to/my/logfile"
@@ -212,7 +212,7 @@ layout {
 **Note**: If the value is a relative path, it will be appended to its containers' cwd [read more about cwd composition](#cwd-composition)
 
 eg.
-```kdl
+```javascript
 layout {
     pane split_direction="vertical" {
         pane edit="./git_diff_side_a"
@@ -241,7 +241,7 @@ layout {
 **Note**: all tab arguments should be specified on its title line. The child-braces are reserved for its child panes.
 
 eg.
-```kdl
+```javascript
 layout {
     tab // a tab with a single pane
     tab {
@@ -266,7 +266,7 @@ Tabs can have a `split_direction` just like `pane`s. This argument indicates whe
 **Default value if omitted:** `"horizontal"`
 
 eg.
-```kdl
+```javascript
 layout {
     tab split_direction="vertical" {
         pane
@@ -290,7 +290,7 @@ Tabs can have a `focus` just like `pane`s. This argument indicates whether a tab
 **Note**: only one tab can be focused.
 
 eg.
-```kdl
+```javascript
 layout {
     tab {
         pane
@@ -309,7 +309,7 @@ Tabs can have a `name` just like `pane`s. This argument is a string to change th
 **Possible values:** "a quoted string"
 
 eg.
-```kdl
+```javascript
 layout {
     tab name="my awesome tab"
     tab name="my amazing tab" {
@@ -328,7 +328,7 @@ All panes in this tab will have this `cwd` prefixed to their own `cwd` (if they 
 **Note**: If the `cwd` is a relative path, it will be appended to its containers' cwd [read more about cwd composition](#cwd-composition)
 
 eg.
-```kdl
+```javascript
 layout {
     tab name="my amazing tab" cwd="/tmp" {
         pane // will have its cwd set to "/tmp"
@@ -344,7 +344,7 @@ Each template has a name that should be used directly as a node name instead of 
 
 #### Pane Templates
 Pane templates can be used to shorten pane attributes:
-```kdl
+```javascript
 layout {
     pane_template name="htop" {
         command "htop"
@@ -366,7 +366,7 @@ layout {
 
 Pane templates with the `command` attribute can take the `args` and `cwd` of their consumers:
 
-```kdl
+```javascript
 layout {
     pane_template name="follow-log" command="tail"
     follow-log {
@@ -384,7 +384,7 @@ Pane templates can be used as logical containers. In this case a special `childr
 
 **Note**: the `children` node can be nested inside `pane`s but not inside other `pane_template`s.
 
-```kdl
+```javascript
 layout {
     pane_template name="vertical-sandwich" split_direction="vertical" {
         pane
@@ -399,7 +399,7 @@ layout {
 
 Pane templates can include other pane templates.
 
-```kdl
+```javascript
 layout {
     pane_template name="vertical-sandwich" split_direction="vertical" {
         pane
@@ -426,7 +426,7 @@ The `children` node should be thought of as a placeholder for the pane using thi
 
 This:
 
-```kdl
+```javascript
 layout {
     pane_template name="my_template" {
         pane
@@ -442,7 +442,7 @@ layout {
 
 Will be translated into this:
 
-```kdl
+```javascript
 layout {
     pane {
         pane
@@ -460,7 +460,7 @@ Tab templates, similar to pane templates, help avoiding repetition when defining
 
 **Note**: for the sake of clarity, arguments passed to `tab_template`s can only be specified on their title line.
 
-```kdl
+```javascript
 layout {
     tab_template name="ranger-on-the-side" {
         pane size=1 borderless=true {
@@ -489,7 +489,7 @@ There is a special `default_tab_template` node that can be used just like a regu
 
 **Another note**: if no `tab`s are specified, the whole layout is treated as a `default_tab_template`.
 
-```kdl
+```javascript
 layout {
     default_tab_template {
         // the default zellij tab-bar and status bar plugins
@@ -521,7 +521,7 @@ When a relative `cwd` property is specified in a node, it is appended to its con
 4. The `cwd` where the command was executed
 
 eg.
-```
+```javascript
 layout {
     cwd "/hi"
     tab cwd="there" {
@@ -536,7 +536,7 @@ The `cwd` property can also be specified globally on the `layout` node itself.
 Doing this would make all panes in this layout start in this cwd unless they have an absolute path.
 
 Eg. 
-```kdl
+```javascript
 layout {
     cwd "/home/aram/code/my-project"
     pane cwd="src" // will be opened in /home/aram/code/my-project/src

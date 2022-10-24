@@ -145,7 +145,7 @@ eg. when terminal window with an active zellij session is closed</p>
 <li>detach (Default)</li>
 <li>quit</li>
 </ul>
-<pre><code class="language-kdl">on_force_close &quot;quit&quot;
+<pre><code class="language-javascript">on_force_close &quot;quit&quot;
 </code></pre>
 <h3 id="simplified_ui"><a class="header" href="#simplified_ui">simplified_ui</a></h3>
 <p>Send a request for a simplified ui (without arrow fonts) to plugins</p>
@@ -154,12 +154,12 @@ eg. when terminal window with an active zellij session is closed</p>
 <li>true</li>
 <li>false (Default)</li>
 </ul>
-<pre><code class="language-kdl">simplified_ui true
+<pre><code class="language-javascript">simplified_ui true
 </code></pre>
 <h3 id="default_shell"><a class="header" href="#default_shell">default_shell</a></h3>
 <p>Choose the path to the default shell that zellij will use for opening new panes</p>
 <p>Default: $SHELL</p>
-<pre><code class="language-kdl">default_shell &quot;fish&quot;
+<pre><code class="language-javascript">default_shell &quot;fish&quot;
 </code></pre>
 <h3 id="pane_frames"><a class="header" href="#pane_frames">pane_frames</a></h3>
 <p>Toggle between having pane frames around the panes</p>
@@ -168,22 +168,22 @@ eg. when terminal window with an active zellij session is closed</p>
 <li>true (default)</li>
 <li>false</li>
 </ul>
-<pre><code class="language-kdl">pane_frames true
+<pre><code class="language-javascript">pane_frames true
 </code></pre>
 <h3 id="theme"><a class="header" href="#theme">theme</a></h3>
 <p>Choose the Zellij color theme. This theme must be specified in the themes section or loaded from the themes folder. See <a href="./themes.html">themes</a></p>
 <p>Default: default</p>
-<pre><code class="language-kdl">theme &quot;default&quot;
+<pre><code class="language-javascript">theme &quot;default&quot;
 </code></pre>
 <h3 id="default_layout"><a class="header" href="#default_layout">default_layout</a></h3>
 <p>The name of the layout to load on startup (must be in the layouts folder). See <a href="./layouts.html">layouts</a></p>
 <p>Default: &quot;default&quot;</p>
-<pre><code class="language-kdl">default_layout &quot;compact&quot;
+<pre><code class="language-javascript">default_layout &quot;compact&quot;
 </code></pre>
 <h3 id="default_mode-locked"><a class="header" href="#default_mode-locked">default_mode &quot;locked&quot;</a></h3>
 <p>Choose the mode that zellij uses when starting up.</p>
 <p>Default: normal</p>
-<pre><code class="language-kdl">default_mode &quot;locked&quot;
+<pre><code class="language-javascript">default_mode &quot;locked&quot;
 </code></pre>
 <h3 id="mouse_mode"><a class="header" href="#mouse_mode">mouse_mode</a></h3>
 <p>Toggle enabling the mouse mode.
@@ -194,7 +194,7 @@ potentially interfere with copying text.</p>
 <li>true (default)</li>
 <li>false</li>
 </ul>
-<pre><code class="language-kdl">mouse_mode false
+<pre><code class="language-javascript">mouse_mode false
 </code></pre>
 <h3 id="scroll_buffer_size"><a class="header" href="#scroll_buffer_size">scroll_buffer_size</a></h3>
 <p>Configure the scroll back buffer size
@@ -202,7 +202,7 @@ This is the number of lines zellij stores for each pane in the scroll back
 buffer. Excess number of lines are discarded in a FIFO fashion.</p>
 <p>Valid values: positive integers</p>
 <p>Default value: 10000</p>
-<pre><code class="language-kdl">scroll_buffer_size 10000
+<pre><code class="language-javascript">scroll_buffer_size 10000
 </code></pre>
 <h3 id="copy_command"><a class="header" href="#copy_command">copy_command</a></h3>
 <p>Provide a command to execute when copying text. The text will be piped to
@@ -210,7 +210,7 @@ the stdin of the program to perform the copy. This can be used with
 terminal emulators which do not support the OSC 52 ANSI control sequence
 that will be used by default if this option is not set.</p>
 <p>Examples:</p>
-<pre><code class="language-kdl">copy_command &quot;xclip -selection clipboard&quot; // x11
+<pre><code class="language-javascript">copy_command &quot;xclip -selection clipboard&quot; // x11
 copy_command &quot;wl-copy&quot;                    // wayland
 copy_command &quot;pbcopy&quot;                     // osx
 </code></pre>
@@ -223,36 +223,36 @@ Does not apply when using copy_command.</p>
 <li>system (default)</li>
 <li>primary</li>
 </ul>
-<pre><code class="language-kdl">copy_clipboard &quot;primary&quot;
+<pre><code class="language-javascript">copy_clipboard &quot;primary&quot;
 </code></pre>
 <h3 id="copy_on_select"><a class="header" href="#copy_on_select">copy_on_select</a></h3>
 <p>Enable or disable automatic copy (and clear) of selection when releasing mouse</p>
 <p>Default: true</p>
-<pre><code class="language-kdl">copy_on_select false
+<pre><code class="language-javascript">copy_on_select false
 </code></pre>
 <h3 id="scrollback_editor"><a class="header" href="#scrollback_editor">scrollback_editor</a></h3>
 <p>Path to the default editor to use to edit pane scrollbuffer as well as the CLI and layout <code>edit</code> commands</p>
 <p>Default: $EDITOR or $VISUAL</p>
-<pre><code class="language-kdl">scrollback_editor &quot;/usr/bin/vim&quot;
+<pre><code class="language-javascript">scrollback_editor &quot;/usr/bin/vim&quot;
 </code></pre>
 <h3 id="mirror_session"><a class="header" href="#mirror_session">mirror_session</a></h3>
 <p>When attaching to an existing session with other users,
 should the session be mirrored (true)
 or should each user have their own cursor (false)
 Default: false</p>
-<pre><code class="language-kdl">mirror_session true
+<pre><code class="language-javascript">mirror_session true
 </code></pre>
 <h3 id="layout_dir"><a class="header" href="#layout_dir">layout_dir</a></h3>
 <p>The folder in which Zellij will look for layouts</p>
-<pre><code class="language-kdl">layout_dir &quot;/path/to/my/layout_dir&quot;
+<pre><code class="language-javascript">layout_dir &quot;/path/to/my/layout_dir&quot;
 </code></pre>
 <h3 id="theme_dir"><a class="header" href="#theme_dir">theme_dir</a></h3>
 <p>The folder in which Zellij will look for themes</p>
-<pre><code class="language-kdl">theme_dir &quot;/path/to/my/theme_dir&quot;
+<pre><code class="language-javascript">theme_dir &quot;/path/to/my/theme_dir&quot;
 </code></pre>
 <h3 id="env"><a class="header" href="#env">env</a></h3>
 <p>A key -&gt; value map of environment variables that will be set for each terminal pane Zellij starts.</p>
-<pre><code class="language-kdl">env {
+<pre><code class="language-javascript">env {
     RUST_BACKTRACE 1
     FOO &quot;bar&quot;
 }
@@ -260,7 +260,7 @@ Default: false</p>
 <h3 id="rounded-corners"><a class="header" href="#rounded-corners">rounded corners</a></h3>
 <p>Set whether the pane frames (if visible) should have rounded corners.</p>
 <p>This config variable is set differently than others:</p>
-<pre><code class="language-kdl">ui {
+<pre><code class="language-javascript">ui {
     pane_frames {
         rounded_corners true
     }

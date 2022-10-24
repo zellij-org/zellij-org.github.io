@@ -4,7 +4,7 @@
     **Possible arguments**: None
 
     eg.
-    ```kdl
+    ```javascript
         bind "a" { CloseFocus; }
     ```
   - `CloseTab` - close the focused tab
@@ -12,7 +12,7 @@
     **Possible arguments**: None
 
     eg.
-    ```kdl
+    ```javascript
         bind "a" { CloseTab; }
     ```
   - `Detach` - detach from the current session, leaving it running in the background
@@ -20,7 +20,7 @@
     **Possible arguments**: None
 
     eg.
-    ```kdl
+    ```javascript
         bind "a" { Detach; }
     ```
   - `DumpScreen` - dump the contents of the focused pane, including its entire scrollback, to the specified file.
@@ -28,84 +28,84 @@
     **Required arguments**: A path to a file on the hard-drive
 
     eg.
-    ```kdl
+    ```javascript
         bind "a" { DumpScreen "/tmp/my-dump.txt"; }
     ```
   - `EditScrollback` - edit the scrollback of the currently focused pane with the user's default editor.
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { EditScrollback; }
     ```
   - `FocusNextPane` - change focus to the next pane (order not guaranteed)
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { FocusNextPane; }
     ```
   - `FocusPreviousPane` - change focus to the previous pane (order not guaranteed)
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { FocusPreviousPane; }
     ```
   - `GoToNextTab` - change focus to the next tab
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { GoToNextTab; }
     ```
   - `GoToPreviousTab` - change focus to the previous tab
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { GoToPreviousTab; }
     ```
   - `GoToTab` - change focus to a tab with a specific index
 
     **Required arguments**: numeric tab index (eg. 1)
 
-    ```kdl
+    ```javascript
         bind "a" { GoToTab 1; }
     ```
   - `HalfPageScrollDown` - scroll the focused pane half a page down
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { HalfPageScrollDown; }
     ```
   - `HalfPageScrollUp` - scroll the focused pane half a page up
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { HalfPageScrollUp; }
     ```
   - `MoveFocus` - move focus in a specific direction
 
     **Required arguments**: `Left` | `Right` | `Up` | `Down`
 
-    ```kdl
+    ```javascript
         bind "a" { MoveFocus "Left"; }
     ```
   - `MoveFocusOrTab` - move focus left or right, or to the next or previous tab if on screen edge
 
     **Required arguments**: `Left` | `Right`
 
-    ```kdl
+    ```javascript
         bind "a" { MoveFocusOrTab "Left"; }
     ```
   - `MovePane` - move the position of the focused pane in the specific direction
 
     **Required arguments**: `Left` | `Right` | `Up` | `Down`
 
-    ```kdl
+    ```javascript
         bind "a" { MovePane "Left"; }
     ```
   - `NewPane` - open a new pane (in the specified direction)
@@ -114,42 +114,42 @@
 
     **Behaviour without arguments**: Opens a pane in the largest available space or if floating panes are visible, in the next floating pane position.
 
-    ```kdl
+    ```javascript
         bind "a" { NewPane "Right"; }
     ```
   - `NewTab` - open a new tab
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { NewTab; }
     ```
   - `PageScrollDown` - scroll the focused pane one page down
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { PageScrollDown; }
     ```
   - `PageScrollUp` - scroll the focused pane one page up
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { PageScrollUp; }
     ```
   - `Quit` - quit Zellij :(
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { Quit; }
     ```
   - `Resize` - resize the focused pane either in the specified direction or increase/decrease its size automatically
 
     **Required arguments**: `Left` | `Right` | `Up` | `Down` | `Increase` | `Decrease`
 
-    ```kdl
+    ```javascript
         bind "a" { Resize "Increase"; }
     ```
   - `Run` - run the specified command
@@ -158,7 +158,7 @@
 
     **Possible arguments**: `cwd` - current working directory, `direction` - the direction to open the new command pane
 
-    ```kdl
+    ```javascript
         // will run "tail -f /tmp/foo" in a pane opened below the focused one
         bind "a" {
             Run "tail" "-f" "foo" {
@@ -171,28 +171,28 @@
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { ScrollDown; }
     ```
   - ScrollToBottom - scroll the focused pane completely down
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { ScrollToBottom; }
     ```
   - ScrollUp - scroll the focused pane up 1 line
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { ScrollUp; }
     ```
   - Search - when searching, move to the next or previous search occurrence
 
     **Required arguments**: "down" | "up"
 
-    ```kdl
+    ```javascript
         bind "a" { Search "up"; }
     ```
 
@@ -200,7 +200,7 @@
 
     **Required arguments**: "CaseSensitivity" | "Wrap" | "WhileWord"
 
-    ```kdl
+    ```javascript
         bind "a" { SearchToggleOption "CaseSensitivity"; }
     ```
 
@@ -208,7 +208,7 @@
 
     **Required arguments**: See [Modes](#modes)
 
-    ```kdl
+    ```javascript
         bind "a" { SwitchToMode "locked"; }
     ```
 
@@ -216,7 +216,7 @@
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { ToggleActiveSyncTab; }
     ```
 
@@ -224,7 +224,7 @@
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { ToggleFloatingPanes; }
     ```
 
@@ -232,7 +232,7 @@
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { ToggleFocusFullscreen; }
     ```
 
@@ -240,7 +240,7 @@
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { TogglePaneEmbedOrFloating; }
     ```
 
@@ -248,7 +248,7 @@
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { TogglePaneFrames; }
     ```
 
@@ -256,7 +256,7 @@
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { ToggleTab; }
     ```
 
@@ -264,7 +264,7 @@
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { UndoRenamePane; }
     ```
 
@@ -272,7 +272,7 @@
 
     **Possible arguments**: None
 
-    ```kdl
+    ```javascript
         bind "a" { UndoRenameTab; }
     ```
 
@@ -280,7 +280,7 @@
 
     **Required arguments**: the bytes to write as integers
 
-    ```kdl
+    ```javascript
         bind "a" { Write 102 111 111; }
     ```
 
@@ -288,6 +288,6 @@
 
     **Required arguments**: the string of characters to write
 
-    ```kdl
+    ```javascript
         bind "a" { WriteChars "hi there!"; }
     ```

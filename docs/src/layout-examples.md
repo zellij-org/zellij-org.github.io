@@ -2,7 +2,7 @@
 
 ## Classic three pane with vertical root
 
-```kdl
+```javascript
 layout {
     pane split_direction="vertical" {
         pane
@@ -20,7 +20,7 @@ Will provide:
 
 ## Classic three panes with vertical root and compact status bar
 
-```kdl
+```javascript
 layout {
     pane split_direction="vertical" {
         pane
@@ -43,7 +43,7 @@ Will provide:
 
 Cloned a new project, want to quickly explore it without much fuss?
 
-```kdl
+```javascript
 layout {
     pane split_direction="vertical" {
         pane
@@ -68,7 +68,7 @@ Will provide:
 
 Basic layout for a rust executable project
 
-```kdl
+```javascript
 layout {
     pane split_direction="vertical" size="60%" {
         pane edit="src/main.rs"
@@ -92,7 +92,7 @@ When started in a project just created with `cargo init`, looks like this:
 
 For convenience, here's a version that also loads Zellij's interface
 
-```kdl
+```javascript
 layout {
     pane size=1 borderless=true {
         plugin location="zellij:tab-bar"
@@ -121,7 +121,7 @@ Here's a layout used internally for Zellij development.
 
 It can help on-board new developers by tying together related files and their tests, as well as useful plugins here and there.
 
-```kdl
+```javascript
 layout {
     default_tab_template {
         pane size=1 borderless=true {

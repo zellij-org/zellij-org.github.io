@@ -13,7 +13,7 @@ Options:
   - detach (Default)
   - quit
 
-```kdl
+```javascript
 on_force_close "quit"
 ```
 
@@ -25,7 +25,7 @@ Options:
   - true
   - false (Default)
 
-```kdl
+```javascript
 simplified_ui true
 ```
 ### default_shell
@@ -34,7 +34,7 @@ Choose the path to the default shell that zellij will use for opening new panes
 
 Default: $SHELL
 
-```kdl
+```javascript
 default_shell "fish"
 ```
 
@@ -46,7 +46,7 @@ Options:
   - true (default)
   - false
 
-```kdl
+```javascript
 pane_frames true
 ```
 ### theme
@@ -55,7 +55,7 @@ Choose the Zellij color theme. This theme must be specified in the themes sectio
 
 Default: default
 
-```kdl
+```javascript
 theme "default"
 ```
 
@@ -65,7 +65,7 @@ The name of the layout to load on startup (must be in the layouts folder). See [
 
 Default: "default"
 
-```kdl
+```javascript
 default_layout "compact"
 ```
 
@@ -75,7 +75,7 @@ Choose the mode that zellij uses when starting up.
 
 Default: normal
 
-```kdl
+```javascript
 default_mode "locked"
 ```
 
@@ -89,7 +89,7 @@ Options:
   - true (default)
   - false
 
-```kdl
+```javascript
 mouse_mode false
 ```
 
@@ -103,7 +103,7 @@ Valid values: positive integers
 
 Default value: 10000
 
-```kdl
+```javascript
 scroll_buffer_size 10000
 ```
 
@@ -116,7 +116,7 @@ that will be used by default if this option is not set.
 
 Examples:
 
-```kdl
+```javascript
 copy_command "xclip -selection clipboard" // x11
 copy_command "wl-copy"                    // wayland
 copy_command "pbcopy"                     // osx
@@ -132,7 +132,7 @@ Options:
   - system (default)
   - primary
 
-```kdl
+```javascript
 copy_clipboard "primary"
 ```
 
@@ -142,7 +142,7 @@ Enable or disable automatic copy (and clear) of selection when releasing mouse
 
 Default: true
 
-```kdl
+```javascript
 copy_on_select false
 ```
 
@@ -152,7 +152,7 @@ Path to the default editor to use to edit pane scrollbuffer as well as the CLI a
 
 Default: $EDITOR or $VISUAL
 
-```kdl
+```javascript
 scrollback_editor "/usr/bin/vim"
 ```
 
@@ -163,7 +163,7 @@ should the session be mirrored (true)
 or should each user have their own cursor (false)
 Default: false
 
-```kdl
+```javascript
 mirror_session true
 ```
 
@@ -171,7 +171,7 @@ mirror_session true
 
 The folder in which Zellij will look for layouts
 
-```kdl
+```javascript
 layout_dir "/path/to/my/layout_dir"
 ```
 
@@ -179,14 +179,14 @@ layout_dir "/path/to/my/layout_dir"
 
 The folder in which Zellij will look for themes
 
-```kdl
+```javascript
 theme_dir "/path/to/my/theme_dir"
 ```
 
 ### env
 A key -> value map of environment variables that will be set for each terminal pane Zellij starts.
 
-```kdl
+```javascript
 env {
     RUST_BACKTRACE 1
     FOO "bar"
@@ -198,7 +198,7 @@ Set whether the pane frames (if visible) should have rounded corners.
 
 This config variable is set differently than others:
 
-```kdl
+```javascript
 ui {
     pane_frames {
         rounded_corners true

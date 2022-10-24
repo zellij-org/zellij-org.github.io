@@ -3,7 +3,7 @@ Themes can be specified either in the [configuration file](./configuration.md) u
 
 ## Truecolor themes
 
-```kdl
+```javascript
 themes {
    dracula {
         fg 248 248 242
@@ -23,7 +23,7 @@ themes {
 
 ## 256 color themes
 
-```kdl
+```javascript
 themes {
     default {
         fg 1
@@ -42,7 +42,7 @@ themes {
 ```
 
 ## Hexadecimal color themes
-```kdl
+```javascript
 themes {
     nord {
         fg "#D8DEE9"
@@ -68,7 +68,7 @@ zellij options --theme [NAME]
 ```
 or put the name in the configuration file with `theme: [NAME]` as follows:
 
-```kdl
+```javascript
 keybinds {
     // ...
 }

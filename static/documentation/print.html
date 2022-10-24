@@ -427,7 +427,7 @@ eg. when terminal window with an active zellij session is closed</p>
 <li>detach (Default)</li>
 <li>quit</li>
 </ul>
-<pre><code class="language-kdl">on_force_close &quot;quit&quot;
+<pre><code class="language-javascript">on_force_close &quot;quit&quot;
 </code></pre>
 <h3 id="simplified_ui"><a class="header" href="#simplified_ui">simplified_ui</a></h3>
 <p>Send a request for a simplified ui (without arrow fonts) to plugins</p>
@@ -436,12 +436,12 @@ eg. when terminal window with an active zellij session is closed</p>
 <li>true</li>
 <li>false (Default)</li>
 </ul>
-<pre><code class="language-kdl">simplified_ui true
+<pre><code class="language-javascript">simplified_ui true
 </code></pre>
 <h3 id="default_shell"><a class="header" href="#default_shell">default_shell</a></h3>
 <p>Choose the path to the default shell that zellij will use for opening new panes</p>
 <p>Default: $SHELL</p>
-<pre><code class="language-kdl">default_shell &quot;fish&quot;
+<pre><code class="language-javascript">default_shell &quot;fish&quot;
 </code></pre>
 <h3 id="pane_frames"><a class="header" href="#pane_frames">pane_frames</a></h3>
 <p>Toggle between having pane frames around the panes</p>
@@ -450,22 +450,22 @@ eg. when terminal window with an active zellij session is closed</p>
 <li>true (default)</li>
 <li>false</li>
 </ul>
-<pre><code class="language-kdl">pane_frames true
+<pre><code class="language-javascript">pane_frames true
 </code></pre>
 <h3 id="theme"><a class="header" href="#theme">theme</a></h3>
 <p>Choose the Zellij color theme. This theme must be specified in the themes section or loaded from the themes folder. See <a href="./themes.html">themes</a></p>
 <p>Default: default</p>
-<pre><code class="language-kdl">theme &quot;default&quot;
+<pre><code class="language-javascript">theme &quot;default&quot;
 </code></pre>
 <h3 id="default_layout"><a class="header" href="#default_layout">default_layout</a></h3>
 <p>The name of the layout to load on startup (must be in the layouts folder). See <a href="./layouts.html">layouts</a></p>
 <p>Default: &quot;default&quot;</p>
-<pre><code class="language-kdl">default_layout &quot;compact&quot;
+<pre><code class="language-javascript">default_layout &quot;compact&quot;
 </code></pre>
 <h3 id="default_mode-locked"><a class="header" href="#default_mode-locked">default_mode &quot;locked&quot;</a></h3>
 <p>Choose the mode that zellij uses when starting up.</p>
 <p>Default: normal</p>
-<pre><code class="language-kdl">default_mode &quot;locked&quot;
+<pre><code class="language-javascript">default_mode &quot;locked&quot;
 </code></pre>
 <h3 id="mouse_mode"><a class="header" href="#mouse_mode">mouse_mode</a></h3>
 <p>Toggle enabling the mouse mode.
@@ -476,7 +476,7 @@ potentially interfere with copying text.</p>
 <li>true (default)</li>
 <li>false</li>
 </ul>
-<pre><code class="language-kdl">mouse_mode false
+<pre><code class="language-javascript">mouse_mode false
 </code></pre>
 <h3 id="scroll_buffer_size"><a class="header" href="#scroll_buffer_size">scroll_buffer_size</a></h3>
 <p>Configure the scroll back buffer size
@@ -484,7 +484,7 @@ This is the number of lines zellij stores for each pane in the scroll back
 buffer. Excess number of lines are discarded in a FIFO fashion.</p>
 <p>Valid values: positive integers</p>
 <p>Default value: 10000</p>
-<pre><code class="language-kdl">scroll_buffer_size 10000
+<pre><code class="language-javascript">scroll_buffer_size 10000
 </code></pre>
 <h3 id="copy_command"><a class="header" href="#copy_command">copy_command</a></h3>
 <p>Provide a command to execute when copying text. The text will be piped to
@@ -492,7 +492,7 @@ the stdin of the program to perform the copy. This can be used with
 terminal emulators which do not support the OSC 52 ANSI control sequence
 that will be used by default if this option is not set.</p>
 <p>Examples:</p>
-<pre><code class="language-kdl">copy_command &quot;xclip -selection clipboard&quot; // x11
+<pre><code class="language-javascript">copy_command &quot;xclip -selection clipboard&quot; // x11
 copy_command &quot;wl-copy&quot;                    // wayland
 copy_command &quot;pbcopy&quot;                     // osx
 </code></pre>
@@ -505,36 +505,36 @@ Does not apply when using copy_command.</p>
 <li>system (default)</li>
 <li>primary</li>
 </ul>
-<pre><code class="language-kdl">copy_clipboard &quot;primary&quot;
+<pre><code class="language-javascript">copy_clipboard &quot;primary&quot;
 </code></pre>
 <h3 id="copy_on_select"><a class="header" href="#copy_on_select">copy_on_select</a></h3>
 <p>Enable or disable automatic copy (and clear) of selection when releasing mouse</p>
 <p>Default: true</p>
-<pre><code class="language-kdl">copy_on_select false
+<pre><code class="language-javascript">copy_on_select false
 </code></pre>
 <h3 id="scrollback_editor"><a class="header" href="#scrollback_editor">scrollback_editor</a></h3>
 <p>Path to the default editor to use to edit pane scrollbuffer as well as the CLI and layout <code>edit</code> commands</p>
 <p>Default: $EDITOR or $VISUAL</p>
-<pre><code class="language-kdl">scrollback_editor &quot;/usr/bin/vim&quot;
+<pre><code class="language-javascript">scrollback_editor &quot;/usr/bin/vim&quot;
 </code></pre>
 <h3 id="mirror_session"><a class="header" href="#mirror_session">mirror_session</a></h3>
 <p>When attaching to an existing session with other users,
 should the session be mirrored (true)
 or should each user have their own cursor (false)
 Default: false</p>
-<pre><code class="language-kdl">mirror_session true
+<pre><code class="language-javascript">mirror_session true
 </code></pre>
 <h3 id="layout_dir"><a class="header" href="#layout_dir">layout_dir</a></h3>
 <p>The folder in which Zellij will look for layouts</p>
-<pre><code class="language-kdl">layout_dir &quot;/path/to/my/layout_dir&quot;
+<pre><code class="language-javascript">layout_dir &quot;/path/to/my/layout_dir&quot;
 </code></pre>
 <h3 id="theme_dir"><a class="header" href="#theme_dir">theme_dir</a></h3>
 <p>The folder in which Zellij will look for themes</p>
-<pre><code class="language-kdl">theme_dir &quot;/path/to/my/theme_dir&quot;
+<pre><code class="language-javascript">theme_dir &quot;/path/to/my/theme_dir&quot;
 </code></pre>
 <h3 id="env"><a class="header" href="#env">env</a></h3>
 <p>A key -&gt; value map of environment variables that will be set for each terminal pane Zellij starts.</p>
-<pre><code class="language-kdl">env {
+<pre><code class="language-javascript">env {
     RUST_BACKTRACE 1
     FOO &quot;bar&quot;
 }
@@ -542,7 +542,7 @@ Default: false</p>
 <h3 id="rounded-corners"><a class="header" href="#rounded-corners">rounded corners</a></h3>
 <p>Set whether the pane frames (if visible) should have rounded corners.</p>
 <p>This config variable is set differently than others:</p>
-<pre><code class="language-kdl">ui {
+<pre><code class="language-javascript">ui {
     pane_frames {
         rounded_corners true
     }
@@ -552,7 +552,7 @@ Default: false</p>
 <p>Zellij comes with a default set of keybindings that try to fit as many different users and use cases while trying to maximize comfort for everyone.</p>
 <p>It is possible to add to these defaults or even override them with an external configuration. For more information about the configuration file itself, see <a href="./configuration.html">Configuration</a>.</p>
 <p>Keybindings can be configured in the <code>keybinds</code> block of the file.</p>
-<pre><code class="language-kdl">keybinds {
+<pre><code class="language-javascript">keybinds {
     // keybinds are divided into modes
     normal {
         // bind instructions can include one or more keys (both keys will be bound separately)
@@ -577,7 +577,7 @@ Default: false</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="modes"><a class="header" href="#modes">Modes</a></h1>
 <p>The keybindings are divided into several modes. Each mode has its separate keybindings.</p>
 <p>eg.</p>
-<pre><code class="language-kdl">keybinds {
+<pre><code class="language-javascript">keybinds {
     normal {
         // keybindings available in normal mode
     }
@@ -606,7 +606,7 @@ Default: false</p>
 <p>Keys are bound with <code>bind</code> instructions inside each mode. A <code>bind</code> instruction consists of a list of keys to be bound, as well as a list of actions to be bound to each of those keys.</p>
 <p><em>Note</em>: All actions will be performed with no sequential guarantees.</p>
 <p>eg.</p>
-<pre><code class="language-kdl">    // bind the Alt-n to open a new pane
+<pre><code class="language-javascript">    // bind the Alt-n to open a new pane
     bind &quot;Alt n&quot; { NewPane; }
     // bind both the &quot;h&quot; key and the left-arrow key to move pane focus left
     bind &quot;h&quot; &quot;Left&quot; { MoveFocus &quot;Left&quot;; }
@@ -616,7 +616,7 @@ Default: false</p>
 <h1 id="overriding-keys"><a class="header" href="#overriding-keys">Overriding keys</a></h1>
 <p>When configured, keybindings override the default <code>keybinds</code> of the application individually (if a certain key was bound in the configuration, it overrides that key in the default configuration).</p>
 <p>It's possible to explicitly unbind a key:</p>
-<pre><code class="language-kdl">keybinds {
+<pre><code class="language-javascript">keybinds {
     unbind &quot;Ctrl g&quot; // unbind in all modes
     normal {
         unbind &quot;Alt h&quot; &quot;Alt n&quot; // unbind one or more keys in a specific mode
@@ -624,13 +624,13 @@ Default: false</p>
 }
 </code></pre>
 <p>It's also possible to use the special <code>clear-defaults=true</code> attribute either globally or in a specific mode:</p>
-<pre><code class="language-kdl">keybinds clear-defaults=true { // will clear all default keybinds
+<pre><code class="language-javascript">keybinds clear-defaults=true { // will clear all default keybinds
     normal {
         // ...
     }
 }
 </code></pre>
-<pre><code class="language-kdl">keybinds {
+<pre><code class="language-javascript">keybinds {
     normal clear-defaults=true { // will clear all keybinds in normal mode
         // ...
     }
@@ -638,7 +638,7 @@ Default: false</p>
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="keys"><a class="header" href="#keys">Keys</a></h1>
 <p>Keys are defined in a single quoted string, with space delimiting modifier keys.</p>
-<pre><code class="language-kdl">bind &quot;a&quot; // bind the individual character a
+<pre><code class="language-javascript">bind &quot;a&quot; // bind the individual character a
 bind &quot;Ctrl a&quot; // bind a with the ctrl modifier
 bind &quot;Alt a&quot; // bind a with the alt modifier
 bind &quot;F8&quot; // bind the F8 key
@@ -686,138 +686,138 @@ bind &quot;Left&quot; // bind the left arrow key
 <p><code>CloseFocus</code> - close the focused pane</p>
 <p><strong>Possible arguments</strong>: None</p>
 <p>eg.</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { CloseFocus; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { CloseFocus; }
 </code></pre>
 </li>
 <li>
 <p><code>CloseTab</code> - close the focused tab</p>
 <p><strong>Possible arguments</strong>: None</p>
 <p>eg.</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { CloseTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { CloseTab; }
 </code></pre>
 </li>
 <li>
 <p><code>Detach</code> - detach from the current session, leaving it running in the background</p>
 <p><strong>Possible arguments</strong>: None</p>
 <p>eg.</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { Detach; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { Detach; }
 </code></pre>
 </li>
 <li>
 <p><code>DumpScreen</code> - dump the contents of the focused pane, including its entire scrollback, to the specified file.</p>
 <p><strong>Required arguments</strong>: A path to a file on the hard-drive</p>
 <p>eg.</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { DumpScreen &quot;/tmp/my-dump.txt&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { DumpScreen &quot;/tmp/my-dump.txt&quot;; }
 </code></pre>
 </li>
 <li>
 <p><code>EditScrollback</code> - edit the scrollback of the currently focused pane with the user's default editor.</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { EditScrollback; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { EditScrollback; }
 </code></pre>
 </li>
 <li>
 <p><code>FocusNextPane</code> - change focus to the next pane (order not guaranteed)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { FocusNextPane; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { FocusNextPane; }
 </code></pre>
 </li>
 <li>
 <p><code>FocusPreviousPane</code> - change focus to the previous pane (order not guaranteed)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { FocusPreviousPane; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { FocusPreviousPane; }
 </code></pre>
 </li>
 <li>
 <p><code>GoToNextTab</code> - change focus to the next tab</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { GoToNextTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { GoToNextTab; }
 </code></pre>
 </li>
 <li>
 <p><code>GoToPreviousTab</code> - change focus to the previous tab</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { GoToPreviousTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { GoToPreviousTab; }
 </code></pre>
 </li>
 <li>
 <p><code>GoToTab</code> - change focus to a tab with a specific index</p>
 <p><strong>Required arguments</strong>: numeric tab index (eg. 1)</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { GoToTab 1; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { GoToTab 1; }
 </code></pre>
 </li>
 <li>
 <p><code>HalfPageScrollDown</code> - scroll the focused pane half a page down</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { HalfPageScrollDown; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { HalfPageScrollDown; }
 </code></pre>
 </li>
 <li>
 <p><code>HalfPageScrollUp</code> - scroll the focused pane half a page up</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { HalfPageScrollUp; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { HalfPageScrollUp; }
 </code></pre>
 </li>
 <li>
 <p><code>MoveFocus</code> - move focus in a specific direction</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code></p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { MoveFocus &quot;Left&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { MoveFocus &quot;Left&quot;; }
 </code></pre>
 </li>
 <li>
 <p><code>MoveFocusOrTab</code> - move focus left or right, or to the next or previous tab if on screen edge</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code></p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { MoveFocusOrTab &quot;Left&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { MoveFocusOrTab &quot;Left&quot;; }
 </code></pre>
 </li>
 <li>
 <p><code>MovePane</code> - move the position of the focused pane in the specific direction</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code></p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { MovePane &quot;Left&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { MovePane &quot;Left&quot;; }
 </code></pre>
 </li>
 <li>
 <p><code>NewPane</code> - open a new pane (in the specified direction)</p>
 <p><strong>Possible arguments</strong>: <code>Down</code> | <code>Right</code></p>
 <p><strong>Behaviour without arguments</strong>: Opens a pane in the largest available space or if floating panes are visible, in the next floating pane position.</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { NewPane &quot;Right&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { NewPane &quot;Right&quot;; }
 </code></pre>
 </li>
 <li>
 <p><code>NewTab</code> - open a new tab</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { NewTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { NewTab; }
 </code></pre>
 </li>
 <li>
 <p><code>PageScrollDown</code> - scroll the focused pane one page down</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { PageScrollDown; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { PageScrollDown; }
 </code></pre>
 </li>
 <li>
 <p><code>PageScrollUp</code> - scroll the focused pane one page up</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { PageScrollUp; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { PageScrollUp; }
 </code></pre>
 </li>
 <li>
 <p><code>Quit</code> - quit Zellij :(</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { Quit; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { Quit; }
 </code></pre>
 </li>
 <li>
 <p><code>Resize</code> - resize the focused pane either in the specified direction or increase/decrease its size automatically</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code> | <code>Increase</code> | <code>Decrease</code></p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { Resize &quot;Increase&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { Resize &quot;Increase&quot;; }
 </code></pre>
 </li>
 <li>
 <p><code>Run</code> - run the specified command</p>
 <p><strong>Required arguments</strong>: The command to run, followed by optional arguments</p>
 <p><strong>Possible arguments</strong>: <code>cwd</code> - current working directory, <code>direction</code> - the direction to open the new command pane</p>
-<pre><code class="language-kdl">    // will run &quot;tail -f /tmp/foo&quot; in a pane opened below the focused one
+<pre><code class="language-javascript">    // will run &quot;tail -f /tmp/foo&quot; in a pane opened below the focused one
     bind &quot;a&quot; {
         Run &quot;tail&quot; &quot;-f&quot; &quot;foo&quot; {
             cwd &quot;/tmp&quot;
@@ -829,103 +829,103 @@ bind &quot;Left&quot; // bind the left arrow key
 <li>
 <p>ScrollDown - scroll the focused pane down 1 line</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ScrollDown; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ScrollDown; }
 </code></pre>
 </li>
 <li>
 <p>ScrollToBottom - scroll the focused pane completely down</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ScrollToBottom; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ScrollToBottom; }
 </code></pre>
 </li>
 <li>
 <p>ScrollUp - scroll the focused pane up 1 line</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ScrollUp; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ScrollUp; }
 </code></pre>
 </li>
 <li>
 <p>Search - when searching, move to the next or previous search occurrence</p>
 <p><strong>Required arguments</strong>: &quot;down&quot; | &quot;up&quot;</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { Search &quot;up&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { Search &quot;up&quot;; }
 </code></pre>
 </li>
 <li>
 <p>SearchToggleOption - toggle various search options on/off</p>
 <p><strong>Required arguments</strong>: &quot;CaseSensitivity&quot; | &quot;Wrap&quot; | &quot;WhileWord&quot;</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { SearchToggleOption &quot;CaseSensitivity&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { SearchToggleOption &quot;CaseSensitivity&quot;; }
 </code></pre>
 </li>
 <li>
 <p>SwitchToMode - switch the current input mode</p>
 <p><strong>Required arguments</strong>: See <a href="keybindings-possible-actions.html#modes">Modes</a></p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { SwitchToMode &quot;locked&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { SwitchToMode &quot;locked&quot;; }
 </code></pre>
 </li>
 <li>
 <p>ToggleActiveSyncTab - toggle the syncing of input between all panes in the focused tab</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ToggleActiveSyncTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleActiveSyncTab; }
 </code></pre>
 </li>
 <li>
 <p>ToggleFloatingPanes - show/hide floating panes; if none are open, one will be opened</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ToggleFloatingPanes; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleFloatingPanes; }
 </code></pre>
 </li>
 <li>
 <p>ToggleFocusFullscreen - toggle the focused pane as fullscreen on/off</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ToggleFocusFullscreen; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleFocusFullscreen; }
 </code></pre>
 </li>
 <li>
 <p>TogglePaneEmbedOrFloating - float focused embedded pane or embed focused floating pane</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { TogglePaneEmbedOrFloating; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { TogglePaneEmbedOrFloating; }
 </code></pre>
 </li>
 <li>
 <p>TogglePaneFrames - show/hide the frames around panes (notice, these might have valuable UX info)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { TogglePaneFrames; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { TogglePaneFrames; }
 </code></pre>
 </li>
 <li>
 <p>ToggleTab - change the tab focus</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { ToggleTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleTab; }
 </code></pre>
 </li>
 <li>
 <p>UndoRenamePane - undo a rename pane operation currently in progress (reverting to the previous name)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { UndoRenamePane; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { UndoRenamePane; }
 </code></pre>
 </li>
 <li>
 <p>UndoRenameTab - undo a rename tab operation currently in progress (reverting to the previous name)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { UndoRenameTab; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { UndoRenameTab; }
 </code></pre>
 </li>
 <li>
 <p>Write - write bytes to the active pane</p>
 <p><strong>Required arguments</strong>: the bytes to write as integers</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { Write 102 111 111; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { Write 102 111 111; }
 </code></pre>
 </li>
 <li>
 <p>WriteChars - write a string of characters to the active pane</p>
 <p><strong>Required arguments</strong>: the string of characters to write</p>
-<pre><code class="language-kdl">    bind &quot;a&quot; { WriteChars &quot;hi there!&quot;; }
+<pre><code class="language-javascript">    bind &quot;a&quot; { WriteChars &quot;hi there!&quot;; }
 </code></pre>
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="shared-bindings"><a class="header" href="#shared-bindings">Shared bindings</a></h1>
 <p>There are three special node types that can be used when defining keybindings:</p>
-<pre><code class="language-kdl">keybinds {
+<pre><code class="language-javascript">keybinds {
     shared {
         // these keybindings will be present in all modes
         bind &quot;Ctrl g&quot; { SwitchToMode &quot;locked&quot;; }
@@ -943,7 +943,7 @@ bind &quot;Left&quot; // bind the left arrow key
 <div style="break-before: page; page-break-before: always;"></div><h1 id="themes"><a class="header" href="#themes">Themes</a></h1>
 <p>Themes can be specified either in the <a href="./configuration.html">configuration file</a> under the <code>themes</code> section, or directly in a separate file.</p>
 <h2 id="truecolor-themes"><a class="header" href="#truecolor-themes">Truecolor themes</a></h2>
-<pre><code class="language-kdl">themes {
+<pre><code class="language-javascript">themes {
    dracula {
         fg 248 248 242
         bg 40 42 54
@@ -960,7 +960,7 @@ bind &quot;Left&quot; // bind the left arrow key
 }
 </code></pre>
 <h2 id="256-color-themes"><a class="header" href="#256-color-themes">256 color themes</a></h2>
-<pre><code class="language-kdl">themes {
+<pre><code class="language-javascript">themes {
     default {
         fg 1
         bg 10
@@ -977,7 +977,7 @@ bind &quot;Left&quot; // bind the left arrow key
 }
 </code></pre>
 <h2 id="hexadecimal-color-themes"><a class="header" href="#hexadecimal-color-themes">Hexadecimal color themes</a></h2>
-<pre><code class="language-kdl">themes {
+<pre><code class="language-javascript">themes {
     nord {
         fg &quot;#D8DEE9&quot;
         bg &quot;#2E3440&quot;
@@ -999,7 +999,7 @@ To specify a different theme, run zellij with:</p>
 <pre><code>zellij options --theme [NAME]
 </code></pre>
 <p>or put the name in the configuration file with <code>theme: [NAME]</code> as follows:</p>
-<pre><code class="language-kdl">keybinds {
+<pre><code class="language-javascript">keybinds {
     // ...
 }
 // ...
@@ -1458,7 +1458,7 @@ See <a href="./creating-a-layout.html#cwd-composition">layout CWD composition</a
 <p><strong>Looking for the YAML configuration docs for versions <code>&lt;0.32.0</code>? <a href="/old-documentation">Look no further!</a></strong></p>
 <h3 id="example"><a class="header" href="#example">Example</a></h3>
 <p>A basic layout can look like this:</p>
-<pre><code class="language-kdl">// layout_file.kdl
+<pre><code class="language-javascript">// layout_file.kdl
 
 layout {
     pane
@@ -1502,7 +1502,7 @@ layout {
 <h3 id="panes"><a class="header" href="#panes">Panes</a></h3>
 <p><code>pane</code> nodes are the basic building blocks of a layout.</p>
 <p>They could represent standalone panes:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane // panes can be bare
     pane command=&quot;htop&quot; // panes can have arguments on the same line
     pane {
@@ -1516,7 +1516,7 @@ layout {
 }
 </code></pre>
 <p>They could also represent logical containers:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane
         pane
@@ -1529,7 +1529,7 @@ layout {
 <p><strong>Possible values:</strong> <code>&quot;vertical&quot;</code> | <code>&quot;horizontal&quot;</code></p>
 <p><strong>Default value if omitted:</strong> <code>&quot;horizontal&quot;</code></p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane
         pane
@@ -1542,7 +1542,7 @@ layout {
 }
 </code></pre>
 <p><strong>Note</strong>: The <code>layout</code> node itself has a set value of &quot;horizontal&quot;. It can be changed by adding a logical pane container:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane
         pane
@@ -1554,7 +1554,7 @@ layout {
 <p><strong>Possible values:</strong> quoted percentages (eg. &quot;50%&quot;) | fixed values (eg. 1)</p>
 <p><strong>Note</strong>: specifying fixed values that are not <code>unselectable</code> plugins is <strong>currently unstable</strong> and might lead to unexpected behaviour when resizing or closing panes. Please see <a href="https://github.com/zellij-org/zellij/issues/1758">this issue</a>.</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane size=5
     pane split_direction=&quot;vertical&quot; {
         pane size=&quot;80%&quot;
@@ -1568,7 +1568,7 @@ layout {
 <p><strong>Possible values:</strong> true | false</p>
 <p><strong>Default value if omitted:</strong> false</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane borderless=true
     pane {
         borderless true
@@ -1581,7 +1581,7 @@ layout {
 <strong>Default value if omitted:</strong> false</p>
 <p><strong>Note</strong>: specifying multiple panes with focus will result in the first one of them being focused.</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane focus=true
     pane {
         focus true
@@ -1592,7 +1592,7 @@ layout {
 <p><code>name</code> is a string pane argument to change the default pane title.</p>
 <p><strong>Possible values:</strong> &quot;a quoted string&quot;</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane name=&quot;my awesome pane&quot;
     pane {
         name &quot;my amazing pane&quot;
@@ -1604,7 +1604,7 @@ layout {
 <p><strong>Possible values:</strong> &quot;/path/to/some/folder&quot;, &quot;relative/path/to/some/folder&quot;</p>
 <p><strong>Note</strong>: If the <code>cwd</code> is a relative path, it will be appended to its containers' cwd <a href="creating-a-layout.html#cwd-composition">read more about cwd composition</a></p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane cwd=&quot;/&quot;
     pane {
         command &quot;git&quot;
@@ -1617,7 +1617,7 @@ layout {
 <p><code>command</code> is a string (path) to an executable that should be run in this pane instead of the default shell.</p>
 <p><strong>Possible values:</strong> &quot;/path/to/some/executable&quot; | &quot;executable&quot; (the latter should be accessible through PATH)</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane command=&quot;htop&quot;
     pane {
         command &quot;/usr/bin/btm&quot;
@@ -1629,7 +1629,7 @@ layout {
 <p><strong>Possible values:</strong> &quot;a&quot; &quot;series&quot; &quot;of&quot; &quot;quoted&quot; &quot;strings&quot;</p>
 <p><strong>Note</strong>: <code>args</code> must be inside the <code>pane</code>'s child-braces and cannot be specified on the same line as the pane.</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane command=&quot;tail&quot; {
         args &quot;-f&quot; &quot;/path/to/my/logfile&quot;
     }
@@ -1646,7 +1646,7 @@ layout {
 <p><strong>Possible values:</strong> &quot;/path/to/some/file&quot; | &quot;./relative/path/from/cwd&quot;</p>
 <p><strong>Note</strong>: If the value is a relative path, it will be appended to its containers' cwd <a href="creating-a-layout.html#cwd-composition">read more about cwd composition</a></p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane edit=&quot;./git_diff_side_a&quot;
         pane edit=&quot;./git_diff_side_b&quot;
@@ -1667,7 +1667,7 @@ layout {
 <p><code>tab</code> nodes can optionally be used to start a layout with several tabs.</p>
 <p><strong>Note</strong>: all tab arguments should be specified on its title line. The child-braces are reserved for its child panes.</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     tab // a tab with a single pane
     tab {
         // a tab with three horizontal panes
@@ -1687,7 +1687,7 @@ layout {
 <p><strong>Possible values:</strong> <code>&quot;vertical&quot;</code> | <code>&quot;horizontal&quot;</code></p>
 <p><strong>Default value if omitted:</strong> <code>&quot;horizontal&quot;</code></p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     tab split_direction=&quot;vertical&quot; {
         pane
         pane
@@ -1705,7 +1705,7 @@ layout {
 <p><strong>Default value if omitted:</strong> false</p>
 <p><strong>Note</strong>: only one tab can be focused.</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     tab {
         pane
         pane
@@ -1720,7 +1720,7 @@ layout {
 <p>Tabs can have a <code>name</code> just like <code>pane</code>s. This argument is a string to change the default tab title.</p>
 <p><strong>Possible values:</strong> &quot;a quoted string&quot;</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     tab name=&quot;my awesome tab&quot;
     tab name=&quot;my amazing tab&quot; {
         pane
@@ -1733,7 +1733,7 @@ All panes in this tab will have this <code>cwd</code> prefixed to their own <cod
 <p><strong>Possible values:</strong> &quot;/path/to/some/folder&quot;, &quot;relative/path/to/some/folder&quot;</p>
 <p><strong>Note</strong>: If the <code>cwd</code> is a relative path, it will be appended to its containers' cwd <a href="creating-a-layout.html#cwd-composition">read more about cwd composition</a></p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     tab name=&quot;my amazing tab&quot; cwd=&quot;/tmp&quot; {
         pane // will have its cwd set to &quot;/tmp&quot;
         pane cwd=&quot;foo&quot; // will have its cwd set to &quot;/tmp/foo&quot;
@@ -1746,7 +1746,7 @@ All panes in this tab will have this <code>cwd</code> prefixed to their own <cod
 Each template has a name that should be used directly as a node name instead of &quot;pane&quot; or &quot;tab&quot;.</p>
 <h4 id="pane-templates"><a class="header" href="#pane-templates">Pane Templates</a></h4>
 <p>Pane templates can be used to shorten pane attributes:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane_template name=&quot;htop&quot; {
         command &quot;htop&quot;
     }
@@ -1765,7 +1765,7 @@ Each template has a name that should be used directly as a node name instead of 
 }
 </code></pre>
 <p>Pane templates with the <code>command</code> attribute can take the <code>args</code> and <code>cwd</code> of their consumers:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane_template name=&quot;follow-log&quot; command=&quot;tail&quot;
     follow-log {
         args &quot;-f&quot; &quot;/tmp/my-first-log&quot;
@@ -1779,7 +1779,7 @@ Each template has a name that should be used directly as a node name instead of 
 <p><strong>Note</strong>: the above only works for direct consumers and not other templates.</p>
 <p>Pane templates can be used as logical containers. In this case a special <code>children</code> node must be specified to indicate where the child panes should be inserted.</p>
 <p><strong>Note</strong>: the <code>children</code> node can be nested inside <code>pane</code>s but not inside other <code>pane_template</code>s.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane_template name=&quot;vertical-sandwich&quot; split_direction=&quot;vertical&quot; {
         pane
         children
@@ -1791,7 +1791,7 @@ Each template has a name that should be used directly as a node name instead of 
 }
 </code></pre>
 <p>Pane templates can include other pane templates.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane_template name=&quot;vertical-sandwich&quot; split_direction=&quot;vertical&quot; {
         pane
         children
@@ -1814,7 +1814,7 @@ Each template has a name that should be used directly as a node name instead of 
 </code></pre>
 <p>The <code>children</code> node should be thought of as a placeholder for the pane using this template. </p>
 <p>This:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane_template name=&quot;my_template&quot; {
         pane
         children
@@ -1827,7 +1827,7 @@ Each template has a name that should be used directly as a node name instead of 
 }
 </code></pre>
 <p>Will be translated into this:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane {
         pane
         pane split_direction=&quot;vertical&quot; {
@@ -1841,7 +1841,7 @@ Each template has a name that should be used directly as a node name instead of 
 <h4 id="tab-templates"><a class="header" href="#tab-templates">Tab Templates</a></h4>
 <p>Tab templates, similar to pane templates, help avoiding repetition when defining tabs. Like <code>pane_templates</code> they can include a <code>children</code> block to indicate where their child panes should be inserted.</p>
 <p><strong>Note</strong>: for the sake of clarity, arguments passed to <code>tab_template</code>s can only be specified on their title line.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     tab_template name=&quot;ranger-on-the-side&quot; {
         pane size=1 borderless=true {
             plugin location=&quot;zellij:compact-bar&quot;
@@ -1865,7 +1865,7 @@ Each template has a name that should be used directly as a node name instead of 
 <p>There is a special <code>default_tab_template</code> node that can be used just like a regular <code>tab_template</code> node, but that would apply to all <code>tab</code>s in the template as well as all new tabs opened in the session.</p>
 <p><strong>Note</strong>: the <code>default_tab_template</code> will not apply to tabs using other <code>tab_template</code>s.</p>
 <p><strong>Another note</strong>: if no <code>tab</code>s are specified, the whole layout is treated as a <code>default_tab_template</code>.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     default_tab_template {
         // the default zellij tab-bar and status bar plugins
         pane size=1 borderless=true {
@@ -1894,7 +1894,7 @@ Each template has a name that should be used directly as a node name instead of 
 <li>The <code>cwd</code> where the command was executed</li>
 </ol>
 <p>eg.</p>
-<pre><code>layout {
+<pre><code class="language-javascript">layout {
     cwd &quot;/hi&quot;
     tab cwd=&quot;there&quot; {
         pane cwd=&quot;friend&quot; // opened in /hi/there/friend
@@ -1905,7 +1905,7 @@ Each template has a name that should be used directly as a node name instead of 
 <p>The <code>cwd</code> property can also be specified globally on the <code>layout</code> node itself.</p>
 <p>Doing this would make all panes in this layout start in this cwd unless they have an absolute path.</p>
 <p>Eg. </p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     cwd &quot;/home/aram/code/my-project&quot;
     pane cwd=&quot;src&quot; // will be opened in /home/aram/code/my-project/src
     pane cwd=&quot;/tmp&quot; // absolute paths override the global cwd, this will be opened in /tmp
@@ -1920,7 +1920,7 @@ Each template has a name that should be used directly as a node name instead of 
 <p>Items in this configuration take precedence over items in the loaded Zellij configuration.</p>
 <p><strong>Note:</strong> These fields are ignored when loading a layout through the <a href="./cli-actions.html#new-tab"><code>new-tab</code> action</a></p>
 <h2 id="example-1"><a class="header" href="#example-1">Example</a></h2>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane
         pane split_direction=&quot;horizontal&quot; {
@@ -1943,7 +1943,7 @@ keybinds {
 <p>This layout includes a map of panes and UI to open, as well as some keybindings to quickly open new panes with your favorite commands.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="example-layouts"><a class="header" href="#example-layouts">Example layouts</a></h1>
 <h2 id="classic-three-pane-with-vertical-root"><a class="header" href="#classic-three-pane-with-vertical-root">Classic three pane with vertical root</a></h2>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane
         pane split_direction=&quot;horizontal&quot; {
@@ -1956,7 +1956,7 @@ keybinds {
 <p>Will provide:</p>
 <p><img src="./img/basic-layout-vertical.png" alt="generic project explorer" /></p>
 <h2 id="classic-three-panes-with-vertical-root-and-compact-status-bar"><a class="header" href="#classic-three-panes-with-vertical-root-and-compact-status-bar">Classic three panes with vertical root and compact status bar</a></h2>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane
         pane split_direction=&quot;horizontal&quot; {
@@ -1973,7 +1973,7 @@ keybinds {
 <p><img src="./img/basic-layout-vertical-compact.png" alt="generic project explorer" /></p>
 <h2 id="quick-generic-project-explorer"><a class="header" href="#quick-generic-project-explorer">Quick generic project explorer</a></h2>
 <p>Cloned a new project, want to quickly explore it without much fuss?</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane
         pane split_direction=&quot;horizontal&quot; {
@@ -1991,7 +1991,7 @@ keybinds {
 <p><img src="./img/quick-generic-project-explorer.png" alt="generic project explorer" /></p>
 <h2 id="basic-rust-project"><a class="header" href="#basic-rust-project">Basic Rust project</a></h2>
 <p>Basic layout for a rust executable project</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; size=&quot;60%&quot; {
         pane edit=&quot;src/main.rs&quot;
         pane edit=&quot;Cargo.toml&quot;
@@ -2010,7 +2010,7 @@ keybinds {
 <p>When started in a project just created with <code>cargo init</code>, looks like this:</p>
 <p><img src="./img/basic-rust-project-layout.png" alt="basic rust project layout" /></p>
 <p>For convenience, here's a version that also loads Zellij's interface</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane size=1 borderless=true {
         plugin location=&quot;zellij:tab-bar&quot;
     }
@@ -2035,7 +2035,7 @@ keybinds {
 <h2 id="a-more-complex-example-zellij-development"><a class="header" href="#a-more-complex-example-zellij-development">A more complex example (Zellij development)</a></h2>
 <p>Here's a layout used internally for Zellij development.</p>
 <p>It can help on-board new developers by tying together related files and their tests, as well as useful plugins here and there.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     default_tab_template {
         pane size=1 borderless=true {
             plugin location=&quot;zellij:tab-bar&quot;

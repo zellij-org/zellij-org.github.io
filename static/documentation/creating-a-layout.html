@@ -149,7 +149,7 @@
 <h3 id="panes"><a class="header" href="#panes">Panes</a></h3>
 <p><code>pane</code> nodes are the basic building blocks of a layout.</p>
 <p>They could represent standalone panes:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane // panes can be bare
     pane command=&quot;htop&quot; // panes can have arguments on the same line
     pane {
@@ -163,7 +163,7 @@
 }
 </code></pre>
 <p>They could also represent logical containers:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane
         pane
@@ -176,7 +176,7 @@
 <p><strong>Possible values:</strong> <code>&quot;vertical&quot;</code> | <code>&quot;horizontal&quot;</code></p>
 <p><strong>Default value if omitted:</strong> <code>&quot;horizontal&quot;</code></p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane
         pane
@@ -189,7 +189,7 @@
 }
 </code></pre>
 <p><strong>Note</strong>: The <code>layout</code> node itself has a set value of &quot;horizontal&quot;. It can be changed by adding a logical pane container:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane
         pane
@@ -201,7 +201,7 @@
 <p><strong>Possible values:</strong> quoted percentages (eg. &quot;50%&quot;) | fixed values (eg. 1)</p>
 <p><strong>Note</strong>: specifying fixed values that are not <code>unselectable</code> plugins is <strong>currently unstable</strong> and might lead to unexpected behaviour when resizing or closing panes. Please see <a href="https://github.com/zellij-org/zellij/issues/1758">this issue</a>.</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane size=5
     pane split_direction=&quot;vertical&quot; {
         pane size=&quot;80%&quot;
@@ -215,7 +215,7 @@
 <p><strong>Possible values:</strong> true | false</p>
 <p><strong>Default value if omitted:</strong> false</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane borderless=true
     pane {
         borderless true
@@ -228,7 +228,7 @@
 <strong>Default value if omitted:</strong> false</p>
 <p><strong>Note</strong>: specifying multiple panes with focus will result in the first one of them being focused.</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane focus=true
     pane {
         focus true
@@ -239,7 +239,7 @@
 <p><code>name</code> is a string pane argument to change the default pane title.</p>
 <p><strong>Possible values:</strong> &quot;a quoted string&quot;</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane name=&quot;my awesome pane&quot;
     pane {
         name &quot;my amazing pane&quot;
@@ -251,7 +251,7 @@
 <p><strong>Possible values:</strong> &quot;/path/to/some/folder&quot;, &quot;relative/path/to/some/folder&quot;</p>
 <p><strong>Note</strong>: If the <code>cwd</code> is a relative path, it will be appended to its containers' cwd <a href="#cwd-composition">read more about cwd composition</a></p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane cwd=&quot;/&quot;
     pane {
         command &quot;git&quot;
@@ -264,7 +264,7 @@
 <p><code>command</code> is a string (path) to an executable that should be run in this pane instead of the default shell.</p>
 <p><strong>Possible values:</strong> &quot;/path/to/some/executable&quot; | &quot;executable&quot; (the latter should be accessible through PATH)</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane command=&quot;htop&quot;
     pane {
         command &quot;/usr/bin/btm&quot;
@@ -276,7 +276,7 @@
 <p><strong>Possible values:</strong> &quot;a&quot; &quot;series&quot; &quot;of&quot; &quot;quoted&quot; &quot;strings&quot;</p>
 <p><strong>Note</strong>: <code>args</code> must be inside the <code>pane</code>'s child-braces and cannot be specified on the same line as the pane.</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane command=&quot;tail&quot; {
         args &quot;-f&quot; &quot;/path/to/my/logfile&quot;
     }
@@ -293,7 +293,7 @@
 <p><strong>Possible values:</strong> &quot;/path/to/some/file&quot; | &quot;./relative/path/from/cwd&quot;</p>
 <p><strong>Note</strong>: If the value is a relative path, it will be appended to its containers' cwd <a href="#cwd-composition">read more about cwd composition</a></p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane split_direction=&quot;vertical&quot; {
         pane edit=&quot;./git_diff_side_a&quot;
         pane edit=&quot;./git_diff_side_b&quot;
@@ -314,7 +314,7 @@
 <p><code>tab</code> nodes can optionally be used to start a layout with several tabs.</p>
 <p><strong>Note</strong>: all tab arguments should be specified on its title line. The child-braces are reserved for its child panes.</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     tab // a tab with a single pane
     tab {
         // a tab with three horizontal panes
@@ -334,7 +334,7 @@
 <p><strong>Possible values:</strong> <code>&quot;vertical&quot;</code> | <code>&quot;horizontal&quot;</code></p>
 <p><strong>Default value if omitted:</strong> <code>&quot;horizontal&quot;</code></p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     tab split_direction=&quot;vertical&quot; {
         pane
         pane
@@ -352,7 +352,7 @@
 <p><strong>Default value if omitted:</strong> false</p>
 <p><strong>Note</strong>: only one tab can be focused.</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     tab {
         pane
         pane
@@ -367,7 +367,7 @@
 <p>Tabs can have a <code>name</code> just like <code>pane</code>s. This argument is a string to change the default tab title.</p>
 <p><strong>Possible values:</strong> &quot;a quoted string&quot;</p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     tab name=&quot;my awesome tab&quot;
     tab name=&quot;my amazing tab&quot; {
         pane
@@ -380,7 +380,7 @@ All panes in this tab will have this <code>cwd</code> prefixed to their own <cod
 <p><strong>Possible values:</strong> &quot;/path/to/some/folder&quot;, &quot;relative/path/to/some/folder&quot;</p>
 <p><strong>Note</strong>: If the <code>cwd</code> is a relative path, it will be appended to its containers' cwd <a href="#cwd-composition">read more about cwd composition</a></p>
 <p>eg.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     tab name=&quot;my amazing tab&quot; cwd=&quot;/tmp&quot; {
         pane // will have its cwd set to &quot;/tmp&quot;
         pane cwd=&quot;foo&quot; // will have its cwd set to &quot;/tmp/foo&quot;
@@ -393,7 +393,7 @@ All panes in this tab will have this <code>cwd</code> prefixed to their own <cod
 Each template has a name that should be used directly as a node name instead of &quot;pane&quot; or &quot;tab&quot;.</p>
 <h4 id="pane-templates"><a class="header" href="#pane-templates">Pane Templates</a></h4>
 <p>Pane templates can be used to shorten pane attributes:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane_template name=&quot;htop&quot; {
         command &quot;htop&quot;
     }
@@ -412,7 +412,7 @@ Each template has a name that should be used directly as a node name instead of 
 }
 </code></pre>
 <p>Pane templates with the <code>command</code> attribute can take the <code>args</code> and <code>cwd</code> of their consumers:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane_template name=&quot;follow-log&quot; command=&quot;tail&quot;
     follow-log {
         args &quot;-f&quot; &quot;/tmp/my-first-log&quot;
@@ -426,7 +426,7 @@ Each template has a name that should be used directly as a node name instead of 
 <p><strong>Note</strong>: the above only works for direct consumers and not other templates.</p>
 <p>Pane templates can be used as logical containers. In this case a special <code>children</code> node must be specified to indicate where the child panes should be inserted.</p>
 <p><strong>Note</strong>: the <code>children</code> node can be nested inside <code>pane</code>s but not inside other <code>pane_template</code>s.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane_template name=&quot;vertical-sandwich&quot; split_direction=&quot;vertical&quot; {
         pane
         children
@@ -438,7 +438,7 @@ Each template has a name that should be used directly as a node name instead of 
 }
 </code></pre>
 <p>Pane templates can include other pane templates.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane_template name=&quot;vertical-sandwich&quot; split_direction=&quot;vertical&quot; {
         pane
         children
@@ -461,7 +461,7 @@ Each template has a name that should be used directly as a node name instead of 
 </code></pre>
 <p>The <code>children</code> node should be thought of as a placeholder for the pane using this template. </p>
 <p>This:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane_template name=&quot;my_template&quot; {
         pane
         children
@@ -474,7 +474,7 @@ Each template has a name that should be used directly as a node name instead of 
 }
 </code></pre>
 <p>Will be translated into this:</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     pane {
         pane
         pane split_direction=&quot;vertical&quot; {
@@ -488,7 +488,7 @@ Each template has a name that should be used directly as a node name instead of 
 <h4 id="tab-templates"><a class="header" href="#tab-templates">Tab Templates</a></h4>
 <p>Tab templates, similar to pane templates, help avoiding repetition when defining tabs. Like <code>pane_templates</code> they can include a <code>children</code> block to indicate where their child panes should be inserted.</p>
 <p><strong>Note</strong>: for the sake of clarity, arguments passed to <code>tab_template</code>s can only be specified on their title line.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     tab_template name=&quot;ranger-on-the-side&quot; {
         pane size=1 borderless=true {
             plugin location=&quot;zellij:compact-bar&quot;
@@ -512,7 +512,7 @@ Each template has a name that should be used directly as a node name instead of 
 <p>There is a special <code>default_tab_template</code> node that can be used just like a regular <code>tab_template</code> node, but that would apply to all <code>tab</code>s in the template as well as all new tabs opened in the session.</p>
 <p><strong>Note</strong>: the <code>default_tab_template</code> will not apply to tabs using other <code>tab_template</code>s.</p>
 <p><strong>Another note</strong>: if no <code>tab</code>s are specified, the whole layout is treated as a <code>default_tab_template</code>.</p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     default_tab_template {
         // the default zellij tab-bar and status bar plugins
         pane size=1 borderless=true {
@@ -541,7 +541,7 @@ Each template has a name that should be used directly as a node name instead of 
 <li>The <code>cwd</code> where the command was executed</li>
 </ol>
 <p>eg.</p>
-<pre><code>layout {
+<pre><code class="language-javascript">layout {
     cwd &quot;/hi&quot;
     tab cwd=&quot;there&quot; {
         pane cwd=&quot;friend&quot; // opened in /hi/there/friend
@@ -552,7 +552,7 @@ Each template has a name that should be used directly as a node name instead of 
 <p>The <code>cwd</code> property can also be specified globally on the <code>layout</code> node itself.</p>
 <p>Doing this would make all panes in this layout start in this cwd unless they have an absolute path.</p>
 <p>Eg. </p>
-<pre><code class="language-kdl">layout {
+<pre><code class="language-javascript">layout {
     cwd &quot;/home/aram/code/my-project&quot;
     pane cwd=&quot;src&quot; // will be opened in /home/aram/code/my-project/src
     pane cwd=&quot;/tmp&quot; // absolute paths override the global cwd, this will be opened in /tmp
