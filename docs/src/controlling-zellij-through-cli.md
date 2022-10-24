@@ -32,8 +32,8 @@ $ zellij setup --generate-completion zsh
 These completions also include aliases for running a command in a new pane and editing a file in a new pane:
 
 ```bash
-$ zp tail -f /path/to/my/file # open a new pane tailing this file
-$ zpf htop # open a new floating pane with htop
+$ zr tail -f /path/to/my/file # open a new pane tailing this file
+$ zrf htop # open a new floating pane with htop
 $ ze ./main.rs # open a new pane with your editor (eg. vim) pointed at ./main.rs
 ```
 
