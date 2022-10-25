@@ -6,7 +6,7 @@ function _exists {
 }
 
 if $(_exists mdbook) && $(_exists hugo); then
-    { mdbook watch docs/ -d ../static/documentation & hugo server; }
+    { mdbook watch docs/ -d ../static/documentation & mdbook watch docs-old/ -d ../static/old-documentation & hugo server; }
     exit 0
 fi
 

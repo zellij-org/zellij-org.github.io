@@ -1,14 +1,20 @@
 # Configuration
 
-By default Zellij will look for `config.yaml` in the `config` directory.
+Zellij uses [KDL](https://kdl.dev) as its configuration language.
 
 Quickstart:
 ```
 mkdir ~/.config/zellij
-zellij setup --dump-config > ~/.config/zellij/config.yaml
+zellij setup --dump-config > ~/.config/zellij/config.kdl
 ```
 
-The default `config` directory order is as follows:
+**Looking for the YAML configuration docs for versions `<0.32.0`? [Look no further!](/old-documentation)**
+
+## Where does Zellij look for the config file?
+
+By default Zellij will look for `config.kdl` in the `config` directory.
+
+Zellij will search for the `config` directory as follows:
 
 - `--config-dir` flag
 - `ZELLIJ_CONFIG_DIR` env variable
@@ -19,7 +25,9 @@ The default `config` directory order is as follows:
 
 - system location (`/etc/zellij`)
 
-In order to  pass a config file directly to zellij:
+## How to bypass the config file?
+
+In order to pass a config file directly to zellij:
 
 ```
 zellij --config [FILE]
@@ -27,12 +35,13 @@ zellij --config [FILE]
 
 or use the `ZELLIJ_CONFIG_FILE` environment variable.
 
-
 To start without loading configuration from default directories:
 
 ```
 zellij options --clean
 ```
+
+## How to dump the default configuration to STDOUT?
 
 To show the current default configuration:
 ```

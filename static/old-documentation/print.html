@@ -1,0 +1,2108 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Zellij User Guide</title>
+        <meta name="robots" content="noindex" />
+        <!-- Custom HTML head -->
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">1.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="overview.html"><strong aria-hidden="true">1.2.</strong> Overview</a></li><li class="chapter-item expanded "><a href="integration.html"><strong aria-hidden="true">1.3.</strong> Integration</a></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">1.4.</strong> FAQ</a></li></ol></li><li class="chapter-item expanded "><a href="commands.html"><strong aria-hidden="true">2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">3.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="options.html"><strong aria-hidden="true">3.1.</strong> Options</a></li><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">3.2.</strong> Configuring Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">3.2.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">3.2.2.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-examples.html"><strong aria-hidden="true">3.2.3.</strong> Examples</a></li></ol></li><li class="chapter-item expanded "><a href="themes.html"><strong aria-hidden="true">3.3.</strong> Themes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="theme-gallery.html"><strong aria-hidden="true">3.3.1.</strong> Theme Gallery</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="actions.html"><strong aria-hidden="true">4.</strong> Actions</a></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">5.</strong> Layouts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="layouts-templates.html"><strong aria-hidden="true">5.1.</strong> Templates</a></li></ol></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">6.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-overview.html"><strong aria-hidden="true">6.1.</strong> Overview</a></li><li class="chapter-item expanded "><a href="plugin-writing.html"><strong aria-hidden="true">6.2.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-rust.html"><strong aria-hidden="true">6.2.1.</strong> Rust</a></li><li class="chapter-item expanded "><a href="plugin-zig.html"><strong aria-hidden="true">6.2.2.</strong> Zig</a></li><li class="chapter-item expanded "><a href="plugin-other.html"><strong aria-hidden="true">6.2.3.</strong> Other Languages</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="compatibility.html"><strong aria-hidden="true">7.</strong> Compatibility</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>This is the documentation for the Zellij terminal workspace for versions lower than <code>0.32.0</code>.</p>
+<ul>
+<li>For installing Zellij, see: <a href="./installation.html">Installation</a></li>
+<li>For configuring Zellij, see: <a href="./configuration.html">Configuration</a></li>
+<li>For Operating System Compatibility and Known Issues, see: <a href="./compatibility.html">Compatibility</a></li>
+<li>For setting up layouts: <a href="./layouts.html">Layouts</a></li>
+<li>For developing plugins: <a href="./plugins.html">Plugins</a></li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-1"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-1"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>Currently Binaries are produced for both Linux and MacOS.</p>
+<p>However it is available in some public repositories.</p>
+<hr />
+<h2 id="rust---cargo"><a class="header" href="#rust---cargo">Rust - Cargo</a></h2>
+<p>For instructions on how to install Cargo see <a href="https://doc.rust-lang.org/cargo/getting-started/installation.html">here:</a></p>
+<p>Once installed run:</p>
+<pre><code>cargo install --locked zellij
+</code></pre>
+<p>If experiencing errors, if installed through rustup, please try running:</p>
+<pre><code>rustup update
+</code></pre>
+<hr />
+<h2 id="binary-download"><a class="header" href="#binary-download">Binary Download</a></h2>
+<p>Binaries are made available each release for the Linux and MacOS operating systems.</p>
+<p>It is possible to download the binaries for these on the <a href="https://github.com/zellij-org/zellij/releases">release</a> page.</p>
+<p>Once downloaded, untar the file:</p>
+<pre><code>tar -xvf zellij*.tar.gz
+</code></pre>
+<p>check for the execution bit:</p>
+<pre><code>chmod +x zellij
+</code></pre>
+<p>and then execute Zellij:</p>
+<pre><code>./zellij
+</code></pre>
+<p>Include the directory Zellij is in, in your <a href="https://www.baeldung.com/linux/path-variable">PATH Variable</a> if you wish to be able to execute it anywhere.</p>
+<p>'Or'</p>
+<p>move Zellij to a directory already included in your [$PATH] Variable.</p>
+<hr />
+<h2 id="compiling-zellij-from-source"><a class="header" href="#compiling-zellij-from-source">Compiling Zellij From Source</a></h2>
+<p>Instructions on how to compile Zellij from source can be found <a href="https://github.com/zellij-org/zellij/blob/main/CONTRIBUTING.md">here</a>.</p>
+<h2 id="third-party-repositories"><a class="header" href="#third-party-repositories">Third party repositories</a></h2>
+<p>Zellij is packaged in some third part repositories.
+Please keep in mind that they are not directly affiliated with zellij maintainers:</p>
+<p><a href="https://repology.org/project/zellij/versions"><img src="https://repology.org/badge/vertical-allrepos/zellij.svg" alt="Packaging status" /></a></p>
+<p>More information about third party installation can be found <a href="https://github.com/zellij-org/zellij/blob/main/docs/THIRD_PARTY_INSTALL.md">here</a>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-2"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-2"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>Zellij is a workspace aimed at developers, ops-oriented people and
+anyone who loves the terminal.
+At its core, it is a terminal multiplexer (similar to tmux and screen),
+but this is merely its infrastructure layer.</p>
+<p>Zellij has a native layout and plugin system.
+To understand Zellij a little bit better, let us take a look at
+the default configuration.</p>
+<h2 id="default-configuration"><a class="header" href="#default-configuration">Default Configuration</a></h2>
+<p><img src="img/overview-default-legend.png" alt="Default layout" /></p>
+<p>The default configuration consists of:</p>
+<ol>
+<li>The tab-bar plugin. It shows current tabs that are in use as well as the session name.</li>
+<li>The pane, in which the default shell is started.
+The title the shell sets can be seen in the upper left corner of the pane.</li>
+<li>The status-bar plugin. It gives an overview over current default keybindings,
+since Zellij is modal it can show hints based on modes it currently resides in.</li>
+</ol>
+<p>To dive deeper in to how the layout-template that is behind the default layout
+works, consider checking out the relevant <a href="layouts-templates.html">section</a>.</p>
+<p>Let's open a new tab and then a couple panes inside that new tab:</p>
+<ol>
+<li><kbd>Ctrl</kbd> + <kbd>t</kbd></li>
+<li><kbd>n</kbd></li>
+<li><kbd>Ctrl</kbd> + <kbd>p</kbd></li>
+<li><kbd>n</kbd></li>
+<li><kbd>r</kbd></li>
+<li><kbd>Return</kbd></li>
+</ol>
+<p>The status-bar should have guided us through:
+<img src="img/overview-status-tab-1.png" alt="Status tab 1" />
+<img src="img/overview-status-tab-2.png" alt="Status tab 2" />
+And this is our current state:
+<img src="img/overview-default-1.png" alt="Default state 1" />
+Zellij doesn't need a terminal to keep commands running, because it uses a client
+and server system. Let us disconnect and reconnect to the same session now:</p>
+<ol>
+<li><kbd>Ctrl</kbd> + <kbd>o</kbd></li>
+<li><kbd>d</kbd></li>
+</ol>
+<p><img src="img/overview-status-tab-3.png" alt="Status tab 3" /></p>
+<p>If only one server session is running in the background zellij can restore the
+connection automatically, if not then we need a specific session name.
+We can get the name in the following way:</p>
+<pre><code>zellij list-sessions
+</code></pre>
+<p>And now we reattach to the currently running session:</p>
+<pre><code>zellij attach hilarious-kitty
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="integration"><a class="header" href="#integration">Integration</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-3"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-3"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>Zellij provides some environment variables, that make Integration
+with existing tools possible.</p>
+<pre><code>echo $ZELLIJ
+echo $ZELLIJ_SESSION_NAME
+</code></pre>
+<p>The <code>ZELLIJ_SESSION_NAME</code> has the session name as its value, and <code>ZELLIJ</code> gets
+set to <code>0</code> inside a zellij session.
+Arbitrary key value pairs can be set through configuration, or layouts.</p>
+<p>Here are some limited examples to help get you started:</p>
+<h2 id="autostart-on-shell-creation"><a class="header" href="#autostart-on-shell-creation">Autostart on shell creation</a></h2>
+<p>Autostart a new zellij shell, if not already inside one.
+Shell dependent, fish:</p>
+<pre><code>if set -q ZELLIJ
+else
+  zellij
+end
+</code></pre>
+<p>other ways, zellij provides a pre-defined auto start scripts.</p>
+<h3 id="bash"><a class="header" href="#bash">bash</a></h3>
+<pre><code>echo 'eval &quot;$(zellij setup --generate-auto-start bash)&quot;' &gt;&gt; ~/.bashrc
+</code></pre>
+<h3 id="zsh"><a class="header" href="#zsh">zsh</a></h3>
+<pre><code>echo 'eval &quot;$(zellij setup --generate-auto-start zsh)&quot;' &gt;&gt; ~/.zshrc
+</code></pre>
+<h3 id="fish"><a class="header" href="#fish">fish</a></h3>
+<p>⚠️ Depending on the version of the <code>fish</code> shell, the setting may not work. In that case, check out this <a href="https://github.com/zellij-org/zellij/issues/1534">issue</a>.</p>
+<p>Add </p>
+<pre><code class="language-fish">if status is-interactive
+    ...
+    eval (zellij setup --generate-auto-start fish | string collect)
+end
+</code></pre>
+<p>to <code>$HOME/.config/fish/config.fish</code> file.</p>
+<p>The following environment variables can also be used in the provided script.</p>
+<div class="table-wrapper"><table><thead><tr><th>Variable</th><th>Description</th><th>default</th></tr></thead><tbody>
+<tr><td><code>ZELLIJ_AUTO_ATTACH</code></td><td>If the zellij session already exists, attach to the default session. (not starting as a new session)</td><td>false</td></tr>
+<tr><td><code>ZELLIJ_AUTO_EXIT</code></td><td>When zellij exits, the shell exits as well.</td><td>false</td></tr>
+</tbody></table>
+</div>
+<h2 id="list-current-sessions"><a class="header" href="#list-current-sessions">List current sessions</a></h2>
+<p>List current sessions, attach to a running session, or create a new one.
+Depends on <a href="https://github.com/lotabout/skim"><code>sk</code></a> &amp; <code>bash</code></p>
+<pre><code>#!/usr/bin/env bash
+ZJ_SESSIONS=$(zellij list-sessions)
+NO_SESSIONS=$(echo &quot;${ZJ_SESSIONS}&quot; | wc -l)
+
+if [ &quot;${NO_SESSIONS}&quot; -ge 2 ]; then
+    zellij attach \
+    &quot;$(echo &quot;${ZJ_SESSIONS}&quot; | sk)&quot;
+else
+   zellij attach -c
+fi
+</code></pre>
+<h2 id="list-layout-files-and-create-a-layout"><a class="header" href="#list-layout-files-and-create-a-layout">List layout files and create a layout</a></h2>
+<p>List layout files saved in the default layout directory,
+opens the selected layout file.
+Depends on: <code>tr</code>, <code>fd</code>, <code>sed</code>, <code>sk</code>, <code>grep</code> &amp; <code>bash</code></p>
+<pre><code>#!/usr/bin/env bash
+set -euo pipefail
+ZJ_LAYOUT_DIR=$(zellij setup --check \
+    | grep &quot;LAYOUT DIR&quot; - \
+    | grep -o '&quot;.*&quot;' - | tr -d '&quot;')
+
+if [[ -d &quot;${ZJ_LAYOUT_DIR}&quot; ]];then
+        ZJ_LAYOUT=&quot;$(fd --type file . &quot;${ZJ_LAYOUT_DIR}&quot; \
+        | sed 's|.*/||' \
+        | sk \
+        || exit)&quot;
+    zellij --layout &quot;${ZJ_LAYOUT}&quot;
+fi
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="faq"><a class="header" href="#faq">FAQ</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-4"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-4"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<h2 id="zellij-overrides-certain-key-combinations-that-i-use-for-other-apps-what-can-i-do"><a class="header" href="#zellij-overrides-certain-key-combinations-that-i-use-for-other-apps-what-can-i-do">Zellij overrides certain key combinations that I use for other apps, what can I do?</a></h2>
+<p>As an &quot;escape hatch&quot; solution, you can lock the interface with <code>Ctrl + g</code> - at this point all keys will be sent to the focused pane.</p>
+<p>You could also <a href="./keybindings.html">remap keys</a> to work around this problem.</p>
+<p>That being said, the maintainers are aware that this default set of keybindings is not an ideal solution. We tried to find a solution that would both be powerful, allowing few and memorable keypresses to be used for common actions, and also unobtrusive. Finding a solution that would do better in the latter while still maintaining the former is something we're actively thinking about and planning on changing in the future. If you have any thoughts, please do share them in an issue or in one of our chat servers.</p>
+<h2 id="the-ui-takes-up-too-much-space-what-can-i-do-about-it"><a class="header" href="#the-ui-takes-up-too-much-space-what-can-i-do-about-it">The UI takes up too much space, what can I do about it?</a></h2>
+<p>You can load the <code>compact</code> layout with <code>zellij --layout compact</code>.</p>
+<p>Additionally, you can disable pane frames either at runtime with <code>Ctrl + &lt;p&gt; + &lt;z&gt;</code> or through the <a href="./configuration.html">config</a> with <code>pane_frames: false</code>.</p>
+<h2 id="i-see-broken-characters-in-the-default-ui-how-can-i-fix-this"><a class="header" href="#i-see-broken-characters-in-the-default-ui-how-can-i-fix-this">I see broken characters in the default UI, how can I fix this?</a></h2>
+<p>This means your default terminal font doesn't include some special characters used by Zellij. A safe bet would be to install and use a font from <a href="https://www.nerdfonts.com">nerdfonts</a>.</p>
+<p>If you don't want to install a new font, you can also load the simplified UI that doesn't use these characters, with:</p>
+<pre><code>zellij options --simplified-ui true
+</code></pre>
+<h2 id="copy--paste-isnt-working-how-can-i-fix-this"><a class="header" href="#copy--paste-isnt-working-how-can-i-fix-this">Copy / Paste isn't working, how can I fix this?</a></h2>
+<p>Some terminals don't support the the OSC 52 signal, which is the method Zellij uses by default to copy text to the clipboard. To get around this, you can either switch to a supported terminal (eg. Alacritty or xterm) or configure Zellij to use an external utility when copy pasting (eg. xclip, wl-copy or pbcopy).</p>
+<p>To do the latter, add one of the following to your <a href="./configuration.html">Zellij Config</a>:</p>
+<pre><code>copy_command: &quot;xclip -selection clipboard&quot; # x11
+copy_command: &quot;wl-copy&quot;                    # wayland
+copy_command: &quot;pbcopy&quot;                     # osx
+</code></pre>
+<p>Note that the only method that works when connecting to a remote Zellij session (eg. through SSH) is OSC 52. If you require this functionality, please consider using a terminal that supports it.</p>
+<h2 id="how-can-i-use-floating-panes"><a class="header" href="#how-can-i-use-floating-panes">How can I use floating panes?</a></h2>
+<p>You can toggle showing/hiding floating panes with <code>Ctrl + &lt;p&gt; + &lt;w&gt;</code> (if no floating panes are open, one will be opened when they are shown).</p>
+<p>In this mode you can create additional windows as you would normally create panes (eg. with <code>Alt + &lt;n&gt;</code>). Move them with the mouse or the keyboard, and resize them as you would normally resize or move Zellij panes.</p>
+<p>You can also embed a floating pane with <code>Ctrl + &lt;p&gt; + &lt;e&gt;</code>, and float an embedded pane in the same way.</p>
+<h2 id="how-can-i-sync-input-to-multiple-panes"><a class="header" href="#how-can-i-sync-input-to-multiple-panes">How can I sync input to multiple panes?</a></h2>
+<p>You can toggle sync input to all panes in a tab with <code>Ctrl + &lt;t&gt; + &lt;s&gt;</code>. Then everything you type will be sent to all panes in the tab.</p>
+<h2 id="editing-the-pane-scrollbuffer-with-ctrl--s--e-doesnt-work-whats-wrong"><a class="header" href="#editing-the-pane-scrollbuffer-with-ctrl--s--e-doesnt-work-whats-wrong">Editing the pane scrollbuffer with <code>ctrl + &lt;s&gt; + &lt;e&gt;</code> doesn't work, what's wrong?</a></h2>
+<p>By default, Zellij looks for an editor defined in the <code>EDITOR</code> or <code>VISUAL</code> environment variables (in this order).
+Make sure one is set (eg. <code>export EDITOR=/usr/bin/vim</code>) before Zellij starts.
+Alternatively, you can set one in the Zellij <a href="./configuration.html">config</a> using <code>scrollback-editor</code>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="commands"><a class="header" href="#commands">Commands</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-5"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-5"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>These commands can be invoked with <code>zellij [SUBCOMMAND]</code>.
+For more details, each subcommand has its own help section when run with the
+<code>--help</code> flag (<code>zellij [SUBCOMMAND] --help</code>).</p>
+<h2 id="attach-session-name"><a class="header" href="#attach-session-name"><code>attach [session-name]</code></a></h2>
+<p>short: <code>a</code></p>
+<p>Zellij will attempt to attach to an already running session, with the name
+<code>[session-name]</code>.
+If given no <code>[session-name]</code> and there is only one running session, it will attach to that session.</p>
+<p>The attach subcommand will also accept the optional <code>options</code> subcommand.</p>
+<h2 id="list-sessions"><a class="header" href="#list-sessions"><code>list-sessions</code></a></h2>
+<p>short: <code>ls</code></p>
+<p>Will list all the names of currently running sessions.</p>
+<h2 id="kill-sessions-target-session"><a class="header" href="#kill-sessions-target-session"><code>kill-sessions [target-session]</code></a></h2>
+<p>short: <code>k</code></p>
+<p>Will kill the session with the name of <code>[target-session]</code>, if it is currently
+running.</p>
+<h2 id="kill-all-sessions"><a class="header" href="#kill-all-sessions"><code>kill-all-sessions</code></a></h2>
+<p>short: <code>ka</code></p>
+<p>Will prompt the user to kill all running sessions.</p>
+<h2 id="options"><a class="header" href="#options"><code>options</code></a></h2>
+<p>Can be used to change the behaviour of zellij on startup.
+Will supercede options defined in the config file.
+To see a list of options look <a href="./options.html">here</a>.</p>
+<h2 id="setup"><a class="header" href="#setup"><code>setup</code></a></h2>
+<p>Functionality to help with the setup of zellij.</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Flag</th><th>Description</th></tr></thead><tbody>
+<tr><td style="text-align: left">--check</td><td>Check the configuration</td></tr>
+<tr><td style="text-align: left">--clean</td><td>Start with default configuration</td></tr>
+<tr><td style="text-align: left">--dump-config</td><td>Dump the default configuration file to stdout</td></tr>
+<tr><td style="text-align: left">--dump-layout [LAYOUT]</td><td>Dump a specified default layout file to stdout</td></tr>
+<tr><td style="text-align: left">--generate-completion [SHELL]</td><td>Generate completions for the specified shell</td></tr>
+</tbody></table>
+</div>
+<h1 id="flags"><a class="header" href="#flags">Flags</a></h1>
+<p>These flags can be invoked with <code>zellij --flag</code>.</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Flag</th><th>Description</th></tr></thead><tbody>
+<tr><td style="text-align: left">--help</td><td>Display the help prompt</td></tr>
+<tr><td style="text-align: left">--debug</td><td>Gather additional debug information</td></tr>
+<tr><td style="text-align: left">--version</td><td>Print version information</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="configuration"><a class="header" href="#configuration">Configuration</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-6"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-6"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>By default Zellij will look for <code>config.yaml</code> in the <code>config</code> directory.</p>
+<p>Quickstart:</p>
+<pre><code>mkdir ~/.config/zellij
+zellij setup --dump-config &gt; ~/.config/zellij/config.yaml
+</code></pre>
+<p>The default <code>config</code> directory order is as follows:</p>
+<ul>
+<li>
+<p><code>--config-dir</code> flag</p>
+</li>
+<li>
+<p><code>ZELLIJ_CONFIG_DIR</code> env variable</p>
+</li>
+<li>
+<p><code>$HOME/.config/zellij</code></p>
+</li>
+<li>
+<p>default location</p>
+<ul>
+<li>Linux: <code>/home/alice/.config/zellij</code></li>
+<li>Mac: <code>/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij</code></li>
+</ul>
+</li>
+<li>
+<p>system location (<code>/etc/zellij</code>)</p>
+</li>
+</ul>
+<p>In order to  pass a config file directly to zellij:</p>
+<pre><code>zellij --config [FILE]
+</code></pre>
+<p>or use the <code>ZELLIJ_CONFIG_FILE</code> environment variable.</p>
+<p>To start without loading configuration from default directories:</p>
+<pre><code>zellij options --clean
+</code></pre>
+<p>To show the current default configuration:</p>
+<pre><code>zellij setup --dump-config
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="options-1"><a class="header" href="#options-1">Options</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-7"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-7"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>You can make use of these options either by invoking zellij with
+<code>zellij options [OPTION]</code> or binding them in the configuration file.</p>
+<p>Eg. <code>zellij options --simplified-ui true</code> is equivalent to <code>simplified_ui: true</code> in the config file.</p>
+<div class="table-wrapper"><table><thead><tr><th>Option</th><th>Config</th><th style="text-align: center">Default</th><th>Description</th></tr></thead><tbody>
+<tr><td>default-mode</td><td>default_mode</td><td style="text-align: center">normal</td><td>The first mode on startup.</td></tr>
+<tr><td>default-shell</td><td>default_shell</td><td style="text-align: center">$SHELL</td><td>The default shell.</td></tr>
+<tr><td>default-layout</td><td>default_layout</td><td style="text-align: center">default</td><td>The name of the default layout.</td></tr>
+<tr><td>mouse-mode</td><td>mouse_mode</td><td style="text-align: center">true</td><td>Enable mouse mode.</td></tr>
+<tr><td>disable-mouse-mode</td><td>-</td><td style="text-align: center">false</td><td>Disable mouse mode.</td></tr>
+<tr><td>simplified-ui</td><td>simplified_ui</td><td style="text-align: center">false</td><td>Request the Plugins to use a more compatible ui.</td></tr>
+<tr><td>pane-frames</td><td>pane_frames</td><td style="text-align: center">true</td><td>Display frames around the panes.</td></tr>
+<tr><td>no-pane-frames</td><td>-</td><td style="text-align: center">false</td><td>Disable display of frames around the panes.</td></tr>
+<tr><td>on-force-close</td><td>on_force_close</td><td style="text-align: center">detach</td><td>What to do when receiving a SIGTERM, SIGINT, SIGQUIT or SIGHUP.</td></tr>
+<tr><td>theme</td><td>theme</td><td style="text-align: center">default</td><td>Switch to a theme configured under the <code>themes</code> section.</td></tr>
+<tr><td>scroll-buffer-size</td><td>scroll_buffer_size</td><td style="text-align: center">10000</td><td>The number of lines zellij stores for each pane in the scroll back buffer.</td></tr>
+<tr><td>_</td><td>env</td><td style="text-align: center">empty</td><td>A map of key value pairs for environment variables.</td></tr>
+<tr><td>copy-command</td><td>copy_command</td><td style="text-align: center">_</td><td>Command to execute when copying text, instead of using OSC52 (for example wl-copy, xclip, pbcopy).</td></tr>
+<tr><td>copy-clipboard</td><td>copy_clipboard</td><td style="text-align: center">system</td><td>Destination selection buffer (x11/linux) for OSC52 copy, can be system or primary.</td></tr>
+<tr><td>copy-on-select</td><td>copy_on_select</td><td style="text-align: center">true</td><td>Automatically copy when selecting text. If false, the <code>Copy</code> action should be bound in normal and scroll mode.</td></tr>
+<tr><td>scrollback-editor</td><td>scrollback_editor</td><td style="text-align: center">-</td><td>Path to the editor to use to edit scrollback (eg. <code>/usr/bin/vim</code>)</td></tr>
+</tbody></table>
+</div>
+<p>A small example:</p>
+<pre><code>default_mode: locked
+mouse_mode: false
+env:
+  RUST_BACKTRACE: 1 # set RUST_BACKTRACE=1
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="configuring-keybindings"><a class="header" href="#configuring-keybindings">Configuring Keybindings</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-8"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-8"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>Zellij comes with a default set of keybindings that try to fit as many different users and use cases while trying to maximize comfort for everyone.</p>
+<p>It is possible to add to these defaults or even override them with an external configuration. For more information about the file, see <a href="./configuration.html">Configuration</a>.</p>
+<p>The structure of the <code>keybinds</code> section of the file is as follows:</p>
+<pre><code>keybinds:
+    normal:
+        - action: []
+          key: []
+</code></pre>
+<p>Under the main <code>keybinds</code> section one can list the new bindings they'd like to add grouped under the different <a href="keybindings-modes.html">Modes</a> (<code>normal</code> in this example).
+The <a href="./keybindings-actions.html"><code>action</code></a> is a sequence of one or more instructions sent to Zellij through this keybinding. The <a href="keybindings-keys.html"><code>key</code></a> is a list of one or more keys, any one of them alone would trigger the sequence of actions.</p>
+<p>For example:</p>
+<pre><code>keybinds:
+    normal:
+        - action: [ NewTab, GoToTab: 1,]
+          key: [ Char: 'c',]
+</code></pre>
+<p>Will create a new tab and then switch to tab number 1 on pressing the
+<code>c</code> key.
+Whereas:</p>
+<pre><code>keybinds:
+    normal:
+        - action: [ NewTab,]
+          key: [ Char: 'c', Char: 'd',]
+</code></pre>
+<p>Will create a new tab on pressing either the <code>c</code> or the <code>d</code> key.</p>
+<h2 id="to-unbind-the-default-keybindings"><a class="header" href="#to-unbind-the-default-keybindings">To unbind the default Keybindings</a></h2>
+<p>The default keybinds can be unbound either for a specific mode, or for every mode. It supports either a list of keybinds, or a bool indicating that every keybind should be unbound:</p>
+<pre><code>keybinds:
+    unbind: true
+</code></pre>
+<p>Will unbind every default binding.</p>
+<pre><code>keybinds:
+    unbind: [ Ctrl: 'p']
+</code></pre>
+<p>Will unbind every default <code>^P</code> binding for each mode.</p>
+<pre><code>keybinds:
+    normal:
+        - unbind: true
+</code></pre>
+<p>Will unbind every default keybind for the normal mode.</p>
+<pre><code>keybinds:
+    normal:
+        - unbind: [ Alt: 'n', Ctrl: 'g']
+</code></pre>
+<p>Will unbind every default keybind for <code>n</code> and <code>^g</code> for the normal mode.</p>
+<h2 id="example"><a class="header" href="#example">Example</a></h2>
+<p>This configuration can be used to configure Zellij's default keybindings: <a href="https://github.com/zellij-org/zellij/blob/main/example/default.yaml">default.yaml</a></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="modes"><a class="header" href="#modes">Modes</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-9"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-9"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>The Zellij <a href="./keybindings.html">keybindings</a> are grouped into different <code>modes</code>, which are a logical separation meant to reduce the mental overhead and allow to duplicate shortcuts in different situations.</p>
+<h2 id="normal"><a class="header" href="#normal">normal</a></h2>
+<p>This is the default mode Zellij starts with. By default it provides the ability to switch to different modes, as well as some quick navigation shortcuts.</p>
+<h2 id="locked"><a class="header" href="#locked">locked</a></h2>
+<p>This mode &quot;locks&quot; the interface, disabling all keybindings except one that would switch to &quot;normal&quot; mode (<code>ctrl-g</code> by default).
+It is intended to give users a workaround in case one of the default keybindings overrides something they use in their terminal. (eg. <code>ctrl-r</code> for reverse history search in bash).</p>
+<h2 id="pane"><a class="header" href="#pane">pane</a></h2>
+<p>This mode includes instructions that manipulate the different panes. Eg. adding new panes, closing panes and moving the focused pane.</p>
+<h2 id="tab"><a class="header" href="#tab">tab</a></h2>
+<p>This mode includes instructions that manipulate the different tabs. Eg. adding new tabs, closing tabs, moving the active tab, and toggling a &quot;sync&quot; mode that sends text to all panes in the current tab.</p>
+<h2 id="resize"><a class="header" href="#resize">resize</a></h2>
+<p>This mode allows the resizing of the focused pane.</p>
+<h2 id="scroll"><a class="header" href="#scroll">scroll</a></h2>
+<p>This mode allows scrolling up/down within the focused pane.</p>
+<h2 id="session"><a class="header" href="#session">session</a></h2>
+<p>This mode allows detaching from a session.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="keys"><a class="header" href="#keys">Keys</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-10"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-10"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>These are the possible keys and key combinations one can set in the
+<a href="./keybindings.html">Keybindings configuration</a>.
+For more information, please see:
+<a href="https://docs.rs/termion/1.5.6/termion/event/enum.Key.html">https://docs.rs/termion/1.5.6/termion/event/enum.Key.html</a></p>
+<p>Or some related Github Issues:</p>
+<ul>
+<li><a href="https://github.com/zellij-org/zellij/issues/351">#351</a></li>
+<li><a href="https://github.com/zellij-org/zellij/issues/357">#357</a></li>
+</ul>
+<p>There's a table with an overview of valid key combinations at the bottom of
+this page.</p>
+<h2 id="char-character"><a class="header" href="#char-character"><code>Char: &lt;character&gt;</code></a></h2>
+<p>A single character with no modifier, eg. <code>Char: 'f'</code></p>
+<p><strong>Note:</strong> Please also refer to the table at the bottom of this page</p>
+<h2 id="alt-character"><a class="header" href="#alt-character"><code>Alt: &lt;character&gt;</code></a></h2>
+<p>A single character preceded by the <code>Alt</code> modifier, eg. <code>Alt: 'f'</code>.</p>
+<p><strong>Note:</strong> Please also refer to the table at the bottom of this page</p>
+<h2 id="ctrl-character"><a class="header" href="#ctrl-character"><code>Ctrl: &lt;character&gt;</code></a></h2>
+<p>A single character preceded by the <code>Ctrl</code> modifier, eg. <code>Ctrl: 'f'</code>.</p>
+<p><strong>Note:</strong> Please also refer to the table at the bottom of this page</p>
+<h2 id="f-1-12"><a class="header" href="#f-1-12"><code>F: &lt;1-12&gt;</code></a></h2>
+<p>One of the <code>F</code> characters (usually at the top of the keyboard). eg. <code>F: 11</code></p>
+<h2 id="backspace"><a class="header" href="#backspace"><code>Backspace</code></a></h2>
+<p>The Backspace key.</p>
+<h2 id="left--right--up--down"><a class="header" href="#left--right--up--down"><code>Left</code> / <code>Right</code> / <code>Up</code> / <code>Down</code></a></h2>
+<p>The arrow keys on the keyboard.</p>
+<h2 id="home"><a class="header" href="#home"><code>Home</code></a></h2>
+<p>The home key.</p>
+<h2 id="end"><a class="header" href="#end"><code>End</code></a></h2>
+<p>The End key.</p>
+<h2 id="pageup--pagedown"><a class="header" href="#pageup--pagedown"><code>PageUp</code> / <code>PageDown</code></a></h2>
+<p>The PageUp or PageDown keys.</p>
+<h2 id="backtab"><a class="header" href="#backtab"><code>BackTab</code></a></h2>
+<p>The backward Tab key.</p>
+<h2 id="delete"><a class="header" href="#delete"><code>Delete</code></a></h2>
+<p>The delete key.</p>
+<h2 id="insert"><a class="header" href="#insert"><code>Insert</code></a></h2>
+<p>The insert key.</p>
+<h2 id="esc"><a class="header" href="#esc"><code>Esc</code></a></h2>
+<p>The Esc key.</p>
+<h1 id="valid-character-combinations"><a class="header" href="#valid-character-combinations">Valid character combinations</a></h1>
+<p>Following is a table that gives an overview of all the possible character
+combinations available for keybindings.</p>
+<p><strong>Note that combining any of the <code>Ctrl</code>, <code>Alt</code> or <code>Char</code> bindings with the
+special keys mentioned above isn't possible.</strong></p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Keys</th><th style="text-align: center"><code>Ctrl: ' '</code></th><th style="text-align: center"><code>Alt: ' '</code></th><th style="text-align: center"><code>Char: ' '</code></th></tr></thead><tbody>
+<tr><td style="text-align: center"><code>a-z</code></td><td style="text-align: center">yes</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
+<tr><td style="text-align: center"><code>A-Z</code></td><td style="text-align: center">no</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
+<tr><td style="text-align: center"><code>0-9</code></td><td style="text-align: center">no</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
+<tr><td style="text-align: center">Space</td><td style="text-align: center">no</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
+<tr><td style="text-align: center">Tab</td><td style="text-align: center">no</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
+<tr><td style="text-align: center"><code>.:,;-_!?</code></td><td style="text-align: center">no</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
+<tr><td style="text-align: center"><code>'&quot;#$%&amp;()</code></td><td style="text-align: center">no</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
+<tr><td style="text-align: center"><code>*+/&lt;=&gt;@\</code></td><td style="text-align: center">no</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
+<tr><td style="text-align: center"><code>[]^_\|{}~</code></td><td style="text-align: center">no</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
+<tr><td style="text-align: center"><code>äöüß</code></td><td style="text-align: center">no</td><td style="text-align: center">yes</td><td style="text-align: center">yes</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-11"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-11"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>Zellij's keybindings can be configured to behave in multiple ways. 
+Here are example configurations to possibly inspire you.</p>
+<h2 id="prefix-example"><a class="header" href="#prefix-example">Prefix Example</a></h2>
+<p>This certain example works as if it had a prefix key.</p>
+<p>Zellij starts in locked mode and only the prefix key
+switches to normal mode, from then on it is possible to have
+a layer of shortcuts, or more special modes to switch to.</p>
+<p>Eg:</p>
+<ul>
+<li>Open a pane: ^b - n</li>
+<li>Open a pane to the right: ^b - p - r</li>
+<li>Open a tab: ^b - N</li>
+<li>Open multiple tabs: ^b - t - N - n</li>
+<li>Switch to a specific pane or tab: ^b - h/j/k/l</li>
+<li>Switch to a specific tab: ^b - 1</li>
+<li>Resize: ^b - r - h/j/k/l</li>
+<li>Fullscreen: ^b - p - f</li>
+<li>Send the prefix key (^b): ^b - b</li>
+<li>Detach the session: ^b - o - d</li>
+<li>Quit zellij: ^b - ^q</li>
+<li>Rename a pane: ^b - c - [name] - enter</li>
+<li>Rename a tab: ^b - C - [name] - enter</li>
+</ul>
+<p>Here is one possible example of that:</p>
+<pre><code>---
+default_mode: locked
+keybinds:
+    unbind: true
+    # the prefix key ^b
+    locked:
+        - action: [SwitchToMode: Normal,]
+          key: [Ctrl: 'b',]
+    normal:
+        # send the prefix-key ^b on pressing b in normal mode
+        # then switch back to locked mode
+        - action: [Write: [2,], SwitchToMode: Locked]
+          key: [Char: 'b']
+        - action: [SwitchToMode: Locked,]
+          key: [Ctrl: 'b', Char: ' ', Char: &quot;\n&quot;]
+        - action: [SwitchToMode: Pane,]
+          key: [Char: 'p',]
+        - action: [SwitchToMode: Resize,]
+          key: [Char: 'r',]
+        - action: [SwitchToMode: Tab,]
+          key: [Char: 't',]
+        - action: [SwitchToMode: Scroll,]
+          key: [Char: 's',]
+        - action: [SwitchToMode: Session,]
+          key: [Char: 'o',]
+        - action: [Quit,]
+          key: [Ctrl: 'q',]
+        - action: [NewPane: , SwitchToMode: Locked, ]
+          key: [ Alt: 'n',]
+        - action: [NewTab: , SwitchToMode: Locked, ]
+          key: [ Char: 'N',]
+        - action: [NewPane: , SwitchToMode: Locked,]
+          key: [ Char: 'n',]
+        - action: [MoveFocusOrTab: Left, SwitchToMode: Locked]
+          key: [ Char: 'h' ]
+        - action: [MoveFocusOrTab: Right, SwitchToMode: Locked]
+          key: [ Char: 'l', ]
+        - action: [MoveFocus: Down, SwitchToMode: Locked]
+          key: [ Char: 'j', ]
+        - action: [MoveFocus: Up, SwitchToMode: Locked]
+          key: [ Char: 'k', ]
+        - action: [MoveFocusOrTab: Left,]
+          key: [ Char: 'H', Alt: 'h' ]
+        - action: [MoveFocusOrTab: Right,]
+          key: [ Char: 'L', Alt: 'l',]
+        - action: [MoveFocus: Down,]
+          key: [ Char: 'J', Alt: 'j',]
+        - action: [MoveFocus: Up,]
+          key: [ Char: 'K', Alt: 'k',]
+        - action: [FocusPreviousPane,]
+          key: [ Char: '[', Alt: '[']
+        - action: [FocusNextPane,]
+          key: [ Char: ']', Alt: '[']
+        - action: [NewPane: Down, SwitchToMode: Locked,]
+          key: [Char: '-',]
+        - action: [NewPane: Right, SwitchToMode: Locked,]
+          key: [Char: '\',]
+        - action: [GoToTab: 1,]
+          key: [ Char: '1',]
+        - action: [GoToTab: 2,]
+          key: [ Char: '2',]
+        - action: [GoToTab: 3,]
+          key: [ Char: '3',]
+        - action: [GoToTab: 4,]
+          key: [ Char: '4',]
+        - action: [GoToTab: 5,]
+          key: [ Char: '5',]
+        - action: [GoToTab: 6,]
+          key: [ Char: '6',]
+        - action: [GoToTab: 7,]
+          key: [ Char: '7',]
+        - action: [GoToTab: 8,]
+          key: [ Char: '8',]
+        - action: [GoToTab: 9,]
+          key: [ Char: '9',]
+        - action: [Resize: Increase,]
+          key: [ Char: '=']
+        - action: [Resize: Increase,]
+          key: [ Char: '+']
+        - action: [Resize: Decrease,]
+          key: [ Char: '-']
+        - action: [Resize: Left,]
+          key: [Left, ]
+        - action: [Resize: Down,]
+          key: [Down, ]
+        - action: [Resize: Up,]
+          key: [ Up, ]
+        - action: [Resize: Right,]
+          key: [ Right, ]
+        - action: [ToggleTab]
+          key: [ Char: &quot;\t&quot;, Char: 't' ]
+        - action: [SwitchToMode: RenamePane, PaneNameInput: [0],]
+          key: [Char: 'c']
+        - action: [SwitchToMode: RenameTab, TabNameInput: [0],]
+          key: [Char: 'C']
+        - action: [EditScrollback, SwitchToMode: Locked]
+          key: [Char: 'e']
+    resize:
+        - action: [SwitchToMode: Locked,]
+          key: [Ctrl: 'b']
+        - action: [SwitchToMode: Pane,]
+          key: [Ctrl: 'p',]
+        - action: [SwitchToMode: Tab,]
+          key: [Ctrl: 't',]
+        - action: [SwitchToMode: Locked,]
+          key: [Ctrl: 'r', Char: &quot;\n&quot;, Char: ' ',]
+        - action: [SwitchToMode: Scroll,]
+          key: [Ctrl: 's']
+        - action: [Quit]
+          key: [Ctrl: 'q']
+        - action: [Resize: Left,]
+          key: [Char: 'h', Left, ]
+        - action: [Resize: Down,]
+          key: [Char: 'j', Down, ]
+        - action: [Resize: Up,]
+          key: [Char: 'k', Up, ]
+        - action: [Resize: Right,]
+          key: [Char: 'l', Right, ]
+        - action: [NewPane: ,]
+          key: [ Alt: 'n',]
+        - action: [MoveFocus: Left,]
+          key: [ Alt: 'h', Left,]
+        - action: [MoveFocus: Right,]
+          key: [ Alt: 'l', Right,]
+        - action: [MoveFocus: Down,]
+          key: [ Alt: 'j', Down,]
+        - action: [MoveFocus: Up,]
+          key: [ Alt: 'k', Up,]
+        - action: [FocusPreviousPane,]
+          key: [ Alt: '[',]
+        - action: [FocusNextPane,]
+          key: [ Alt: ']',]
+    pane:
+        - action: [SwitchToMode: Locked,]
+          key: [Ctrl: 'b']
+        - action: [SwitchToMode: Normal,]
+          key: [Ctrl: 'p',]
+        - action: [SwitchToMode: Tab,]
+          key: [Ctrl: 't',]
+        - action: [SwitchToMode: Locked,]
+          key: [Ctrl: 'r', Char: &quot;\n&quot;, Char: ' ',]
+        - action: [SwitchToMode: Scroll,]
+          key: [Ctrl: 's']
+        - action: [Quit,]
+          key: [Ctrl: 'q',]
+        - action: [MoveFocus: Left,]
+          key: [ Alt: 'h', Left,]
+        - action: [MoveFocus: Right,]
+          key: [ Alt: 'l', Right,]
+        - action: [MoveFocus: Down,]
+          key: [ Alt: 'j', Down,]
+        - action: [MoveFocus: Up,]
+          key: [ Alt: 'k', Up,]
+        - action: [SwitchFocus,]
+          key: [Char: 'p']
+        - action: [NewPane: , SwitchToMode: Locked,]
+          key: [Char: 'n', Alt: 'n',]
+        - action: [NewPane: ,]
+          key: [Char: 'N', ]
+        - action: [NewPane: Down, SwitchToMode: Locked,]
+          key: [Char: 'd',]
+        - action: [NewPane: Right, SwitchToMode: Locked,]
+          key: [Char: 'r',]
+        - action: [TogglePaneFrames, SwitchToMode: Locked,]
+          key: [Char: 'z',]
+        - action: [TogglePaneFrames,]
+          key: [Char: 'Z',]
+        - action: [NewPane: Down,]
+          key: [Char: 'D',]
+        - action: [NewPane: Right,]
+          key: [Char: 'R',]
+        - action: [CloseFocus, SwitchToMode: Locked,]
+          key: [Char: 'x',]
+        - action: [CloseFocus,]
+          key: [Char: 'X',]
+        - action: [ToggleFocusFullscreen, SwitchToMode: Locked,]
+          key: [Char: 'f',]
+        - action: [ToggleFocusFullscreen,]
+          key: [Char: 'F',]
+        - action: [FocusPreviousPane,]
+          key: [ Alt: '[',]
+        - action: [FocusNextPane,]
+          key: [ Alt: ']',]
+        - action: [ToggleFocusFullscreen, SwitchToMode: Normal,]
+          key: [Char: 'f',]
+        - action: [TogglePaneFrames, SwitchToMode: Normal,]
+          key: [Char: 'z',]
+        - action: [ToggleFloatingPanes, SwitchToMode: Normal,]
+          key: [Char: 'w']
+        - action: [TogglePaneEmbedOrFloating, SwitchToMode: Normal,]
+          key: [Char: 'e']
+        - action: [SwitchToMode: RenamePane, PaneNameInput: [0],]
+          key: [Char: 'c']
+    tab:
+        - action: [SwitchToMode: Normal,]
+          key: [Ctrl: 't']
+        - action: [SwitchToMode: Pane,]
+          key: [Ctrl: 'p',]
+        - action: [SwitchToMode: Locked,]
+          key: [Ctrl: 'b', Char: &quot;\n&quot;, Char: ' ',]
+        - action: [SwitchToMode: Scroll,]
+          key: [Ctrl: 's']
+        - action: [SwitchToMode: RenameTab, TabNameInput: [0],]
+          key: [Char: 'r']
+        - action: [Quit,]
+          key: [Ctrl: 'q',]
+        - action: [FocusPreviousPane,]
+          key: [ Alt: '[',]
+        - action: [FocusNextPane,]
+          key: [ Alt: ']',]
+        - action: [GoToPreviousTab,]
+          key: [ Char: 'h',]
+        - action: [GoToNextTab,]
+          key: [ Char: 'l',]
+        - action: [GoToNextTab,]
+          key: [ Char: 'j',]
+        - action: [GoToPreviousTab,]
+          key: [ Char: 'k',]
+        - action: [NewTab: ]
+          key: [ Char: 'n',]
+        - action: [CloseTab,]
+          key: [ Char: 'x',]
+        - action: [MoveFocus: Left,]
+          key: [ Alt: 'h',]
+        - action: [MoveFocus: Right,]
+          key: [ Alt: 'l',]
+        - action: [MoveFocus: Down,]
+          key: [ Alt: 'j',]
+        - action: [MoveFocus: Up,]
+          key: [ Alt: 'k',]
+        - action: [GoToTab: 1,]
+          key: [ Char: '1',]
+        - action: [GoToTab: 2,]
+          key: [ Char: '2',]
+        - action: [GoToTab: 3,]
+          key: [ Char: '3',]
+        - action: [GoToTab: 4,]
+          key: [ Char: '4',]
+        - action: [GoToTab: 5,]
+          key: [ Char: '5',]
+        - action: [GoToTab: 6,]
+          key: [ Char: '6',]
+        - action: [GoToTab: 7,]
+          key: [ Char: '7',]
+        - action: [GoToTab: 8,]
+          key: [ Char: '8',]
+        - action: [GoToTab: 9,]
+          key: [ Char: '9',]
+    scroll:
+        - action: [SwitchToMode: Locked,]
+          key: [Ctrl: 'r', Ctrl: 's', Char: ' ',
+          Char: &quot;\n&quot;,]
+        - action: [SwitchToMode: Tab,]
+          key: [Ctrl: 't',]
+        - action: [SwitchToMode: Normal,]
+          key: [Ctrl: 's',]
+        - action: [SwitchToMode: Pane,]
+          key: [Ctrl: 'p',]
+        - action: [Quit,]
+          key: [Ctrl: 'q',]
+        - action: [ScrollDown,]
+          key: [Char: 'j', Down,]
+        - action: [ScrollUp,]
+          key: [Char: 'k', Up,]
+        - action: [PageScrollDown,]
+          key: [Ctrl: 'f', PageDown,]
+        - action: [PageScrollUp,]
+          key: [Ctrl: 'b', PageUp,]
+        - action: [NewPane: ,]
+          key: [ Alt: 'n',]
+        - action: [MoveFocus: Left,]
+          key: [ Alt: 'h',]
+        - action: [MoveFocus: Right,]
+          key: [ Alt: 'l',]
+        - action: [MoveFocus: Down,]
+          key: [ Alt: 'j',]
+        - action: [MoveFocus: Up,]
+          key: [ Alt: 'k',]
+        - action: [FocusPreviousPane,]
+          key: [ Alt: '[',]
+        - action: [FocusNextPane,]
+          key: [ Alt: ']',]
+        - action: [EditScrollback, SwitchToMode: Locked]
+          key: [Char: 'e']
+    renametab:
+        - action: [SwitchToMode: Normal,]
+          key: [Ctrl: 'r']
+        - action: [SwitchToMode: Locked,]
+          key: [Ctrl: 'b', Ctrl: 's', Char: ' ',]
+        - action: [SwitchToMode: Tab,]
+          key: [Char: &quot;\n&quot;,]
+        - action: [TabNameInput: [27] , SwitchToMode: Tab,]
+          key: [Esc,]
+        - action: [NewPane: ,]
+          key: [ Alt: 'n',]
+        - action: [MoveFocus: Left,]
+          key: [ Alt: 'h',]
+        - action: [MoveFocus: Right,]
+          key: [ Alt: 'l',]
+        - action: [MoveFocus: Down,]
+          key: [ Alt: 'j',]
+        - action: [MoveFocus: Up,]
+          key: [ Alt: 'k',]
+        - action: [FocusPreviousPane,]
+          key: [ Alt: '[',]
+        - action: [FocusNextPane,]
+          key: [ Alt: ']',]
+    renamepane:
+        - action: [SwitchToMode: Normal,]
+          key: [Char: &quot;\n&quot;, Ctrl: 'c', Esc]
+        - action: [PaneNameInput: [27] , SwitchToMode: Pane,]
+          key: [Esc,]
+        - action: [NewPane: ,]
+          key: [ Alt: 'n',]
+        - action: [MoveFocus: Left,]
+          key: [ Alt: 'h',]
+        - action: [MoveFocus: Right,]
+          key: [ Alt: 'l',]
+        - action: [MoveFocus: Down,]
+          key: [ Alt: 'j',]
+        - action: [MoveFocus: Up,]
+          key: [ Alt: 'k',]
+        - action: [FocusPreviousPane,]
+          key: [ Alt: '[',]
+        - action: [FocusNextPane,]
+          key: [ Alt: ']',]
+        - action: [Resize: Increase,]
+          key: [ Alt: '=']
+        - action: [Resize: Increase,]
+          key: [ Alt: '+']
+        - action: [Resize: Decrease,]
+          key: [ Alt: '-']
+    session:
+        - action: [SwitchToMode: Normal,]
+          key: [Ctrl: 'o']
+        - action: [SwitchToMode: Resize,]
+          key: [Ctrl: 'r',]
+        - action: [SwitchToMode: Pane,]
+          key: [Ctrl: 'p',]
+        - action: [SwitchToMode: Tab,]
+          key: [Ctrl: 't',]
+        - action: [SwitchToMode: Locked,]
+          key: [Ctrl: 'b', Char: &quot;\n&quot;, Char: ' ',]
+        - action: [SwitchToMode: Scroll,]
+          key: [Ctrl: 's']
+        - action: [Quit,]
+          key: [Ctrl: 'q',]
+        - action: [Detach,]
+          key: [Char: 'd',]
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="themes"><a class="header" href="#themes">Themes</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-12"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-12"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<h2 id="color"><a class="header" href="#color">Color</a></h2>
+<p>You can specify a color theme, that will be picked up by
+zellij in the following way:</p>
+<pre><code class="language-yaml">themes:
+  default:
+    fg: [0,0,0]
+    bg: [0,0,0]
+    black: [0,0,0]
+    red: [0,0,0]
+    green: [0,0,0]
+    yellow: [0,0,0]
+    blue: [0,0,0]
+    magenta: [0,0,0]
+    cyan: [0,0,0]
+    white: [0,0,0]
+    orange: [0,0,0]
+</code></pre>
+<p>for truecolor, or:</p>
+<pre><code class="language-yaml">themes:
+  default:
+    fg: 0
+    bg: 0
+    black: 0
+    red: 0
+    green: 0
+    yellow: 0
+    blue: 0
+    magenta: 0
+    cyan: 0
+    white: 0
+    orange: 0
+</code></pre>
+<p>for 256 color, or you can use hexdecimal color:</p>
+<pre><code class="language-yaml">themes:
+  default:
+    fg: &quot;#000000&quot;
+    bg: &quot;#000000&quot;
+    black: &quot;#000000&quot;
+    red: &quot;#000000&quot;
+    green: &quot;#000000&quot;
+    yellow: &quot;#000000&quot;
+    blue: &quot;#000000&quot;
+    magenta: &quot;#000000&quot;
+    cyan: &quot;#000000&quot;
+    white: &quot;#000000&quot;
+    orange: &quot;#000000&quot;
+</code></pre>
+<p>If the theme is called <code>default</code>, then zellij will pick it on startup.
+To specify a different theme, run zellij with:</p>
+<pre><code>zellij options --theme [NAME]
+</code></pre>
+<p>or put the name in the configuration file with <code>theme: [NAME]</code> as follows:</p>
+<pre><code class="language-yaml">keybinds:
+  ...
+
+# Choose the theme that is specified in the themes section.
+theme: default
+
+themes:
+  default:
+    fg: #000000
+    ...
+</code></pre>
+<p>or If you don't want to modify the configuration file, just add a theme, you can use the <code>themes</code> directory.</p>
+<p><code>themes</code> is located in <code>CONFIG_DIR/themes</code> by default. You can check it through <code>zellij setup --check</code>.</p>
+<p>If you place the theme file in this folder, zelij will automatically merge the themes.</p>
+<p>And you can set the theme through the options (<code>options --theme</code>) as in the first method. </p>
+<p>Here are <a href="https://github.com/zellij-org/zellij/tree/main/example/themes">some example themes</a>.</p>
+<h2 id="ui"><a class="header" href="#ui">UI</a></h2>
+<p>Certain non-color aspects of Zellij's interface can also be customized.</p>
+<h3 id="rounded-pane-corners"><a class="header" href="#rounded-pane-corners">Rounded Pane Corners</a></h3>
+<p>If your font has support for rounded corners (most do), then you can enable
+them by adding the following to your configuration file:</p>
+<pre><code class="language-yaml">ui:
+  pane_frames:
+    rounded_corners: true
+</code></pre>
+<p>Zellij should pick up this change automatically next time the config is loaded.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="theme-gallery"><a class="header" href="#theme-gallery">Theme Gallery</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-13"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-13"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>This page showcases the example themes that are included
+inside of the main zellij <a href="https://github.com/zellij-org/zellij/tree/main/example/themes">repository</a>.</p>
+<h3 id="dracula"><a class="header" href="#dracula">Dracula</a></h3>
+<p><img src="img/theme-gallery/dracula_default__screenshot.png" alt="Dracula" /></p>
+<details>
+<summary>More Dracula</summary>
+<p><img src="img/theme-gallery/dracula_compact__screenshot.png" alt="Dracula Compact" />
+<img src="img/theme-gallery/dracula_default___simplified_ui_true_screenshot.png" alt="Dracula Default Simplified" />
+<img src="img/theme-gallery/dracula_compact___simplified_ui_true_screenshot.png" alt="Dracula Compact Simplified" /></p>
+</details>
+<h3 id="gruvbox-dark"><a class="header" href="#gruvbox-dark">Gruvbox Dark</a></h3>
+<p><img src="img/theme-gallery/gruvbox_dark_default__screenshot.png" alt="Gruvbox Dark" /></p>
+<details>
+<summary>More Gruvbox Dark</summary>
+<p><img src="img/theme-gallery/gruvbox_dark_compact__screenshot.png" alt="Gruvbox Dark Compact" />
+<img src="img/theme-gallery/gruvbox_dark_default___simplified_ui_true_screenshot.png" alt="Gruvbox Dark Default Simplified" />
+<img src="img/theme-gallery/gruvbox_dark_compact___simplified_ui_true_screenshot.png" alt="Gruvbox Dark Compact Simplified" /></p>
+</details>
+<h3 id="gruvbox-light"><a class="header" href="#gruvbox-light">Gruvbox Light</a></h3>
+<p><img src="img/theme-gallery/gruvbox_light_default__screenshot.png" alt="Gruvbox Light" /></p>
+<details>
+<summary>More Gruvbox Light</summary>
+<p><img src="img/theme-gallery/gruvbox_light_compact__screenshot.png" alt="Gruvbox Light Compact" />
+<img src="img/theme-gallery/gruvbox_light_default___simplified_ui_true_screenshot.png" alt="Gruvbox Light Default Simplified" />
+<img src="img/theme-gallery/gruvbox_light_compact___simplified_ui_true_screenshot.png" alt="Gruvbox Light Compact Simplified" /></p>
+</details>
+<h3 id="molokai-dark"><a class="header" href="#molokai-dark">Molokai Dark</a></h3>
+<p><img src="img/theme-gallery/molokai_dark_default__screenshot.png" alt="Molokai Dark" /></p>
+<details>
+<summary>More Molokai Dark</summary>
+<p><img src="img/theme-gallery/molokai_dark_compact__screenshot.png" alt="Molokai Dark Compact" />
+<img src="img/theme-gallery/molokai_dark_default___simplified_ui_true_screenshot.png" alt="Molokai Dark Default Simplified" />
+<img src="img/theme-gallery/molokai_dark_compact___simplified_ui_true_screenshot.png" alt="Molokai Dark Compact Simplified" /></p>
+</details>
+<h3 id="nord"><a class="header" href="#nord">Nord</a></h3>
+<p><img src="img/theme-gallery/nord_default__screenshot.png" alt="Nord" /></p>
+<details>
+<summary>More Nord</summary>
+<p><img src="img/theme-gallery/nord_compact__screenshot.png" alt="Nord Compact" />
+<img src="img/theme-gallery/nord_default___simplified_ui_true_screenshot.png" alt="Nord Default Simplified" />
+<img src="img/theme-gallery/nord_dark_compact___simplified_ui_true_screenshot.png" alt="Nord Compact Simplified" /></p>
+</details>
+<h3 id="one-half-dark"><a class="header" href="#one-half-dark">One Half Dark</a></h3>
+<p><img src="img/theme-gallery/one_half_dark_default__screenshot.png" alt="One Half Dark" /></p>
+<details>
+<summary>More One Half Dark</summary>
+<p><img src="img/theme-gallery/one_half_dark_compact__screenshot.png" alt="One Half Dark Compact" />
+<img src="img/theme-gallery/one_half_dark_default___simplified_ui_true_screenshot.png" alt="One Half Dark Default Simplified" />
+<img src="img/theme-gallery/one_half_dark_compact___simplified_ui_true_screenshot.png" alt="One Half Dark Compact Simplified" /></p>
+</details>
+<h3 id="solarized-dark"><a class="header" href="#solarized-dark">Solarized Dark</a></h3>
+<p><img src="img/theme-gallery/solarized_dark_default__screenshot.png" alt="Solarized Dark" /></p>
+<details>
+<summary>More Solarized Dark</summary>
+<p><img src="img/theme-gallery/solarized_dark_dark_compact__screenshot.png" alt="Solarized Dark Compact" />
+<img src="img/theme-gallery/solarized_dark_default___simplified_ui_true_screenshot.png" alt="Solarized Dark Default Simplified" />
+<img src="img/theme-gallery/solarized_dark_compact___simplified_ui_true_screenshot.png" alt="Solarized Dark Compact Simplified" /></p>
+</details>
+<h3 id="tokyo-night"><a class="header" href="#tokyo-night">Tokyo Night</a></h3>
+<p><img src="img/theme-gallery/tokyo_night_default__screenshot.png" alt="Tokyo Night" /></p>
+<details>
+<summary>More Tokyo Night</summary>
+<p><img src="img/theme-gallery/tokyo_night_compact__screenshot.png" alt="Tokyo Night Compact" />
+<img src="img/theme-gallery/tokyo_night_default___simplified_ui_true_screenshot.png" alt="Tokyo Night Default Simplified" />
+<img src="img/theme-gallery/tokyo_night_compact___simplified_ui_true_screenshot.png" alt="Tokyo Night Compact Simplified" /></p>
+</details>
+<h3 id="tokyo-night-light"><a class="header" href="#tokyo-night-light">Tokyo Night Light</a></h3>
+<p><img src="img/theme-gallery/tokyo_night_light_default__screenshot.png" alt="Tokyo Night Light" /></p>
+<details>
+<summary>More Tokyo Night Light</summary>
+<p><img src="img/theme-gallery/tokyo_night_light_compact__screenshot.png" alt="Tokyo Night Light Compact" />
+<img src="img/theme-gallery/tokyo_night_light_default___simplified_ui_true_screenshot.png" alt="Tokyo Night Light Default Simplified" />
+<img src="img/theme-gallery/tokyo_night_light_compact___simplified_ui_true_screenshot.png" alt="Tokyo Night Light Compact Simplified" /></p>
+</details>
+<h3 id="tokyo-night-storm"><a class="header" href="#tokyo-night-storm">Tokyo Night Storm</a></h3>
+<p><img src="img/theme-gallery/tokyo_night_storm_default__screenshot.png" alt="Tokyo Night Storm" /></p>
+<details>
+<summary>More Tokyo Night Storm</summary>
+<p><img src="img/theme-gallery/tokyo_night_storm_compact__screenshot.png" alt="Tokyo Night Storm Compact" />
+<img src="img/theme-gallery/tokyo_night_storm_default___simplified_ui_true_screenshot.png" alt="Tokyo Night Storm Default Simplified" />
+<img src="img/theme-gallery/tokyo_night_storm_compact___simplified_ui_true_screenshot.png" alt="Tokyo Night Storm Compact Simplified" /></p>
+</details>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="actions"><a class="header" href="#actions">Actions</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-14"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-14"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>These are the actions that can be assigned to key sequences when <a href="./keybindings.html">configuring keybindings</a>.
+Or that can be invoked by the <code>zellij action</code> command.</p>
+<h2 id="quit"><a class="header" href="#quit"><code>Quit</code></a></h2>
+<p>Quit Zellij.</p>
+<h2 id="detach"><a class="header" href="#detach"><code>Detach</code></a></h2>
+<p>Detach from the currently running Zellij session.</p>
+<h2 id="movepane-direction"><a class="header" href="#movepane-direction"><code>MovePane: &lt;Direction&gt;</code></a></h2>
+<p>Move the currently focused pane in a direction.</p>
+<h2 id="switchtomode-inputmode"><a class="header" href="#switchtomode-inputmode"><code>SwitchToMode: &lt;InputMode&gt;</code></a></h2>
+<p>Switch to the specified <a href="./keybindings-modes.html">input mode</a>.
+The mode should be capitalized, eg. <code>SwitchToMode: Normal</code>.</p>
+<p>Note that there's a &quot;hidden&quot; mode called <code>RenameTab</code> which can be used in order to trigger the renaming of a tab.</p>
+<h2 id="resize-direction"><a class="header" href="#resize-direction"><code>Resize: &lt;Direction&gt;</code></a></h2>
+<p>Resize focused pane in the specified direction.
+Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code>, <code>Down</code>, <code>Increase</code>, or <code>Decrease</code>.</p>
+<p>Example: <code>Resize: Down</code></p>
+<h2 id="focusnextpane"><a class="header" href="#focusnextpane"><code>FocusNextPane</code></a></h2>
+<p>Switch focus to next pane to the right or below if on screen edge.</p>
+<h2 id="focuspreviouspane"><a class="header" href="#focuspreviouspane"><code>FocusPreviousPane</code></a></h2>
+<p>Switch focus to next pane to the left or above if on screen edge.</p>
+<h2 id="switchfocus"><a class="header" href="#switchfocus"><code>SwitchFocus</code></a></h2>
+<p>Switch focus to pane with the next ID (this is mostly left around for legacy support, <code>FocusNextPane</code> or <code>FocusPreviousPane</code> should be preferred).</p>
+<h2 id="movefocus-direction"><a class="header" href="#movefocus-direction"><code>MoveFocus: &lt;Direction&gt;</code></a></h2>
+<p>Move focus to the pane with the greatest overlap with the current pane in the specified direction. 
+Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code> or <code>Down</code>.</p>
+<p>eg. <code>MoveFocus: Left</code></p>
+<h2 id="scrollup"><a class="header" href="#scrollup"><code>ScrollUp</code></a></h2>
+<p>Scroll up 1 line inside the focused pane.</p>
+<h2 id="scrolldown"><a class="header" href="#scrolldown"><code>ScrollDown</code></a></h2>
+<p>Scroll down 1 line inside the focused pane.</p>
+<h2 id="pagescrollup"><a class="header" href="#pagescrollup"><code>PageScrollUp</code></a></h2>
+<p>Scroll up one page in the focused pane.</p>
+<h2 id="pagescrolldown"><a class="header" href="#pagescrolldown"><code>PageScrollDown</code></a></h2>
+<p>Scroll down one page in the focused pane.</p>
+<h2 id="togglefocusfullscreen"><a class="header" href="#togglefocusfullscreen"><code>ToggleFocusFullscreen</code></a></h2>
+<p>Toggle between fullscreen focus pane and normal layout.</p>
+<h2 id="togglepaneframes"><a class="header" href="#togglepaneframes"><code>TogglePaneFrames</code></a></h2>
+<p>Toggle between pane frames and normal layout.</p>
+<h2 id="toggleactivesynctab"><a class="header" href="#toggleactivesynctab"><code>ToggleActiveSyncTab</code></a></h2>
+<p>Toggle between sending text commands to all panes on the current tab and just the focused pane.</p>
+<h2 id="toggletab"><a class="header" href="#toggletab"><code>ToggleTab</code></a></h2>
+<p>Switch between the most recently used tabs.</p>
+<h2 id="togglefloatingpanes"><a class="header" href="#togglefloatingpanes"><code>ToggleFloatingPanes</code></a></h2>
+<p>Toggle between floating, and embedded panes.</p>
+<h2 id="togglepaneembedorfloating"><a class="header" href="#togglepaneembedorfloating"><code>TogglePaneEmbedOrFloating</code></a></h2>
+<p>Toggle a specific pane between floating, and embedded mode.</p>
+<h2 id="newpane-direction"><a class="header" href="#newpane-direction"><code>NewPane: &lt;Direction&gt;</code></a></h2>
+<p>Open a new pane in the specified direction (relative to focus).
+If no direction is specified, will try to use the biggest available space.
+Direction should be one of <code>Left</code>, <code>Right</code>, <code>Up</code> or <code>Down</code>.
+Specifying no direction should be done by introducing a space character (this is a bug and should be fixed).</p>
+<p>eg. <code>NewPane: Left</code> or <code>NewPane: </code></p>
+<h2 id="closefocus"><a class="header" href="#closefocus"><code>CloseFocus</code></a></h2>
+<p>Close the focused pane.</p>
+<h2 id="newtab-tablayout"><a class="header" href="#newtab-tablayout"><code>NewTab: &lt;TabLayout&gt;</code></a></h2>
+<p>Create a new tab. Optionally with the provided tab-layout.</p>
+<p>Example:</p>
+<pre><code>NewTab:
+</code></pre>
+<p>or</p>
+<pre><code>NewTab: {
+  direction: Vertical,
+  parts: [
+  direction: Vertical,
+  direction: Horizontal,
+  ],}
+</code></pre>
+<p>a slightly more expansive example:</p>
+<pre><code>        - action: [
+          NewTab: {
+  name: &quot;a new tab&quot;,
+  parts: [
+    {direction: Vertical, parts: [ pane_name: &quot;testing&quot;, pane_name: &quot;building&quot; ]},
+    {pane_name: &quot;I should have focus&quot;, focus: true},
+  ],},
+        ]
+          key: [ Char: '7',]
+</code></pre>
+<h2 id="gotonexttab"><a class="header" href="#gotonexttab"><code>GoToNextTab</code></a></h2>
+<p>Go to the next tab.</p>
+<h2 id="gotoprevioustab"><a class="header" href="#gotoprevioustab"><code>GoToPreviousTab</code></a></h2>
+<p>Go to the previous tab.</p>
+<h2 id="closetab"><a class="header" href="#closetab"><code>CloseTab</code></a></h2>
+<p>Close the current tab.</p>
+<h2 id="gototab-index"><a class="header" href="#gototab-index"><code>GoToTab: &lt;index&gt;</code></a></h2>
+<p>Go to the tab of the specified index.</p>
+<h2 id="run-cmd-path"><a class="header" href="#run-cmd-path"><code>Run: {cmd: &lt;path&gt;}</code></a></h2>
+<p>Run the specified command in a new pane.
+A comma separated list of arguments, or the split
+direction is optional:</p>
+<p><code>Run: {cmd: &lt;path&gt;, args: [ARGS], direction: &lt;direction&gt;}</code></p>
+<h2 id="write-bytes"><a class="header" href="#write-bytes"><code>Write: [bytes]</code></a></h2>
+<p>Write the specified bytes in the focused pane.</p>
+<h2 id="writechars-characters"><a class="header" href="#writechars-characters"><code>WriteChars: &lt;characters&gt;</code></a></h2>
+<p>Write the specified characters in the focused pane.</p>
+<h2 id="dumpscreen-path"><a class="header" href="#dumpscreen-path"><code>DumpScreen: &lt;path&gt;</code></a></h2>
+<p>Dump the scrollback of the currently selected pane inside of a selected file.</p>
+<h2 id="editscrollback"><a class="header" href="#editscrollback"><code>EditScrollback</code></a></h2>
+<p>Edit the scrollback buffer inside of your specified $EDITOR, or  $VISUAL.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="layouts"><a class="header" href="#layouts">Layouts</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-15"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-15"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>Layouts are yaml configuration files which Zellij can load on startup.
+These files can describe a layout of terminal panes and plugins that Zellij will create when it loads.
+To load a layout with Zellij:</p>
+<pre><code>zellij --layout /path/to/your/layout_file.yaml
+</code></pre>
+<p>By default Zellij will load the <code>default.yaml</code> layout, that is found in the
+<code>layouts</code> directory (by default a subdirectory of the <code>config</code>
+directory [config/layouts]). Falling back to an internal default layout,
+if not found.
+Layouts residing in the default directory can be accessed as follows:</p>
+<pre><code>zellij --layout [layout_name]
+</code></pre>
+<p>The difference being: if a path (either absolute or relative) is supplied to <code>--layout</code>, it will load the layout from that path. If a bare name is supplied, it will load a built-in layout from the default directory.</p>
+<h2 id="example-1"><a class="header" href="#example-1">Example</a></h2>
+<p>This file:</p>
+<pre><code class="language-yaml">---
+tabs:
+  - direction: Vertical
+    parts:
+      - direction: Horizontal
+        parts:
+          - direction: Vertical
+          - direction: Vertical
+      - direction: Horizontal
+</code></pre>
+<p>Will instruct Zellij to create this layout:</p>
+<pre><code>┌─────┬─────┐
+│     │     │
+├─────┤     │
+│     │     │
+└─────┴─────┘
+</code></pre>
+<h2 id="creating-a-layout-file"><a class="header" href="#creating-a-layout-file">Creating a layout file</a></h2>
+<p>A layout file is a nested tree structure.
+Each node describes either a pane, or a space in which its parts (children) will be created.
+The layout file is divided in to two sections: <code>templates</code> and <code>tabs</code>.</p>
+<p>The templates describe the structure of the layout and what part of the ui
+should be tab agnostic.
+The tabs describe which part of the layout should be tab specific.
+For this mechanism the templates make use of an extra attribute called <code>body</code>,
+if it is specified each single tab will be inserted in to the template and then
+started by zellij.</p>
+<h3 id="parts-layout"><a class="header" href="#parts-layout"><code>parts: &lt;layout&gt;</code></a></h3>
+<p>Layouts are composed through the optional <code>parts</code> section, if a layout has a non empty parts section
+it is a node that is split up into these respective parts.</p>
+<p>Example:</p>
+<pre><code>parts:
+  - direction: Vertical
+  - direction: Vertical
+</code></pre>
+<p>Each node has the following fields:</p>
+<h3 id="direction-horizontal--vertical"><a class="header" href="#direction-horizontal--vertical"><code>direction: Horizontal / Vertical</code></a></h3>
+<p>If the node has children, they will be created as splits in this direction.</p>
+<h3 id="split_size-percent-1-100--fixed-linescolumns"><a class="header" href="#split_size-percent-1-100--fixed-linescolumns"><code>split_size: Percent: &lt;1-100&gt; / Fixed: &lt;lines/columns&gt;</code></a></h3>
+<p>This indicates either a percentage of the node's parent's space or a fixed size of columns/rows from its parent's space. By default the splits are proportional.</p>
+<p>Example:</p>
+<pre><code>parts:
+  - direction: Vertical
+    split_size:
+      Percent: 50
+  - direction: Vertical
+    split_size:
+      Percent: 50
+</code></pre>
+<h3 id="run-plugin-plugin--command-command"><a class="header" href="#run-plugin-plugin--command-command"><code>run: plugin: &lt;plugin&gt; / command: &lt;command&gt;</code></a></h3>
+<p>This is an optional instruction to either run a command, or a plugin.
+If indicated, instead of loading the default shell in a terminal pane,
+the run action will be executed.</p>
+<ul>
+<li><code>plugin: &lt;/path/to/plugin.wasm&gt;</code></li>
+</ul>
+<p>This is an optional path to a compiled Zellij plugin. 
+If indicated, instead of loading a terminal, this plugin will be loaded.
+For more information, please see the plugin documentation of this guide.
+In case the plugin resides in the <code>plugin</code> directory, specifying the name of the plugin is sufficient.</p>
+<p>Example:</p>
+<pre><code>run:
+  plugin:
+    location: &quot;zellij:status-bar&quot;
+    _allow_exec_host_cmd: false # Optional and false by default
+</code></pre>
+<p>For more information, please see the plugin documentation of this guide.
+The <code>_allow_exec_host_cmd</code> is preliminary and allows plugins to run commands
+on the host system, if the plugins need that functionality the user can opt in
+to it.</p>
+<ul>
+<li><code>command: {cmd: &lt;path/to/command&gt; , args: &lt;optional-arguments&gt; }</code></li>
+</ul>
+<p>This is an optional path to a command. If indicated, instead of loading
+a pane with the default shell, this command will be executed.
+Optionally it's arguments can be passed as a vector of strings.</p>
+<p>Example:</p>
+<pre><code>run:
+  command: {cmd: htop, args: [&quot;-C&quot;]}
+</code></pre>
+<p>This can be used to open a pane in a specified directory by making use of your shell's <code>command</code> flag and <code>cd path/to/directory &amp;&amp; &lt;shell&gt;</code>. The following command is <strong>only</strong> for <code>zsh</code>. It may work for other shells, but it is not guaranteed. Check your shell's documentation for how to use the command flag.</p>
+<p>Example:</p>
+<pre><code>run:
+  command: { cmd: zsh, args: [&quot;-c&quot;, &quot;cd ~/Documents/code/zellij &amp;&amp; zsh&quot;] }
+</code></pre>
+<h3 id="name-name-of-the-tab"><a class="header" href="#name-name-of-the-tab"><code>name: &lt;name-of-the-tab&gt;</code></a></h3>
+<p>This is an optional command that can be used to name the <code>tab</code> in the tab layout
+section. </p>
+<p>Example:</p>
+<pre><code>tabs:
+  - name: &quot;&lt;name-of-the-tab&gt;&quot;
+</code></pre>
+<p>This is currently limited to the tabs section.</p>
+<h3 id="session-session-configuration"><a class="header" href="#session-session-configuration"><code>session: &lt;session-configuration&gt;</code></a></h3>
+<p>This is an optional configuration option that can be used to modify the session
+behavior of the layout.</p>
+<p>Current options include:</p>
+<pre><code>session:
+  name: &quot;zellij&quot; # a string, that names the session
+  attach: true # default `true`. If session exists, re-attach.
+</code></pre>
+<p>Example:</p>
+<pre><code>session:
+  name: &quot;zellij&quot;
+</code></pre>
+<p>Adding this to the layout would name the session <code>zellij</code> and upon loading
+the layout again will try to attach to an existing session that is called
+<code>zellij</code>.
+If the <code>attach</code> configuration is <code>false</code>, then zellij will show an error
+message on trying to create the layout, if the layout name already exists.</p>
+<h3 id="focus-bool"><a class="header" href="#focus-bool"><code>focus: &lt;bool&gt;</code></a></h3>
+<p>This is an optional configuration option that can be used to specify the initial focus of
+the <code>tab</code> or <code>pane</code>.</p>
+<p>This option is not set by default. So, every <code>tab</code> and <code>pane</code> basically
+focus the first target.</p>
+<p>Example one:</p>
+<pre><code class="language-yaml">tabs:
+- direction: Vertical
+- direction: Vertical
+  focus: true # focus second tab.
+  parts:
+  - direction: Vertical
+    split_size:
+      Percent: 50
+  - direction: Vertical
+    focus: true # focus right pane.
+    split_size:
+      Percent: 50
+</code></pre>
+<p>If the option is duplicated, the first declared focus has priority.
+This applies to both <code>tab</code> and <code>pane</code>.</p>
+<p>Example two:</p>
+<pre><code class="language-yaml">tabs:
+- direction: Vertical
+  focus: true # [duplicated] focus first tab. 
+- direction: Vertical
+  focus: true # [duplicated] ignored.
+  parts:
+  - direction: Vertical
+    split_size:
+      Percent: 50
+  - direction: Vertical
+    focus: true # focus right pane.
+    split_size:
+      Percent: 50
+- direction: Vertical
+</code></pre>
+<h3 id="configuration-1"><a class="header" href="#configuration-1"><code>configuration</code></a></h3>
+<p>The layout supports all the configuration options from the <a href="https://zellij.dev/documentation/configuration.html">Configuration</a> page.</p>
+<p>If an option is specified in a layout, it has precedence over the config file
+itself.</p>
+<p>Example:</p>
+<pre><code class="language-yaml">default_shell: fish
+</code></pre>
+<h2 id="further-examples"><a class="header" href="#further-examples">Further examples</a></h2>
+<p>Please take a look at the <a href="https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/layouts">default</a> layouts that come with Zellij, or the layouts that reside in the <a href="https://github.com/zellij-org/zellij/tree/main/example">example</a> directory for more complete layouts.</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="layout-templates"><a class="header" href="#layout-templates">Layout Templates</a></h2>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-16"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-16"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>The templates section of the layout file describes the structure of the layout.
+To understand how it works let us look at the default layout a little bit closer.</p>
+<ul>
+<li><code> zellij setup --dump-layout default</code>:</li>
+</ul>
+<pre><code>---
+template:
+  direction: Horizontal
+  parts:
+    - direction: Vertical  # part 1
+      borderless: true
+      split_size:
+        Fixed: 1
+      run:
+        plugin:
+          location: &quot;zellij:tab-bar&quot;
+    - direction: Vertical # part 2
+      body: true
+    - direction: Vertical # part 3
+      borderless: true
+      split_size:
+        Fixed: 2
+      run:
+        plugin:
+          location: &quot;zellij:status-bar&quot;
+</code></pre>
+<p>The default layout consists of three parts.
+The plugin tab-bar (part 1), a body (part 2) and the status-bar plugin (part 3).</p>
+<p>Since the <code>tabs</code> section is empty, a default pane will be inserted in to the
+body section</p>
+<p><img src="img/layout-template-example-pane-1.png" alt="Default Layout" /></p>
+<p>Let us now use the default layout and build upon it:</p>
+<pre><code>---
+template:
+  direction: Horizontal
+  parts:
+    - direction: Vertical  # part 1
+      borderless: true
+      split_size:
+        Fixed: 1
+      run:
+        plugin:
+          location: &quot;zellij:tab-bar&quot;
+    - direction: Vertical # part 2
+      body: true
+    - direction: Vertical # part 3
+      borderless: true
+      split_size:
+        Fixed: 2
+      run:
+        plugin:
+          location: &quot;zellij:status-bar&quot;
+tabs:
+  - name: &quot;tab 1&quot; # tab 1
+  - name: &quot;tab 2&quot; # tab 2
+    direction: Vertical
+    parts:
+      - direction: Horizontal
+      - direction: Horizontal
+  - name: &quot;tab 3&quot; # tab 3
+    direction: Vertical
+    parts:
+      - direction: Horizontal
+      - direction: Horizontal
+        parts:
+          - direction: Horizontal
+          - direction: Vertical
+</code></pre>
+<p>This layout will create the following tabs upon loading.</p>
+<p>Tab 1:
+<img src="img/layout-template-example-pane-1-tab-1.png" alt="Tab #1 " />
+Tab 2:
+<img src="img/layout-template-example-pane-1-tab-2.png" alt="Tab #2 " />
+Tab 3:
+<img src="img/layout-template-example-pane-1-tab-3.png" alt="Tab #3 " /></p>
+<p>This is how the tabs would look like with pane frames disabled.</p>
+<p>Tab 1:
+<img src="img/layout-template-example-1-tab-1.png" alt="Tab #1 " />
+Tab 2:
+<img src="img/layout-template-example-1-tab-2.png" alt="Tab #2 " />
+Tab 3:
+<img src="img/layout-template-example-1-tab-3.png" alt="Tab #3 " /></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="plugins"><a class="header" href="#plugins">Plugins</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-17"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-17"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>One feature that makes Zellij unique is its <a href="https://webassembly.org/">WebAssembly</a> plugin system. This allows plugin developers to write their plugin in any language that can run on <a href="https://wasi.dev/">WASI</a>! Rust offers first-class <a href="https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-tutorial.md#from-rust">support for WASI</a>, but other languages like <a href="https://github.com/bytecodealliance/wasmtime/blob/main/docs/WASI-tutorial.md#from-c">C/C++</a>, <a href="https://wasmbyexample.dev/examples/wasi-hello-world/wasi-hello-world.assemblyscript.en-us.html">AssemblyScript</a>, even <a href="https://wapm.io/package/rustpython">Python</a> should be supported.</p>
+<p><strong>Disclaimer: The API for plugins is very much a work in progress. Don't be shy to request new features on our <a href="https://github.com/zellij-org/zellij/issues/280">tracking issue</a>!</strong></p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-overview"><a class="header" href="#plugin-overview">Plugin Overview</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-18"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-18"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>This is a small list of default plugins that zellij ships with:</p>
+<ul>
+<li><a href="https://github.com/zellij-org/zellij/tree/main/default-plugins/tab-bar">tab-bar</a></li>
+<li><a href="https://github.com/zellij-org/zellij/tree/main/default-plugins/strider">strider</a></li>
+<li><a href="https://github.com/zellij-org/zellij/tree/main/default-plugins/status-bar">status-bar</a></li>
+</ul>
+<p>This is an overview of zellij plugins, please do keep in mind that they are
+not necessarily connected to zellij maintainers:</p>
+<ul>
+<li><a href="https://github.com/tw4452852/zellij-pomodoro-plugin">zellij-pomodoro-plugin</a></li>
+<li><a href="https://github.com/casonadams/z-tab-bar">z-tab-bar</a>: a tmux-like tab-bar.</li>
+<li><a href="https://mzte.de/git/LordMZTE/zellij-compact-status">zellij-compact-status</a>: a compact status bar.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="developing-a-plugin"><a class="header" href="#developing-a-plugin">Developing a Plugin</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-19"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-19"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>Currently we have a complete guide for developing plugins in <a href="./plugin-rust.html">Rust</a> and in <a href="./plugin-zig.html">Zig</a>. We plan to add more guides for other languages in the future. If you are feeling particularly brave, you can try to write plugins in another language today! The <a href="./plugin-other.html">Other Languages</a> section will get you started.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="writing-a-plugin-in-rust"><a class="header" href="#writing-a-plugin-in-rust">Writing a Plugin in Rust</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-20"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-20"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>Writing a Zellij plugin in Rust is incredibly easy thanks to Rust's first-class support for WebAssembly and the simple <a href="https://docs.rs/zellij-tile/"><code>zellij-tile</code></a> scaffolding library. This guide will walk through implementing the <a href="https://github.com/zellij-org/rust-plugin-example"><code>rust-plugin-example</code></a>, a simple event logger that records mode-changes within Zellij.</p>
+<h2 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h2>
+<h3 id="installing-rust--zellij"><a class="header" href="#installing-rust--zellij">Installing Rust &amp; Zellij</a></h3>
+<p>First things first, to develop a plugin in Rust, you'll need Rust installed! The easiest way to do this is by using <a href="https://rustup.rs/">rustup</a>.</p>
+<p>Once you have Rust and Cargo installed, getting the latest version of Zellij is as easy as running:</p>
+<pre><code>cargo install zellij
+</code></pre>
+<p>You'll also want to add the installed binary to your path!</p>
+<h3 id="cloning-the-template-repository"><a class="header" href="#cloning-the-template-repository">Cloning The Template Repository</a></h3>
+<p>To streamline the development experience, we provide a <a href="https://github.com/zellij-org/rust-plugin-template">template repository</a> that contains everything you need to get started quickly!</p>
+<p>You can use a tool called <a href="https://github.com/cargo-generate/cargo-generate"><code>cargo-generate</code></a> to fill in a couple of the gaps automatically:</p>
+<pre><code class="language-sh"># First install `cargo-generate`
+cargo install cargo-generate
+# Then clone the rust-plugin template
+cargo generate --git https://github.com/zellij-org/rust-plugin-template.git --name mode-logger
+cd mode-logger
+</code></pre>
+<h2 id="the-basic-structure-of-a-rust-plugin"><a class="header" href="#the-basic-structure-of-a-rust-plugin">The Basic Structure of a Rust Plugin</a></h2>
+<p>After cloning the template repository, you should have a directory that looks a little bit like this: </p>
+<pre><code>.
+├── .cargo
+│   └── config.toml
+├── Cargo.toml
+├── plugin.yaml
+├── README.md
+└── src
+    └── main.rs
+</code></pre>
+<h3 id="cargoconfigtoml"><a class="header" href="#cargoconfigtoml"><code>.cargo/config.toml</code></a></h3>
+<pre><code class="language-toml">[build]
+target = &quot;wasm32-wasi&quot;
+</code></pre>
+<p>This file specifies a default target for our project. In this case, the correct WASI target is <code>wasm32-wasi</code>.</p>
+<h3 id="cargotoml"><a class="header" href="#cargotoml"><code>Cargo.toml</code></a></h3>
+<pre><code class="language-toml">[package]
+name = &quot;mode-logger&quot;
+version = &quot;0.1.0&quot;
+authors = [&quot;Brooks J Rady &lt;b.j.rady@gmail.com&gt;&quot;]
+edition = &quot;2018&quot;
+
+[dependencies]
+zellij-tile = &quot;1.0.0&quot;
+</code></pre>
+<p>This is a quite standard package file that <code>cargo-generate</code> has partially filled in for us. Note the dependency on <code>zellij-tile</code> which provides some helpful functionality for avoiding boilerplate and writing <code>unsafe</code> code.</p>
+<h3 id="pluginyaml"><a class="header" href="#pluginyaml"><code>plugin.yaml</code></a></h3>
+<pre><code class="language-yaml">---
+direction: Horizontal
+parts:
+  - direction: Vertical
+    split_size:
+      Fixed: 1
+    plugin: tab-bar
+  - direction: Vertical
+    plugin: target/wasm32-wasi/debug/mode-logger.wasm
+  - direction: Vertical
+    split_size:
+      Fixed: 2
+    plugin: status-bar
+</code></pre>
+<p>This is a Zellij <a href="./layouts.html">Layout</a> that loads a mostly default instance of Zellij, but with the middle terminal pane replaced by the plugin being developed. The <code>plugin: target/wasm32-wasi/debug/mode-logger.wasm</code> line should point Zellij to the development version of our plugin.</p>
+<p>There will likely be a better way of loading plugins in the future, but custom Layouts are currently the only way to do so.</p>
+<h3 id="srcmainrs"><a class="header" href="#srcmainrs"><code>src/main.rs</code></a></h3>
+<pre><code class="language-rs">use zellij_tile::prelude::*;
+
+#[derive(Default)]
+struct State;
+
+register_plugin!(State);
+
+impl ZellijPlugin for State {
+    fn load(&amp;mut self) {}
+
+    fn update(&amp;mut self, event: Event) {}
+
+    fn render(&amp;mut self, rows: usize, cols: usize) {}
+}
+</code></pre>
+<p>When using the <code>zellij-tile</code> library, plugins are written as Structs that implement the <code>ZellijPlugin</code> trait. The magic line here is <code>register_plugin!(State)</code>, which wraps up the <code>State</code> struct in a way that neatly exposes its <code>ZellijPlugin</code> implementation for Zellij to find.</p>
+<p>Note that <code>load()</code>, <code>update()</code>, and <code>render()</code> have default implementations, so you only need to define the callbacks used by your plugin.</p>
+<h2 id="hello-zellij"><a class="header" href="#hello-zellij">Hello, Zellij!</a></h2>
+<p>Let's tweak our <code>main.rs</code> a little to say hello!</p>
+<pre><code class="language-rs">use zellij_tile::prelude::*;
+
+#[derive(Default)]
+struct State;
+
+register_plugin!(State);
+
+impl ZellijPlugin for State {
+    fn load(&amp;mut self) {}
+
+    fn update(&amp;mut self, event: Event) {}
+
+    fn render(&amp;mut self, rows: usize, cols: usize) {
+        println!(&quot;Hello, Zellij!&quot;);
+    }
+}
+</code></pre>
+<p>It really is as simple as that! Anything printed to stdout by the <code>render()</code> method will be automatically drawn to the screen in the pane where the plugin is active.</p>
+<p>Let's build our plugin and test things out:</p>
+<pre><code class="language-sh">cargo build
+zellij --layout-path plugin.yaml
+</code></pre>
+<p><img src="img/rust-plugin-1.png" alt="Our Plugin" /></p>
+<h2 id="implementing-the-event-logger"><a class="header" href="#implementing-the-event-logger">Implementing the Event Logger</a></h2>
+<p>That was pretty easy, so let's try to do something a bit more interesting! Let's subscribe to some <code>Event</code>s by adding the following code to <code>load()</code>:</p>
+<pre><code class="language-rs">fn load(&amp;mut self) {
+    subscribe(&amp;[EventType::ModeUpdate]);
+}
+</code></pre>
+<p>Code in <code>load()</code> is called once the first time your plugin is loaded. Aside from that, it's nothing special. Anything that you can do in the <code>load()</code> method should be possible from within the <code>update()</code> and <code>render()</code> methods as well.</p>
+<p>The <code>subscribe()</code> function is part of <code>zellij-tile::prelude</code> and sends a message to Zellij asking to be notified when certain <code>Event</code>s occur. In this case, we're subscribing to <code>ModeUpdate</code> events. The <a href="https://docs.rs/zellij-tile/1.0.0/zellij_tile/data/enum.Event.html">documentation for <code>Event</code></a> tells us that a <code>ModeUpdate</code> contains the <code>ModeInfo</code> struct, which stores the current mode as well as some additional information.</p>
+<p>To actually handle these events, we'll need to add some code to our <code>update()</code> method:</p>
+<pre><code class="language-rs">fn update(&amp;mut self, event: Event) {
+    if let Event::ModeUpdate(mode_info) = event {
+        dbg!(mode_info.mode);
+    }
+}
+</code></pre>
+<p>Here we are checking for <code>ModeUpdate</code>s and destructuring them to get the current mode. Currently, the <code>dbg!()</code> macro is being used to dump this information to stderr. If we want to actually see this debug info, we'll need to run our plugin slightly differently:</p>
+<pre><code class="language-sh">cargo build
+# The 2&gt; redirects stderr to dbg.log
+zellij -l plugin.yaml 2&gt; dbg.log
+</code></pre>
+<p>Do some faffing about in Zellij, changing modes a couple of times, then take a look at <code>dbg.log</code>:</p>
+<pre><code>[src/main.rs:15] mode_info.mode = Normal
+[src/main.rs:15] mode_info.mode = Pane
+[src/main.rs:15] mode_info.mode = Tab
+[src/main.rs:15] mode_info.mode = Resize
+[src/main.rs:15] mode_info.mode = Scroll
+[src/main.rs:15] mode_info.mode = Locked
+[src/main.rs:15] mode_info.mode = Normal
+</code></pre>
+<p>Excellent! It looks like our plugin is receiving mode updates! If you'd like to see these sorts of logs live, try opening a second terminal and running <code>tail -f dbg.log</code>.</p>
+<p>The next thing to do is properly store a log of events and print them to the screen. Let's start by tweaking our <code>State</code> struct:</p>
+<pre><code class="language-rs">use std::collections::VecDeque;
+
+#[derive(Default)]
+struct State {
+    log: VecDeque&lt;String&gt;,
+}
+</code></pre>
+<p>We've gone with a <code>VecDeque</code> so that we can efficiently push <code>String</code>s to the <em>front</em> of <code>log</code> and so we can show off how easy it is to use standard library components from within a plugin.</p>
+<p>Let's change the <code>update()</code> method again to grow our log:</p>
+<pre><code class="language-rs">fn update(&amp;mut self, event: Event) {
+    if let Event::ModeUpdate(mode_info) = event {
+        let mode = format!(&quot;{:?}&quot;, mode_info.mode);
+        self.log.push_front(mode);
+    }
+}
+</code></pre>
+<p>Recall that the <code>{:?}</code> format specifier simply debug-prints a value and that <code>log.push_front(mode)</code> adds a mode <code>String</code> to the front of our log messages.</p>
+<p>Finally, let's update <code>render()</code> to print out all of our log messages:</p>
+<pre><code class="language-rs">fn render(&amp;mut self, rows: usize, cols: usize) {
+    for mode in &amp;self.log {
+        println!(&quot;Mode: {}&quot;, mode);
+    }
+}
+</code></pre>
+<p>Let's give things a run with <code>cargo build &amp;&amp; zellij -l plugin.yaml</code> and test it out!</p>
+<p><img src="img/rust-plugin-2.png" alt="Our Plugin" /></p>
+<p>Excellent! You should notice that, as you cycle through different modes in Zellij, that those updates are being logged on-screen.</p>
+<p>This is a good start, but no logger is complete without storing timestamps! Let's import the <code>chrono</code> crate for working with time. First we'll need to add it to our <code>Cargo.toml</code>:</p>
+<pre><code class="language-toml">[package]
+name = &quot;mode-logger&quot;
+version = &quot;0.1.0&quot;
+authors = [&quot;Brooks J Rady &lt;b.j.rady@gmail.com&gt;&quot;]
+edition = &quot;2018&quot;
+
+[dependencies]
+zellij-tile = &quot;1.0.0&quot;
+chrono = &quot;0.4&quot;
+</code></pre>
+<p>Quite a few Rust libraries can compile to WebAssembly without any issue – this is one of them! Let's import it and update <code>State</code> to store timestamps:</p>
+<pre><code class="language-rs">use chrono::{DateTime,Local};
+
+#[derive(Default)]
+struct State {
+    log: VecDeque&lt;(String, DateTime&lt;Local&gt;)&gt;,
+}
+</code></pre>
+<p>Next we'll need to actually store these timestamps in <code>update()</code>:</p>
+<pre><code class="language-rs">fn update(&amp;mut self, event: Event) {
+    if let Event::ModeUpdate(mode_info) = event {
+        let mode = format!(&quot;{:?}&quot;, mode_info.mode);
+        // Local::now() gets the current time and date
+        self.log.push_front((mode, Local::now()));
+    }
+}
+</code></pre>
+<p>Finally, we can <code>render()</code> the timestamps to the screen:</p>
+<pre><code class="language-rs">fn render(&amp;mut self, rows: usize, cols: usize) {
+    for (mode, time) in &amp;self.log {
+        println!(&quot;Mode: {} ({})&quot;, mode, time.format(&quot;%T&quot;));
+    }
+}
+</code></pre>
+<p>The different options for <code>time.format()</code> can be found in the <a href="https://docs.rs/chrono/0.4.19/chrono/format/strftime/index.html"><code>chrono::format::strftime</code></a> module; <code>%T</code> shows the time in <code>HH:MM:SS</code> format.</p>
+<p>Finally, let's test this out!</p>
+<p><img src="img/rust-plugin-3.png" alt="Our Plugin" /></p>
+<p>It looks like getting the time is working perfectly! Unfortunately, because our different mode names are different lengths, it looks a bit messy at the moment. Luckily, every time that <code>render()</code> is called, it passes the size of plugin pane. Let's use the <code>cols</code> value to right-align the timestamp:</p>
+<pre><code class="language-rs">fn render(&amp;mut self, _rows: usize, cols: usize) {
+    for (mode, time) in &amp;self.log {
+        let mode = format!(&quot;Mode: {}&quot;, mode);
+        let time = time.format(&quot;%T&quot;).to_string();
+        let padding = &quot; &quot;.repeat(cols - mode.len() - time.len());
+        println!(&quot;{}{}{}&quot;, mode, padding, time);
+    }
+}
+</code></pre>
+<p>By separately storing the left-aligned mode <code>String</code> and the right-aligned timestamp, we can calculate (using <code>cols</code>) exactly how much padding we need to fill the screen. Once we've done that, it's just a matter of printing the left half, the padding, then the right half.</p>
+<p>If we run this code, we now get the much nicer:</p>
+<p><img src="img/rust-plugin-4.png" alt="Our Plugin" /></p>
+<p>Try resizing your terminal window or the plugin pane and watch how things stay properly justified!</p>
+<p>As a final step, let's add a couple of commands that allow the user to clear their history or save their log to a file. To do this, we'll need our plugin to receive <code>KeyPress</code> events:</p>
+<pre><code class="language-rs">fn load(&amp;mut self) {
+    subscribe(&amp;[EventType::ModeUpdate, EventType::KeyPress]);
+}
+</code></pre>
+<p>Now we can expand <code>update()</code> to handle <code>ModeUpdate</code> and <code>KeyPress</code> events. Let's make <code>Ctrl-L</code> the command for clearing the logs:</p>
+<pre><code class="language-rs">fn update(&amp;mut self, event: Event) {
+    match event {
+        Event::ModeUpdate(mode_info) =&gt; {
+            let mode = format!(&quot;{:?}&quot;, mode_info.mode);
+            self.log.push_front((mode, Local::now()));
+        }
+        Event::KeyPress(Key::Ctrl('l')) =&gt; self.log.clear(),
+        _ =&gt; (),
+    }
+}
+</code></pre>
+<p>When matching against <code>KeyPress</code> events, you might find it helpful to explore the <a href="https://docs.rs/zellij-tile/1.0.0/zellij_tile/data/enum.Key.html">zellij_tile::Key</a> enum.</p>
+<p>Also note that we need the catch-all case <code>_ =&gt; ()</code> because, even though we've only subscribed to the <code>ModeUpdate</code> and <code>KeyPress</code> events, the Rust compiler on its own can't guarantee that only those events will be passed to <code>update()</code>.</p>
+<p>Let's try running this, changing modes a couple of times, then pressing <code>Ctrl-L</code>:</p>
+<p><img src="img/rust-plugin-5.png" alt="Our Plugin" /></p>
+<p>Incredibly blank! Nicely done!</p>
+<p>As one final feature, we'll dump a log of the captured events to <code>mode-log.txt</code> when <code>Ctrl-W</code> is pressed:</p>
+<pre><code class="language-rs">use std::{fs::File, io::Write};
+
+// ... snip ...
+
+fn update(&amp;mut self, event: Event) {
+    match event {
+        Event::ModeUpdate(mode_info) =&gt; {
+            let mode = format!(&quot;{:?}&quot;, mode_info.mode);
+            self.log.push_front((mode, Local::now()));
+        }
+        Event::KeyPress(Key::Ctrl('l')) =&gt; self.log.clear(),
+        Event::KeyPress(Key::Ctrl('w')) =&gt; {
+            if let Ok(mut f) = File::create(&quot;mode-log.txt&quot;) {
+                for (mode, time) in self.log.iter().rev() {
+                    writeln!(f, &quot;{}: Entered {} Mode&quot;, time.format(&quot;%c&quot;), mode).unwrap();
+                }
+            }
+        }
+        _ =&gt; (),
+    }
+}
+</code></pre>
+<p>A couple of new things here, but all of them are vanilla Rust – nothing changes when writing a plugin! <code>File::create(&quot;mode-log.txt&quot;)</code> is just normal code for creating a file named <code>mode-log.txt</code> in the current directory. After the file is created, we're again looping through all of the log events and writing them out (but this time to a file!). The format of the log file is also a bit different from the log we show on-screen. First of all, we're writing things to the log file in <em>chronological</em> order (that's why we're reversing our log with <code>self.log.iter().rev()</code>), and we've also changed to a more verbose timestamp. The <code>%c</code> should look something like this: <code>Tue Apr 20 10:21:02 2021</code>.</p>
+<p>Let's run Zellij again, change some modes, then press <code>Ctrl-W</code>:</p>
+<p><img src="img/rust-plugin-6.png" alt="Our Plugin" /></p>
+<p>We can then look at <code>mode-log.txt</code>, which should look something like this:</p>
+<pre><code>Tue Apr 20 10:20:40 2021: Entered Normal Mode
+Tue Apr 20 10:20:46 2021: Entered Pane Mode
+Tue Apr 20 10:20:50 2021: Entered Tab Mode
+Tue Apr 20 10:20:53 2021: Entered Resize Mode
+Tue Apr 20 10:20:57 2021: Entered Scroll Mode
+Tue Apr 20 10:21:00 2021: Entered Locked Mode
+Tue Apr 20 10:21:02 2021: Entered Normal Mode
+</code></pre>
+<p>And that's all, folks! The full code for this example can be found in the <a href="https://github.com/zellij-org/rust-plugin-example/blob/main/src/main.rs"><code>rust-plugin-example</code></a> repository.</p>
+<h2 id="further-steps"><a class="header" href="#further-steps">Further Steps</a></h2>
+<p>There are a <em>lot</em> of ways that this plugin could be improved! Here are a couple of the things that you might want to try implementing if you're looking for the extra practice:</p>
+<ul>
+<li><strong>Support for scrolling ::</strong> you'll need to use <code>rows</code> and save a cursor position in <code>State</code></li>
+<li><strong>Make it pretty ::</strong> our default plugins use the <a href="https://crates.io/crates/colored"><code>colored</code></a> crate for fancy formatting</li>
+<li><strong>Make it more stable ::</strong> if you make the logger pane too small, the plugin will crash!</li>
+<li><strong>Add a help bar ::</strong> there is currently no UI telling the user about the clear and save features</li>
+</ul>
+<p>Have fun, and don't hesitate to get in touch if you find any bugs or would like some guidance :)</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="zig"><a class="header" href="#zig">Zig</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-21"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-21"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>Writing a zellij plugin in Zig should be just as easy as it is in Rust, thanks to <a href="https://mzte.de/git/LordMZTE/zellzig">zellzig</a>.
+This guide should walk you through the basics of using it. <strong>Some basic knowledge of Zig is assumed.</strong></p>
+<p>This guide will get you set up with all the tools you need. We'll be using the zellzig example, which is a simple status bar as a starting point.</p>
+<h2 id="getting-started-1"><a class="header" href="#getting-started-1">Getting Started</a></h2>
+<p>First of all, you'll need to install the Zig compiler.
+Due to Zig being rather early in development, most of the ecosystem, including zellzig, currently revolves around the master version of the compiler. This means that, to install the compiler, you might have to build it yourself.</p>
+<p>If you're on Arch Linux, this should be as simple as installing the <code>zig-git</code> AUR package. On other systems, you should check out Zig's <a href="https://github.com/ziglang/zig/wiki/Building-Zig-From-Source">guide on building the compiler</a>.</p>
+<p>Along with zig, you'll also need <a href="https://github.com/mattnite/gyro">gyro</a>. Gyro is a package manager for Zig. It is used by zellzig to manage dependencies.</p>
+<h2 id="creating-the-project"><a class="header" href="#creating-the-project">Creating the project</a></h2>
+<p>Now that you've got the necessary tooling up and running, we're ready to actually start coding!</p>
+<p>First, create a directory for your plugin, cd into it, and initialize zig and gyro:</p>
+<pre><code class="language-bash">mkdir zellzig_plugin
+cd zellzig_plugin
+zig init-lib
+gyro init
+</code></pre>
+<p>Next up, open <code>gyro.zzz</code> and add info about your project and the zellzig dependency:</p>
+<pre><code class="language-yaml">pkgs:
+  zellzig_plugin:
+    version: 0.0.0
+    description: &quot;My cool zellzig plugin!&quot;
+    license: GPL-3.0 # Your license here
+    source_url: &quot;https://git.example.com/your_name/zellzig_plugin&quot;
+    root: src/main.zig
+
+deps:
+  zellzig:
+    git:
+      url: &quot;https://mzte.de/git/LordMZTE/zellzig.git&quot;
+      ref: master
+      root: src/main.zig
+</code></pre>
+<p>We'll also need to make some changes on the  <code>build.zig</code> build script. Namely,</p>
+<ul>
+<li>set the target to wasm,</li>
+<li>set the system API to wasi,</li>
+<li>switch from a static to a shared libary,</li>
+<li>and register the gyro dependencies.</li>
+</ul>
+<p>This is the diff from the default build.zig file:</p>
+<pre><code class="language-diff">const std = @import(&quot;std&quot;);
++const pkgs = @import(&quot;deps.zig&quot;).pkgs;
+
+pub fn build(b: *std.build.Builder) void {
+    // Standard release options allow the person running `zig build` to select
+    // between Debug, ReleaseSafe, ReleaseFast, and ReleaseSmall.
+    const mode = b.standardReleaseOptions();
+
+-   const lib = b.addStaticLibrary(&quot;zellzig_plugin&quot;, &quot;src/main.zig&quot;);
++   const lib = b.addSharedLibrary(&quot;zellzig_plugin&quot;, &quot;src/main.zig&quot;, .{ .unversioned = {} });
+    lib.setBuildMode(mode);
++
++   lib.target.cpu_arch = .wasm32;
++   lib.target.os_tag = .wasi;
++
++   pkgs.addAllTo(lib);
++
+    lib.install();
+
+    const main_tests = b.addTest(&quot;src/main.zig&quot;);
+    main_tests.setBuildMode(mode);
+
+    const test_step = b.step(&quot;test&quot;, &quot;Run library tests&quot;);
+    test_step.dependOn(&amp;main_tests.step);
+}
+</code></pre>
+<p>Now, you might be asking where this <code>deps.zig</code> file is. Well, It'll be generated by gyro in a second.</p>
+<p>If you're using git, you should also add a <code>.gitignore</code>:</p>
+<pre><code class="language-gitignore">zig-cache/
+zig-out/
+.gyro
+gyro.lock
+deps.zig
+</code></pre>
+<p>Last but not least, we'll also add a <a href="./layouts.html">zellij layout file</a> for our plugin. Since we're writing a status bar, we'll create a layout that replaces the default status bar with our bar:</p>
+<pre><code class="language-yaml">---
+template:
+  direction: Horizontal
+  parts:
+    - direction: Vertical
+      borderless: true
+      split_size:
+        Fixed: 1
+      run:
+        plugin:
+          location: &quot;zellij:tab-bar&quot;
+      
+    - direction: Vertical
+      plugin: &quot;zig-out/lib/example.wasm&quot;
+    
+    - direction: Vertical
+      borderless: true
+      split_size:
+        Fixed: 1
+      run:
+        plugin:
+          location: &quot;file:zig-out/lib/zellzig_plugin.wasm&quot;
+</code></pre>
+<h2 id="writing-the-plugin"><a class="header" href="#writing-the-plugin">Writing the plugin</a></h2>
+<p>Before we actually get coding, we should check if what we've just created actually is correct. We can test if the default Zig template compiles by running <code>gyro build</code>. This should also download all dependencies.</p>
+<p>If everything went well, we should also have the plugin file (which won't work just yet) in <code>zig-out/lib/</code>.</p>
+<p>Now that we got all the preparation out the way, we can finally jump in. Let's open <code>src/main.zig</code>!</p>
+<p>Zig will have generated some boilerplate in there, but except for the first line, which imports the standard library, we can get rid of everything.</p>
+<h3 id="registering-the-plugin"><a class="header" href="#registering-the-plugin">Registering the plugin</a></h3>
+<p>We'll now start by importing zellzig, and saving the import in a variable called <code>zz</code>:</p>
+<pre><code class="language-zig">const std = @import(&quot;std&quot;);
+const zz = @import(&quot;zellzig&quot;);
+</code></pre>
+<p>This won't do much on its own, but now we can call zellzig functions.
+The first one we should call is one that creates all the exported symbols that zellij will call, alongside some communication handling.
+This function actually needs to be called at compile time, as all it does is give the compiler some functions to be exported by the wasm file. Because of this, It goes in a <code>comptime</code> block.</p>
+<pre><code class="language-zig">const std = @import(&quot;std&quot;);
+const zz = @import(&quot;zellzig&quot;);
+
+comptime {
+    zz.createPlugin(@This());
+}
+</code></pre>
+<p>We pass in <code>@This()</code>, which is the struct of the current scope.
+Since namespaces in zig are just structs, this return our root struct.
+<code>createPlugin</code> needs this, so it can get access to the functions we'll define next.</p>
+<p>There are 3 functions that zellzig calls:</p>
+<ul>
+<li>init
+<ul>
+<li>called on plugin initialization</li>
+</ul>
+</li>
+<li>update
+<ul>
+<li>called on an event</li>
+</ul>
+</li>
+<li>render
+<ul>
+<li>called to draw the plugin</li>
+</ul>
+</li>
+</ul>
+<h3 id="the-init-function"><a class="header" href="#the-init-function">The <code>init</code> function</a></h3>
+<p>In the <code>init</code> function, we should set zellzig's allocator, which it uses for deseralization of zellij's messages.</p>
+<pre><code class="language-zig">var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+
+pub fn init() void {
+    zz.allocator = gpa.allocator();
+}
+</code></pre>
+<p>Here, we create a <code>GeneralPurposeAllocator</code>. It's assigned to a global variable, so it's not dropped once <code>init</code> returns.
+Then, we assign the allocator to <code>zz.allocator</code>. Now the allocator is set.</p>
+<p>Next, we'll make sure zellij doesnt stay open because of our plugin. To do this, we'll make our plugin unselectable:</p>
+<pre><code class="language-zig">zz.api.setSelectable(false);
+</code></pre>
+<p>The last thing we'll put in init is a call to <code>subscribe</code>. This tells zellij what events we're interested in:</p>
+<pre><code class="language-zig">zz.api.subscribe(&amp;[_]zz.types.EventType{.ModeUpdate}) catch unreachable;
+</code></pre>
+<p>The <code>subscribe</code> function takes a slice of <code>EventType</code>s we want to receive. Since we're making a status bar, we only care about mode updates, but you can add more if you wish.</p>
+<p>This function can return an error, since sending data to zellij might fail. But since we can't recover from it, we'll use <code>catch unreachable</code>, so the program crashes if this fails.</p>
+<p>Our code should now look like this:</p>
+<pre><code class="language-zig">const std = @import(&quot;std&quot;);
+const zz = @import(&quot;zellzig&quot;);
+
+comptime {
+    zz.createPlugin(@This());
+}
+
+var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+
+pub fn init() void {
+    zz.allocator = gpa.allocator();
+    zz.api.setSelectable(false);
+    zz.api.subscribe(&amp;[_]zz.types.EventType{.ModeUpdate}) catch unreachable;
+}
+</code></pre>
+<h3 id="the-update-function"><a class="header" href="#the-update-function">The <code>update</code> function</a></h3>
+<p>This function is responsible for handling the events we've subscribed to. In our case, that's only <code>ModeUpdate</code>s.</p>
+<p>First, this is what the function looks like:</p>
+<pre><code class="language-zig">pub fn update(ev: zz.Event) void {
+
+}
+</code></pre>
+<p>As a parameter, it takes an event. Since we've only subscribed to <code>ModeUpdate</code> events, that's the only event we'll get.</p>
+<p>Since we want to render the current mode, we need to save it when we receive it in <code>update</code>. Thus, we'll create a global variable that holds the current mode, and assign it in <code>update</code>.</p>
+<pre><code class="language-zig">var mode: ?zz.types.InputMode = null;
+
+pub fn update(ev: zz.Event) void {
+    switch (ev) {
+        .ModeUpdate =&gt; |mode_info| mode = mode_info.mode,
+        else =&gt; {},
+    }
+}
+</code></pre>
+<p>We also make mode optional, since we don't know it once the plugin is initalized, but we'll get a mode event right away, so it doesn't really matter.</p>
+<h3 id="the-render-functio"><a class="header" href="#the-render-functio">The <code>render</code> functio</a></h3>
+<p><code>render</code> is the last function we need. In it, we display the current mode (which we saved in <code>mode</code>, remember?).</p>
+<pre><code class="language-zig">pub fn render(rows: i32, cols: i32) void {
+    _ = rows;
+    _ = cols;
+
+    if (mode) |m| {
+        var out = std.io.getStdOut();
+        var writer = out.writer();
+        writer.writeAll(@tagName(m)) catch {};
+    }
+}
+</code></pre>
+<p>We assign <code>rows</code> and <code>cols</code> to <code>_</code>, since we don't need them. Next we check if <code>mode</code> is set, and if it is, we print it out.</p>
+<p><code>@tagName</code> returns the string name of an enum variable.</p>
+<p>With the last function in place, our plugin should be all done. This is what the finished code looks like:</p>
+<pre><code class="language-zig">const std = @import(&quot;std&quot;);
+const zz = @import(&quot;zellzig&quot;);
+
+comptime {
+    zz.createPlugin(@This());
+}
+
+var gpa = std.heap.GeneralPurposeAllocator(.{}){};
+var mode: ?zz.types.InputMode = null;
+
+pub fn init() void {
+    zz.allocator = gpa.allocator();
+    zz.api.setSelectable(false);
+    zz.api.subscribe(&amp;[_]zz.types.EventType{.ModeUpdate}) catch unreachable;
+}
+
+pub fn update(ev: zz.Event) void {
+    switch (ev) {
+        .ModeUpdate =&gt; |mode_info| mode = mode_info.mode,
+        else =&gt; {},
+    }
+}
+
+pub fn render(rows: i32, cols: i32) void {
+    _ = rows;
+    _ = cols;
+
+    if (mode) |m| {
+        var out = std.io.getStdOut();
+        var writer = out.writer();
+        writer.writeAll(@tagName(m)) catch {};
+    }
+}
+</code></pre>
+<p>Now, all that's left is to build with <code>gyro build -Drelease-fast</code> (you should do a release build, since debug builds tend to be buggy sometimes) and run zellij with our layout file: <code>zellij --layout-path plugin.yaml</code>.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="writing-a-plugin-in-another-language"><a class="header" href="#writing-a-plugin-in-another-language">Writing a Plugin in Another Language</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-22"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-22"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<p>This page is very much a work in progress! If you're familiar with WASM and Rust, then understanding the <a href="https://github.com/zellij-org/zellij/tree/main/zellij-tile"><code>zellij-tile</code></a> library is a great place to start.</p>
+<p>In short, Zellij expects your WASI module to export three functions:</p>
+<ul>
+<li><code>main()</code> :: called once on plugin load</li>
+<li><code>update()</code> :: called after event subscriptions are triggered</li>
+<li><code>render(i32, i32)</code> :: called when the plugin needs to be rendered</li>
+</ul>
+<p>The <code>render(i32, i32)</code> function is passed the size of the plugin pane, first the rows, then the columns – e.g. <code>render(rows, cols)</code>.</p>
+<p>Complex types are sent over stdin as JSON objects. Before <code>update()</code> is called, Zellij writes an event to the plugin's stdin that can be read back in the <code>update()</code> function.</p>
+<p>Host functions, for communicating with Zellij, are best documented by the <code>extern</code> section of <a href="https://github.com/zellij-org/zellij/blob/main/zellij-tile/src/shim.rs"><code>zellij-tile::shim</code></a> and are found in a WASM module named <code>zellij</code>.</p>
+<p><strong>Help Add More Language Guides!</strong> If you'd like to contribute, either drop us a line on <a href="https://discord.gg/CrUAFH3">Discord</a> or open a PR improving <a href="https://github.com/zellij-org/zellij-org.github.io/tree/main/docs">these docs</a>!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="compatibility"><a class="header" href="#compatibility">Compatibility</a></h1>
+<h3 id="please-see-the-up-to-date-documentation-for-the-most-recent-features-23"><a class="header" href="#please-see-the-up-to-date-documentation-for-the-most-recent-features-23"><strong>Please see the <a href="/documentation">up-to-date documentation</a> for the most recent features.</strong></a></h3>
+<h2 id="issues"><a class="header" href="#issues">Issues</a></h2>
+<p>Please report issues <a href="https://github.com/zellij-org/zellij/issues">here.</a></p>
+<hr />
+<h1 id="known-issues"><a class="header" href="#known-issues">Known Issues</a></h1>
+<h2 id="the-status-bar-fonts-dont-render-correctly"><a class="header" href="#the-status-bar-fonts-dont-render-correctly">The status bar fonts don't render correctly:</a></h2>
+<p>This most likely is caused by a missing character in the font.</p>
+<p>Fonts from <a href="https://github.com/ryanoasis/nerd-fonts">nerdfonts</a> can fix this problem.</p>
+<p>Some Options:</p>
+<div class="table-wrapper"><table><thead><tr><th>Package Manager</th><th style="text-align: center">Name</th></tr></thead><tbody>
+<tr><td>apt</td><td style="text-align: center">fonts-powerline</td></tr>
+<tr><td>nix</td><td style="text-align: center">nerdfonts</td></tr>
+</tbody></table>
+</div>
+<p>Post installation the appropriate environment needs to be aware of the font.</p>
+<h2 id="alt-button-mapping-on-darwin-systems"><a class="header" href="#alt-button-mapping-on-darwin-systems">Alt button mapping on darwin systems:</a></h2>
+<p>This can be mitigated individually on a terminal emulator level,
+some inspiration can be found <a href="https://github.com/zellij-org/zellij/issues/265">here</a>.</p>
+<h2 id="pane-frame-title-has-issues-with-kitty"><a class="header" href="#pane-frame-title-has-issues-with-kitty">Pane frame title has issues with kitty:</a></h2>
+<p>This sadly seems to be an issue that can not be mitigated easily,
+more information can be found <a href="https://github.com/zellij-org/zellij/issues/689#issuecomment-914057955">here</a>.</p>
+<h2 id="mouse-issues"><a class="header" href="#mouse-issues">Mouse issues:</a></h2>
+<p>If <code>mouse_mode</code> is turned on zellij handles these events, zellij provides an
+escape mechanism in the form of the <code>SHIFT</code> Key, once it is pressed zellij lets
+the terminal handle selection, clicking on links, copying, scrolling.</p>
+<p>More information can be found <a href="https://github.com/zellij-org/zellij/issues/627">here</a></p>
+<h2 id="clipboard-not-working"><a class="header" href="#clipboard-not-working">Clipboard not working:</a></h2>
+<p>This is a known problem which mostly occurs in specific terminal emulators
+under Linux/OS X such as GNOMEs default Terminal, terminator, and more.</p>
+<p>A workaround for this was added in zellij &gt; 0.24.0 and enables the user to
+specify a custom command that copies selected text to the system clipboard.
+Refer to lines containing &quot;copy_command&quot; from the output of <code>zellij setup --dump-config</code>.</p>
+<p>For technical background, refer to <a href="https://github.com/zellij-org/zellij/issues/627">this
+issue</a> and <a href="https://github.com/zellij-org/zellij/pull/996">this merge
+request</a></p>
+<h2 id="backspace-sending-ctrl-h-entering-into-move-mode"><a class="header" href="#backspace-sending-ctrl-h-entering-into-move-mode">Backspace sending ctrl-h (entering into <code>Move</code> mode)</a></h2>
+<p>This can happen in some terminal emulators (eg. Xterm). It can be remedied either on the terminal emulator side by getting the terminal emulator to send <code>^?</code> instead of <code>^H</code>, or on the Zellij side by remapping ctrl-h to some other key. Here's an example fix in xterm: http://www.hypexr.org/linux_ruboff.php</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+            </nav>
+
+        </div>
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+    </body>
+</html>

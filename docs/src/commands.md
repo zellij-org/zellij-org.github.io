@@ -33,7 +33,7 @@ Will prompt the user to kill all running sessions.
 
 Can be used to change the behaviour of zellij on startup.
 Will supercede options defined in the config file.
-To see a list of options look [here](./options.md).
+To see a list of options look [here](./command-line-options.md).
 
 ## `setup`
 

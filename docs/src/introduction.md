@@ -6,3 +6,5 @@ This is the documentation for the Zellij terminal workspace.
 * For Operating System Compatibility and Known Issues, see: [Compatibility](./compatibility.md)
 * For setting up layouts: [Layouts](./layouts.md)
 * For developing plugins: [Plugins](./plugins.md)
+
+**Looking for the docs for versions `<0.32.0`? [Look no further!](/old-documentation)**

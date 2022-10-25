@@ -19,8 +19,7 @@ The title the shell sets can be seen in the upper left corner of the pane.
 3. The status-bar plugin. It gives an overview over current default keybindings,
 since Zellij is modal it can show hints based on modes it currently resides in.
 
-To dive deeper in to how the layout-template that is behind the default layout
-works, consider checking out the relevant [section](layouts-templates.md).
+To dive deeper in to how the default layout works and how to change it, checkout the [layouts](layouts.md) section.
 
 Let's open a new tab and then a couple panes inside that new tab:
 1. <kbd>Ctrl</kbd> + <kbd>t</kbd>
