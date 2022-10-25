@@ -13,9 +13,11 @@ alttext: "An image of the Zellij terminal multiplexer"
 weight: 10
 ---
 
-We just release a new version of Zellij with lots of exciting features and improvements.
+We just release [Zellij 0.32.0](https://github.com/zellij-org/zellij/releases/tag/v0.32.0) with lots of exciting features and improvements.
 
-In this version, we emphasized features geared toward advanced users. Zellij already gives a great experience to users new to terminal multiplexers. We would now like to make configuring the tool easier, as well as grant power users the ability to harness their terminal workspace beyond the limits of their imagination.
+In this version, we emphasized features geared toward advanced users. We feel Zellij already provides a great experience to users new to terminal multiplexers, and would now like to make configuring and personalizing the tool easier. We want to grant power users the ability to better harness their terminal workspace, expressing their imagination and sharing their findings with the community.
+
+You can go right ahead and [install it](https://github.com/zellij-org/zellij#how-do-i-install-it) or read on for more details.
 
 ### YAML => KDL
 ![kdl file preview](/img/kdl-file-preview.png)
@@ -31,7 +33,10 @@ Curious how we chose KDL? [Read about it below](#addendum-why-did-we-choose-kdl)
 ### Command Panes
 {{< video "/video/zellij-run-demo.mp4" >}}
 
-This release introduces Command Panes. These are terminal panes that run a specific command. When the command exits, they stay open - displaying its `Exit Code` as well as giving the user an option to re-run the command with `ENTER` or close the pane with `Ctrl-c`.
+This release introduces Command Panes. These are terminal panes that run a specific command. When the command exits, they stay open, allowing the user to:
+- See the `Exit Code`
+- Re-run the command with `ENTER`
+- Close the pane with `Ctrl-c`
 
 These panes can be moved, resized, de-focused, floated or embedded like any other terminal pane.
 
@@ -120,6 +125,8 @@ $ zellij action new-tab --layout /path/to/above/layout-file.kdl
 ![basic-rust-project-layout-example](/documentation/img/basic-rust-project-layout.png)
 
 See [more examples](/documentation/layout-examples.html) or [read more](http://localhost:1313/documentation/layouts.html) about layouts.
+
+Did you make a cool and/or useful Zellij layout? Please [tweet it at us](https://twitter.com/Zellij_dev) or post it in our [Reddit](https://www.reddit.com/r/zellij/).
 
 ### What else?
 Throughout October, Zellij participated in [Hacktoberfest](https://hacktoberfest.com/). We emphasized contributions to improve our Error Handling story, contributing both to the stability of Zellij and to better communicating error causes and remedies to users.
