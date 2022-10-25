@@ -1,7 +1,7 @@
 ---
 author: "Aram Drevekenin"
 authorlink: "https://twitter.com/im_snif"
-date: 2022-10-24
+date: 2022-10-25
 linktitle: "Zellij 0.32.0: YAML => KDL, Control Zellij through the CLI, Command Panes and a new Layout System"
 type:
 - post
