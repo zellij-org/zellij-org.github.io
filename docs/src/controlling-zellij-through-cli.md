@@ -16,7 +16,7 @@ For a full list of actions, see [CLI Actions](./cli-actions.md).
 
 For starting commands in a new pane, see [Zellij Run](./zellij-run.md).
 
-For editing a file in a new pane with your own editor, see [Zellij Edit](./zellij.edit.md).
+For editing a file in a new pane with your own editor, see [Zellij Edit](./zellij-edit.md).
 
 ### Completions
 For convenience, zellij provides cli completions for popular shells.
