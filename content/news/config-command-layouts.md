@@ -124,7 +124,7 @@ $ zellij action new-tab --layout /path/to/above/layout-file.kdl
 
 ![basic-rust-project-layout-example](/documentation/img/basic-rust-project-layout.png)
 
-See [more examples](/documentation/layout-examples.html) or [read more](http://localhost:1313/documentation/layouts.html) about layouts.
+See [more examples](/documentation/layout-examples.html) or [read more](/documentation/layouts.html) about layouts.
 
 Did you make a cool and/or useful Zellij layout? Please [tweet it at us](https://twitter.com/Zellij_dev) or post it in our [Reddit](https://www.reddit.com/r/zellij/).
 
