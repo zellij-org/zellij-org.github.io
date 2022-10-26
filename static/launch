@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-dir="/tmp/zellij/bootstrap"
+dir="${TMPDIR:-/tmp}/zellij/bootstrap"
 mkdir -p "$dir"
 
 if [[ -x "$dir/zellij" ]]
