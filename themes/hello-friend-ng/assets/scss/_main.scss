@@ -202,7 +202,8 @@ em, i, strong {
   }
 
   @media (prefers-color-scheme: light) {
-    color: black;
+    color: white;
+    // color: black;
   }
 
   [data-theme=dark] & {
