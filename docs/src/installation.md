@@ -1,14 +1,16 @@
 # Installation
 
-Currently Binaries are produced for both Linux and MacOS.
+The easiest way to install Zellij is through [a package for your OS](#third-party-repositories).
 
-However it is available in some public repositories.
+If one is not available for your OS, you can [download a prebuilt binary](#binary-download) or even [try Zellij without installing](https://zellij.dev).
+
+Otherwise, you can [install it with Cargo](#rust-cargo).
 
 -------------------------------
 
 ## Rust - Cargo
 
-For instructions on how to install Cargo see [here:](https://doc.rust-lang.org/cargo/getting-started/installation.html)
+For instructions on how to install Cargo see [here](https://doc.rust-lang.org/cargo/getting-started/installation.html).
 
 Once installed run:
 

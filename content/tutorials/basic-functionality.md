@@ -20,7 +20,7 @@ You need not be a terminal developer to benefit from this tutorial.
 {{<figure src="/img/tutorial-1-getting-started.png" class="center" style="max-width 995px;" alt="An image of Zellij running inside a terminal with vim open to the main.rs file of the project.">}}
 We'll use a basic Rust project as an example, but it can work with any sort of code. To follow along, you can clone [the repository](https://github.com/imsnif/zellij-screencast-1).
 
-After [installing Zellij](https://github.com/zellij-org/zellij/blob/main/docs/THIRD_PARTY_INSTALL.md) or [downloading it without installing](https://zellij.dev), let's start it up in the project's directory.
+After [installing Zellij](/documentation/installation.html), let's start it up in the project's directory.
 
 Then let's open up `vim` to the main file in the repository: `vim src/main.rs`
 
