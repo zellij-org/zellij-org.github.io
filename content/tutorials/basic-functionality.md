@@ -1,6 +1,8 @@
 ---
 title: "Basic Development with Zellij"
 images: ["/img/tutorial-1-preview.png"]
+description: "How to use Zellij as a powerful engine for terminal development"
+linktitle: "How to use Zellij as a powerful engine for terminal development"
 ---
 {{<video-left-aligned "/video/basic-development-screencast.mp4">}}
 
