@@ -182,15 +182,15 @@ disableHugoGeneratorInject = false
     name       = "Roadmap"
     url        = "roadmap/"
   [[menu.main]]
-    weight = 3
-    identifier = "screenshots"
-    name       = "Screenshots"
-    url        = "screenshots/"
-  [[menu.main]]
-    weight = 5
+    weight = 4
     identifier = "documentation"
     name       = "Documentation"
     url        = "documentation/"
+  [[menu.main]]
+    weight = 5
+    identifier = "screencasts"
+    name       = "Screencasts & Tutorials"
+    url        = "screencasts/"
   [[menu.main]]
     weight = 6
     identifier = "repository"
