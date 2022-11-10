@@ -204,6 +204,30 @@ layout {
 }
 ```
 
+##### close_on_exit
+A pane with a `command` can also have a `close_on_exit` argument. If true, this pane will close immediately when its command exits - instead of the default behaviour which is to give the user a chance to re-run it with ENTER and see its exit status
+
+**Possible values:** true | false
+
+eg.
+```javascript
+layout {
+    pane command="htop" close_on_exit=true
+}
+```
+
+##### start_suspended
+A pane with a `command` can also have a `start_suspended` argument. If true, this pane will not immediately run the command on startup, but rather display a message inviting the user to press `<ENTER>` to first run the command. It will then behave normally. This can be useful when starting a layout with lots of commands and not wanting all of them to immediately run.
+
+**Possible values:** true | false
+
+eg.
+```javascript
+layout {
+    pane command="ls" start_suspended=true
+}
+```
+
 #### edit
 `edit` is a string (path) to a file that will be opened using the editor specified in the `EDITOR` or `VISUAL` environment variables. This can alternatively also be specified using the `scrollback_editor` config variable.
 

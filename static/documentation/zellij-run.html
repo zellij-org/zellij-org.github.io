@@ -140,10 +140,14 @@
 <pre><code>$ zellij run -- git diff
 </code></pre>
 <p><strong>OPTIONS</strong>:</p>
-<pre><code>    --cwd &lt;CWD&gt;
-    -d, --direction &lt;DIRECTION&gt;
-    -f, --floating
-    -n, --name &lt;NAME&gt;
+<pre><code>    -c, --close-on-exit            Close the pane immediately when its command exits
+        --cwd &lt;CWD&gt;                Change the working directory of the new pane
+    -d, --direction &lt;DIRECTION&gt;    Direction to open the new pane in
+    -f, --floating                 Open the new pane in floating mode
+    -h, --help                     Print help information
+    -n, --name &lt;NAME&gt;              Name of the new pane
+    -s, --start-suspended          Start the command suspended, only running after you first presses
+                                   ENTER
 </code></pre>
 <p><strong>Note</strong>: to shorten this command to a more friendly length, see <code>Completions</code> under: <a href="./controlling-zellij-through-cli.html#completions">CLI</a></p>
 <p>This new pane will not immediately close when the command exits. Instead, it will show its exit status on the pane frame and allow users to press <code>&lt;ENTER&gt;</code> to re-run the command inside the same pane, or <code>&lt;Ctrl-c&gt;</code> to close the pane.</p>

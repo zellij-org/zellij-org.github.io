@@ -883,6 +883,12 @@ bind &quot;Left&quot; // bind the left arrow key
 </code></pre>
 </li>
 <li>
+<p>ToggleMouseMode - toggle mouse support on/off</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleMouseMode; }
+</code></pre>
+</li>
+<li>
 <p>TogglePaneEmbedOrFloating - float focused embedded pane or embed focused floating pane</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { TogglePaneEmbedOrFloating; }
@@ -1215,10 +1221,14 @@ $ ze ./main.rs # open a new pane with your editor (eg. vim) pointed at ./main.rs
 <pre><code>$ zellij run -- git diff
 </code></pre>
 <p><strong>OPTIONS</strong>:</p>
-<pre><code>    --cwd &lt;CWD&gt;
-    -d, --direction &lt;DIRECTION&gt;
-    -f, --floating
-    -n, --name &lt;NAME&gt;
+<pre><code>    -c, --close-on-exit            Close the pane immediately when its command exits
+        --cwd &lt;CWD&gt;                Change the working directory of the new pane
+    -d, --direction &lt;DIRECTION&gt;    Direction to open the new pane in
+    -f, --floating                 Open the new pane in floating mode
+    -h, --help                     Print help information
+    -n, --name &lt;NAME&gt;              Name of the new pane
+    -s, --start-suspended          Start the command suspended, only running after you first presses
+                                   ENTER
 </code></pre>
 <p><strong>Note</strong>: to shorten this command to a more friendly length, see <code>Completions</code> under: <a href="./controlling-zellij-through-cli.html#completions">CLI</a></p>
 <p>This new pane will not immediately close when the command exits. Instead, it will show its exit status on the pane frame and allow users to press <code>&lt;ENTER&gt;</code> to re-run the command inside the same pane, or <code>&lt;Ctrl-c&gt;</code> to close the pane.</p>
@@ -1334,10 +1344,13 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 <p>Open a new pane in the specified direction or as a floating pane. If no is specified, will try to use the biggest available space.</p>
 <p><strong>ARGS (optional)</strong>: the command to run inside the pane in place of the default shell (must be preceeded by a double-dash <code>--</code>)</p>
 <p><strong>OPTIONS</strong>:</p>
-<pre><code>    --cwd &lt;CWD&gt;
-    -d, --direction &lt;DIRECTION&gt;
-    -f, --floating
-    -n, --name &lt;NAME&gt;
+<pre><code>    -c, --close-on-exit            Close the pane immediately when its command exits
+        --cwd &lt;CWD&gt;                Change the working directory of the new pane
+    -d, --direction &lt;DIRECTION&gt;    Direction to open the new pane in
+    -f, --floating                 Open the new pane in floating mode
+    -h, --help                     Print help information
+    -n, --name &lt;NAME&gt;              Name of the new pane
+    -s, --start-suspended          Start the command suspended, only running after you first presses
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action new-pane -f # open a new floating pane with the default shell
@@ -1641,6 +1654,22 @@ layout {
         args &quot;-c&quot; &quot;tail -f /path/to/my/logfile&quot;
     }
 
+}
+</code></pre>
+<h5 id="close_on_exit"><a class="header" href="#close_on_exit">close_on_exit</a></h5>
+<p>A pane with a <code>command</code> can also have a <code>close_on_exit</code> argument. If true, this pane will close immediately when its command exits - instead of the default behaviour which is to give the user a chance to re-run it with ENTER and see its exit status</p>
+<p><strong>Possible values:</strong> true | false</p>
+<p>eg.</p>
+<pre><code class="language-javascript">layout {
+    pane command=&quot;htop&quot; close_on_exit=true
+}
+</code></pre>
+<h5 id="start_suspended"><a class="header" href="#start_suspended">start_suspended</a></h5>
+<p>A pane with a <code>command</code> can also have a <code>start_suspended</code> argument. If true, this pane will not immediately run the command on startup, but rather display a message inviting the user to press <code>&lt;ENTER&gt;</code> to first run the command. It will then behave normally. This can be useful when starting a layout with lots of commands and not wanting all of them to immediately run.</p>
+<p><strong>Possible values:</strong> true | false</p>
+<p>eg.</p>
+<pre><code class="language-javascript">layout {
+    pane command=&quot;ls&quot; start_suspended=true
 }
 </code></pre>
 <h4 id="edit-1"><a class="header" href="#edit-1">edit</a></h4>

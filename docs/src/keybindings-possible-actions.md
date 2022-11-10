@@ -236,6 +236,14 @@
         bind "a" { ToggleFocusFullscreen; }
     ```
 
+  - ToggleMouseMode - toggle mouse support on/off
+
+    **Possible arguments**: None
+
+    ```javascript
+        bind "a" { ToggleMouseMode; }
+    ```
+
   - TogglePaneEmbedOrFloating - float focused embedded pane or embed focused floating pane
 
     **Possible arguments**: None

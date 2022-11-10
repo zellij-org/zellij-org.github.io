@@ -229,10 +229,13 @@
 <p>Open a new pane in the specified direction or as a floating pane. If no is specified, will try to use the biggest available space.</p>
 <p><strong>ARGS (optional)</strong>: the command to run inside the pane in place of the default shell (must be preceeded by a double-dash <code>--</code>)</p>
 <p><strong>OPTIONS</strong>:</p>
-<pre><code>    --cwd &lt;CWD&gt;
-    -d, --direction &lt;DIRECTION&gt;
-    -f, --floating
-    -n, --name &lt;NAME&gt;
+<pre><code>    -c, --close-on-exit            Close the pane immediately when its command exits
+        --cwd &lt;CWD&gt;                Change the working directory of the new pane
+    -d, --direction &lt;DIRECTION&gt;    Direction to open the new pane in
+    -f, --floating                 Open the new pane in floating mode
+    -h, --help                     Print help information
+    -n, --name &lt;NAME&gt;              Name of the new pane
+    -s, --start-suspended          Start the command suspended, only running after you first presses
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action new-pane -f # open a new floating pane with the default shell
