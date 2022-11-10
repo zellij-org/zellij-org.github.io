@@ -288,6 +288,22 @@
 
 }
 </code></pre>
+<h5 id="close_on_exit"><a class="header" href="#close_on_exit">close_on_exit</a></h5>
+<p>A pane with a <code>command</code> can also have a <code>close_on_exit</code> argument. If true, this pane will close immediately when its command exits - instead of the default behaviour which is to give the user a chance to re-run it with ENTER and see its exit status</p>
+<p><strong>Possible values:</strong> true | false</p>
+<p>eg.</p>
+<pre><code class="language-javascript">layout {
+    pane command=&quot;htop&quot; close_on_exit=true
+}
+</code></pre>
+<h5 id="start_suspended"><a class="header" href="#start_suspended">start_suspended</a></h5>
+<p>A pane with a <code>command</code> can also have a <code>start_suspended</code> argument. If true, this pane will not immediately run the command on startup, but rather display a message inviting the user to press <code>&lt;ENTER&gt;</code> to first run the command. It will then behave normally. This can be useful when starting a layout with lots of commands and not wanting all of them to immediately run.</p>
+<p><strong>Possible values:</strong> true | false</p>
+<p>eg.</p>
+<pre><code class="language-javascript">layout {
+    pane command=&quot;ls&quot; start_suspended=true
+}
+</code></pre>
 <h4 id="edit"><a class="header" href="#edit">edit</a></h4>
 <p><code>edit</code> is a string (path) to a file that will be opened using the editor specified in the <code>EDITOR</code> or <code>VISUAL</code> environment variables. This can alternatively also be specified using the <code>scrollback_editor</code> config variable.</p>
 <p><strong>Possible values:</strong> &quot;/path/to/some/file&quot; | &quot;./relative/path/from/cwd&quot;</p>

@@ -154,10 +154,13 @@ Open a new pane in the specified direction or as a floating pane. If no is speci
                                                                                                                                                
 **OPTIONS**:
 ```
-    --cwd <CWD>
-    -d, --direction <DIRECTION>
-    -f, --floating
-    -n, --name <NAME>
+    -c, --close-on-exit            Close the pane immediately when its command exits
+        --cwd <CWD>                Change the working directory of the new pane
+    -d, --direction <DIRECTION>    Direction to open the new pane in
+    -f, --floating                 Open the new pane in floating mode
+    -h, --help                     Print help information
+    -n, --name <NAME>              Name of the new pane
+    -s, --start-suspended          Start the command suspended, only running after you first presses
 ```
 
 eg.
