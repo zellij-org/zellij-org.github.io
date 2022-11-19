@@ -10,7 +10,7 @@ Like other multiplexers, Zellij allows users to split their terminal into differ
 {{<figure src="/img/about-basics.png" class="center">}}
 
 ### Layout Engine
-Zellij includes a layout engine, allowing users to define a map of panes in a yaml file and load it when they start the app. This way, one can have one's panes laid out just the way one wants them without having to do all the setup work.
+Zellij includes a layout engine, allowing users to define a map of panes in a configuration file and load it when they start the app. This way, one can have one's panes laid out just the way one wants them without having to do all the setup work.
 
 {{<figure src="/img/beta-post-layout.png" class="center">}}
 
