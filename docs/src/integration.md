@@ -52,7 +52,18 @@ end
 
 to `$HOME/.config/fish/config.fish` file.
 
+### nushell
+Add 
 
+```fish
+if ('ZELLIJ_SESSION_NAME' not-in (env).name) {
+  zellij
+}
+```
+
+to `$HOME/.config/nushell/config.nu` file.
+
+## Environment variables
 The following environment variables can also be used in the provided script.
 
 | Variable             | Description                                                                                          | default |
