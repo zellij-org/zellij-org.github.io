@@ -157,6 +157,10 @@ disableHugoGeneratorInject = false
    name = "twitter"
    url  = "https://twitter.com/Zellij_dev"
 
+ [[params.social]]
+   name = "mastodon"
+   url  = "https://hachyderm.io/@zellij"
+
 #   [[params.social]]
 #     name = "linkedin"
 #     url  = "https://www.linkedin.com/"
