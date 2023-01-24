@@ -188,6 +188,13 @@
     ```javascript
         bind "a" { ScrollUp; }
     ```
+  - ScrollToTop - scroll the focused pane completely up
+
+    **Possible arguments**: None
+
+    ```javascript
+        bind "a" { ScrollToTop; }
+    ```
   - Search - when searching, move to the next or previous search occurrence
 
     **Required arguments**: "down" | "up"
