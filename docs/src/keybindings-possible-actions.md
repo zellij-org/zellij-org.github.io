@@ -167,35 +167,35 @@
             }
         }
     ```
-  - ScrollDown - scroll the focused pane down 1 line
+  - `ScrollDown` - scroll the focused pane down 1 line
 
     **Possible arguments**: None
 
     ```javascript
         bind "a" { ScrollDown; }
     ```
-  - ScrollToBottom - scroll the focused pane completely down
+  - `ScrollToBottom` - scroll the focused pane completely down
 
     **Possible arguments**: None
 
     ```javascript
         bind "a" { ScrollToBottom; }
     ```
-  - ScrollUp - scroll the focused pane up 1 line
+  - `ScrollUp` - scroll the focused pane up 1 line
 
     **Possible arguments**: None
 
     ```javascript
         bind "a" { ScrollUp; }
     ```
-  - ScrollToTop - scroll the focused pane completely up
+  - `ScrollToTop` - scroll the focused pane completely up
 
     **Possible arguments**: None
 
     ```javascript
         bind "a" { ScrollToTop; }
     ```
-  - Search - when searching, move to the next or previous search occurrence
+  - `Search` - when searching, move to the next or previous search occurrence
 
     **Required arguments**: "down" | "up"
 
@@ -203,7 +203,7 @@
         bind "a" { Search "up"; }
     ```
 
-  - SearchToggleOption - toggle various search options on/off
+  - `SearchToggleOption` - toggle various search options on/off
 
     **Required arguments**: "CaseSensitivity" | "Wrap" | "WhileWord"
 
@@ -211,7 +211,7 @@
         bind "a" { SearchToggleOption "CaseSensitivity"; }
     ```
 
-  - SwitchToMode - switch the current input mode
+  - `SwitchToMode` - switch the current input mode
 
     **Required arguments**: See [Modes](#modes)
 
@@ -219,7 +219,7 @@
         bind "a" { SwitchToMode "locked"; }
     ```
 
-  - ToggleActiveSyncTab - toggle the syncing of input between all panes in the focused tab
+  - `ToggleActiveSyncTab` - toggle the syncing of input between all panes in the focused tab
 
     **Possible arguments**: None
 
@@ -227,7 +227,7 @@
         bind "a" { ToggleActiveSyncTab; }
     ```
 
-  - ToggleFloatingPanes - show/hide floating panes; if none are open, one will be opened
+  - `ToggleFloatingPanes` - show/hide floating panes; if none are open, one will be opened
 
     **Possible arguments**: None
 
@@ -235,7 +235,7 @@
         bind "a" { ToggleFloatingPanes; }
     ```
 
-  - ToggleFocusFullscreen - toggle the focused pane as fullscreen on/off
+  - `ToggleFocusFullscreen` - toggle the focused pane as fullscreen on/off
 
     **Possible arguments**: None
 
@@ -243,7 +243,7 @@
         bind "a" { ToggleFocusFullscreen; }
     ```
 
-  - ToggleMouseMode - toggle mouse support on/off
+  - `ToggleMouseMode` - toggle mouse support on/off
 
     **Possible arguments**: None
 
@@ -251,7 +251,7 @@
         bind "a" { ToggleMouseMode; }
     ```
 
-  - TogglePaneEmbedOrFloating - float focused embedded pane or embed focused floating pane
+  - `TogglePaneEmbedOrFloating` - float focused embedded pane or embed focused floating pane
 
     **Possible arguments**: None
 
@@ -259,7 +259,7 @@
         bind "a" { TogglePaneEmbedOrFloating; }
     ```
 
-  - TogglePaneFrames - show/hide the frames around panes (notice, these might have valuable UX info)
+  - `TogglePaneFrames` - show/hide the frames around panes (notice, these might have valuable UX info)
 
     **Possible arguments**: None
 
@@ -267,7 +267,7 @@
         bind "a" { TogglePaneFrames; }
     ```
 
-  - ToggleTab - change the tab focus
+  - `ToggleTab` - change the tab focus
 
     **Possible arguments**: None
 
@@ -275,7 +275,7 @@
         bind "a" { ToggleTab; }
     ```
 
-  - UndoRenamePane - undo a rename pane operation currently in progress (reverting to the previous name)
+  - `UndoRenamePane` - undo a rename pane operation currently in progress (reverting to the previous name)
 
     **Possible arguments**: None
 
@@ -283,7 +283,7 @@
         bind "a" { UndoRenamePane; }
     ```
 
-  - UndoRenameTab - undo a rename tab operation currently in progress (reverting to the previous name)
+  - `UndoRenameTab` - undo a rename tab operation currently in progress (reverting to the previous name)
 
     **Possible arguments**: None
 
@@ -291,7 +291,7 @@
         bind "a" { UndoRenameTab; }
     ```
 
-  - Write - write bytes to the active pane
+  - `Write` - write bytes to the active pane
 
     **Required arguments**: the bytes to write as integers
 
@@ -299,7 +299,7 @@
         bind "a" { Write 102 111 111; }
     ```
 
-  - WriteChars - write a string of characters to the active pane
+  - `WriteChars` - write a string of characters to the active pane
 
     **Required arguments**: the string of characters to write
 
