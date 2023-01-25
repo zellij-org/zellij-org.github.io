@@ -26,8 +26,9 @@ Let's open a new tab and then a couple panes inside that new tab:
 2. <kbd>n</kbd>
 3. <kbd>Ctrl</kbd> + <kbd>p</kbd>
 4. <kbd>n</kbd>
-5. <kbd>r</kbd>
-6. <kbd>Return</kbd>
+5. <kbd>Ctrl</kbd> + <kbd>p</kbd>
+6. <kbd>←</kbd>
+7. <kbd>d</kbd>
 
 The status-bar should have guided us through:
 ![Status tab 1](img/overview-status-tab-1.png)
