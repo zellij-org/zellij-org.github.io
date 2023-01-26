@@ -281,103 +281,109 @@
 </code></pre>
 </li>
 <li>
-<p>ScrollDown - scroll the focused pane down 1 line</p>
+<p><code>ScrollDown</code> - scroll the focused pane down 1 line</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ScrollDown; }
 </code></pre>
 </li>
 <li>
-<p>ScrollToBottom - scroll the focused pane completely down</p>
+<p><code>ScrollToBottom</code> - scroll the focused pane completely down</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ScrollToBottom; }
 </code></pre>
 </li>
 <li>
-<p>ScrollUp - scroll the focused pane up 1 line</p>
+<p><code>ScrollUp</code> - scroll the focused pane up 1 line</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ScrollUp; }
 </code></pre>
 </li>
 <li>
-<p>Search - when searching, move to the next or previous search occurrence</p>
+<p><code>ScrollToTop</code> - scroll the focused pane completely up</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind &quot;a&quot; { ScrollToTop; }
+</code></pre>
+</li>
+<li>
+<p><code>Search</code> - when searching, move to the next or previous search occurrence</p>
 <p><strong>Required arguments</strong>: &quot;down&quot; | &quot;up&quot;</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { Search &quot;up&quot;; }
 </code></pre>
 </li>
 <li>
-<p>SearchToggleOption - toggle various search options on/off</p>
+<p><code>SearchToggleOption</code> - toggle various search options on/off</p>
 <p><strong>Required arguments</strong>: &quot;CaseSensitivity&quot; | &quot;Wrap&quot; | &quot;WhileWord&quot;</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { SearchToggleOption &quot;CaseSensitivity&quot;; }
 </code></pre>
 </li>
 <li>
-<p>SwitchToMode - switch the current input mode</p>
+<p><code>SwitchToMode</code> - switch the current input mode</p>
 <p><strong>Required arguments</strong>: See <a href="#modes">Modes</a></p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { SwitchToMode &quot;locked&quot;; }
 </code></pre>
 </li>
 <li>
-<p>ToggleActiveSyncTab - toggle the syncing of input between all panes in the focused tab</p>
+<p><code>ToggleActiveSyncTab</code> - toggle the syncing of input between all panes in the focused tab</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ToggleActiveSyncTab; }
 </code></pre>
 </li>
 <li>
-<p>ToggleFloatingPanes - show/hide floating panes; if none are open, one will be opened</p>
+<p><code>ToggleFloatingPanes</code> - show/hide floating panes; if none are open, one will be opened</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ToggleFloatingPanes; }
 </code></pre>
 </li>
 <li>
-<p>ToggleFocusFullscreen - toggle the focused pane as fullscreen on/off</p>
+<p><code>ToggleFocusFullscreen</code> - toggle the focused pane as fullscreen on/off</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ToggleFocusFullscreen; }
 </code></pre>
 </li>
 <li>
-<p>ToggleMouseMode - toggle mouse support on/off</p>
+<p><code>ToggleMouseMode</code> - toggle mouse support on/off</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ToggleMouseMode; }
 </code></pre>
 </li>
 <li>
-<p>TogglePaneEmbedOrFloating - float focused embedded pane or embed focused floating pane</p>
+<p><code>TogglePaneEmbedOrFloating</code> - float focused embedded pane or embed focused floating pane</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { TogglePaneEmbedOrFloating; }
 </code></pre>
 </li>
 <li>
-<p>TogglePaneFrames - show/hide the frames around panes (notice, these might have valuable UX info)</p>
+<p><code>TogglePaneFrames</code> - show/hide the frames around panes (notice, these might have valuable UX info)</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { TogglePaneFrames; }
 </code></pre>
 </li>
 <li>
-<p>ToggleTab - change the tab focus</p>
+<p><code>ToggleTab</code> - change the tab focus</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ToggleTab; }
 </code></pre>
 </li>
 <li>
-<p>UndoRenamePane - undo a rename pane operation currently in progress (reverting to the previous name)</p>
+<p><code>UndoRenamePane</code> - undo a rename pane operation currently in progress (reverting to the previous name)</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { UndoRenamePane; }
 </code></pre>
 </li>
 <li>
-<p>UndoRenameTab - undo a rename tab operation currently in progress (reverting to the previous name)</p>
+<p><code>UndoRenameTab</code> - undo a rename tab operation currently in progress (reverting to the previous name)</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { UndoRenameTab; }
 </code></pre>
 </li>
 <li>
-<p>Write - write bytes to the active pane</p>
+<p><code>Write</code> - write bytes to the active pane</p>
 <p><strong>Required arguments</strong>: the bytes to write as integers</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { Write 102 111 111; }
 </code></pre>
 </li>
 <li>
-<p>WriteChars - write a string of characters to the active pane</p>
+<p><code>WriteChars</code> - write a string of characters to the active pane</p>
 <p><strong>Required arguments</strong>: the string of characters to write</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { WriteChars &quot;hi there!&quot;; }
 </code></pre>
