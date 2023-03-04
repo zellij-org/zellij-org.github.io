@@ -119,10 +119,20 @@
     ```
   - `NewTab` - open a new tab
 
-    **Possible arguments**: None
+    **Possible arguments**: `cwd` - current working directory for the new tab, `name` - the name of the new tab, `layout` - path to the layout file to load for this tab
 
     ```javascript
         bind "a" { NewTab; }
+    ```
+    or:
+    ```javascript
+        bind "a" {
+           NewTab {
+               cwd "/tmp"
+               name "My tab name"
+               layout "/path/to/my/layout.kdl"
+           }
+        }
     ```
   - `PageScrollDown` - scroll the focused pane one page down
 
@@ -131,6 +141,7 @@
     ```javascript
         bind "a" { PageScrollDown; }
     ```
+
   - `PageScrollUp` - scroll the focused pane one page up
 
     **Possible arguments**: None

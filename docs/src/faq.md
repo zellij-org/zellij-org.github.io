@@ -21,6 +21,11 @@ If you don't want to install a new font, you can also load the simplified UI tha
 zellij options --simplified-ui true
 ```
 
+## I am a macOS user, how can I use the Alt key?
+This depends on which terminal emulator you're using. Here are some links that might be useful:
+1. [iTerm2](https://www.clairecodes.com/blog/2018-10-15-making-the-alt-key-work-in-iterm2/)
+2. [Terminal.app](https://superuser.com/questions/1038947/using-the-option-key-properly-on-mac-terminal)
+
 ## Copy / Paste isn't working, how can I fix this?
 Some terminals don't support the the OSC 52 signal, which is the method Zellij uses by default to copy text to the clipboard. To get around this, you can either switch to a supported terminal (eg. Alacritty or xterm) or configure Zellij to use an external utility when copy pasting (eg. xclip, wl-copy or pbcopy).
 

@@ -259,6 +259,47 @@ layout {
 }
 ```
 
+#### stacked
+If `true`, this pane property dictates that the children panes of this pane will be arranged in a stack.
+
+In a stack of panes, all panes except one have just one line - showing their title (and their scroll and exit code when relevant). The focused pane among these is displayed normally as any other pane.
+
+eg.
+```javascript
+layout {
+    pane stacked=true {
+        pane
+        pane
+        pane command="ls"
+        pane command="htop"
+        pane edit="src/main.rs"
+    }
+}
+```
+### Floating Panes
+A `floating_panes` node can be included either at the root of the layout or inside a `tab` node. Panes nested in this node will be floating, and can be given `x`, `y`, `width` and `height` properties.
+
+eg.
+```javascript
+layout {
+    floating_panes {
+        pane
+        pane command="ls"
+        pane {
+            x 1
+            y "10%"
+            width 200
+            height "50%"
+        }
+    }
+}
+```
+
+`pane` nodes inside a `floating_panes` can have all the properties regular `pane` nodes have, except for children nodes or other irrelevant properties (eg. `split_direction`). `pane_templates` for these panes must not include these properties either.
+
+#### `x`, `y`, `width`, `height`
+These properties may be included inside floating `pane`s. They can be either a fixed number (characters from screen edge) or a percentage (recommended in case where the terminal window size is not known).
+
 ### Tabs
 `tab` nodes can optionally be used to start a layout with several tabs.
 

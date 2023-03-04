@@ -12,7 +12,7 @@ description: "This new version comes with some gret new UI/UX features and extra
 alttext: "An image of the Zellij terminal multiplexer"
 weight: 10
 ---
-
+// TODO: LINK TO VERSION!!!11oneoneone
 We just released Zellij 0.35.0 (TODO: link to release), including an exciting array of new features and bug fixes. Let's dive in to some of them!
 
 ### Stacked Panes
