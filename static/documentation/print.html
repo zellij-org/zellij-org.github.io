@@ -5,8 +5,10 @@
         <meta charset="UTF-8">
         <title>Zellij User Guide</title>
         <meta name="robots" content="noindex" />
+
+
         <!-- Custom HTML head -->
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -17,25 +19,29 @@
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
         <link rel="stylesheet" href="css/print.css" media="print">
+
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
         <link rel="stylesheet" href="fonts/fonts.css">
+
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
         <link rel="stylesheet" href="tomorrow-night.css">
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
+
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -51,7 +57,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -63,7 +69,7 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
             var sidebar = 'hidden';
             if (document.body.clientWidth >= 1080) {
@@ -84,7 +90,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -94,7 +100,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
@@ -111,6 +117,7 @@
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
+
                     </div>
                 </div>
 
@@ -124,8 +131,9 @@
                         </ul>
                     </div>
                 </div>
+
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -208,8 +216,9 @@ since Zellij is modal it can show hints based on modes it currently resides in.<
 <li><kbd>n</kbd></li>
 <li><kbd>Ctrl</kbd> + <kbd>p</kbd></li>
 <li><kbd>n</kbd></li>
-<li><kbd>r</kbd></li>
-<li><kbd>Return</kbd></li>
+<li><kbd>Ctrl</kbd> + <kbd>p</kbd></li>
+<li><kbd>←</kbd></li>
+<li><kbd>d</kbd></li>
 </ol>
 <p>The status-bar should have guided us through:
 <img src="img/overview-status-tab-1.png" alt="Status tab 1" />
@@ -829,103 +838,109 @@ bind &quot;Left&quot; // bind the left arrow key
 </code></pre>
 </li>
 <li>
-<p>ScrollDown - scroll the focused pane down 1 line</p>
+<p><code>ScrollDown</code> - scroll the focused pane down 1 line</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ScrollDown; }
 </code></pre>
 </li>
 <li>
-<p>ScrollToBottom - scroll the focused pane completely down</p>
+<p><code>ScrollToBottom</code> - scroll the focused pane completely down</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ScrollToBottom; }
 </code></pre>
 </li>
 <li>
-<p>ScrollUp - scroll the focused pane up 1 line</p>
+<p><code>ScrollUp</code> - scroll the focused pane up 1 line</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ScrollUp; }
 </code></pre>
 </li>
 <li>
-<p>Search - when searching, move to the next or previous search occurrence</p>
+<p><code>ScrollToTop</code> - scroll the focused pane completely up</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind &quot;a&quot; { ScrollToTop; }
+</code></pre>
+</li>
+<li>
+<p><code>Search</code> - when searching, move to the next or previous search occurrence</p>
 <p><strong>Required arguments</strong>: &quot;down&quot; | &quot;up&quot;</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { Search &quot;up&quot;; }
 </code></pre>
 </li>
 <li>
-<p>SearchToggleOption - toggle various search options on/off</p>
+<p><code>SearchToggleOption</code> - toggle various search options on/off</p>
 <p><strong>Required arguments</strong>: &quot;CaseSensitivity&quot; | &quot;Wrap&quot; | &quot;WhileWord&quot;</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { SearchToggleOption &quot;CaseSensitivity&quot;; }
 </code></pre>
 </li>
 <li>
-<p>SwitchToMode - switch the current input mode</p>
+<p><code>SwitchToMode</code> - switch the current input mode</p>
 <p><strong>Required arguments</strong>: See <a href="keybindings-possible-actions.html#modes">Modes</a></p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { SwitchToMode &quot;locked&quot;; }
 </code></pre>
 </li>
 <li>
-<p>ToggleActiveSyncTab - toggle the syncing of input between all panes in the focused tab</p>
+<p><code>ToggleActiveSyncTab</code> - toggle the syncing of input between all panes in the focused tab</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ToggleActiveSyncTab; }
 </code></pre>
 </li>
 <li>
-<p>ToggleFloatingPanes - show/hide floating panes; if none are open, one will be opened</p>
+<p><code>ToggleFloatingPanes</code> - show/hide floating panes; if none are open, one will be opened</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ToggleFloatingPanes; }
 </code></pre>
 </li>
 <li>
-<p>ToggleFocusFullscreen - toggle the focused pane as fullscreen on/off</p>
+<p><code>ToggleFocusFullscreen</code> - toggle the focused pane as fullscreen on/off</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ToggleFocusFullscreen; }
 </code></pre>
 </li>
 <li>
-<p>ToggleMouseMode - toggle mouse support on/off</p>
+<p><code>ToggleMouseMode</code> - toggle mouse support on/off</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ToggleMouseMode; }
 </code></pre>
 </li>
 <li>
-<p>TogglePaneEmbedOrFloating - float focused embedded pane or embed focused floating pane</p>
+<p><code>TogglePaneEmbedOrFloating</code> - float focused embedded pane or embed focused floating pane</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { TogglePaneEmbedOrFloating; }
 </code></pre>
 </li>
 <li>
-<p>TogglePaneFrames - show/hide the frames around panes (notice, these might have valuable UX info)</p>
+<p><code>TogglePaneFrames</code> - show/hide the frames around panes (notice, these might have valuable UX info)</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { TogglePaneFrames; }
 </code></pre>
 </li>
 <li>
-<p>ToggleTab - change the tab focus</p>
+<p><code>ToggleTab</code> - change the tab focus</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { ToggleTab; }
 </code></pre>
 </li>
 <li>
-<p>UndoRenamePane - undo a rename pane operation currently in progress (reverting to the previous name)</p>
+<p><code>UndoRenamePane</code> - undo a rename pane operation currently in progress (reverting to the previous name)</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { UndoRenamePane; }
 </code></pre>
 </li>
 <li>
-<p>UndoRenameTab - undo a rename tab operation currently in progress (reverting to the previous name)</p>
+<p><code>UndoRenameTab</code> - undo a rename tab operation currently in progress (reverting to the previous name)</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { UndoRenameTab; }
 </code></pre>
 </li>
 <li>
-<p>Write - write bytes to the active pane</p>
+<p><code>Write</code> - write bytes to the active pane</p>
 <p><strong>Required arguments</strong>: the bytes to write as integers</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { Write 102 111 111; }
 </code></pre>
 </li>
 <li>
-<p>WriteChars - write a string of characters to the active pane</p>
+<p><code>WriteChars</code> - write a string of characters to the active pane</p>
 <p><strong>Required arguments</strong>: the string of characters to write</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { WriteChars &quot;hi there!&quot;; }
 </code></pre>
@@ -2755,31 +2770,43 @@ request</a></p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+
+
                         <div style="clear: both"></div>
                     </nav>
                 </div>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
             </nav>
 
         </div>
 
-        <script type="text/javascript">
+
+
+
+        <script>
             window.playground_copyable = true;
         </script>
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        <script type="text/javascript">
+
+        <script>
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });
         </script>
+
+    </div>
     </body>
 </html>
