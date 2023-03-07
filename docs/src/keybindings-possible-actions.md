@@ -108,6 +108,13 @@
     ```javascript
         bind "a" { MovePane "Left"; }
     ```
+  - `NextSwapLayout` - change the layout of the current tab (either tiled or floating) to the next one
+
+    **Possible arguments**: None
+
+    ```javascript
+        bind "a" { NextSwapLayout; }
+    ```
   - `NewPane` - open a new pane (in the specified direction)
 
     **Possible arguments**: `Down` | `Right`
@@ -148,6 +155,13 @@
 
     ```javascript
         bind "a" { PageScrollUp; }
+    ```
+  - `PreviousSwapLayout` - change the layout of the current tab (either tiled or floating) to the previous one
+
+    **Possible arguments**: None
+
+    ```javascript
+        bind "a" { PreviousSwapLayout; }
     ```
   - `Quit` - quit Zellij :(
 
