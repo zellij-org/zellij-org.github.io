@@ -24,6 +24,7 @@
   - [Zellij Action](./cli-actions.md)
 - [Layouts](./layouts.md)
     - [Creating a Layout](./creating-a-layout.md)
+        - [Swap Layouts](./swap-layouts.md)
     - [Including Configuration in Layouts](./layouts-with-config.md)
     - [Examples](./layout-examples.md)
     - [Migrating from old YAML layouts](./migrating-yaml-layouts.md)

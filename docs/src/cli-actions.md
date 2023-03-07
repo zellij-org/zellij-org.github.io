@@ -101,6 +101,21 @@ eg.
 $ zellij action go-to-tab 1
 ```
 
+#### go-to-tab-name
+Go to tab with name [name]
+
+**ARGS**: The tab name (eg. "Tab #1")
+
+**OPTIONS**:
+```
+    -c, --create        Create a tab if one does not exist
+```
+
+eg.
+```
+$ zellij action go-to-tab-name "Tab #1"
+```
+
 #### half-page-scroll-down
 Scroll down half page in focus pane
 
@@ -327,6 +342,14 @@ Remove a previously set tab name
 eg.
 ```
 $ zellij action undo-rename-tab
+```
+
+#### query-tab-names
+Query all tab names (receive a textual list on the command line)
+
+eg.
+```
+$ zellij action query-tab-names
 ```
 
 #### write

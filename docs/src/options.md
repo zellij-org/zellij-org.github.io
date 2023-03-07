@@ -193,7 +193,7 @@ env {
 }
 ```
 
-### rounded corners
+### rounded_corners
 Set whether the pane frames (if visible) should have rounded corners.
 
 This config variable is set differently than others:
@@ -206,3 +206,12 @@ ui {
 }
 ```
 
+### auto_layout
+Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
+Options:
+  - true (default)
+  - false
+
+```javascript
+auto_layout true
+```
