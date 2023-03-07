@@ -803,6 +803,12 @@ bind &quot;Left&quot; // bind the left arrow key
 </code></pre>
 </li>
 <li>
+<p><code>NextSwapLayout</code> - change the layout of the current tab (either tiled or floating) to the next one</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind &quot;a&quot; { NextSwapLayout; }
+</code></pre>
+</li>
+<li>
 <p><code>NewPane</code> - open a new pane (in the specified direction)</p>
 <p><strong>Possible arguments</strong>: <code>Down</code> | <code>Right</code></p>
 <p><strong>Behaviour without arguments</strong>: Opens a pane in the largest available space or if floating panes are visible, in the next floating pane position.</p>
@@ -834,6 +840,12 @@ bind &quot;Left&quot; // bind the left arrow key
 <p><code>PageScrollUp</code> - scroll the focused pane one page up</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind &quot;a&quot; { PageScrollUp; }
+</code></pre>
+</li>
+<li>
+<p><code>PreviousSwapLayout</code> - change the layout of the current tab (either tiled or floating) to the previous one</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind &quot;a&quot; { PreviousSwapLayout; }
 </code></pre>
 </li>
 <li>
