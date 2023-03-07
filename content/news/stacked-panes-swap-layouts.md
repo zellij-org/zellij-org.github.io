@@ -2,17 +2,17 @@
 author: "Aram Drevekenin"
 authorlink: "https://hachyderm.io/@imsnif"
 date: 2023-03-07
-linktitle: "Zellij 0.35.0: Stacked Panes and Swap Layouts"
+linktitle: "Zellij 0.35.1: Stacked Panes and Swap Layouts"
 type:
 - post
 - posts
-title: "Zellij 0.35.0 Stacked Panes and Swap Layouts"
+title: "Zellij 0.35.1 Stacked Panes and Swap Layouts"
 images: ["/img/stacked-panes.png"]
 description: "This new version comes with some great new UI/UX features and extra functionality"
 alttext: "An image of the Zellij terminal multiplexer"
 weight: 10
 ---
-We just released [Zellij 0.35.0](https://github.com/zellij-org/zellij/releases/tag/v0.35.0), including an exciting array of new features and bug fixes. Let's dive in to some of them!
+We just released [Zellij 0.35.1](https://github.com/zellij-org/zellij/releases/tag/v0.35.1), including an exciting array of new features and bug fixes. Let's dive in to some of them!
 
 ### Stacked Panes
 ![Stacked Panes preview](/img/stacked-panes-animated.gif)
