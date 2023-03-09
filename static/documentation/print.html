@@ -330,6 +330,7 @@ fi
 <ol>
 <li><a href="https://www.clairecodes.com/blog/2018-10-15-making-the-alt-key-work-in-iterm2/">iTerm2</a></li>
 <li><a href="https://superuser.com/questions/1038947/using-the-option-key-properly-on-mac-terminal">Terminal.app</a></li>
+<li><a href="https://github.com/zellij-org/zellij/issues/2051#issuecomment-1461519892">Alacritty</a></li>
 </ol>
 <h2 id="copy--paste-isnt-working-how-can-i-fix-this"><a class="header" href="#copy--paste-isnt-working-how-can-i-fix-this">Copy / Paste isn't working, how can I fix this?</a></h2>
 <p>Some terminals don't support the the OSC 52 signal, which is the method Zellij uses by default to copy text to the clipboard. To get around this, you can either switch to a supported terminal (eg. Alacritty or xterm) or configure Zellij to use an external utility when copy pasting (eg. xclip, wl-copy or pbcopy).</p>
@@ -2915,9 +2916,9 @@ pub fn render(rows: i32, cols: i32) void {
 </tbody></table>
 </div>
 <p>Post installation the appropriate environment needs to be aware of the font.</p>
-<h2 id="alt-button-mapping-on-darwin-systems"><a class="header" href="#alt-button-mapping-on-darwin-systems">Alt button mapping on darwin systems:</a></h2>
+<h2 id="alt-button-mapping-on-mac-hardware-darwin-systems"><a class="header" href="#alt-button-mapping-on-mac-hardware-darwin-systems">Alt button mapping on Mac hardware (Darwin systems):</a></h2>
 <p>This can be mitigated individually on a terminal emulator level,
-some inspiration can be found <a href="https://github.com/zellij-org/zellij/issues/265">here</a>.</p>
+see <a href="./faq.html#i-am-a-macos-user-how-can-i-use-the-alt-key">the FAQ</a> for more information.</p>
 <h2 id="pane-frame-title-has-issues-with-kitty"><a class="header" href="#pane-frame-title-has-issues-with-kitty">Pane frame title has issues with kitty:</a></h2>
 <p>This sadly seems to be an issue that can not be mitigated easily,
 more information can be found <a href="https://github.com/zellij-org/zellij/issues/689#issuecomment-914057955">here</a>.</p>
