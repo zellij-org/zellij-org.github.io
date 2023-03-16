@@ -55,8 +55,8 @@ to `$HOME/.config/fish/config.fish` file.
 ### nushell
 Add 
 
-```fish
-if ('ZELLIJ_SESSION_NAME' not-in (env).name) {
+```nushell
+if 'ZELLIJ_SESSION_NAME' not-in ($env | columns) {
   zellij
 }
 ```
