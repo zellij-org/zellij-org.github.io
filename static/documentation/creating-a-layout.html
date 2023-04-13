@@ -348,6 +348,18 @@
     }
 }
 </code></pre>
+<h4 id="expanded"><a class="header" href="#expanded">expanded</a></h4>
+<p>In the context of <code>stacked</code> panes, an <code>expanded</code> child will dictate that this pane in the stack should be the one expanded, rather than the lowest pane (the default).</p>
+<p>eg.</p>
+<pre><code class="language-javascript">layout {
+    pane stacked=true {
+        pane
+        pane expanded=true
+        pane
+        pane
+    }
+}
+</code></pre>
 <h3 id="floating-panes"><a class="header" href="#floating-panes">Floating Panes</a></h3>
 <p>A <code>floating_panes</code> node can be included either at the root of the layout or inside a <code>tab</code> node. Panes nested in this node will be floating, and can be given <code>x</code>, <code>y</code>, <code>width</code> and <code>height</code> properties.</p>
 <p>eg.</p>

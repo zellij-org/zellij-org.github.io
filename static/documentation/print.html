@@ -566,6 +566,14 @@ Default: false</p>
     }
 }
 </code></pre>
+<h3 id="hide_session_name"><a class="header" href="#hide_session_name">hide_session_name</a></h3>
+<p>Hides the session name (randomly generated or otherwise) from the UI</p>
+<pre><code class="language-javascript">ui {
+    pane_frames {
+        hide_session_name true
+    }
+}
+</code></pre>
 <h3 id="auto_layout"><a class="header" href="#auto_layout">auto_layout</a></h3>
 <p>Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 Options:</p>
@@ -709,6 +717,13 @@ bind &quot;Left&quot; // bind the left arrow key
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="possible-actions"><a class="header" href="#possible-actions">Possible Actions</a></h1>
 <ul>
+<li>
+<p><code>ClearScreen</code> - clear the scrollback buffer of the focused pane</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>eg.</p>
+<pre><code class="language-javascript">    bind &quot;a&quot; { ClearScreen; }
+</code></pre>
+</li>
 <li>
 <p><code>CloseFocus</code> - close the focused pane</p>
 <p><strong>Possible arguments</strong>: None</p>
@@ -1771,6 +1786,18 @@ layout {
         pane command=&quot;ls&quot;
         pane command=&quot;htop&quot;
         pane edit=&quot;src/main.rs&quot;
+    }
+}
+</code></pre>
+<h4 id="expanded"><a class="header" href="#expanded">expanded</a></h4>
+<p>In the context of <code>stacked</code> panes, an <code>expanded</code> child will dictate that this pane in the stack should be the one expanded, rather than the lowest pane (the default).</p>
+<p>eg.</p>
+<pre><code class="language-javascript">layout {
+    pane stacked=true {
+        pane
+        pane expanded=true
+        pane
+        pane
     }
 }
 </code></pre>

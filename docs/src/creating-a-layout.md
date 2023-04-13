@@ -276,6 +276,22 @@ layout {
     }
 }
 ```
+
+#### expanded
+In the context of `stacked` panes, an `expanded` child will dictate that this pane in the stack should be the one expanded, rather than the lowest pane (the default).
+
+eg.
+```javascript
+layout {
+    pane stacked=true {
+        pane
+        pane expanded=true
+        pane
+        pane
+    }
+}
+```
+
 ### Floating Panes
 A `floating_panes` node can be included either at the root of the layout or inside a `tab` node. Panes nested in this node will be floating, and can be given `x`, `y`, `width` and `height` properties.
 
