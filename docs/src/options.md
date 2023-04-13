@@ -206,6 +206,17 @@ ui {
 }
 ```
 
+### hide_session_name
+Hides the session name (randomly generated or otherwise) from the UI
+
+```javascript
+ui {
+    pane_frames {
+        hide_session_name true
+    }
+}
+```
+
 ### auto_layout
 Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 Options:
