@@ -1,5 +1,14 @@
 ## CLI Actions
 
+#### ClearScreen
+
+clear the scrollback buffer of the focused pane
+
+eg.
+```javascript
+        bind "a" { ClearScreen; }
+```
+
 #### close-pane
 
 Close the focused pane
