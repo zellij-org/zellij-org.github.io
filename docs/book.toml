@@ -4,3 +4,6 @@ language = "en"
 multilingual = false
 src = "src"
 title = "Zellij User Guide"
+
+[output.html]
+edit-url-template = "https://github.com/zellij-org/zellij-org.github.io/edit/main/docs/{path}"
