@@ -70,10 +70,12 @@
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -166,7 +168,7 @@ cd mode-logger
 ├── .cargo
 │   └── config.toml
 ├── Cargo.toml
-├── plugin.yaml
+├── plugin.kdl
 ├── README.md
 └── src
     └── main.rs
@@ -187,22 +189,20 @@ edition = &quot;2018&quot;
 zellij-tile = &quot;1.0.0&quot;
 </code></pre>
 <p>This is a quite standard package file that <code>cargo-generate</code> has partially filled in for us. Note the dependency on <code>zellij-tile</code> which provides some helpful functionality for avoiding boilerplate and writing <code>unsafe</code> code.</p>
-<h3 id="pluginyaml"><a class="header" href="#pluginyaml"><code>plugin.yaml</code></a></h3>
-<pre><code class="language-yaml">---
-direction: Horizontal
-parts:
-  - direction: Vertical
-    split_size:
-      Fixed: 1
-    plugin: tab-bar
-  - direction: Vertical
-    plugin: target/wasm32-wasi/debug/mode-logger.wasm
-  - direction: Vertical
-    split_size:
-      Fixed: 2
-    plugin: status-bar
+<h3 id="pluginkdl"><a class="header" href="#pluginkdl"><code>plugin.kdl</code></a></h3>
+<pre><code class="language-kdl">layout {
+    pane size=1 borderless=true {
+        plugin location=&quot;zellij:tab-bar&quot;
+    }
+    pane split_direction=&quot;Vertical&quot; {
+        plugin location=&quot;file:target/wasm32-wasi/debug/mode-logger.wasm&quot;
+    }
+    pane size=2 borderless=true {
+        plugin location=&quot;zellij:status-bar&quot;
+    }
+}
 </code></pre>
-<p>This is a Zellij <a href="./layouts.html">Layout</a> that loads a mostly default instance of Zellij, but with the middle terminal pane replaced by the plugin being developed. The <code>plugin: target/wasm32-wasi/debug/mode-logger.wasm</code> line should point Zellij to the development version of our plugin.</p>
+<p>This is a Zellij <a href="./layouts.html">Layout</a> that loads a mostly default instance of Zellij, but with the middle terminal pane replaced by the plugin being developed. The <code>plugin location=file:target/wasm32-wasi/debug/mode-logger.wasm</code> line should point Zellij to the development version of our plugin.</p>
 <p>There will likely be a better way of loading plugins in the future, but custom Layouts are currently the only way to do so.</p>
 <h3 id="srcmainrs"><a class="header" href="#srcmainrs"><code>src/main.rs</code></a></h3>
 <pre><code class="language-rs">use zellij_tile::prelude::*;
@@ -244,7 +244,7 @@ impl ZellijPlugin for State {
 <p>It really is as simple as that! Anything printed to stdout by the <code>render()</code> method will be automatically drawn to the screen in the pane where the plugin is active.</p>
 <p>Let's build our plugin and test things out:</p>
 <pre><code class="language-sh">cargo build
-zellij --layout-path plugin.yaml
+zellij --layout-path plugin.kdl
 </code></pre>
 <p><img src="img/rust-plugin-1.png" alt="Our Plugin" /></p>
 <h2 id="implementing-the-event-logger"><a class="header" href="#implementing-the-event-logger">Implementing the Event Logger</a></h2>
@@ -265,7 +265,7 @@ zellij --layout-path plugin.yaml
 <p>Here we are checking for <code>ModeUpdate</code>s and destructuring them to get the current mode. Currently, the <code>dbg!()</code> macro is being used to dump this information to stderr. If we want to actually see this debug info, we'll need to run our plugin slightly differently:</p>
 <pre><code class="language-sh">cargo build
 # The 2&gt; redirects stderr to dbg.log
-zellij -l plugin.yaml 2&gt; dbg.log
+zellij -l plugin.kdl 2&gt; dbg.log
 </code></pre>
 <p>Do some faffing about in Zellij, changing modes a couple of times, then take a look at <code>dbg.log</code>:</p>
 <pre><code>[src/main.rs:15] mode_info.mode = Normal
@@ -302,7 +302,7 @@ struct State {
     }
 }
 </code></pre>
-<p>Let's give things a run with <code>cargo build &amp;&amp; zellij -l plugin.yaml</code> and test it out!</p>
+<p>Let's give things a run with <code>cargo build &amp;&amp; zellij -l plugin.kdl</code> and test it out!</p>
 <p><img src="img/rust-plugin-2.png" alt="Our Plugin" /></p>
 <p>Excellent! You should notice that, as you cycle through different modes in Zellij, that those updates are being logged on-screen.</p>
 <p>This is a good start, but no logger is complete without storing timestamps! Let's import the <code>chrono</code> crate for working with time. First we'll need to add it to our <code>Cargo.toml</code>:</p>

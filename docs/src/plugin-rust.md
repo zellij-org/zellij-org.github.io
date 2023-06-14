@@ -43,7 +43,7 @@ After cloning the template repository, you should have a directory that looks a 
 ├── .cargo
 │   └── config.toml
 ├── Cargo.toml
-├── plugin.yaml
+├── plugin.kdl
 ├── README.md
 └── src
     └── main.rs
@@ -73,25 +73,23 @@ zellij-tile = "1.0.0"
 
 This is a quite standard package file that `cargo-generate` has partially filled in for us. Note the dependency on `zellij-tile` which provides some helpful functionality for avoiding boilerplate and writing `unsafe` code.
 
-### `plugin.yaml`
+### `plugin.kdl`
 
-```yaml
----
-direction: Horizontal
-parts:
-  - direction: Vertical
-    split_size:
-      Fixed: 1
-    plugin: tab-bar
-  - direction: Vertical
-    plugin: target/wasm32-wasi/debug/mode-logger.wasm
-  - direction: Vertical
-    split_size:
-      Fixed: 2
-    plugin: status-bar
+```kdl
+layout {
+    pane size=1 borderless=true {
+        plugin location="zellij:tab-bar"
+    }
+    pane split_direction="Vertical" {
+        plugin location="file:target/wasm32-wasi/debug/mode-logger.wasm"
+    }
+    pane size=2 borderless=true {
+        plugin location="zellij:status-bar"
+    }
+}
 ```
 
-This is a Zellij [Layout](./layouts.md) that loads a mostly default instance of Zellij, but with the middle terminal pane replaced by the plugin being developed. The `plugin: target/wasm32-wasi/debug/mode-logger.wasm` line should point Zellij to the development version of our plugin.
+This is a Zellij [Layout](./layouts.md) that loads a mostly default instance of Zellij, but with the middle terminal pane replaced by the plugin being developed. The `plugin location=file:target/wasm32-wasi/debug/mode-logger.wasm` line should point Zellij to the development version of our plugin.
 
 There will likely be a better way of loading plugins in the future, but custom Layouts are currently the only way to do so.
 
@@ -146,7 +144,7 @@ It really is as simple as that! Anything printed to stdout by the `render()` met
 Let's build our plugin and test things out:
 ```sh
 cargo build
-zellij --layout-path plugin.yaml
+zellij --layout-path plugin.kdl
 ```
 
 ![Our Plugin](img/rust-plugin-1.png)
@@ -182,7 +180,7 @@ Here we are checking for `ModeUpdate`s and destructuring them to get the current
 ```sh
 cargo build
 # The 2> redirects stderr to dbg.log
-zellij -l plugin.yaml 2> dbg.log
+zellij -l plugin.kdl 2> dbg.log
 ```
 
 Do some faffing about in Zellij, changing modes a couple of times, then take a look at `dbg.log`:
@@ -235,7 +233,7 @@ fn render(&mut self, rows: usize, cols: usize) {
 }
 ```
 
-Let's give things a run with `cargo build && zellij -l plugin.yaml` and test it out!
+Let's give things a run with `cargo build && zellij -l plugin.kdl` and test it out!
 
 ![Our Plugin](img/rust-plugin-2.png)
 
