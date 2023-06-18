@@ -7,3 +7,4 @@ While even at this early stage, the Zellij plugin system offers powerful capabil
 4. [Plugins cannot be loaded from the web and so their distribution is not trivial](https://github.com/zellij-org/zellij/issues/1393)
 5. [Plugins cannot communicate with each other](https://github.com/zellij-org/zellij/issues/2557)
 6. [Plugin commands are asynchronous and provide no success/failure indication](https://github.com/zellij-org/zellij/issues/2558)
+7. [More plugin APIs](https://github.com/zellij-org/zellij/issues/2559)
