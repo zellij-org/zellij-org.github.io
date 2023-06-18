@@ -1,6 +1,6 @@
 # Possible Actions
 
-## `ClearScreen`
+## `Clear`
 
  Clear the scrollback buffer of the focused pane
 
@@ -8,7 +8,7 @@
 
 eg.
 ```javascript
-    bind "a" { ClearScreen; }
+    bind "a" { Clear; }
 ```
 
 ## `CloseFocus`
