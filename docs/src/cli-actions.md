@@ -132,6 +132,21 @@ eg.
 $ zellij action half-page-scroll-up
 ```
 
+#### launch-or-focus-plugin
+Launch a plugin if it is not loaded somewhere in the session, focus it if it is.
+
+**ARGS**: The [plugin URL](./plugin-loading.md#plugin-url-schema) (eg. `file:/path/to/my/plugin.wasm`)
+
+**OPTIONS**:
+```
+-f, --floating      Will be used when launching the plugin if it is not already running
+```
+
+eg.
+```
+zellij action launch-or-focus-plugin zellij:strider --floating
+```
+
 #### move-focus
 Move the focused pane in the specified direction.
 
@@ -274,6 +289,16 @@ Scroll up 1 line in the focused pane
 eg.
 ```
 $ zellij action scroll-up
+```
+
+#### start-or-reload-plugin
+Launch a plugin if it is not loaded or reload it (skipping cache) if it is. Mostly useful for plugin development.
+
+**ARGS**: The [plugin URL](./plugin-loading.md#plugin-url-schema) (eg. `file:/path/to/my/plugin.wasm`)
+
+eg.
+```
+zellij action start-or-reload-plugin zellij:strider
 ```
 
 #### switch-mode

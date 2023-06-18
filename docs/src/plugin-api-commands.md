@@ -1,13 +1,13 @@
 # Plugin API - Commands
 Zellij exports functions that allow plugins to control Zellij or change its behavior.
 
-For more exact information, please see the `zellij-tile` API documentation.
+For more exact information, please see the [`zellij-tile`](https://docs.rs/zellij-tile/latest/zellij_tile/) API documentation.
 
 ## subscribe
-This method is given a list of [events](./plugin-api-events.md) that the plugin is interested in. The plugin's [update](./plugin-api-lifecycle.md) method will be called with the events and its payload, if any.
+This method is given a list of [events](./plugin-api-events.md) that the plugin is interested in. The plugin's [update](./plugin-lifecycle.md#update) method will be called with the events and its payload, if any.
 
 ## unsubscribe
-Same as [subscribe](./#subscribe), only removes subscriptions to events.
+Same as subscribe, only removes subscriptions to events.
 
 ## set_selectable
 Sets the plugin as selectable or unselectable to the user. Unselectable plugins might be desired when they do not accept user input.
@@ -46,10 +46,13 @@ Open a new floating command pane with the specified command and args (this sort 
 Change the focused tab to the specified index (corresponding with the default tab names, to starting at `1`, `0` will be considered as `1`).
 
 ## set_timeout
-Set a timeout in seconds (or fractions thereof) after which the plugins [update](./plugin-api-events#update) method will be called with the [`Timer`](./plugin-api-events.md#timer) event.
+Set a timeout in seconds (or fractions thereof) after which the plugins [update](./plugin-lifecycle.md#update) method will be called with the [`Timer`](./plugin-api-events.md#timer) event. Be sure to subscribe to it beforehand!
 
 ## hide_self
-Hide the plugin pane from the UI
+Hide the plugin pane (suppress it) from the UI
+
+## show_self
+Show the plugin pane (unsuppress it if it is suppressed), focus it and switch to its tab
 
 ## switch_to_input_mode
 Switch to the specified Input Mode (eg. `Normal`, `Tab`, `Pane`)
@@ -164,3 +167,24 @@ Post a message to a worker of this plugin, for more information please see [Plug
 
 ## post_message_to_plugin
 Post a message to this plugin (usually used to communicate with the worker), for more information, please see [Plugin Workers](./plugin-api-workers.md)
+
+## close_terminal_pane
+Closes a terminal pane with the specified id
+
+## close_plugin_pane
+Closes a plugin pane with the specified id
+
+## focus_terminal_pane
+Changes the focus to the terminal pane with the specified id, unsuppressing it if it was suppressed and switching to its tab and layer (eg. floating/tiled).
+
+## focus_plugin_pane
+Changes the focus to the plugin pane with the specified id, unsuppressing it if it was suppressed and switching to its tab and layer (eg. floating/tiled).
+
+## rename_terminal_pane
+Changes the name (the title that appears in the UI) of the terminal pane with the specified id.
+
+## rename_plugin_pane
+Changes the name (the title that appears in the UI) of the plugin pane with the specified id.
+
+## rename_tab
+Changes the name (the title that appears in the UI) of the tab with the specified position.

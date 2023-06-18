@@ -1,6 +1,6 @@
 # Plugin Lifecycle
 
-Zellij provides the `zellij-tile` crate to plugins in order to better communicate with it over the WASM boundary.
+Zellij provides the [`zellij-tile`](https://docs.rs/zellij-tile/latest/zellij_tile/) crate to plugins to facilitate development.
 
 The `zellij-tile` crate provides the `ZellijPlugin` trait:
 
@@ -16,7 +16,7 @@ pub trait ZellijPlugin {
 
 ## Lifecycle Methods
 ### load
-Will be called when the plugin is loaded, this is a good place to [subscribe](./plugin-api-commands.md) to events that are interesting for this plugin.
+Will be called when the plugin is loaded, this is a good place to [subscribe](./plugin-api-commands.md#subscribe) to events that are interesting for this plugin.
 
 ### update
 Will be called with an [`Event`](./plugin-api-events.md) if the plugin is subscribed to said event. If the plugin returns `true` from this function, Zellij will know it should be rendered and call its `render` function.

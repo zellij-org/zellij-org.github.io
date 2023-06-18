@@ -1,5 +1,5 @@
 # Loading Plugins
-Plugins can either be loaded through a [Layout](./creating-a-layout.md), through the [command line](./controlling-zellij-through-cli.md), from a [keybinding](keybindings.md) or even [from another plugin](./plugin-api-commands.md).
+Plugins can either be loaded through a [Layout](./creating-a-layout.md#plugin), through the [command line](./cli-actions.md#launch-or-focus-plugin), or from a [keybinding](keybindings-possible-actions.md#launchorfocusplugin).
 
 ## Plugin URL schema
 Plugins are referred to by URLs. Currently there are two supported schemas:

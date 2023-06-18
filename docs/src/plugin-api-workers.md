@@ -31,10 +31,10 @@ register_worker!(
 );
 ```
 
-For more information, please see the `zellij-tile` API documentation.
+For more information, please see the [`zellij-tile`](https://docs.rs/zellij-tile/latest/zellij_tile/) API documentation.
 
 ## Sending messages to workers
-When a plugin (or another worker) wishes to send messages to a worker, they use the [`post_message_to`](./plugin-api-commands#post_message_to) plugin command. They should use the worker namespace used when registering the worker, eg. `post_message_to("test", ...)` for the `test_worker` example above.
+When a plugin (or another worker) wishes to send messages to a worker, they use the [`post_message_to`](./plugin-api-commands.md#post_message_to) plugin command. They should use the worker namespace used when registering the worker, eg. `post_message_to("test", ...)` for the `test_worker` example above.
 
 ## Sending messages from workers to plugins
-When a worker wishes to send a message to a plugin, they use the [`post_message_to_plugin`](./plugin-api-commands#post_message_to_plugin) command. This message will trigger the plugin's [update](./plugin-api-lifecycle.md#update) method with a [`CustomMessage`](./plugin-api-events.md#CustomMessage) event.
+When a worker wishes to send a message to a plugin, they use the [`post_message_to_plugin`](./plugin-api-commands.md#post_message_to_plugin) command. This message will trigger the plugin's [update](./plugin-api-lifecycle.md#update) method with a [`CustomMessage`](./plugin-api-events.md#CustomMessage) event. Be sure to [`subscribe`](./plugin-api-commands.md#subscribe) to it beforehand!
