@@ -1,341 +1,448 @@
 # Possible Actions
-  - `ClearScreen` - clear the scrollback buffer of the focused pane
 
-    **Possible arguments**: None
+## `Clear`
 
-    eg.
-    ```javascript
-        bind "a" { ClearScreen; }
-    ```
-  - `CloseFocus` - close the focused pane
+ Clear the scrollback buffer of the focused pane
 
-    **Possible arguments**: None
+**Possible arguments**: None
 
-    eg.
-    ```javascript
-        bind "a" { CloseFocus; }
-    ```
-  - `CloseTab` - close the focused tab
+eg.
+```javascript
+    bind "a" { Clear; }
+```
 
-    **Possible arguments**: None
+## `CloseFocus`
 
-    eg.
-    ```javascript
-        bind "a" { CloseTab; }
-    ```
-  - `Detach` - detach from the current session, leaving it running in the background
+ Close the focused pane
 
-    **Possible arguments**: None
+**Possible arguments**: None
 
-    eg.
-    ```javascript
-        bind "a" { Detach; }
-    ```
-  - `DumpScreen` - dump the contents of the focused pane, including its entire scrollback, to the specified file.
+eg.
+```javascript
+    bind "a" { CloseFocus; }
+```
+## `CloseTab`
 
-    **Required arguments**: A path to a file on the hard-drive
+ Close the focused tab
 
-    eg.
-    ```javascript
-        bind "a" { DumpScreen "/tmp/my-dump.txt"; }
-    ```
-  - `EditScrollback` - edit the scrollback of the currently focused pane with the user's default editor.
+**Possible arguments**: None
 
-    **Possible arguments**: None
+eg.
+```javascript
+    bind "a" { CloseTab; }
+```
+## `Detach`
 
-    ```javascript
-        bind "a" { EditScrollback; }
-    ```
-  - `FocusNextPane` - change focus to the next pane (order not guaranteed)
+ Detach from the current session, leaving it running in the background
 
-    **Possible arguments**: None
+**Possible arguments**: None
 
-    ```javascript
-        bind "a" { FocusNextPane; }
-    ```
-  - `FocusPreviousPane` - change focus to the previous pane (order not guaranteed)
+eg.
+```javascript
+    bind "a" { Detach; }
+```
+## `DumpScreen`
 
-    **Possible arguments**: None
+ Dump the contents of the focused pane, including its entire scrollback, to the specified file.
 
-    ```javascript
-        bind "a" { FocusPreviousPane; }
-    ```
-  - `GoToNextTab` - change focus to the next tab
+**Required arguments**: A path to a file on the hard-drive
 
-    **Possible arguments**: None
+eg.
+```javascript
+    bind "a" { DumpScreen "/tmp/my-dump.txt"; }
+```
+## `EditScrollback`
 
-    ```javascript
-        bind "a" { GoToNextTab; }
-    ```
-  - `GoToPreviousTab` - change focus to the previous tab
+ Edit the scrollback of the currently focused pane with the user's default editor.
 
-    **Possible arguments**: None
+**Possible arguments**: None
 
-    ```javascript
-        bind "a" { GoToPreviousTab; }
-    ```
-  - `GoToTab` - change focus to a tab with a specific index
+```javascript
+    bind "a" { EditScrollback; }
+```
+## `FocusNextPane`
 
-    **Required arguments**: numeric tab index (eg. 1)
+ Change focus to the next pane (order not guaranteed)
 
-    ```javascript
-        bind "a" { GoToTab 1; }
-    ```
-  - `HalfPageScrollDown` - scroll the focused pane half a page down
+**Possible arguments**: None
 
-    **Possible arguments**: None
+```javascript
+    bind "a" { FocusNextPane; }
+```
+## `FocusPreviousPane`
 
-    ```javascript
-        bind "a" { HalfPageScrollDown; }
-    ```
-  - `HalfPageScrollUp` - scroll the focused pane half a page up
+ Change focus to the previous pane (order not guaranteed)
 
-    **Possible arguments**: None
+**Possible arguments**: None
 
-    ```javascript
-        bind "a" { HalfPageScrollUp; }
-    ```
-  - `MoveFocus` - move focus in a specific direction
+```javascript
+    bind "a" { FocusPreviousPane; }
+```
+## `GoToNextTab`
 
-    **Required arguments**: `Left` | `Right` | `Up` | `Down`
+ Change focus to the next tab
 
-    ```javascript
-        bind "a" { MoveFocus "Left"; }
-    ```
-  - `MoveFocusOrTab` - move focus left or right, or to the next or previous tab if on screen edge
+**Possible arguments**: None
 
-    **Required arguments**: `Left` | `Right`
+```javascript
+    bind "a" { GoToNextTab; }
+```
+## `GoToPreviousTab`
 
-    ```javascript
-        bind "a" { MoveFocusOrTab "Left"; }
-    ```
-  - `MovePane` - move the position of the focused pane in the specific direction
+ Change focus to the previous tab
 
-    **Required arguments**: `Left` | `Right` | `Up` | `Down`
+**Possible arguments**: None
 
-    ```javascript
-        bind "a" { MovePane "Left"; }
-    ```
-  - `NextSwapLayout` - change the layout of the current tab (either tiled or floating) to the next one
+```javascript
+    bind "a" { GoToPreviousTab; }
+```
+## `GoToTab`
 
-    **Possible arguments**: None
+ Change focus to a tab with a specific index
 
-    ```javascript
-        bind "a" { NextSwapLayout; }
-    ```
-  - `NewPane` - open a new pane (in the specified direction)
+**Required arguments**: numeric tab index (eg. 1)
 
-    **Possible arguments**: `Down` | `Right`
+```javascript
+    bind "a" { GoToTab 1; }
+```
+## `HalfPageScrollDown`
 
-    **Behaviour without arguments**: Opens a pane in the largest available space or if floating panes are visible, in the next floating pane position.
+ Scroll the focused pane half a page down
 
-    ```javascript
-        bind "a" { NewPane "Right"; }
-    ```
-  - `NewTab` - open a new tab
+**Possible arguments**: None
 
-    **Possible arguments**: `cwd` - current working directory for the new tab, `name` - the name of the new tab, `layout` - path to the layout file to load for this tab
+```javascript
+    bind "a" { HalfPageScrollDown; }
+```
+## `HalfPageScrollUp`
 
-    ```javascript
-        bind "a" { NewTab; }
-    ```
-    or:
-    ```javascript
-        bind "a" {
-           NewTab {
-               cwd "/tmp"
-               name "My tab name"
-               layout "/path/to/my/layout.kdl"
-           }
+ Scroll the focused pane half a page up
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { HalfPageScrollUp; }
+```
+
+## `LaunchOrFocusPlugin`
+
+ Launch a plugin if it is not already loaded somewhere in the session, focus it if it is
+
+**Required arguments**: The [plugin URL](./plugin-loading.md#plugin-url-schema) (eg. `file:/path/to/my/plugin.wasm`)
+
+**Optional arguments**: `floating` - `true` or `false` (default is `false`)
+
+```javascript
+    bind "a" {
+        LaunchOrFocusPlugin "zellij:strider" {
+            floating true
         }
-    ```
-  - `PageScrollDown` - scroll the focused pane one page down
+    }
+```
 
-    **Possible arguments**: None
+## `MoveFocus`
 
-    ```javascript
-        bind "a" { PageScrollDown; }
-    ```
+ Move focus in a specific direction
 
-  - `PageScrollUp` - scroll the focused pane one page up
+**Required arguments**: `Left` | `Right` | `Up` | `Down`
 
-    **Possible arguments**: None
+```javascript
+    bind "a" { MoveFocus "Left"; }
+```
+## `MoveFocusOrTab`
 
-    ```javascript
-        bind "a" { PageScrollUp; }
-    ```
-  - `PreviousSwapLayout` - change the layout of the current tab (either tiled or floating) to the previous one
+ Move focus left or right, or to the next or previous tab if on screen edge
 
-    **Possible arguments**: None
+**Required arguments**: `Left` | `Right`
 
-    ```javascript
-        bind "a" { PreviousSwapLayout; }
-    ```
-  - `Quit` - quit Zellij :(
+```javascript
+    bind "a" { MoveFocusOrTab "Left"; }
+```
+## `MovePane`
 
-    **Possible arguments**: None
+ Move the position of the focused pane in the specific direction
 
-    ```javascript
-        bind "a" { Quit; }
-    ```
-  - `Resize` - resize the focused pane either in the specified direction or increase/decrease its size automatically
+**Required arguments**: `Left` | `Right` | `Up` | `Down`
 
-    **Required arguments**: `Left` | `Right` | `Up` | `Down` | `Increase` | `Decrease`
+```javascript
+    bind "a" { MovePane "Left"; }
+```
+## `NextSwapLayout`
 
-    ```javascript
-        bind "a" { Resize "Increase"; }
-    ```
-  - `Run` - run the specified command
+ Change the layout of the current tab (either tiled or floating) to the next one
 
-    **Required arguments**: The command to run, followed by optional arguments
+**Possible arguments**: None
 
-    **Possible arguments**: `cwd` - current working directory, `direction` - the direction to open the new command pane
+```javascript
+    bind "a" { NextSwapLayout; }
+```
+## `NewPane`
 
-    ```javascript
-        // will run "tail -f /tmp/foo" in a pane opened below the focused one
-        bind "a" {
-            Run "tail" "-f" "foo" {
-                cwd "/tmp"
-                direction "Down"
-            }
+ Open a new pane (in the specified direction)
+
+**Possible arguments**: `Down` | `Right`
+
+**Behaviour without arguments**: Opens a pane in the largest available space or if floating panes are visible, in the next floating pane position.
+
+```javascript
+    bind "a" { NewPane "Right"; }
+```
+## `NewTab`
+
+ Open a new tab
+
+**Possible arguments**: `cwd`
+
+ Current working directory for the new tab, `name` - the name of the new tab, `layout` - path to the layout file to load for this tab
+
+```javascript
+    bind "a" { NewTab; }
+```
+or:
+```javascript
+    bind "a" {
+       NewTab {
+           cwd "/tmp"
+           name "My tab name"
+           layout "/path/to/my/layout.kdl"
+       }
+    }
+```
+## `PageScrollDown`
+
+ Scroll the focused pane one page down
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { PageScrollDown; }
+```
+
+## `PageScrollUp`
+
+ Scroll the focused pane one page up
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { PageScrollUp; }
+```
+## `PreviousSwapLayout`
+
+ Change the layout of the current tab (either tiled or floating) to the previous one
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { PreviousSwapLayout; }
+```
+## `Quit`
+
+ Quit Zellij :(
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { Quit; }
+```
+## `Resize`
+
+ Resize the focused pane either in the specified direction or increase/decrease its size automatically
+
+**Required arguments**: `Left` | `Right` | `Up` | `Down` | `Increase` | `Decrease`
+
+```javascript
+    bind "a" { Resize "Increase"; }
+```
+## `Run`
+
+ Run the specified command
+
+**Required arguments**: The command to run, followed by optional arguments
+
+**Possible arguments**: `cwd` - current working directory, `direction` - the direction to open the new command pane
+
+```javascript
+    // will run "tail -f /tmp/foo" in a pane opened below the focused one
+    bind "a" {
+        Run "tail" "-f" "foo" {
+            cwd "/tmp"
+            direction "Down"
         }
-    ```
-  - `ScrollDown` - scroll the focused pane down 1 line
+    }
+```
+## `ScrollDown`
 
-    **Possible arguments**: None
+ Scroll the focused pane down 1 line
 
-    ```javascript
-        bind "a" { ScrollDown; }
-    ```
-  - `ScrollToBottom` - scroll the focused pane completely down
+**Possible arguments**: None
 
-    **Possible arguments**: None
+```javascript
+    bind "a" { ScrollDown; }
+```
+## `ScrollToBottom`
 
-    ```javascript
-        bind "a" { ScrollToBottom; }
-    ```
-  - `ScrollUp` - scroll the focused pane up 1 line
+ Scroll the focused pane completely down
 
-    **Possible arguments**: None
+**Possible arguments**: None
 
-    ```javascript
-        bind "a" { ScrollUp; }
-    ```
-  - `ScrollToTop` - scroll the focused pane completely up
+```javascript
+    bind "a" { ScrollToBottom; }
+```
+## `ScrollUp`
 
-    **Possible arguments**: None
+ Scroll the focused pane up 1 line
 
-    ```javascript
-        bind "a" { ScrollToTop; }
-    ```
-  - `Search` - when searching, move to the next or previous search occurrence
+**Possible arguments**: None
 
-    **Required arguments**: "down" | "up"
+```javascript
+    bind "a" { ScrollUp; }
+```
+## `ScrollToTop`
 
-    ```javascript
-        bind "a" { Search "up"; }
-    ```
+ Scroll the focused pane completely up
 
-  - `SearchToggleOption` - toggle various search options on/off
+**Possible arguments**: None
 
-    **Required arguments**: "CaseSensitivity" | "Wrap" | "WhileWord"
+```javascript
+    bind "a" { ScrollToTop; }
+```
+## `Search`
 
-    ```javascript
-        bind "a" { SearchToggleOption "CaseSensitivity"; }
-    ```
+ When searching, move to the next or previous search occurrence
 
-  - `SwitchToMode` - switch the current input mode
+**Required arguments**: "down" | "up"
 
-    **Required arguments**: See [Modes](#modes)
+```javascript
+    bind "a" { Search "up"; }
+```
 
-    ```javascript
-        bind "a" { SwitchToMode "locked"; }
-    ```
+## `SearchToggleOption`
 
-  - `ToggleActiveSyncTab` - toggle the syncing of input between all panes in the focused tab
+ Toggle various search options on/off
 
-    **Possible arguments**: None
+**Required arguments**: "CaseSensitivity" | "Wrap" | "WhileWord"
 
-    ```javascript
-        bind "a" { ToggleActiveSyncTab; }
-    ```
+```javascript
+    bind "a" { SearchToggleOption "CaseSensitivity"; }
+```
 
-  - `ToggleFloatingPanes` - show/hide floating panes; if none are open, one will be opened
+## `SwitchToMode`
 
-    **Possible arguments**: None
+ Switch the current input mode
 
-    ```javascript
-        bind "a" { ToggleFloatingPanes; }
-    ```
+**Required arguments**: See [Modes](#modes)
 
-  - `ToggleFocusFullscreen` - toggle the focused pane as fullscreen on/off
+```javascript
+    bind "a" { SwitchToMode "locked"; }
+```
 
-    **Possible arguments**: None
+## `ToggleActiveSyncTab`
 
-    ```javascript
-        bind "a" { ToggleFocusFullscreen; }
-    ```
+ Toggle the syncing of input between all panes in the focused tab
 
-  - `ToggleMouseMode` - toggle mouse support on/off
+**Possible arguments**: None
 
-    **Possible arguments**: None
+```javascript
+    bind "a" { ToggleActiveSyncTab; }
+```
 
-    ```javascript
-        bind "a" { ToggleMouseMode; }
-    ```
+## `ToggleFloatingPanes`
 
-  - `TogglePaneEmbedOrFloating` - float focused embedded pane or embed focused floating pane
+ Show/hide floating panes; if none are open, one will be opened
 
-    **Possible arguments**: None
+**Possible arguments**: None
 
-    ```javascript
-        bind "a" { TogglePaneEmbedOrFloating; }
-    ```
+```javascript
+    bind "a" { ToggleFloatingPanes; }
+```
 
-  - `TogglePaneFrames` - show/hide the frames around panes (notice, these might have valuable UX info)
+## `ToggleFocusFullscreen`
 
-    **Possible arguments**: None
+ Toggle the focused pane as fullscreen on/off
 
-    ```javascript
-        bind "a" { TogglePaneFrames; }
-    ```
+**Possible arguments**: None
 
-  - `ToggleTab` - change the tab focus
+```javascript
+    bind "a" { ToggleFocusFullscreen; }
+```
 
-    **Possible arguments**: None
+## `ToggleMouseMode`
 
-    ```javascript
-        bind "a" { ToggleTab; }
-    ```
+ Toggle mouse support on/off
 
-  - `UndoRenamePane` - undo a rename pane operation currently in progress (reverting to the previous name)
+**Possible arguments**: None
 
-    **Possible arguments**: None
+```javascript
+    bind "a" { ToggleMouseMode; }
+```
 
-    ```javascript
-        bind "a" { UndoRenamePane; }
-    ```
+## `TogglePaneEmbedOrFloating`
 
-  - `UndoRenameTab` - undo a rename tab operation currently in progress (reverting to the previous name)
+ Float focused embedded pane or embed focused floating pane
 
-    **Possible arguments**: None
+**Possible arguments**: None
 
-    ```javascript
-        bind "a" { UndoRenameTab; }
-    ```
+```javascript
+    bind "a" { TogglePaneEmbedOrFloating; }
+```
 
-  - `Write` - write bytes to the active pane
+## `TogglePaneFrames`
 
-    **Required arguments**: the bytes to write as integers
+ Show/hide the frames around panes (notice, these might have valuable UX info)
 
-    ```javascript
-        bind "a" { Write 102 111 111; }
-    ```
+**Possible arguments**: None
 
-  - `WriteChars` - write a string of characters to the active pane
+```javascript
+    bind "a" { TogglePaneFrames; }
+```
 
-    **Required arguments**: the string of characters to write
+## `ToggleTab`
 
-    ```javascript
-        bind "a" { WriteChars "hi there!"; }
-    ```
+ Change the tab focus
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { ToggleTab; }
+```
+
+## `UndoRenamePane`
+
+ Undo a rename pane operation currently in progress (reverting to the previous name)
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { UndoRenamePane; }
+```
+
+## `UndoRenameTab`
+
+ Undo a rename tab operation currently in progress (reverting to the previous name)
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { UndoRenameTab; }
+```
+
+## `Write`
+
+ Write bytes to the active pane
+
+**Required arguments**: the bytes to write as integers
+
+```javascript
+    bind "a" { Write 102 111 111; }
+```
+
+## `WriteChars`
+
+ Write a string of characters to the active pane
+
+**Required arguments**: the string of characters to write
+
+```javascript
+    bind "a" { WriteChars "hi there!"; }
+```
