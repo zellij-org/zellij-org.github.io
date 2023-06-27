@@ -42,4 +42,5 @@
     - [Plugin Lifecycle](./plugin-lifecycle.md)
     - [Rendering a UI](./plugin-ui-rendering.md)
     - [Upgrading and Backwards Compatibility](./plugin-upgrading.md)
+  - [Example Plugins](./plugin-examples.md)
 - [Compatibility](./compatibility.md)
