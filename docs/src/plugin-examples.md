@@ -1,5 +1,11 @@
 # Example Plugins
 
+### [jbz](https://github.coem/nim65s/jbz)
+![jbz preview](/video/jbz-preview.gif)
+
+[jbz](https://github.coem/nim65s/jbz) simply spawn all your [just](https://github.com/casey/just) commands wrapped
+in [bacon](https://github.com/Canop/bacon), each one in a new pane.
+
 ### [Monocle](https://github.com/imsnif/monocle)
 ![Monocle preview](/video/monocle-preview.gif)
 
