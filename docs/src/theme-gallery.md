@@ -113,3 +113,47 @@ inside of the main zellij [repository](https://github.com/zellij-org/zellij/tree
 ![Tokyo Night Storm Compact Simplified](img/theme-gallery/tokyo_night_storm_compact___simplified_ui_true_screenshot.png)
 
 </details>
+
+### Catppuccin Latte
+![Catppuccin Latte](img/theme-gallery/catppuccin_latte_default__screenshot.png)
+<details>
+<summary>More Catppuccin Latte</summary>
+
+![Catppuccin Latte Compact](img/theme-gallery/catppuccin_latte_compact__screenshot.png)
+![Catppuccin Latte Default Simplified](img/theme-gallery/catppuccin_latte_default___simplified_ui_true_screenshot.png)
+![Catppuccin Latte Compact Simplified](img/theme-gallery/catppuccin_latte_compact___simplified_ui_true_screenshot.png)
+
+</details>
+
+### Catppuccin Frappe
+![Catppuccin Frappe](img/theme-gallery/catppuccin_frappe_default__screenshot.png)
+<details>
+<summary>More Catppuccin Frappe</summary>
+
+![Catppuccin Frappe Compact](img/theme-gallery/catppuccin_frappe_compact__screenshot.png)
+![Catppuccin Frappe Default Simplified](img/theme-gallery/catppuccin_frappe_default___simplified_ui_true_screenshot.png)
+![Catppuccin Frappe Compact Simplified](img/theme-gallery/catppuccin_frappe_compact___simplified_ui_true_screenshot.png)
+
+</details>
+
+### Catppuccin Macchiato
+![Catppuccin Macchiato](img/theme-gallery/catppuccin_macchiato_default__screenshot.png)
+<details>
+<summary>More Catppuccin Macchiato</summary>
+
+![Catppuccin Macchiato Compact](img/theme-gallery/catppuccin_macchiato_compact__screenshot.png)
+![Catppuccin Macchiato Default Simplified](img/theme-gallery/catppuccin_macchiato_default___simplified_ui_true_screenshot.png)
+![Catppuccin Macchiato Compact Simplified](img/theme-gallery/catppuccin_macchiato_compact___simplified_ui_true_screenshot.png)
+
+</details>
+
+### Catppuccin Mocha
+![Catppuccin Mocha](img/theme-gallery/catppuccin_mocha_default__screenshot.png)
+<details>
+<summary>More Catppuccin Mocha</summary>
+
+![Catppuccin Mocha Compact](img/theme-gallery/catppuccin_mocha_compact__screenshot.png)
+![Catppuccin Mocha Default Simplified](img/theme-gallery/catppuccin_mocha_default___simplified_ui_true_screenshot.png)
+![Catppuccin Mocha Compact Simplified](img/theme-gallery/catppuccin_mocha_compact___simplified_ui_true_screenshot.png)
+
+</details>
