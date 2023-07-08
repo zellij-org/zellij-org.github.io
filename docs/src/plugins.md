@@ -14,7 +14,7 @@ As mentioned above, the plugin system is in its early stages. While it has been 
 
 Here's [a list of known issues and things that are missing](./plugin-system-status.md), these are all issues that are being worked on and should be addressed in the near future.
 
-Currently, Rust is the only language officially supported for plugins. We plan on supporting as many languages as possible.
+Currently, Rust is the only language officially supported for plugins, but there are [community efforts](./plugin-other-languages.md) we are enthusiastic about to support other languages. We plan on supporting as many languages as possible.
 
 ## Should I be careful loading Zellij plugins?
 

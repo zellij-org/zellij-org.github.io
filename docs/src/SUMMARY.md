@@ -43,4 +43,5 @@
     - [Rendering a UI](./plugin-ui-rendering.md)
     - [Upgrading and Backwards Compatibility](./plugin-upgrading.md)
   - [Example Plugins](./plugin-examples.md)
+  - [Developing a Plugin in Other Languages](./plugin-other-languages.md)
 - [Compatibility](./compatibility.md)
