@@ -19,8 +19,17 @@ in [bacon](https://github.com/Canop/bacon), each one in a new pane.
 If you press `ESC` or `Ctrl c`, it will hide itself until you call it again.
 
 ### [Multitask](https://github.com/imsnif/multitask)
+
 ![multitask plugin preview](/img/multitask-preview.png)
 
 This Zellij plugin is a "mini-ci". It allows you to specify commands that will run in parallel, keeping track of completed commands and their exit status. Only progressing to the next step if all the commands in the previous step succeeded.
 
 Did one command fail? No problem! Fix the issue, re-run it with ENTER and the pipeline will continue.
+
+### [room](https://github.com/rvcas/room)
+
+![room preview](/video/room-preview.gif)
+
+[room](https://github.com/rvcas/room) is for quickly searching and switching between tabs.
+You can use `Tab`, `Up`, or `Down` to cycle through your tab list and then press `Enter` to switch
+to the selected tab. You can start typing to filter the tab list and you use `Esc` or `Ctrl + c` to exit.
