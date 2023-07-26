@@ -33,3 +33,11 @@ Did one command fail? No problem! Fix the issue, re-run it with ENTER and the pi
 [room](https://github.com/rvcas/room) is for quickly searching and switching between tabs.
 You can use `Tab`, `Up`, or `Down` to cycle through your tab list and then press `Enter` to switch
 to the selected tab. You can start typing to filter the tab list and you use `Esc` or `Ctrl + c` to exit.
+
+### [harpoon](https://github.com/Nacho114/harpoon)
+
+![harpoon preview](/video/harpoon-preview.gif)
+
+[harpoon](https://github.com/Nacho114/harpoon) enables quick navigation to your favorite panes. 
+You can use `a` to add the current pane to your harpoon list. You can navigate harpoon using `Up`,
+`Down`, or using vim navigation. To go to the pane you just press `Enter`.
