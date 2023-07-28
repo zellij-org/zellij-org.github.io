@@ -2702,6 +2702,11 @@ register_plugin!(MyPlugin);
 <p>Since Zellij plugins using <a href="./plugin-lifecycle.html"><code>zellij-tile</code></a> rely on shared data structures, currently one would need to compile a plugin against the corresponding <code>zellij-tile</code> package of the zellij version it is installed on.</p>
 <p>The Zellij maintainers are aware this is an inconvenient and undesired scenario and are working on a more robust solution.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="example-plugins"><a class="header" href="#example-plugins">Example Plugins</a></h1>
+<h3 id="harpoon"><a class="header" href="#harpoon"><a href="https://github.com/Nacho114/harpoon">harpoon</a></a></h3>
+<p><img src="/video/harpoon-preview.gif" alt="harpoon preview" /></p>
+<p><a href="https://github.com/Nacho114/harpoon">harpoon</a> enables quick navigation to your favorite panes. 
+You can use <code>a</code> to add the current pane to your harpoon list. You can navigate harpoon using <code>Up</code>,
+<code>Down</code>, or using vim navigation. To go to the pane you just press <code>Enter</code>.</p>
 <h3 id="jbz"><a class="header" href="#jbz"><a href="https://github.com/nim65s/jbz">jbz</a></a></h3>
 <p><img src="/video/jbz-preview.gif" alt="jbz preview" /></p>
 <p><a href="https://github.com/nim65s/jbz">jbz</a> simply spawn all your <a href="https://github.com/casey/just">just</a> commands wrapped
@@ -2720,6 +2725,11 @@ in <a href="https://github.com/Canop/bacon">bacon</a>, each one in a new pane.</
 <p><img src="/img/multitask-preview.png" alt="multitask plugin preview" /></p>
 <p>This Zellij plugin is a &quot;mini-ci&quot;. It allows you to specify commands that will run in parallel, keeping track of completed commands and their exit status. Only progressing to the next step if all the commands in the previous step succeeded.</p>
 <p>Did one command fail? No problem! Fix the issue, re-run it with ENTER and the pipeline will continue.</p>
+<h3 id="room"><a class="header" href="#room"><a href="https://github.com/rvcas/room">room</a></a></h3>
+<p><img src="/video/room-preview.gif" alt="room preview" /></p>
+<p><a href="https://github.com/rvcas/room">room</a> is for quickly searching and switching between tabs.
+You can use <code>Tab</code>, <code>Up</code>, or <code>Down</code> to cycle through your tab list and then press <code>Enter</code> to switch
+to the selected tab. You can start typing to filter the tab list and you use <code>Esc</code> or <code>Ctrl + c</code> to exit.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="developing-a-plugin-in-other-languages"><a class="header" href="#developing-a-plugin-in-other-languages">Developing a Plugin in Other Languages</a></h1>
 <p>Here's a list of other SDKs for developing Zellij plugins in languages other than Rust:</p>
 <ol>

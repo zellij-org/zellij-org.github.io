@@ -1,5 +1,13 @@
 # Example Plugins
 
+### [harpoon](https://github.com/Nacho114/harpoon)
+
+![harpoon preview](/video/harpoon-preview.gif)
+
+[harpoon](https://github.com/Nacho114/harpoon) enables quick navigation to your favorite panes. 
+You can use `a` to add the current pane to your harpoon list. You can navigate harpoon using `Up`,
+`Down`, or using vim navigation. To go to the pane you just press `Enter`.
+
 ### [jbz](https://github.com/nim65s/jbz)
 ![jbz preview](/video/jbz-preview.gif)
 
