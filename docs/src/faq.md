@@ -22,6 +22,7 @@ This depends on which terminal emulator you're using. Here are some links that m
 1. [iTerm2](https://www.reddit.com/r/zellij/comments/13twru4/comment/kpmsjv2/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button)
 2. [Terminal.app](https://superuser.com/questions/1038947/using-the-option-key-properly-on-mac-terminal)
 3. [Alacritty](https://github.com/zellij-org/zellij/issues/2051#issuecomment-1461519892)
+4. [Kitty](https://sw.kovidgoyal.net/kitty/conf/#opt-kitty.macos_option_as_alt)
 
 ## Copy / Paste isn't working, how can I fix this?
 Some terminals don't support the the OSC 52 signal, which is the method Zellij uses by default to copy text to the clipboard. To get around this, you can either switch to a supported terminal (eg. Alacritty or xterm) or configure Zellij to use an external utility when copy pasting (eg. xclip, wl-copy or pbcopy).
