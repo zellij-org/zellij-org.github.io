@@ -43,7 +43,7 @@ For more info, see: [Controlling Zellij through the CLI](./controlling-zellij-th
 
 ### Layout default directory
 
-By default Zellij will load the `default.kdl` layout, found in the `layouts` directory (a subdirectory of the `config` directory [config/layouts]).
+By default Zellij will load the `default.kdl` layout, found in the `layouts` directory (a subdirectory of the (`config` directory)[./configuration.md]).
 
 If not found, Zellij will start with one pane and one tab.
 
