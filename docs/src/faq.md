@@ -31,6 +31,7 @@ This depends on which terminal emulator you're using. Here are some links that m
 Some terminals don't support the the OSC 52 signal, which is the method Zellij uses by default to copy text to the clipboard. To get around this, you can either switch to a supported terminal (eg. Alacritty or xterm) or configure Zellij to use an external utility when copy pasting (eg. xclip, wl-copy or pbcopy).
 
 To do the latter, add one of the following to your [Zellij Config](./configuration.md):
+
 ```
 copy_command: "xclip -selection clipboard" # x11
 copy_command: "wl-copy"                    # wayland
