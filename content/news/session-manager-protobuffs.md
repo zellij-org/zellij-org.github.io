@@ -28,7 +28,7 @@ Until now, we have used a random name generator for the Zellij session names. We
 
 ## Plugin Infrastructure Improvements
 ### Plugins are now configurable
-It's now possible to send arbitrary user configuration to plugins. Meaning plugins can be instantiated with different configuration to illicit different behavior. This configuration can be provided when loading a plugin through a Zellij [layout](https://zellij.dev/documentation/layouts) or when loading them from the [command line](https://zellij.dev/documentation/cli-actions#launch-or-focus-plugin).
+It's now possible to send arbitrary user configuration to plugins. Meaning plugins can be instantiated with different configuration to elicit different behavior. This configuration can be provided when loading a plugin through a Zellij [layout](https://zellij.dev/documentation/layouts) or when loading them from the [command line](https://zellij.dev/documentation/cli-actions#launch-or-focus-plugin).
 
 ### New plugin permission system
 ![Zellij plugin permission request](/img/zellij-plugin-permission-request.png)
