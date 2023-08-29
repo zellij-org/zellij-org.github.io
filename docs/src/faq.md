@@ -46,8 +46,8 @@ In this mode you can create additional windows as you would normally create pane
 
 You can also embed a floating pane with `Ctrl + <p> + <e>`, and float an embedded pane in the same way.
 
-## How can I sync input to multiple panes?
-You can toggle sync input to all panes in a tab with `Ctrl + <t> + <s>`. Then everything you type will be sent to all panes in the tab.
+## How can I switch between sessions or launch a new session from within Zellij?
+You can use the built-in `session-manager`. By default, launch it with `Ctrl o` + `w`.
 
 ## Editing the pane scrollbuffer with `ctrl + <s> + <e>` doesn't work, what's wrong?
 
