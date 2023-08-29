@@ -346,8 +346,8 @@ copy_command: &quot;pbcopy&quot;                     # osx
 <p>You can toggle showing/hiding floating panes with <code>Ctrl + &lt;p&gt; + &lt;w&gt;</code> (if no floating panes are open, one will be opened when they are shown).</p>
 <p>In this mode you can create additional windows as you would normally create panes (eg. with <code>Alt + &lt;n&gt;</code>). Move them with the mouse or the keyboard, and resize them as you would normally resize or move Zellij panes.</p>
 <p>You can also embed a floating pane with <code>Ctrl + &lt;p&gt; + &lt;e&gt;</code>, and float an embedded pane in the same way.</p>
-<h2 id="how-can-i-sync-input-to-multiple-panes"><a class="header" href="#how-can-i-sync-input-to-multiple-panes">How can I sync input to multiple panes?</a></h2>
-<p>You can toggle sync input to all panes in a tab with <code>Ctrl + &lt;t&gt; + &lt;s&gt;</code>. Then everything you type will be sent to all panes in the tab.</p>
+<h2 id="how-can-i-switch-between-sessions-or-launch-a-new-session-from-within-zellij"><a class="header" href="#how-can-i-switch-between-sessions-or-launch-a-new-session-from-within-zellij">How can I switch between sessions or launch a new session from within Zellij?</a></h2>
+<p>You can use the built-in <code>session-manager</code>. By default, launch it with <code>Ctrl o</code> + <code>w</code>.</p>
 <h2 id="editing-the-pane-scrollbuffer-with-ctrl--s--e-doesnt-work-whats-wrong"><a class="header" href="#editing-the-pane-scrollbuffer-with-ctrl--s--e-doesnt-work-whats-wrong">Editing the pane scrollbuffer with <code>ctrl + &lt;s&gt; + &lt;e&gt;</code> doesn't work, what's wrong?</a></h2>
 <p>By default, Zellij looks for an editor defined in the <code>EDITOR</code> or <code>VISUAL</code> environment variables (in this order).
 Make sure one is set (eg. <code>export EDITOR=/usr/bin/vim</code>) before Zellij starts.
