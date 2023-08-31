@@ -6,7 +6,7 @@ It is possible to add to these defaults or even override them with an external c
 
 Keybindings can be configured in the `keybinds` block of the file.
 
-See [examples/default.kml](https://github.com/zellij-org/zellij/blob/main/example/default.kdl) as reference for the default keybindings.
+See [the default keybindings](https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/config/default.kdl) as reference for the default keybindings.
 
 ```javascript
 keybinds {
