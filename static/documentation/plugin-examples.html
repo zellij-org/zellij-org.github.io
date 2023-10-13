@@ -88,11 +88,33 @@
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
 
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
                                 <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky bordered">
+                <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
@@ -173,6 +195,12 @@ in <a href="https://github.com/Canop/bacon">bacon</a>, each one in a new pane.</
 <p><a href="https://github.com/rvcas/room">room</a> is for quickly searching and switching between tabs.
 You can use <code>Tab</code>, <code>Up</code>, or <code>Down</code> to cycle through your tab list and then press <code>Enter</code> to switch
 to the selected tab. You can start typing to filter the tab list and you use <code>Esc</code> or <code>Ctrl + c</code> to exit.</p>
+<h3 id="zellij-forgot"><a class="header" href="#zellij-forgot"><a href="https://github.com/karimould/zellij-forgot">zellij-forgot</a></a></h3>
+<p><img src="/img/forgot-preview.gif" alt="zellij-forgot" /></p>
+<p><a href="https://github.com/karimould/zellij-forgot">zellij-forgot</a> is a plugin to quickly help you access and search through a customizable list of items. Can't remember your keybindings? Zellij-forgot can help you. Struggling to recall the names of all your cats? Zellij-forgot's got you covered!</p>
+<h3 id="zjstatus"><a class="header" href="#zjstatus"><a href="https://github.com/dj95/zjstatus">zjstatus</a></a></h3>
+<p><img src="/img/zjstatus-preview.png" alt="zjstatus preview" /></p>
+<p><a href="https://github.com/dj95/zjstatus">zjstatus</a> is a highly customizable status bar for Zellij. It has various widgets that can be styled to your liking, including such niceties as a system clock and even the ability to remove pane frames if there's only one pane on screen.</p>
 
                     </main>
 
