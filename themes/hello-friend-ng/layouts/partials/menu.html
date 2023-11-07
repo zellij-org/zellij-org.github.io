@@ -1,5 +1,7 @@
 <nav class="menu">
     <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li>
+        
         {{- $currentPage := . -}}
         {{ range .Site.Menus.main -}}
             <li><a href="{{ .URL | relLangURL }}">{{ .Name }}</a></li>

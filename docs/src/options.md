@@ -226,3 +226,46 @@ Options:
 ```javascript
 auto_layout true
 ```
+
+### styled_underlines
+Toggle between supporting the extended "styled_underlines" ANSI protocol and ignoring it (can sometimes cause some issues in unsupported terminals).
+Options:
+  - true (default)
+  - false
+
+```javascript
+styled_underlines true
+```
+
+### session_serialization
+If enabled, sessions will be serialized to the cache folder (and thus become resurrectable between reboots or on exit). Read more about [session resurrection](./session-resurrection.md).
+Options:
+  - true (default)
+  - false
+
+```javascript
+session_serialization true
+```
+
+### pane_viewport_serialization
+If enabled along with `session_serialization`, the pane viewport (the visible part of the terminal excluding the scrollback) will be serialized and resurrectable as well. Read more about [session resurrection](./session-resurrection.md).
+Options:
+  - true
+  - false (default)
+
+```javascript
+session_serialization true
+```
+
+### scrollback_lines_to_serialize
+When `pane_viewport_serialization` is enabled, setting `scrollback_lines_to_serialize` to `0` in the will serialize all scrollback and to any other number will serialize line number up to that scrollback. Read more about [session resurrection](./session-resurrection.md).
+
+*Note: this might incur higher resource utilization (and certainly a higher cache folder usage...)*
+
+Options:
+  - `0`: serialize all scrollback
+  - `int`: serialize this much lines for each pane (max is the scrollback limit)
+
+```javascript
+pane_viewport_serialization 100
+```

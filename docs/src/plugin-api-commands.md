@@ -31,6 +31,11 @@ Open a file in the user's default `$EDITOR` in a new pane
 
 Open a file in the user's default `$EDITOR` in a new floating pane
 
+## open_file_in_place
+* Requires the `OpenFiles` [permission](./plugin-api-permissions.md)
+
+Open a file in the user's default `$EDITOR`, temporarily replacing the focused pane
+
 ## open_file_with_line
 * Requires the `OpenFiles` [permission](./plugin-api-permissions.md)
 
@@ -51,6 +56,11 @@ Open a new terminal pane to the specified location on the host filesystem
 
 Open a new floating terminal pane to the specified location on the host filesystem
 
+## open_terminal_in_place
+* Requires the `OpenTerminalsOrPlugins` [permission](./plugin-api-permissions.md)
+
+Open a new terminal pane to the specified location on the host filesystem, temporarily replacing the focused pane
+
 ## open_command_pane
 * Requires the `RunCommands` [permission](./plugin-api-permissions.md)
 Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI).
@@ -59,6 +69,19 @@ Open a new command pane with the specified command and args (this sort of pane a
 * Requires the `RunCommands` [permission](./plugin-api-permissions.md)
 
 Open a new floating command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI).
+
+## open_command_pane_in_place
+* Requires the `RunCommands` [permission](./plugin-api-permissions.md)
+
+Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), temporarily replacing the focused pane
+
+## run_command
+* Requires the `RunCommands` [permission](./plugin-api-permissions.md)
+Run this host command in the background on the host machine, optionally being notified of its output if subscribed to the [`RunCommandResult`](./plugin-api-events.md) Event. This API method includes a dictionary of arbitrary strings that will be returned verbatim with the `RunCommandResult` event. It can be used for things such as "request_id" to be able to identify the output of a command, or whatever else is needed.
+
+## web_request
+* Requires the `WebAccess` [permission](./plugin-api-permissions.md)
+Make a web request, optionally being notified of its output if subscribed to the [`WebRequestResult`](./plugin-api-events.md) Event. This API method includes a dictionary of arbitrary strings that will be returned verbatim with the `WebRequestResult` event. It can be used for things such as "request_id" to be able to identify the output of a command, or whatever else is needed.
 
 ## switch_tab_to
 Change the focused tab to the specified index (corresponding with the default tab names, to starting at `1`, `0` will be considered as `1`).

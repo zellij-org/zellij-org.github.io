@@ -11,6 +11,7 @@ echo $ZELLIJ_SESSION_NAME
 The `ZELLIJ_SESSION_NAME` has the session name as its value, and `ZELLIJ` gets
 set to `0` inside a zellij session.
 Arbitrary key value pairs can be set through configuration, or layouts.
+Note that `ZELLIJ_SESSION_NAME` will not be updated for existing terminal panes when renaming a session (but will for new panes).
 
 
 Here are some limited examples to help get you started:

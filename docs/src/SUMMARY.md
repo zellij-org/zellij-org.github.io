@@ -22,6 +22,7 @@
   - [Zellij Run](./zellij-run.md)
   - [Zellij Edit](./zellij-edit.md)
   - [Zellij Action](./cli-actions.md)
+  - [Zellij Plugin](./zellij-plugin.md)
 - [Layouts](./layouts.md)
     - [Creating a Layout](./creating-a-layout.md)
         - [Swap Layouts](./swap-layouts.md)
@@ -47,4 +48,5 @@
   - [Example Plugins](./plugin-examples.md)
   - [Developing a Plugin in Other Languages](./plugin-other-languages.md)
   - [Plugin Upgrade Guide for version 0.38.0](./plugin-upgrade-0.38.0.md)
+- [Session Resurrection](./session-resurrection.md)
 - [Compatibility](./compatibility.md)

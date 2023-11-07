@@ -7,6 +7,6 @@ std::fs::write("/host/my_file.txt", "hi from a plugin!").unwrap()
 ```
 
 Zellij maps three paths for each plugin:
-  - `/host` - the folder where Zellij was started
+  - `/host` - the cwd of the last focused terminal, or the folder where Zellij was started if that's not available
   - `/data` - its own folder, shared with all loaded instances of the plugin - created on plugin load and deleted on plugin unload.
   - `/tmp` - a temporary folder located in an arbitrary position in the system's temporary filesystem.
