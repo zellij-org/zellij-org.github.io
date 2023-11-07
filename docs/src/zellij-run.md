@@ -14,6 +14,7 @@ $ zellij run -- git diff
     -d, --direction <DIRECTION>    Direction to open the new pane in
     -f, --floating                 Open the new pane in floating mode
     -h, --help                     Print help information
+    -i, --in-place                 Open the new pane in place of the current pane, temporarily suspending it
     -n, --name <NAME>              Name of the new pane
     -s, --start-suspended          Start the command suspended, only running after you first presses
                                    ENTER

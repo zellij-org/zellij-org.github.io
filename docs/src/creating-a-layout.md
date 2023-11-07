@@ -419,6 +419,21 @@ layout {
 }
 ```
 
+#### hide_floating_panes
+If set, all floating panes defined in this tab will be hidden on startup.
+
+eg.
+```javascript
+tab name="Tab #1" hide_floating_panes=true {
+    pane
+    pane
+    floating_panes { // will start hidden
+        pane
+        pane
+    }
+}
+```
+
 ### Templates
 Templates can be used avoid repetition when creating layouts.
 Each template has a name that should be used directly as a node name instead of "pane" or "tab".
@@ -591,6 +606,9 @@ layout {
     }
 }
 ```
+
+### `new_tab_template`
+This is a logical tab-like node that will only be used as a blueprint to open new tabs. It can be useful when one would like to define a few initial tabs, but use a different template for opening new tabs.
 
 ### `cwd` Composition
 

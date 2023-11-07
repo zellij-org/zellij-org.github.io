@@ -55,3 +55,9 @@ This event corresponds to the `post_message_to` and `post_message_to_plugin` [pl
 
 ## FileSystemCreate, FileSystemRead, FileSystemUpdate, FileSystemDelete
 These events are fired when the user creates a file, reads a file, updates a file or deletes a file in the folder in which Zellij was started. It includes a vector of the files in question.
+
+## RunCommandResult
+Returned after the `RunCommand` [plugin command](./plugin-api-commands.md). Containing the exit status, STDIN and STDOUT of the command as well as the context (an arbitrary string dictionary) provided when initiating the command.
+
+## WebRequestResult
+Returned after the `WebRequest` [plugin command](./plugin-api-commands.md). Containing the status code and body of the request as well as the context (an arbitrary string dictionary) provided when initiating the command.
