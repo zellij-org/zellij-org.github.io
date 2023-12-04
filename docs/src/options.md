@@ -254,7 +254,7 @@ Options:
   - false (default)
 
 ```javascript
-session_serialization true
+pane_viewport_serialization true
 ```
 
 ### scrollback_lines_to_serialize
@@ -267,5 +267,5 @@ Options:
   - `int`: serialize this much lines for each pane (max is the scrollback limit)
 
 ```javascript
-pane_viewport_serialization 100
+scrollback_lines_to_serialize 100
 ```
