@@ -247,18 +247,18 @@ Options:
 session_serialization true
 ```
 
-### pane_viewport_serialization
+### serialize_pane_viewport
 If enabled along with `session_serialization`, the pane viewport (the visible part of the terminal excluding the scrollback) will be serialized and resurrectable as well. Read more about [session resurrection](./session-resurrection.md).
 Options:
   - true
   - false (default)
 
 ```javascript
-pane_viewport_serialization true
+serialize_pane_viewport true
 ```
 
 ### scrollback_lines_to_serialize
-When `pane_viewport_serialization` is enabled, setting `scrollback_lines_to_serialize` to `0` in the will serialize all scrollback and to any other number will serialize line number up to that scrollback. Read more about [session resurrection](./session-resurrection.md).
+When `serialize_pane_viewport` is enabled, setting `scrollback_lines_to_serialize` to `0` in the will serialize all scrollback and to any other number will serialize line number up to that scrollback. Read more about [session resurrection](./session-resurrection.md).
 
 *Note: this might incur higher resource utilization (and certainly a higher cache folder usage...)*
 
