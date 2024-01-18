@@ -218,7 +218,7 @@ ui {
 ```
 
 ### auto_layout
-Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
+Toggle between having Zellij layout panes according to a predefined set of layouts whenever possible
 Options:
   - true (default)
   - false
