@@ -12,11 +12,11 @@ Zellij does not immediately run resurrected commands, but rather places them beh
 ### `session_serialization`
 To disable session serialization (and thus also resurrection), set `session_serialization false` in the [config](./configuration.md).
 
-### `pane_viewport_serialization`
-When `session_serialization` is enabled, setting `pane_viewport_serialization` to `true` in the [config](./configuration.md) will also serialize the pane viewport (the part of the terminal visible on screen).
+### `serialize_pane_viewport`
+When `session_serialization` is enabled, setting `serialize_pane_viewport` to `true` in the [config](./configuration.md) will also serialize the pane viewport (the part of the terminal visible on screen).
 
 ### `scrollback_lines_to_serialize`
-When `pane_viewport_serialization` is enabled, setting `scrollback_lines_to_serialize` to `0` in the [config](./configuration.md) will serialize all scrollback and to any other number will serialize line number up to that scrollback. Note that this might incur higher resource utilization (and certainly a higher cache folder usage...)
+When `serialize_pane_viewport` is enabled, setting `scrollback_lines_to_serialize` to `0` in the [config](./configuration.md) will serialize all scrollback and to any other number will serialize line number up to that scrollback. Note that this might incur higher resource utilization (and certainly a higher cache folder usage...)
 
 ## Resurrecting Sessions through the CLI
 To list exited sessions, use `zellij list-sessions` (or `zellij ls`) for short:
