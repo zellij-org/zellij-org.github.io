@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
@@ -340,7 +340,7 @@ Options:</p>
 <li>true</li>
 <li>false (default)</li>
 </ul>
-<pre><code class="language-javascript">session_serialization true
+<pre><code class="language-javascript">pane_viewport_serialization true
 </code></pre>
 <h3 id="scrollback_lines_to_serialize"><a class="header" href="#scrollback_lines_to_serialize">scrollback_lines_to_serialize</a></h3>
 <p>When <code>pane_viewport_serialization</code> is enabled, setting <code>scrollback_lines_to_serialize</code> to <code>0</code> in the will serialize all scrollback and to any other number will serialize line number up to that scrollback. Read more about <a href="./session-resurrection.html">session resurrection</a>.</p>
@@ -350,7 +350,7 @@ Options:</p>
 <li><code>0</code>: serialize all scrollback</li>
 <li><code>int</code>: serialize this much lines for each pane (max is the scrollback limit)</li>
 </ul>
-<pre><code class="language-javascript">pane_viewport_serialization 100
+<pre><code class="language-javascript">scrollback_lines_to_serialize 100
 </code></pre>
 
                     </main>
