@@ -27,12 +27,12 @@
               <table style="text-align: left;">
                 <tr style="display: flexbox;">
                   <th>For bash/zsh:</th>
-                  <td><code type="text" id="bashCmd">bash <(curl -L zellij.dev/launch)</code></td>
+                  <td><code type="text" id="bashCmd">bash <(curl https://zellij.dev/launch)</code></td>
                   <td><button id="bashCmdBtn" onclick="copyOnClick('bashCmd')">Copy</button></td>
                 </tr>
                 <tr style="display: flexbox;">
                   <th>For fish:</th>
-                  <td><code type="text" id="fishCmd">bash (curl -L zellij.dev/launch | psub)</code></td>
+                  <td><code type="text" id="fishCmd">bash (curl https://zellij.dev/launch | psub)</code></td>
                   <td><button id="fishCmdBtn" onclick="copyOnClick('fishCmd')">Copy</button></td>
                 </tr>
               </table>
