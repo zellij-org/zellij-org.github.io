@@ -63,18 +63,20 @@ The following environment variables can also be used in the provided script.
 
 ## List current sessions
 List current sessions, attach to a running session, or create a new one.
-Depends on [`sk`](https://github.com/lotabout/skim) & `bash`
+Depends on [`sk`](https://github.com/lotabout/skim) (or [`fzf`](https://github.com/junegunn/fzf)), [`ansifilter`](https://manpages.debian.org/testing/ansifilter/ansifilter.1.en.html) & `bash`
 
 ```
-#!/usr/bin/env bash
-ZJ_SESSIONS=$(zellij list-sessions)
-NO_SESSIONS=$(echo "${ZJ_SESSIONS}" | wc -l)
+#!/bin/bash
 
-if [ "${NO_SESSIONS}" -ge 2 ]; then
-    zellij attach \
-    "$(echo "${ZJ_SESSIONS}" | sk)"
-else
-   zellij attach -c
+# Get session names, removing ANSI escape codes (they assign colour values to text)
+SESSIONS=$(zellij list-sessions | ansifilter | awk '{print $1}')
+
+# Select a session using fzf
+SELECTED_SESSION=$(echo "$SESSIONS" | sk) # Replace sk with fzf if that is preferred
+
+# Attach to the selected session
+if [ -n "$SELECTED_SESSION" ]; then
+   zellij attach "$SELECTED_SESSION"
 fi
 ```
 
