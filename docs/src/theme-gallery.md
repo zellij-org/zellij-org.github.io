@@ -55,7 +55,7 @@ inside of the main zellij [repository](https://github.com/zellij-org/zellij/tree
 
 ![Nord Compact](img/theme-gallery/nord_compact__screenshot.png)
 ![Nord Default Simplified](img/theme-gallery/nord_default___simplified_ui_true_screenshot.png)
-![Nord Compact Simplified](img/theme-gallery/nord_dark_compact___simplified_ui_true_screenshot.png)
+![Nord Compact Simplified](img/theme-gallery/nord_compact___simplified_ui_true_screenshot.png)
 
 </details>
 
@@ -75,7 +75,7 @@ inside of the main zellij [repository](https://github.com/zellij-org/zellij/tree
 <details>
 <summary>More Solarized Dark</summary>
 
-![Solarized Dark Compact](img/theme-gallery/solarized_dark_dark_compact__screenshot.png)
+![Solarized Dark Compact](img/theme-gallery/solarized_dark_compact__screenshot.png)
 ![Solarized Dark Default Simplified](img/theme-gallery/solarized_dark_default___simplified_ui_true_screenshot.png)
 ![Solarized Dark Compact Simplified](img/theme-gallery/solarized_dark_compact___simplified_ui_true_screenshot.png)
 
