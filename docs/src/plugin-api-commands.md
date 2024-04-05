@@ -319,9 +319,72 @@ Changes the name (the title that appears in the UI) of the tab with the specifie
 ## switch_session
 * Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
 
-Change the session to the specified one
+Change the session to the specified one, creating it if it does not exist
 
 ## switch_session_with_focus
 * Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
 
-Change the session to the specified one, focusing on a tab or a pane inside that session
+Change the session to the specified one (creating it if it does not exist), if it does exist - focusing on a tab or a pane inside that session
+
+## switch_session_with_layout
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Change the session to the specified one, creating it if it does not exist, using a specified layout and optionally also a cwd (working directory).
+
+## block_cli_pipe_input
+* Requires the `ReadCliPipes` [permission](./plugin-api-permissions.md)
+
+Block the input side of a pipe, will only be released once this or another plugin unblocks it
+
+(By default, pipes are unblocked after a plugin has handled a message unless this method is explicitly called).
+
+## unblock_cli_pipe_input
+* Requires the `ReadCliPipes` [permission](./plugin-api-permissions.md)
+
+Unblock the input side of a pipe, requesting the next message be sent if there is one
+
+## cli_pipe_output
+* Requires the `ReadCliPipes` [permission](./plugin-api-permissions.md)
+
+Send output to the output side of a pipe, ths does not affect the input side of same pipe
+
+## pipe_message_to_plugin
+* Requires the `MessageAndLaunchOtherPlugins` [permission](./plugin-api-permissions.md)
+
+Send a message to a plugin, it will be launched if it is not already running
+
+## delete_dead_session
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Delete a dead session (one that is not running but can be resurrected) with a specific name
+
+## delete_all_dead_sessions
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Delete all dead sessions (sessions that are not running but can be resurrected)
+
+## rename_session
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Rename the current session to a specific name
+
+## disconnect_other_clients
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Disconnect all other clients attached to this session except the one making this call
+
+## kill_sessions
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Kill all Zellij sessions in the list (can contain one or more session names)
+
+## scan_host_folder
+This is a stop-gap method that allows plugins to scan a folder on the `/host` [filesystem](./plugin-api-file-system.md) and get back a list of files. The reason this is done through the API is that at the time of development, doing this through our WASI runtime is extremely slow. We hope this method will not be needed in the future.
+
+## dump_session_layout
+* Requires the `ReadApplicationState` [permission](./plugin-api-permissions.md)
+
+Request Zellij send back the serialized layout (in KDL format) of the current session. The layout will be sent back as a [`CustomMessage`](./plugin-api-events.md#custom-message) with the `session_layout` name and the stringified layout as the message payload.
+
+## close_self
+Will close the plugin and its pane. If the plugin is the only selectable pane in the session, the session will also exit.

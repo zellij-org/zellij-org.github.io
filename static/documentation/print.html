@@ -1,17 +1,17 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js light">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Zellij User Guide</title>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex">
 
 
         <!-- Custom HTML head -->
         
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff">
 
         <link rel="icon" href="favicon.svg">
         <link rel="shortcut icon" href="favicon.png">
@@ -32,7 +32,7 @@
         <!-- Custom theme stylesheets -->
 
     </head>
-    <body>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
@@ -62,31 +62,38 @@
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             var html = document.querySelector('html');
-            html.classList.remove('no-js')
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add('js');
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var html = document.querySelector('html');
+            var body = document.querySelector('body');
             var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
             }
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">1.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="overview.html"><strong aria-hidden="true">1.2.</strong> Overview</a></li><li class="chapter-item expanded "><a href="integration.html"><strong aria-hidden="true">1.3.</strong> Integration</a></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">1.4.</strong> FAQ</a></li></ol></li><li class="chapter-item expanded "><a href="commands.html"><strong aria-hidden="true">2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">3.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="options.html"><strong aria-hidden="true">3.1.</strong> Options</a></li><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">3.2.</strong> Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">3.2.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-binding.html"><strong aria-hidden="true">3.2.2.</strong> Binding and Overriding Keys</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">3.2.3.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-possible-actions.html"><strong aria-hidden="true">3.2.4.</strong> Possible Actions</a></li><li class="chapter-item expanded "><a href="keybindings-shared.html"><strong aria-hidden="true">3.2.5.</strong> Shared Bindings</a></li></ol></li><li class="chapter-item expanded "><a href="themes.html"><strong aria-hidden="true">3.3.</strong> Themes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="theme-gallery.html"><strong aria-hidden="true">3.3.1.</strong> Theme Gallery</a></li></ol></li><li class="chapter-item expanded "><a href="command-line-options.html"><strong aria-hidden="true">3.4.</strong> CLI Configuration</a></li><li class="chapter-item expanded "><a href="migrating-yaml-config.html"><strong aria-hidden="true">3.5.</strong> Migrating from old YAML config files</a></li></ol></li><li class="chapter-item expanded "><a href="controlling-zellij-through-cli.html"><strong aria-hidden="true">4.</strong> Controlling Zellij through the CLI</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zellij-run.html"><strong aria-hidden="true">4.1.</strong> Zellij Run</a></li><li class="chapter-item expanded "><a href="zellij-edit.html"><strong aria-hidden="true">4.2.</strong> Zellij Edit</a></li><li class="chapter-item expanded "><a href="cli-actions.html"><strong aria-hidden="true">4.3.</strong> Zellij Action</a></li><li class="chapter-item expanded "><a href="zellij-plugin.html"><strong aria-hidden="true">4.4.</strong> Zellij Plugin</a></li></ol></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">5.</strong> Layouts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="creating-a-layout.html"><strong aria-hidden="true">5.1.</strong> Creating a Layout</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="swap-layouts.html"><strong aria-hidden="true">5.1.1.</strong> Swap Layouts</a></li></ol></li><li class="chapter-item expanded "><a href="layouts-with-config.html"><strong aria-hidden="true">5.2.</strong> Including Configuration in Layouts</a></li><li class="chapter-item expanded "><a href="layout-examples.html"><strong aria-hidden="true">5.3.</strong> Examples</a></li><li class="chapter-item expanded "><a href="migrating-yaml-layouts.html"><strong aria-hidden="true">5.4.</strong> Migrating from old YAML layouts</a></li></ol></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">6.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-system-status.html"><strong aria-hidden="true">6.1.</strong> Status of the Plugin System</a></li><li class="chapter-item expanded "><a href="plugin-loading.html"><strong aria-hidden="true">6.2.</strong> Loading Plugins</a></li><li class="chapter-item expanded "><a href="plugin-api.html"><strong aria-hidden="true">6.3.</strong> Plugin API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-api-events.html"><strong aria-hidden="true">6.3.1.</strong> Events</a></li><li class="chapter-item expanded "><a href="plugin-api-commands.html"><strong aria-hidden="true">6.3.2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="plugin-api-permissions.html"><strong aria-hidden="true">6.3.3.</strong> Permissions</a></li><li class="chapter-item expanded "><a href="plugin-api-configuration.html"><strong aria-hidden="true">6.3.4.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="plugin-api-file-system.html"><strong aria-hidden="true">6.3.5.</strong> Reading from the Filesystem</a></li><li class="chapter-item expanded "><a href="plugin-api-logging.html"><strong aria-hidden="true">6.3.6.</strong> Logging</a></li><li class="chapter-item expanded "><a href="plugin-api-workers.html"><strong aria-hidden="true">6.3.7.</strong> Workers for Async Tasks</a></li></ol></li><li class="chapter-item expanded "><a href="plugin-development.html"><strong aria-hidden="true">6.4.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-dev-env.html"><strong aria-hidden="true">6.4.1.</strong> Development Environment</a></li><li class="chapter-item expanded "><a href="plugin-lifecycle.html"><strong aria-hidden="true">6.4.2.</strong> Plugin Lifecycle</a></li><li class="chapter-item expanded "><a href="plugin-ui-rendering.html"><strong aria-hidden="true">6.4.3.</strong> Rendering a UI</a></li><li class="chapter-item expanded "><a href="plugin-upgrading.html"><strong aria-hidden="true">6.4.4.</strong> Upgrading and Backwards Compatibility</a></li></ol></li><li class="chapter-item expanded "><a href="plugin-examples.html"><strong aria-hidden="true">6.5.</strong> Example Plugins</a></li><li class="chapter-item expanded "><a href="plugin-other-languages.html"><strong aria-hidden="true">6.6.</strong> Developing a Plugin in Other Languages</a></li><li class="chapter-item expanded "><a href="plugin-upgrade-0.38.0.html"><strong aria-hidden="true">6.7.</strong> Plugin Upgrade Guide for version 0.38.0</a></li></ol></li><li class="chapter-item expanded "><a href="session-resurrection.html"><strong aria-hidden="true">7.</strong> Session Resurrection</a></li><li class="chapter-item expanded "><a href="compatibility.html"><strong aria-hidden="true">8.</strong> Compatibility</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">1.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="overview.html"><strong aria-hidden="true">1.2.</strong> Overview</a></li><li class="chapter-item expanded "><a href="integration.html"><strong aria-hidden="true">1.3.</strong> Integration</a></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">1.4.</strong> FAQ</a></li></ol></li><li class="chapter-item expanded "><a href="commands.html"><strong aria-hidden="true">2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">3.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="options.html"><strong aria-hidden="true">3.1.</strong> Options</a></li><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">3.2.</strong> Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">3.2.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-binding.html"><strong aria-hidden="true">3.2.2.</strong> Binding and Overriding Keys</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">3.2.3.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-possible-actions.html"><strong aria-hidden="true">3.2.4.</strong> Possible Actions</a></li><li class="chapter-item expanded "><a href="keybindings-shared.html"><strong aria-hidden="true">3.2.5.</strong> Shared Bindings</a></li></ol></li><li class="chapter-item expanded "><a href="themes.html"><strong aria-hidden="true">3.3.</strong> Themes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="theme-gallery.html"><strong aria-hidden="true">3.3.1.</strong> Theme Gallery</a></li></ol></li><li class="chapter-item expanded "><a href="command-line-options.html"><strong aria-hidden="true">3.4.</strong> CLI Configuration</a></li><li class="chapter-item expanded "><a href="migrating-yaml-config.html"><strong aria-hidden="true">3.5.</strong> Migrating from old YAML config files</a></li></ol></li><li class="chapter-item expanded "><a href="controlling-zellij-through-cli.html"><strong aria-hidden="true">4.</strong> Controlling Zellij through the CLI</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zellij-run.html"><strong aria-hidden="true">4.1.</strong> Zellij Run</a></li><li class="chapter-item expanded "><a href="zellij-edit.html"><strong aria-hidden="true">4.2.</strong> Zellij Edit</a></li><li class="chapter-item expanded "><a href="cli-actions.html"><strong aria-hidden="true">4.3.</strong> Zellij Action</a></li><li class="chapter-item expanded "><a href="zellij-plugin.html"><strong aria-hidden="true">4.4.</strong> Zellij Plugin</a></li><li class="chapter-item expanded "><a href="zellij-pipe.html"><strong aria-hidden="true">4.5.</strong> Zellij Pipe</a></li></ol></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">5.</strong> Layouts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="creating-a-layout.html"><strong aria-hidden="true">5.1.</strong> Creating a Layout</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="swap-layouts.html"><strong aria-hidden="true">5.1.1.</strong> Swap Layouts</a></li></ol></li><li class="chapter-item expanded "><a href="layouts-with-config.html"><strong aria-hidden="true">5.2.</strong> Including Configuration in Layouts</a></li><li class="chapter-item expanded "><a href="layout-examples.html"><strong aria-hidden="true">5.3.</strong> Examples</a></li><li class="chapter-item expanded "><a href="migrating-yaml-layouts.html"><strong aria-hidden="true">5.4.</strong> Migrating from old YAML layouts</a></li></ol></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">6.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-system-status.html"><strong aria-hidden="true">6.1.</strong> Status of the Plugin System</a></li><li class="chapter-item expanded "><a href="plugin-loading.html"><strong aria-hidden="true">6.2.</strong> Loading Plugins</a></li><li class="chapter-item expanded "><a href="plugin-api.html"><strong aria-hidden="true">6.3.</strong> Plugin API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-api-events.html"><strong aria-hidden="true">6.3.1.</strong> Events</a></li><li class="chapter-item expanded "><a href="plugin-api-commands.html"><strong aria-hidden="true">6.3.2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="plugin-api-permissions.html"><strong aria-hidden="true">6.3.3.</strong> Permissions</a></li><li class="chapter-item expanded "><a href="plugin-api-configuration.html"><strong aria-hidden="true">6.3.4.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="plugin-api-file-system.html"><strong aria-hidden="true">6.3.5.</strong> Reading from the Filesystem</a></li><li class="chapter-item expanded "><a href="plugin-api-logging.html"><strong aria-hidden="true">6.3.6.</strong> Logging</a></li><li class="chapter-item expanded "><a href="plugin-api-workers.html"><strong aria-hidden="true">6.3.7.</strong> Workers for Async Tasks</a></li><li class="chapter-item expanded "><a href="plugin-pipes.html"><strong aria-hidden="true">6.3.8.</strong> Pipes for communicating with and between plugins</a></li></ol></li><li class="chapter-item expanded "><a href="plugin-development.html"><strong aria-hidden="true">6.4.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-dev-env.html"><strong aria-hidden="true">6.4.1.</strong> Development Environment</a></li><li class="chapter-item expanded "><a href="plugin-lifecycle.html"><strong aria-hidden="true">6.4.2.</strong> Plugin Lifecycle</a></li><li class="chapter-item expanded "><a href="plugin-ui-rendering.html"><strong aria-hidden="true">6.4.3.</strong> Rendering a UI</a></li><li class="chapter-item expanded "><a href="plugin-upgrading.html"><strong aria-hidden="true">6.4.4.</strong> Upgrading and Backwards Compatibility</a></li></ol></li><li class="chapter-item expanded "><a href="plugin-aliases.html"><strong aria-hidden="true">6.5.</strong> Plugin Aliases</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tab-bar-alias.html"><strong aria-hidden="true">6.5.1.</strong> The tab-bar alias</a></li><li class="chapter-item expanded "><a href="status-bar-alias.html"><strong aria-hidden="true">6.5.2.</strong> The status-bar alias</a></li><li class="chapter-item expanded "><a href="strider-alias.html"><strong aria-hidden="true">6.5.3.</strong> The strider alias</a></li><li class="chapter-item expanded "><a href="compact-bar-alias.html"><strong aria-hidden="true">6.5.4.</strong> The compact-bar alias</a></li><li class="chapter-item expanded "><a href="session-manager-alias.html"><strong aria-hidden="true">6.5.5.</strong> The session-manager alias</a></li><li class="chapter-item expanded "><a href="welcome-screen-alias.html"><strong aria-hidden="true">6.5.6.</strong> The welcome-screen alias</a></li><li class="chapter-item expanded "><a href="filepicker-alias.html"><strong aria-hidden="true">6.5.7.</strong> The filepicker alias</a></li></ol></li><li class="chapter-item expanded "><a href="plugin-examples.html"><strong aria-hidden="true">6.6.</strong> Example Plugins</a></li><li class="chapter-item expanded "><a href="plugin-other-languages.html"><strong aria-hidden="true">6.7.</strong> Developing a Plugin in Other Languages</a></li><li class="chapter-item expanded "><a href="plugin-upgrade-0.38.0.html"><strong aria-hidden="true">6.8.</strong> Plugin Upgrade Guide for version 0.38.0</a></li></ol></li><li class="chapter-item expanded "><a href="session-resurrection.html"><strong aria-hidden="true">7.</strong> Session Resurrection</a></li><li class="chapter-item expanded "><a href="compatibility.html"><strong aria-hidden="true">8.</strong> Compatibility</a></li></ol>
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
         </nav>
 
         <!-- Track and set sidebar scroll position -->
@@ -117,9 +124,9 @@
                                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
-                        </button>
+                        </label>
                         <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
                             <i class="fa fa-paint-brush"></i>
                         </button>
@@ -285,14 +292,14 @@ end
 </code></pre>
 <p>other ways, zellij provides a pre-defined auto start scripts.</p>
 <h3 id="bash"><a class="header" href="#bash">bash</a></h3>
-<pre><code>echo 'eval &quot;$(zellij setup --generate-auto-start bash)&quot;' &gt;&gt; ~/.bashrc
+<pre><code>echo 'eval "$(zellij setup --generate-auto-start bash)"' &gt;&gt; ~/.bashrc
 </code></pre>
 <h3 id="zsh"><a class="header" href="#zsh">zsh</a></h3>
-<pre><code>echo 'eval &quot;$(zellij setup --generate-auto-start zsh)&quot;' &gt;&gt; ~/.zshrc
+<pre><code>echo 'eval "$(zellij setup --generate-auto-start zsh)"' &gt;&gt; ~/.zshrc
 </code></pre>
 <h3 id="fish"><a class="header" href="#fish">fish</a></h3>
 <p>⚠️ Depending on the version of the <code>fish</code> shell, the setting may not work. In that case, check out this <a href="https://github.com/zellij-org/zellij/issues/1534">issue</a>.</p>
-<p>Add </p>
+<p>Add</p>
 <pre><code class="language-fish">if status is-interactive
     ...
     eval (zellij setup --generate-auto-start fish | string collect)
@@ -310,11 +317,11 @@ end
 Depends on <a href="https://github.com/lotabout/skim"><code>sk</code></a> &amp; <code>bash</code></p>
 <pre><code>#!/usr/bin/env bash
 ZJ_SESSIONS=$(zellij list-sessions)
-NO_SESSIONS=$(echo &quot;${ZJ_SESSIONS}&quot; | wc -l)
+NO_SESSIONS=$(echo "${ZJ_SESSIONS}" | wc -l)
 
-if [ &quot;${NO_SESSIONS}&quot; -ge 2 ]; then
+if [ "${NO_SESSIONS}" -ge 2 ]; then
     zellij attach \
-    &quot;$(echo &quot;${ZJ_SESSIONS}&quot; | sk)&quot;
+    "$(echo "${ZJ_SESSIONS}" | sk)"
 else
    zellij attach -c
 fi
@@ -326,20 +333,20 @@ Depends on: <code>tr</code>, <code>fd</code>, <code>sed</code>, <code>sk</code>,
 <pre><code>#!/usr/bin/env bash
 set -euo pipefail
 ZJ_LAYOUT_DIR=$(zellij setup --check \
-    | grep &quot;LAYOUT DIR&quot; - \
-    | grep -o '&quot;.*&quot;' - | tr -d '&quot;')
+    | grep "LAYOUT DIR" - \
+    | grep -o '".*"' - | tr -d '"')
 
-if [[ -d &quot;${ZJ_LAYOUT_DIR}&quot; ]];then
-        ZJ_LAYOUT=&quot;$(fd --type file . &quot;${ZJ_LAYOUT_DIR}&quot; \
+if [[ -d "${ZJ_LAYOUT_DIR}" ]];then
+        ZJ_LAYOUT="$(fd --type file . "${ZJ_LAYOUT_DIR}" \
         | sed 's|.*/||' \
         | sk \
-        || exit)&quot;
-    zellij --layout &quot;${ZJ_LAYOUT}&quot;
+        || exit)"
+    zellij --layout "${ZJ_LAYOUT}"
 fi
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="faq"><a class="header" href="#faq">FAQ</a></h1>
 <h2 id="zellij-overrides-certain-key-combinations-that-i-use-for-other-apps-what-can-i-do"><a class="header" href="#zellij-overrides-certain-key-combinations-that-i-use-for-other-apps-what-can-i-do">Zellij overrides certain key combinations that I use for other apps, what can I do?</a></h2>
-<p>As an &quot;escape hatch&quot; solution, you can lock the interface with <code>Ctrl + g</code> - at this point all keys will be sent to the focused pane.</p>
+<p>As an "escape hatch" solution, you can lock the interface with <code>Ctrl + g</code> - at this point all keys will be sent to the focused pane.</p>
 <p>You could also <a href="./keybindings.html">remap keys</a> to work around this problem.</p>
 <p>That being said, the maintainers are aware that this default set of keybindings is not an ideal solution. We tried to find a solution that would both be powerful, allowing few and memorable keypresses to be used for common actions, and also unobtrusive. Finding a solution that would do better in the latter while still maintaining the former is something we're actively thinking about and planning on changing in the future. If you have any thoughts, please do share them in an issue or in one of our chat servers.</p>
 <h2 id="the-ui-takes-up-too-much-space-what-can-i-do-about-it"><a class="header" href="#the-ui-takes-up-too-much-space-what-can-i-do-about-it">The UI takes up too much space, what can I do about it?</a></h2>
@@ -360,9 +367,9 @@ fi
 <h2 id="copy--paste-isnt-working-how-can-i-fix-this"><a class="header" href="#copy--paste-isnt-working-how-can-i-fix-this">Copy / Paste isn't working, how can I fix this?</a></h2>
 <p>Some terminals don't support the the OSC 52 signal, which is the method Zellij uses by default to copy text to the clipboard. To get around this, you can either switch to a supported terminal (eg. Alacritty or xterm) or configure Zellij to use an external utility when copy pasting (eg. xclip, wl-copy or pbcopy).</p>
 <p>To do the latter, add one of the following to your <a href="./configuration.html">Zellij Config</a>:</p>
-<pre><code>copy_command: &quot;xclip -selection clipboard&quot; # x11
-copy_command: &quot;wl-copy&quot;                    # wayland
-copy_command: &quot;pbcopy&quot;                     # osx
+<pre><code>copy_command: "xclip -selection clipboard" # x11
+copy_command: "wl-copy"                    # wayland
+copy_command: "pbcopy"                     # osx
 </code></pre>
 <p>Note that the only method that works when connecting to a remote Zellij session (eg. through SSH) is OSC 52. If you require this functionality, please consider using a terminal that supports it.</p>
 <h2 id="how-can-i-use-floating-panes"><a class="header" href="#how-can-i-use-floating-panes">How can I use floating panes?</a></h2>
@@ -470,7 +477,7 @@ eg. when terminal window with an active zellij session is closed</p>
 <li>detach (Default)</li>
 <li>quit</li>
 </ul>
-<pre><code class="language-javascript">on_force_close &quot;quit&quot;
+<pre><code class="language-javascript">on_force_close "quit"
 </code></pre>
 <h3 id="simplified_ui"><a class="header" href="#simplified_ui">simplified_ui</a></h3>
 <p>Send a request for a simplified ui (without arrow fonts) to plugins</p>
@@ -484,7 +491,7 @@ eg. when terminal window with an active zellij session is closed</p>
 <h3 id="default_shell"><a class="header" href="#default_shell">default_shell</a></h3>
 <p>Choose the path to the default shell that zellij will use for opening new panes</p>
 <p>Default: $SHELL</p>
-<pre><code class="language-javascript">default_shell &quot;fish&quot;
+<pre><code class="language-javascript">default_shell "fish"
 </code></pre>
 <h3 id="pane_frames"><a class="header" href="#pane_frames">pane_frames</a></h3>
 <p>Toggle between having pane frames around the panes</p>
@@ -498,17 +505,17 @@ eg. when terminal window with an active zellij session is closed</p>
 <h3 id="theme"><a class="header" href="#theme">theme</a></h3>
 <p>Choose the Zellij color theme. This theme must be specified in the themes section or loaded from the themes folder. See <a href="./themes.html">themes</a></p>
 <p>Default: default</p>
-<pre><code class="language-javascript">theme &quot;default&quot;
+<pre><code class="language-javascript">theme "default"
 </code></pre>
 <h3 id="default_layout"><a class="header" href="#default_layout">default_layout</a></h3>
 <p>The name of the layout to load on startup (must be in the layouts folder). See <a href="./layouts.html">layouts</a></p>
-<p>Default: &quot;default&quot;</p>
-<pre><code class="language-javascript">default_layout &quot;compact&quot;
+<p>Default: "default"</p>
+<pre><code class="language-javascript">default_layout "compact"
 </code></pre>
-<h3 id="default_mode-locked"><a class="header" href="#default_mode-locked">default_mode &quot;locked&quot;</a></h3>
+<h3 id="default_mode-locked"><a class="header" href="#default_mode-locked">default_mode "locked"</a></h3>
 <p>Choose the mode that zellij uses when starting up.</p>
 <p>Default: normal</p>
-<pre><code class="language-javascript">default_mode &quot;locked&quot;
+<pre><code class="language-javascript">default_mode "locked"
 </code></pre>
 <h3 id="mouse_mode"><a class="header" href="#mouse_mode">mouse_mode</a></h3>
 <p>Toggle enabling the mouse mode.
@@ -535,9 +542,9 @@ the stdin of the program to perform the copy. This can be used with
 terminal emulators which do not support the OSC 52 ANSI control sequence
 that will be used by default if this option is not set.</p>
 <p>Examples:</p>
-<pre><code class="language-javascript">copy_command &quot;xclip -selection clipboard&quot; // x11
-copy_command &quot;wl-copy&quot;                    // wayland
-copy_command &quot;pbcopy&quot;                     // osx
+<pre><code class="language-javascript">copy_command "xclip -selection clipboard" // x11
+copy_command "wl-copy"                    // wayland
+copy_command "pbcopy"                     // osx
 </code></pre>
 <h3 id="copy_clipboard"><a class="header" href="#copy_clipboard">copy_clipboard</a></h3>
 <p>Choose the destination for copied text
@@ -548,7 +555,7 @@ Does not apply when using copy_command.</p>
 <li>system (default)</li>
 <li>primary</li>
 </ul>
-<pre><code class="language-javascript">copy_clipboard &quot;primary&quot;
+<pre><code class="language-javascript">copy_clipboard "primary"
 </code></pre>
 <h3 id="copy_on_select"><a class="header" href="#copy_on_select">copy_on_select</a></h3>
 <p>Enable or disable automatic copy (and clear) of selection when releasing mouse</p>
@@ -558,7 +565,7 @@ Does not apply when using copy_command.</p>
 <h3 id="scrollback_editor"><a class="header" href="#scrollback_editor">scrollback_editor</a></h3>
 <p>Path to the default editor to use to edit pane scrollbuffer as well as the CLI and layout <code>edit</code> commands</p>
 <p>Default: $EDITOR or $VISUAL</p>
-<pre><code class="language-javascript">scrollback_editor &quot;/usr/bin/vim&quot;
+<pre><code class="language-javascript">scrollback_editor "/usr/bin/vim"
 </code></pre>
 <h3 id="mirror_session"><a class="header" href="#mirror_session">mirror_session</a></h3>
 <p>When attaching to an existing session with other users,
@@ -569,17 +576,17 @@ Default: false</p>
 </code></pre>
 <h3 id="layout_dir"><a class="header" href="#layout_dir">layout_dir</a></h3>
 <p>The folder in which Zellij will look for layouts</p>
-<pre><code class="language-javascript">layout_dir &quot;/path/to/my/layout_dir&quot;
+<pre><code class="language-javascript">layout_dir "/path/to/my/layout_dir"
 </code></pre>
 <h3 id="theme_dir"><a class="header" href="#theme_dir">theme_dir</a></h3>
 <p>The folder in which Zellij will look for themes</p>
-<pre><code class="language-javascript">theme_dir &quot;/path/to/my/theme_dir&quot;
+<pre><code class="language-javascript">theme_dir "/path/to/my/theme_dir"
 </code></pre>
 <h3 id="env"><a class="header" href="#env">env</a></h3>
 <p>A key -&gt; value map of environment variables that will be set for each terminal pane Zellij starts.</p>
 <pre><code class="language-javascript">env {
     RUST_BACKTRACE 1
-    FOO &quot;bar&quot;
+    FOO "bar"
 }
 </code></pre>
 <h3 id="rounded_corners"><a class="header" href="#rounded_corners">rounded_corners</a></h3>
@@ -609,7 +616,7 @@ Options:</p>
 <pre><code class="language-javascript">auto_layout true
 </code></pre>
 <h3 id="styled_underlines"><a class="header" href="#styled_underlines">styled_underlines</a></h3>
-<p>Toggle between supporting the extended &quot;styled_underlines&quot; ANSI protocol and ignoring it (can sometimes cause some issues in unsupported terminals).
+<p>Toggle between supporting the extended "styled_underlines" ANSI protocol and ignoring it (can sometimes cause some issues in unsupported terminals).
 Options:</p>
 <ul>
 <li>true (default)</li>
@@ -655,20 +662,20 @@ Options:</p>
     normal {
         // bind instructions can include one or more keys (both keys will be bound separately)
         // bind keys can include one or more actions (all actions will be performed with no sequential guarantees)
-        bind &quot;Ctrl g&quot; { SwitchToMode &quot;locked&quot;; }
-        bind &quot;Ctrl p&quot; { SwitchToMode &quot;pane&quot;; }
-        bind &quot;Alt n&quot; { NewPane; }
-        bind &quot;Alt h&quot; &quot;Alt Left&quot; { MoveFocusOrTab &quot;Left&quot;; }
+        bind "Ctrl g" { SwitchToMode "locked"; }
+        bind "Ctrl p" { SwitchToMode "pane"; }
+        bind "Alt n" { NewPane; }
+        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
     }
     pane {
-        bind &quot;h&quot; &quot;Left&quot; { MoveFocus &quot;Left&quot;; }
-        bind &quot;l&quot; &quot;Right&quot; { MoveFocus &quot;Right&quot;; }
-        bind &quot;j&quot; &quot;Down&quot; { MoveFocus &quot;Down&quot;; }
-        bind &quot;k&quot; &quot;Up&quot; { MoveFocus &quot;Up&quot;; }
-        bind &quot;p&quot; { SwitchFocus; }
+        bind "h" "Left" { MoveFocus "Left"; }
+        bind "l" "Right" { MoveFocus "Right"; }
+        bind "j" "Down" { MoveFocus "Down"; }
+        bind "k" "Up" { MoveFocus "Up"; }
+        bind "p" { SwitchFocus; }
     }
     locked {
-        bind &quot;Ctrl g&quot; { SwitchToMode &quot;normal&quot;; }
+        bind "Ctrl g" { SwitchToMode "normal"; }
     }
 }
 </code></pre>
@@ -705,19 +712,19 @@ Options:</p>
 <p><em>Note</em>: All actions will be performed with no sequential guarantees.</p>
 <p>eg.</p>
 <pre><code class="language-javascript">    // bind the Alt-n to open a new pane
-    bind &quot;Alt n&quot; { NewPane; }
-    // bind both the &quot;h&quot; key and the left-arrow key to move pane focus left
-    bind &quot;h&quot; &quot;Left&quot; { MoveFocus &quot;Left&quot;; }
-    // bind the &quot;f&quot; key to toggle the focused pane full-screen and switch to normal mode
-    bind &quot;f&quot; { ToggleFocusFullscreen; SwitchToMode &quot;Normal&quot;; }
+    bind "Alt n" { NewPane; }
+    // bind both the "h" key and the left-arrow key to move pane focus left
+    bind "h" "Left" { MoveFocus "Left"; }
+    // bind the "f" key to toggle the focused pane full-screen and switch to normal mode
+    bind "f" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
 </code></pre>
 <h1 id="overriding-keys"><a class="header" href="#overriding-keys">Overriding keys</a></h1>
 <p>When configured, keybindings override the default <code>keybinds</code> of the application individually (if a certain key was bound in the configuration, it overrides that key in the default configuration).</p>
 <p>It's possible to explicitly unbind a key:</p>
 <pre><code class="language-javascript">keybinds {
-    unbind &quot;Ctrl g&quot; // unbind in all modes
+    unbind "Ctrl g" // unbind in all modes
     normal {
-        unbind &quot;Alt h&quot; &quot;Alt n&quot; // unbind one or more keys in a specific mode
+        unbind "Alt h" "Alt n" // unbind one or more keys in a specific mode
     }
 }
 </code></pre>
@@ -736,11 +743,11 @@ Options:</p>
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="keys"><a class="header" href="#keys">Keys</a></h1>
 <p>Keys are defined in a single quoted string, with space delimiting modifier keys.</p>
-<pre><code class="language-javascript">bind &quot;a&quot; // bind the individual character a
-bind &quot;Ctrl a&quot; // bind a with the ctrl modifier
-bind &quot;Alt a&quot; // bind a with the alt modifier
-bind &quot;F8&quot; // bind the F8 key
-bind &quot;Left&quot; // bind the left arrow key
+<pre><code class="language-javascript">bind "a" // bind the individual character a
+bind "Ctrl a" // bind a with the ctrl modifier
+bind "Alt a" // bind a with the alt modifier
+bind "F8" // bind the F8 key
+bind "Left" // bind the left arrow key
 </code></pre>
 <ul>
 <li>
@@ -783,78 +790,78 @@ bind &quot;Left&quot; // bind the left arrow key
 <p>Clear the scrollback buffer of the focused pane</p>
 <p><strong>Possible arguments</strong>: None</p>
 <p>eg.</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { Clear; }
+<pre><code class="language-javascript">    bind "a" { Clear; }
 </code></pre>
 <h2 id="closefocus"><a class="header" href="#closefocus"><code>CloseFocus</code></a></h2>
 <p>Close the focused pane</p>
 <p><strong>Possible arguments</strong>: None</p>
 <p>eg.</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { CloseFocus; }
+<pre><code class="language-javascript">    bind "a" { CloseFocus; }
 </code></pre>
 <h2 id="closetab"><a class="header" href="#closetab"><code>CloseTab</code></a></h2>
 <p>Close the focused tab</p>
 <p><strong>Possible arguments</strong>: None</p>
 <p>eg.</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { CloseTab; }
+<pre><code class="language-javascript">    bind "a" { CloseTab; }
 </code></pre>
 <h2 id="detach"><a class="header" href="#detach"><code>Detach</code></a></h2>
 <p>Detach from the current session, leaving it running in the background</p>
 <p><strong>Possible arguments</strong>: None</p>
 <p>eg.</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { Detach; }
+<pre><code class="language-javascript">    bind "a" { Detach; }
 </code></pre>
 <h2 id="dumpscreen"><a class="header" href="#dumpscreen"><code>DumpScreen</code></a></h2>
 <p>Dump the contents of the focused pane, including its entire scrollback, to the specified file.</p>
 <p><strong>Required arguments</strong>: A path to a file on the hard-drive</p>
 <p>eg.</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { DumpScreen &quot;/tmp/my-dump.txt&quot;; }
+<pre><code class="language-javascript">    bind "a" { DumpScreen "/tmp/my-dump.txt"; }
 </code></pre>
 <h2 id="editscrollback"><a class="header" href="#editscrollback"><code>EditScrollback</code></a></h2>
 <p>Edit the scrollback of the currently focused pane with the user's default editor.</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { EditScrollback; }
+<pre><code class="language-javascript">    bind "a" { EditScrollback; }
 </code></pre>
 <h2 id="focusnextpane"><a class="header" href="#focusnextpane"><code>FocusNextPane</code></a></h2>
 <p>Change focus to the next pane (order not guaranteed)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { FocusNextPane; }
+<pre><code class="language-javascript">    bind "a" { FocusNextPane; }
 </code></pre>
 <h2 id="focuspreviouspane"><a class="header" href="#focuspreviouspane"><code>FocusPreviousPane</code></a></h2>
 <p>Change focus to the previous pane (order not guaranteed)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { FocusPreviousPane; }
+<pre><code class="language-javascript">    bind "a" { FocusPreviousPane; }
 </code></pre>
 <h2 id="gotonexttab"><a class="header" href="#gotonexttab"><code>GoToNextTab</code></a></h2>
 <p>Change focus to the next tab</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { GoToNextTab; }
+<pre><code class="language-javascript">    bind "a" { GoToNextTab; }
 </code></pre>
 <h2 id="gotoprevioustab"><a class="header" href="#gotoprevioustab"><code>GoToPreviousTab</code></a></h2>
 <p>Change focus to the previous tab</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { GoToPreviousTab; }
+<pre><code class="language-javascript">    bind "a" { GoToPreviousTab; }
 </code></pre>
 <h2 id="gototab"><a class="header" href="#gototab"><code>GoToTab</code></a></h2>
 <p>Change focus to a tab with a specific index</p>
 <p><strong>Required arguments</strong>: numeric tab index (eg. 1)</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { GoToTab 1; }
+<pre><code class="language-javascript">    bind "a" { GoToTab 1; }
 </code></pre>
 <h2 id="halfpagescrolldown"><a class="header" href="#halfpagescrolldown"><code>HalfPageScrollDown</code></a></h2>
 <p>Scroll the focused pane half a page down</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { HalfPageScrollDown; }
+<pre><code class="language-javascript">    bind "a" { HalfPageScrollDown; }
 </code></pre>
 <h2 id="halfpagescrollup"><a class="header" href="#halfpagescrollup"><code>HalfPageScrollUp</code></a></h2>
 <p>Scroll the focused pane half a page up</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { HalfPageScrollUp; }
+<pre><code class="language-javascript">    bind "a" { HalfPageScrollUp; }
 </code></pre>
 <h2 id="launchorfocusplugin"><a class="header" href="#launchorfocusplugin"><code>LaunchOrFocusPlugin</code></a></h2>
 <p>Launch a plugin if it is not already loaded somewhere in the session, focus it if it is</p>
 <p><strong>Required arguments</strong>: The <a href="./plugin-loading.html#plugin-url-schema">plugin URL</a> (eg. <code>file:/path/to/my/plugin.wasm</code>)</p>
 <p><strong>Optional arguments</strong>: <code>floating</code> - <code>true</code> or <code>false</code> (default is <code>false</code>)</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; {
-        LaunchOrFocusPlugin &quot;zellij:strider&quot; {
+<pre><code class="language-javascript">    bind "a" {
+        LaunchOrFocusPlugin "zellij:strider" {
             floating true
         }
     }
@@ -862,185 +869,190 @@ bind &quot;Left&quot; // bind the left arrow key
 <h2 id="movefocus"><a class="header" href="#movefocus"><code>MoveFocus</code></a></h2>
 <p>Move focus in a specific direction</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code></p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { MoveFocus &quot;Left&quot;; }
+<pre><code class="language-javascript">    bind "a" { MoveFocus "Left"; }
 </code></pre>
 <h2 id="movefocusortab"><a class="header" href="#movefocusortab"><code>MoveFocusOrTab</code></a></h2>
 <p>Move focus left or right, or to the next or previous tab if on screen edge</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code></p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { MoveFocusOrTab &quot;Left&quot;; }
+<pre><code class="language-javascript">    bind "a" { MoveFocusOrTab "Left"; }
 </code></pre>
 <h2 id="movepane"><a class="header" href="#movepane"><code>MovePane</code></a></h2>
 <p>Move the position of the focused pane in the specific direction</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code></p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { MovePane &quot;Left&quot;; }
+<pre><code class="language-javascript">    bind "a" { MovePane "Left"; }
 </code></pre>
 <h2 id="nextswaplayout"><a class="header" href="#nextswaplayout"><code>NextSwapLayout</code></a></h2>
 <p>Change the layout of the current tab (either tiled or floating) to the next one</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { NextSwapLayout; }
+<pre><code class="language-javascript">    bind "a" { NextSwapLayout; }
 </code></pre>
 <h2 id="newpane"><a class="header" href="#newpane"><code>NewPane</code></a></h2>
 <p>Open a new pane (in the specified direction)</p>
 <p><strong>Possible arguments</strong>: <code>Down</code> | <code>Right</code></p>
 <p><strong>Behaviour without arguments</strong>: Opens a pane in the largest available space or if floating panes are visible, in the next floating pane position.</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { NewPane &quot;Right&quot;; }
+<pre><code class="language-javascript">    bind "a" { NewPane "Right"; }
 </code></pre>
 <h2 id="newtab"><a class="header" href="#newtab"><code>NewTab</code></a></h2>
 <p>Open a new tab</p>
 <p><strong>Possible arguments</strong>: <code>cwd</code></p>
 <p>Current working directory for the new tab, <code>name</code> - the name of the new tab, <code>layout</code> - path to the layout file to load for this tab</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { NewTab; }
+<pre><code class="language-javascript">    bind "a" { NewTab; }
 </code></pre>
 <p>or:</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; {
+<pre><code class="language-javascript">    bind "a" {
        NewTab {
-           cwd &quot;/tmp&quot;
-           name &quot;My tab name&quot;
-           layout &quot;/path/to/my/layout.kdl&quot;
+           cwd "/tmp"
+           name "My tab name"
+           layout "/path/to/my/layout.kdl"
        }
     }
 </code></pre>
 <h2 id="pagescrolldown"><a class="header" href="#pagescrolldown"><code>PageScrollDown</code></a></h2>
 <p>Scroll the focused pane one page down</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { PageScrollDown; }
+<pre><code class="language-javascript">    bind "a" { PageScrollDown; }
 </code></pre>
 <h2 id="pagescrollup"><a class="header" href="#pagescrollup"><code>PageScrollUp</code></a></h2>
 <p>Scroll the focused pane one page up</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { PageScrollUp; }
+<pre><code class="language-javascript">    bind "a" { PageScrollUp; }
 </code></pre>
 <h2 id="previousswaplayout"><a class="header" href="#previousswaplayout"><code>PreviousSwapLayout</code></a></h2>
 <p>Change the layout of the current tab (either tiled or floating) to the previous one</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { PreviousSwapLayout; }
+<pre><code class="language-javascript">    bind "a" { PreviousSwapLayout; }
 </code></pre>
 <h2 id="quit"><a class="header" href="#quit"><code>Quit</code></a></h2>
 <p>Quit Zellij :(</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { Quit; }
+<pre><code class="language-javascript">    bind "a" { Quit; }
 </code></pre>
 <h2 id="resize"><a class="header" href="#resize"><code>Resize</code></a></h2>
 <p>Resize the focused pane either in the specified direction or increase/decrease its size automatically</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code> | <code>Increase</code> | <code>Decrease</code></p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { Resize &quot;Increase&quot;; }
+<pre><code class="language-javascript">    bind "a" { Resize "Increase"; }
 </code></pre>
 <h2 id="run"><a class="header" href="#run"><code>Run</code></a></h2>
 <p>Run the specified command</p>
 <p><strong>Required arguments</strong>: The command to run, followed by optional arguments</p>
 <p><strong>Possible arguments</strong>: <code>cwd</code> - current working directory, <code>direction</code> - the direction to open the new command pane</p>
-<pre><code class="language-javascript">    // will run &quot;tail -f /tmp/foo&quot; in a pane opened below the focused one
-    bind &quot;a&quot; {
-        Run &quot;tail&quot; &quot;-f&quot; &quot;foo&quot; {
-            cwd &quot;/tmp&quot;
-            direction &quot;Down&quot;
+<pre><code class="language-javascript">    // will run "tail -f /tmp/foo" in a pane opened below the focused one
+    bind "a" {
+        Run "tail" "-f" "foo" {
+            cwd "/tmp"
+            direction "Down"
         }
     }
 </code></pre>
 <h2 id="scrolldown"><a class="header" href="#scrolldown"><code>ScrollDown</code></a></h2>
 <p>Scroll the focused pane down 1 line</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { ScrollDown; }
+<pre><code class="language-javascript">    bind "a" { ScrollDown; }
 </code></pre>
 <h2 id="scrolltobottom"><a class="header" href="#scrolltobottom"><code>ScrollToBottom</code></a></h2>
 <p>Scroll the focused pane completely down</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { ScrollToBottom; }
+<pre><code class="language-javascript">    bind "a" { ScrollToBottom; }
 </code></pre>
 <h2 id="scrollup"><a class="header" href="#scrollup"><code>ScrollUp</code></a></h2>
 <p>Scroll the focused pane up 1 line</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { ScrollUp; }
+<pre><code class="language-javascript">    bind "a" { ScrollUp; }
 </code></pre>
 <h2 id="scrolltotop"><a class="header" href="#scrolltotop"><code>ScrollToTop</code></a></h2>
 <p>Scroll the focused pane completely up</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { ScrollToTop; }
+<pre><code class="language-javascript">    bind "a" { ScrollToTop; }
 </code></pre>
 <h2 id="search"><a class="header" href="#search"><code>Search</code></a></h2>
 <p>When searching, move to the next or previous search occurrence</p>
-<p><strong>Required arguments</strong>: &quot;down&quot; | &quot;up&quot;</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { Search &quot;up&quot;; }
+<p><strong>Required arguments</strong>: "down" | "up"</p>
+<pre><code class="language-javascript">    bind "a" { Search "up"; }
 </code></pre>
 <h2 id="searchtoggleoption"><a class="header" href="#searchtoggleoption"><code>SearchToggleOption</code></a></h2>
 <p>Toggle various search options on/off</p>
-<p><strong>Required arguments</strong>: &quot;CaseSensitivity&quot; | &quot;Wrap&quot; | &quot;WhileWord&quot;</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { SearchToggleOption &quot;CaseSensitivity&quot;; }
+<p><strong>Required arguments</strong>: "CaseSensitivity" | "Wrap" | "WhileWord"</p>
+<pre><code class="language-javascript">    bind "a" { SearchToggleOption "CaseSensitivity"; }
 </code></pre>
 <h2 id="switchtomode"><a class="header" href="#switchtomode"><code>SwitchToMode</code></a></h2>
 <p>Switch the current input mode</p>
 <p><strong>Required arguments</strong>: See <a href="keybindings-possible-actions.html#modes">Modes</a></p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { SwitchToMode &quot;locked&quot;; }
+<pre><code class="language-javascript">    bind "a" { SwitchToMode "locked"; }
 </code></pre>
 <h2 id="toggleactivesynctab"><a class="header" href="#toggleactivesynctab"><code>ToggleActiveSyncTab</code></a></h2>
 <p>Toggle the syncing of input between all panes in the focused tab</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleActiveSyncTab; }
+<pre><code class="language-javascript">    bind "a" { ToggleActiveSyncTab; }
 </code></pre>
 <h2 id="togglefloatingpanes"><a class="header" href="#togglefloatingpanes"><code>ToggleFloatingPanes</code></a></h2>
 <p>Show/hide floating panes; if none are open, one will be opened</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleFloatingPanes; }
+<pre><code class="language-javascript">    bind "a" { ToggleFloatingPanes; }
 </code></pre>
 <h2 id="togglefocusfullscreen"><a class="header" href="#togglefocusfullscreen"><code>ToggleFocusFullscreen</code></a></h2>
 <p>Toggle the focused pane as fullscreen on/off</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleFocusFullscreen; }
+<pre><code class="language-javascript">    bind "a" { ToggleFocusFullscreen; }
 </code></pre>
 <h2 id="togglemousemode"><a class="header" href="#togglemousemode"><code>ToggleMouseMode</code></a></h2>
 <p>Toggle mouse support on/off</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleMouseMode; }
+<pre><code class="language-javascript">    bind "a" { ToggleMouseMode; }
 </code></pre>
 <h2 id="togglepaneembedorfloating"><a class="header" href="#togglepaneembedorfloating"><code>TogglePaneEmbedOrFloating</code></a></h2>
 <p>Float focused embedded pane or embed focused floating pane</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { TogglePaneEmbedOrFloating; }
+<pre><code class="language-javascript">    bind "a" { TogglePaneEmbedOrFloating; }
 </code></pre>
 <h2 id="togglepaneframes"><a class="header" href="#togglepaneframes"><code>TogglePaneFrames</code></a></h2>
 <p>Show/hide the frames around panes (notice, these might have valuable UX info)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { TogglePaneFrames; }
+<pre><code class="language-javascript">    bind "a" { TogglePaneFrames; }
 </code></pre>
 <h2 id="toggletab"><a class="header" href="#toggletab"><code>ToggleTab</code></a></h2>
 <p>Change the tab focus</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { ToggleTab; }
+<pre><code class="language-javascript">    bind "a" { ToggleTab; }
 </code></pre>
 <h2 id="undorenamepane"><a class="header" href="#undorenamepane"><code>UndoRenamePane</code></a></h2>
 <p>Undo a rename pane operation currently in progress (reverting to the previous name)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { UndoRenamePane; }
+<pre><code class="language-javascript">    bind "a" { UndoRenamePane; }
 </code></pre>
 <h2 id="undorenametab"><a class="header" href="#undorenametab"><code>UndoRenameTab</code></a></h2>
 <p>Undo a rename tab operation currently in progress (reverting to the previous name)</p>
 <p><strong>Possible arguments</strong>: None</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { UndoRenameTab; }
+<pre><code class="language-javascript">    bind "a" { UndoRenameTab; }
 </code></pre>
 <h2 id="write"><a class="header" href="#write"><code>Write</code></a></h2>
 <p>Write bytes to the active pane</p>
 <p><strong>Required arguments</strong>: the bytes to write as integers</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { Write 102 111 111; }
+<pre><code class="language-javascript">    bind "a" { Write 102 111 111; }
 </code></pre>
 <h2 id="writechars"><a class="header" href="#writechars"><code>WriteChars</code></a></h2>
 <p>Write a string of characters to the active pane</p>
 <p><strong>Required arguments</strong>: the string of characters to write</p>
-<pre><code class="language-javascript">    bind &quot;a&quot; { WriteChars &quot;hi there!&quot;; }
+<pre><code class="language-javascript">    bind "a" { WriteChars "hi there!"; }
+</code></pre>
+<h2 id="movetab"><a class="header" href="#movetab"><code>MoveTab</code></a></h2>
+<p>Change the position of the active tab either left or right.</p>
+<p><strong>Required arguments</strong>: the direction, either "Left" or "Right"</p>
+<pre><code class="language-javascript">    bind "a" { MoveTab "Left"; }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="shared-bindings"><a class="header" href="#shared-bindings">Shared bindings</a></h1>
 <p>There are three special node types that can be used when defining keybindings:</p>
 <pre><code class="language-javascript">keybinds {
     shared {
         // these keybindings will be present in all modes
-        bind &quot;Ctrl g&quot; { SwitchToMode &quot;locked&quot;; }
+        bind "Ctrl g" { SwitchToMode "locked"; }
     }
-    shared_except &quot;resize&quot; &quot;locked&quot; {
-        // these keybindings will be present in all modes except &quot;resize&quot; and &quot;locked&quot;
-        bind &quot;Ctrl g&quot; { SwitchToMode &quot;locked&quot;; }
+    shared_except "resize" "locked" {
+        // these keybindings will be present in all modes except "resize" and "locked"
+        bind "Ctrl g" { SwitchToMode "locked"; }
     }
-    shared_among &quot;resize&quot; &quot;locked&quot; {
-        // these keybindings will be present in the &quot;resize&quot; and &quot;locked&quot; modes
-        bind &quot;Ctrl g&quot; { SwitchToMode &quot;locked&quot;; }
+    shared_among "resize" "locked" {
+        // these keybindings will be present in the "resize" and "locked" modes
+        bind "Ctrl g" { SwitchToMode "locked"; }
     }
 }
 </code></pre>
@@ -1083,17 +1095,17 @@ bind &quot;Left&quot; // bind the left arrow key
 <h2 id="hexadecimal-color-themes"><a class="header" href="#hexadecimal-color-themes">Hexadecimal color themes</a></h2>
 <pre><code class="language-javascript">themes {
     nord {
-        fg &quot;#D8DEE9&quot;
-        bg &quot;#2E3440&quot;
-        black &quot;#3B4252&quot;
-        red &quot;#BF616A&quot;
-        green &quot;#A3BE8C&quot;
-        yellow &quot;#EBCB8B&quot;
-        blue &quot;#81A1C1&quot;
-        magenta &quot;#B48EAD&quot;
-        cyan &quot;#88C0D0&quot;
-        white &quot;#E5E9F0&quot;
-        orange &quot;#D08770&quot;
+        fg "#D8DEE9"
+        bg "#2E3440"
+        black "#3B4252"
+        red "#BF616A"
+        green "#A3BE8C"
+        yellow "#EBCB8B"
+        blue "#81A1C1"
+        magenta "#B48EAD"
+        cyan "#88C0D0"
+        white "#E5E9F0"
+        orange "#D08770"
     }
 }
 </code></pre>
@@ -1109,11 +1121,11 @@ To specify a different theme, run zellij with:</p>
 // ...
 
 // Choose the theme that is specified in the themes section.
-theme &quot;default&quot;
+theme "default"
 
 themes {
   default {
-    fg &quot;#000000&quot;
+    fg "#000000"
     // ...
   }
 }
@@ -1121,7 +1133,7 @@ themes {
 <p>or If you don't want to modify the configuration file, just add a theme, you can use the <code>themes</code> directory.</p>
 <p><code>themes</code> is located in <code>CONFIG_DIR/themes</code> by default. You can check it through <code>zellij setup --check</code>.</p>
 <p>If you place the theme file in this folder, zelij will automatically merge the themes.</p>
-<p>And you can set the theme through the options (<code>options --theme</code>) as in the first method. </p>
+<p>And you can set the theme through the options (<code>options --theme</code>) as in the first method.</p>
 <p>Here are <a href="https://github.com/zellij-org/zellij/tree/main/example/themes">some example themes</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="theme-gallery"><a class="header" href="#theme-gallery">Theme Gallery</a></h1>
 <p>This page showcases the example themes that are included
@@ -1245,7 +1257,7 @@ inside of the main zellij <a href="https://github.com/zellij-org/zellij/tree/mai
 
 OPTIONS:
         --attach-to-session &lt;ATTACH_TO_SESSION&gt;
-            Whether to attach to a session specified in &quot;session-name&quot; if it exists [possible
+            Whether to attach to a session specified in "session-name" if it exists [possible
             values: true, false]
 
         --copy-clipboard &lt;COPY_CLIPBOARD&gt;
@@ -1330,6 +1342,7 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 <p>For a full list of actions, see <a href="./cli-actions.html">CLI Actions</a>.</p>
 <p>For starting commands in a new pane, see <a href="./zellij-run.html">Zellij Run</a>.</p>
 <p>For editing a file in a new pane with your own editor, see <a href="./zellij-edit.html">Zellij Edit</a>.</p>
+<p>For loading and controlling plugins, see <a href="./zellij-plugin.html">Zellij Plugin</a> and <a href="./zellij-pipe.html">Zellij Pipe</a>.</p>
 <h3 id="completions"><a class="header" href="#completions">Completions</a></h3>
 <p>For convenience, zellij provides cli completions for popular shells.</p>
 <p>You can dump these completions to STDOUT and then append them to your shell's configuration file with:</p>
@@ -1372,9 +1385,21 @@ $ zellij edit --floating ./main.rs # open main.rs in a new floating pane
 $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 10
 </code></pre>
 <p><strong>Possible Options</strong>:</p>
-<pre><code>    -d, --direction &lt;DIRECTION&gt;
-    -f, --floating
-    -l, --line-number &lt;LINE_NUMBER&gt;
+<pre><code>        --cwd &lt;CWD&gt;                    Change the working directory of the editor
+    -d, --direction &lt;DIRECTION&gt;        Direction to open the new pane in
+    -f, --floating                     Open the new pane in floating mode
+    -h, --help                         Print help information
+        --height &lt;HEIGHT&gt;              The height if the pane is floating as a bare integer (eg. 1)
+                                       or percent (eg. 10%)
+    -i, --in-place                     Open the new pane in place of the current pane, temporarily
+                                       suspending it
+    -l, --line-number &lt;LINE_NUMBER&gt;    Open the file in the specified line number
+        --width &lt;WIDTH&gt;                The width if the pane is floating as a bare integer (eg. 1)
+                                       or percent (eg. 10%)
+    -x, --x &lt;X&gt;                        The x coordinates if the pane is floating as a bare integer
+                                       (eg. 1) or percent (eg. 10%)
+    -y, --y &lt;Y&gt;                        The y coordinates if the pane is floating as a bare integer
+                                       (eg. 1) or percent (eg. 10%)
 </code></pre>
 <p><strong>Note</strong>: The default editor is anything set in <code>$EDITOR</code> or <code>$VISUAL</code> - alternatively, it can be set explicitly with the <a href="./options.html#scrollback_editor"><code>scrollback_editor</code> configuration option</a>.</p>
 <p><strong>Another Note</strong>: To shorten this command, see <a href="./controlling-zellij-through-cli.html#completions">Cli Completions</a></p>
@@ -1443,12 +1468,12 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 </code></pre>
 <h4 id="go-to-tab-name"><a class="header" href="#go-to-tab-name">go-to-tab-name</a></h4>
 <p>Go to tab with name [name]</p>
-<p><strong>ARGS</strong>: The tab name (eg. &quot;Tab #1&quot;)</p>
+<p><strong>ARGS</strong>: The tab name (eg. "Tab #1")</p>
 <p><strong>OPTIONS</strong>:</p>
 <pre><code>    -c, --create        Create a tab if one does not exist
 </code></pre>
 <p>eg.</p>
-<pre><code>$ zellij action go-to-tab-name &quot;Tab #1&quot;
+<pre><code>$ zellij action go-to-tab-name "Tab #1"
 </code></pre>
 <h4 id="half-page-scroll-down"><a class="header" href="#half-page-scroll-down">half-page-scroll-down</a></h4>
 <p>Scroll down half page in focus pane</p>
@@ -1501,7 +1526,7 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action new-pane -f # open a new floating pane with the default shell
-$ zellij action new-pane --name &quot;follow this log!&quot; -- tail -f /tmp/my-log-file # open a new floating pane with the default shell
+$ zellij action new-pane --name "follow this log!" -- tail -f /tmp/my-log-file # open a new floating pane with the default shell
 </code></pre>
 <p><strong>Note:</strong> This can also be shortened to <code>zellij run</code></p>
 <p>eg.</p>
@@ -1531,13 +1556,13 @@ See <a href="./creating-a-layout.html#cwd-composition">layout CWD composition</a
 <p>Renames the focused pane (title will appear on the pane frame)</p>
 <p><strong>ARGS</strong>: the pane name</p>
 <p>eg.</p>
-<pre><code>$ zellij action rename-pane &quot;alice the cat&quot;
+<pre><code>$ zellij action rename-pane "alice the cat"
 </code></pre>
 <h4 id="rename-tab"><a class="header" href="#rename-tab">rename-tab</a></h4>
 <p>Renames the focused tab</p>
 <p><strong>ARGS</strong>: the tab name</p>
 <p>eg.</p>
-<pre><code>$ zellij action rename-tab &quot;alice the cat&quot;
+<pre><code>$ zellij action rename-tab "alice the cat"
 </code></pre>
 <h4 id="resize-1"><a class="header" href="#resize-1">resize</a></h4>
 <p>Resize the focused pane in the specified direction.</p>
@@ -1623,7 +1648,7 @@ See <a href="./creating-a-layout.html#cwd-composition">layout CWD composition</a
 <p>Write characters to the focused pane</p>
 <p><strong>ARGS</strong>: A string of characters to write</p>
 <p>eg.</p>
-<pre><code>$ zellij action write-chars &quot;Hi there!&quot;
+<pre><code>$ zellij action write-chars "Hi there!"
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="zellij-plugin"><a class="header" href="#zellij-plugin">Zellij Plugin</a></h1>
 <p>Zellij includes a top-level <code>plugin</code> cli command that can be used to launch a new Zellij plugin instance from a local or remote wasm file</p>
@@ -1643,8 +1668,69 @@ See <a href="./creating-a-layout.html#cwd-composition">layout CWD composition</a
     -f, --floating
             Open the new pane in floating mode
 
+    -h, --help
+            Print help information
+
+        --height &lt;HEIGHT&gt;
+            The height if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
+
     -i, --in-place
             Open the new pane in place of the current pane, temporarily suspending it
+
+    -s, --skip-plugin-cache
+            Skip the memory and HD cache and force recompile of the plugin (good for development)
+
+        --width &lt;WIDTH&gt;
+            The width if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
+
+    -x, --x &lt;X&gt;
+            The x coordinates if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
+
+    -y, --y &lt;Y&gt;
+            The y coordinates if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="zellij-pipe"><a class="header" href="#zellij-pipe">Zellij Pipe</a></h1>
+<p>Zellij <a href="./plugin-pipes.html">pipes</a> provide a way to send messages to one or more plugins, launching them on first-message if they are not running.</p>
+<p>eg.</p>
+<pre><code>$ zellij plugin -- https://path/to/my/plugin.wasm
+</code></pre>
+<p><strong>USAGE</strong>:</p>
+<pre><code>zellij pipe [OPTIONS] [--] &lt;PAYLOAD&gt;
+
+* Send data to a specific plugin:
+
+zellij pipe --plugin file:/path/to/my/plugin.wasm --name my_pipe_name -- my_arbitrary_data
+
+* To all running plugins (that are listening):
+
+zellij pipe --name my_pipe_name -- my_arbitrary_data
+
+* Pipe data into this command's STDIN and get output from the plugin on this command's STDOUT
+
+tail -f /tmp/my-live-logfile | zellij pipe --name logs --plugin https://example.com/my-plugin.wasm | wc -l
+    zellij plugin [OPTIONS] [--] &lt;URL&gt;
+</code></pre>
+<p><strong>ARGS</strong>:</p>
+<pre><code>    &lt;PAYLOAD&gt;    The data to send down this pipe (if blank, will listen to STDIN)
+</code></pre>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -n, --name &lt;NAME&gt;
+            The name of the pipe
+
+    -a, --args &lt;ARGS&gt;
+            The args of the pipe
+
+    -p, --plugin &lt;PLUGIN&gt;
+            The plugin url (eg. file:/tmp/my-plugin.wasm) to direct this pipe to, if not specified,
+            will be sent to all plugins, if specified and is not running, the plugin will be
+            launched
+
+    -c, --plugin-configuration &lt;PLUGIN_CONFIGURATION&gt;
+            The plugin configuration (note: the same plugin with different configuration is
+            considered a different plugin for the purposes of determining the pipe destination)
+
+    -h, --help
+            Print help information
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="layouts"><a class="header" href="#layouts">Layouts</a></h1>
 <p>Layouts are text files that define an arrangement of Zellij panes and tabs.</p>
@@ -1656,9 +1742,9 @@ See <a href="./creating-a-layout.html#cwd-composition">layout CWD composition</a
 
 layout {
     pane
-    pane split_direction=&quot;vertical&quot; {
+    pane split_direction="vertical" {
         pane
-        pane command=&quot;htop&quot;
+        pane command="htop"
     }
 }
 </code></pre>
@@ -1698,20 +1784,20 @@ layout {
 <p>They could represent standalone panes:</p>
 <pre><code class="language-javascript">layout {
     pane // panes can be bare
-    pane command=&quot;htop&quot; // panes can have arguments on the same line
+    pane command="htop" // panes can have arguments on the same line
     pane {
         // panes can have arguments inside child-braces
-        command &quot;exa&quot;
-        cwd &quot;/&quot;
+        command "exa"
+        cwd "/"
     }
-    pane command=&quot;ls&quot; { // or a mixture of same-line and child-braces arguments
-        cwd &quot;/&quot;
+    pane command="ls" { // or a mixture of same-line and child-braces arguments
+        cwd "/"
     }
 }
 </code></pre>
 <p>They could also represent logical containers:</p>
 <pre><code class="language-javascript">layout {
-    pane split_direction=&quot;vertical&quot; {
+    pane split_direction="vertical" {
         pane
         pane
     }
@@ -1720,11 +1806,11 @@ layout {
 <p><strong>Note</strong>: if panes represent logical containers, all their arguments should be specified on their title line.</p>
 <h4 id="split_direction"><a class="header" href="#split_direction">split_direction</a></h4>
 <p><code>split_direction</code> is a pane argument that indicates whether its children will be laid out vertically or horizontally.</p>
-<p><strong>Possible values:</strong> <code>&quot;vertical&quot;</code> | <code>&quot;horizontal&quot;</code></p>
-<p><strong>Default value if omitted:</strong> <code>&quot;horizontal&quot;</code></p>
+<p><strong>Possible values:</strong> <code>"vertical"</code> | <code>"horizontal"</code></p>
+<p><strong>Default value if omitted:</strong> <code>"horizontal"</code></p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane split_direction=&quot;vertical&quot; {
+    pane split_direction="vertical" {
         pane
         pane
     }
@@ -1735,9 +1821,9 @@ layout {
     }
 }
 </code></pre>
-<p><strong>Note</strong>: The <code>layout</code> node itself has a set value of &quot;horizontal&quot;. It can be changed by adding a logical pane container:</p>
+<p><strong>Note</strong>: The <code>layout</code> node itself has a set value of "horizontal". It can be changed by adding a logical pane container:</p>
 <pre><code class="language-javascript">layout {
-    pane split_direction=&quot;vertical&quot; {
+    pane split_direction="vertical" {
         pane
         pane
     }
@@ -1745,14 +1831,14 @@ layout {
 </code></pre>
 <h4 id="size"><a class="header" href="#size">size</a></h4>
 <p><code>size</code> is a pane argument that represents the fixed or percentage space taken up by this pane inside its logical container.</p>
-<p><strong>Possible values:</strong> quoted percentages (eg. &quot;50%&quot;) | fixed values (eg. 1)</p>
+<p><strong>Possible values:</strong> quoted percentages (eg. "50%") | fixed values (eg. 1)</p>
 <p><strong>Note</strong>: specifying fixed values that are not <code>unselectable</code> plugins is <strong>currently unstable</strong> and might lead to unexpected behaviour when resizing or closing panes. Please see <a href="https://github.com/zellij-org/zellij/issues/1758">this issue</a>.</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
     pane size=5
-    pane split_direction=&quot;vertical&quot; {
-        pane size=&quot;80%&quot;
-        pane size=&quot;20%&quot;
+    pane split_direction="vertical" {
+        pane size="80%"
+        pane size="20%"
     }
     pane size=4
 }
@@ -1784,53 +1870,53 @@ layout {
 </code></pre>
 <h4 id="name"><a class="header" href="#name">name</a></h4>
 <p><code>name</code> is a string pane argument to change the default pane title.</p>
-<p><strong>Possible values:</strong> &quot;a quoted string&quot;</p>
+<p><strong>Possible values:</strong> "a quoted string"</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane name=&quot;my awesome pane&quot;
+    pane name="my awesome pane"
     pane {
-        name &quot;my amazing pane&quot;
+        name "my amazing pane"
     }
 }
 </code></pre>
 <h4 id="cwd"><a class="header" href="#cwd">cwd</a></h4>
 <p>A pane can have a <code>cwd</code> argument, pointing to its Current Working Directory.</p>
-<p><strong>Possible values:</strong> &quot;/path/to/some/folder&quot;, &quot;relative/path/to/some/folder&quot;</p>
+<p><strong>Possible values:</strong> "/path/to/some/folder", "relative/path/to/some/folder"</p>
 <p><strong>Note</strong>: If the <code>cwd</code> is a relative path, it will be appended to its containers' cwd <a href="creating-a-layout.html#cwd-composition">read more about cwd composition</a></p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane cwd=&quot;/&quot;
+    pane cwd="/"
     pane {
-        command &quot;git&quot;
-        args &quot;diff&quot;
-        cwd &quot;/path/to/some/folder&quot;
+        command "git"
+        args "diff"
+        cwd "/path/to/some/folder"
     }
 }
 </code></pre>
 <h4 id="command"><a class="header" href="#command">command</a></h4>
 <p><code>command</code> is a string (path) to an executable that should be run in this pane instead of the default shell.</p>
-<p><strong>Possible values:</strong> &quot;/path/to/some/executable&quot; | &quot;executable&quot; (the latter should be accessible through PATH)</p>
+<p><strong>Possible values:</strong> "/path/to/some/executable" | "executable" (the latter should be accessible through PATH)</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane command=&quot;htop&quot;
+    pane command="htop"
     pane {
-        command &quot;/usr/bin/btm&quot;
+        command "/usr/bin/btm"
     }
 }
 </code></pre>
 <h5 id="args"><a class="header" href="#args">args</a></h5>
 <p>A pane with a <code>command</code> can also have an <code>args</code> argument. This argument can include one or more strings that will be passed to the command as its arguments.</p>
-<p><strong>Possible values:</strong> &quot;a&quot; &quot;series&quot; &quot;of&quot; &quot;quoted&quot; &quot;strings&quot;</p>
+<p><strong>Possible values:</strong> "a" "series" "of" "quoted" "strings"</p>
 <p><strong>Note</strong>: <code>args</code> must be inside the <code>pane</code>'s child-braces and cannot be specified on the same line as the pane.</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane command=&quot;tail&quot; {
-        args &quot;-f&quot; &quot;/path/to/my/logfile&quot;
+    pane command="tail" {
+        args "-f" "/path/to/my/logfile"
     }
 
-    // Hint: include &quot;quoted&quot; shell arguments as a single argument:
-    pane command=&quot;bash&quot; {
-        args &quot;-c&quot; &quot;tail -f /path/to/my/logfile&quot;
+    // Hint: include "quoted" shell arguments as a single argument:
+    pane command="bash" {
+        args "-c" "tail -f /path/to/my/logfile"
     }
 
 }
@@ -1840,7 +1926,7 @@ layout {
 <p><strong>Possible values:</strong> true | false</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane command=&quot;htop&quot; close_on_exit=true
+    pane command="htop" close_on_exit=true
 }
 </code></pre>
 <h5 id="start_suspended"><a class="header" href="#start_suspended">start_suspended</a></h5>
@@ -1848,18 +1934,18 @@ layout {
 <p><strong>Possible values:</strong> true | false</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane command=&quot;ls&quot; start_suspended=true
+    pane command="ls" start_suspended=true
 }
 </code></pre>
 <h4 id="edit-1"><a class="header" href="#edit-1">edit</a></h4>
 <p><code>edit</code> is a string (path) to a file that will be opened using the editor specified in the <code>EDITOR</code> or <code>VISUAL</code> environment variables. This can alternatively also be specified using the <code>scrollback_editor</code> config variable.</p>
-<p><strong>Possible values:</strong> &quot;/path/to/some/file&quot; | &quot;./relative/path/from/cwd&quot;</p>
+<p><strong>Possible values:</strong> "/path/to/some/file" | "./relative/path/from/cwd"</p>
 <p><strong>Note</strong>: If the value is a relative path, it will be appended to its containers' cwd <a href="creating-a-layout.html#cwd-composition">read more about cwd composition</a></p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane split_direction=&quot;vertical&quot; {
-        pane edit=&quot;./git_diff_side_a&quot;
-        pane edit=&quot;./git_diff_side_b&quot;
+    pane split_direction="vertical" {
+        pane edit="./git_diff_side_a"
+        pane edit="./git_diff_side_b"
     }
 }
 </code></pre>
@@ -1869,7 +1955,7 @@ layout {
 <p>eg.</p>
 <pre><code>layout {
     pane {
-        plugin location=&quot;zellij:status-bar&quot;
+        plugin location="zellij:status-bar"
     }
 }
 </code></pre>
@@ -1881,9 +1967,9 @@ layout {
     pane stacked=true {
         pane
         pane
-        pane command=&quot;ls&quot;
-        pane command=&quot;htop&quot;
-        pane edit=&quot;src/main.rs&quot;
+        pane command="ls"
+        pane command="htop"
+        pane edit="src/main.rs"
     }
 }
 </code></pre>
@@ -1905,12 +1991,12 @@ layout {
 <pre><code class="language-javascript">layout {
     floating_panes {
         pane
-        pane command=&quot;ls&quot;
+        pane command="ls"
         pane {
             x 1
-            y &quot;10%&quot;
+            y "10%"
             width 200
-            height &quot;50%&quot;
+            height "50%"
         }
     }
 }
@@ -1930,7 +2016,7 @@ layout {
         pane
         pane
     }
-    tab name=&quot;my third tab&quot; split_direction=&quot;vertical&quot; {
+    tab name="my third tab" split_direction="vertical" {
         // a tab with a name and two vertical panes
         pane
         pane
@@ -1939,16 +2025,16 @@ layout {
 </code></pre>
 <h4 id="split_direction-1"><a class="header" href="#split_direction-1">split_direction</a></h4>
 <p>Tabs can have a <code>split_direction</code> just like <code>pane</code>s. This argument indicates whether the tab's children will be laid out vertically or horizontally.</p>
-<p><strong>Possible values:</strong> <code>&quot;vertical&quot;</code> | <code>&quot;horizontal&quot;</code></p>
-<p><strong>Default value if omitted:</strong> <code>&quot;horizontal&quot;</code></p>
+<p><strong>Possible values:</strong> <code>"vertical"</code> | <code>"horizontal"</code></p>
+<p><strong>Default value if omitted:</strong> <code>"horizontal"</code></p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    tab split_direction=&quot;vertical&quot; {
+    tab split_direction="vertical" {
         pane
         pane
     }
     tab {
-        // if omitted, will be &quot;horizontal&quot; by default
+        // if omitted, will be "horizontal" by default
         pane
         pane
     }
@@ -1973,11 +2059,11 @@ layout {
 </code></pre>
 <h4 id="name-1"><a class="header" href="#name-1">name</a></h4>
 <p>Tabs can have a <code>name</code> just like <code>pane</code>s. This argument is a string to change the default tab title.</p>
-<p><strong>Possible values:</strong> &quot;a quoted string&quot;</p>
+<p><strong>Possible values:</strong> "a quoted string"</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    tab name=&quot;my awesome tab&quot;
-    tab name=&quot;my amazing tab&quot; {
+    tab name="my awesome tab"
+    tab name="my amazing tab" {
         pane
     }
 }
@@ -1985,21 +2071,21 @@ layout {
 <h4 id="cwd-1"><a class="header" href="#cwd-1">cwd</a></h4>
 <p>Tabs can have a <code>cwd</code> just like <code>pane</code>s - pointing to their Current Working Directory.
 All panes in this tab will have this <code>cwd</code> prefixed to their own <code>cwd</code> (if they have one) or start in this <code>cwd</code> if they don't.</p>
-<p><strong>Possible values:</strong> &quot;/path/to/some/folder&quot;, &quot;relative/path/to/some/folder&quot;</p>
+<p><strong>Possible values:</strong> "/path/to/some/folder", "relative/path/to/some/folder"</p>
 <p><strong>Note</strong>: If the <code>cwd</code> is a relative path, it will be appended to its containers' cwd <a href="creating-a-layout.html#cwd-composition">read more about cwd composition</a></p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    tab name=&quot;my amazing tab&quot; cwd=&quot;/tmp&quot; {
-        pane // will have its cwd set to &quot;/tmp&quot;
-        pane cwd=&quot;foo&quot; // will have its cwd set to &quot;/tmp/foo&quot;
-        pane cwd=&quot;/home/foo&quot; // will have its cwd set to &quot;/home/foo&quot;, overriding the tab cwd with its absolute path
+    tab name="my amazing tab" cwd="/tmp" {
+        pane // will have its cwd set to "/tmp"
+        pane cwd="foo" // will have its cwd set to "/tmp/foo"
+        pane cwd="/home/foo" // will have its cwd set to "/home/foo", overriding the tab cwd with its absolute path
     }
 }
 </code></pre>
 <h4 id="hide_floating_panes"><a class="header" href="#hide_floating_panes">hide_floating_panes</a></h4>
 <p>If set, all floating panes defined in this tab will be hidden on startup.</p>
 <p>eg.</p>
-<pre><code class="language-javascript">tab name=&quot;Tab #1&quot; hide_floating_panes=true {
+<pre><code class="language-javascript">tab name="Tab #1" hide_floating_panes=true {
     pane
     pane
     floating_panes { // will start hidden
@@ -2010,21 +2096,21 @@ All panes in this tab will have this <code>cwd</code> prefixed to their own <cod
 </code></pre>
 <h3 id="templates"><a class="header" href="#templates">Templates</a></h3>
 <p>Templates can be used avoid repetition when creating layouts.
-Each template has a name that should be used directly as a node name instead of &quot;pane&quot; or &quot;tab&quot;.</p>
+Each template has a name that should be used directly as a node name instead of "pane" or "tab".</p>
 <h4 id="pane-templates"><a class="header" href="#pane-templates">Pane Templates</a></h4>
 <p>Pane templates can be used to shorten pane attributes:</p>
 <pre><code class="language-javascript">layout {
-    pane_template name=&quot;htop&quot; {
-        command &quot;htop&quot;
+    pane_template name="htop" {
+        command "htop"
     }
-    pane_template name=&quot;htop-tree&quot; {
-        command &quot;htop&quot;
-        args &quot;--tree&quot;
+    pane_template name="htop-tree" {
+        command "htop"
+        args "--tree"
         borderless true
     }
     // the below will create a template with four panes
     // the top and bottom panes running htop and the two
-    // middle panes running &quot;htop --tree&quot; without a pane frame
+    // middle panes running "htop --tree" without a pane frame
     htop
     htop-tree
     htop-tree
@@ -2033,13 +2119,13 @@ Each template has a name that should be used directly as a node name instead of 
 </code></pre>
 <p>Pane templates with the <code>command</code> attribute can take the <code>args</code> and <code>cwd</code> of their consumers:</p>
 <pre><code class="language-javascript">layout {
-    pane_template name=&quot;follow-log&quot; command=&quot;tail&quot;
+    pane_template name="follow-log" command="tail"
     follow-log {
-        args &quot;-f&quot; &quot;/tmp/my-first-log&quot;
+        args "-f" "/tmp/my-first-log"
     }
     follow-log {
-        args &quot;-f&quot; &quot;my-second-log&quot;
-        cwd &quot;/tmp&quot;
+        args "-f" "my-second-log"
+        cwd "/tmp"
     }
 }
 </code></pre>
@@ -2047,47 +2133,47 @@ Each template has a name that should be used directly as a node name instead of 
 <p>Pane templates can be used as logical containers. In this case a special <code>children</code> node must be specified to indicate where the child panes should be inserted.</p>
 <p><strong>Note</strong>: the <code>children</code> node can be nested inside <code>pane</code>s but not inside other <code>pane_template</code>s.</p>
 <pre><code class="language-javascript">layout {
-    pane_template name=&quot;vertical-sandwich&quot; split_direction=&quot;vertical&quot; {
+    pane_template name="vertical-sandwich" split_direction="vertical" {
         pane
         children
         pane
     }
     vertical-sandwich {
-        pane command=&quot;htop&quot;
+        pane command="htop"
     }
 }
 </code></pre>
 <p>Pane templates can include other pane templates.</p>
 <pre><code class="language-javascript">layout {
-    pane_template name=&quot;vertical-sandwich&quot; split_direction=&quot;vertical&quot; {
+    pane_template name="vertical-sandwich" split_direction="vertical" {
         pane
         children
         pane
     }
-    pane_template name=&quot;vertical-htop-sandwich&quot; {
+    pane_template name="vertical-htop-sandwich" {
         vertical-sandwich {
-            pane command=&quot;htop&quot;
+            pane command="htop"
         }
     }
-    pane_template name=&quot;vertical-htop-sandwich-below&quot; split_direction=&quot;horizontal&quot; {
+    pane_template name="vertical-htop-sandwich-below" split_direction="horizontal" {
         children
         vertical-htop-sandwich
     }
     vertical-htop-sandwich
     vertical-htop-sandwich-below {
-        pane command=&quot;exa&quot;
+        pane command="exa"
     }
 }
 </code></pre>
-<p>The <code>children</code> node should be thought of as a placeholder for the pane using this template. </p>
+<p>The <code>children</code> node should be thought of as a placeholder for the pane using this template.</p>
 <p>This:</p>
 <pre><code class="language-javascript">layout {
-    pane_template name=&quot;my_template&quot; {
+    pane_template name="my_template" {
         pane
         children
         pane
     }
-    my_template split_direction=&quot;vertical&quot; {
+    my_template split_direction="vertical" {
         pane
         pane
     }
@@ -2097,7 +2183,7 @@ Each template has a name that should be used directly as a node name instead of 
 <pre><code class="language-javascript">layout {
     pane {
         pane
-        pane split_direction=&quot;vertical&quot; {
+        pane split_direction="vertical" {
             pane
             pane
         }
@@ -2109,20 +2195,20 @@ Each template has a name that should be used directly as a node name instead of 
 <p>Tab templates, similar to pane templates, help avoiding repetition when defining tabs. Like <code>pane_templates</code> they can include a <code>children</code> block to indicate where their child panes should be inserted.</p>
 <p><strong>Note</strong>: for the sake of clarity, arguments passed to <code>tab_template</code>s can only be specified on their title line.</p>
 <pre><code class="language-javascript">layout {
-    tab_template name=&quot;ranger-on-the-side&quot; {
+    tab_template name="ranger-on-the-side" {
         pane size=1 borderless=true {
-            plugin location=&quot;zellij:compact-bar&quot;
+            plugin location="zellij:compact-bar"
         }
-        pane split_direction=&quot;vertical&quot; {
-            pane command=&quot;ranger&quot; size=&quot;20%&quot;
+        pane split_direction="vertical" {
+            pane command="ranger" size="20%"
             children
         }
     }
-    ranger-on-the-side name=&quot;my first tab&quot; split_direction=&quot;horizontal&quot; {
+    ranger-on-the-side name="my first tab" split_direction="horizontal" {
         pane
         pane
     }
-    ranger-on-the-side name=&quot;my second tab&quot; split_direction=&quot;vertical&quot; {
+    ranger-on-the-side name="my second tab" split_direction="vertical" {
         pane
         pane
     }
@@ -2136,16 +2222,16 @@ Each template has a name that should be used directly as a node name instead of 
     default_tab_template {
         // the default zellij tab-bar and status bar plugins
         pane size=1 borderless=true {
-            plugin location=&quot;zellij:tab-bar&quot;
+            plugin location="zellij:tab-bar"
         }
         children
         pane size=2 borderless=true {
-            plugin location=&quot;zellij:status-bar&quot;
+            plugin location="zellij:status-bar"
         }
     }
     tab // the default_tab_template
-    tab name=&quot;second tab&quot; // the default_tab_template with a custom tab name
-    tab split_direction=&quot;vertical&quot; { // the default_tab_template with three vertical panes between the plugins
+    tab name="second tab" // the default_tab_template with a custom tab name
+    tab split_direction="vertical" { // the default_tab_template with three vertical panes between the plugins
         pane
         pane
         pane
@@ -2164,22 +2250,22 @@ Each template has a name that should be used directly as a node name instead of 
 </ol>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    cwd &quot;/hi&quot;
-    tab cwd=&quot;there&quot; {
-        pane cwd=&quot;friend&quot; // opened in /hi/there/friend
+    cwd "/hi"
+    tab cwd="there" {
+        pane cwd="friend" // opened in /hi/there/friend
     }
 }
 </code></pre>
 <h3 id="global-cwd"><a class="header" href="#global-cwd">Global <code>cwd</code></a></h3>
 <p>The <code>cwd</code> property can also be specified globally on the <code>layout</code> node itself.</p>
 <p>Doing this would make all panes in this layout start in this cwd unless they have an absolute path.</p>
-<p>Eg. </p>
+<p>Eg.</p>
 <pre><code class="language-javascript">layout {
-    cwd &quot;/home/aram/code/my-project&quot;
-    pane cwd=&quot;src&quot; // will be opened in /home/aram/code/my-project/src
-    pane cwd=&quot;/tmp&quot; // absolute paths override the global cwd, this will be opened in /tmp
-    pane command=&quot;cargo&quot; {
-        args &quot;test&quot;
+    cwd "/home/aram/code/my-project"
+    pane cwd="src" // will be opened in /home/aram/code/my-project/src
+    pane cwd="/tmp" // absolute paths override the global cwd, this will be opened in /tmp
+    pane command="cargo" {
+        args "test"
         // will be started in /home/aram/code/my-project
     }
 }
@@ -2196,13 +2282,13 @@ Each template has a name that should be used directly as a node name instead of 
 <h2 id="progression-and-constraints"><a class="header" href="#progression-and-constraints">Progression and Constraints</a></h2>
 <p>A basic swap layout can look like this:</p>
 <pre><code class="language-javascript">layout {
-    swap_tiled_layout name=&quot;h2v&quot; {
+    swap_tiled_layout name="h2v" {
         tab max_panes=2 {
             pane
             pane
         }
         tab {
-            pane split_direction=&quot;vertical&quot; {
+            pane split_direction="vertical" {
                 pane
                 pane
                 pane
@@ -2221,12 +2307,12 @@ Each template has a name that should be used directly as a node name instead of 
         }
         floating_panes max_panes=2 {
             pane x=0
-            pane x=&quot;50%&quot;
+            pane x="50%"
         }
         floating_panes max_panes=3 {
-            pane x=0 width=&quot;25%&quot;
-            pane x=&quot;25%&quot; width=&quot;25%&quot;
-            pane x=&quot;50%&quot;
+            pane x=0 width="25%"
+            pane x="25%" width="25%"
+            pane x="50%"
         }
     }
 }
@@ -2248,7 +2334,7 @@ A <code>swap_floating_layout</code> can have a <code>name</code>, which will be 
     }
     // ...
     tab max_panes=2 {
-        pane split_direction=&quot;vertical&quot; {
+        pane split_direction="vertical" {
             pane
             pane
         }
@@ -2263,7 +2349,7 @@ A <code>swap_floating_layout</code> can have a <code>name</code>, which will be 
 <p>The basic layout loaded is called the <code>Base</code> layout, and can be switched back to as any other layout - it is considered to have an implicit <code>exact_panes</code> constraint of its total pane count.
 This is true both to tiled panes and floating panes.</p>
 <h2 id="swap-layouts-with-extra-panes"><a class="header" href="#swap-layouts-with-extra-panes">Swap Layouts with extra panes</a></h2>
-<p>Swap layout nodes containing more panes than are on screen will place panes in a &quot;breadth first&quot; manner.</p>
+<p>Swap layout nodes containing more panes than are on screen will place panes in a "breadth first" manner.</p>
 <h2 id="swap-layouts-with-too-few-panes"><a class="header" href="#swap-layouts-with-too-few-panes">Swap Layouts with too few panes</a></h2>
 <p>Swap layouts with fewer panes than are on screen will have all their panes applied first, and panes following them will be laid out in an unspecified manner.</p>
 <h2 id="swap-layout-files-layout-nameswapkdl"><a class="header" href="#swap-layout-files-layout-nameswapkdl">Swap Layout files (layout-name.swap.kdl)</a></h2>
@@ -2279,22 +2365,22 @@ my-layout.swap.kdl
 <p><strong>Note:</strong> These fields are ignored when loading a layout through the <a href="./cli-actions.html#new-tab"><code>new-tab</code> action</a></p>
 <h2 id="example-1"><a class="header" href="#example-1">Example</a></h2>
 <pre><code class="language-javascript">layout {
-    pane split_direction=&quot;vertical&quot; {
+    pane split_direction="vertical" {
         pane
-        pane split_direction=&quot;horizontal&quot; {
+        pane split_direction="horizontal" {
             pane
             pane
         }
     }
     pane size=1 borderless=true {
-        plugin location=&quot;zellij:compact-bar&quot;
+        plugin location="zellij:compact-bar"
     }
 }
 keybinds {
     shared {
-        bind &quot;Alt 1&quot; { Run &quot;git&quot; &quot;status&quot;; }
-        bind &quot;Alt 2&quot; { Run &quot;git&quot; &quot;diff&quot;; }
-        bind &quot;Alt 3&quot; { Run &quot;exa&quot; &quot;--color&quot; &quot;always&quot;; }
+        bind "Alt 1" { Run "git" "status"; }
+        bind "Alt 2" { Run "git" "diff"; }
+        bind "Alt 3" { Run "exa" "--color" "always"; }
     }
 }
 </code></pre>
@@ -2302,9 +2388,9 @@ keybinds {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="example-layouts"><a class="header" href="#example-layouts">Example layouts</a></h1>
 <h2 id="classic-three-pane-with-vertical-root"><a class="header" href="#classic-three-pane-with-vertical-root">Classic three pane with vertical root</a></h2>
 <pre><code class="language-javascript">layout {
-    pane split_direction=&quot;vertical&quot; {
+    pane split_direction="vertical" {
         pane
-        pane split_direction=&quot;horizontal&quot; {
+        pane split_direction="horizontal" {
             pane
             pane
         }
@@ -2315,15 +2401,15 @@ keybinds {
 <p><img src="./img/basic-layout-vertical.png" alt="generic project explorer" /></p>
 <h2 id="classic-three-panes-with-vertical-root-and-compact-status-bar"><a class="header" href="#classic-three-panes-with-vertical-root-and-compact-status-bar">Classic three panes with vertical root and compact status bar</a></h2>
 <pre><code class="language-javascript">layout {
-    pane split_direction=&quot;vertical&quot; {
+    pane split_direction="vertical" {
         pane
-        pane split_direction=&quot;horizontal&quot; {
+        pane split_direction="horizontal" {
             pane
             pane
         }
     }
     pane size=1 borderless=true {
-        plugin location=&quot;zellij:compact-bar&quot;
+        plugin location="zellij:compact-bar"
     }
 }
 </code></pre>
@@ -2332,14 +2418,14 @@ keybinds {
 <h2 id="quick-generic-project-explorer"><a class="header" href="#quick-generic-project-explorer">Quick generic project explorer</a></h2>
 <p>Cloned a new project, want to quickly explore it without much fuss?</p>
 <pre><code class="language-javascript">layout {
-    pane split_direction=&quot;vertical&quot; {
+    pane split_direction="vertical" {
         pane
-        pane split_direction=&quot;horizontal&quot; {
-            pane command=&quot;exa&quot; {
-                args &quot;--color&quot; &quot;always&quot; &quot;-l&quot;
+        pane split_direction="horizontal" {
+            pane command="exa" {
+                args "--color" "always" "-l"
             }
-            pane command=&quot;git&quot; {
-                args &quot;log&quot;
+            pane command="git" {
+                args "log"
             }
         }
     }
@@ -2350,17 +2436,17 @@ keybinds {
 <h2 id="basic-rust-project"><a class="header" href="#basic-rust-project">Basic Rust project</a></h2>
 <p>Basic layout for a rust executable project</p>
 <pre><code class="language-javascript">layout {
-    pane split_direction=&quot;vertical&quot; size=&quot;60%&quot; {
-        pane edit=&quot;src/main.rs&quot;
-        pane edit=&quot;Cargo.toml&quot;
+    pane split_direction="vertical" size="60%" {
+        pane edit="src/main.rs"
+        pane edit="Cargo.toml"
     }
-    pane split_direction=&quot;vertical&quot; size=&quot;40%&quot; {
-        pane command=&quot;cargo&quot; {
-            args &quot;run&quot;
+    pane split_direction="vertical" size="40%" {
+        pane command="cargo" {
+            args "run"
             focus true
         }
-        pane command=&quot;cargo&quot; {
-            args &quot;test&quot;
+        pane command="cargo" {
+            args "test"
         }
     }
 }
@@ -2370,23 +2456,23 @@ keybinds {
 <p>For convenience, here's a version that also loads Zellij's interface</p>
 <pre><code class="language-javascript">layout {
     pane size=1 borderless=true {
-        plugin location=&quot;zellij:tab-bar&quot;
+        plugin location="zellij:tab-bar"
     }
-    pane split_direction=&quot;vertical&quot; size=&quot;60%&quot; {
-        pane edit=&quot;src/main.rs&quot;
-        pane edit=&quot;Cargo.toml&quot;
+    pane split_direction="vertical" size="60%" {
+        pane edit="src/main.rs"
+        pane edit="Cargo.toml"
     }
-    pane split_direction=&quot;vertical&quot; size=&quot;40%&quot; {
-        pane command=&quot;cargo&quot; {
-            args &quot;run&quot;
+    pane split_direction="vertical" size="40%" {
+        pane command="cargo" {
+            args "run"
             focus true
         }
-        pane command=&quot;cargo&quot; {
-            args &quot;test&quot;
+        pane command="cargo" {
+            args "test"
         }
     }
     pane size=2 borderless=true {
-        plugin location=&quot;zellij:status-bar&quot;
+        plugin location="zellij:status-bar"
     }
 }
 </code></pre>
@@ -2396,76 +2482,76 @@ keybinds {
 <pre><code class="language-javascript">layout {
     default_tab_template {
         pane size=1 borderless=true {
-            plugin location=&quot;zellij:tab-bar&quot;
+            plugin location="zellij:tab-bar"
         }
         children
         pane size=2 borderless=true {
-            plugin location=&quot;zellij:status-bar&quot;
+            plugin location="zellij:status-bar"
         }
     }
-    pane_template name=&quot;tests_under_files&quot; {
-        pane split_direction=&quot;horizontal&quot; {
+    pane_template name="tests_under_files" {
+        pane split_direction="horizontal" {
             children
-            pane command=&quot;cargo&quot; size=&quot;30%&quot; {
-                args &quot;test&quot;
+            pane command="cargo" size="30%" {
+                args "test"
             }
         }
     }
-    tab_template name=&quot;strider_tab&quot; {
+    tab_template name="strider_tab" {
         pane size=1 borderless=true {
-            plugin location=&quot;zellij:tab-bar&quot;
+            plugin location="zellij:tab-bar"
         }
-        pane split_direction=&quot;Vertical&quot; {
-            pane size=&quot;15%&quot; {
+        pane split_direction="Vertical" {
+            pane size="15%" {
                 // TODO: when we support sending CWD to plugins, this should start in ./zellij-derver
-                plugin location=&quot;zellij:strider&quot;
+                plugin location="zellij:strider"
             }
             children
         }
         pane size=2 borderless=true {
-            plugin location=&quot;zellij:status-bar&quot;
+            plugin location="zellij:status-bar"
         }
     }
-    strider_tab name=&quot;Server (root)&quot; cwd=&quot;./zellij-server&quot; focus=true {
-        tests_under_files split_direction=&quot;vertical&quot; {
-            pane edit=&quot;./src/lib.rs&quot;
-            pane edit=&quot;./src/route.rs&quot;
+    strider_tab name="Server (root)" cwd="./zellij-server" focus=true {
+        tests_under_files split_direction="vertical" {
+            pane edit="./src/lib.rs"
+            pane edit="./src/route.rs"
         }
     }
-    tab name=&quot;Client (root)&quot; cwd=&quot;./zellij-client&quot; {
-        tests_under_files split_direction=&quot;vertical&quot; {
-            pane edit=&quot;./src/lib.rs&quot;
-            pane edit=&quot;./src/input_handler.rs&quot;
+    tab name="Client (root)" cwd="./zellij-client" {
+        tests_under_files split_direction="vertical" {
+            pane edit="./src/lib.rs"
+            pane edit="./src/input_handler.rs"
         }
     }
-    tab name=&quot;Server (screen thread)&quot; split_direction=&quot;vertical&quot; cwd=&quot;./zellij-server/src&quot; {
-        pane edit=&quot;./screen.rs&quot; name=&quot;SCREEN&quot;
-        pane edit=&quot;./tab/mod.rs&quot; name=&quot;TAB&quot;
-        pane edit=&quot;./panes/terminal_pane.rs&quot; name=&quot;TERMINAL PANE&quot;
+    tab name="Server (screen thread)" split_direction="vertical" cwd="./zellij-server/src" {
+        pane edit="./screen.rs" name="SCREEN"
+        pane edit="./tab/mod.rs" name="TAB"
+        pane edit="./panes/terminal_pane.rs" name="TERMINAL PANE"
     }
-    tab name=&quot;Server (pty thread)&quot; split_direction=&quot;vertical&quot; cwd=&quot;./zellij-server/src&quot; {
-        pane edit=&quot;./pty.rs&quot; name=&quot;PTY&quot;
-        pane edit=&quot;./os_input_output.rs&quot; name=&quot;OS_INPUT_OUTPUT&quot;
+    tab name="Server (pty thread)" split_direction="vertical" cwd="./zellij-server/src" {
+        pane edit="./pty.rs" name="PTY"
+        pane edit="./os_input_output.rs" name="OS_INPUT_OUTPUT"
     }
-    tab name=&quot;Server (pane grids)&quot; split_direction=&quot;horizontal&quot; cwd=&quot;./zellij-server/src/panes&quot; {
-        pane split_direction=&quot;vertical&quot; {
-            pane edit=&quot;./tiled_panes/mod.rs&quot; name=&quot;TILED PANES&quot;
-            pane edit=&quot;./tiled_panes/tiled_pane_grid.rs&quot; name=&quot;TILED PANES - GRID&quot;
-            pane edit=&quot;./tiled_panes/pane_resizer.rs&quot; name=&quot;TILED PANES - GRID - RESIZER&quot;
+    tab name="Server (pane grids)" split_direction="horizontal" cwd="./zellij-server/src/panes" {
+        pane split_direction="vertical" {
+            pane edit="./tiled_panes/mod.rs" name="TILED PANES"
+            pane edit="./tiled_panes/tiled_pane_grid.rs" name="TILED PANES - GRID"
+            pane edit="./tiled_panes/pane_resizer.rs" name="TILED PANES - GRID - RESIZER"
         }
-        pane split_direction=&quot;vertical&quot; {
-            pane edit=&quot;./floating_panes/mod.rs&quot; name=&quot;FLOATING_PANES&quot;
-            pane edit=&quot;./floating_panes/floating_pane_grid.rs&quot; name=&quot;FLOATING_PANES - GRID&quot;
+        pane split_direction="vertical" {
+            pane edit="./floating_panes/mod.rs" name="FLOATING_PANES"
+            pane edit="./floating_panes/floating_pane_grid.rs" name="FLOATING_PANES - GRID"
         }
     }
-    tab name=&quot;Server (Terminal)&quot; split_direction=&quot;horizontal&quot; cwd=&quot;./zellij-server/src/panes&quot; {
-        pane split_direction=&quot;vertical&quot; {
-            pane edit=&quot;./terminal_pane.rs&quot; name=&quot;TERMINAL PANE&quot;
-            pane edit=&quot;./grid.rs&quot; name=&quot;GRID (ANSI PARSER)&quot;
+    tab name="Server (Terminal)" split_direction="horizontal" cwd="./zellij-server/src/panes" {
+        pane split_direction="vertical" {
+            pane edit="./terminal_pane.rs" name="TERMINAL PANE"
+            pane edit="./grid.rs" name="GRID (ANSI PARSER)"
         }
-        pane split_direction=&quot;vertical&quot; {
-            pane edit=&quot;./terminal_character.rs&quot; name=&quot;TERMINAL CHARACTER&quot;
-            pane edit=&quot;./sixel.rs&quot; name=&quot;SIXEL&quot;
+        pane split_direction="vertical" {
+            pane edit="./terminal_character.rs" name="TERMINAL CHARACTER"
+            pane edit="./sixel.rs" name="SIXEL"
         }
     }
 }
@@ -2497,19 +2583,18 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 <p>While even at this early stage, the Zellij plugin system offers powerful capabilities to plugin developers and users alike, there are a few key missing features that are all currently being addressed. This page lists the major ones:</p>
 <ol>
 <li><a href="https://github.com/zellij-org/zellij/issues/2556">Filesystem access is not very fast</a></li>
-<li><a href="https://github.com/zellij-org/zellij/issues/1393">Plugins cannot be loaded from the web and so their distribution is not trivial</a></li>
-<li><a href="https://github.com/zellij-org/zellij/issues/2557">Plugins cannot communicate with each other</a></li>
 <li><a href="https://github.com/zellij-org/zellij/issues/2558">Plugin commands are asynchronous and provide no success/failure indication</a></li>
 <li><a href="https://github.com/zellij-org/zellij/issues/2559">More plugin APIs</a></li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="loading-plugins"><a class="header" href="#loading-plugins">Loading Plugins</a></h1>
-<p>Plugins can either be loaded through a <a href="./creating-a-layout.html#plugin">Layout</a>, through the <a href="./cli-actions.html#launch-or-focus-plugin">command line</a>, or from a <a href="keybindings-possible-actions.html#launchorfocusplugin">keybinding</a>.</p>
+<p>Plugins can either be loaded through a <a href="./creating-a-layout.html#plugin">Layout</a>, through the <a href="./zellij-plugin.html">command line</a>, or from a <a href="keybindings-possible-actions.html#launchorfocusplugin">keybinding</a>.</p>
 <h2 id="plugin-url-schema"><a class="header" href="#plugin-url-schema">Plugin URL schema</a></h2>
-<p>Plugins are referred to by URLs. Currently there are two supported schemas:</p>
+<p>Plugins are referred to by URLs. Currently there are four supported schemas:</p>
 <ol>
 <li>The file schema: <code>file:/absolute/path/to/my/plugin.wasm</code> - for reading plugins from the local HD</li>
 <li>The built-in <code>zellij:</code> schema (eg. <code>zellij:tab-bar</code>) for loading built-in zellij plugins.</li>
 <li>Urls (<code>http(s)://path/to/my/plugin.wasm</code>)</li>
+<li>Bare aliases (<code>filepicker</code>), see <a href="./plugin-aliases.html">Plugin Aliases</a></li>
 </ol>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api"><a class="header" href="#plugin-api">Plugin API</a></h1>
 <p><strong>Please also see the Rust-specific documentation: <a href="https://docs.rs/zellij-tile/latest/zellij_tile/">zellij-tile</a>.</strong></p>
@@ -2645,12 +2730,12 @@ Open a new command pane with the specified command and args (this sort of pane a
 <h2 id="run_command"><a class="header" href="#run_command">run_command</a></h2>
 <ul>
 <li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a>
-Run this host command in the background on the host machine, optionally being notified of its output if subscribed to the <a href="./plugin-api-events.html"><code>RunCommandResult</code></a> Event. This API method includes a dictionary of arbitrary strings that will be returned verbatim with the <code>RunCommandResult</code> event. It can be used for things such as &quot;request_id&quot; to be able to identify the output of a command, or whatever else is needed.</li>
+Run this host command in the background on the host machine, optionally being notified of its output if subscribed to the <a href="./plugin-api-events.html"><code>RunCommandResult</code></a> Event. This API method includes a dictionary of arbitrary strings that will be returned verbatim with the <code>RunCommandResult</code> event. It can be used for things such as "request_id" to be able to identify the output of a command, or whatever else is needed.</li>
 </ul>
 <h2 id="web_request"><a class="header" href="#web_request">web_request</a></h2>
 <ul>
 <li>Requires the <code>WebAccess</code> <a href="./plugin-api-permissions.html">permission</a>
-Make a web request, optionally being notified of its output if subscribed to the <a href="./plugin-api-events.html"><code>WebRequestResult</code></a> Event. This API method includes a dictionary of arbitrary strings that will be returned verbatim with the <code>WebRequestResult</code> event. It can be used for things such as &quot;request_id&quot; to be able to identify the output of a command, or whatever else is needed.</li>
+Make a web request, optionally being notified of its output if subscribed to the <a href="./plugin-api-events.html"><code>WebRequestResult</code></a> Event. This API method includes a dictionary of arbitrary strings that will be returned verbatim with the <code>WebRequestResult</code> event. It can be used for things such as "request_id" to be able to identify the output of a command, or whatever else is needed.</li>
 </ul>
 <h2 id="switch_tab_to"><a class="header" href="#switch_tab_to">switch_tab_to</a></h2>
 <p>Change the focused tab to the specified index (corresponding with the default tab names, to starting at <code>1</code>, <code>0</code> will be considered as <code>1</code>).</p>
@@ -2883,12 +2968,72 @@ Make a web request, optionally being notified of its output if subscribed to the
 <ul>
 <li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
-<p>Change the session to the specified one</p>
+<p>Change the session to the specified one, creating it if it does not exist</p>
 <h2 id="switch_session_with_focus"><a class="header" href="#switch_session_with_focus">switch_session_with_focus</a></h2>
 <ul>
 <li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
-<p>Change the session to the specified one, focusing on a tab or a pane inside that session</p>
+<p>Change the session to the specified one (creating it if it does not exist), if it does exist - focusing on a tab or a pane inside that session</p>
+<h2 id="switch_session_with_layout"><a class="header" href="#switch_session_with_layout">switch_session_with_layout</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change the session to the specified one, creating it if it does not exist, using a specified layout and optionally also a cwd (working directory).</p>
+<h2 id="block_cli_pipe_input"><a class="header" href="#block_cli_pipe_input">block_cli_pipe_input</a></h2>
+<ul>
+<li>Requires the <code>ReadCliPipes</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Block the input side of a pipe, will only be released once this or another plugin unblocks it</p>
+<p>(By default, pipes are unblocked after a plugin has handled a message unless this method is explicitly called).</p>
+<h2 id="unblock_cli_pipe_input"><a class="header" href="#unblock_cli_pipe_input">unblock_cli_pipe_input</a></h2>
+<ul>
+<li>Requires the <code>ReadCliPipes</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Unblock the input side of a pipe, requesting the next message be sent if there is one</p>
+<h2 id="cli_pipe_output"><a class="header" href="#cli_pipe_output">cli_pipe_output</a></h2>
+<ul>
+<li>Requires the <code>ReadCliPipes</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Send output to the output side of a pipe, ths does not affect the input side of same pipe</p>
+<h2 id="pipe_message_to_plugin"><a class="header" href="#pipe_message_to_plugin">pipe_message_to_plugin</a></h2>
+<ul>
+<li>Requires the <code>MessageAndLaunchOtherPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Send a message to a plugin, it will be launched if it is not already running</p>
+<h2 id="delete_dead_session"><a class="header" href="#delete_dead_session">delete_dead_session</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Delete a dead session (one that is not running but can be resurrected) with a specific name</p>
+<h2 id="delete_all_dead_sessions"><a class="header" href="#delete_all_dead_sessions">delete_all_dead_sessions</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Delete all dead sessions (sessions that are not running but can be resurrected)</p>
+<h2 id="rename_session"><a class="header" href="#rename_session">rename_session</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Rename the current session to a specific name</p>
+<h2 id="disconnect_other_clients"><a class="header" href="#disconnect_other_clients">disconnect_other_clients</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Disconnect all other clients attached to this session except the one making this call</p>
+<h2 id="kill_sessions"><a class="header" href="#kill_sessions">kill_sessions</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Kill all Zellij sessions in the list (can contain one or more session names)</p>
+<h2 id="scan_host_folder"><a class="header" href="#scan_host_folder">scan_host_folder</a></h2>
+<p>This is a stop-gap method that allows plugins to scan a folder on the <code>/host</code> <a href="./plugin-api-file-system.html">filesystem</a> and get back a list of files. The reason this is done through the API is that at the time of development, doing this through our WASI runtime is extremely slow. We hope this method will not be needed in the future.</p>
+<h2 id="dump_session_layout"><a class="header" href="#dump_session_layout">dump_session_layout</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Request Zellij send back the serialized layout (in KDL format) of the current session. The layout will be sent back as a <a href="./plugin-api-events.html#custom-message"><code>CustomMessage</code></a> with the <code>session_layout</code> name and the stringified layout as the message payload.</p>
+<h2 id="close_self"><a class="header" href="#close_self">close_self</a></h2>
+<p>Will close the plugin and its pane. If the plugin is the only selectable pane in the session, the session will also exit.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="permissions"><a class="header" href="#permissions">Permissions</a></h1>
 <p>The plugin system provides a permission system to provide extra security and protection to the user.</p>
 <p>The system places certain <a href="./plugin-api-events.html">Events</a> and <a href="./plugin-api-commands.html">Commands</a> behind certain permissions.
@@ -2910,21 +3055,21 @@ Plugins who want to listen to these events or use these commands should prompt t
 <p>Plugins can be configured (have their behavior changed when instantiated) with an arbitrary key/value list.
 This configuration is available to plugins in their <code>load</code> method. It can be provided through layouts:</p>
 <pre><code class="language-javascript">    pane {
-        plugin location=&quot;file:/path/to/my/plugin.wasm&quot; {
-            some_key &quot;some_value&quot;
+        plugin location="file:/path/to/my/plugin.wasm" {
+            some_key "some_value"
             another_key 1
         }
     }
 </code></pre>
 <p>Or through the command line:</p>
-<pre><code>zellij action launch-or-focus-plugin --configuration &quot;some_key=some_value,another_key=1&quot;
+<pre><code>zellij action launch-or-focus-plugin --configuration "some_key=some_value,another_key=1"
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api---reading-from-the-filesystem"><a class="header" href="#plugin-api---reading-from-the-filesystem">Plugin API - Reading from the Filesystem</a></h1>
 <p>Plugins can use their own native standard library to read from the filesystem.</p>
 <p>eg.</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>std::fs::write(&quot;/host/my_file.txt&quot;, &quot;hi from a plugin!&quot;).unwrap()
+</span>std::fs::write("/host/my_file.txt", "hi from a plugin!").unwrap()
 <span class="boring">}</span></code></pre></pre>
 <p>Zellij maps three paths for each plugin:</p>
 <ul>
@@ -2965,9 +3110,74 @@ register_worker!(
 <span class="boring">}</span></code></pre></pre>
 <p>For more information, please see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
 <h2 id="sending-messages-to-workers"><a class="header" href="#sending-messages-to-workers">Sending messages to workers</a></h2>
-<p>When a plugin (or another worker) wishes to send messages to a worker, they use the <a href="./plugin-api-commands.html#post_message_to"><code>post_message_to</code></a> plugin command. They should use the worker namespace used when registering the worker, eg. <code>post_message_to(&quot;test&quot;, ...)</code> for the <code>test_worker</code> example above.</p>
+<p>When a plugin (or another worker) wishes to send messages to a worker, they use the <a href="./plugin-api-commands.html#post_message_to"><code>post_message_to</code></a> plugin command. They should use the worker namespace used when registering the worker, eg. <code>post_message_to("test", ...)</code> for the <code>test_worker</code> example above.</p>
 <h2 id="sending-messages-from-workers-to-plugins"><a class="header" href="#sending-messages-from-workers-to-plugins">Sending messages from workers to plugins</a></h2>
 <p>When a worker wishes to send a message to a plugin, they use the <a href="./plugin-api-commands.html#post_message_to_plugin"><code>post_message_to_plugin</code></a> command. This message will trigger the plugin's <a href="./plugin-api-lifecycle.html#update">update</a> method with a <a href="./plugin-api-events.html#CustomMessage"><code>CustomMessage</code></a> event. Be sure to <a href="./plugin-api-commands.html#subscribe"><code>subscribe</code></a> to it beforehand!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="pipes-for-communicating-with-and-between-plugins"><a class="header" href="#pipes-for-communicating-with-and-between-plugins">Pipes for Communicating with and Between plugins</a></h1>
+<h2 id="what-are-pipes"><a class="header" href="#what-are-pipes">What are pipes?</a></h2>
+<p>A Zellij pipe is a unidirectional communication channel to and/or from a plugin. This communication channel is used to send one or more messages containing arbitrary serializable text, similar to how pipes work in most shells.</p>
+<p>Pipes can have a name (arbitrary string), a payload (arbitrary stringifiable content) and arguments (a dictionary of arbitrary string to arbitrary string). All of these are optional.</p>
+<p><strong>Pipes that do not have a specific destination are broadcast to all plugins.</strong> The reason for this is in order to facilitate the creation of conventions such as the "notification" pipe that can be handled by multiple different plugins in potentially different ways.</p>
+<p>Pipes that do not have a name will be assigned a random UUID as their name.</p>
+<h3 id="pipe-destinations"><a class="header" href="#pipe-destinations">Pipe destinations</a></h3>
+<p>A pipe destination can be any plugin url (eg. https://example.com/my-plugin.wasm, file:/path/to/plugin.wasm, etc.) coupled with a <a href="./plugin-api-configuration.html">plugin configuration</a>. Two plugins with the same URL and different configurations will each be considered a unique plugin destination.</p>
+<p>If a plugin has multiple instances (such as is the case when multiple users are attached to the same session), each instance will receive messages from a pipe directed at this plugin.</p>
+<p>If a destination is specified for a pipe and no such plugin is running, this plugin will be loaded on first message (the pipe will wait until it is loaded and then send it the first message - see <a href="plugin-pipes.html#cli-pipes-and-backpressure">backpressure</a> below).</p>
+<p>When started from a plugin, a pipe destination can also be the internal unique Zellij id of a specific plugin. This is to facilitate two-way communication between two plugins - see <a href="plugin-pipes.html#pipe-sources">Pipe sources</a> below.</p>
+<h3 id="pipe-sources"><a class="header" href="#pipe-sources">Pipe sources</a></h3>
+<p>Pipes can be started either from the CLI, from a keybinding or from another plugin. The source of the pipe will be specified to the plugin (see below). If the source is another plugin, the internal Zellij id of the source plugin will be provided (to allow the plugin to respond in a new pipe if needed).</p>
+<p>If the source is the CLI, the internal pipe-id (a UUID) will be provided to allow plugins to apply backpressure to the CLI pipe as needed (for example, pausing a CLI pipeline until the user presses a specific key).</p>
+<h3 id="cli-pipes-and-backpressure"><a class="header" href="#cli-pipes-and-backpressure">CLI pipes and backpressure</a></h3>
+<p>Pipes can be <a href="./zellij-pipe.html">started from the CLI</a>, in which case they can potentially listen to <code>STDIN</code> and send multiple messages down the same pipe. It's important to stress that this is usually slower than piping data to other programs, namely because Zellij plugins often render themselves on each pipe message. The <code>STDIN</code> buffer is only released after the plugin has been rendered (or has elected not to render itself) in order to apply backpressure.</p>
+<p>Zellij plugins can also elect to entirely block the CLI pipe, releasing it later based on (for example) user input. The same pipe can be blocked/released from any plugin, so long as it knows the CLI pipe ID provided as the <a href="plugin-pipes.html#pipe-sources">pipe source</a>.</p>
+<p>A plugin can also print to the CLI pipe's <code>STDOUT</code> (unrelated to the data it gets on <code>STDIN</code>) assuming it knows its ID. In fact, multiple plugins (or plugin instances) can print to the <code>STDOUT</code> of the same pipe if so desired.</p>
+<p>For more on this, see <a href="./plugin-api-commands.html#block_cli_pipe_input">block_cli_pipe_input</a>, <a href="./plugin-api-commands.html#unblock_cli_pipe_input">unblock_cli_pipe_input</a> and <a href="./plugin-api-commands.html#cli_pipe_output">cli_pipe_output</a>.</p>
+<h3 id="the-pipe-lifecycle-method"><a class="header" href="#the-pipe-lifecycle-method">The <code>pipe</code> lifecycle method</a></h3>
+<p>Plugins may listen to pipes by implementing the <code>pipe</code> lifecycle method. This method is called every time a message is sent over a pipe to this plugin (whether it's broadcast to all plugins or specifically directed at this one). It receives a <code>PipeMessage</code> containing the source of the pipe (CLI, another plugin or a keybinding), as well as information about said source (the plugin id or the CLI pipe id). The <code>PipeMessage</code> also contains the name of the pipe (explicitly provided by the user or a random UUID assigned by Zellij), its payload if it has one, its arguments and whether it is private or not (a private message is one directed specifically at this plugin rather than broadcast to all plugins).</p>
+<p>Similar to the <a href="./plugin-lifecycle.html#update">update method</a>, the pipe lifecycle method returns a bool, true if it would like to render itself, in which case the render function will be called as normal.</p>
+<p>Here's a small Rust example:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn pipe(&amp;mut self, pipe_message: PipeMessage) -&gt; bool {
+    let mut should_render = false;
+    match pipe_message.source {
+        PipeSource::Cli(input_pipe_id) =&gt; {
+            if let Some(payload) = pipe_message.payload {
+                self.messages_from_cli.push(payload);
+                should_render = true;
+            }
+            if self.paused {
+                // backpressure, this will pause data from the CLI pipeline until the unblock_cli_pipe_input method will be called for this id
+                // from this or another plugin
+                block_cli_pipe_input(&amp;input_pipe_id);
+            }
+            if self.should_print_to_cli_stdout {
+                // this can happen anywhere, anytime, from multiple plugins and is not tied to data from STDIN
+                // as long as the pipe is open, plugins with its ID can print arbitrary data to its STDOUT side, even if the input side is blocked
+                cli_pipe_output(input_pipe_id, &amp;payload);
+            }
+        }
+        PipeSource::Plugin(source_plugin_id) =&gt; {
+            // pipes can also arrive from other plugins
+        }
+    }
+    should_render
+}
+<span class="boring">}</span></code></pre></pre>
+<h3 id="the-pipe_message_to_plugin-plugin-api-command"><a class="header" href="#the-pipe_message_to_plugin-plugin-api-command">The <code>pipe_message_to_plugin</code> plugin API command</a></h3>
+<p>This <a href="./plugin-api-commands.html#pipe_message_to_plugin"><code>pipe_message_to_plugin</code> API command</a> allows plugins to start a new pipe to another plugin. It allows spcifying a pipe destination, name, payload, args and also some information to be used in case this message will end up launching a new plugin (for example, the pane title of the new plugin).</p>
+<p>Here's a short Rust example:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pipe_message_to_plugin(
+    MessageToPlugin::new("message_name")
+        .with_plugin_url("https://example.com/my-plugin.wasm")
+        .new_plugin_instance_should_have_pane_title("new_plugin_pane_title")
+);
+<span class="boring">}</span></code></pre></pre>
+<h3 id="the-special-zellijown_url-pipe-destination"><a class="header" href="#the-special-zellijown_url-pipe-destination">The special <code>zellij:OWN_URL</code> pipe destination</a></h3>
+<p>When plugins open pipes, they can use the special <code>zellij:OWN_URL</code> destination url. Zellij will replace this URL with the plugin's own URL. This is useful when plugins want to launch new instances of themselves and communicate with them (for example, in order for the plugin to play different roles or to create a visual pipeline with multiple panes on the user's screen).</p>
+<p>It's important to remember though that if this is used, care needs to be taken to make sure the new plugin's configuration is different from the currently running one - otherwise Zellij will send this message back to the plugin (see plugin uniqueness above).</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="developing-a-plugin"><a class="header" href="#developing-a-plugin">Developing a Plugin</a></h1>
 <p>This section talks about developing a Zellij plugin in Rust.</p>
 <ul>
@@ -2982,13 +3192,13 @@ register_worker!(
 <pre><code class="language-javascript">// plugin-development-workspace.kdl
 layout {
     // ...
-    pane edit=&quot;src/main.rs&quot;
-    pane edit=&quot;Cargo.toml&quot;
-    pane command=&quot;bash&quot; { // could also be done with watchexec or something similar
-        args &quot;-c&quot; &quot;cargo build &amp;&amp; zellij action start-or-reload-plugin file:target/wasm32-wasi/debug/rust-plugin-example.wasm&quot;
+    pane edit="src/main.rs"
+    pane edit="Cargo.toml"
+    pane command="bash" { // could also be done with watchexec or something similar
+        args "-c" "cargo build &amp;&amp; zellij action start-or-reload-plugin file:target/wasm32-wasi/debug/rust-plugin-example.wasm"
     }
     pane {
-        plugin location=&quot;file:target/wasm32-wasi/debug/rust-plugin-example.wasm&quot;
+        plugin location="file:target/wasm32-wasi/debug/rust-plugin-example.wasm"
     }
     // ...
 }
@@ -3015,7 +3225,7 @@ layout {
 <h3 id="update"><a class="header" href="#update">update</a></h3>
 <p>Will be called with an <a href="./plugin-api-events.html"><code>Event</code></a> if the plugin is subscribed to said event. If the plugin returns <code>true</code> from this function, Zellij will know it should be rendered and call its <code>render</code> function.</p>
 <h3 id="render"><a class="header" href="#render">render</a></h3>
-<p>Will be called either after an <code>update</code> that requested it, or when the plugin otherwise needs to be re-rendered (eg. on startup, or when the plugin is resized). The <code>rows</code> and <code>cols</code> values represent the &quot;content size&quot; of the plugin (this will not include its surrounding frame if the user has pane frames enabled).</p>
+<p>Will be called either after an <code>update</code> that requested it, or when the plugin otherwise needs to be re-rendered (eg. on startup, or when the plugin is resized). The <code>rows</code> and <code>cols</code> values represent the "content size" of the plugin (this will not include its surrounding frame if the user has pane frames enabled).</p>
 <p>This function is expeted to print to <code>STDOUT</code> whatever the plugin would like to render inside its pane. For more information, see <a href="plugin-ui-rendering.html">plugin ui rendering</a>.</p>
 <h2 id="registering-a-plugin"><a class="header" href="#registering-a-plugin">Registering a plugin</a></h2>
 <p>After implementing the trait on a struct, we'll need to use the <code>register_plugin</code> macro on it:</p>
@@ -3042,16 +3252,16 @@ register_plugin!(MyPlugin);
 <h3 id="the-components"><a class="header" href="#the-components">The Components</a></h3>
 <h4 id="table"><a class="header" href="#table">Table</a></h4>
 <p><img src="img/table-ui-component.png" alt="table" />
-Consists of a title line with an emphasis style and a grid of width-justified cells. Each cell can be styled individually (see <code>Text</code> below) and also marked as &quot;selected&quot;. Marking adjacent cells as selected can create a &quot;selected row&quot; effect.</p>
+Consists of a title line with an emphasis style and a grid of width-justified cells. Each cell can be styled individually (see <code>Text</code> below) and also marked as "selected". Marking adjacent cells as selected can create a "selected row" effect.</p>
 <p>Example from the Rust SDK (renders the screeshot above):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let table = Table::new()
-    .add_row(vec![&quot;title1&quot;, &quot;title2&quot;, &quot;title3&quot;])
-    .add_styled_row(vec![Text::new(&quot;content 1&quot;).color_range(0, 1..5), Text::new(&quot;content 2&quot;).color_range(2, ..), Text::new(&quot;content 3&quot;)])
-    .add_styled_row(vec![Text::new(&quot;content 11&quot;).selected(), Text::new(&quot;content 22&quot;).selected(), Text::new(&quot;content 33&quot;).selected()])
-    .add_styled_row(vec![Text::new(&quot;content 111&quot;), Text::new(&quot;content 222&quot;).selected(), Text::new(&quot;content 33&quot;)])
-    .add_styled_row(vec![Text::new(&quot;content 11&quot;), Text::new(&quot;content 22&quot;).selected(), Text::new(&quot;content 33&quot;)]);
+    .add_row(vec!["title1", "title2", "title3"])
+    .add_styled_row(vec![Text::new("content 1").color_range(0, 1..5), Text::new("content 2").color_range(2, ..), Text::new("content 3")])
+    .add_styled_row(vec![Text::new("content 11").selected(), Text::new("content 22").selected(), Text::new("content 33").selected()])
+    .add_styled_row(vec![Text::new("content 111"), Text::new("content 222").selected(), Text::new("content 33")])
+    .add_styled_row(vec![Text::new("content 11"), Text::new("content 22").selected(), Text::new("content 33")]);
 print_table(table); // will print this table wherever the cursor may be at the moment
 print_table_with_coordinates(table, 4, 5, None, None); // will print this table at x: 4, y: 5, the last two `Option`s are width/height
 <span class="boring">}</span></code></pre></pre>
@@ -3061,10 +3271,10 @@ Ribbons are the UI elements used for tabs in the Zellij tab bar and for modes in
 <p>Example from the Rust SDK (renders the screenshot above):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>print_ribbon_with_coordinates(Text::new(&quot;ribbon 1&quot;).color_range(0, 1..5), 0, 0, Some(12), None);
-print_ribbon_with_coordinates(Text::new(&quot;ribbon 2&quot;).color_range(1, 1..5).selected(), 12, 0,  Some(12), None);
-print_ribbon_with_coordinates(Text::new(&quot;ribbon 3&quot;).color_range(2, 1..5), 24, 0, Some(12), None);
-print_ribbon_with_coordinates(Text::new(&quot;ribbon 4&quot;).color_range(3, 1..5), 36, 0,  Some(12), None);
+</span>print_ribbon_with_coordinates(Text::new("ribbon 1").color_range(0, 1..5), 0, 0, Some(12), None);
+print_ribbon_with_coordinates(Text::new("ribbon 2").color_range(1, 1..5).selected(), 12, 0,  Some(12), None);
+print_ribbon_with_coordinates(Text::new("ribbon 3").color_range(2, 1..5), 24, 0, Some(12), None);
+print_ribbon_with_coordinates(Text::new("ribbon 4").color_range(3, 1..5), 36, 0,  Some(12), None);
 <span class="boring">}</span></code></pre></pre>
 <h4 id="nested-list"><a class="header" href="#nested-list">Nested List</a></h4>
 <p><img src="img/nested-list-ui-component.png" alt="nested-list" />
@@ -3073,10 +3283,10 @@ A nested list is the UI element used in the Zellij session-manager. It is a list
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>print_nested_list_with_coordinates(vec![
-    NestedListItem::new(&quot;item 1 with some nice text...&quot;).color_range(1, ..).color_range(3, 10..25).color_indices(1, vec![8]),
-    NestedListItem::new(&quot;item 2 with some more text&quot;).indent(1).color_range(0, 1..15).color_indices(1, vec![8]),
-    NestedListItem::new(&quot;item 3 is a real eye opener&quot;).color_range(2, ..).color_range(3, 5..20).color_indices(1, vec![8]).selected(),
-    NestedListItem::new(&quot;item 4 is just another item, really&quot;).indent(1).color_range(0, ..).color_range(1, 1..15).color_indices(1, vec![8]),
+    NestedListItem::new("item 1 with some nice text...").color_range(1, ..).color_range(3, 10..25).color_indices(1, vec![8]),
+    NestedListItem::new("item 2 with some more text").indent(1).color_range(0, 1..15).color_indices(1, vec![8]),
+    NestedListItem::new("item 3 is a real eye opener").color_range(2, ..).color_range(3, 5..20).color_indices(1, vec![8]).selected(),
+    NestedListItem::new("item 4 is just another item, really").indent(1).color_range(0, ..).color_range(1, 1..15).color_indices(1, vec![8]),
 ], 1, 1, None, None);
 <span class="boring">}</span></code></pre></pre>
 <h4 id="text"><a class="header" href="#text">Text</a></h4>
@@ -3087,7 +3297,7 @@ A <code>Text</code> element can also have indices. These indices can be one of 4
 <p>Example from the Rust SDK (renders the screenshot above):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>let text = Text::new(&quot;foo bar baz&quot;).selected().color_range(0, 0..=2).color_range(1, 3..=5).color_range(2, 7..=9);
+</span>let text = Text::new("foo bar baz").selected().color_range(0, 0..=2).color_range(1, 3..=5).color_range(2, 7..=9);
 print_text_with_coordinates(text, 0, 0, None, None);
 <span class="boring">}</span></code></pre></pre>
 <h3 id="the-protocol"><a class="header" href="#the-protocol">The Protocol</a></h3>
@@ -3103,7 +3313,7 @@ Example:</p>
 </code></pre>
 <p>Here, the coordinate string <code>2/3/10/5</code> instructs us to render the ribbon at <code>x: 2, y: 3, width: 10, height: 5</code>. The width and height are optional, so may be empty (eg. <code>2/3//</code>).</p>
 <h4 id="selected"><a class="header" href="#selected">Selected</a></h4>
-<p>If a utf-8 separated byte list begins with a clear-text <code>x</code>, it will be considered &quot;selected&quot;. Eg.</p>
+<p>If a utf-8 separated byte list begins with a clear-text <code>x</code>, it will be considered "selected". Eg.</p>
 <pre><code>&lt;ESC&gt;Pzribbon;x114,105,98,98,111,110,32,49&lt;ESC&gt;\
 </code></pre>
 <h4 id="indices"><a class="header" href="#indices">Indices</a></h4>
@@ -3121,10 +3331,95 @@ Example:</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="upgrading-a-plugin"><a class="header" href="#upgrading-a-plugin">Upgrading a Plugin</a></h1>
 <p>Since Zellij plugins using <a href="./plugin-lifecycle.html"><code>zellij-tile</code></a> rely on shared data structures, currently one would need to compile a plugin against the corresponding <code>zellij-tile</code> package of the zellij version it is installed on.</p>
 <p>The Zellij maintainers are aware this is an inconvenient and undesired scenario and are working on a more robust solution.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-aliases"><a class="header" href="#plugin-aliases">Plugin Aliases</a></h1>
+<p>Plugin aliases are a dictionary between an arbitrary string (eg. <code>filepicker</code>) and a non-alias <a href="./plugin-loading.html">plugin url</a>, with optional <a href="./plugin-api-configuration.html">plugin configuration</a>. They can be configured in the <a href="./configuration.html">Zellij configuration file</a> under the <code>plugins</code> block.</p>
+<p>Here's the default aliases:</p>
+<pre><code class="language-javascript">plugins {
+    tab-bar location="zellij:tab-bar"
+    status-bar location="zellij:status-bar"
+    strider location="zellij:strider"
+    compact-bar location="zellij:compact-bar"
+    session-manager location="zellij:session-manager"
+    welcome-screen location="zellij:session-manager" {
+        welcome_screen true
+    }
+    filepicker location="zellij:strider" {
+        cwd "/"
+    }
+}
+</code></pre>
+<p>With this plugins block, whenever the bare <code>tab-bar</code> is used to refer to a plugin (be it in a <a href="./layouts.html">layout</a>, from the <a href="./zellij-plugin.html">command line</a>, from a <a href="./keybindings.html">keybinding</a> or from <a href="./plugin-pipes.html">another plugin</a>), Zellij will translate it to the internal <code>zellij:tab-bar</code> url. Whenever the bare <code>filepicker</code> url is used to refer to a plugin, Zellij will translate it to the built-in <code>zellij:strider</code> url will be used with the <code>cwd "/"</code> configuration.</p>
+<p>Aliases can be added to this block or changed to swap the default built-in plugins to other implementations. Removing the default aliases entirely might cause Zellij not to function as expected.</p>
+<p>When swapping the default aliases for custom plugins, it's important that these plugins implement the basic contract Zellij (and indeed, other plugins) expect of them. The following sections describe the contract for each default alias.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-tab-bar-alias"><a class="header" href="#the-tab-bar-alias">The tab-bar Alias</a></h1>
+<p>This alias, by default translated to the internal <code>zellij:tab-bar</code> plugin url, represents the tab bar loaded on the top line of the default layout.</p>
+<h2 id="contract"><a class="header" href="#contract">Contract</a></h2>
+<p>Zellij loads this tab bar with a height of <code>1</code> and a width the size of the user's full screen. Zellij has no other expectations from this plugin, even though users will probably expect at least the tabs to be shown.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-status-bar-alias"><a class="header" href="#the-status-bar-alias">The status-bar alias</a></h1>
+<p>This alias, by default translated to the internal <code>zellij:status-bar</code> plugin url, represents the status-bar loaded in the default layout on the bottom of the screen.</p>
+<h2 id="contract-1"><a class="header" href="#contract-1">Contract</a></h2>
+<p>Zellij loads this status bar with a height of <code>2</code> and a width the size of the user's full screen. Zellij has no other expectations from this plugin, even though users will probably expect at least the input modes and their status be shown.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-strider-alias"><a class="header" href="#the-strider-alias">The strider alias</a></h1>
+<p>This alias, by default translated to the internal <code>zellij:strider</code> plugin url, is the default Zellij filesystem explorer.</p>
+<h2 id="contract-2"><a class="header" href="#contract-2">Contract</a></h2>
+<p>Zellij loads this plugin in the <code>strider</code> layout with a width of 20% of the user's screen and a the full height of the user's screen minus 3 (one for the <a href="./tab-bar-alias.html">tab-bar</a> and two for the <a href="./status-bar-alias.html">status-bar</a>). Zellij has no other expectations from this alias, but users will probably expect it to at least show a list of files in the current directory.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-compact-bar-alias"><a class="header" href="#the-compact-bar-alias">The compact-bar alias</a></h1>
+<p>This alias, by default translated to the internal <code>zellij:compact-bar</code> plugin url, represents the compact-bar loaded in the compact layout on the bottom of the screen.</p>
+<h2 id="contract-3"><a class="header" href="#contract-3">Contract</a></h2>
+<p>Zellij loads this compact bar with a height of <code>1</code> and a width the size of the user's full screen. Zellij has no other expectations from this plugin, even though users will probably expect at least the input mode and the tabs be shown.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-session-manager-alias"><a class="header" href="#the-session-manager-alias">The session-manager alias</a></h1>
+<p>This alias, by default translated to the internal <code>zellij:session-manager</code> plugin url, represents the session-manager loaded by default with <code>Ctrl o</code> + <code>w</code>.</p>
+<h2 id="contract-4"><a class="header" href="#contract-4">Contract</a></h2>
+<p>Zellij loads the session-manager as a floating pane as part of the default keybindings.</p>
+<h2 id="user-expectations"><a class="header" href="#user-expectations">User expectations</a></h2>
+<p>Users will likely expect the session-manager to:</p>
+<ol>
+<li>Allow them to switch between active sessions</li>
+<li>Allow them to resurrect exited sessions</li>
+<li>Allow them to start a new session</li>
+<li>Allow them to rename the current session</li>
+<li>Allow them to disconnect other users (clients) in the current session</li>
+<li>Allow them to kill active sessions and permanently delete exited sessions</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-welcome-screen-alias"><a class="header" href="#the-welcome-screen-alias">The welcome-screen alias</a></h1>
+<p>This alias, by default translated to the internal <code>zellij:session-manager</code> plugin url with the <code>welcome_screen true</code> configuration, is loaded on startup when the built-in <code>welcome</code> <a href="./layouts.html">layout</a> is loaded with <code>zellij -l welcome</code>.</p>
+<h2 id="contract-5"><a class="header" href="#contract-5">Contract</a></h2>
+<p>Zellij loads the welcome-screen fullscreened without any other UI. It expects the plugin to close itself (and thus the session) once the user starts a new session, switches to a new session or resurrects an exited session.</p>
+<h2 id="user-expectations-1"><a class="header" href="#user-expectations-1">User expectations</a></h2>
+<p>Users will likely expect the welcome-screen to:</p>
+<ol>
+<li>Allow them to attach to an existing session</li>
+<li>Allow them to resurrect an exited session</li>
+<li>Allow them to start a new session</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-filepicker-alias"><a class="header" href="#the-filepicker-alias">The filepicker alias</a></h1>
+<p>This alias, by default translated to the internal <code>zellij:strider</code> plugin url with the <code>cwd "/"</code> configuration, is used by various plugins to allow users to traverse their filesystem and select files or folders for various purposes.</p>
+<p>For example, the <a href="./session-manager-alias.html">session-manager</a> and <a href="./welcome-screen-alias.html">welcome-screen</a> use the filepicker to allow users to choose the working directory for the new session they would like to start.</p>
+<h2 id="contract-6"><a class="header" href="#contract-6">Contract</a></h2>
+<p>Zellij loads the filepicker using a <a href="./plugin-pipes.html">pipe</a>. It sends it a private message with the <code>filepicker</code> message name.</p>
+<h3 id="if-the-message-originates-from-another-plugin"><a class="header" href="#if-the-message-originates-from-another-plugin">If the message originates from another plugin</a></h3>
+<p>Zellij expects the filepicker to:</p>
+<ol>
+<li>Open a new pipe with the originating plugin's ID (it receives this ID as part of the <code>PipeMessage</code>) as its destination.</li>
+<li>The message name should be <code>filepicker_result</code></li>
+<li>The message <code>args</code> should be the same args sent in the original message (if any).</li>
+<li>The message payload should be the path the user chose as clear text.</li>
+</ol>
+<h3 id="if-the-message-originates-from-the-cli"><a class="header" href="#if-the-message-originates-from-the-cli">If the message originates from the CLI</a></h3>
+<p>Zellij expects the filepicker to:</p>
+<ol>
+<li>Block the CLI pipe input to give the user time to choose a file using <a href="./plugin-api-commands.html#block_cli_pipe_input"><code>block_cli_pipe_input</code></a>.</li>
+<li>Output the the path the user chose as clear text with the <a href="./plugin-api-commands.html#cli_pipe_output"><code>cli_pipe_output</code></a> command.</li>
+<li>Unblock the CLI pipe input once the user chose a path with <a href="./plugin-api-commands.html#unblock_cli_pipe_input"><code>unblock_cli_pipe_input</code></a>.</li>
+</ol>
+<h2 id="user-expectations-2"><a class="header" href="#user-expectations-2">User expectations</a></h2>
+<p>The user will likely expect the plugin to either close itself or hide itself once the file has been chosen, so their focus will return the pane which originated this request (be it another plugin or a terminal if this request was made through a CLI pipe).</p>
+<h2 id="example-2"><a class="header" href="#example-2">Example</a></h2>
+<p>See <a href="https://github.com/zellij-org/zellij/blob/main/default-plugins/strider/src/main.rs#L129">the strider plugin's implementation</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="example-plugins"><a class="header" href="#example-plugins">Example Plugins</a></h1>
 <h3 id="harpoon"><a class="header" href="#harpoon"><a href="https://github.com/Nacho114/harpoon">harpoon</a></a></h3>
 <p><img src="/video/harpoon-preview.gif" alt="harpoon preview" /></p>
-<p><a href="https://github.com/Nacho114/harpoon">harpoon</a> enables quick navigation to your favorite panes. 
+<p><a href="https://github.com/Nacho114/harpoon">harpoon</a> enables quick navigation to your favorite panes.
 You can use <code>a</code> to add the current pane to your harpoon list. You can navigate harpoon using <code>Up</code>,
 <code>Down</code>, or using vim navigation. To go to the pane you just press <code>Enter</code>.</p>
 <h3 id="jbz"><a class="header" href="#jbz"><a href="https://github.com/nim65s/jbz">jbz</a></a></h3>
@@ -3143,7 +3438,7 @@ in <a href="https://github.com/Canop/bacon">bacon</a>, each one in a new pane.</
 <p>If you press <code>ESC</code> or <code>Ctrl c</code>, it will hide itself until you call it again.</p>
 <h3 id="multitask"><a class="header" href="#multitask"><a href="https://github.com/imsnif/multitask">Multitask</a></a></h3>
 <p><img src="/img/multitask-preview.png" alt="multitask plugin preview" /></p>
-<p>This Zellij plugin is a &quot;mini-ci&quot;. It allows you to specify commands that will run in parallel, keeping track of completed commands and their exit status. Only progressing to the next step if all the commands in the previous step succeeded.</p>
+<p>This Zellij plugin is a "mini-ci". It allows you to specify commands that will run in parallel, keeping track of completed commands and their exit status. Only progressing to the next step if all the commands in the previous step succeeded.</p>
 <p>Did one command fail? No problem! Fix the issue, re-run it with ENTER and the pipeline will continue.</p>
 <h3 id="room"><a class="header" href="#room"><a href="https://github.com/rvcas/room">room</a></a></h3>
 <p><img src="/video/room-preview.gif" alt="room preview" /></p>
@@ -3178,7 +3473,7 @@ Zellij includes built-in session resurrection capabilities. This means that by d
 <p>These exited resurrectable sessions can be listed through the CLI or the built-in <code>session-manager</code>. They can be resurrected through the CLI by attaching to them or through the <code>session-manager</code> by selecting them in the <code>EXITED</code> section.</p>
 <h2 id="what-is-resurrected-and-how-to-configure"><a class="header" href="#what-is-resurrected-and-how-to-configure">What is Resurrected and how to Configure</a></h2>
 <p>By default, Zellij serializes the session layout (panes and tabs) and the command running in each pane (it will re-run them in command panes). Through configuration it's possible to have Zellij also serialize and resurrect the pane viewport and scrollback.</p>
-<p>Zellij does not immediately run resurrected commands, but rather places them behind a &quot;Press <code>ENTER</code> to run...&quot; banner so as to prevent uncomfortable accidents with things like <code>rm -rf</code>.</p>
+<p>Zellij does not immediately run resurrected commands, but rather places them behind a "Press <code>ENTER</code> to run..." banner so as to prevent uncomfortable accidents with things like <code>rm -rf</code>.</p>
 <h3 id="session_serialization-1"><a class="header" href="#session_serialization-1"><code>session_serialization</code></a></h3>
 <p>To disable session serialization (and thus also resurrection), set <code>session_serialization false</code> in the <a href="./configuration.html">config</a>.</p>
 <h3 id="pane_viewport_serialization-1"><a class="header" href="#pane_viewport_serialization-1"><code>pane_viewport_serialization</code></a></h3>
@@ -3188,7 +3483,7 @@ Zellij includes built-in session resurrection capabilities. This means that by d
 <h2 id="resurrecting-sessions-through-the-cli"><a class="header" href="#resurrecting-sessions-through-the-cli">Resurrecting Sessions through the CLI</a></h2>
 <p>To list exited sessions, use <code>zellij list-sessions</code> (or <code>zellij ls</code>) for short:</p>
 <p><img src="img/zellij-ls-resurrection.png" alt="zellij-list-sessions-output" /></p>
-<p>Then, in order to resurrect a session, one can <code>attach</code> to it. If you'd like to immediately run all resurrected commands and skip the &quot;Press <code>ENTER</code> to run...&quot; banner, you can issue the <code>--force-run-commands</code> flag.</p>
+<p>Then, in order to resurrect a session, one can <code>attach</code> to it. If you'd like to immediately run all resurrected commands and skip the "Press <code>ENTER</code> to run..." banner, you can issue the <code>--force-run-commands</code> flag.</p>
 <h2 id="resurrecting-sessions-through-the-session-manager"><a class="header" href="#resurrecting-sessions-through-the-session-manager">Resurrecting Sessions through the session-manager</a></h2>
 <p>Sessions can also be resurrected and switched to from within a Zellij session using the <code>session-manager</code>. To do this, press <code>&lt;TAB&gt;</code> to toggle the <code>EXITED</code> sessions and select one with <code>&lt;ENTER&gt;</code>.</p>
 <h2 id="permanently-deleting-sessions"><a class="header" href="#permanently-deleting-sessions">Permanently Deleting Sessions</a></h2>
@@ -3226,14 +3521,14 @@ the terminal handle selection, clicking on links, copying, scrolling.</p>
 under Linux/OS X such as GNOMEs default Terminal, terminator, and more.</p>
 <p>A workaround for this was added in zellij &gt; 0.24.0 and enables the user to
 specify a custom command that copies selected text to the system clipboard.
-Refer to lines containing &quot;copy_command&quot; from the output of <code>zellij setup --dump-config</code>.</p>
+Refer to lines containing "copy_command" from the output of <code>zellij setup --dump-config</code>.</p>
 <p>For technical background, refer to <a href="https://github.com/zellij-org/zellij/issues/627">this
 issue</a> and <a href="https://github.com/zellij-org/zellij/pull/996">this merge
 request</a></p>
 <h2 id="backspace-sending-ctrl-h-entering-into-move-mode"><a class="header" href="#backspace-sending-ctrl-h-entering-into-move-mode">Backspace sending ctrl-h (entering into <code>Move</code> mode)</a></h2>
 <p>This can happen in some terminal emulators (eg. Xterm). It can be remedied either on the terminal emulator side by getting the terminal emulator to send <code>^?</code> instead of <code>^H</code>, or on the Zellij side by remapping ctrl-h to some other key. Here's an example fix in xterm: http://www.hypexr.org/linux_ruboff.php</p>
 <h2 id="weird-colors-in-certain-applications-running-inside-zellij"><a class="header" href="#weird-colors-in-certain-applications-running-inside-zellij">Weird colors in certain applications running inside Zellij</a></h2>
-<p>This might happen due to Zellij support of the extended &quot;styled_underlines&quot; feature. You can try disabling them by adding <code>styled_underlines false</code> to your config.</p>
+<p>This might happen due to Zellij support of the extended "styled_underlines" feature. You can try disabling them by adding <code>styled_underlines false</code> to your config.</p>
 
                     </main>
 

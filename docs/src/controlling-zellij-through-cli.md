@@ -18,6 +18,8 @@ For starting commands in a new pane, see [Zellij Run](./zellij-run.md).
 
 For editing a file in a new pane with your own editor, see [Zellij Edit](./zellij-edit.md).
 
+For loading and controlling plugins, see [Zellij Plugin](./zellij-plugin.md) and [Zellij Pipe](./zellij-pipe.md).
+
 ### Completions
 For convenience, zellij provides cli completions for popular shells.
 
