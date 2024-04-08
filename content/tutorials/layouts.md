@@ -25,6 +25,7 @@ The layout we're creating is for a default Rust project. Rust is used as an exam
 - [Edit and Command Panes](#edit-and-command-panes)
 - [Changing Pane Orientation](#changing-pane-orientation)
 - [Avoiding Repetition with Pane Templates](#avoiding-repetition-with-pane-templates)
+- [Do you like Zellij?](#do-you-like-zellij-)
 
 ## Getting Started
 To follow along, you can clone [the repository](https://github.com/imsnif/zellij-screencast-2).
@@ -221,3 +222,10 @@ layout {
 
 ## Conclusion and Further Reading
 Here we learned how to create a basic layout to facilitate working with a Rust project through the terminal. There are plenty additional layout features to explore, such as tabs, tab_templates and cwd composition. Check out more in the [official docs](/documentation/creating-a-layout.html).
+
+## Do you like Zellij? ❤️
+Me too. So much so that I spend 100% of my time developing and maintaining it and have no other income.
+
+Zellij will always be free and open-source. Zellij will never contain ads or collect your data.
+
+If the tool gives you value and you are able, please consider [a recurring monthly donation](https://github.com/sponsors/imsnif) of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!

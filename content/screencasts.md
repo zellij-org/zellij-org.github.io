@@ -18,3 +18,9 @@ Finally, we'll talk about editing a pane's scrollback with our own `$EDITOR`
 This tutorial walks you through creating Zellij [layouts](/documentation/creating-a-layout.html) to automate tasks and workflows.
 
 Layouts describe a pre-defined set of panes and tabs with different terminals, commands and plugins. They can be great to automate and formalize workflows and tasks.
+
+### [Session Management](/tutorials/session-management)
+[{{<figure src="/img/tutorial-3-preview.png" class="center" style="max-width 995px;">}}](/tutorials/session-management)
+Do you find yourself jumping between tasks a lot?
+
+When using the terminal, we often open new terminal windows for different tasks, ending up with a mess of open terminals. This can lead to difficulty and overhead when switching contexts: we often end up searching for commands through our shell history, keeping complex notes and having to rebuild our environment every time we return to a task. Zellij can solve these problems and more for us with the `session-manager` and `welcome-screen`.
