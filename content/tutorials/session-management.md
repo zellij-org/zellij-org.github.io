@@ -1,6 +1,6 @@
 ---
 title: "Session Management with Zellij"
-images: ["/img/tutorial-1-preview.png"] # TODO
+images: ["/img/tutorial-3-preview.png"]
 description: "How to use Zellij to manage your sessions in the terminal"
 linktitle: "How to use Zellij to manage your sessions in the terminal"
 ---
