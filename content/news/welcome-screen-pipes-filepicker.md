@@ -1,7 +1,7 @@
 ---
 author: "Aram Drevekenin"
 authorlink: "https://hachyderm.io/@imsnif"
-date: 2024-16-04
+date: 2024-04-16
 linktitle: "Zellij 0.40.0: Welcome Screen, Filepicker, Pipes, Plugin Aliases"
 type:
 - post
@@ -12,6 +12,7 @@ images: ["/img/welcome-screen-preview.png"]
 description: "A new welcome screen to facilitate session management, a new filepicker, a powerful new concept called pipes and lots of long awaited features"
 alttext: "An image of the Zellij welcome screen with the Zellij filepicker opened to select the location of the session"
 weight: 10
+
 ---
 {{<figure src="/img/welcome-screen-preview.png" width="800px;" alt="An image of the Zellij welcome screen with the Zellij filepicker opened to select the location of the session">}}
 Zellij 0.40.0 has just been released! [Grab it while it's hot!](https://github.com/zellij-org/zellij/releases/tag/v0.40.0)
