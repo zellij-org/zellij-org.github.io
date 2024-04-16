@@ -1,7 +1,7 @@
 ---
 author: "Aram Drevekenin"
 authorlink: "https://hachyderm.io/@imsnif"
-date: 2024-02-04 # TODO: CHANGEME!!!
+date: 2024-16-04
 linktitle: "Zellij 0.40.0: Welcome Screen, Filepicker, Pipes, Plugin Aliases"
 type:
 - post
@@ -9,12 +9,12 @@ type:
 title: "Zellij 0.40.0: Welcome Screen, Filepicker, Pipes, Plugin Aliases"
 type:
 images: ["/img/welcome-screen-preview.png"]
-description: "This release includes a new welcome screen to facilitate session management, a new filepicker and a powerful new concept called pipes"
+description: "A new welcome screen to facilitate session management, a new filepicker, a powerful new concept called pipes and lots of long awaited features"
 alttext: "An image of the Zellij welcome screen with the Zellij filepicker opened to select the location of the session"
 weight: 10
 ---
 {{<figure src="/img/welcome-screen-preview.png" width="800px;" alt="An image of the Zellij welcome screen with the Zellij filepicker opened to select the location of the session">}}
-Zellij 0.40.0 has just been released! [Grab it while it's hot!](https://github.com/zellij-org/zellij/v0.40.0)
+Zellij 0.40.0 has just been released! [Grab it while it's hot!](https://github.com/zellij-org/zellij/releases/tag/v0.40.0)
 
 Some highlights:
 - [Welcome Screen](#welcome-screen)
@@ -25,6 +25,7 @@ Some highlights:
 - [Disconnect other Clients](#disconnect-other-clients)
 - [Plugin Aliases](#plugin-aliases)
 - [New Possible Keys to Bind](#new-possible-keys-to-bind)
+- [Start session in the background](#start-session-in-the-background)
 - [Performance Improvements](#performance-improvements)
 - [Do you like Zellij?](#do-you-like-zellij-) ❤️
 
@@ -58,6 +59,8 @@ Messages can be sent to plugins through the CLI: (eg. `zpipe my-plugin hi!`), fr
 
 Pipes also integrate seamlessly with existing shell pipes, providing flow control and giving plugin authors the ability to visualize data from the command line, allow users to pause a command line pipe mid-stream on certain messages or on a keystroke. We believe this functionality will help utilize the full 2 dimensions of the terminal window as never before, popping up floating panes in certain conditions and creating a many-to-many windowed pipeline. We look forward to seeing what plugin authors come up with!
 
+[Learn more about Pipes](/documentation/plugin-pipes.html)
+
 ## Open Floating Panes at Specific Coordinates
 A much requested feature after the introduction of floating panes, was to be able to open floating panes at specific coordinates and at specific sizes. Ths is now possible from the CLI, from plugins or from a keybinding (either with fixed numbers or percentage of the viewport):
 
@@ -84,6 +87,9 @@ Read more about [Plugin Aliases](/documentation/plugin-aliases.html).
 
 ## New Possible Keys to Bind
 Thanks to some community contributions, it is now possible to bind `Ctrl`/`Alt` + Function keys (eg. `Ctrl F1`), as well as `Ctrl Space`. We as Zellij maintainers are aware that colliding keybindings are a big problem for many users and intend to fully and finally address this issue in the next version after this one.
+
+## Start session in the background
+nother much requested feature was added in this release: it's now possible to start a new Zellij session in the background with the new `zellij attach --create-background` flag.
 
 ## Performance Improvements
 This version introduces two major performance improvements:
