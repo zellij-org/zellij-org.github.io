@@ -17,6 +17,7 @@ You need not be a terminal developer to benefit from this tutorial.
 - [Using Floating Panes](#using-floating-panes)
 - [Starting Command Panes from the CLI](#starting-command-panes-from-the-cli)
 - [Editing Pane Scrollback with your own $EDITOR](#editing-the-scrollback-with-your-own-editor)
+- [Do you like Zellij?](#do-you-like-zellij-)
 
 ## Getting Started
 {{<figure src="/img/tutorial-1-getting-started.png" class="center" style="max-width 995px;" alt="An image of Zellij running inside a terminal with vim open to the main.rs file of the project.">}}
@@ -77,4 +78,9 @@ Then, let's save the resulting lines to a different file (in vim: `:s /tmp/my-ot
 ## Finally
 Here we learned the very basics of Zellij usage. Be they classic multiplexer features such as splitting panes or slightly more advanced workspace features such as managing Command Panes and editing scrollback.
 
-If you liked this tutorial, consider starring us on [*Github*](https://github.com/zellij-org/zellij) or following us [*Twitter*](https://twitter.com/Zellij_dev).
+## Do you like Zellij? ❤️
+Me too. So much so that I spend 100% of my time developing and maintaining it and have no other income.
+
+Zellij will always be free and open-source. Zellij will never contain ads or collect your data.
+
+If the tool gives you value and you are able, please consider [a recurring monthly donation](https://github.com/sponsors/imsnif) of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!

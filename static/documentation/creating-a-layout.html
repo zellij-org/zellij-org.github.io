@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js light">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -10,7 +10,7 @@
         
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff">
 
         <link rel="icon" href="favicon.svg">
         <link rel="shortcut icon" href="favicon.png">
@@ -31,7 +31,7 @@
         <!-- Custom theme stylesheets -->
 
     </head>
-    <body>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
@@ -61,31 +61,38 @@
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             var html = document.querySelector('html');
-            html.classList.remove('no-js')
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add('js');
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var html = document.querySelector('html');
+            var body = document.querySelector('body');
             var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
             }
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">1.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="overview.html"><strong aria-hidden="true">1.2.</strong> Overview</a></li><li class="chapter-item expanded "><a href="integration.html"><strong aria-hidden="true">1.3.</strong> Integration</a></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">1.4.</strong> FAQ</a></li></ol></li><li class="chapter-item expanded "><a href="commands.html"><strong aria-hidden="true">2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">3.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="options.html"><strong aria-hidden="true">3.1.</strong> Options</a></li><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">3.2.</strong> Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">3.2.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-binding.html"><strong aria-hidden="true">3.2.2.</strong> Binding and Overriding Keys</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">3.2.3.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-possible-actions.html"><strong aria-hidden="true">3.2.4.</strong> Possible Actions</a></li><li class="chapter-item expanded "><a href="keybindings-shared.html"><strong aria-hidden="true">3.2.5.</strong> Shared Bindings</a></li></ol></li><li class="chapter-item expanded "><a href="themes.html"><strong aria-hidden="true">3.3.</strong> Themes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="theme-gallery.html"><strong aria-hidden="true">3.3.1.</strong> Theme Gallery</a></li></ol></li><li class="chapter-item expanded "><a href="command-line-options.html"><strong aria-hidden="true">3.4.</strong> CLI Configuration</a></li><li class="chapter-item expanded "><a href="migrating-yaml-config.html"><strong aria-hidden="true">3.5.</strong> Migrating from old YAML config files</a></li></ol></li><li class="chapter-item expanded "><a href="controlling-zellij-through-cli.html"><strong aria-hidden="true">4.</strong> Controlling Zellij through the CLI</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zellij-run.html"><strong aria-hidden="true">4.1.</strong> Zellij Run</a></li><li class="chapter-item expanded "><a href="zellij-edit.html"><strong aria-hidden="true">4.2.</strong> Zellij Edit</a></li><li class="chapter-item expanded "><a href="cli-actions.html"><strong aria-hidden="true">4.3.</strong> Zellij Action</a></li><li class="chapter-item expanded "><a href="zellij-plugin.html"><strong aria-hidden="true">4.4.</strong> Zellij Plugin</a></li></ol></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">5.</strong> Layouts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="creating-a-layout.html" class="active"><strong aria-hidden="true">5.1.</strong> Creating a Layout</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="swap-layouts.html"><strong aria-hidden="true">5.1.1.</strong> Swap Layouts</a></li></ol></li><li class="chapter-item expanded "><a href="layouts-with-config.html"><strong aria-hidden="true">5.2.</strong> Including Configuration in Layouts</a></li><li class="chapter-item expanded "><a href="layout-examples.html"><strong aria-hidden="true">5.3.</strong> Examples</a></li><li class="chapter-item expanded "><a href="migrating-yaml-layouts.html"><strong aria-hidden="true">5.4.</strong> Migrating from old YAML layouts</a></li></ol></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">6.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-system-status.html"><strong aria-hidden="true">6.1.</strong> Status of the Plugin System</a></li><li class="chapter-item expanded "><a href="plugin-loading.html"><strong aria-hidden="true">6.2.</strong> Loading Plugins</a></li><li class="chapter-item expanded "><a href="plugin-api.html"><strong aria-hidden="true">6.3.</strong> Plugin API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-api-events.html"><strong aria-hidden="true">6.3.1.</strong> Events</a></li><li class="chapter-item expanded "><a href="plugin-api-commands.html"><strong aria-hidden="true">6.3.2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="plugin-api-permissions.html"><strong aria-hidden="true">6.3.3.</strong> Permissions</a></li><li class="chapter-item expanded "><a href="plugin-api-configuration.html"><strong aria-hidden="true">6.3.4.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="plugin-api-file-system.html"><strong aria-hidden="true">6.3.5.</strong> Reading from the Filesystem</a></li><li class="chapter-item expanded "><a href="plugin-api-logging.html"><strong aria-hidden="true">6.3.6.</strong> Logging</a></li><li class="chapter-item expanded "><a href="plugin-api-workers.html"><strong aria-hidden="true">6.3.7.</strong> Workers for Async Tasks</a></li></ol></li><li class="chapter-item expanded "><a href="plugin-development.html"><strong aria-hidden="true">6.4.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-dev-env.html"><strong aria-hidden="true">6.4.1.</strong> Development Environment</a></li><li class="chapter-item expanded "><a href="plugin-lifecycle.html"><strong aria-hidden="true">6.4.2.</strong> Plugin Lifecycle</a></li><li class="chapter-item expanded "><a href="plugin-ui-rendering.html"><strong aria-hidden="true">6.4.3.</strong> Rendering a UI</a></li><li class="chapter-item expanded "><a href="plugin-upgrading.html"><strong aria-hidden="true">6.4.4.</strong> Upgrading and Backwards Compatibility</a></li></ol></li><li class="chapter-item expanded "><a href="plugin-examples.html"><strong aria-hidden="true">6.5.</strong> Example Plugins</a></li><li class="chapter-item expanded "><a href="plugin-other-languages.html"><strong aria-hidden="true">6.6.</strong> Developing a Plugin in Other Languages</a></li><li class="chapter-item expanded "><a href="plugin-upgrade-0.38.0.html"><strong aria-hidden="true">6.7.</strong> Plugin Upgrade Guide for version 0.38.0</a></li></ol></li><li class="chapter-item expanded "><a href="session-resurrection.html"><strong aria-hidden="true">7.</strong> Session Resurrection</a></li><li class="chapter-item expanded "><a href="compatibility.html"><strong aria-hidden="true">8.</strong> Compatibility</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">1.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="overview.html"><strong aria-hidden="true">1.2.</strong> Overview</a></li><li class="chapter-item expanded "><a href="integration.html"><strong aria-hidden="true">1.3.</strong> Integration</a></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">1.4.</strong> FAQ</a></li></ol></li><li class="chapter-item expanded "><a href="commands.html"><strong aria-hidden="true">2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">3.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="options.html"><strong aria-hidden="true">3.1.</strong> Options</a></li><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">3.2.</strong> Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">3.2.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-binding.html"><strong aria-hidden="true">3.2.2.</strong> Binding and Overriding Keys</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">3.2.3.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-possible-actions.html"><strong aria-hidden="true">3.2.4.</strong> Possible Actions</a></li><li class="chapter-item expanded "><a href="keybindings-shared.html"><strong aria-hidden="true">3.2.5.</strong> Shared Bindings</a></li></ol></li><li class="chapter-item expanded "><a href="themes.html"><strong aria-hidden="true">3.3.</strong> Themes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="theme-gallery.html"><strong aria-hidden="true">3.3.1.</strong> Theme Gallery</a></li></ol></li><li class="chapter-item expanded "><a href="command-line-options.html"><strong aria-hidden="true">3.4.</strong> CLI Configuration</a></li><li class="chapter-item expanded "><a href="migrating-yaml-config.html"><strong aria-hidden="true">3.5.</strong> Migrating from old YAML config files</a></li></ol></li><li class="chapter-item expanded "><a href="controlling-zellij-through-cli.html"><strong aria-hidden="true">4.</strong> Controlling Zellij through the CLI</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zellij-run.html"><strong aria-hidden="true">4.1.</strong> Zellij Run</a></li><li class="chapter-item expanded "><a href="zellij-edit.html"><strong aria-hidden="true">4.2.</strong> Zellij Edit</a></li><li class="chapter-item expanded "><a href="cli-actions.html"><strong aria-hidden="true">4.3.</strong> Zellij Action</a></li><li class="chapter-item expanded "><a href="zellij-plugin.html"><strong aria-hidden="true">4.4.</strong> Zellij Plugin</a></li><li class="chapter-item expanded "><a href="zellij-pipe.html"><strong aria-hidden="true">4.5.</strong> Zellij Pipe</a></li></ol></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">5.</strong> Layouts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="creating-a-layout.html" class="active"><strong aria-hidden="true">5.1.</strong> Creating a Layout</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="swap-layouts.html"><strong aria-hidden="true">5.1.1.</strong> Swap Layouts</a></li></ol></li><li class="chapter-item expanded "><a href="layouts-with-config.html"><strong aria-hidden="true">5.2.</strong> Including Configuration in Layouts</a></li><li class="chapter-item expanded "><a href="layout-examples.html"><strong aria-hidden="true">5.3.</strong> Examples</a></li><li class="chapter-item expanded "><a href="migrating-yaml-layouts.html"><strong aria-hidden="true">5.4.</strong> Migrating from old YAML layouts</a></li></ol></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">6.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-system-status.html"><strong aria-hidden="true">6.1.</strong> Status of the Plugin System</a></li><li class="chapter-item expanded "><a href="plugin-loading.html"><strong aria-hidden="true">6.2.</strong> Loading Plugins</a></li><li class="chapter-item expanded "><a href="plugin-api.html"><strong aria-hidden="true">6.3.</strong> Plugin API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-api-events.html"><strong aria-hidden="true">6.3.1.</strong> Events</a></li><li class="chapter-item expanded "><a href="plugin-api-commands.html"><strong aria-hidden="true">6.3.2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="plugin-api-permissions.html"><strong aria-hidden="true">6.3.3.</strong> Permissions</a></li><li class="chapter-item expanded "><a href="plugin-api-configuration.html"><strong aria-hidden="true">6.3.4.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="plugin-api-file-system.html"><strong aria-hidden="true">6.3.5.</strong> Reading from the Filesystem</a></li><li class="chapter-item expanded "><a href="plugin-api-logging.html"><strong aria-hidden="true">6.3.6.</strong> Logging</a></li><li class="chapter-item expanded "><a href="plugin-api-workers.html"><strong aria-hidden="true">6.3.7.</strong> Workers for Async Tasks</a></li><li class="chapter-item expanded "><a href="plugin-pipes.html"><strong aria-hidden="true">6.3.8.</strong> Pipes for communicating with and between plugins</a></li></ol></li><li class="chapter-item expanded "><a href="plugin-development.html"><strong aria-hidden="true">6.4.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-dev-env.html"><strong aria-hidden="true">6.4.1.</strong> Development Environment</a></li><li class="chapter-item expanded "><a href="plugin-lifecycle.html"><strong aria-hidden="true">6.4.2.</strong> Plugin Lifecycle</a></li><li class="chapter-item expanded "><a href="plugin-ui-rendering.html"><strong aria-hidden="true">6.4.3.</strong> Rendering a UI</a></li><li class="chapter-item expanded "><a href="plugin-upgrading.html"><strong aria-hidden="true">6.4.4.</strong> Upgrading and Backwards Compatibility</a></li></ol></li><li class="chapter-item expanded "><a href="plugin-aliases.html"><strong aria-hidden="true">6.5.</strong> Plugin Aliases</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tab-bar-alias.html"><strong aria-hidden="true">6.5.1.</strong> The tab-bar alias</a></li><li class="chapter-item expanded "><a href="status-bar-alias.html"><strong aria-hidden="true">6.5.2.</strong> The status-bar alias</a></li><li class="chapter-item expanded "><a href="strider-alias.html"><strong aria-hidden="true">6.5.3.</strong> The strider alias</a></li><li class="chapter-item expanded "><a href="compact-bar-alias.html"><strong aria-hidden="true">6.5.4.</strong> The compact-bar alias</a></li><li class="chapter-item expanded "><a href="session-manager-alias.html"><strong aria-hidden="true">6.5.5.</strong> The session-manager alias</a></li><li class="chapter-item expanded "><a href="welcome-screen-alias.html"><strong aria-hidden="true">6.5.6.</strong> The welcome-screen alias</a></li><li class="chapter-item expanded "><a href="filepicker-alias.html"><strong aria-hidden="true">6.5.7.</strong> The filepicker alias</a></li></ol></li><li class="chapter-item expanded "><a href="plugin-examples.html"><strong aria-hidden="true">6.6.</strong> Example Plugins</a></li><li class="chapter-item expanded "><a href="plugin-other-languages.html"><strong aria-hidden="true">6.7.</strong> Developing a Plugin in Other Languages</a></li><li class="chapter-item expanded "><a href="plugin-upgrade-0.38.0.html"><strong aria-hidden="true">6.8.</strong> Plugin Upgrade Guide for version 0.38.0</a></li></ol></li><li class="chapter-item expanded "><a href="session-resurrection.html"><strong aria-hidden="true">7.</strong> Session Resurrection</a></li><li class="chapter-item expanded "><a href="compatibility.html"><strong aria-hidden="true">8.</strong> Compatibility</a></li></ol>
             </div>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
         </nav>
 
         <!-- Track and set sidebar scroll position -->
@@ -116,9 +123,9 @@
                                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
-                        </button>
+                        </label>
                         <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
                             <i class="fa fa-paint-brush"></i>
                         </button>
@@ -183,20 +190,20 @@
 <p>They could represent standalone panes:</p>
 <pre><code class="language-javascript">layout {
     pane // panes can be bare
-    pane command=&quot;htop&quot; // panes can have arguments on the same line
+    pane command="htop" // panes can have arguments on the same line
     pane {
         // panes can have arguments inside child-braces
-        command &quot;exa&quot;
-        cwd &quot;/&quot;
+        command "exa"
+        cwd "/"
     }
-    pane command=&quot;ls&quot; { // or a mixture of same-line and child-braces arguments
-        cwd &quot;/&quot;
+    pane command="ls" { // or a mixture of same-line and child-braces arguments
+        cwd "/"
     }
 }
 </code></pre>
 <p>They could also represent logical containers:</p>
 <pre><code class="language-javascript">layout {
-    pane split_direction=&quot;vertical&quot; {
+    pane split_direction="vertical" {
         pane
         pane
     }
@@ -205,11 +212,11 @@
 <p><strong>Note</strong>: if panes represent logical containers, all their arguments should be specified on their title line.</p>
 <h4 id="split_direction"><a class="header" href="#split_direction">split_direction</a></h4>
 <p><code>split_direction</code> is a pane argument that indicates whether its children will be laid out vertically or horizontally.</p>
-<p><strong>Possible values:</strong> <code>&quot;vertical&quot;</code> | <code>&quot;horizontal&quot;</code></p>
-<p><strong>Default value if omitted:</strong> <code>&quot;horizontal&quot;</code></p>
+<p><strong>Possible values:</strong> <code>"vertical"</code> | <code>"horizontal"</code></p>
+<p><strong>Default value if omitted:</strong> <code>"horizontal"</code></p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane split_direction=&quot;vertical&quot; {
+    pane split_direction="vertical" {
         pane
         pane
     }
@@ -220,9 +227,9 @@
     }
 }
 </code></pre>
-<p><strong>Note</strong>: The <code>layout</code> node itself has a set value of &quot;horizontal&quot;. It can be changed by adding a logical pane container:</p>
+<p><strong>Note</strong>: The <code>layout</code> node itself has a set value of "horizontal". It can be changed by adding a logical pane container:</p>
 <pre><code class="language-javascript">layout {
-    pane split_direction=&quot;vertical&quot; {
+    pane split_direction="vertical" {
         pane
         pane
     }
@@ -230,14 +237,14 @@
 </code></pre>
 <h4 id="size"><a class="header" href="#size">size</a></h4>
 <p><code>size</code> is a pane argument that represents the fixed or percentage space taken up by this pane inside its logical container.</p>
-<p><strong>Possible values:</strong> quoted percentages (eg. &quot;50%&quot;) | fixed values (eg. 1)</p>
+<p><strong>Possible values:</strong> quoted percentages (eg. "50%") | fixed values (eg. 1)</p>
 <p><strong>Note</strong>: specifying fixed values that are not <code>unselectable</code> plugins is <strong>currently unstable</strong> and might lead to unexpected behaviour when resizing or closing panes. Please see <a href="https://github.com/zellij-org/zellij/issues/1758">this issue</a>.</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
     pane size=5
-    pane split_direction=&quot;vertical&quot; {
-        pane size=&quot;80%&quot;
-        pane size=&quot;20%&quot;
+    pane split_direction="vertical" {
+        pane size="80%"
+        pane size="20%"
     }
     pane size=4
 }
@@ -269,53 +276,53 @@
 </code></pre>
 <h4 id="name"><a class="header" href="#name">name</a></h4>
 <p><code>name</code> is a string pane argument to change the default pane title.</p>
-<p><strong>Possible values:</strong> &quot;a quoted string&quot;</p>
+<p><strong>Possible values:</strong> "a quoted string"</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane name=&quot;my awesome pane&quot;
+    pane name="my awesome pane"
     pane {
-        name &quot;my amazing pane&quot;
+        name "my amazing pane"
     }
 }
 </code></pre>
 <h4 id="cwd"><a class="header" href="#cwd">cwd</a></h4>
 <p>A pane can have a <code>cwd</code> argument, pointing to its Current Working Directory.</p>
-<p><strong>Possible values:</strong> &quot;/path/to/some/folder&quot;, &quot;relative/path/to/some/folder&quot;</p>
+<p><strong>Possible values:</strong> "/path/to/some/folder", "relative/path/to/some/folder"</p>
 <p><strong>Note</strong>: If the <code>cwd</code> is a relative path, it will be appended to its containers' cwd <a href="#cwd-composition">read more about cwd composition</a></p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane cwd=&quot;/&quot;
+    pane cwd="/"
     pane {
-        command &quot;git&quot;
-        args &quot;diff&quot;
-        cwd &quot;/path/to/some/folder&quot;
+        command "git"
+        args "diff"
+        cwd "/path/to/some/folder"
     }
 }
 </code></pre>
 <h4 id="command"><a class="header" href="#command">command</a></h4>
 <p><code>command</code> is a string (path) to an executable that should be run in this pane instead of the default shell.</p>
-<p><strong>Possible values:</strong> &quot;/path/to/some/executable&quot; | &quot;executable&quot; (the latter should be accessible through PATH)</p>
+<p><strong>Possible values:</strong> "/path/to/some/executable" | "executable" (the latter should be accessible through PATH)</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane command=&quot;htop&quot;
+    pane command="htop"
     pane {
-        command &quot;/usr/bin/btm&quot;
+        command "/usr/bin/btm"
     }
 }
 </code></pre>
 <h5 id="args"><a class="header" href="#args">args</a></h5>
 <p>A pane with a <code>command</code> can also have an <code>args</code> argument. This argument can include one or more strings that will be passed to the command as its arguments.</p>
-<p><strong>Possible values:</strong> &quot;a&quot; &quot;series&quot; &quot;of&quot; &quot;quoted&quot; &quot;strings&quot;</p>
+<p><strong>Possible values:</strong> "a" "series" "of" "quoted" "strings"</p>
 <p><strong>Note</strong>: <code>args</code> must be inside the <code>pane</code>'s child-braces and cannot be specified on the same line as the pane.</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane command=&quot;tail&quot; {
-        args &quot;-f&quot; &quot;/path/to/my/logfile&quot;
+    pane command="tail" {
+        args "-f" "/path/to/my/logfile"
     }
 
-    // Hint: include &quot;quoted&quot; shell arguments as a single argument:
-    pane command=&quot;bash&quot; {
-        args &quot;-c&quot; &quot;tail -f /path/to/my/logfile&quot;
+    // Hint: include "quoted" shell arguments as a single argument:
+    pane command="bash" {
+        args "-c" "tail -f /path/to/my/logfile"
     }
 
 }
@@ -325,7 +332,7 @@
 <p><strong>Possible values:</strong> true | false</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane command=&quot;htop&quot; close_on_exit=true
+    pane command="htop" close_on_exit=true
 }
 </code></pre>
 <h5 id="start_suspended"><a class="header" href="#start_suspended">start_suspended</a></h5>
@@ -333,18 +340,18 @@
 <p><strong>Possible values:</strong> true | false</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane command=&quot;ls&quot; start_suspended=true
+    pane command="ls" start_suspended=true
 }
 </code></pre>
 <h4 id="edit"><a class="header" href="#edit">edit</a></h4>
 <p><code>edit</code> is a string (path) to a file that will be opened using the editor specified in the <code>EDITOR</code> or <code>VISUAL</code> environment variables. This can alternatively also be specified using the <code>scrollback_editor</code> config variable.</p>
-<p><strong>Possible values:</strong> &quot;/path/to/some/file&quot; | &quot;./relative/path/from/cwd&quot;</p>
+<p><strong>Possible values:</strong> "/path/to/some/file" | "./relative/path/from/cwd"</p>
 <p><strong>Note</strong>: If the value is a relative path, it will be appended to its containers' cwd <a href="#cwd-composition">read more about cwd composition</a></p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    pane split_direction=&quot;vertical&quot; {
-        pane edit=&quot;./git_diff_side_a&quot;
-        pane edit=&quot;./git_diff_side_b&quot;
+    pane split_direction="vertical" {
+        pane edit="./git_diff_side_a"
+        pane edit="./git_diff_side_b"
     }
 }
 </code></pre>
@@ -354,7 +361,7 @@
 <p>eg.</p>
 <pre><code>layout {
     pane {
-        plugin location=&quot;zellij:status-bar&quot;
+        plugin location="zellij:status-bar"
     }
 }
 </code></pre>
@@ -366,9 +373,9 @@
     pane stacked=true {
         pane
         pane
-        pane command=&quot;ls&quot;
-        pane command=&quot;htop&quot;
-        pane edit=&quot;src/main.rs&quot;
+        pane command="ls"
+        pane command="htop"
+        pane edit="src/main.rs"
     }
 }
 </code></pre>
@@ -390,12 +397,12 @@
 <pre><code class="language-javascript">layout {
     floating_panes {
         pane
-        pane command=&quot;ls&quot;
+        pane command="ls"
         pane {
             x 1
-            y &quot;10%&quot;
+            y "10%"
             width 200
-            height &quot;50%&quot;
+            height "50%"
         }
     }
 }
@@ -415,7 +422,7 @@
         pane
         pane
     }
-    tab name=&quot;my third tab&quot; split_direction=&quot;vertical&quot; {
+    tab name="my third tab" split_direction="vertical" {
         // a tab with a name and two vertical panes
         pane
         pane
@@ -424,16 +431,16 @@
 </code></pre>
 <h4 id="split_direction-1"><a class="header" href="#split_direction-1">split_direction</a></h4>
 <p>Tabs can have a <code>split_direction</code> just like <code>pane</code>s. This argument indicates whether the tab's children will be laid out vertically or horizontally.</p>
-<p><strong>Possible values:</strong> <code>&quot;vertical&quot;</code> | <code>&quot;horizontal&quot;</code></p>
-<p><strong>Default value if omitted:</strong> <code>&quot;horizontal&quot;</code></p>
+<p><strong>Possible values:</strong> <code>"vertical"</code> | <code>"horizontal"</code></p>
+<p><strong>Default value if omitted:</strong> <code>"horizontal"</code></p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    tab split_direction=&quot;vertical&quot; {
+    tab split_direction="vertical" {
         pane
         pane
     }
     tab {
-        // if omitted, will be &quot;horizontal&quot; by default
+        // if omitted, will be "horizontal" by default
         pane
         pane
     }
@@ -458,11 +465,11 @@
 </code></pre>
 <h4 id="name-1"><a class="header" href="#name-1">name</a></h4>
 <p>Tabs can have a <code>name</code> just like <code>pane</code>s. This argument is a string to change the default tab title.</p>
-<p><strong>Possible values:</strong> &quot;a quoted string&quot;</p>
+<p><strong>Possible values:</strong> "a quoted string"</p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    tab name=&quot;my awesome tab&quot;
-    tab name=&quot;my amazing tab&quot; {
+    tab name="my awesome tab"
+    tab name="my amazing tab" {
         pane
     }
 }
@@ -470,21 +477,21 @@
 <h4 id="cwd-1"><a class="header" href="#cwd-1">cwd</a></h4>
 <p>Tabs can have a <code>cwd</code> just like <code>pane</code>s - pointing to their Current Working Directory.
 All panes in this tab will have this <code>cwd</code> prefixed to their own <code>cwd</code> (if they have one) or start in this <code>cwd</code> if they don't.</p>
-<p><strong>Possible values:</strong> &quot;/path/to/some/folder&quot;, &quot;relative/path/to/some/folder&quot;</p>
+<p><strong>Possible values:</strong> "/path/to/some/folder", "relative/path/to/some/folder"</p>
 <p><strong>Note</strong>: If the <code>cwd</code> is a relative path, it will be appended to its containers' cwd <a href="#cwd-composition">read more about cwd composition</a></p>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    tab name=&quot;my amazing tab&quot; cwd=&quot;/tmp&quot; {
-        pane // will have its cwd set to &quot;/tmp&quot;
-        pane cwd=&quot;foo&quot; // will have its cwd set to &quot;/tmp/foo&quot;
-        pane cwd=&quot;/home/foo&quot; // will have its cwd set to &quot;/home/foo&quot;, overriding the tab cwd with its absolute path
+    tab name="my amazing tab" cwd="/tmp" {
+        pane // will have its cwd set to "/tmp"
+        pane cwd="foo" // will have its cwd set to "/tmp/foo"
+        pane cwd="/home/foo" // will have its cwd set to "/home/foo", overriding the tab cwd with its absolute path
     }
 }
 </code></pre>
 <h4 id="hide_floating_panes"><a class="header" href="#hide_floating_panes">hide_floating_panes</a></h4>
 <p>If set, all floating panes defined in this tab will be hidden on startup.</p>
 <p>eg.</p>
-<pre><code class="language-javascript">tab name=&quot;Tab #1&quot; hide_floating_panes=true {
+<pre><code class="language-javascript">tab name="Tab #1" hide_floating_panes=true {
     pane
     pane
     floating_panes { // will start hidden
@@ -495,21 +502,21 @@ All panes in this tab will have this <code>cwd</code> prefixed to their own <cod
 </code></pre>
 <h3 id="templates"><a class="header" href="#templates">Templates</a></h3>
 <p>Templates can be used avoid repetition when creating layouts.
-Each template has a name that should be used directly as a node name instead of &quot;pane&quot; or &quot;tab&quot;.</p>
+Each template has a name that should be used directly as a node name instead of "pane" or "tab".</p>
 <h4 id="pane-templates"><a class="header" href="#pane-templates">Pane Templates</a></h4>
 <p>Pane templates can be used to shorten pane attributes:</p>
 <pre><code class="language-javascript">layout {
-    pane_template name=&quot;htop&quot; {
-        command &quot;htop&quot;
+    pane_template name="htop" {
+        command "htop"
     }
-    pane_template name=&quot;htop-tree&quot; {
-        command &quot;htop&quot;
-        args &quot;--tree&quot;
+    pane_template name="htop-tree" {
+        command "htop"
+        args "--tree"
         borderless true
     }
     // the below will create a template with four panes
     // the top and bottom panes running htop and the two
-    // middle panes running &quot;htop --tree&quot; without a pane frame
+    // middle panes running "htop --tree" without a pane frame
     htop
     htop-tree
     htop-tree
@@ -518,13 +525,13 @@ Each template has a name that should be used directly as a node name instead of 
 </code></pre>
 <p>Pane templates with the <code>command</code> attribute can take the <code>args</code> and <code>cwd</code> of their consumers:</p>
 <pre><code class="language-javascript">layout {
-    pane_template name=&quot;follow-log&quot; command=&quot;tail&quot;
+    pane_template name="follow-log" command="tail"
     follow-log {
-        args &quot;-f&quot; &quot;/tmp/my-first-log&quot;
+        args "-f" "/tmp/my-first-log"
     }
     follow-log {
-        args &quot;-f&quot; &quot;my-second-log&quot;
-        cwd &quot;/tmp&quot;
+        args "-f" "my-second-log"
+        cwd "/tmp"
     }
 }
 </code></pre>
@@ -532,47 +539,47 @@ Each template has a name that should be used directly as a node name instead of 
 <p>Pane templates can be used as logical containers. In this case a special <code>children</code> node must be specified to indicate where the child panes should be inserted.</p>
 <p><strong>Note</strong>: the <code>children</code> node can be nested inside <code>pane</code>s but not inside other <code>pane_template</code>s.</p>
 <pre><code class="language-javascript">layout {
-    pane_template name=&quot;vertical-sandwich&quot; split_direction=&quot;vertical&quot; {
+    pane_template name="vertical-sandwich" split_direction="vertical" {
         pane
         children
         pane
     }
     vertical-sandwich {
-        pane command=&quot;htop&quot;
+        pane command="htop"
     }
 }
 </code></pre>
 <p>Pane templates can include other pane templates.</p>
 <pre><code class="language-javascript">layout {
-    pane_template name=&quot;vertical-sandwich&quot; split_direction=&quot;vertical&quot; {
+    pane_template name="vertical-sandwich" split_direction="vertical" {
         pane
         children
         pane
     }
-    pane_template name=&quot;vertical-htop-sandwich&quot; {
+    pane_template name="vertical-htop-sandwich" {
         vertical-sandwich {
-            pane command=&quot;htop&quot;
+            pane command="htop"
         }
     }
-    pane_template name=&quot;vertical-htop-sandwich-below&quot; split_direction=&quot;horizontal&quot; {
+    pane_template name="vertical-htop-sandwich-below" split_direction="horizontal" {
         children
         vertical-htop-sandwich
     }
     vertical-htop-sandwich
     vertical-htop-sandwich-below {
-        pane command=&quot;exa&quot;
+        pane command="exa"
     }
 }
 </code></pre>
-<p>The <code>children</code> node should be thought of as a placeholder for the pane using this template. </p>
+<p>The <code>children</code> node should be thought of as a placeholder for the pane using this template.</p>
 <p>This:</p>
 <pre><code class="language-javascript">layout {
-    pane_template name=&quot;my_template&quot; {
+    pane_template name="my_template" {
         pane
         children
         pane
     }
-    my_template split_direction=&quot;vertical&quot; {
+    my_template split_direction="vertical" {
         pane
         pane
     }
@@ -582,7 +589,7 @@ Each template has a name that should be used directly as a node name instead of 
 <pre><code class="language-javascript">layout {
     pane {
         pane
-        pane split_direction=&quot;vertical&quot; {
+        pane split_direction="vertical" {
             pane
             pane
         }
@@ -594,20 +601,20 @@ Each template has a name that should be used directly as a node name instead of 
 <p>Tab templates, similar to pane templates, help avoiding repetition when defining tabs. Like <code>pane_templates</code> they can include a <code>children</code> block to indicate where their child panes should be inserted.</p>
 <p><strong>Note</strong>: for the sake of clarity, arguments passed to <code>tab_template</code>s can only be specified on their title line.</p>
 <pre><code class="language-javascript">layout {
-    tab_template name=&quot;ranger-on-the-side&quot; {
+    tab_template name="ranger-on-the-side" {
         pane size=1 borderless=true {
-            plugin location=&quot;zellij:compact-bar&quot;
+            plugin location="zellij:compact-bar"
         }
-        pane split_direction=&quot;vertical&quot; {
-            pane command=&quot;ranger&quot; size=&quot;20%&quot;
+        pane split_direction="vertical" {
+            pane command="ranger" size="20%"
             children
         }
     }
-    ranger-on-the-side name=&quot;my first tab&quot; split_direction=&quot;horizontal&quot; {
+    ranger-on-the-side name="my first tab" split_direction="horizontal" {
         pane
         pane
     }
-    ranger-on-the-side name=&quot;my second tab&quot; split_direction=&quot;vertical&quot; {
+    ranger-on-the-side name="my second tab" split_direction="vertical" {
         pane
         pane
     }
@@ -621,16 +628,16 @@ Each template has a name that should be used directly as a node name instead of 
     default_tab_template {
         // the default zellij tab-bar and status bar plugins
         pane size=1 borderless=true {
-            plugin location=&quot;zellij:tab-bar&quot;
+            plugin location="zellij:tab-bar"
         }
         children
         pane size=2 borderless=true {
-            plugin location=&quot;zellij:status-bar&quot;
+            plugin location="zellij:status-bar"
         }
     }
     tab // the default_tab_template
-    tab name=&quot;second tab&quot; // the default_tab_template with a custom tab name
-    tab split_direction=&quot;vertical&quot; { // the default_tab_template with three vertical panes between the plugins
+    tab name="second tab" // the default_tab_template with a custom tab name
+    tab split_direction="vertical" { // the default_tab_template with three vertical panes between the plugins
         pane
         pane
         pane
@@ -649,22 +656,22 @@ Each template has a name that should be used directly as a node name instead of 
 </ol>
 <p>eg.</p>
 <pre><code class="language-javascript">layout {
-    cwd &quot;/hi&quot;
-    tab cwd=&quot;there&quot; {
-        pane cwd=&quot;friend&quot; // opened in /hi/there/friend
+    cwd "/hi"
+    tab cwd="there" {
+        pane cwd="friend" // opened in /hi/there/friend
     }
 }
 </code></pre>
 <h3 id="global-cwd"><a class="header" href="#global-cwd">Global <code>cwd</code></a></h3>
 <p>The <code>cwd</code> property can also be specified globally on the <code>layout</code> node itself.</p>
 <p>Doing this would make all panes in this layout start in this cwd unless they have an absolute path.</p>
-<p>Eg. </p>
+<p>Eg.</p>
 <pre><code class="language-javascript">layout {
-    cwd &quot;/home/aram/code/my-project&quot;
-    pane cwd=&quot;src&quot; // will be opened in /home/aram/code/my-project/src
-    pane cwd=&quot;/tmp&quot; // absolute paths override the global cwd, this will be opened in /tmp
-    pane command=&quot;cargo&quot; {
-        args &quot;test&quot;
+    cwd "/home/aram/code/my-project"
+    pane cwd="src" // will be opened in /home/aram/code/my-project/src
+    pane cwd="/tmp" // absolute paths override the global cwd, this will be opened in /tmp
+    pane command="cargo" {
+        args "test"
         // will be started in /home/aram/code/my-project
     }
 }
@@ -678,7 +685,7 @@ Each template has a name that should be used directly as a node name instead of 
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="swap-layouts.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="swap-layouts.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -692,7 +699,7 @@ Each template has a name that should be used directly as a node name instead of 
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="swap-layouts.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="swap-layouts.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

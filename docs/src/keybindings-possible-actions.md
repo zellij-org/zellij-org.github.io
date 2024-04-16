@@ -446,3 +446,13 @@ or:
 ```javascript
     bind "a" { WriteChars "hi there!"; }
 ```
+
+## `MoveTab`
+
+ Change the position of the active tab either left or right.
+
+**Required arguments**: the direction, either "Left" or "Right"
+
+```javascript
+    bind "a" { MoveTab "Left"; }
+```
