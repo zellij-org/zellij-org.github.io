@@ -21,6 +21,12 @@ Will be called when the plugin is loaded, this is a good place to [subscribe](./
 ### update
 Will be called with an [`Event`](./plugin-api-events.md) if the plugin is subscribed to said event. If the plugin returns `true` from this function, Zellij will know it should be rendered and call its `render` function.
 
+Since events are used for asynchronous communication between Zellij and the plugin, they do not follow
+a specific order. This means, that a plugin could receive certain events (like `ModeUpdate`) before the
+`PermissionRequestResult` event is received. Therefore the plugin should ensure, that dependencies within
+the plugin logic between certain events are handled correctly. An example for waiting for the `PermissionRequestResult`
+can be found in the [Common Snippets](./plugin-development-common-snippets.md).
+
 ### render
 Will be called either after an `update` that requested it, or when the plugin otherwise needs to be re-rendered (eg. on startup, or when the plugin is resized). The `rows` and `cols` values represent the "content size" of the plugin (this will not include its surrounding frame if the user has pane frames enabled).
 
