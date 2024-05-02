@@ -205,6 +205,11 @@
 <p>eg.</p>
 <pre><code>$ zellij edit ./my-file.rs -f
 </code></pre>
+<h4 id="dump-layout"><a class="header" href="#dump-layout">dump-layout</a></h4>
+<p>Dumps the current <a href="./creating-a-layout.html">Layout</a> of the session to STDOUT</p>
+<p>eg.</p>
+<pre><code>$ zellij action dump-layout
+</code></pre>
 <h4 id="edit-scrollback"><a class="header" href="#edit-scrollback">edit-scrollback</a></h4>
 <p>Open the pane scrollback in your default editor</p>
 <p>eg.</p>
@@ -263,6 +268,16 @@
 </code></pre>
 <p>eg.</p>
 <pre><code>zellij action launch-or-focus-plugin zellij:strider --floating
+</code></pre>
+<h4 id="list-clients"><a class="header" href="#list-clients">list-clients</a></h4>
+<p>List all clients connected to the current session, their focused pane id and their running program (if it's not the default shell and if Zellij can detect it).</p>
+<p><em>A note about pane ids:</em> Since terminal panes and plugin panes can have overlapping IDs, they are differentiated by prefixing the pane type, eg. <code>terminal_1</code> is a different pane than <code>plugin_1</code>. The ID of terminal panes is the same one that can be discovered through the <code>ZELLIJ_PANE_ID</code> environment variable.</p>
+<p>eg.</p>
+<pre><code>$ zellij action list-clients
+
+CLIENT_ID ZELLIJ_PANE_ID RUNNING_COMMAND
+1         plugin_2       zellij:session-manager
+2         terminal_3     vim /tmp/my-file.txt
 </code></pre>
 <h4 id="move-focus"><a class="header" href="#move-focus">move-focus</a></h4>
 <p>Move the focused pane in the specified direction.</p>

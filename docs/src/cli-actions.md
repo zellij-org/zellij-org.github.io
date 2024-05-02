@@ -51,6 +51,14 @@ eg.
 $ zellij edit ./my-file.rs -f
 ```
 
+#### dump-layout
+Dumps the current [Layout](./creating-a-layout.md) of the session to STDOUT
+
+eg.
+```
+$ zellij action dump-layout
+```
+
 #### edit-scrollback
 Open the pane scrollback in your default editor
 
@@ -145,6 +153,20 @@ Launch a plugin if it is not loaded somewhere in the session, focus it if it is.
 eg.
 ```
 zellij action launch-or-focus-plugin zellij:strider --floating
+```
+
+#### list-clients
+List all clients connected to the current session, their focused pane id and their running program (if it's not the default shell and if Zellij can detect it).
+
+*A note about pane ids:* Since terminal panes and plugin panes can have overlapping IDs, they are differentiated by prefixing the pane type, eg. `terminal_1` is a different pane than `plugin_1`. The ID of terminal panes is the same one that can be discovered through the `ZELLIJ_PANE_ID` environment variable.
+
+eg.
+```
+$ zellij action list-clients
+
+CLIENT_ID ZELLIJ_PANE_ID RUNNING_COMMAND
+1         plugin_2       zellij:session-manager
+2         terminal_3     vim /tmp/my-file.txt
 ```
 
 #### move-focus

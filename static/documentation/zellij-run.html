@@ -184,10 +184,17 @@
     -d, --direction &lt;DIRECTION&gt;    Direction to open the new pane in
     -f, --floating                 Open the new pane in floating mode
     -h, --help                     Print help information
+        --height &lt;HEIGHT&gt;          The height if the pane is floating as a bare integer (eg. 1) or
     -i, --in-place                 Open the new pane in place of the current pane, temporarily suspending it
     -n, --name &lt;NAME&gt;              Name of the new pane
     -s, --start-suspended          Start the command suspended, only running after you first presses
                                    ENTER
+        --width &lt;WIDTH&gt;            The width if the pane is floating as a bare integer (eg. 1) or
+                                   percent (eg. 10%)
+    -x, --x &lt;X&gt;                    The x coordinates if the pane is floating as a bare integer (eg.
+                                   1) or percent (eg. 10%)
+    -y, --y &lt;Y&gt;                    The y coordinates if the pane is floating as a bare integer (eg.
+                                   1) or percent (eg. 10%)
 </code></pre>
 <p><strong>Note</strong>: to shorten this command to a more friendly length, see <code>Completions</code> under: <a href="./controlling-zellij-through-cli.html#completions">CLI</a></p>
 <p>This new pane will not immediately close when the command exits. Instead, it will show its exit status on the pane frame and allow users to press <code>&lt;ENTER&gt;</code> to re-run the command inside the same pane, or <code>&lt;Ctrl-c&gt;</code> to close the pane.</p>

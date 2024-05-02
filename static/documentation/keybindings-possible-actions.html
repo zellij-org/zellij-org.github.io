@@ -254,6 +254,25 @@
         }
     }
 </code></pre>
+<h2 id="messageplugin"><a class="header" href="#messageplugin"><code>MessagePlugin</code></a></h2>
+<p>Send a message to one or more plugins, using a <a href="./plugin-pipes.html">pipe</a> - meaning the plugin will be launched if it is not already running.</p>
+<p><strong>Required arguments</strong>: None (with no options specified, this keybind will send an empty message to all plugins)</p>
+<p><strong>Optional arguments:</strong>:
+- <code>launch_new</code> (<code>true/false</code>): force a new plugin to launch even if one is already running
+- <code>skip_cache</code> (<code>true/false</code>): force re-compilation (and re-download if the plugin is http), even if the plugin is already running or cached
+- <code>floating</code> (<code>true/false</code>): if launching a new plugin, should it be floating or tiled
+- <code>name</code> (<code>String</code>): The name of the message
+- <code>payload</code> (<code>String</code>): The payload of the message
+- <code>title</code> (<code>String</code>): The pane title of the pane if launching a new plugin instance
+- <code>cwd</code> (<code>String</code>): The working directory of the plugin if launching a new instance</p>
+<pre><code class="language-javascript">    bind "a" {
+        MessagePlugin "file:/path/to/my/plugin.wasm" {
+            name "message_name"
+            payload "message_payload"
+            cwd "/path/to/my/working/directory"
+        }
+    }
+</code></pre>
 <h2 id="movefocus"><a class="header" href="#movefocus"><code>MoveFocus</code></a></h2>
 <p>Move focus in a specific direction</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code></p>
@@ -268,6 +287,11 @@
 <p>Move the position of the focused pane in the specific direction</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code></p>
 <pre><code class="language-javascript">    bind "a" { MovePane "Left"; }
+</code></pre>
+<h2 id="movetab"><a class="header" href="#movetab"><code>MoveTab</code></a></h2>
+<p>Change the position of the active tab either left or right.</p>
+<p><strong>Required arguments</strong>: the direction, either "Left" or "Right"</p>
+<pre><code class="language-javascript">    bind "a" { MoveTab "Left"; }
 </code></pre>
 <h2 id="nextswaplayout"><a class="header" href="#nextswaplayout"><code>NextSwapLayout</code></a></h2>
 <p>Change the layout of the current tab (either tiled or floating) to the next one</p>
@@ -421,11 +445,6 @@
 <p>Write a string of characters to the active pane</p>
 <p><strong>Required arguments</strong>: the string of characters to write</p>
 <pre><code class="language-javascript">    bind "a" { WriteChars "hi there!"; }
-</code></pre>
-<h2 id="movetab"><a class="header" href="#movetab"><code>MoveTab</code></a></h2>
-<p>Change the position of the active tab either left or right.</p>
-<p><strong>Required arguments</strong>: the direction, either "Left" or "Right"</p>
-<pre><code class="language-javascript">    bind "a" { MoveTab "Left"; }
 </code></pre>
 
                     </main>

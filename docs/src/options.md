@@ -254,7 +254,7 @@ Options:
   - false (default)
 
 ```javascript
-session_serialization true
+pane_viewport_serialization true
 ```
 
 ### scrollback_lines_to_serialize
@@ -268,4 +268,17 @@ Options:
 
 ```javascript
 pane_viewport_serialization 100
+```
+
+### disable_session_metadata
+Enable or disable writing of session metadata to disk
+
+*Note: If disabled, other sessions might not know metadata info on this session, so features such as the session-manager and session listing might not work properly.*
+
+Options:
+  - true
+  - false (default)
+
+```javascript
+disable_session_metadata true
 ```
