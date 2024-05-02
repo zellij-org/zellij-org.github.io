@@ -14,10 +14,17 @@ $ zellij run -- git diff
     -d, --direction <DIRECTION>    Direction to open the new pane in
     -f, --floating                 Open the new pane in floating mode
     -h, --help                     Print help information
+        --height <HEIGHT>          The height if the pane is floating as a bare integer (eg. 1) or
     -i, --in-place                 Open the new pane in place of the current pane, temporarily suspending it
     -n, --name <NAME>              Name of the new pane
     -s, --start-suspended          Start the command suspended, only running after you first presses
                                    ENTER
+        --width <WIDTH>            The width if the pane is floating as a bare integer (eg. 1) or
+                                   percent (eg. 10%)
+    -x, --x <X>                    The x coordinates if the pane is floating as a bare integer (eg.
+                                   1) or percent (eg. 10%)
+    -y, --y <Y>                    The y coordinates if the pane is floating as a bare integer (eg.
+                                   1) or percent (eg. 10%)
 ```
 
 **Note**: to shorten this command to a more friendly length, see `Completions` under: [CLI](./controlling-zellij-through-cli.md#completions)

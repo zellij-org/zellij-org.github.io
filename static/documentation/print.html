@@ -640,7 +640,7 @@ Options:</p>
 <li>true</li>
 <li>false (default)</li>
 </ul>
-<pre><code class="language-javascript">session_serialization true
+<pre><code class="language-javascript">pane_viewport_serialization true
 </code></pre>
 <h3 id="scrollback_lines_to_serialize"><a class="header" href="#scrollback_lines_to_serialize">scrollback_lines_to_serialize</a></h3>
 <p>When <code>pane_viewport_serialization</code> is enabled, setting <code>scrollback_lines_to_serialize</code> to <code>0</code> in the will serialize all scrollback and to any other number will serialize line number up to that scrollback. Read more about <a href="./session-resurrection.html">session resurrection</a>.</p>
@@ -651,6 +651,16 @@ Options:</p>
 <li><code>int</code>: serialize this much lines for each pane (max is the scrollback limit)</li>
 </ul>
 <pre><code class="language-javascript">pane_viewport_serialization 100
+</code></pre>
+<h3 id="disable_session_metadata"><a class="header" href="#disable_session_metadata">disable_session_metadata</a></h3>
+<p>Enable or disable writing of session metadata to disk</p>
+<p><em>Note: If disabled, other sessions might not know metadata info on this session, so features such as the session-manager and session listing might not work properly.</em></p>
+<p>Options:</p>
+<ul>
+<li>true</li>
+<li>false (default)</li>
+</ul>
+<pre><code class="language-javascript">disable_session_metadata true
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="configuring-keybindings"><a class="header" href="#configuring-keybindings">Configuring Keybindings</a></h1>
 <p>Zellij comes with a default set of keybindings that try to fit as many different users and use cases while trying to maximize comfort for everyone.</p>
@@ -866,6 +876,25 @@ bind "Left" // bind the left arrow key
         }
     }
 </code></pre>
+<h2 id="messageplugin"><a class="header" href="#messageplugin"><code>MessagePlugin</code></a></h2>
+<p>Send a message to one or more plugins, using a <a href="./plugin-pipes.html">pipe</a> - meaning the plugin will be launched if it is not already running.</p>
+<p><strong>Required arguments</strong>: None (with no options specified, this keybind will send an empty message to all plugins)</p>
+<p><strong>Optional arguments:</strong>:
+- <code>launch_new</code> (<code>true/false</code>): force a new plugin to launch even if one is already running
+- <code>skip_cache</code> (<code>true/false</code>): force re-compilation (and re-download if the plugin is http), even if the plugin is already running or cached
+- <code>floating</code> (<code>true/false</code>): if launching a new plugin, should it be floating or tiled
+- <code>name</code> (<code>String</code>): The name of the message
+- <code>payload</code> (<code>String</code>): The payload of the message
+- <code>title</code> (<code>String</code>): The pane title of the pane if launching a new plugin instance
+- <code>cwd</code> (<code>String</code>): The working directory of the plugin if launching a new instance</p>
+<pre><code class="language-javascript">    bind "a" {
+        MessagePlugin "file:/path/to/my/plugin.wasm" {
+            name "message_name"
+            payload "message_payload"
+            cwd "/path/to/my/working/directory"
+        }
+    }
+</code></pre>
 <h2 id="movefocus"><a class="header" href="#movefocus"><code>MoveFocus</code></a></h2>
 <p>Move focus in a specific direction</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code></p>
@@ -880,6 +909,11 @@ bind "Left" // bind the left arrow key
 <p>Move the position of the focused pane in the specific direction</p>
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code></p>
 <pre><code class="language-javascript">    bind "a" { MovePane "Left"; }
+</code></pre>
+<h2 id="movetab"><a class="header" href="#movetab"><code>MoveTab</code></a></h2>
+<p>Change the position of the active tab either left or right.</p>
+<p><strong>Required arguments</strong>: the direction, either "Left" or "Right"</p>
+<pre><code class="language-javascript">    bind "a" { MoveTab "Left"; }
 </code></pre>
 <h2 id="nextswaplayout"><a class="header" href="#nextswaplayout"><code>NextSwapLayout</code></a></h2>
 <p>Change the layout of the current tab (either tiled or floating) to the next one</p>
@@ -1033,11 +1067,6 @@ bind "Left" // bind the left arrow key
 <p>Write a string of characters to the active pane</p>
 <p><strong>Required arguments</strong>: the string of characters to write</p>
 <pre><code class="language-javascript">    bind "a" { WriteChars "hi there!"; }
-</code></pre>
-<h2 id="movetab"><a class="header" href="#movetab"><code>MoveTab</code></a></h2>
-<p>Change the position of the active tab either left or right.</p>
-<p><strong>Required arguments</strong>: the direction, either "Left" or "Right"</p>
-<pre><code class="language-javascript">    bind "a" { MoveTab "Left"; }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="shared-bindings"><a class="header" href="#shared-bindings">Shared bindings</a></h1>
 <p>There are three special node types that can be used when defining keybindings:</p>
@@ -1367,10 +1396,17 @@ $ ze ./main.rs # open a new pane with your editor (eg. vim) pointed at ./main.rs
     -d, --direction &lt;DIRECTION&gt;    Direction to open the new pane in
     -f, --floating                 Open the new pane in floating mode
     -h, --help                     Print help information
+        --height &lt;HEIGHT&gt;          The height if the pane is floating as a bare integer (eg. 1) or
     -i, --in-place                 Open the new pane in place of the current pane, temporarily suspending it
     -n, --name &lt;NAME&gt;              Name of the new pane
     -s, --start-suspended          Start the command suspended, only running after you first presses
                                    ENTER
+        --width &lt;WIDTH&gt;            The width if the pane is floating as a bare integer (eg. 1) or
+                                   percent (eg. 10%)
+    -x, --x &lt;X&gt;                    The x coordinates if the pane is floating as a bare integer (eg.
+                                   1) or percent (eg. 10%)
+    -y, --y &lt;Y&gt;                    The y coordinates if the pane is floating as a bare integer (eg.
+                                   1) or percent (eg. 10%)
 </code></pre>
 <p><strong>Note</strong>: to shorten this command to a more friendly length, see <code>Completions</code> under: <a href="./controlling-zellij-through-cli.html#completions">CLI</a></p>
 <p>This new pane will not immediately close when the command exits. Instead, it will show its exit status on the pane frame and allow users to press <code>&lt;ENTER&gt;</code> to re-run the command inside the same pane, or <code>&lt;Ctrl-c&gt;</code> to close the pane.</p>
@@ -1435,6 +1471,11 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 <p>eg.</p>
 <pre><code>$ zellij edit ./my-file.rs -f
 </code></pre>
+<h4 id="dump-layout"><a class="header" href="#dump-layout">dump-layout</a></h4>
+<p>Dumps the current <a href="./creating-a-layout.html">Layout</a> of the session to STDOUT</p>
+<p>eg.</p>
+<pre><code>$ zellij action dump-layout
+</code></pre>
 <h4 id="edit-scrollback"><a class="header" href="#edit-scrollback">edit-scrollback</a></h4>
 <p>Open the pane scrollback in your default editor</p>
 <p>eg.</p>
@@ -1493,6 +1534,16 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 </code></pre>
 <p>eg.</p>
 <pre><code>zellij action launch-or-focus-plugin zellij:strider --floating
+</code></pre>
+<h4 id="list-clients"><a class="header" href="#list-clients">list-clients</a></h4>
+<p>List all clients connected to the current session, their focused pane id and their running program (if it's not the default shell and if Zellij can detect it).</p>
+<p><em>A note about pane ids:</em> Since terminal panes and plugin panes can have overlapping IDs, they are differentiated by prefixing the pane type, eg. <code>terminal_1</code> is a different pane than <code>plugin_1</code>. The ID of terminal panes is the same one that can be discovered through the <code>ZELLIJ_PANE_ID</code> environment variable.</p>
+<p>eg.</p>
+<pre><code>$ zellij action list-clients
+
+CLIENT_ID ZELLIJ_PANE_ID RUNNING_COMMAND
+1         plugin_2       zellij:session-manager
+2         terminal_3     vim /tmp/my-file.txt
 </code></pre>
 <h4 id="move-focus"><a class="header" href="#move-focus">move-focus</a></h4>
 <p>Move the focused pane in the specified direction.</p>
@@ -2755,6 +2806,11 @@ Make a web request, optionally being notified of its output if subscribed to the
 <li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>Provide a stringified <a href="./layouts.html"><code>layout</code></a> to be applied to the current session. If the layout has multiple tabs, they will all be opened.</p>
+<h2 id="new_tabs_with_layout_info"><a class="header" href="#new_tabs_with_layout_info">new_tabs_with_layout_info</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Provide a <a href="./layouts.html"><code>layout</code></a> name or file path to be applied to the current session. If the layout has multiple tabs, they will all be opened.</p>
 <h2 id="new_tab"><a class="header" href="#new_tab">new_tab</a></h2>
 <ul>
 <li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
@@ -3329,8 +3385,8 @@ Example:</p>
 </code></pre>
 <p>Each item in a Nested List is represented as a utf-8 byte array separated by semicolons. Here, the first item will not be indented, the second item will be indented once, and the third item will be indented twice.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="upgrading-a-plugin"><a class="header" href="#upgrading-a-plugin">Upgrading a Plugin</a></h1>
-<p>Since Zellij plugins using <a href="./plugin-lifecycle.html"><code>zellij-tile</code></a> rely on shared data structures, currently one would need to compile a plugin against the corresponding <code>zellij-tile</code> package of the zellij version it is installed on.</p>
-<p>The Zellij maintainers are aware this is an inconvenient and undesired scenario and are working on a more robust solution.</p>
+<p>Zellij plugins are backwards compatible - meaning that a plugin compiled for an older version of Zellij should always run fine on a newer version of Zellij.</p>
+<p>The plugin API however might break every now and then for plugin <em>code</em> that has not been compiled for the current version. We try to minimize these occurrences as much as possible.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-aliases"><a class="header" href="#plugin-aliases">Plugin Aliases</a></h1>
 <p>Plugin aliases are a dictionary between an arbitrary string (eg. <code>filepicker</code>) and a non-alias <a href="./plugin-loading.html">plugin url</a>, with optional <a href="./plugin-api-configuration.html">plugin configuration</a>. They can be configured in the <a href="./configuration.html">Zellij configuration file</a> under the <code>plugins</code> block.</p>
 <p>Here's the default aliases:</p>
@@ -3351,6 +3407,8 @@ Example:</p>
 <p>With this plugins block, whenever the bare <code>tab-bar</code> is used to refer to a plugin (be it in a <a href="./layouts.html">layout</a>, from the <a href="./zellij-plugin.html">command line</a>, from a <a href="./keybindings.html">keybinding</a> or from <a href="./plugin-pipes.html">another plugin</a>), Zellij will translate it to the internal <code>zellij:tab-bar</code> url. Whenever the bare <code>filepicker</code> url is used to refer to a plugin, Zellij will translate it to the built-in <code>zellij:strider</code> url will be used with the <code>cwd "/"</code> configuration.</p>
 <p>Aliases can be added to this block or changed to swap the default built-in plugins to other implementations. Removing the default aliases entirely might cause Zellij not to function as expected.</p>
 <p>When swapping the default aliases for custom plugins, it's important that these plugins implement the basic contract Zellij (and indeed, other plugins) expect of them. The following sections describe the contract for each default alias.</p>
+<h3 id="a-note-about-cwd"><a class="header" href="#a-note-about-cwd">A note about cwd</a></h3>
+<p>When an alias defined a <code>cwd</code> for its plugin (such as the filepicker example above), Zellij will add the <code>caller_cwd</code> configuration parameter with the cwd of the focused pane in addition to the configured cwd above, instead of overriding the configured cwd of the plugin. This is so that plugins may provide a nicer user experience to their users and still have the desired cwd configuration of the alias.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-tab-bar-alias"><a class="header" href="#the-tab-bar-alias">The tab-bar Alias</a></h1>
 <p>This alias, by default translated to the internal <code>zellij:tab-bar</code> plugin url, represents the tab bar loaded on the top line of the default layout.</p>
 <h2 id="contract"><a class="header" href="#contract">Contract</a></h2>

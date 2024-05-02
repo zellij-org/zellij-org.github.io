@@ -105,6 +105,11 @@ Switch to the specified Input Mode (eg. `Normal`, `Tab`, `Pane`)
 
 Provide a stringified [`layout`](./layouts.md) to be applied to the current session. If the layout has multiple tabs, they will all be opened.
 
+## new_tabs_with_layout_info
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Provide a [`layout`](./layouts.md) name or file path to be applied to the current session. If the layout has multiple tabs, they will all be opened.
+
 ## new_tab
 * Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
 

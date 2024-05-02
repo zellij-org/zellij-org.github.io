@@ -193,6 +193,8 @@
 <p>With this plugins block, whenever the bare <code>tab-bar</code> is used to refer to a plugin (be it in a <a href="./layouts.html">layout</a>, from the <a href="./zellij-plugin.html">command line</a>, from a <a href="./keybindings.html">keybinding</a> or from <a href="./plugin-pipes.html">another plugin</a>), Zellij will translate it to the internal <code>zellij:tab-bar</code> url. Whenever the bare <code>filepicker</code> url is used to refer to a plugin, Zellij will translate it to the built-in <code>zellij:strider</code> url will be used with the <code>cwd "/"</code> configuration.</p>
 <p>Aliases can be added to this block or changed to swap the default built-in plugins to other implementations. Removing the default aliases entirely might cause Zellij not to function as expected.</p>
 <p>When swapping the default aliases for custom plugins, it's important that these plugins implement the basic contract Zellij (and indeed, other plugins) expect of them. The following sections describe the contract for each default alias.</p>
+<h3 id="a-note-about-cwd"><a class="header" href="#a-note-about-cwd">A note about cwd</a></h3>
+<p>When an alias defined a <code>cwd</code> for its plugin (such as the filepicker example above), Zellij will add the <code>caller_cwd</code> configuration parameter with the cwd of the focused pane in addition to the configured cwd above, instead of overriding the configured cwd of the plugin. This is so that plugins may provide a nicer user experience to their users and still have the desired cwd configuration of the alias.</p>
 
                     </main>
 

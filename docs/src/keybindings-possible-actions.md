@@ -140,6 +140,31 @@ eg.
     }
 ```
 
+## `MessagePlugin`
+
+Send a message to one or more plugins, using a [pipe](./plugin-pipes.md) - meaning the plugin will be launched if it is not already running.
+
+**Required arguments**: None (with no options specified, this keybind will send an empty message to all plugins)
+
+**Optional arguments:**:
+    - `launch_new` (`true/false`): force a new plugin to launch even if one is already running
+    - `skip_cache` (`true/false`): force re-compilation (and re-download if the plugin is http), even if the plugin is already running or cached
+    - `floating` (`true/false`): if launching a new plugin, should it be floating or tiled
+    - `name` (`String`): The name of the message
+    - `payload` (`String`): The payload of the message
+    - `title` (`String`): The pane title of the pane if launching a new plugin instance
+    - `cwd` (`String`): The working directory of the plugin if launching a new instance
+
+```javascript
+    bind "a" {
+        MessagePlugin "file:/path/to/my/plugin.wasm" {
+            name "message_name"
+            payload "message_payload"
+            cwd "/path/to/my/working/directory"
+        }
+    }
+```
+
 ## `MoveFocus`
 
  Move focus in a specific direction
@@ -149,6 +174,7 @@ eg.
 ```javascript
     bind "a" { MoveFocus "Left"; }
 ```
+
 ## `MoveFocusOrTab`
 
  Move focus left or right, or to the next or previous tab if on screen edge
@@ -167,6 +193,17 @@ eg.
 ```javascript
     bind "a" { MovePane "Left"; }
 ```
+
+## `MoveTab`
+
+ Change the position of the active tab either left or right.
+
+**Required arguments**: the direction, either "Left" or "Right"
+
+```javascript
+    bind "a" { MoveTab "Left"; }
+```
+
 ## `NextSwapLayout`
 
  Change the layout of the current tab (either tiled or floating) to the next one
@@ -445,14 +482,4 @@ or:
 
 ```javascript
     bind "a" { WriteChars "hi there!"; }
-```
-
-## `MoveTab`
-
- Change the position of the active tab either left or right.
-
-**Required arguments**: the direction, either "Left" or "Right"
-
-```javascript
-    bind "a" { MoveTab "Left"; }
 ```

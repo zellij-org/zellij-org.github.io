@@ -1,5 +1,5 @@
 # Upgrading a Plugin
 
-Since Zellij plugins using [`zellij-tile`](./plugin-lifecycle.md) rely on shared data structures, currently one would need to compile a plugin against the corresponding `zellij-tile` package of the zellij version it is installed on.
+Zellij plugins are backwards compatible - meaning that a plugin compiled for an older version of Zellij should always run fine on a newer version of Zellij.
 
-The Zellij maintainers are aware this is an inconvenient and undesired scenario and are working on a more robust solution.
+The plugin API however might break every now and then for plugin *code* that has not been compiled for the current version. We try to minimize these occurrences as much as possible.
