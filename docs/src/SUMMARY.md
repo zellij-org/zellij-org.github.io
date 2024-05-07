@@ -43,7 +43,6 @@
     - [Workers for Async Tasks](./plugin-api-workers.md)
     - [Pipes for communicating with and between plugins](./plugin-pipes.md)
   - [Developing a Plugin](./plugin-development.md)
-    - [Getting started](./plugin-development-getting-started.md)
     - [Development Environment](./plugin-dev-env.md)
     - [Plugin Lifecycle](./plugin-lifecycle.md)
     - [Rendering a UI](./plugin-ui-rendering.md)
