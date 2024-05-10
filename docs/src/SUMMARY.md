@@ -47,7 +47,6 @@
     - [Plugin Lifecycle](./plugin-lifecycle.md)
     - [Rendering a UI](./plugin-ui-rendering.md)
     - [Upgrading and Backwards Compatibility](./plugin-upgrading.md)
-    - [Common Snippets](./plugin-development-common-snippets.md)
   - [Plugin Aliases](./plugin-aliases.md)
     - [The tab-bar alias](./tab-bar-alias.md)
     - [The status-bar alias](./status-bar-alias.md)
