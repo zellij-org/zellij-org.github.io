@@ -191,6 +191,11 @@
 <p>Will be called when the plugin is loaded, this is a good place to <a href="./plugin-api-commands.html#subscribe">subscribe</a> to events that are interesting for this plugin.</p>
 <h3 id="update"><a class="header" href="#update">update</a></h3>
 <p>Will be called with an <a href="./plugin-api-events.html"><code>Event</code></a> if the plugin is subscribed to said event. If the plugin returns <code>true</code> from this function, Zellij will know it should be rendered and call its <code>render</code> function.</p>
+<p>Since events are used for asynchronous communication between Zellij and the plugin, they do not follow
+a specific order. This means, that a plugin could receive certain events (like <code>ModeUpdate</code>) before the
+<code>PermissionRequestResult</code> event is received. Therefore the plugin should ensure, that dependencies within
+the plugin logic between certain events are handled correctly. An example for waiting for the <code>PermissionRequestResult</code>
+can be found in <a href="https://blog.nerd.rocks/posts/common-snippets-for-zellij-development/">this great plug post</a></p>
 <h3 id="render"><a class="header" href="#render">render</a></h3>
 <p>Will be called either after an <code>update</code> that requested it, or when the plugin otherwise needs to be re-rendered (eg. on startup, or when the plugin is resized). The <code>rows</code> and <code>cols</code> values represent the "content size" of the plugin (this will not include its surrounding frame if the user has pane frames enabled).</p>
 <p>This function is expeted to print to <code>STDOUT</code> whatever the plugin would like to render inside its pane. For more information, see <a href="plugin-ui-rendering.html">plugin ui rendering</a>.</p>
