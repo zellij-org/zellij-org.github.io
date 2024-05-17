@@ -23,5 +23,19 @@ Aliases can be added to this block or changed to swap the default built-in plugi
 
 When swapping the default aliases for custom plugins, it's important that these plugins implement the basic contract Zellij (and indeed, other plugins) expect of them. The following sections describe the contract for each default alias.
 
+Here's an example on how to use the plugin alias in a layout:
+
+```javascript
+layout {
+  default_tab_template {
+    children
+    pane size=1 borderless=true {
+      plugin location="compact-bar"
+    }
+  }
+}
+```
+
 ### A note about cwd
+
 When an alias defined a `cwd` for its plugin (such as the filepicker example above), Zellij will add the `caller_cwd` configuration parameter with the cwd of the focused pane in addition to the configured cwd above, instead of overriding the configured cwd of the plugin. This is so that plugins may provide a nicer user experience to their users and still have the desired cwd configuration of the alias.
