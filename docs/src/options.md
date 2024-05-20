@@ -120,6 +120,7 @@ Examples:
 copy_command "xclip -selection clipboard" // x11
 copy_command "wl-copy"                    // wayland
 copy_command "pbcopy"                     // osx
+copy_command "clip.exe"                   // Windows WSL2
 ```
 
 ### copy_clipboard
