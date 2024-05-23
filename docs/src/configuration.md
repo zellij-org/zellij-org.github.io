@@ -38,7 +38,7 @@ or use the `ZELLIJ_CONFIG_FILE` environment variable.
 To start without loading configuration from default directories:
 
 ```
-zellij options --clean
+zellij setup --clean
 ```
 
 ## How to dump the default configuration to STDOUT?
