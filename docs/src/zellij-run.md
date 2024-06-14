@@ -27,7 +27,9 @@ $ zellij run -- git diff
                                    1) or percent (eg. 10%)
 ```
 
-**Note**: to shorten this command to a more friendly length, see `Completions` under: [CLI](./controlling-zellij-through-cli.md#completions)
+**Notes**:
+* This command is a shorthand of `zellij action new-pane`
+* To shorten this command to an even more friendly length, see `Completions` under: [CLI](./controlling-zellij-through-cli.md#completions)
 
 This new pane will not immediately close when the command exits. Instead, it will show its exit status on the pane frame and allow users to press `<ENTER>` to re-run the command inside the same pane, or `<Ctrl-c>` to close the pane.
 
