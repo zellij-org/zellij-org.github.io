@@ -18,7 +18,7 @@ short: `ls`
 
 Will list all the names of currently running sessions.
 
-## `kill-sessions [target-session]`
+## `kill-session [target-session]`
 short: `k`
 
 Will kill the session with the name of `[target-session]`, if it is currently
