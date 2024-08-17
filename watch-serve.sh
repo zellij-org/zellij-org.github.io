@@ -36,7 +36,7 @@ elif $(_exists docker); then
     CRT="$(which docker)"
     echo "Using '$CRT' as container runtime"
 
-    $CRT build --tag "$CONTAINER_NAME" <Containerfile
+    $CRT build --tag "$CONTAINER_NAME" - <Containerfile
     $CRT run --rm -it --user "$(id -u):$(id -g)" -v "$PWD:$PWD" -w "$PWD" -p 1313:1313 $CONTAINER_NAME
 
 else
