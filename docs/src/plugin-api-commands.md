@@ -393,3 +393,157 @@ Request Zellij send back the serialized layout (in KDL format) of the current se
 
 ## close_self
 Will close the plugin and its pane. If the plugin is the only selectable pane in the session, the session will also exit.
+
+## reconfigure
+* Requires the `Reconfigure` [permission](./plugin-api-permissions.md)
+
+Provide a stringified [configuration](./configuration.md) to be "merged" with the configuration of the current session. Optionally also written to disk and so applied to all other sessions listening to the same configuration file.
+
+### Use this command to bind global keys to the plugin
+It's possible to use the `reconfigure` command to bind the special `MessagePluginId` temporary keybinding (which will not be saved to disk). This keybind, along with the plugin's id obtained from `get_plugin_ids` can be used to bind a user key to trigger this plugin with a [pipe](./plugin-pipes.md).
+
+Example:
+```rust
+let config = format!(r#"
+keybinds {{
+    shared {{
+        bind "Ctrl Shift r" {{
+            MessagePluginId {} {{
+                name "my_message_name"
+            }}
+        }}
+    }}
+}}"#);
+reconfigure(config, false)
+// now, whenever a user pressed `Ctrt Shift r` anywhere in the app, the plugin's pipe method will trigger with the "my_message_name" message
+```
+
+## hide_pane_with_id
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Hide a pane (suppress id) with the specified id.
+
+## show_pane_with_id
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Show a pane with the specified id, unsuppress it if it is suppressed, focus it and switch to its tab.
+
+## open_command_pane_background
+* Requires the `RunCommands` [permission](./plugin-api-permissions.md)
+
+Open a new hidden (background) command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI).
+
+## rerun_command_pane
+* Requires the `RunCommands` [permission](./plugin-api-permissions.md)
+
+Re-run command in a command pane (similar to a user focusing on it and pressing `<ENTER>`).
+
+## resize_pane_with_id
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Change the size of the specified pane (optionally in a specific direction).
+
+## edit_scrollback_for_pane_with_id
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Edit the scrollback of the specified pane in the user's default `$EDITOR`
+
+## write_to_pane_id
+* Requires the `WriteToStdin` [permission](./plugin-api-permissions.md)
+
+Write bytes to the `STDIN` of the specified pane
+
+## write_chars_to_pane_id
+* Requires the `WriteToStdin` [permission](./plugin-api-permissions.md)
+
+Write characters to the `STDIN` of the specified pane
+
+## move_pane_with_pane_id
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Switch the position of the specified pane with a different pane
+
+## move_pane_with_pane_id_in_direction
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Switch the position of the specified pane with a different pane in the specified direction (eg. `Down`, `Up`, `Left`, `Right`).
+
+## clear_screen_for_pane_id
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Clear the scroll buffer of the specified pane
+
+## scroll_up_in_pane_id
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Scroll the specified pane up 1 line
+
+## scroll_down_in_pane_id
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Scroll the specified pane down 1 line
+
+## scroll_to_top_in_pane_id
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Scroll the specified pane all the way to the top of the scrollbuffer
+
+## scroll_to_bottom
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Scroll the specified pane all the way to the bottom of the scrollbuffer
+
+## page_scroll_up_in_pane_id
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Scroll the specified pane up one page
+
+## page_scroll_down_in_pane_id
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Scroll the specified pane down one page
+
+## toggle_pane_id_fullscreen
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Toggle the specified pane to be fullscreen or normal sized
+
+## toggle_pane_embed_or_eject_for_pane_id
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Embed the specified pane (make it stop floating) or turn it to a float pane if it is not
+
+## close_tab_with_index
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Close the focused tab
+
+## break_panes_to_new_tab
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Create a new tab that includes the specified pane ids
+
+## break_panes_to_tab_with_index
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Move the specified pane ids to the tab with the specified index
+
+## reload_plugin
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Reload the plugin with the specified id
+
+## load_new_plugin
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Load a new plugin
+
+## rebind_keys
+* Requires the `Reconfigure` [permission](./plugin-api-permissions.md)
+
+Given a set of keys to unbind and a set of keys to bind (in that order), this will apply them to the current session - or optionally also save them to the configuration file.
+
+## list_clients
+* Requires the `ReadApplicationState` [permission](./plugin-api-permissions.md)
+
+List information about clients connected to this session. Including their ID, their focused pane id, the command or plugin running in that pane id (if any) and whether they are the current plugin. This will be returned as the `ListClients` [Event](./plugin-api-events.md) that must be subscribed to beforehand.

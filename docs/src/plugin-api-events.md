@@ -61,3 +61,41 @@ Returned after the `RunCommand` [plugin command](./plugin-api-commands.md). Cont
 
 ## WebRequestResult
 Returned after the `WebRequest` [plugin command](./plugin-api-commands.md). Containing the status code and body of the request as well as the context (an arbitrary string dictionary) provided when initiating the command.
+
+## CommandPaneOpened
+* Requires the `ReadApplicationState` [permission](./plugin-api-permissions.md)
+
+Returned after a pane opened with the `OpenCommandPane` [plugin command](./plugin-api-commands.md) is opened. Contains the terminal pane id of the pane, the context (an arbitrary string dictionary) provided when initiating the command.
+
+## CommandPaneExited
+* Requires the `ReadApplicationState` [permission](./plugin-api-permissions.md)
+
+Returned after a pane opened with the `OpenCommandPane` [plugin command](./plugin-api-commands.md) has exited. Note that this does not mean the pane is closed, it only means the command inside it has exited. This can happen multiple times if (for example) the user reruns the command by pressing `Enter` when focused on the command pane. Contains the terminal pane id of the pane, the command's numeric exit code (if there was one) as well as the context (an arbitrary string dictionary) provided when initiating the command.
+
+## PaneClosed
+* Requires the `ReadApplicationState` [permission](./plugin-api-permissions.md)
+
+A pane inside the current session was closed. Includes the pane's id.
+
+## EditPaneOpened
+* Requires the `ReadApplicationState` [permission](./plugin-api-permissions.md)
+
+Returned after a pane opened with the `OpenFile` [plugin command](./plugin-api-commands.md) is opened. Contains the terminal pane id of the editor pane, the context (an arbitrary string dictionary) provided when initiating the command.
+
+## EditPaneExited
+* Requires the `ReadApplicationState` [permission](./plugin-api-permissions.md)
+
+Returned after a pane opened with the `OpenFile` [plugin command](./plugin-api-commands.md) has exited. Contains the terminal pane id of the editor pane, the editor's numeric exit code (if there was one) as well as the context (an arbitrary string dictionary) provided when initiating the command.
+
+## CommandPaneReRun
+* Requires the `ReadApplicationState` [permission](./plugin-api-permissions.md)
+
+Returned after a pane opened with the `OpenCommandPane` [plugin command](./plugin-api-commands.md) has been re-run. This can happen multiple times and is often (but not necessarily) a result of the user pressing `Enter` when focused on the command pane. Contains the terminal pane id of the pane, the command's numeric exit code (if there was one) as well as the context (an arbitrary string dictionary) provided when initiating the command.
+
+## FailedToWriteConfigToDisk
+* Requires the `ReadApplicationState` [permission](./plugin-api-permissions.md)
+
+After the plugin attempted writing the configuration to disk (with the `Reconfigure` [plugin command](./plugin-api-commands.md)) and there was an error (eg. the file was read-only), this event is sent - optionally with the relevant error.
+
+## ListClients
+The result of the `ListClients` [plugin command](./plugin-api-commands.md). Contains information about all connected clients in the session, including their id, their focused pane id, the stringified representation of the running command or plugin inside their focused pane (if any), as well as an indication of whether they are the current client or not.
