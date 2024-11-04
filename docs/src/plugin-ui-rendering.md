@@ -14,6 +14,7 @@ Zellij provides plugins with some built-in UI components that will fit the user'
 
 #### Table
 ![table](img/table-ui-component.png)
+
 Consists of a title line with an emphasis style and a grid of width-justified cells. Each cell can be styled individually (see `Text` below) and also marked as "selected". Marking adjacent cells as selected can create a "selected row" effect.
 
 Example from the Rust SDK (renders the screeshot above):
@@ -30,6 +31,7 @@ print_table_with_coordinates(table, 4, 5, None, None); // will print this table 
 
 #### Ribbon
 ![ribbon](img/ribbon-ui-component.png)
+
 Ribbons are the UI elements used for tabs in the Zellij tab bar and for modes in the Zellij status-bar. They can be selected, which would change their background color, and can contain styled text themselves (see Text below).
 
 Example from the Rust SDK (renders the screenshot above):
@@ -42,6 +44,7 @@ print_ribbon_with_coordinates(Text::new("ribbon 4").color_range(3, 1..5), 36, 0,
 
 #### Nested List
 ![nested-list](img/nested-list-ui-component.png)
+
 A nested list is the UI element used in the Zellij session-manager. It is a list with possibility indented lines to an arbitrary level. Each line can be selected (multiple lines can be selected as well), and each line can be styled individually (see Text below).
 
 Example from the Rust SDK (renders the screenshot above):
@@ -56,6 +59,7 @@ print_nested_list_with_coordinates(vec![
 
 #### Text
 ![text](img/text-ui-component.png)
+
 While this element can be rendered on its own, it's mainly used inside other elements for styling.
 
 A `Text` element can be selected - which will be interpreted in the context of the element it resides in, generally changing its background in one way or another.
@@ -93,6 +97,16 @@ If a utf-8 separated byte list begins with a clear-text `x`, it will be consider
 ```
 <ESC>Pzribbon;x114,105,98,98,111,110,32,49<ESC>\
 ```
+
+#### Opaque
+If a utf-8 separated byte list begins with a clear-text `z` (note: must follow `Selected` is both are present), it will be considered "opaque". Eg.
+
+```
+<ESC>Ptext;z114,105,98,98,111,110,32,49<ESC>\
+```
+
+This indicates that the UI component should use an opaque background, defaulting to the user's `black` theme color. Otherwise it will be considered transparent and use no background (when possible).
+Opaque components are best used as part of status bars, transparent components when one wishes to represent bare text (for example, in help text).
 
 #### Indices
 A utf-8 separated byte list can be preceded by a dollar (`$`) separated index list representing colored indices. Each element within the dollar separated list can contain zero or more indexes (separated by commas) which will be colored in the desired index color (the colors themselves being determined by the user's theme).

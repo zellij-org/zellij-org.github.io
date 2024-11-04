@@ -1,11 +1,7 @@
 # FAQ
 
 ## Zellij overrides certain key combinations that I use for other apps, what can I do?
-As an "escape hatch" solution, you can lock the interface with `Ctrl + g` - at this point all keys will be sent to the focused pane.
-
-You could also [remap keys](./keybindings.md) to work around this problem.
-
-That being said, the maintainers are aware that this default set of keybindings is not an ideal solution. We tried to find a solution that would both be powerful, allowing few and memorable keypresses to be used for common actions, and also unobtrusive. Finding a solution that would do better in the latter while still maintaining the former is something we're actively thinking about and planning on changing in the future. If you have any thoughts, please do share them in an issue or in one of our chat servers.
+The best and easiest way is to choose the "Unlock-First (non-colliding)" [keybinding preset](./keybinding-presets.md). If that is not sufficient for your use case, you can also [choose different modifiers](./changing-modifiers.md).
 
 ## The UI takes up too much space, what can I do about it?
 
@@ -23,7 +19,7 @@ zellij options --simplified-ui true
 
 ## I am a macOS user, how can I use the Alt key?
 This depends on which terminal emulator you're using. Here are some links that might be useful:
-1. [iTerm2](https://www.clairecodes.com/blog/2018-10-15-making-the-alt-key-work-in-iterm2/)
+1. [iTerm2](https://www.reddit.com/r/zellij/comments/13twru4/comment/kpmsjv2/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button)
 2. [Terminal.app](https://superuser.com/questions/1038947/using-the-option-key-properly-on-mac-terminal)
 3. [Alacritty](https://github.com/zellij-org/zellij/issues/2051#issuecomment-1461519892)
 

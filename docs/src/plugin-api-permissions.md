@@ -22,3 +22,6 @@ Start new terminals and plugins
 
 ### WriteToStdin
 Write to STDIN as if it were the user
+
+### Reconfigure
+Change the [configuration](./configuration.md) (running and also saved in the configuration file) of Zellij.

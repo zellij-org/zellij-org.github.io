@@ -34,12 +34,17 @@ $ zellij --layout /path/to/layout_file.kdl
 
 Or by setting it up in the [configuration](./configuration.md).
 
-A layout can also be applied into a new tab in a running session:
+A layout can also be applied inside a running session with the same command:
 ```
-$ zellij action new-tab --layout /path/to/layout_file.kdl
+$ zellij --layout /path/to/layout_file.kdl
 ```
+In this case, Zellij will start this layout as one or more new tabs in the current session.
 
-For more info, see: [Controlling Zellij through the CLI](./controlling-zellij-through-cli.md).
+A layout can also be applied from a remote URL:
+```
+$ zellij --layout https://example.com/layout_file.kdl
+```
+For security reasons, remote layouts will have all their commands suspended behind a `Waiting ro run <command>` banner - prompting the user to run each one.
 
 ### Layout default directory
 

@@ -4,24 +4,20 @@ Keys are defined in a single quoted string, with space delimiting modifier keys.
 bind "a" // bind the individual character a
 bind "Ctrl a" // bind a with the ctrl modifier
 bind "Alt a" // bind a with the alt modifier
+bind "Ctrl Alt a" // bind a with the multiple "ctrl alt" modifier
 bind "F8" // bind the F8 key
 bind "Left" // bind the left arrow key
 ```
 
-* Possible keys with the Ctrl modifier:
-  - characters (eg. `a`)
-
-* Possible keys with the Alt modifier:
-  - characters (eg. `a`)
-  - `Left` | `Right` | `Up` | `Down`
-
-* Possible keys without a modifier
-  - characters (eg. `a`)
+* Possible keys
+  - digits or lowercase characters (eg. `a`)
+  - function keys 1-12 (eg. `F1`)
   - `Backspace`
-  - `Left`
-  - `Right`
-  - `Up`
-  - `Down`
+  - `Left` (left-arrow key)
+  - `Right` (right-arrow key)
+  - `Up` (up-arrow key)
+  - `Down` (down-arrow key)
+  - `Backspace`
   - `Home`
   - `End`
   - `PageUp`
@@ -32,3 +28,12 @@ bind "Left" // bind the left arrow key
   - `Space`
   - `Enter`
   - `Esc`
+
+* Possible modifiers
+  - `Ctrl`
+  - `Alt`
+  - `Shift`
+  - `Super`
+
+## A note about multiple and special modifiers
+Some modifiers (eg. `Super`), multiple modifiers (eg. `Ctrl Alt`) as well as certain key combinations require support from the terminal emulator as well. Example of supporting terminals are: `Alacritty`, `WezTerm` and `foot`.

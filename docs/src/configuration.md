@@ -8,7 +8,7 @@ mkdir ~/.config/zellij
 zellij setup --dump-config > ~/.config/zellij/config.kdl
 ```
 
-**Looking for the YAML configuration docs for versions `<0.32.0`? [Look no further!](/old-documentation)**
+**Note:** In most cases, Zellij will create the above file automatically on first run. Be sure to check if it exists first.
 
 ## Where does Zellij look for the config file?
 
@@ -41,9 +41,5 @@ To start without loading configuration from default directories:
 zellij options --clean
 ```
 
-## How to dump the default configuration to STDOUT?
-
-To show the current default configuration:
-```
-zellij setup --dump-config
-```
+## How do I update the config file for running sessions?
+Zellij actively watches for changes in the [active configuration file](#where-does-zellij-look-for-the-config-file). Most fields will be applied immediately without the need for a restart. Otherwise, this will be mentioned in the commentary of the relevant field.
