@@ -4,7 +4,7 @@ Zellij [pipes](./plugin-pipes.md) provide a way to send messages to one or more 
 
 eg.
 ```
-$ zellij plugin -- https://path/to/my/plugin.wasm
+$ zellij pipe -- my_arbitrary_data
 ```
 
 **USAGE**:
