@@ -18,6 +18,7 @@
     - [Possible Actions](./keybindings-possible-actions.md)
     - [Shared Bindings](./keybindings-shared.md)
   - [Themes](./themes.md)
+    - [List of Themes](./theme-list.md)
     - [Theme Gallery](./theme-gallery.md)
   - [CLI Configuration](./command-line-options.md)
   - [Migrating from old YAML config files](./migrating-yaml-config.md)
