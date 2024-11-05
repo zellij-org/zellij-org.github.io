@@ -2,10 +2,6 @@
 
 Zellij [pipes](./plugin-pipes.md) provide a way to send messages to one or more plugins, launching them on first-message if they are not running.
 
-eg.
-```
-$ zellij plugin -- https://path/to/my/plugin.wasm
-```
 
 **USAGE**:
 ```
