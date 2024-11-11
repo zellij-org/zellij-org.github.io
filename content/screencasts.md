@@ -25,6 +25,10 @@ Do you find yourself jumping between tasks a lot?
 
 When using the terminal, we often open new terminal windows for different tasks, ending up with a mess of open terminals. This can lead to difficulty and overhead when switching contexts: we often end up searching for commands through our shell history, keeping complex notes and having to rebuild our environment every time we return to a task. Zellij can solve these problems and more for us with the `session-manager` and `welcome-screen`.
 
+### [Dealing with Colliding Keyboard Shortcuts](/tutorials/colliding-keybindings)
+[{{<figure src="/img/configuration-screen-1.png" class="center" style="max-width 995px;">}}](/tutorials/colliding-keybindings)
+This tutorial demonstrates how to solve the "Colliding Keybindings" problem, in which the Zellij UI intercepts keys meant for the applications running inside Zellij.
+
 ### [Filepicker](/tutorials/filepicker)
 [{{<figure src="/img/tutorial-4-preview.png" style="max-width 995px;">}}](/tutorials/filepicker)
 Stop wasting time traversing through your filesystem manually!
