@@ -73,7 +73,7 @@ We run the program with `cargo run` and see all the output on screen.
 
 Now, let's press `Ctrl s` + `e` and the output is opened up in our editor (vim in the author's case). When using vim, we can issue the following command to delete all lines that don't contain the word "error": `:%g!/error/d`.
 
-Then, let's save the resulting lines to a different file (in vim: `:s /tmp/my-other-file.md`) and we can send it to a friend or do whatever we like with it.
+Then, let's save the resulting lines to a different file (in vim: `:w /tmp/my-other-file.md`) and we can send it to a friend or do whatever we like with it.
 
 ## Finally
 Here we learned the very basics of Zellij usage. Be they classic multiplexer features such as splitting panes or slightly more advanced workspace features such as managing Command Panes and editing scrollback.
