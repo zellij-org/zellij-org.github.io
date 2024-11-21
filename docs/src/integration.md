@@ -66,11 +66,11 @@ The following environment variables can also be used in the provided script.
 Systemd ensures that no processes are accidentally left running after logouts.
 One common use case for zellij (and other terminal multiplexers) is to run
 processes after logging out and reconnect after logging in later possibly
-switching between local and remote (ssh) logins. To achieve this let systemd-bin
+switching between local and remote (ssh) logins. To achieve this let systemd-run
 run zellij from outside of the session scope with:
 
 ```
-systemd-bin --scope --user zellij
+systemd-run --scope --user zellij
 ```
 
 For more information see example 5 in [systemd-run's man page](https://
