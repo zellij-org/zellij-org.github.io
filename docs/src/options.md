@@ -258,7 +258,7 @@ pane_viewport_serialization true
 ```
 
 ### scrollback_lines_to_serialize
-When `pane_viewport_serialization` is enabled, setting `scrollback_lines_to_serialize` to `0` in the will serialize all scrollback and to any other number will serialize line number up to that scrollback. Read more about [session resurrection](./session-resurrection.md).
+When `pane_viewport_serialization` is enabled, setting `scrollback_lines_to_serialize` to `0` will serialize all scrollback and to any other number will serialize line number up to that scrollback. Read more about [session resurrection](./session-resurrection.md).
 
 *Note: this might incur higher resource utilization (and certainly a higher cache folder usage...)*
 
@@ -267,7 +267,7 @@ Options:
   - `int`: serialize this much lines for each pane (max is the scrollback limit)
 
 ```javascript
-pane_viewport_serialization 100
+scrollback_lines_to_serialize 100
 ```
 
 ### disable_session_metadata
