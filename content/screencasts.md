@@ -3,6 +3,19 @@ title: "Screencasts & Tutorials"
 images: ["/img/floating-panes-preview.png"]
 ---
 
+- **[Basic Functionality (Floating Panes + Command Panes + Scrollback Editing)](/tutorials/basic-functionality)**: Here we demonstrate some of the more basic functionality of Zellij and how to use it for everyday tasks.
+
+- **[Layouts](/tutorials/layouts)**: This tutorial walks you through creating Zellij [layouts](/documentation/creating-a-layout.html) to automate tasks and workflows.
+
+- **[Session Management](/tutorials/session-management)**: Learn how to use Zellij for session-management to separate different tasks and contexts.
+
+- **[Dealing with Colliding Keyboard Shortcuts](/tutorials/colliding-keybindings)**: This tutorial demonstrates how to solve the "Colliding Keybindings" problem, in which the Zellij UI intercepts keys meant for the applications running inside Zellij.
+
+- **[Filepicker](/tutorials/filepicker)**: Stop wasting time traversing through your filesystem manually! Use the Zellij filepicker to get a dynamic file exploration experience, complete with fuzzy-finding and autocompletion right in your terminal.
+
+- **[Developing a Rust Plugin](/tutorials/developing-a-rust-plugin)**: Learn how to develop a non-trivial plugin for Zellij using Rust.
+
+<!---
 ### [Basic Functionality + Floating Panes + Command Panes + Scrollback Editing](/tutorials/basic-functionality)
 [{{<figure src="/img/tutorial-1-preview.png" class="center" style="max-width 995px;">}}](/tutorials/basic-functionality)
 Here we demonstrate some of the more basic functionality of Zellij and terminal multiplexers in general.
@@ -34,3 +47,8 @@ This tutorial demonstrates how to solve the "Colliding Keybindings" problem, in 
 Stop wasting time traversing through your filesystem manually!
 
 Use the Zellij filepicker to get a dynamic file exploration experience, complete with fuzzy-finding and autocompletion right in your terminal.
+
+### [Developing a Rust Plugin](/tutorials/developing-a-rust-plugin)
+[{{<figure src="/img/develop-rust-plugin.png" style="max-width 995px;">}}](/tutorials/filepicker)
+Learn how to develop a non-trivial plugin for Zellij using Rust
+-->
