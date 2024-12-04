@@ -23,6 +23,7 @@ This tutorial will walk you through developing a Zellij plugin with rust, using 
 - [Step 2: Receiving user input](#step-2-receiving-user-input)
 - [Step 3: Parsing and reacting to the Zellij state](#step-3-parsing-and-reacting-to-the-zellij-state)
 - [Step 4: Finalizing and distributing the plugin](#step-4-finalizing-and-distributing-the-plugin)
+- [Documentation, API-references and getting Help](#documentation-api-references-and-getting-help)
 - [Do you like Zellij?](#do-you-like-zellij--)
 
 ## What are we building?
@@ -331,7 +332,7 @@ But what if we'd like to react to keys the user pressed while to react to keys t
 Our generated plugin template includes a `pipe` method, which will be triggered every time messages are piped to our plugin:
 
 ```rust
-impl ZellijPlugin {
+impl ZellijPlugin for State {
     // ...
     fn pipe (&mut self, pipe_message: PipeMessage) -> bool {
         let mut should_render = false;
@@ -345,7 +346,7 @@ Right now, this method doesn't do much. Similar to the `update` method described
 Let's add some debug printing to see how this works:
 
 ```rust
-impl ZellijPlugin {
+impl ZellijPlugin for State {
     // ...
     fn pipe (&mut self, pipe_message: PipeMessage) -> bool {
         let mut should_render = false;
@@ -678,6 +679,15 @@ A good way to distribute our plugin is to publish it as part of some release mec
 Be sure to change the plugin name in the linked file from `carousel` to your plugin name!
 
 If you create a plugin and would like to share it with the community, you can also make a PR to [awesome-zellij](https://github.com/zellij-org/awesome-zellij).
+
+## Documentation, API-references and getting help
+For further reading, you can check out the full plugin development documentation: https://zellij.dev/documentation/plugins
+
+For the Rust API reference, check out: https://docs.rs/zellij-tile/latest/zellij_tile/index.html
+
+The latter includes a list of [commands](https://docs.rs/zellij-tile/latest/zellij_tile/shim/index.html) that plugins can issue to Zellij. As well as a list of [`Event`s](https://docs.rs/zellij-tile/latest/zellij_tile/prelude/enum.Event.html) plugins can subscribe to.
+
+If you would like help, please join our [Discord](https://discord.gg/CrUAFH3) - many plugin developers hang out there.
 
 ## Do you like Zellij ❤️ ?
 Me too! So much so that I spend 100% of my time developing and maintaining it and have no other income.
