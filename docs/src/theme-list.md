@@ -7,6 +7,7 @@ These themes are provided built-in with Zellij. One can switch to them by changi
 * atelier-sulphurpool
 * ayu_mirage
 * ayu_dark
+* catppuccin-mocha
 * catppuccin-frappe
 * catppuccin-macchiato
 * cyber-noir
