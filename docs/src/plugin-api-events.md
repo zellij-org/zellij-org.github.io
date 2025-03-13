@@ -99,3 +99,6 @@ After the plugin attempted writing the configuration to disk (with the `Reconfig
 
 ## ListClients
 The result of the `ListClients` [plugin command](./plugin-api-commands.md). Contains information about all connected clients in the session, including their id, their focused pane id, the stringified representation of the running command or plugin inside their focused pane (if any), as well as an indication of whether they are the current client or not.
+
+## PastedText
+The user just pasted the given text while focused on the plugin.

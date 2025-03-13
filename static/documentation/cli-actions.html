@@ -401,6 +401,37 @@ See <a href="./creating-a-layout.html#cwd-composition">layout CWD composition</a
 <p>eg.</p>
 <pre><code>$ zellij action write-chars "Hi there!"
 </code></pre>
+<h4 id="toggle-pane-pinned"><a class="header" href="#toggle-pane-pinned">toggle-pane-pinned</a></h4>
+<p>If the current pane is a floating pane, toggle its pinned state (always on top).</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-pane-pinned
+</code></pre>
+<h4 id="stack-panes"><a class="header" href="#stack-panes">stack-panes</a></h4>
+<p>Given a list of pane ids, turns them into a stack. (pane ids can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var).</p>
+<p><strong>ARGS</strong>: A list of panes (see example below)</p>
+<p>eg.</p>
+<pre><code># This will create a stack of 3 panes (terminal with ID 1, plugin with ID 1 and terminal with ID 2)
+$ zellij action stack-panes -- terminal_1 plugin_1 terminal_2
+</code></pre>
+<h4 id="change-floating-pane-coordinates"><a class="header" href="#change-floating-pane-coordinates">change-floating-pane-coordinates</a></h4>
+<p>Given a pane id, and coordinates, will change the coordinates of this pane.</p>
+<p><strong>ARGS</strong>: The pane id (see example below - these can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var)
+<strong>OPTIONS:</strong></p>
+<pre><code>        --height &lt;HEIGHT&gt;      The height if the pane is floating as a bare integer (eg. 1) or
+                               percent (eg. 10%)
+    -p, --pane-id &lt;PANE_ID&gt;    The pane_id of the floating pane, eg.  terminal_1, plugin_2 or 3
+                               (equivalent to terminal_3)
+        --pinned &lt;PINNED&gt;      Whether to pin a floating pane so that it is always on top
+        --width &lt;WIDTH&gt;        The width if the pane is floating as a bare integer (eg. 1) or
+                               percent (eg. 10%)
+    -x, --x &lt;X&gt;                The x coordinates if the pane is floating as a bare integer (eg. 1)
+                               or percent (eg. 10%)
+    -y, --y &lt;Y&gt;                The y coordinates if the pane is floating as a bare integer (eg. 1)
+                               or percent (eg. 10%)
+</code></pre>
+<p>eg.</p>
+<pre><code>zellij action change-floating-pane-coordinates --pane-id terminal_15 --height 10 --width 10 -x 10 -y 10
+</code></pre>
 
                     </main>
 

@@ -138,7 +138,7 @@ copy_clipboard "primary"
 
 ### copy_on_select
 
-Enable or disable automatic copy (and clear) of selection when releasing mouse
+Enable or disable automatic copy of selection when releasing mouse
 
 Default: true
 
@@ -281,4 +281,26 @@ Options:
 
 ```javascript
 disable_session_metadata true
+```
+
+### show_startup_tips
+Show usage tips on Zellij startup. These can also be browsed through the `about` plugin with `Ctrl o` + `a` and then `?`.
+
+Options:
+  - true (default)
+  - false
+
+```javascript
+show_startup_tips true
+```
+
+### show_release_nodes
+Show release notes on first run of a new version. These can also be browsed through the `about` plugin with `Ctrl o` + `a`.
+
+Options:
+  - true (default)
+  - false
+
+```javascript
+show_release_notes true
 ```

@@ -227,6 +227,8 @@
 <p>After the plugin attempted writing the configuration to disk (with the <code>Reconfigure</code> <a href="./plugin-api-commands.html">plugin command</a>) and there was an error (eg. the file was read-only), this event is sent - optionally with the relevant error.</p>
 <h2 id="listclients"><a class="header" href="#listclients">ListClients</a></h2>
 <p>The result of the <code>ListClients</code> <a href="./plugin-api-commands.html">plugin command</a>. Contains information about all connected clients in the session, including their id, their focused pane id, the stringified representation of the running command or plugin inside their focused pane (if any), as well as an indication of whether they are the current client or not.</p>
+<h2 id="pastedtext"><a class="header" href="#pastedtext">PastedText</a></h2>
+<p>The user just pasted the given text while focused on the plugin.</p>
 
                     </main>
 

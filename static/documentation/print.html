@@ -562,7 +562,7 @@ Does not apply when using copy_command.</p>
 <pre><code class="language-javascript">copy_clipboard "primary"
 </code></pre>
 <h3 id="copy_on_select"><a class="header" href="#copy_on_select">copy_on_select</a></h3>
-<p>Enable or disable automatic copy (and clear) of selection when releasing mouse</p>
+<p>Enable or disable automatic copy of selection when releasing mouse</p>
 <p>Default: true</p>
 <pre><code class="language-javascript">copy_on_select false
 </code></pre>
@@ -665,6 +665,24 @@ Options:</p>
 <li>false (default)</li>
 </ul>
 <pre><code class="language-javascript">disable_session_metadata true
+</code></pre>
+<h3 id="show_startup_tips"><a class="header" href="#show_startup_tips">show_startup_tips</a></h3>
+<p>Show usage tips on Zellij startup. These can also be browsed through the <code>about</code> plugin with <code>Ctrl o</code> + <code>a</code> and then <code>?</code>.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">show_startup_tips true
+</code></pre>
+<h3 id="show_release_nodes"><a class="header" href="#show_release_nodes">show_release_nodes</a></h3>
+<p>Show release notes on first run of a new version. These can also be browsed through the <code>about</code> plugin with <code>Ctrl o</code> + <code>a</code>.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">show_release_notes true
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="configuring-keybindings"><a class="header" href="#configuring-keybindings">Configuring Keybindings</a></h1>
 <p>Zellij comes with a default set of keybindings that try to fit as many different users and use cases while trying to maximize comfort for everyone.</p>
@@ -1697,6 +1715,37 @@ See <a href="./creating-a-layout.html#cwd-composition">layout CWD composition</a
 <p><strong>ARGS</strong>: A string of characters to write</p>
 <p>eg.</p>
 <pre><code>$ zellij action write-chars "Hi there!"
+</code></pre>
+<h4 id="toggle-pane-pinned"><a class="header" href="#toggle-pane-pinned">toggle-pane-pinned</a></h4>
+<p>If the current pane is a floating pane, toggle its pinned state (always on top).</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-pane-pinned
+</code></pre>
+<h4 id="stack-panes"><a class="header" href="#stack-panes">stack-panes</a></h4>
+<p>Given a list of pane ids, turns them into a stack. (pane ids can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var).</p>
+<p><strong>ARGS</strong>: A list of panes (see example below)</p>
+<p>eg.</p>
+<pre><code># This will create a stack of 3 panes (terminal with ID 1, plugin with ID 1 and terminal with ID 2)
+$ zellij action stack-panes -- terminal_1 plugin_1 terminal_2
+</code></pre>
+<h4 id="change-floating-pane-coordinates"><a class="header" href="#change-floating-pane-coordinates">change-floating-pane-coordinates</a></h4>
+<p>Given a pane id, and coordinates, will change the coordinates of this pane.</p>
+<p><strong>ARGS</strong>: The pane id (see example below - these can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var)
+<strong>OPTIONS:</strong></p>
+<pre><code>        --height &lt;HEIGHT&gt;      The height if the pane is floating as a bare integer (eg. 1) or
+                               percent (eg. 10%)
+    -p, --pane-id &lt;PANE_ID&gt;    The pane_id of the floating pane, eg.  terminal_1, plugin_2 or 3
+                               (equivalent to terminal_3)
+        --pinned &lt;PINNED&gt;      Whether to pin a floating pane so that it is always on top
+        --width &lt;WIDTH&gt;        The width if the pane is floating as a bare integer (eg. 1) or
+                               percent (eg. 10%)
+    -x, --x &lt;X&gt;                The x coordinates if the pane is floating as a bare integer (eg. 1)
+                               or percent (eg. 10%)
+    -y, --y &lt;Y&gt;                The y coordinates if the pane is floating as a bare integer (eg. 1)
+                               or percent (eg. 10%)
+</code></pre>
+<p>eg.</p>
+<pre><code>zellij action change-floating-pane-coordinates --pane-id terminal_15 --height 10 --width 10 -x 10 -y 10
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="zellij-plugin"><a class="header" href="#zellij-plugin">Zellij Plugin</a></h1>
 <p>Zellij includes a top-level <code>plugin</code> cli command that can be used to launch a new Zellij plugin instance from a local or remote wasm file</p>
@@ -2758,6 +2807,8 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 <p>After the plugin attempted writing the configuration to disk (with the <code>Reconfigure</code> <a href="./plugin-api-commands.html">plugin command</a>) and there was an error (eg. the file was read-only), this event is sent - optionally with the relevant error.</p>
 <h2 id="listclients"><a class="header" href="#listclients">ListClients</a></h2>
 <p>The result of the <code>ListClients</code> <a href="./plugin-api-commands.html">plugin command</a>. Contains information about all connected clients in the session, including their id, their focused pane id, the stringified representation of the running command or plugin inside their focused pane (if any), as well as an indication of whether they are the current client or not.</p>
+<h2 id="pastedtext"><a class="header" href="#pastedtext">PastedText</a></h2>
+<p>The user just pasted the given text while focused on the plugin.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api---commands"><a class="header" href="#plugin-api---commands">Plugin API - Commands</a></h1>
 <p>Zellij exports functions that allow plugins to control Zellij or change its behavior.</p>
 <p>For more exact information, please see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
@@ -2798,6 +2849,21 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 <li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>Open a file to a specific line in the user's default <code>$EDITOR</code> (if it supports it, most do) in a new floating pane</p>
+<h2 id="open_file_near_plugin"><a class="header" href="#open_file_near_plugin">open_file_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code> in the same tab as the plugin as a tiled pane, regardless of the user's focus</p>
+<h2 id="open_file_floating_near_plugin"><a class="header" href="#open_file_floating_near_plugin">open_file_floating_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code> in the same tab as the plugin as a floating pane, regardless of the user's focus</p>
+<h2 id="open_file_in_place_of_plugin"><a class="header" href="#open_file_in_place_of_plugin">open_file_in_place_of_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code>, temporarily replacing the plugin, regardless of the user's focus.</p>
 <h2 id="open_terminal"><a class="header" href="#open_terminal">open_terminal</a></h2>
 <ul>
 <li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
@@ -2813,6 +2879,21 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 <li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>Open a new terminal pane to the specified location on the host filesystem, temporarily replacing the focused pane</p>
+<h2 id="open_terminal_near_plugin"><a class="header" href="#open_terminal_near_plugin">open_terminal_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new tiled terminal in the tab where the plugin resides, regardless of the user's focus.</p>
+<h2 id="open_terminal_floating_near_plugin"><a class="header" href="#open_terminal_floating_near_plugin">open_terminal_floating_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new floating terminal in the tab where the plugin resides, regardless of the user's focus.</p>
+<h2 id="open_terminal_in_place_of_plugin"><a class="header" href="#open_terminal_in_place_of_plugin">open_terminal_in_place_of_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new terminal on top of the plugin, temporarily replacing it. Regardless of the user's focus.</p>
 <h2 id="open_command_pane"><a class="header" href="#open_command_pane">open_command_pane</a></h2>
 <ul>
 <li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a>
@@ -2828,6 +2909,21 @@ Open a new command pane with the specified command and args (this sort of pane a
 <li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), temporarily replacing the focused pane</p>
+<h2 id="open_command_pane_near_plugin"><a class="header" href="#open_command_pane_near_plugin">open_command_pane_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), as a tiled pane in the same tab as the plugin, regardless of the user's focus.</p>
+<h2 id="open_command_pane_floating_near_plugin"><a class="header" href="#open_command_pane_floating_near_plugin">open_command_pane_floating_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), as a floating pane in the same tab as the plugin, regardless of the user's focus.</p>
+<h2 id="open_command_pane_in_place_of_plugin"><a class="header" href="#open_command_pane_in_place_of_plugin">open_command_pane_in_place_of_plugin</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), on top of the plugin, temporarily replacing it, regardless of the user's focus.</p>
 <h2 id="run_command"><a class="header" href="#run_command">run_command</a></h2>
 <ul>
 <li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a>
@@ -3293,6 +3389,26 @@ reconfigure(config, false)
 <li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>List information about clients connected to this session. Including their ID, their focused pane id, the command or plugin running in that pane id (if any) and whether they are the current plugin. This will be returned as the <code>ListClients</code> <a href="./plugin-api-events.html">Event</a> that must be subscribed to beforehand.</p>
+<h2 id="change_host_folder"><a class="header" href="#change_host_folder">change_host_folder</a></h2>
+<ul>
+<li>Requires the <code>FullHdAccess</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change the location of the <code>/host</code> folder from the perspective of the plugin to somewhere else on the filesystem.</p>
+<h2 id="set_floating_pane_pinned"><a class="header" href="#set_floating_pane_pinned">set_floating_pane_pinned</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Make a floating pane pinned or unpinned (always on top).</p>
+<h2 id="stack_panes"><a class="header" href="#stack_panes">stack_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Given a list of pane ids, turns them into a stack.</p>
+<h2 id="change_floating_panes_coordinates"><a class="header" href="#change_floating_panes_coordinates">change_floating_panes_coordinates</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Given a list of pane ids and corresponding coordinates (x, y, width, height) will change the location of all of these IDs to the desired coordinates.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="permissions"><a class="header" href="#permissions">Permissions</a></h1>
 <p>The plugin system provides a permission system to provide extra security and protection to the user.</p>
 <p>The system places certain <a href="./plugin-api-events.html">Events</a> and <a href="./plugin-api-commands.html">Commands</a> behind certain permissions.
@@ -3312,6 +3428,8 @@ Plugins who want to listen to these events or use these commands should prompt t
 <p>Write to STDIN as if it were the user</p>
 <h3 id="reconfigure-1"><a class="header" href="#reconfigure-1">Reconfigure</a></h3>
 <p>Change the <a href="./configuration.html">configuration</a> (running and also saved in the configuration file) of Zellij.</p>
+<h3 id="fullhdaccess"><a class="header" href="#fullhdaccess">FullHdAccess</a></h3>
+<p>Access the full HD on the machine rather than just the folder in which Zellij was started.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api---configuration"><a class="header" href="#plugin-api---configuration">Plugin API - Configuration</a></h1>
 <p>Plugins can be configured (have their behavior changed when instantiated) with an arbitrary key/value list.
 This configuration is available to plugins in their <code>load</code> method. It can be provided through layouts:</p>

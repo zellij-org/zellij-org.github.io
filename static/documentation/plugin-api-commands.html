@@ -179,6 +179,21 @@
 <li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>Open a file to a specific line in the user's default <code>$EDITOR</code> (if it supports it, most do) in a new floating pane</p>
+<h2 id="open_file_near_plugin"><a class="header" href="#open_file_near_plugin">open_file_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code> in the same tab as the plugin as a tiled pane, regardless of the user's focus</p>
+<h2 id="open_file_floating_near_plugin"><a class="header" href="#open_file_floating_near_plugin">open_file_floating_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code> in the same tab as the plugin as a floating pane, regardless of the user's focus</p>
+<h2 id="open_file_in_place_of_plugin"><a class="header" href="#open_file_in_place_of_plugin">open_file_in_place_of_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code>, temporarily replacing the plugin, regardless of the user's focus.</p>
 <h2 id="open_terminal"><a class="header" href="#open_terminal">open_terminal</a></h2>
 <ul>
 <li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
@@ -194,6 +209,21 @@
 <li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>Open a new terminal pane to the specified location on the host filesystem, temporarily replacing the focused pane</p>
+<h2 id="open_terminal_near_plugin"><a class="header" href="#open_terminal_near_plugin">open_terminal_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new tiled terminal in the tab where the plugin resides, regardless of the user's focus.</p>
+<h2 id="open_terminal_floating_near_plugin"><a class="header" href="#open_terminal_floating_near_plugin">open_terminal_floating_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new floating terminal in the tab where the plugin resides, regardless of the user's focus.</p>
+<h2 id="open_terminal_in_place_of_plugin"><a class="header" href="#open_terminal_in_place_of_plugin">open_terminal_in_place_of_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new terminal on top of the plugin, temporarily replacing it. Regardless of the user's focus.</p>
 <h2 id="open_command_pane"><a class="header" href="#open_command_pane">open_command_pane</a></h2>
 <ul>
 <li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a>
@@ -209,6 +239,21 @@ Open a new command pane with the specified command and args (this sort of pane a
 <li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), temporarily replacing the focused pane</p>
+<h2 id="open_command_pane_near_plugin"><a class="header" href="#open_command_pane_near_plugin">open_command_pane_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), as a tiled pane in the same tab as the plugin, regardless of the user's focus.</p>
+<h2 id="open_command_pane_floating_near_plugin"><a class="header" href="#open_command_pane_floating_near_plugin">open_command_pane_floating_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), as a floating pane in the same tab as the plugin, regardless of the user's focus.</p>
+<h2 id="open_command_pane_in_place_of_plugin"><a class="header" href="#open_command_pane_in_place_of_plugin">open_command_pane_in_place_of_plugin</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), on top of the plugin, temporarily replacing it, regardless of the user's focus.</p>
 <h2 id="run_command"><a class="header" href="#run_command">run_command</a></h2>
 <ul>
 <li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a>
@@ -674,6 +719,26 @@ reconfigure(config, false)
 <li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>List information about clients connected to this session. Including their ID, their focused pane id, the command or plugin running in that pane id (if any) and whether they are the current plugin. This will be returned as the <code>ListClients</code> <a href="./plugin-api-events.html">Event</a> that must be subscribed to beforehand.</p>
+<h2 id="change_host_folder"><a class="header" href="#change_host_folder">change_host_folder</a></h2>
+<ul>
+<li>Requires the <code>FullHdAccess</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change the location of the <code>/host</code> folder from the perspective of the plugin to somewhere else on the filesystem.</p>
+<h2 id="set_floating_pane_pinned"><a class="header" href="#set_floating_pane_pinned">set_floating_pane_pinned</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Make a floating pane pinned or unpinned (always on top).</p>
+<h2 id="stack_panes"><a class="header" href="#stack_panes">stack_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Given a list of pane ids, turns them into a stack.</p>
+<h2 id="change_floating_panes_coordinates"><a class="header" href="#change_floating_panes_coordinates">change_floating_panes_coordinates</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Given a list of pane ids and corresponding coordinates (x, y, width, height) will change the location of all of these IDs to the desired coordinates.</p>
 
                     </main>
 
