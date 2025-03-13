@@ -19,7 +19,7 @@
     - [Shared Bindings](./keybindings-shared.md)
   - [Themes](./themes.md)
     - [List of Themes](./theme-list.md)
-    - [Theme Gallery](./theme-gallery.md)
+    - [Legacy Themes](./legacy-themes.md)
   - [CLI Configuration](./command-line-options.md)
   - [Migrating from old YAML config files](./migrating-yaml-config.md)
 - [Controlling Zellij through the CLI](./controlling-zellij-through-cli.md)

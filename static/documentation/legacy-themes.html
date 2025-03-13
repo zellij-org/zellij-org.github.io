@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>The filepicker alias - Zellij User Guide</title>
+        <title>Legacy Themes - Zellij User Guide</title>
 
 
         <!-- Custom HTML head -->
@@ -139,40 +139,69 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="the-filepicker-alias"><a class="header" href="#the-filepicker-alias">The filepicker alias</a></h1>
-<p>This alias, by default translated to the internal <code>zellij:strider</code> plugin url with the <code>cwd "/"</code> configuration, is used by various plugins to allow users to traverse their filesystem and select files or folders for various purposes.</p>
-<p>For example, the <a href="./session-manager-alias.html">session-manager</a> and <a href="./welcome-screen-alias.html">welcome-screen</a> use the filepicker to allow users to choose the working directory for the new session they would like to start.</p>
-<h2 id="contract"><a class="header" href="#contract">Contract</a></h2>
-<p>Zellij loads the filepicker using a <a href="./plugin-pipes.html">pipe</a>. It sends it a private message with the <code>filepicker</code> message name.</p>
-<h3 id="if-the-message-originates-from-another-plugin"><a class="header" href="#if-the-message-originates-from-another-plugin">If the message originates from another plugin</a></h3>
-<p>Zellij expects the filepicker to:</p>
-<ol>
-<li>Open a new pipe with the originating plugin's ID (it receives this ID as part of the <code>PipeMessage</code>) as its destination.</li>
-<li>The message name should be <code>filepicker_result</code></li>
-<li>The message <code>args</code> should be the same args sent in the original message (if any).</li>
-<li>The message payload should be the path the user chose as clear text.</li>
-</ol>
-<h3 id="if-the-message-originates-from-the-cli"><a class="header" href="#if-the-message-originates-from-the-cli">If the message originates from the CLI</a></h3>
-<p>Zellij expects the filepicker to:</p>
-<ol>
-<li>Block the CLI pipe input to give the user time to choose a file using <a href="./plugin-api-commands.html#block_cli_pipe_input"><code>block_cli_pipe_input</code></a>.</li>
-<li>Output the the path the user chose as clear text with the <a href="./plugin-api-commands.html#cli_pipe_output"><code>cli_pipe_output</code></a> command.</li>
-<li>Unblock the CLI pipe input once the user chose a path with <a href="./plugin-api-commands.html#unblock_cli_pipe_input"><code>unblock_cli_pipe_input</code></a>.</li>
-</ol>
-<h2 id="user-expectations"><a class="header" href="#user-expectations">User expectations</a></h2>
-<p>The user will likely expect the plugin to either close itself or hide itself once the file has been chosen, so their focus will return the pane which originated this request (be it another plugin or a terminal if this request was made through a CLI pipe).</p>
-<h2 id="example"><a class="header" href="#example">Example</a></h2>
-<p>See <a href="https://github.com/zellij-org/zellij/blob/main/default-plugins/strider/src/main.rs#L129">the strider plugin's implementation</a>.</p>
+                        <h1 id="legacy-themes"><a class="header" href="#legacy-themes">Legacy Themes</a></h1>
+<p>This file defines the original Zellij theme specification. It is still supported, but new themes should be written in the new spec defined at the root of this section.</p>
+<h2 id="truecolor-themes"><a class="header" href="#truecolor-themes">Truecolor themes</a></h2>
+<pre><code class="language-javascript">themes {
+   dracula {
+        fg 248 248 242
+        bg 40 42 54
+        black 0 0 0
+        red 255 85 85
+        green 80 250 123
+        yellow 241 250 140
+        blue 98 114 164
+        magenta 255 121 198
+        cyan 139 233 253
+        white 255 255 255
+        orange 255 184 108
+    }
+}
+</code></pre>
+<h2 id="256-color-themes"><a class="header" href="#256-color-themes">256 color themes</a></h2>
+<pre><code class="language-javascript">themes {
+    default {
+        fg 1
+        bg 10
+        black 20
+        red 30
+        green 40
+        yellow 50
+        blue 60
+        magenta 70
+        cyan 80
+        white 90
+        orange 254
+    }
+}
+</code></pre>
+<h2 id="hexadecimal-color-themes"><a class="header" href="#hexadecimal-color-themes">Hexadecimal color themes</a></h2>
+<pre><code class="language-javascript">themes {
+    nord {
+        fg "#D8DEE9"
+        bg "#2E3440"
+        black "#3B4252"
+        red "#BF616A"
+        green "#A3BE8C"
+        yellow "#EBCB8B"
+        blue "#81A1C1"
+        magenta "#B48EAD"
+        cyan "#88C0D0"
+        white "#E5E9F0"
+        orange "#D08770"
+    }
+}
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="welcome-screen-alias.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="theme-list.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="plugin-examples.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="command-line-options.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -182,11 +211,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="welcome-screen-alias.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="theme-list.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="plugin-examples.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="command-line-options.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
