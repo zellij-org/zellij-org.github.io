@@ -188,55 +188,6 @@
 Please keep in mind that they are not directly affiliated with zellij maintainers:</p>
 <p><a href="https://repology.org/project/zellij/versions"><img src="https://repology.org/badge/vertical-allrepos/zellij.svg" alt="Packaging status" /></a></p>
 <p>More information about third party installation can be found <a href="https://github.com/zellij-org/zellij/blob/main/docs/THIRD_PARTY_INSTALL.md">here</a>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
-<p>Zellij is a workspace aimed at developers, ops-oriented people and
-anyone who loves the terminal.
-At its core, it is a terminal multiplexer (similar to tmux and screen),
-but this is merely its infrastructure layer.</p>
-<p>Zellij has a native layout and plugin system.
-To understand Zellij a little bit better, let us take a look at
-the default configuration.</p>
-<h2 id="default-configuration"><a class="header" href="#default-configuration">Default Configuration</a></h2>
-<p><img src="img/overview-default-legend.png" alt="Default layout" /></p>
-<p>The default configuration consists of:</p>
-<ol>
-<li>The tab-bar plugin. It shows current tabs that are in use as well as the session name.</li>
-<li>The pane, in which the default shell is started.
-The title the shell sets can be seen in the upper left corner of the pane.</li>
-<li>The status-bar plugin. It gives an overview over current default keybindings,
-since Zellij is modal it can show hints based on modes it currently resides in.</li>
-</ol>
-<p>To dive deeper in to how the default layout works and how to change it, checkout the <a href="layouts.html">layouts</a> section.</p>
-<p>Let's open a new tab and then a couple panes inside that new tab:</p>
-<ol>
-<li><kbd>Ctrl</kbd> + <kbd>t</kbd></li>
-<li><kbd>n</kbd></li>
-<li><kbd>Ctrl</kbd> + <kbd>p</kbd></li>
-<li><kbd>n</kbd></li>
-<li><kbd>Ctrl</kbd> + <kbd>p</kbd></li>
-<li><kbd>←</kbd></li>
-<li><kbd>d</kbd></li>
-</ol>
-<p>The status-bar should have guided us through:
-<img src="img/overview-status-tab-1.png" alt="Status tab 1" />
-<img src="img/overview-status-tab-2.png" alt="Status tab 2" />
-And this is our current state:
-<img src="img/overview-default-1.png" alt="Default state 1" />
-Zellij doesn't need a terminal to keep commands running, because it uses a client
-and server system. Let us disconnect and reconnect to the same session now:</p>
-<ol>
-<li><kbd>Ctrl</kbd> + <kbd>o</kbd></li>
-<li><kbd>d</kbd></li>
-</ol>
-<p><img src="img/overview-status-tab-3.png" alt="Status tab 3" /></p>
-<p>If only one server session is running in the background zellij can restore the
-connection automatically, if not then we need a specific session name.
-We can get the name in the following way:</p>
-<pre><code>zellij list-sessions
-</code></pre>
-<p>And now we reattach to the currently running session:</p>
-<pre><code>zellij attach hilarious-kitty
-</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="integration"><a class="header" href="#integration">Integration</a></h1>
 <p>Zellij provides some environment variables, that make Integration
 with existing tools possible.</p>
@@ -2681,6 +2632,7 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugins"><a class="header" href="#plugins">Plugins</a></h1>
 <p>Zellij offers a Webassembly / WASI plugin system, allowing plugin developers to develop plugins in many different languages. The plugin system is currently in its early stages, offering pioneering plugin developers a chance to shape the ecosystem in its infancy if they are willing to tolerate <a href="./plugin-system-status.html">a few sharp edges</a>.</p>
+<p>Zellij itself builds its UI from plugins, you can <a href="https://github.com/zellij-org/zellij/tree/main/default-plugins">browse their code</a> for inspiration.</p>
 <h2 id="what-is-a-zellij-plugin"><a class="header" href="#what-is-a-zellij-plugin">What is a Zellij Plugin?</a></h2>
 <p>A Zellij plugin is a first class citizen in the workspace, just like a terminal pane. It can <a href="./plugin-ui-rendering.html">render a UI</a>, <a href="./plugin-api-events.html">react to application state changes</a> as well as <a href="./plugin-api-commands.html">control Zellij and change its behavior</a>.</p>
 <p>Our intention with the plugin system is to give users and developers the power to easily take full advantage of their terminal. Creating composable components that can be shared easily, turning everyday terminal tasks into a personalized multiplayer dashboard experience. We like to think of them as visual cross-platform scripts that do not need to be installed or compiled.</p>

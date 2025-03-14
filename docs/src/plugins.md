@@ -2,6 +2,8 @@
 
 Zellij offers a Webassembly / WASI plugin system, allowing plugin developers to develop plugins in many different languages. The plugin system is currently in its early stages, offering pioneering plugin developers a chance to shape the ecosystem in its infancy if they are willing to tolerate [a few sharp edges](./plugin-system-status.md).
 
+Zellij itself builds its UI from plugins, you can [browse their code](https://github.com/zellij-org/zellij/tree/main/default-plugins) for inspiration.
+
 ## What is a Zellij Plugin?
 A Zellij plugin is a first class citizen in the workspace, just like a terminal pane. It can [render a UI](./plugin-ui-rendering.md), [react to application state changes](./plugin-api-events.md) as well as [control Zellij and change its behavior](./plugin-api-commands.md).
 

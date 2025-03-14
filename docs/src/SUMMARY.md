@@ -2,7 +2,6 @@
 
 - [Introduction](./introduction.md)
     - [Installation](./installation.md)
-    - [Overview](./overview.md)
     - [Integration](./integration.md)
     - [FAQ](./faq.md)
 - [Commands](./commands.md)
