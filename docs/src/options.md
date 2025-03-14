@@ -283,6 +283,17 @@ Options:
 disable_session_metadata true
 ```
 
+### stacked_resize
+Attempt to stack panes with their neighbors when resizing non-directionally (by default `Alt+/-`).
+
+Options:
+  - true (default)
+  - false
+
+```javascript
+stacked_resize true
+```
+
 ### show_startup_tips
 Show usage tips on Zellij startup. These can also be browsed through the `about` plugin with `Ctrl o` + `a` and then `?`.
 
