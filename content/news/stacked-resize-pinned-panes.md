@@ -8,7 +8,7 @@ type:
 - posts
 title: "Zellij 0.42.0: Stacked Resize, Pinned Floating Panes, New Theme Spec"
 type:
-images: ["/img/version-42-social-preview.png"]
+images: ["/img/version-42-social-preview-smiley.png"]
 description: "Stacked resize, pinned floating panes, new theme definition spec and new Rust plugin APIs"
 alttext: "A screenshot of Zellij demonstrating the stacked resize and pinned floating panes feature"
 weight: 10
