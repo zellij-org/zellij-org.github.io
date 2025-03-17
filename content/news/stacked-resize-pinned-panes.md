@@ -1,7 +1,7 @@
 ---
 author: "Aram Drevekenin"
 authorlink: "https://hachyderm.io/@imsnif"
-date: 2025-03-14 ## TODO: CHANGEME!!!
+date: 2025-03-17
 linktitle: "Zellij 0.42.0: Stacked Resize, Pinned Floating Panes, New Theme Spec"
 type:
 - post
