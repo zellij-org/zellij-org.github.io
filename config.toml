@@ -154,8 +154,8 @@ disableHugoGeneratorInject = false
     url  = "https://github.com/zellij-org/zellij"
 
  [[params.social]]
-   name = "twitter"
-   url  = "https://twitter.com/Zellij_dev"
+   name = "bluesky"
+   url  = "https://bsky.app/profile/zellij-dev.bsky.social"
 
  [[params.social]]
    name = "mastodon"

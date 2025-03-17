@@ -25,3 +25,6 @@ Write to STDIN as if it were the user
 
 ### Reconfigure
 Change the [configuration](./configuration.md) (running and also saved in the configuration file) of Zellij.
+
+### FullHdAccess
+Access the full HD on the machine rather than just the folder in which Zellij was started.

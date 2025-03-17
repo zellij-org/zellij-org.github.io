@@ -5,6 +5,8 @@ images: ["/img/floating-panes-preview.png"]
 
 - **[Basic Functionality (Floating Panes + Command Panes + Scrollback Editing)](/tutorials/basic-functionality)**: Here we demonstrate some of the more basic functionality of Zellij and how to use it for everyday tasks.
 
+- **[Stacked Resizes and Pinned Floating Panes](/tutorials/stacked-resize)**: Here we demonstrate some of the more basic functionality of Zellij and how to use it for everyday tasks.
+
 - **[Layouts](/tutorials/layouts)**: This tutorial walks you through creating Zellij [layouts](/documentation/creating-a-layout.html) to automate tasks and workflows.
 
 - **[Session Management](/tutorials/session-management)**: Learn how to use Zellij for session-management to separate different tasks and contexts.

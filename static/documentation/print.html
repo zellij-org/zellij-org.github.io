@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="light" dir="ltr">
+<html lang="en" class="light sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -31,15 +31,17 @@
 
         <!-- Custom theme stylesheets -->
 
-    </head>
-    <body class="sidebar-visible no-js">
-    <div id="body-container">
+
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
-
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -61,19 +63,16 @@
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
-            var html = document.querySelector('html');
+            const html = document.documentElement;
             html.classList.remove('light')
             html.classList.add(theme);
-            var body = document.querySelector('body');
-            body.classList.remove('no-js')
-            body.classList.add('js');
+            html.classList.add("js");
         </script>
 
         <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var body = document.querySelector('body');
             var sidebar = null;
             var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
@@ -83,40 +82,20 @@
                 sidebar = 'hidden';
             }
             sidebar_toggle.checked = sidebar === 'visible';
-            body.classList.remove('sidebar-visible');
-            body.classList.add("sidebar-" + sidebar);
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
-            <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="installation.html"><strong aria-hidden="true">1.1.</strong> Installation</a></li><li class="chapter-item expanded "><a href="overview.html"><strong aria-hidden="true">1.2.</strong> Overview</a></li><li class="chapter-item expanded "><a href="integration.html"><strong aria-hidden="true">1.3.</strong> Integration</a></li><li class="chapter-item expanded "><a href="faq.html"><strong aria-hidden="true">1.4.</strong> FAQ</a></li></ol></li><li class="chapter-item expanded "><a href="commands.html"><strong aria-hidden="true">2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="rebinding-keys.html"><strong aria-hidden="true">3.</strong> Rebinding Keys</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybinding-presets.html"><strong aria-hidden="true">3.1.</strong> Keybinding Presets</a></li><li class="chapter-item expanded "><a href="changing-modifiers.html"><strong aria-hidden="true">3.2.</strong> Changing Modifiers</a></li></ol></li><li class="chapter-item expanded "><a href="configuration.html"><strong aria-hidden="true">4.</strong> Configuration</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="options.html"><strong aria-hidden="true">4.1.</strong> Options</a></li><li class="chapter-item expanded "><a href="keybindings.html"><strong aria-hidden="true">4.2.</strong> Keybindings</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="keybindings-modes.html"><strong aria-hidden="true">4.2.1.</strong> Modes</a></li><li class="chapter-item expanded "><a href="keybindings-binding.html"><strong aria-hidden="true">4.2.2.</strong> Binding and Overriding Keys</a></li><li class="chapter-item expanded "><a href="keybindings-keys.html"><strong aria-hidden="true">4.2.3.</strong> Keys</a></li><li class="chapter-item expanded "><a href="keybindings-possible-actions.html"><strong aria-hidden="true">4.2.4.</strong> Possible Actions</a></li><li class="chapter-item expanded "><a href="keybindings-shared.html"><strong aria-hidden="true">4.2.5.</strong> Shared Bindings</a></li></ol></li><li class="chapter-item expanded "><a href="themes.html"><strong aria-hidden="true">4.3.</strong> Themes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="theme-list.html"><strong aria-hidden="true">4.3.1.</strong> List of Themes</a></li><li class="chapter-item expanded "><a href="theme-gallery.html"><strong aria-hidden="true">4.3.2.</strong> Theme Gallery</a></li></ol></li><li class="chapter-item expanded "><a href="command-line-options.html"><strong aria-hidden="true">4.4.</strong> CLI Configuration</a></li><li class="chapter-item expanded "><a href="migrating-yaml-config.html"><strong aria-hidden="true">4.5.</strong> Migrating from old YAML config files</a></li></ol></li><li class="chapter-item expanded "><a href="controlling-zellij-through-cli.html"><strong aria-hidden="true">5.</strong> Controlling Zellij through the CLI</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="zellij-run.html"><strong aria-hidden="true">5.1.</strong> Zellij Run</a></li><li class="chapter-item expanded "><a href="zellij-edit.html"><strong aria-hidden="true">5.2.</strong> Zellij Edit</a></li><li class="chapter-item expanded "><a href="cli-actions.html"><strong aria-hidden="true">5.3.</strong> Zellij Action</a></li><li class="chapter-item expanded "><a href="zellij-plugin.html"><strong aria-hidden="true">5.4.</strong> Zellij Plugin</a></li><li class="chapter-item expanded "><a href="zellij-pipe.html"><strong aria-hidden="true">5.5.</strong> Zellij Pipe</a></li></ol></li><li class="chapter-item expanded "><a href="layouts.html"><strong aria-hidden="true">6.</strong> Layouts</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="creating-a-layout.html"><strong aria-hidden="true">6.1.</strong> Creating a Layout</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="swap-layouts.html"><strong aria-hidden="true">6.1.1.</strong> Swap Layouts</a></li></ol></li><li class="chapter-item expanded "><a href="layouts-with-config.html"><strong aria-hidden="true">6.2.</strong> Including Configuration in Layouts</a></li><li class="chapter-item expanded "><a href="layout-examples.html"><strong aria-hidden="true">6.3.</strong> Examples</a></li><li class="chapter-item expanded "><a href="migrating-yaml-layouts.html"><strong aria-hidden="true">6.4.</strong> Migrating from old YAML layouts</a></li></ol></li><li class="chapter-item expanded "><a href="plugins.html"><strong aria-hidden="true">7.</strong> Plugins</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-system-status.html"><strong aria-hidden="true">7.1.</strong> Status of the Plugin System</a></li><li class="chapter-item expanded "><a href="plugin-loading.html"><strong aria-hidden="true">7.2.</strong> Loading Plugins</a></li><li class="chapter-item expanded "><a href="plugin-api.html"><strong aria-hidden="true">7.3.</strong> Plugin API</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-api-events.html"><strong aria-hidden="true">7.3.1.</strong> Events</a></li><li class="chapter-item expanded "><a href="plugin-api-commands.html"><strong aria-hidden="true">7.3.2.</strong> Commands</a></li><li class="chapter-item expanded "><a href="plugin-api-permissions.html"><strong aria-hidden="true">7.3.3.</strong> Permissions</a></li><li class="chapter-item expanded "><a href="plugin-api-configuration.html"><strong aria-hidden="true">7.3.4.</strong> Configuration</a></li><li class="chapter-item expanded "><a href="plugin-api-file-system.html"><strong aria-hidden="true">7.3.5.</strong> Reading from the Filesystem</a></li><li class="chapter-item expanded "><a href="plugin-api-logging.html"><strong aria-hidden="true">7.3.6.</strong> Logging</a></li><li class="chapter-item expanded "><a href="plugin-api-workers.html"><strong aria-hidden="true">7.3.7.</strong> Workers for Async Tasks</a></li><li class="chapter-item expanded "><a href="plugin-pipes.html"><strong aria-hidden="true">7.3.8.</strong> Pipes for communicating with and between plugins</a></li></ol></li><li class="chapter-item expanded "><a href="plugin-development.html"><strong aria-hidden="true">7.4.</strong> Developing a Plugin</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="plugin-dev-env.html"><strong aria-hidden="true">7.4.1.</strong> Development Environment</a></li><li class="chapter-item expanded "><a href="plugin-lifecycle.html"><strong aria-hidden="true">7.4.2.</strong> Plugin Lifecycle</a></li><li class="chapter-item expanded "><a href="plugin-ui-rendering.html"><strong aria-hidden="true">7.4.3.</strong> Rendering a UI</a></li><li class="chapter-item expanded "><a href="plugin-upgrading.html"><strong aria-hidden="true">7.4.4.</strong> Upgrading and Backwards Compatibility</a></li></ol></li><li class="chapter-item expanded "><a href="plugin-aliases.html"><strong aria-hidden="true">7.5.</strong> Plugin Aliases</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="tab-bar-alias.html"><strong aria-hidden="true">7.5.1.</strong> The tab-bar alias</a></li><li class="chapter-item expanded "><a href="status-bar-alias.html"><strong aria-hidden="true">7.5.2.</strong> The status-bar alias</a></li><li class="chapter-item expanded "><a href="strider-alias.html"><strong aria-hidden="true">7.5.3.</strong> The strider alias</a></li><li class="chapter-item expanded "><a href="compact-bar-alias.html"><strong aria-hidden="true">7.5.4.</strong> The compact-bar alias</a></li><li class="chapter-item expanded "><a href="session-manager-alias.html"><strong aria-hidden="true">7.5.5.</strong> The session-manager alias</a></li><li class="chapter-item expanded "><a href="welcome-screen-alias.html"><strong aria-hidden="true">7.5.6.</strong> The welcome-screen alias</a></li><li class="chapter-item expanded "><a href="filepicker-alias.html"><strong aria-hidden="true">7.5.7.</strong> The filepicker alias</a></li></ol></li><li class="chapter-item expanded "><a href="plugin-examples.html"><strong aria-hidden="true">7.6.</strong> Example Plugins</a></li><li class="chapter-item expanded "><a href="plugin-other-languages.html"><strong aria-hidden="true">7.7.</strong> Developing a Plugin in Other Languages</a></li><li class="chapter-item expanded "><a href="plugin-upgrade-0.38.0.html"><strong aria-hidden="true">7.8.</strong> Plugin Upgrade Guide for version 0.38.0</a></li></ol></li><li class="chapter-item expanded "><a href="session-resurrection.html"><strong aria-hidden="true">8.</strong> Session Resurrection</a></li><li class="chapter-item expanded "><a href="compatibility.html"><strong aria-hidden="true">9.</strong> Compatibility</a></li></ol>
-            </div>
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
-
-        <!-- Track and set sidebar scroll position -->
-        <script>
-            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
-            sidebarScrollbox.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
-                }
-            }, { passive: true });
-            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
-            sessionStorage.removeItem('sidebar-scroll');
-            if (sidebarScrollTop) {
-                // preserve sidebar scroll position when navigating via links within sidebar
-                sidebarScrollbox.scrollTop = sidebarScrollTop;
-            } else {
-                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
-                var activeSection = document.querySelector('#sidebar .active');
-                if (activeSection) {
-                    activeSection.scrollIntoView({ block: 'center' });
-                }
-            }
-        </script>
 
         <div id="page-wrapper" class="page-wrapper">
 
@@ -137,9 +116,6 @@
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
-                        </button>
                     </div>
 
                     <h1 class="menu-title">Zellij User Guide</h1>
@@ -152,16 +128,6 @@
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
-                    </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
-                        </ul>
-                    </div>
-                </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
@@ -222,55 +188,6 @@
 Please keep in mind that they are not directly affiliated with zellij maintainers:</p>
 <p><a href="https://repology.org/project/zellij/versions"><img src="https://repology.org/badge/vertical-allrepos/zellij.svg" alt="Packaging status" /></a></p>
 <p>More information about third party installation can be found <a href="https://github.com/zellij-org/zellij/blob/main/docs/THIRD_PARTY_INSTALL.md">here</a>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="overview"><a class="header" href="#overview">Overview</a></h1>
-<p>Zellij is a workspace aimed at developers, ops-oriented people and
-anyone who loves the terminal.
-At its core, it is a terminal multiplexer (similar to tmux and screen),
-but this is merely its infrastructure layer.</p>
-<p>Zellij has a native layout and plugin system.
-To understand Zellij a little bit better, let us take a look at
-the default configuration.</p>
-<h2 id="default-configuration"><a class="header" href="#default-configuration">Default Configuration</a></h2>
-<p><img src="img/overview-default-legend.png" alt="Default layout" /></p>
-<p>The default configuration consists of:</p>
-<ol>
-<li>The tab-bar plugin. It shows current tabs that are in use as well as the session name.</li>
-<li>The pane, in which the default shell is started.
-The title the shell sets can be seen in the upper left corner of the pane.</li>
-<li>The status-bar plugin. It gives an overview over current default keybindings,
-since Zellij is modal it can show hints based on modes it currently resides in.</li>
-</ol>
-<p>To dive deeper in to how the default layout works and how to change it, checkout the <a href="layouts.html">layouts</a> section.</p>
-<p>Let's open a new tab and then a couple panes inside that new tab:</p>
-<ol>
-<li><kbd>Ctrl</kbd> + <kbd>t</kbd></li>
-<li><kbd>n</kbd></li>
-<li><kbd>Ctrl</kbd> + <kbd>p</kbd></li>
-<li><kbd>n</kbd></li>
-<li><kbd>Ctrl</kbd> + <kbd>p</kbd></li>
-<li><kbd>←</kbd></li>
-<li><kbd>d</kbd></li>
-</ol>
-<p>The status-bar should have guided us through:
-<img src="img/overview-status-tab-1.png" alt="Status tab 1" />
-<img src="img/overview-status-tab-2.png" alt="Status tab 2" />
-And this is our current state:
-<img src="img/overview-default-1.png" alt="Default state 1" />
-Zellij doesn't need a terminal to keep commands running, because it uses a client
-and server system. Let us disconnect and reconnect to the same session now:</p>
-<ol>
-<li><kbd>Ctrl</kbd> + <kbd>o</kbd></li>
-<li><kbd>d</kbd></li>
-</ol>
-<p><img src="img/overview-status-tab-3.png" alt="Status tab 3" /></p>
-<p>If only one server session is running in the background zellij can restore the
-connection automatically, if not then we need a specific session name.
-We can get the name in the following way:</p>
-<pre><code>zellij list-sessions
-</code></pre>
-<p>And now we reattach to the currently running session:</p>
-<pre><code>zellij attach hilarious-kitty
-</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="integration"><a class="header" href="#integration">Integration</a></h1>
 <p>Zellij provides some environment variables, that make Integration
 with existing tools possible.</p>
@@ -596,7 +513,7 @@ Does not apply when using copy_command.</p>
 <pre><code class="language-javascript">copy_clipboard "primary"
 </code></pre>
 <h3 id="copy_on_select"><a class="header" href="#copy_on_select">copy_on_select</a></h3>
-<p>Enable or disable automatic copy (and clear) of selection when releasing mouse</p>
+<p>Enable or disable automatic copy of selection when releasing mouse</p>
 <p>Default: true</p>
 <pre><code class="language-javascript">copy_on_select false
 </code></pre>
@@ -699,6 +616,33 @@ Options:</p>
 <li>false (default)</li>
 </ul>
 <pre><code class="language-javascript">disable_session_metadata true
+</code></pre>
+<h3 id="stacked_resize"><a class="header" href="#stacked_resize">stacked_resize</a></h3>
+<p>Attempt to stack panes with their neighbors when resizing non-directionally (by default <code>Alt+/-</code>).</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">stacked_resize true
+</code></pre>
+<h3 id="show_startup_tips"><a class="header" href="#show_startup_tips">show_startup_tips</a></h3>
+<p>Show usage tips on Zellij startup. These can also be browsed through the <code>about</code> plugin with <code>Ctrl o</code> + <code>a</code> and then <code>?</code>.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">show_startup_tips true
+</code></pre>
+<h3 id="show_release_nodes"><a class="header" href="#show_release_nodes">show_release_nodes</a></h3>
+<p>Show release notes on first run of a new version. These can also be browsed through the <code>about</code> plugin with <code>Ctrl o</code> + <code>a</code>.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">show_release_notes true
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="configuring-keybindings"><a class="header" href="#configuring-keybindings">Configuring Keybindings</a></h1>
 <p>Zellij comes with a default set of keybindings that try to fit as many different users and use cases while trying to maximize comfort for everyone.</p>
@@ -1125,7 +1069,140 @@ bind "Left" // bind the left arrow key
 }
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="themes"><a class="header" href="#themes">Themes</a></h1>
-<p>Themes can be specified either in the <a href="./configuration.html">configuration file</a> under the <code>themes</code> section, or directly in a separate file.</p>
+<h2 id="using-the-built-in-themes"><a class="header" href="#using-the-built-in-themes">Using the built-in themes</a></h2>
+<p>The built-in themes in Zellij can be used by setting the <code>theme [THEME_NAME]</code> in the <a href="./configuration.html">configuration file</a>. Take a look at the <a href="./theme-list.html">list of themes</a> to see what's possible.</p>
+<h2 id="theme-definition-specification"><a class="header" href="#theme-definition-specification">Theme Definition Specification</a></h2>
+<p>Themes in Zellij are defined according to UI components. These components are used in the various plugins that make up the Zellij interface, and can also be used dynamically in user plugins.</p>
+<p><img src="img/theme-spec.png" alt="theme definition spec diagram" /></p>
+<h2 id="structure-of-a-theme-definition"><a class="header" href="#structure-of-a-theme-definition">Structure of a theme definition</a></h2>
+<p>A theme definition is a <code>KDL</code> file (or part of one) defined as so:</p>
+<pre><code class="language-javascript">themes { // a node named "themes"
+    dracula { // a nested node inside the "themes" node indicating the theme name
+        // a list of nodes defining the UI components
+        ribbon_unselected {
+            base 0 0 0
+            background 255 153 0
+            emphasis_0 255 53 94
+            emphasis_1 255 255 255
+            emphasis_2 0 217 227
+            emphasis_3 255 0 255
+        }
+        // ...
+    }
+}
+</code></pre>
+<p>It can either be placed directly in the main <a href="./configuration.html">configuration file</a> or in a <a href="themes.html#getting-zellij-to-pick-up-the-theme">separate directory</a>.</p>
+<h3 id="theme-ui-components"><a class="header" href="#theme-ui-components">Theme UI Components</a></h3>
+<p>Components have the following attributes, each one including a space separated list of three numbers representing the <code>RGB</code> color.</p>
+<ol>
+<li><code>base</code> - the base color of the component</li>
+<li><code>background</code> - the background color of the component</li>
+<li><code>emphasis_0</code>, <code>emphasis_1</code>, <code>emphases_2</code>, <code>emphasis_3</code> - the color of text emphases inside the text. These are used either to differentiate whole text components one from another (with each having a full color of one of the emphases), or even combined in a single component (eg. when indicating indices in fuzzy find results). Not all of these are used in the base UI, but they might be used in user plugins.</li>
+</ol>
+<p>Following is the list of available component specifications:</p>
+<h4 id="text_unselected"><a class="header" href="#text_unselected">text_unselected</a></h4>
+<p>This component refers to the bare text parts of the Zellij UI (for example, the <code>Ctrl</code> or <code>Alt</code> modifier indications in the status-bar).</p>
+<h4 id="text_selected"><a class="header" href="#text_selected">text_selected</a></h4>
+<p>This component refers to the bare text parts of the Zellij UI when they need to indicate selection (eg. when paging through search results). This is often done by providing them a different color background than their unselected counterparts.</p>
+<h4 id="ribbon_unselected"><a class="header" href="#ribbon_unselected">ribbon_unselected</a></h4>
+<p>Ribbons are used often in the Zellij UI, examples are the tabs and the keybinding modes in the status bar.</p>
+<h4 id="ribbon_selected"><a class="header" href="#ribbon_selected">ribbon_selected</a></h4>
+<p>Selected ribbons are often indicated with a different color than their unselected counterparts (eg. the focused tab, or the active keybinding mode in the status bar).</p>
+<h4 id="table_title"><a class="header" href="#table_title">table_title</a></h4>
+<p>The table UI component has a different style applied to its title line than the rest of the table. This is what differentiates this line.</p>
+<h4 id="table_cell_unselected"><a class="header" href="#table_cell_unselected">table_cell_unselected</a></h4>
+<p>The style of an unselected cell in a table. Cells can be specified as selected or unselected individually, but it is often the case that a full table line is specified to have selected or unselected cells.</p>
+<h4 id="table_cell_selected"><a class="header" href="#table_cell_selected">table_cell_selected</a></h4>
+<p>Often differentiated from its unselected counterpart by changing its background color.</p>
+<h4 id="list_unselected"><a class="header" href="#list_unselected">list_unselected</a></h4>
+<p>A line item in a nested list, it can be arbitrarily indented. Its indentation indication is not included in the item specification.</p>
+<h4 id="list_selected"><a class="header" href="#list_selected">list_selected</a></h4>
+<p>Often differentiated from its unselected counterpart with a different background color.</p>
+<h4 id="frame_selected"><a class="header" href="#frame_selected">frame_selected</a></h4>
+<p>The frame around the focused pane.</p>
+<h4 id="frame_highlight"><a class="header" href="#frame_highlight">frame_highlight</a></h4>
+<p>This is the frame around the focused pane when the user enters a mode other than the base mode (eg. <code>PANE</code> or <code>TAB</code> mode).</p>
+<h4 id="exit_code_success"><a class="header" href="#exit_code_success">exit_code_success</a></h4>
+<p>The color of the exit code indication (here, only the <code>base</code> part of the specification is used, the rest are reserved for future use). These can be seen in command panes (eg. when using <code>zellij run</code>) after the command exited successfully.</p>
+<h4 id="exit_code_error"><a class="header" href="#exit_code_error">exit_code_error</a></h4>
+<p>The color of the exit code indication (here, only the <code>base</code> part of the specification is used, the rest are reserved for future use). These can be seen in command panes (eg. when using <code>zellij run</code>) after the command exited with an error.</p>
+<h4 id="multiplayer_user_colors"><a class="header" href="#multiplayer_user_colors">multiplayer_user_colors</a></h4>
+<p>This is the only theme section that is different from the rest of the UI components and is defined thus:</p>
+<pre><code class="language-javascript">multiplayer_user_colors {
+    player_1 255 0 255
+    player_2 0 217 227
+    player_3 0
+    player_4 255 230 0
+    player_5 0 229 229
+    player_6 0
+    player_7 255 53 94
+    player_8 0
+    player_9 0
+    player_10 0
+}
+</code></pre>
+<p>Each player represents the color given to a user joining (attaching) to an active session. These colors appear the same to all users and are given by order of attaching.</p>
+<h2 id="getting-zellij-to-pick-up-the-theme"><a class="header" href="#getting-zellij-to-pick-up-the-theme">Getting Zellij to pick up the theme</a></h2>
+<p>While developing and iterating over a theme, the easiest way would be to define it directly in the main configuration file (add the <code>themes</code> block defined above with your theme) and then set the:</p>
+<pre><code class="language-javascript">theme "your_theme_name"
+</code></pre>
+<p>directive above or below it. This way, Zellij will pick up on any changes to the theme in real time and you will not have to restart the session to see your changes.</p>
+<p>Otherwise, it's possible to define themes in separate files under the <code>themes</code> folder located in <code>CONFIG_DIR/themes</code>. You can find the exact location of this folder with <code>zellij setup --check</code>.</p>
+<p>Themes can also be loaded from the command line when starting Zellij:</p>
+<pre><code>zellij options --theme [NAME]
+</code></pre>
+<h2 id="example-themes"><a class="header" href="#example-themes">Example Themes</a></h2>
+<p>Here are <a href="https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/themes">some example themes</a> these are the themes that come built-in with Zellij and can be freely used for inspiration and to kick off your own theme definition.</p>
+<h2 id="example-plugin-with-all-ui-components"><a class="header" href="#example-plugin-with-all-ui-components">Example Plugin with all UI components</a></h2>
+<p>While developing a theme, it might be helpful to load the following plugin: <a href="https://github.com/imsnif/theme-tester">https://github.com/imsnif/theme-tester</a></p>
+<p>This will display all UI components and all their permutations, allowing you to see how your changes affect them in real time.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="list-of-themes"><a class="header" href="#list-of-themes">List of Themes</a></h1>
+<p>These themes are provided built-in with Zellij. One can switch to them by changing the <code>theme</code> <a href="./options.html">configuration option</a></p>
+<h2 id="dark-themes"><a class="header" href="#dark-themes">Dark Themes</a></h2>
+<ul>
+<li>ansi</li>
+<li>ao</li>
+<li>atelier-sulphurpool</li>
+<li>ayu_mirage</li>
+<li>ayu_dark</li>
+<li>catppuccin-frappe</li>
+<li>catppuccin-macchiato</li>
+<li>cyber-noir</li>
+<li>blade-runner</li>
+<li>retro-wave</li>
+<li>dracula</li>
+<li>everforest-dark</li>
+<li>gruvbox-dark</li>
+<li>iceberg-dark</li>
+<li>kanagawa</li>
+<li>lucario</li>
+<li>menace</li>
+<li>molokai-dark</li>
+<li>night-owl</li>
+<li>nightfox</li>
+<li>nord</li>
+<li>one-half-dark</li>
+<li>onedark</li>
+<li>solarized-dark</li>
+<li>tokyo-night-dark</li>
+<li>tokyo-night-storm</li>
+<li>tokyo-night</li>
+<li>vesper</li>
+</ul>
+<h2 id="light-themes"><a class="header" href="#light-themes">Light Themes</a></h2>
+<ul>
+<li>ayu_light</li>
+<li>catppuccin-latte</li>
+<li>everforest-light</li>
+<li>gruvbox-light</li>
+<li>iceberg-light</li>
+<li>dayfox</li>
+<li>pencil-light</li>
+<li>solarized-light</li>
+<li>tokyo-night-light</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="legacy-themes"><a class="header" href="#legacy-themes">Legacy Themes</a></h1>
+<p>This file defines the original Zellij theme specification. It is still supported, but new themes should be written in the new spec defined at the root of this section.</p>
 <h2 id="truecolor-themes"><a class="header" href="#truecolor-themes">Truecolor themes</a></h2>
 <pre><code class="language-javascript">themes {
    dracula {
@@ -1177,192 +1254,6 @@ bind "Left" // bind the left arrow key
     }
 }
 </code></pre>
-<h2 id="getting-zellij-to-pick-up-the-theme"><a class="header" href="#getting-zellij-to-pick-up-the-theme">Getting Zellij to pick up the theme</a></h2>
-<p>If the theme is called <code>default</code>, then zellij will pick it on startup.
-To specify a different theme, run zellij with:</p>
-<pre><code>zellij options --theme [NAME]
-</code></pre>
-<p>or put the name in the configuration file with <code>theme: [NAME]</code> as follows:</p>
-<pre><code class="language-javascript">keybinds {
-    // ...
-}
-// ...
-
-// Choose the theme that is specified in the themes section.
-theme "default"
-
-themes {
-  default {
-    fg "#000000"
-    // ...
-  }
-}
-</code></pre>
-<p>or If you don't want to modify the configuration file, just add a theme, you can use the <code>themes</code> directory.</p>
-<p><code>themes</code> is located in <code>CONFIG_DIR/themes</code> by default. You can check it through <code>zellij setup --check</code>.</p>
-<p>If you place the theme file in this folder, zelij will automatically merge the themes.</p>
-<p>And you can set the theme through the options (<code>options --theme</code>) as in the first method.</p>
-<p>Here are <a href="https://github.com/zellij-org/zellij/tree/main/example/themes">some example themes</a>.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="list-of-themes"><a class="header" href="#list-of-themes">List of Themes</a></h1>
-<p>These themes are provided built-in with Zellij. One can switch to them by changing the <code>theme</code> <a href="./options.html">configuration option</a></p>
-<h2 id="dark-themes"><a class="header" href="#dark-themes">Dark Themes</a></h2>
-<ul>
-<li>ansi</li>
-<li>ao</li>
-<li>atelier-sulphurpool</li>
-<li>ayu_mirage</li>
-<li>ayu_dark</li>
-<li>catppuccin-frappe</li>
-<li>catppuccin-macchiato</li>
-<li>cyber-noir</li>
-<li>blade-runner</li>
-<li>retro-wave</li>
-<li>dracula</li>
-<li>everforest-dark</li>
-<li>gruvbox-dark</li>
-<li>iceberg-dark</li>
-<li>kanagawa</li>
-<li>lucario</li>
-<li>menace</li>
-<li>molokai-dark</li>
-<li>night-owl</li>
-<li>nightfox</li>
-<li>nord</li>
-<li>one-half-dark</li>
-<li>onedark</li>
-<li>solarized-dark</li>
-<li>tokyo-night-dark</li>
-<li>tokyo-night-storm</li>
-<li>tokyo-night</li>
-<li>vesper</li>
-</ul>
-<h2 id="light-themes"><a class="header" href="#light-themes">Light Themes</a></h2>
-<ul>
-<li>ayu_light</li>
-<li>catppuccin-latte</li>
-<li>everforest-light</li>
-<li>gruvbox-light</li>
-<li>iceberg-light</li>
-<li>dayfox</li>
-<li>pencil-light</li>
-<li>solarized-light</li>
-<li>tokyo-night-light</li>
-</ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="theme-gallery"><a class="header" href="#theme-gallery">Theme Gallery</a></h1>
-<p>This page showcases the example themes that are included
-inside of the main zellij <a href="https://github.com/zellij-org/zellij/tree/main/example/themes">repository</a>.</p>
-<h3 id="dracula"><a class="header" href="#dracula">Dracula</a></h3>
-<p><img src="img/theme-gallery/dracula_default__screenshot.png" alt="Dracula" /></p>
-<details>
-<summary>More Dracula</summary>
-<p><img src="img/theme-gallery/dracula_compact__screenshot.png" alt="Dracula Compact" />
-<img src="img/theme-gallery/dracula_default___simplified_ui_true_screenshot.png" alt="Dracula Default Simplified" />
-<img src="img/theme-gallery/dracula_compact___simplified_ui_true_screenshot.png" alt="Dracula Compact Simplified" /></p>
-</details>
-<h3 id="gruvbox-dark"><a class="header" href="#gruvbox-dark">Gruvbox Dark</a></h3>
-<p><img src="img/theme-gallery/gruvbox_dark_default__screenshot.png" alt="Gruvbox Dark" /></p>
-<details>
-<summary>More Gruvbox Dark</summary>
-<p><img src="img/theme-gallery/gruvbox_dark_compact__screenshot.png" alt="Gruvbox Dark Compact" />
-<img src="img/theme-gallery/gruvbox_dark_default___simplified_ui_true_screenshot.png" alt="Gruvbox Dark Default Simplified" />
-<img src="img/theme-gallery/gruvbox_dark_compact___simplified_ui_true_screenshot.png" alt="Gruvbox Dark Compact Simplified" /></p>
-</details>
-<h3 id="gruvbox-light"><a class="header" href="#gruvbox-light">Gruvbox Light</a></h3>
-<p><img src="img/theme-gallery/gruvbox_light_default__screenshot.png" alt="Gruvbox Light" /></p>
-<details>
-<summary>More Gruvbox Light</summary>
-<p><img src="img/theme-gallery/gruvbox_light_compact__screenshot.png" alt="Gruvbox Light Compact" />
-<img src="img/theme-gallery/gruvbox_light_default___simplified_ui_true_screenshot.png" alt="Gruvbox Light Default Simplified" />
-<img src="img/theme-gallery/gruvbox_light_compact___simplified_ui_true_screenshot.png" alt="Gruvbox Light Compact Simplified" /></p>
-</details>
-<h3 id="molokai-dark"><a class="header" href="#molokai-dark">Molokai Dark</a></h3>
-<p><img src="img/theme-gallery/molokai_dark_default__screenshot.png" alt="Molokai Dark" /></p>
-<details>
-<summary>More Molokai Dark</summary>
-<p><img src="img/theme-gallery/molokai_dark_compact__screenshot.png" alt="Molokai Dark Compact" />
-<img src="img/theme-gallery/molokai_dark_default___simplified_ui_true_screenshot.png" alt="Molokai Dark Default Simplified" />
-<img src="img/theme-gallery/molokai_dark_compact___simplified_ui_true_screenshot.png" alt="Molokai Dark Compact Simplified" /></p>
-</details>
-<h3 id="nord"><a class="header" href="#nord">Nord</a></h3>
-<p><img src="img/theme-gallery/nord_default__screenshot.png" alt="Nord" /></p>
-<details>
-<summary>More Nord</summary>
-<p><img src="img/theme-gallery/nord_compact__screenshot.png" alt="Nord Compact" />
-<img src="img/theme-gallery/nord_default___simplified_ui_true_screenshot.png" alt="Nord Default Simplified" />
-<img src="img/theme-gallery/nord_dark_compact___simplified_ui_true_screenshot.png" alt="Nord Compact Simplified" /></p>
-</details>
-<h3 id="one-half-dark"><a class="header" href="#one-half-dark">One Half Dark</a></h3>
-<p><img src="img/theme-gallery/one_half_dark_default__screenshot.png" alt="One Half Dark" /></p>
-<details>
-<summary>More One Half Dark</summary>
-<p><img src="img/theme-gallery/one_half_dark_compact__screenshot.png" alt="One Half Dark Compact" />
-<img src="img/theme-gallery/one_half_dark_default___simplified_ui_true_screenshot.png" alt="One Half Dark Default Simplified" />
-<img src="img/theme-gallery/one_half_dark_compact___simplified_ui_true_screenshot.png" alt="One Half Dark Compact Simplified" /></p>
-</details>
-<h3 id="solarized-dark"><a class="header" href="#solarized-dark">Solarized Dark</a></h3>
-<p><img src="img/theme-gallery/solarized_dark_default__screenshot.png" alt="Solarized Dark" /></p>
-<details>
-<summary>More Solarized Dark</summary>
-<p><img src="img/theme-gallery/solarized_dark_dark_compact__screenshot.png" alt="Solarized Dark Compact" />
-<img src="img/theme-gallery/solarized_dark_default___simplified_ui_true_screenshot.png" alt="Solarized Dark Default Simplified" />
-<img src="img/theme-gallery/solarized_dark_compact___simplified_ui_true_screenshot.png" alt="Solarized Dark Compact Simplified" /></p>
-</details>
-<h3 id="tokyo-night"><a class="header" href="#tokyo-night">Tokyo Night</a></h3>
-<p><img src="img/theme-gallery/tokyo_night_default__screenshot.png" alt="Tokyo Night" /></p>
-<details>
-<summary>More Tokyo Night</summary>
-<p><img src="img/theme-gallery/tokyo_night_compact__screenshot.png" alt="Tokyo Night Compact" />
-<img src="img/theme-gallery/tokyo_night_default___simplified_ui_true_screenshot.png" alt="Tokyo Night Default Simplified" />
-<img src="img/theme-gallery/tokyo_night_compact___simplified_ui_true_screenshot.png" alt="Tokyo Night Compact Simplified" /></p>
-</details>
-<h3 id="tokyo-night-light"><a class="header" href="#tokyo-night-light">Tokyo Night Light</a></h3>
-<p><img src="img/theme-gallery/tokyo_night_light_default__screenshot.png" alt="Tokyo Night Light" /></p>
-<details>
-<summary>More Tokyo Night Light</summary>
-<p><img src="img/theme-gallery/tokyo_night_light_compact__screenshot.png" alt="Tokyo Night Light Compact" />
-<img src="img/theme-gallery/tokyo_night_light_default___simplified_ui_true_screenshot.png" alt="Tokyo Night Light Default Simplified" />
-<img src="img/theme-gallery/tokyo_night_light_compact___simplified_ui_true_screenshot.png" alt="Tokyo Night Light Compact Simplified" /></p>
-</details>
-<h3 id="tokyo-night-storm"><a class="header" href="#tokyo-night-storm">Tokyo Night Storm</a></h3>
-<p><img src="img/theme-gallery/tokyo_night_storm_default__screenshot.png" alt="Tokyo Night Storm" /></p>
-<details>
-<summary>More Tokyo Night Storm</summary>
-<p><img src="img/theme-gallery/tokyo_night_storm_compact__screenshot.png" alt="Tokyo Night Storm Compact" />
-<img src="img/theme-gallery/tokyo_night_storm_default___simplified_ui_true_screenshot.png" alt="Tokyo Night Storm Default Simplified" />
-<img src="img/theme-gallery/tokyo_night_storm_compact___simplified_ui_true_screenshot.png" alt="Tokyo Night Storm Compact Simplified" /></p>
-</details>
-<h3 id="catppuccin-latte"><a class="header" href="#catppuccin-latte">Catppuccin Latte</a></h3>
-<p><img src="img/theme-gallery/catppuccin_latte_default__screenshot.png" alt="Catppuccin Latte" /></p>
-<details>
-<summary>More Catppuccin Latte</summary>
-<p><img src="img/theme-gallery/catppuccin_latte_compact__screenshot.png" alt="Catppuccin Latte Compact" />
-<img src="img/theme-gallery/catppuccin_latte_default___simplified_ui_true_screenshot.png" alt="Catppuccin Latte Default Simplified" />
-<img src="img/theme-gallery/catppuccin_latte_compact___simplified_ui_true_screenshot.png" alt="Catppuccin Latte Compact Simplified" /></p>
-</details>
-<h3 id="catppuccin-frappe"><a class="header" href="#catppuccin-frappe">Catppuccin Frappe</a></h3>
-<p><img src="img/theme-gallery/catppuccin_frappe_default__screenshot.png" alt="Catppuccin Frappe" /></p>
-<details>
-<summary>More Catppuccin Frappe</summary>
-<p><img src="img/theme-gallery/catppuccin_frappe_compact__screenshot.png" alt="Catppuccin Frappe Compact" />
-<img src="img/theme-gallery/catppuccin_frappe_default___simplified_ui_true_screenshot.png" alt="Catppuccin Frappe Default Simplified" />
-<img src="img/theme-gallery/catppuccin_frappe_compact___simplified_ui_true_screenshot.png" alt="Catppuccin Frappe Compact Simplified" /></p>
-</details>
-<h3 id="catppuccin-macchiato"><a class="header" href="#catppuccin-macchiato">Catppuccin Macchiato</a></h3>
-<p><img src="img/theme-gallery/catppuccin_macchiato_default__screenshot.png" alt="Catppuccin Macchiato" /></p>
-<details>
-<summary>More Catppuccin Macchiato</summary>
-<p><img src="img/theme-gallery/catppuccin_macchiato_compact__screenshot.png" alt="Catppuccin Macchiato Compact" />
-<img src="img/theme-gallery/catppuccin_macchiato_default___simplified_ui_true_screenshot.png" alt="Catppuccin Macchiato Default Simplified" />
-<img src="img/theme-gallery/catppuccin_macchiato_compact___simplified_ui_true_screenshot.png" alt="Catppuccin Macchiato Compact Simplified" /></p>
-</details>
-<h3 id="catppuccin-mocha"><a class="header" href="#catppuccin-mocha">Catppuccin Mocha</a></h3>
-<p><img src="img/theme-gallery/catppuccin_mocha_default__screenshot.png" alt="Catppuccin Mocha" /></p>
-<details>
-<summary>More Catppuccin Mocha</summary>
-<p><img src="img/theme-gallery/catppuccin_mocha_compact__screenshot.png" alt="Catppuccin Mocha Compact" />
-<img src="img/theme-gallery/catppuccin_mocha_default___simplified_ui_true_screenshot.png" alt="Catppuccin Mocha Default Simplified" />
-<img src="img/theme-gallery/catppuccin_mocha_compact___simplified_ui_true_screenshot.png" alt="Catppuccin Mocha Compact Simplified" /></p>
-</details>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="command-line-configuration-options"><a class="header" href="#command-line-configuration-options">Command Line Configuration Options</a></h1>
 <p>In addition to the <a href="./configuration.html">configuration file</a>, zellij can also be configured through the command line when running it. These options will override options in the configuration file.</p>
 <pre><code>USAGE:
@@ -1784,6 +1675,37 @@ See <a href="./creating-a-layout.html#cwd-composition">layout CWD composition</a
 <p><strong>ARGS</strong>: A string of characters to write</p>
 <p>eg.</p>
 <pre><code>$ zellij action write-chars "Hi there!"
+</code></pre>
+<h4 id="toggle-pane-pinned"><a class="header" href="#toggle-pane-pinned">toggle-pane-pinned</a></h4>
+<p>If the current pane is a floating pane, toggle its pinned state (always on top).</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-pane-pinned
+</code></pre>
+<h4 id="stack-panes"><a class="header" href="#stack-panes">stack-panes</a></h4>
+<p>Given a list of pane ids, turns them into a stack. (pane ids can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var).</p>
+<p><strong>ARGS</strong>: A list of panes (see example below)</p>
+<p>eg.</p>
+<pre><code># This will create a stack of 3 panes (terminal with ID 1, plugin with ID 1 and terminal with ID 2)
+$ zellij action stack-panes -- terminal_1 plugin_1 terminal_2
+</code></pre>
+<h4 id="change-floating-pane-coordinates"><a class="header" href="#change-floating-pane-coordinates">change-floating-pane-coordinates</a></h4>
+<p>Given a pane id, and coordinates, will change the coordinates of this pane.</p>
+<p><strong>ARGS</strong>: The pane id (see example below - these can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var)
+<strong>OPTIONS:</strong></p>
+<pre><code>        --height &lt;HEIGHT&gt;      The height if the pane is floating as a bare integer (eg. 1) or
+                               percent (eg. 10%)
+    -p, --pane-id &lt;PANE_ID&gt;    The pane_id of the floating pane, eg.  terminal_1, plugin_2 or 3
+                               (equivalent to terminal_3)
+        --pinned &lt;PINNED&gt;      Whether to pin a floating pane so that it is always on top
+        --width &lt;WIDTH&gt;        The width if the pane is floating as a bare integer (eg. 1) or
+                               percent (eg. 10%)
+    -x, --x &lt;X&gt;                The x coordinates if the pane is floating as a bare integer (eg. 1)
+                               or percent (eg. 10%)
+    -y, --y &lt;Y&gt;                The y coordinates if the pane is floating as a bare integer (eg. 1)
+                               or percent (eg. 10%)
+</code></pre>
+<p>eg.</p>
+<pre><code>zellij action change-floating-pane-coordinates --pane-id terminal_15 --height 10 --width 10 -x 10 -y 10
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="zellij-plugin"><a class="header" href="#zellij-plugin">Zellij Plugin</a></h1>
 <p>Zellij includes a top-level <code>plugin</code> cli command that can be used to launch a new Zellij plugin instance from a local or remote wasm file</p>
@@ -2710,6 +2632,7 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugins"><a class="header" href="#plugins">Plugins</a></h1>
 <p>Zellij offers a Webassembly / WASI plugin system, allowing plugin developers to develop plugins in many different languages. The plugin system is currently in its early stages, offering pioneering plugin developers a chance to shape the ecosystem in its infancy if they are willing to tolerate <a href="./plugin-system-status.html">a few sharp edges</a>.</p>
+<p>Zellij itself builds its UI from plugins, you can <a href="https://github.com/zellij-org/zellij/tree/main/default-plugins">browse their code</a> for inspiration.</p>
 <h2 id="what-is-a-zellij-plugin"><a class="header" href="#what-is-a-zellij-plugin">What is a Zellij Plugin?</a></h2>
 <p>A Zellij plugin is a first class citizen in the workspace, just like a terminal pane. It can <a href="./plugin-ui-rendering.html">render a UI</a>, <a href="./plugin-api-events.html">react to application state changes</a> as well as <a href="./plugin-api-commands.html">control Zellij and change its behavior</a>.</p>
 <p>Our intention with the plugin system is to give users and developers the power to easily take full advantage of their terminal. Creating composable components that can be shared easily, turning everyday terminal tasks into a personalized multiplayer dashboard experience. We like to think of them as visual cross-platform scripts that do not need to be installed or compiled.</p>
@@ -2845,6 +2768,8 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 <p>After the plugin attempted writing the configuration to disk (with the <code>Reconfigure</code> <a href="./plugin-api-commands.html">plugin command</a>) and there was an error (eg. the file was read-only), this event is sent - optionally with the relevant error.</p>
 <h2 id="listclients"><a class="header" href="#listclients">ListClients</a></h2>
 <p>The result of the <code>ListClients</code> <a href="./plugin-api-commands.html">plugin command</a>. Contains information about all connected clients in the session, including their id, their focused pane id, the stringified representation of the running command or plugin inside their focused pane (if any), as well as an indication of whether they are the current client or not.</p>
+<h2 id="pastedtext"><a class="header" href="#pastedtext">PastedText</a></h2>
+<p>The user just pasted the given text while focused on the plugin.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api---commands"><a class="header" href="#plugin-api---commands">Plugin API - Commands</a></h1>
 <p>Zellij exports functions that allow plugins to control Zellij or change its behavior.</p>
 <p>For more exact information, please see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
@@ -2885,6 +2810,21 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 <li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>Open a file to a specific line in the user's default <code>$EDITOR</code> (if it supports it, most do) in a new floating pane</p>
+<h2 id="open_file_near_plugin"><a class="header" href="#open_file_near_plugin">open_file_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code> in the same tab as the plugin as a tiled pane, regardless of the user's focus</p>
+<h2 id="open_file_floating_near_plugin"><a class="header" href="#open_file_floating_near_plugin">open_file_floating_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code> in the same tab as the plugin as a floating pane, regardless of the user's focus</p>
+<h2 id="open_file_in_place_of_plugin"><a class="header" href="#open_file_in_place_of_plugin">open_file_in_place_of_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code>, temporarily replacing the plugin, regardless of the user's focus.</p>
 <h2 id="open_terminal"><a class="header" href="#open_terminal">open_terminal</a></h2>
 <ul>
 <li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
@@ -2900,6 +2840,21 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 <li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>Open a new terminal pane to the specified location on the host filesystem, temporarily replacing the focused pane</p>
+<h2 id="open_terminal_near_plugin"><a class="header" href="#open_terminal_near_plugin">open_terminal_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new tiled terminal in the tab where the plugin resides, regardless of the user's focus.</p>
+<h2 id="open_terminal_floating_near_plugin"><a class="header" href="#open_terminal_floating_near_plugin">open_terminal_floating_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new floating terminal in the tab where the plugin resides, regardless of the user's focus.</p>
+<h2 id="open_terminal_in_place_of_plugin"><a class="header" href="#open_terminal_in_place_of_plugin">open_terminal_in_place_of_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new terminal on top of the plugin, temporarily replacing it. Regardless of the user's focus.</p>
 <h2 id="open_command_pane"><a class="header" href="#open_command_pane">open_command_pane</a></h2>
 <ul>
 <li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a>
@@ -2915,6 +2870,21 @@ Open a new command pane with the specified command and args (this sort of pane a
 <li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), temporarily replacing the focused pane</p>
+<h2 id="open_command_pane_near_plugin"><a class="header" href="#open_command_pane_near_plugin">open_command_pane_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), as a tiled pane in the same tab as the plugin, regardless of the user's focus.</p>
+<h2 id="open_command_pane_floating_near_plugin"><a class="header" href="#open_command_pane_floating_near_plugin">open_command_pane_floating_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), as a floating pane in the same tab as the plugin, regardless of the user's focus.</p>
+<h2 id="open_command_pane_in_place_of_plugin"><a class="header" href="#open_command_pane_in_place_of_plugin">open_command_pane_in_place_of_plugin</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), on top of the plugin, temporarily replacing it, regardless of the user's focus.</p>
 <h2 id="run_command"><a class="header" href="#run_command">run_command</a></h2>
 <ul>
 <li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a>
@@ -3380,6 +3350,26 @@ reconfigure(config, false)
 <li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>List information about clients connected to this session. Including their ID, their focused pane id, the command or plugin running in that pane id (if any) and whether they are the current plugin. This will be returned as the <code>ListClients</code> <a href="./plugin-api-events.html">Event</a> that must be subscribed to beforehand.</p>
+<h2 id="change_host_folder"><a class="header" href="#change_host_folder">change_host_folder</a></h2>
+<ul>
+<li>Requires the <code>FullHdAccess</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change the location of the <code>/host</code> folder from the perspective of the plugin to somewhere else on the filesystem.</p>
+<h2 id="set_floating_pane_pinned"><a class="header" href="#set_floating_pane_pinned">set_floating_pane_pinned</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Make a floating pane pinned or unpinned (always on top).</p>
+<h2 id="stack_panes"><a class="header" href="#stack_panes">stack_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Given a list of pane ids, turns them into a stack.</p>
+<h2 id="change_floating_panes_coordinates"><a class="header" href="#change_floating_panes_coordinates">change_floating_panes_coordinates</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Given a list of pane ids and corresponding coordinates (x, y, width, height) will change the location of all of these IDs to the desired coordinates.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="permissions"><a class="header" href="#permissions">Permissions</a></h1>
 <p>The plugin system provides a permission system to provide extra security and protection to the user.</p>
 <p>The system places certain <a href="./plugin-api-events.html">Events</a> and <a href="./plugin-api-commands.html">Commands</a> behind certain permissions.
@@ -3399,6 +3389,8 @@ Plugins who want to listen to these events or use these commands should prompt t
 <p>Write to STDIN as if it were the user</p>
 <h3 id="reconfigure-1"><a class="header" href="#reconfigure-1">Reconfigure</a></h3>
 <p>Change the <a href="./configuration.html">configuration</a> (running and also saved in the configuration file) of Zellij.</p>
+<h3 id="fullhdaccess"><a class="header" href="#fullhdaccess">FullHdAccess</a></h3>
+<p>Access the full HD on the machine rather than just the folder in which Zellij was started.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api---configuration"><a class="header" href="#plugin-api---configuration">Plugin API - Configuration</a></h1>
 <p>Plugins can be configured (have their behavior changed when instantiated) with an arbitrary key/value list.
 This configuration is available to plugins in their <code>load</code> method. It can be provided through layouts:</p>
@@ -3926,9 +3918,6 @@ request</a></p>
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
 
         <script src="clipboard.min.js"></script>
         <script src="highlight.js"></script>

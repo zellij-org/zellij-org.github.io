@@ -1,22 +1,14 @@
 ---
 title: "About Zellij"
 ---
+{{<figure src="https://raw.githubusercontent.com/zellij-org/zellij/main/assets/demo.gif" alt="A video demonstrating the features of Zellij">}}
 
-Zellij is a terminal workspace. It has the base functionality of a terminal multiplexer (similar to `tmux` or `screen`) but includes many built-in features that would allow users to extend it and create their own personalized environment.
+Zellij is a workspace aimed at developers, ops-oriented people and anyone who loves the terminal. Similar programs are sometimes called "Terminal Multiplexers".
 
-### Split the terminal into different panes and tabs
-Like other multiplexers, Zellij allows users to split their terminal into different panes and tabs:
+Zellij is designed around the philosophy that one must not sacrifice simplicity for power, taking pride in its great experience out of the box as well as the advanced features it places at its users' fingertips.
 
-{{<figure src="/img/about-basics.png" class="center">}}
+Zellij is geared toward beginner and power users alike - allowing deep customizability, personal automation through layouts, true multiplayer collaboration, unique UX features such as floating and stacked panes, and a plugin system allowing one to create plugins in any language that compiles to WebAssembly.
 
-### Layout Engine
-Zellij includes a layout engine, allowing users to define a map of panes in a configuration file and load it when they start the app. This way, one can have one's panes laid out just the way one wants them without having to do all the setup work.
+Check out the [Screencasts & Tutorials](/screencasts) if you want to learn more.
 
-{{<figure src="/img/beta-post-layout.png" class="center">}}
-
-For more information, see the [layout documentation](/documentation/layouts.html).
-
-### Extend Zellij with plugins written in any compiled language
-Zellij also has some special panes which are not terminals. These panes are called plugins. Zellij comes with some prebuilt plugins such as the [Strider file explorer](https://github.com/zellij-org/zellij/tree/main/default-plugins/strider). Zellij uses Webassembly and WASI in order to load these panes and give them access to the host machine, so they can be written in any compiled language. To learn more, see the [plugin documentation](/documentation/plugins.html)
-
-{{<figure src="/img/beta-post-plugins.png" class="center">}}
+For more details about our future plans, read about upcoming features in our [roadmap](/roadmap).

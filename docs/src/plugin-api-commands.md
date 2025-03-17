@@ -46,6 +46,21 @@ Open a file to a specific line in the user's default `$EDITOR` (if it supports i
 
 Open a file to a specific line in the user's default `$EDITOR` (if it supports it, most do) in a new floating pane
 
+## open_file_near_plugin
+* Requires the `OpenFiles` [permission](./plugin-api-permissions.md)
+
+Open a file in the user's default `$EDITOR` in the same tab as the plugin as a tiled pane, regardless of the user's focus
+
+## open_file_floating_near_plugin
+* Requires the `OpenFiles` [permission](./plugin-api-permissions.md)
+
+Open a file in the user's default `$EDITOR` in the same tab as the plugin as a floating pane, regardless of the user's focus
+
+## open_file_in_place_of_plugin
+* Requires the `OpenFiles` [permission](./plugin-api-permissions.md)
+
+Open a file in the user's default `$EDITOR`, temporarily replacing the plugin, regardless of the user's focus.
+
 ## open_terminal
 * Requires the `OpenTerminalsOrPlugins` [permission](./plugin-api-permissions.md)
 
@@ -61,6 +76,21 @@ Open a new floating terminal pane to the specified location on the host filesyst
 
 Open a new terminal pane to the specified location on the host filesystem, temporarily replacing the focused pane
 
+## open_terminal_near_plugin
+* Requires the `OpenTerminalsOrPlugins` [permission](./plugin-api-permissions.md)
+
+Open a new tiled terminal in the tab where the plugin resides, regardless of the user's focus.
+
+## open_terminal_floating_near_plugin
+* Requires the `OpenTerminalsOrPlugins` [permission](./plugin-api-permissions.md)
+
+Open a new floating terminal in the tab where the plugin resides, regardless of the user's focus.
+
+## open_terminal_in_place_of_plugin
+* Requires the `OpenTerminalsOrPlugins` [permission](./plugin-api-permissions.md)
+
+Open a new terminal on top of the plugin, temporarily replacing it. Regardless of the user's focus.
+
 ## open_command_pane
 * Requires the `RunCommands` [permission](./plugin-api-permissions.md)
 Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI).
@@ -74,6 +104,21 @@ Open a new floating command pane with the specified command and args (this sort 
 * Requires the `RunCommands` [permission](./plugin-api-permissions.md)
 
 Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), temporarily replacing the focused pane
+
+## open_command_pane_near_plugin
+* Requires the `RunCommands` [permission](./plugin-api-permissions.md)
+
+Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), as a tiled pane in the same tab as the plugin, regardless of the user's focus.
+
+## open_command_pane_floating_near_plugin
+* Requires the `RunCommands` [permission](./plugin-api-permissions.md)
+
+Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), as a floating pane in the same tab as the plugin, regardless of the user's focus.
+
+## open_command_pane_in_place_of_plugin
+* Requires the `RunCommands` [permission](./plugin-api-permissions.md)
+
+Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), on top of the plugin, temporarily replacing it, regardless of the user's focus.
 
 ## run_command
 * Requires the `RunCommands` [permission](./plugin-api-permissions.md)
@@ -547,3 +592,23 @@ Given a set of keys to unbind and a set of keys to bind (in that order), this wi
 * Requires the `ReadApplicationState` [permission](./plugin-api-permissions.md)
 
 List information about clients connected to this session. Including their ID, their focused pane id, the command or plugin running in that pane id (if any) and whether they are the current plugin. This will be returned as the `ListClients` [Event](./plugin-api-events.md) that must be subscribed to beforehand.
+
+## change_host_folder
+* Requires the `FullHdAccess` [permission](./plugin-api-permissions.md)
+
+Change the location of the `/host` folder from the perspective of the plugin to somewhere else on the filesystem.
+
+## set_floating_pane_pinned
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Make a floating pane pinned or unpinned (always on top).
+
+## stack_panes
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Given a list of pane ids, turns them into a stack.
+
+## change_floating_panes_coordinates
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Given a list of pane ids and corresponding coordinates (x, y, width, height) will change the location of all of these IDs to the desired coordinates.

@@ -418,3 +418,47 @@ eg.
 ```
 $ zellij action write-chars "Hi there!"
 ```
+
+#### toggle-pane-pinned
+If the current pane is a floating pane, toggle its pinned state (always on top).
+
+eg.
+```
+$ zellij action toggle-pane-pinned
+```
+
+#### stack-panes
+Given a list of pane ids, turns them into a stack. (pane ids can be discovered through the `$ZELLIJ_PANE_ID` env var).
+
+**ARGS**: A list of panes (see example below)
+
+eg.
+```
+# This will create a stack of 3 panes (terminal with ID 1, plugin with ID 1 and terminal with ID 2)
+$ zellij action stack-panes -- terminal_1 plugin_1 terminal_2
+```
+
+#### change-floating-pane-coordinates
+Given a pane id, and coordinates, will change the coordinates of this pane.
+
+**ARGS**: The pane id (see example below - these can be discovered through the `$ZELLIJ_PANE_ID` env var)
+**OPTIONS:**
+
+```
+        --height <HEIGHT>      The height if the pane is floating as a bare integer (eg. 1) or
+                               percent (eg. 10%)
+    -p, --pane-id <PANE_ID>    The pane_id of the floating pane, eg.  terminal_1, plugin_2 or 3
+                               (equivalent to terminal_3)
+        --pinned <PINNED>      Whether to pin a floating pane so that it is always on top
+        --width <WIDTH>        The width if the pane is floating as a bare integer (eg. 1) or
+                               percent (eg. 10%)
+    -x, --x <X>                The x coordinates if the pane is floating as a bare integer (eg. 1)
+                               or percent (eg. 10%)
+    -y, --y <Y>                The y coordinates if the pane is floating as a bare integer (eg. 1)
+                               or percent (eg. 10%)
+```
+
+eg.
+```
+zellij action change-floating-pane-coordinates --pane-id terminal_15 --height 10 --width 10 -x 10 -y 10
+```
