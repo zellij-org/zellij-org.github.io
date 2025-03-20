@@ -305,7 +305,7 @@ Options:
 show_startup_tips true
 ```
 
-### show_release_nodes
+### show_release_notes
 Show release notes on first run of a new version. These can also be browsed through the `about` plugin with `Ctrl o` + `a`.
 
 Options:
