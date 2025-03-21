@@ -1,0 +1,806 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Commands - Zellij User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="plugin-api---commands"><a class="header" href="#plugin-api---commands">Plugin API - Commands</a></h1>
+<p>Zellij exports functions that allow plugins to control Zellij or change its behavior.</p>
+<p>For more exact information, please see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
+<h2 id="subscribe"><a class="header" href="#subscribe">subscribe</a></h2>
+<p>This method is given a list of <a href="./plugin-api-events.html">events</a> that the plugin is interested in. The plugin's <a href="./plugin-lifecycle.html#update">update</a> method will be called with the events and its payload, if any.</p>
+<h2 id="unsubscribe"><a class="header" href="#unsubscribe">unsubscribe</a></h2>
+<p>Same as subscribe, only removes subscriptions to events.</p>
+<h2 id="request_permission"><a class="header" href="#request_permission">request_permission</a></h2>
+<p>This command should be run in the <code>load</code> method of the plugin lifecycle, and contain one or more <code>PermissionType</code>s. This will ask the user to provide the plugin said permissions.</p>
+<h2 id="set_selectable"><a class="header" href="#set_selectable">set_selectable</a></h2>
+<p>Sets the plugin as selectable or unselectable to the user. Unselectable plugins might be desired when they do not accept user input.</p>
+<h2 id="get_plugin_ids"><a class="header" href="#get_plugin_ids">get_plugin_ids</a></h2>
+<p>Returns the unique Zellij pane ID for the plugin as well as the Zellij process id.</p>
+<h2 id="get_zellij_version"><a class="header" href="#get_zellij_version">get_zellij_version</a></h2>
+<p>Returns the version of the running Zellij instance - can be useful to check plugin compatibility</p>
+<h2 id="open_file"><a class="header" href="#open_file">open_file</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code> in a new pane</p>
+<h2 id="open_file_floating"><a class="header" href="#open_file_floating">open_file_floating</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code> in a new floating pane</p>
+<h2 id="open_file_in_place"><a class="header" href="#open_file_in_place">open_file_in_place</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code>, temporarily replacing the focused pane</p>
+<h2 id="open_file_with_line"><a class="header" href="#open_file_with_line">open_file_with_line</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file to a specific line in the user's default <code>$EDITOR</code> (if it supports it, most do) in a new pane</p>
+<h2 id="open_file_with_line_floating"><a class="header" href="#open_file_with_line_floating">open_file_with_line_floating</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file to a specific line in the user's default <code>$EDITOR</code> (if it supports it, most do) in a new floating pane</p>
+<h2 id="open_file_near_plugin"><a class="header" href="#open_file_near_plugin">open_file_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code> in the same tab as the plugin as a tiled pane, regardless of the user's focus</p>
+<h2 id="open_file_floating_near_plugin"><a class="header" href="#open_file_floating_near_plugin">open_file_floating_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code> in the same tab as the plugin as a floating pane, regardless of the user's focus</p>
+<h2 id="open_file_in_place_of_plugin"><a class="header" href="#open_file_in_place_of_plugin">open_file_in_place_of_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenFiles</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a file in the user's default <code>$EDITOR</code>, temporarily replacing the plugin, regardless of the user's focus.</p>
+<h2 id="open_terminal"><a class="header" href="#open_terminal">open_terminal</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new terminal pane to the specified location on the host filesystem</p>
+<h2 id="open_terminal_floating"><a class="header" href="#open_terminal_floating">open_terminal_floating</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new floating terminal pane to the specified location on the host filesystem</p>
+<h2 id="open_terminal_in_place"><a class="header" href="#open_terminal_in_place">open_terminal_in_place</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new terminal pane to the specified location on the host filesystem, temporarily replacing the focused pane</p>
+<h2 id="open_terminal_near_plugin"><a class="header" href="#open_terminal_near_plugin">open_terminal_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new tiled terminal in the tab where the plugin resides, regardless of the user's focus.</p>
+<h2 id="open_terminal_floating_near_plugin"><a class="header" href="#open_terminal_floating_near_plugin">open_terminal_floating_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new floating terminal in the tab where the plugin resides, regardless of the user's focus.</p>
+<h2 id="open_terminal_in_place_of_plugin"><a class="header" href="#open_terminal_in_place_of_plugin">open_terminal_in_place_of_plugin</a></h2>
+<ul>
+<li>Requires the <code>OpenTerminalsOrPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new terminal on top of the plugin, temporarily replacing it. Regardless of the user's focus.</p>
+<h2 id="open_command_pane"><a class="header" href="#open_command_pane">open_command_pane</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a>
+Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI).</li>
+</ul>
+<h2 id="open_command_pane_floating"><a class="header" href="#open_command_pane_floating">open_command_pane_floating</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new floating command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI).</p>
+<h2 id="open_command_pane_in_place"><a class="header" href="#open_command_pane_in_place">open_command_pane_in_place</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), temporarily replacing the focused pane</p>
+<h2 id="open_command_pane_near_plugin"><a class="header" href="#open_command_pane_near_plugin">open_command_pane_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), as a tiled pane in the same tab as the plugin, regardless of the user's focus.</p>
+<h2 id="open_command_pane_floating_near_plugin"><a class="header" href="#open_command_pane_floating_near_plugin">open_command_pane_floating_near_plugin</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), as a floating pane in the same tab as the plugin, regardless of the user's focus.</p>
+<h2 id="open_command_pane_in_place_of_plugin"><a class="header" href="#open_command_pane_in_place_of_plugin">open_command_pane_in_place_of_plugin</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI), on top of the plugin, temporarily replacing it, regardless of the user's focus.</p>
+<h2 id="run_command"><a class="header" href="#run_command">run_command</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a>
+Run this host command in the background on the host machine, optionally being notified of its output if subscribed to the <a href="./plugin-api-events.html"><code>RunCommandResult</code></a> Event. This API method includes a dictionary of arbitrary strings that will be returned verbatim with the <code>RunCommandResult</code> event. It can be used for things such as "request_id" to be able to identify the output of a command, or whatever else is needed.</li>
+</ul>
+<h2 id="web_request"><a class="header" href="#web_request">web_request</a></h2>
+<ul>
+<li>Requires the <code>WebAccess</code> <a href="./plugin-api-permissions.html">permission</a>
+Make a web request, optionally being notified of its output if subscribed to the <a href="./plugin-api-events.html"><code>WebRequestResult</code></a> Event. This API method includes a dictionary of arbitrary strings that will be returned verbatim with the <code>WebRequestResult</code> event. It can be used for things such as "request_id" to be able to identify the output of a command, or whatever else is needed.</li>
+</ul>
+<h2 id="switch_tab_to"><a class="header" href="#switch_tab_to">switch_tab_to</a></h2>
+<p>Change the focused tab to the specified index (corresponding with the default tab names, to starting at <code>1</code>, <code>0</code> will be considered as <code>1</code>).</p>
+<h2 id="set_timeout"><a class="header" href="#set_timeout">set_timeout</a></h2>
+<p>Set a timeout in seconds (or fractions thereof) after which the plugins <a href="./plugin-lifecycle.html#update">update</a> method will be called with the <a href="./plugin-api-events.html#timer"><code>Timer</code></a> event. Be sure to subscribe to it beforehand!</p>
+<h2 id="hide_self"><a class="header" href="#hide_self">hide_self</a></h2>
+<p>Hide the plugin pane (suppress it) from the UI</p>
+<h2 id="show_self"><a class="header" href="#show_self">show_self</a></h2>
+<p>Show the plugin pane (unsuppress it if it is suppressed), focus it and switch to its tab</p>
+<h2 id="switch_to_input_mode"><a class="header" href="#switch_to_input_mode">switch_to_input_mode</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Switch to the specified Input Mode (eg. <code>Normal</code>, <code>Tab</code>, <code>Pane</code>)</p>
+<h2 id="new_tabs_with_layout"><a class="header" href="#new_tabs_with_layout">new_tabs_with_layout</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Provide a stringified <a href="./layouts.html"><code>layout</code></a> to be applied to the current session. If the layout has multiple tabs, they will all be opened.</p>
+<h2 id="new_tabs_with_layout_info"><a class="header" href="#new_tabs_with_layout_info">new_tabs_with_layout_info</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Provide a <a href="./layouts.html"><code>layout</code></a> name or file path to be applied to the current session. If the layout has multiple tabs, they will all be opened.</p>
+<h2 id="new_tab"><a class="header" href="#new_tab">new_tab</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new tab with the default layout</p>
+<h2 id="go_to_next_tab"><a class="header" href="#go_to_next_tab">go_to_next_tab</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change focus to the next tab or loop back to the first</p>
+<h2 id="go_to_previous_tab"><a class="header" href="#go_to_previous_tab">go_to_previous_tab</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change focus to the previous tab or loop back to the last</p>
+<h2 id="resize_focused_pane"><a class="header" href="#resize_focused_pane">resize_focused_pane</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Either Increase or Decrease the size of the focused pane</p>
+<h2 id="resize_focused_pane_with_direction"><a class="header" href="#resize_focused_pane_with_direction">resize_focused_pane_with_direction</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Either Increase or Decrease the size of the focused pane in a specified direction (eg. <code>Left</code>, <code>Right</code>, <code>Up</code>, <code>Down</code>).</p>
+<h2 id="focus_next_pane"><a class="header" href="#focus_next_pane">focus_next_pane</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change focus tot he next pane in chronological order</p>
+<h2 id="focus_previous_pane"><a class="header" href="#focus_previous_pane">focus_previous_pane</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change focus to the previous pane in chronological order</p>
+<h2 id="move_focus"><a class="header" href="#move_focus">move_focus</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change the focused pane in the specified direction</p>
+<h2 id="move_focus_or_tab"><a class="header" href="#move_focus_or_tab">move_focus_or_tab</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change the focused pane in the specified direction, if the pane is on the edge of the screen, the next tab is focused (next if right edge, previous if left edge).</p>
+<h2 id="detach"><a class="header" href="#detach">detach</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Detach the user from the active session</p>
+<h2 id="edit_scrollback"><a class="header" href="#edit_scrollback">edit_scrollback</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Edit the scrollback of the focused pane in the user's default <code>$EDITOR</code></p>
+<h2 id="write"><a class="header" href="#write">write</a></h2>
+<ul>
+<li>Requires the <code>WriteToStdin</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Write bytes to the <code>STDIN</code> of the focused pane</p>
+<h2 id="write_chars"><a class="header" href="#write_chars">write_chars</a></h2>
+<ul>
+<li>Requires the <code>WriteToStdin</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Write characters to the <code>STDIN</code> of the focused pane</p>
+<h2 id="toggle_tab"><a class="header" href="#toggle_tab">toggle_tab</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Focused the previously focused tab (regardless of the tab position)</p>
+<h2 id="move_pane"><a class="header" href="#move_pane">move_pane</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Switch the position of the focused pane with a different pane</p>
+<h2 id="move_pane_with_direction"><a class="header" href="#move_pane_with_direction">move_pane_with_direction</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Switch the position of the focused pane with a different pane in the specified direction (eg. <code>Down</code>, <code>Up</code>, <code>Left</code>, <code>Right</code>).</p>
+<h2 id="clear_screen"><a class="header" href="#clear_screen">clear_screen</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Clear the scroll buffer of the focused pane</p>
+<h2 id="scroll_up"><a class="header" href="#scroll_up">scroll_up</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Scroll the focused pane up 1 line</p>
+<h2 id="scroll_down"><a class="header" href="#scroll_down">scroll_down</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Scroll the focused pane down 1 line</p>
+<h2 id="scroll_to_top"><a class="header" href="#scroll_to_top">scroll_to_top</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Scroll the focused pane all the way to the top of the scrollbuffer</p>
+<h2 id="scroll_to_bottom"><a class="header" href="#scroll_to_bottom">scroll_to_bottom</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Scroll the focused pane all the way to the bottom of the scrollbuffer</p>
+<h2 id="page_scroll_up"><a class="header" href="#page_scroll_up">page_scroll_up</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Scroll the focused pane up one page</p>
+<h2 id="page_scroll_down"><a class="header" href="#page_scroll_down">page_scroll_down</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Scroll the focused pane down one page</p>
+<h2 id="toggle_focus_fullscreen"><a class="header" href="#toggle_focus_fullscreen">toggle_focus_fullscreen</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Toggle the focused pane to be fullscreen or normal sized</p>
+<h2 id="toggle_pane_frames"><a class="header" href="#toggle_pane_frames">toggle_pane_frames</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Toggle the UI pane frames on or off</p>
+<h2 id="toggle_pane_embed_or_eject"><a class="header" href="#toggle_pane_embed_or_eject">toggle_pane_embed_or_eject</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Embed the currently focused pane (make it stop floating) or turn it to a float pane if it is not</p>
+<h2 id="close_focus"><a class="header" href="#close_focus">close_focus</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Close the focused pane</p>
+<h2 id="toggle_active_tab_sync"><a class="header" href="#toggle_active_tab_sync">toggle_active_tab_sync</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Turn the <code>STDIN</code> synchronization of the current tab on or off</p>
+<h2 id="close_focused_tab"><a class="header" href="#close_focused_tab">close_focused_tab</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Close the focused tab</p>
+<h2 id="quit_zellij"><a class="header" href="#quit_zellij">quit_zellij</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Compeltely quit Zellij for this and all other connected clients</p>
+<h2 id="previous_swap_layout"><a class="header" href="#previous_swap_layout">previous_swap_layout</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change to the previous <a href="./swap-layouts.html">swap layout</a></p>
+<h2 id="next_swap_layout"><a class="header" href="#next_swap_layout">next_swap_layout</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change to the next <a href="./swap-layouts.html">swap layout</a></p>
+<h2 id="go_to_tab_name"><a class="header" href="#go_to_tab_name">go_to_tab_name</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change focus to the tab with the specified name</p>
+<h2 id="focus_or_create_tab"><a class="header" href="#focus_or_create_tab">focus_or_create_tab</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change focus to the tab with the specified name or create it if it does not exist</p>
+<h2 id="post_message_to"><a class="header" href="#post_message_to">post_message_to</a></h2>
+<p>Post a message to a worker of this plugin, for more information please see <a href="./plugin-api-workers.html">Plugin Workers</a></p>
+<h2 id="post_message_to_plugin"><a class="header" href="#post_message_to_plugin">post_message_to_plugin</a></h2>
+<p>Post a message to this plugin (usually used to communicate with the worker), for more information, please see <a href="./plugin-api-workers.html">Plugin Workers</a></p>
+<h2 id="close_terminal_pane"><a class="header" href="#close_terminal_pane">close_terminal_pane</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Closes a terminal pane with the specified id</p>
+<h2 id="close_plugin_pane"><a class="header" href="#close_plugin_pane">close_plugin_pane</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Closes a plugin pane with the specified id</p>
+<h2 id="focus_terminal_pane"><a class="header" href="#focus_terminal_pane">focus_terminal_pane</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Changes the focus to the terminal pane with the specified id, unsuppressing it if it was suppressed and switching to its tab and layer (eg. floating/tiled).</p>
+<h2 id="focus_plugin_pane"><a class="header" href="#focus_plugin_pane">focus_plugin_pane</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Changes the focus to the plugin pane with the specified id, unsuppressing it if it was suppressed and switching to its tab and layer (eg. floating/tiled).</p>
+<h2 id="rename_terminal_pane"><a class="header" href="#rename_terminal_pane">rename_terminal_pane</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Changes the name (the title that appears in the UI) of the terminal pane with the specified id.</p>
+<h2 id="rename_plugin_pane"><a class="header" href="#rename_plugin_pane">rename_plugin_pane</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Changes the name (the title that appears in the UI) of the plugin pane with the specified id.</p>
+<h2 id="rename_tab"><a class="header" href="#rename_tab">rename_tab</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Changes the name (the title that appears in the UI) of the tab with the specified position.</p>
+<h2 id="switch_session"><a class="header" href="#switch_session">switch_session</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change the session to the specified one, creating it if it does not exist</p>
+<h2 id="switch_session_with_focus"><a class="header" href="#switch_session_with_focus">switch_session_with_focus</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change the session to the specified one (creating it if it does not exist), if it does exist - focusing on a tab or a pane inside that session</p>
+<h2 id="switch_session_with_layout"><a class="header" href="#switch_session_with_layout">switch_session_with_layout</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change the session to the specified one, creating it if it does not exist, using a specified layout and optionally also a cwd (working directory).</p>
+<h2 id="block_cli_pipe_input"><a class="header" href="#block_cli_pipe_input">block_cli_pipe_input</a></h2>
+<ul>
+<li>Requires the <code>ReadCliPipes</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Block the input side of a pipe, will only be released once this or another plugin unblocks it</p>
+<p>(By default, pipes are unblocked after a plugin has handled a message unless this method is explicitly called).</p>
+<h2 id="unblock_cli_pipe_input"><a class="header" href="#unblock_cli_pipe_input">unblock_cli_pipe_input</a></h2>
+<ul>
+<li>Requires the <code>ReadCliPipes</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Unblock the input side of a pipe, requesting the next message be sent if there is one</p>
+<h2 id="cli_pipe_output"><a class="header" href="#cli_pipe_output">cli_pipe_output</a></h2>
+<ul>
+<li>Requires the <code>ReadCliPipes</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Send output to the output side of a pipe, ths does not affect the input side of same pipe</p>
+<h2 id="pipe_message_to_plugin"><a class="header" href="#pipe_message_to_plugin">pipe_message_to_plugin</a></h2>
+<ul>
+<li>Requires the <code>MessageAndLaunchOtherPlugins</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Send a message to a plugin, it will be launched if it is not already running</p>
+<h2 id="delete_dead_session"><a class="header" href="#delete_dead_session">delete_dead_session</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Delete a dead session (one that is not running but can be resurrected) with a specific name</p>
+<h2 id="delete_all_dead_sessions"><a class="header" href="#delete_all_dead_sessions">delete_all_dead_sessions</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Delete all dead sessions (sessions that are not running but can be resurrected)</p>
+<h2 id="rename_session"><a class="header" href="#rename_session">rename_session</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Rename the current session to a specific name</p>
+<h2 id="disconnect_other_clients"><a class="header" href="#disconnect_other_clients">disconnect_other_clients</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Disconnect all other clients attached to this session except the one making this call</p>
+<h2 id="kill_sessions"><a class="header" href="#kill_sessions">kill_sessions</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Kill all Zellij sessions in the list (can contain one or more session names)</p>
+<h2 id="scan_host_folder"><a class="header" href="#scan_host_folder">scan_host_folder</a></h2>
+<p>This is a stop-gap method that allows plugins to scan a folder on the <code>/host</code> <a href="./plugin-api-file-system.html">filesystem</a> and get back a list of files. The reason this is done through the API is that at the time of development, doing this through our WASI runtime is extremely slow. We hope this method will not be needed in the future.</p>
+<h2 id="dump_session_layout"><a class="header" href="#dump_session_layout">dump_session_layout</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Request Zellij send back the serialized layout (in KDL format) of the current session. The layout will be sent back as a <a href="./plugin-api-events.html#custom-message"><code>CustomMessage</code></a> with the <code>session_layout</code> name and the stringified layout as the message payload.</p>
+<h2 id="close_self"><a class="header" href="#close_self">close_self</a></h2>
+<p>Will close the plugin and its pane. If the plugin is the only selectable pane in the session, the session will also exit.</p>
+<h2 id="reconfigure"><a class="header" href="#reconfigure">reconfigure</a></h2>
+<ul>
+<li>Requires the <code>Reconfigure</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Provide a stringified <a href="./configuration.html">configuration</a> to be "merged" with the configuration of the current session. Optionally also written to disk and so applied to all other sessions listening to the same configuration file.</p>
+<h3 id="use-this-command-to-bind-global-keys-to-the-plugin"><a class="header" href="#use-this-command-to-bind-global-keys-to-the-plugin">Use this command to bind global keys to the plugin</a></h3>
+<p>It's possible to use the <code>reconfigure</code> command to bind the special <code>MessagePluginId</code> temporary keybinding (which will not be saved to disk). This keybind, along with the plugin's id obtained from <code>get_plugin_ids</code> can be used to bind a user key to trigger this plugin with a <a href="./plugin-pipes.html">pipe</a>.</p>
+<p>Example:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let config = format!(r#"
+keybinds {{
+    shared {{
+        bind "Ctrl Shift r" {{
+            MessagePluginId {} {{
+                name "my_message_name"
+            }}
+        }}
+    }}
+}}"#);
+reconfigure(config, false)
+// now, whenever a user pressed `Ctrt Shift r` anywhere in the app, the plugin's pipe method will trigger with the "my_message_name" message
+<span class="boring">}</span></code></pre></pre>
+<h2 id="hide_pane_with_id"><a class="header" href="#hide_pane_with_id">hide_pane_with_id</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Hide a pane (suppress id) with the specified id.</p>
+<h2 id="show_pane_with_id"><a class="header" href="#show_pane_with_id">show_pane_with_id</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Show a pane with the specified id, unsuppress it if it is suppressed, focus it and switch to its tab.</p>
+<h2 id="open_command_pane_background"><a class="header" href="#open_command_pane_background">open_command_pane_background</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Open a new hidden (background) command pane with the specified command and args (this sort of pane allows the user to control the command, re-run it and see its exit status through the Zellij UI).</p>
+<h2 id="rerun_command_pane"><a class="header" href="#rerun_command_pane">rerun_command_pane</a></h2>
+<ul>
+<li>Requires the <code>RunCommands</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Re-run command in a command pane (similar to a user focusing on it and pressing <code>&lt;ENTER&gt;</code>).</p>
+<h2 id="resize_pane_with_id"><a class="header" href="#resize_pane_with_id">resize_pane_with_id</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change the size of the specified pane (optionally in a specific direction).</p>
+<h2 id="edit_scrollback_for_pane_with_id"><a class="header" href="#edit_scrollback_for_pane_with_id">edit_scrollback_for_pane_with_id</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Edit the scrollback of the specified pane in the user's default <code>$EDITOR</code></p>
+<h2 id="write_to_pane_id"><a class="header" href="#write_to_pane_id">write_to_pane_id</a></h2>
+<ul>
+<li>Requires the <code>WriteToStdin</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Write bytes to the <code>STDIN</code> of the specified pane</p>
+<h2 id="write_chars_to_pane_id"><a class="header" href="#write_chars_to_pane_id">write_chars_to_pane_id</a></h2>
+<ul>
+<li>Requires the <code>WriteToStdin</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Write characters to the <code>STDIN</code> of the specified pane</p>
+<h2 id="move_pane_with_pane_id"><a class="header" href="#move_pane_with_pane_id">move_pane_with_pane_id</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Switch the position of the specified pane with a different pane</p>
+<h2 id="move_pane_with_pane_id_in_direction"><a class="header" href="#move_pane_with_pane_id_in_direction">move_pane_with_pane_id_in_direction</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Switch the position of the specified pane with a different pane in the specified direction (eg. <code>Down</code>, <code>Up</code>, <code>Left</code>, <code>Right</code>).</p>
+<h2 id="clear_screen_for_pane_id"><a class="header" href="#clear_screen_for_pane_id">clear_screen_for_pane_id</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Clear the scroll buffer of the specified pane</p>
+<h2 id="scroll_up_in_pane_id"><a class="header" href="#scroll_up_in_pane_id">scroll_up_in_pane_id</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Scroll the specified pane up 1 line</p>
+<h2 id="scroll_down_in_pane_id"><a class="header" href="#scroll_down_in_pane_id">scroll_down_in_pane_id</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Scroll the specified pane down 1 line</p>
+<h2 id="scroll_to_top_in_pane_id"><a class="header" href="#scroll_to_top_in_pane_id">scroll_to_top_in_pane_id</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Scroll the specified pane all the way to the top of the scrollbuffer</p>
+<h2 id="scroll_to_bottom-1"><a class="header" href="#scroll_to_bottom-1">scroll_to_bottom</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Scroll the specified pane all the way to the bottom of the scrollbuffer</p>
+<h2 id="page_scroll_up_in_pane_id"><a class="header" href="#page_scroll_up_in_pane_id">page_scroll_up_in_pane_id</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Scroll the specified pane up one page</p>
+<h2 id="page_scroll_down_in_pane_id"><a class="header" href="#page_scroll_down_in_pane_id">page_scroll_down_in_pane_id</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Scroll the specified pane down one page</p>
+<h2 id="toggle_pane_id_fullscreen"><a class="header" href="#toggle_pane_id_fullscreen">toggle_pane_id_fullscreen</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Toggle the specified pane to be fullscreen or normal sized</p>
+<h2 id="toggle_pane_embed_or_eject_for_pane_id"><a class="header" href="#toggle_pane_embed_or_eject_for_pane_id">toggle_pane_embed_or_eject_for_pane_id</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Embed the specified pane (make it stop floating) or turn it to a float pane if it is not</p>
+<h2 id="close_tab_with_index"><a class="header" href="#close_tab_with_index">close_tab_with_index</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Close the focused tab</p>
+<h2 id="break_panes_to_new_tab"><a class="header" href="#break_panes_to_new_tab">break_panes_to_new_tab</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Create a new tab that includes the specified pane ids</p>
+<h2 id="break_panes_to_tab_with_index"><a class="header" href="#break_panes_to_tab_with_index">break_panes_to_tab_with_index</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Move the specified pane ids to the tab with the specified index</p>
+<h2 id="reload_plugin"><a class="header" href="#reload_plugin">reload_plugin</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Reload the plugin with the specified id</p>
+<h2 id="load_new_plugin"><a class="header" href="#load_new_plugin">load_new_plugin</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Load a new plugin</p>
+<h2 id="rebind_keys"><a class="header" href="#rebind_keys">rebind_keys</a></h2>
+<ul>
+<li>Requires the <code>Reconfigure</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Given a set of keys to unbind and a set of keys to bind (in that order), this will apply them to the current session - or optionally also save them to the configuration file.</p>
+<h2 id="list_clients"><a class="header" href="#list_clients">list_clients</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>List information about clients connected to this session. Including their ID, their focused pane id, the command or plugin running in that pane id (if any) and whether they are the current plugin. This will be returned as the <code>ListClients</code> <a href="./plugin-api-events.html">Event</a> that must be subscribed to beforehand.</p>
+<h2 id="change_host_folder"><a class="header" href="#change_host_folder">change_host_folder</a></h2>
+<ul>
+<li>Requires the <code>FullHdAccess</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Change the location of the <code>/host</code> folder from the perspective of the plugin to somewhere else on the filesystem.</p>
+<h2 id="set_floating_pane_pinned"><a class="header" href="#set_floating_pane_pinned">set_floating_pane_pinned</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Make a floating pane pinned or unpinned (always on top).</p>
+<h2 id="stack_panes"><a class="header" href="#stack_panes">stack_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Given a list of pane ids, turns them into a stack.</p>
+<h2 id="change_floating_panes_coordinates"><a class="header" href="#change_floating_panes_coordinates">change_floating_panes_coordinates</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Given a list of pane ids and corresponding coordinates (x, y, width, height) will change the location of all of these IDs to the desired coordinates.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="plugin-api-events.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="plugin-api-permissions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="plugin-api-events.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="plugin-api-permissions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

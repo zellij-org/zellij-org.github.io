@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Aram Drevekenin">
+<meta name="description" content="A new welcome screen to facilitate session management, a new filepicker, a powerful new concept called pipes and lots of long awaited features" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/news/welcome-screen-pipes-filepicker/" />
+
+
+    <title>
+        
+            Zellij 0.40.0: Welcome Screen, Filepicker, Pipes, Plugin Aliases
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Zellij 0.40.0: Welcome Screen, Filepicker, Pipes, Plugin Aliases">
+<meta itemprop="description" content="A new welcome screen to facilitate session management, a new filepicker, a powerful new concept called pipes and lots of long awaited features"><meta itemprop="datePublished" content="2024-04-16T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2024-04-16T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="903"><meta itemprop="image" content="https://zellij.dev/img/welcome-screen-preview.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/welcome-screen-preview.png"/>
+
+<meta name="twitter:title" content="Zellij 0.40.0: Welcome Screen, Filepicker, Pipes, Plugin Aliases"/>
+<meta name="twitter:description" content="A new welcome screen to facilitate session management, a new filepicker, a powerful new concept called pipes and lots of long awaited features"/>
+
+
+
+    <meta property="og:title" content="Zellij 0.40.0: Welcome Screen, Filepicker, Pipes, Plugin Aliases" />
+<meta property="og:description" content="A new welcome screen to facilitate session management, a new filepicker, a powerful new concept called pipes and lots of long awaited features" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/news/welcome-screen-pipes-filepicker/" /><meta property="og:image" content="https://zellij.dev/img/welcome-screen-preview.png" /><meta property="article:section" content="news" />
+<meta property="article:published_time" content="2024-04-16T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-04-16T00:00:00&#43;00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2024-04-16 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/news/welcome-screen-pipes-filepicker/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/news/welcome-screen-pipes-filepicker/">Zellij 0.40.0: Welcome Screen, Filepicker, Pipes, Plugin Aliases</a></h2>
+
+            
+            
+            
+
+                  
+                <span class="post-date">
+                  2024-04-16
+                </span>
+                
+                
+                  <span class="post-author">::
+                    
+                    <a href="https://hachyderm.io/@imsnif">Aram Drevekenin</a>
+                    
+                  </span>
+                
+                <p><figure>
+    <img src="https://zellij.dev/img/welcome-screen-preview.png"
+         alt="An image of the Zellij welcome screen with the Zellij filepicker opened to select the location of the session" width="800px;"/> 
+</figure>
+
+Zellij 0.40.0 has just been released! <a href="https://github.com/zellij-org/zellij/releases/tag/v0.40.0">Grab it while it&rsquo;s hot!</a></p>
+<p>Some highlights:</p>
+<ul>
+<li><a href="#welcome-screen">Welcome Screen</a></li>
+<li><a href="#new-strider--filepicker">New Filepicker</a></li>
+<li><a href="#pipes">Pipes</a></li>
+<li><a href="#open-floating-panes-at-specific-coordinates">Open Floating Panes at Specific Coordinates</a></li>
+<li><a href="#rearrange-tabs">Rearrange Tabs</a></li>
+<li><a href="#disconnect-other-clients">Disconnect other Clients</a></li>
+<li><a href="#plugin-aliases">Plugin Aliases</a></li>
+<li><a href="#new-possible-keys-to-bind">New Possible Keys to Bind</a></li>
+<li><a href="#start-session-in-the-background">Start session in the background</a></li>
+<li><a href="#performance-improvements">Performance Improvements</a></li>
+<li><a href="#do-you-like-zellij-">Do you like Zellij?</a> ❤️</li>
+</ul>
+<h2 id="welcome-screen">Welcome Screen</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/welcome-screen.gif"
+         alt="A demo of the Zellij welcome screen" width="800px;"/> 
+</figure>
+
+This new release introduces the &ldquo;welcome screen&rdquo;. The welcome screen is a friendly menu, intended to be run on terminal startup and allow users to either:</p>
+<ol>
+<li>Start a new session (optionally with a specific name or in a chosen folder)</li>
+<li>Attach to a running session</li>
+<li>Resurrect an exited session</li>
+</ol>
+<p>Learn more about <a href="https://zellij.dev/tutorials/session-management">session management</a>.</p>
+<h2 id="new-strider--filepicker">New Strider / Filepicker</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/filepicker-demo.gif"
+         alt="A demo of the Zellij filepicker fuzzy finding files and opening them in vim, then finding folders and opening a terminal in their location." width="800px;"/> 
+</figure>
+
+This release includes a complete rework of Zellij&rsquo;s built-in filepicker, Strider. The filepicker allows users to quickly browse through their filesystem, opening files in their default editor in new Zellij panes or opening a terminal in a specific location.</p>
+<p>With the help of <a href="#pipes">pipes</a>, one can use this filepicker to interactively choose a file or folder in the filesystem and pipe the result to another command through a traditional shell pipe. For example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zpipe filepicker | xargs -i cp <span style="color:#f92672">{}</span> my-chosen-file
+</code></pre></div><p>The filepicker can also be used from within other plugins to offload filepicking functionality rather than have the plugin implement it on its own. In fact, this is exactly what the welcome screen does in the example at the top of this post.</p>
+<p>Learn more about <a href="https://zellij.dev/tutorials/filepicker">the filepicker</a>.</p>
+<h2 id="pipes">Pipes</h2>
+<p>Zellij pipes are a new way to send messages to plugins and allow plugins to communicate with each other.</p>
+<p>Messages can be sent to plugins through the CLI: (eg. <code>zpipe my-plugin hi!</code>), from a keybinding or indeed from another plugin. A destination plugin that does not exist will be loaded on the first pipe message.</p>
+<p>Pipes also integrate seamlessly with existing shell pipes, providing flow control and giving plugin authors the ability to visualize data from the command line, allow users to pause a command line pipe mid-stream on certain messages or on a keystroke. We believe this functionality will help utilize the full 2 dimensions of the terminal window as never before, popping up floating panes in certain conditions and creating a many-to-many windowed pipeline. We look forward to seeing what plugin authors come up with!</p>
+<p><a href="https://zellij.dev/documentation/plugin-pipes.html">Learn more about Pipes</a></p>
+<h2 id="open-floating-panes-at-specific-coordinates">Open Floating Panes at Specific Coordinates</h2>
+<p>A much requested feature after the introduction of floating panes, was to be able to open floating panes at specific coordinates and at specific sizes. Ths is now possible from the CLI, from plugins or from a keybinding (either with fixed numbers or percentage of the viewport):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">zellij run --floating --width <span style="color:#ae81ff">50</span> --height 20% -x 10% -y 50% -- htop
+</code></pre></div><h2 id="rearrange-tabs">Rearrange Tabs</h2>
+<p>Thanks to a community contribution, it&rsquo;s now possible to change the position of tabs. One can move the active tab left or right, by default with <code>Alt i</code> or <code>Alt o</code>.</p>
+<h2 id="disconnect-other-clients">Disconnect other Clients</h2>
+<p>Zellij, as a true multiplayer application, allows more than one user to attach to a running session. When this happens, each user gets their own cursor and the UI indicates in which pane or tab they are focused.</p>
+<p>Since by necessity the smallest screen width/height is used in such cases, it is sometimes desirable to log out other users from the session.</p>
+<p>This is now possible through the <code>session-manager</code>: <code>Ctrl o</code> to open the session manager, and then <code>Ctrl x</code> to disconnect other users.</p>
+<h2 id="plugin-aliases">Plugin Aliases</h2>
+<p>This version introduces &ldquo;Plugin Aliases&rdquo; which are a way to shorten the long plugin URLs (eg. <code>https://example.com/my-plugin.wasm</code>, or <code>file:/home/aram/code/plugin/my-plugin.wasm</code>) to something more memorable (eg. <code>filter</code> or <code>filepicker</code>). These aliases can be defined in the <a href="https://zellij.dev/documentation/configuration.html">configuration file</a>, and used wherever plugin URLs can be used: to launch plugins from the CLI, from layouts or from other plugins.</p>
+<p>Aliases can also be a convenient way to swap in the built-in plugins for a custom implementation (eg. using the excellent <a href="https://github.com/dj95/zjstatus">zjstatus</a>, instead of the built-in <code>compact</code> bar). Indeed, the <code>filepicker</code> described above is an internal alias for the built-in <code>Strider</code> plugin, and can be swapped out for a custom implementation of the filepicker using the same <a href="https://zellij.dev/documentation/filepicker-alias.html">contract</a>.</p>
+<p>Read more about <a href="https://zellij.dev/documentation/plugin-aliases.html">Plugin Aliases</a>.</p>
+<h2 id="new-possible-keys-to-bind">New Possible Keys to Bind</h2>
+<p>Thanks to some community contributions, it is now possible to bind <code>Ctrl</code>/<code>Alt</code> + Function keys (eg. <code>Ctrl F1</code>), as well as <code>Ctrl Space</code>. We as Zellij maintainers are aware that colliding keybindings are a big problem for many users and intend to fully and finally address this issue in the next version after this one.</p>
+<h2 id="start-session-in-the-background">Start session in the background</h2>
+<p>nother much requested feature was added in this release: it&rsquo;s now possible to start a new Zellij session in the background with the new <code>zellij attach --create-background</code> flag.</p>
+<h2 id="performance-improvements">Performance Improvements</h2>
+<p>This version introduces two major performance improvements:</p>
+<ul>
+<li>Line wrapping of extremely long (10M+) lines is now significantly faster thanks to a community contribution.</li>
+<li>Rendering of full-screen terminal applications is now much smoother thanks to the implementation of CSI 2026 (synchronized renders) in those terminals that support it.</li>
+</ul>
+<h2 id="do-you-like-zellij-">Do you like Zellij? ❤️</h2>
+<p>Me too! So much so that I spend 100% of my time developing and maintaining it and have no other income.</p>
+<p>Zellij will always be free and open-source. Zellij will never contain ads or collect your data.</p>
+<p>So if the tool gives you value and you are able, please consider <a href="https://github.com/sponsors/imsnif">a recurring monthly donation</a> of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Aram Drevekenin">
+<meta name="description" content="Wouldn&#39;t it be cool to be able to develop terminal applets like UI components?" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/news/new-plugin-system/" />
+
+
+    <title>
+        
+            Build Zellij WebAssembly (Rust) Plugins for your Terminal
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Build Zellij WebAssembly (Rust) Plugins for your Terminal">
+<meta itemprop="description" content="Wouldn&#39;t it be cool to be able to develop terminal applets like UI components?"><meta itemprop="datePublished" content="2023-06-27T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2023-06-27T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="488"><meta itemprop="image" content="https://zellij.dev/img/zellij-plugins-diagram.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/zellij-plugins-diagram.png"/>
+
+<meta name="twitter:title" content="Build Zellij WebAssembly (Rust) Plugins for your Terminal"/>
+<meta name="twitter:description" content="Wouldn&#39;t it be cool to be able to develop terminal applets like UI components?"/>
+
+
+
+    <meta property="og:title" content="Build Zellij WebAssembly (Rust) Plugins for your Terminal" />
+<meta property="og:description" content="Wouldn&#39;t it be cool to be able to develop terminal applets like UI components?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/news/new-plugin-system/" /><meta property="og:image" content="https://zellij.dev/img/zellij-plugins-diagram.png" /><meta property="article:section" content="news" />
+<meta property="article:published_time" content="2023-06-27T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2023-06-27T00:00:00&#43;00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-06-27 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/news/new-plugin-system/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/news/new-plugin-system/">Build Zellij WebAssembly (Rust) Plugins for your Terminal</a></h2>
+
+            
+            
+            
+
+                  
+                <span class="post-date">
+                  2023-06-27
+                </span>
+                
+                
+                  <span class="post-author">::
+                    
+                    <a href="https://hachyderm.io/@imsnif">Aram Drevekenin</a>
+                    
+                  </span>
+                
+                <p><img src="https://zellij.dev/img/zellij-plugins-diagram.png" alt="Zellij plugins diagram"></p>
+<p>Wouldn&rsquo;t it be cool to be able to develop terminal applets like UI components? Visual scripts to help you automate your workflow, shareable with others and written in Rust?</p>
+<p>The <a href="https://github.com/zellij-org/zellij">Zellij</a> team has just overhauled our WebAssembly plugin system, and we&rsquo;d like to invite plugin developers to build this with us.</p>
+<p>Want to participate in building something new? Don&rsquo;t mind a few rough edges? Please read on!</p>
+<h2 id="what-is-a-zellij-plugin">What is a Zellij plugin?</h2>
+<p>Zellij provides plugins with the capabilities of a terminal multiplexer.</p>
+<h4 id="plugins-can">Plugins can:</h4>
+<ul>
+<li>draw their own UI</li>
+<li>programmatically manage the user&rsquo;s workspace (panes, tabs, commands, editors),</li>
+<li>be woken up by specific events (file access, keypress, command ending, etc.)</li>
+<li>and <a href="https://zellij.dev/documentation/plugins">much more</a></li>
+</ul>
+<h2 id="zellij-tile-rust-sdkhttpsdocsrszellij-tilelatestzellij_tile"><a href="https://docs.rs/zellij-tile/latest/zellij_tile/">zellij-tile (Rust SDK)</a></h2>
+<p><img src="https://zellij.dev/img/zellij-tile-diagram.png" alt="zellij-tile diagram"></p>
+<p>Zellij provides a Rust SDK (<a href="https://docs.rs/zellij-tile/latest/zellij_tile/">zellij-tile</a>) to develop Rust plugins (other languages coming soon!)</p>
+<p>We use lifecycle methods to control the plugin. A plugin renders itself by printing to STDOUT. As opposed to traditional terminal apps, a Zellij plugin does not need to manage its own output buffer. Instead, it can print its UI components where they need to be whenever it renders.</p>
+<p>We also provide plugins with access to background workers to perform long running tasks such as large search queries.</p>
+<h2 id="demo-plugins">Demo Plugins</h2>
+<h3 id="monoclehttpsgithubcomimsnifmonocle"><a href="https://github.com/imsnif/monocle">Monocle</a></h3>
+<p><img src="https://zellij.dev/video/monocle-preview.gif" alt="Monocle preview"></p>
+<p><a href="https://github.com/imsnif/monocle">Monocle</a> is a fuzzy finder for file names and their contents.</p>
+<h4 id="it-can">It can</h4>
+<ul>
+<li>Open results in your <code>$EDITOR</code> (scrolled to the correct line), as floating or tiled panes.</li>
+<li>Open a new terminal pane to the location of the file, as a floating or tiled pane.</li>
+<li>Ignore hidden files and respect your <code>.gitignore</code>.</li>
+</ul>
+<p>If you press <code>ESC</code> or <code>Ctrl c</code>, it will hide itself until you call it again.</p>
+<h3 id="multitaskhttpsgithubcomimsnifmultitask"><a href="https://github.com/imsnif/multitask">Multitask</a></h3>
+<p><img src="https://zellij.dev/img/multitask-preview.png" alt="multitask plugin preview"></p>
+<p>This Zellij plugin is a &ldquo;mini-ci&rdquo;. It allows you to specify commands that will run in parallel, keeping track of completed commands and their exit status. Only progressing to the next step if all the commands in the previous step succeeded.</p>
+<p>Did one command fail? No problem! Fix the issue, re-run it with ENTER and the pipeline will continue.</p>
+<h2 id="what-more-will-be-possible-in-the-near-future">What more will be possible in the near future</h2>
+<p>In the near future, once we&rsquo;ve added a robust permission system to plugins, we plan on adding more interesting capabilities to plugins:</p>
+<ul>
+<li>render themselves in relation to the cursor</li>
+<li>get access to the viewport and scrollbuffer of panes</li>
+<li>record and replay keystrokes</li>
+<li>perform http/s requests</li>
+<li>use and adjust the built-in UI components</li>
+</ul>
+<h2 id="how-to-get-started">How to get started</h2>
+<p><img src="https://zellij.dev/img/dev-kdl-preview.png" alt="dev.kdl development environment"></p>
+<p>We provide <a href="https://github.com/zellij-org/rust-plugin-example">an example repo</a> to kick you off. You&rsquo;ll get:</p>
+<ol>
+<li>A plugin you can <code>cargo build</code> and load into Zellij</li>
+<li>A Zellij <a href="https://zellij.dev/documentation/layouts">layout</a> (called dev.kdl) that does all of this for you - load it with <code>zellij -l kdl.dev</code> to get started immediately</li>
+<li>Live examples of some useful events, commands and UI rendering</li>
+</ol>
+<h4 id="please-also-refer-to-the-documentation">Please also refer to the documentation</h4>
+<ul>
+<li><a href="https://zellij.dev/documentation/plugins">General documentation for plugins</a></li>
+<li><a href="https://docs.rs/zellij-tile/latest/zellij_tile/">zellij-tile, the Rust SDK</a></li>
+</ul>
+<h2 id="did-you-build-something-cool-or-useful">Did you build something cool or useful?</h2>
+<p>Come show us on <a href="https://discord.gg/CrUAFH3">Discord</a> or <a href="https://matrix.to/#/#zellij_general:matrix.org">Matrix</a>.</p>
+<p>You could also just drop by and ask questions if anything is unclear.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Aram Drevekenin">
+<meta name="description" content="A solution for the colliding keybindings problem, a new plugin manager and UI, reloading configuration at runtime and a new setup wizard." />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/news/colliding-keybinds-plugin-manager/" />
+
+
+    <title>
+        
+            Zellij 0.41.0: Solutions for Colliding Keybindings, Plugin Manager, new UI
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Zellij 0.41.0: Solutions for Colliding Keybindings, Plugin Manager, new UI">
+<meta itemprop="description" content="A solution for the colliding keybindings problem, a new plugin manager and UI, reloading configuration at runtime and a new setup wizard."><meta itemprop="datePublished" content="2024-11-04T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2024-11-04T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="920"><meta itemprop="image" content="https://zellij.dev/img/presets-diagram.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/presets-diagram.png"/>
+
+<meta name="twitter:title" content="Zellij 0.41.0: Solutions for Colliding Keybindings, Plugin Manager, new UI"/>
+<meta name="twitter:description" content="A solution for the colliding keybindings problem, a new plugin manager and UI, reloading configuration at runtime and a new setup wizard."/>
+
+
+
+    <meta property="og:title" content="Zellij 0.41.0: Solutions for Colliding Keybindings, Plugin Manager, new UI" />
+<meta property="og:description" content="A solution for the colliding keybindings problem, a new plugin manager and UI, reloading configuration at runtime and a new setup wizard." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/news/colliding-keybinds-plugin-manager/" /><meta property="og:image" content="https://zellij.dev/img/presets-diagram.png" /><meta property="article:section" content="news" />
+<meta property="article:published_time" content="2024-11-04T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2024-11-04T00:00:00&#43;00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2024-11-04 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/news/colliding-keybinds-plugin-manager/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/news/colliding-keybinds-plugin-manager/">Zellij 0.41.0: Solutions for Colliding Keybindings, Plugin Manager, new UI</a></h2>
+
+            
+            
+            
+
+                  
+                <span class="post-date">
+                  2024-11-04
+                </span>
+                
+                
+                  <span class="post-author">::
+                    
+                    <a href="https://hachyderm.io/@imsnif">Aram Drevekenin</a>
+                    
+                  </span>
+                
+                <p>Zellij 0.41.0 has just been released! <a href="https://github.com/zellij-org/zellij/releases/tag/v0.41.0">Check it out!</a></p>
+<p>Here&rsquo;s a short video demonstrating the highlights. Be sure to scroll down to read more!</p>
+<div class="container" style="display: flex; justify-content: left; align-items: left;">
+  <div id="player-wrapper" class=""></div>
+</div>
+
+<script 
+  type="text/javascript" 
+  src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"
+>
+</script>
+
+<script>
+  var playerElement = document.getElementById("player-wrapper");
+
+  var player = new Clappr.Player({
+    source: "/video/version-041-intro.mp4",
+    mute: false,
+    
+    height: 540,
+    
+    width: 960
+  });
+
+  player.attachTo(playerElement);  
+</script>
+
+<p>Some highlights:</p>
+<ul>
+<li><a href="#solutions-for-colliding-keybindings">Solutions for Colliding Keybindings</a></li>
+<li><a href="#support-for-multiple-modifiers">Support for multiple-modifiers and the kitty keyboard protocol</a></li>
+<li><a href="#change-the-configuration-at-runtime">Change the Configuration at Runtime</a></li>
+<li><a href="#new-ui">New UI</a></li>
+<li><a href="#configuration-screen-and-setup-wizard">Configuration Screen and Setup Wizard</a></li>
+<li><a href="#load-layouts-from-the-web">Load Layouts from the Web</a></li>
+<li><a href="#new-plugin-apis">New Plugin APIs</a></li>
+<li><a href="#a-new-plugin-manager">A new Plugin Manager</a></li>
+<li><a href="#new-themes">New Themes</a></li>
+<li><a href="#do-you-like-zellij-">Do you like Zellij?</a> ❤️</li>
+</ul>
+<h2 id="solutions-for-colliding-keybindings">Solutions for Colliding Keybindings</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/presets-diagram.png"
+         alt="A diagram explaining the different keybinding presets" width="800px;"/> 
+</figure>
+
+A problem that has plagued users of Zellij since its inception is the &ldquo;colliding keybindings&rdquo; issue. Where Zellij would take up a keyboard shortcut that an app running inside it would be listening for. For example, Zellij uses the <code>Ctrl o</code> shortcut to enter <a href="https://zellij.dev/documentation/keybindings-modes"><code>Session</code> mode</a>, and vim uses the same shortcut to jump forward in the user&rsquo;s <a href="https://vimtricks.com/p/vim-jump-list/">jumplist</a>.</p>
+<p>While users were always able to circumvent this issue by rebinding keys in the configuration file, this release now offers two easy solutions that do not require any thought, design or tinkering:</p>
+<ol>
+<li>One is now able to choose a &ldquo;non-colliding&rdquo; keybinding preset, where one unlocks the interface before entering the various modes</li>
+<li>It&rsquo;s now possible to rebind the leader keys (by default <code>Ctrl</code> for modes and <code>Alt</code> for quick shortcuts) at runtime</li>
+</ol>
+<p>Both of these (as well as a combination of the two) can be chosen and applied through the new <a href="#configuration-screen-and-setup-wizard">configuration screen</a></p>
+<h2 id="support-for-multiple-modifiers">Support for Multiple Modifiers</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/rebind-keys-1.png"
+         alt="Rebinding keys in the new Zellij Configuration" width="800px;"/> 
+</figure>
+
+Zellij has chosen to adopt the <a href="https://sw.kovidgoyal.net/kitty/keyboard-protocol/">Kitty Keyboard Protocol</a> which has recently been growing in popularity among terminal emulators. With the help of this protocol, Zellij now allows users to bind multiple modifiers to specific actions (eg. <code>Ctrl Alt a</code>) as well as special previously unavailable modifiers (eg. <code>Super a</code>).</p>
+<p>Zellij of course also supports this protocol for applications running inside its panes.</p>
+<p>Note that in order to take advantage of this feature, one must also use a terminal emulator that supports it. The Zellij maintainers recommend <code>Alacritty</code> or <code>WezTerm</code>.</p>
+<h2 id="change-the-configuration-at-runtime">Change the Configuration at Runtime</h2>
+<p>Starting from this release, Zellij supports changing the configuration file and having the changes applied at runtime. We recommend trying it out by switching to one of the <a href="#new-themes">new themes</a> and seeing them applied to the UI in real time.</p>
+<h2 id="new-ui">New UI</h2>
+<p>The Zellij status-bar has been redesigned, offering a variation for users choosing the &ldquo;Unlock First&rdquo; <a href="#solutions-for-colliding-keybindings">keybinding preset</a> as well as a new more conceise one-line look for the default preset.
+<figure>
+    <img src="https://zellij.dev/img/new-status-bar.png"
+         alt="An image of the new Zellij status bar" width="800px;"/> 
+</figure>
+</p>
+<h2 id="configuration-screen-and-setup-wizard">Configuration Screen and Setup Wizard</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/setup-wizard.png"
+         alt="A image of the Zellij setup wizard" width="800px;"/> 
+</figure>
+
+In order to facilitate the usage of the new <a href="#solutions-for-colliding-keybindings">Non-Colliding Keybinding Preset</a>, Zellij will now display a short setup wizard on first run. This setup wizard will allow users to discover the new keybinging preset and either choose to use it immediately or know that they can switch to it at a later time.</p>
+<p>The setup wizard can be accessed as a configuration screen in-app by pressing:</p>
+<ul>
+<li><code>Ctrl o</code> + <code>c</code> in the default preset</li>
+<li><code>Ctrl g</code> + <code>o</code> + <code>c</code> in the non-colliding preset</li>
+</ul>
+<h2 id="load-layouts-from-the-web">Load Layouts from the Web</h2>
+<p><a href="https://zellij.dev/tutorials/layouts/">Layouts</a> are the core automation primitive of Zellij. They allow users to create their own personalized workspaces, automate tasks and share all of this with others in a friendly Human-readable file. Starting this release, Zellij allows users to load layouts directly from the web: <code>zellij --layout https://example.com/my-layout.kdl</code>.</p>
+<p>For security reasons, all commands in these layouts will be suspended behind a <code>Waiting to run &lt;command&gt;</code>, prompting the user&rsquo;s approval before running each one. Plugins - as always - will require explicit user permissions in order to perform sensitive actions.</p>
+<p>This is a great way to share workspaces with others for fun and collaboration.</p>
+<h2 id="new-plugin-apis">New Plugin APIs</h2>
+<p>This release offers many new plugin APIs (gated behind relevant permissions), a few examples include:</p>
+<ol>
+<li>Rebind keys at runtime as well as reconfigure Zellij (used by the built-in <a href="#configuration-screen-and-setup-wizard">configuration</a>)</li>
+<li>Controlling <code>command</code> panes (knowing when they were opened, closed, exited, re-run) and getting information about their exit code</li>
+<li>Hiding and showing panes based on their pane id</li>
+<li>Control other panes (everything from writing input to arbitrary panes, changing them to fullscreen, toggle their floating status, etc.)</li>
+<li>Load/reload other plugins</li>
+<li>List-clients (including their focused pane_id, running command or plugin url)</li>
+</ol>
+<p>This release also introduces a new <code>load_plugins</code> configuration section, allowing users to load plugins in the background on session start.</p>
+<h2 id="a-new-plugin-manager">A New Plugin Manager</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/plugin-manager-1.png"
+         alt="A image of the Zellij plugin manager" width="800px;"/> 
+</figure>
+
+As the Zellij plugin ecosystem begins growing, it&rsquo;s becoming more and more difficult to keep track of which plugins are running inside a Zellij session. For this reason, the new release introduces a new Plugin Manager. Allowing users to track which plugins they have running inside the session and where they got them from. Users can also use it to easily load new plugins, specify configuration for them as well as reload existing ones.</p>
+<p>The plugin manager can be accessed by default with <code>Ctrl o</code> + <code>p</code>.</p>
+<h2 id="new-themes">New Themes</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/new-theme.png"
+         alt="A screenshot of Zellij with the new night owl theme" width="800px;"/> 
+</figure>
+
+This release includes many different themes added by the community. You can see the new &ldquo;night-owl&rdquo; theme above. For a full list of themes, please see the <a href="https://zellij.dev/documentation/theme-list.html">theme list</a>.</p>
+<h2 id="do-you-like-zellij-">Do you like Zellij? ❤️</h2>
+<p>Me too! So much so that I spend 100% of my time developing and maintaining it and have no other income.</p>
+<p>Zellij will always be free and open-source. Zellij will never contain ads or collect your data.</p>
+<p>So if the tool gives you value and you are able, please consider <a href="https://github.com/sponsors/imsnif">a recurring monthly donation</a> of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

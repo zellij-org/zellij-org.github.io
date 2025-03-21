@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Aram Drevekenin">
+<meta name="description" content="Stacked resize, pinned floating panes, new theme definition spec and new Rust plugin APIs" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/news/stacked-resize-pinned-panes/" />
+
+
+    <title>
+        
+            Zellij 0.42.0: Stacked Resize, Pinned Floating Panes, New Theme Spec
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Zellij 0.42.0: Stacked Resize, Pinned Floating Panes, New Theme Spec">
+<meta itemprop="description" content="Stacked resize, pinned floating panes, new theme definition spec and new Rust plugin APIs"><meta itemprop="datePublished" content="2025-03-17T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2025-03-17T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="796"><meta itemprop="image" content="https://zellij.dev/img/version-42-social-preview-smiley.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/version-42-social-preview-smiley.png"/>
+
+<meta name="twitter:title" content="Zellij 0.42.0: Stacked Resize, Pinned Floating Panes, New Theme Spec"/>
+<meta name="twitter:description" content="Stacked resize, pinned floating panes, new theme definition spec and new Rust plugin APIs"/>
+
+
+
+    <meta property="og:title" content="Zellij 0.42.0: Stacked Resize, Pinned Floating Panes, New Theme Spec" />
+<meta property="og:description" content="Stacked resize, pinned floating panes, new theme definition spec and new Rust plugin APIs" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/news/stacked-resize-pinned-panes/" /><meta property="og:image" content="https://zellij.dev/img/version-42-social-preview-smiley.png" /><meta property="article:section" content="news" />
+<meta property="article:published_time" content="2025-03-17T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2025-03-17T00:00:00&#43;00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2025-03-17 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/news/stacked-resize-pinned-panes/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/news/stacked-resize-pinned-panes/">Zellij 0.42.0: Stacked Resize, Pinned Floating Panes, New Theme Spec</a></h2>
+
+            
+            
+            
+
+                  
+                <span class="post-date">
+                  2025-03-17
+                </span>
+                
+                
+                  <span class="post-author">::
+                    
+                    <a href="https://hachyderm.io/@imsnif">Aram Drevekenin</a>
+                    
+                  </span>
+                
+                <p>Zellij 0.42.0 has just been released! <a href="https://github.com/zellij-org/zellij/releases/tag/v0.42.0">Check it out!</a></p>
+<p>Some highlights:</p>
+<ul>
+<li><a href="#stacked-resize">Stacked Resize</a></li>
+<li><a href="#pinned-floating-panes">Pinned Floating Panes</a></li>
+<li><a href="#new-theme-definition-spec">New Theme Definition Spec</a></li>
+<li><a href="#new-rust-plugin-apis">New (Rust) Plugin APIs</a></li>
+<li><a href="#doubletriple-mouse-click-text-selection-in-terminals">Double/Triple Mouse Click Text Selection in Terminals</a></li>
+<li><a href="#release-notes-and-tips-on-startup">Release Notes and Tips on Startup</a></li>
+<li><a href="#do-you-like-zellij-">Do you like Zellij?</a> ❤️</li>
+</ul>
+<p>Here&rsquo;s a short video demonstrating the highlights. Be sure to scroll down to read more!</p>
+<div class="container" style="display: flex; justify-content: left; align-items: left;">
+  <div id="player-wrapper" class=""></div>
+</div>
+
+<script 
+  type="text/javascript" 
+  src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"
+>
+</script>
+
+<script>
+  var playerElement = document.getElementById("player-wrapper");
+
+  var player = new Clappr.Player({
+    source: "/video/version-042-intro.mp4",
+    mute: false,
+    
+    height: 540,
+    
+    width: 960
+  });
+
+  player.attachTo(playerElement);  
+</script>
+
+<h2 id="stacked-resize">Stacked Resize</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/stacked-resize-demo.gif"
+         alt="A screen recording demonstrating stacked resize" width="600px;"/> 
+</figure>
+
+This version of Zellij introduces an innovative new way of managing multiple panes. When resizing panes, Zellij will attempt to stack them with their neighbors - giving us more space on screen while still keeping the title of the other panes around so that we can easily navigate to them with the keyboard or mouse.</p>
+<p>If you want to learn more, check out the <a href="https://zellij.dev/tutorials/stacked-resize">Stacked Resizes and Pinned Floating Panes Screencast/Tutorial</a>.</p>
+<p>This behavior can be disabled through the <a href="https://zellij.dev/documentation/options.html#stacked_resize">configuration</a>.</p>
+<h2 id="pinned-floating-panes">Pinned Floating Panes</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/pinned-floating-panes-demo.gif"
+         alt="A screen recording demonstrating pinned floating panes" width="600px;"/> 
+</figure>
+
+One of the most loved features of Zellij is its native integration of floating panes. This version adds the ability to &ldquo;pin&rdquo; any such pane so that it is always on top, even when not focused. Floating panes can be pinned with a mouse click or with a keyboard shortcut: <code>Ctrl p</code> + <code>i</code>.</p>
+<h2 id="new-theme-definition-spec">New Theme Definition Spec</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/theme-spec.png"
+         alt="A diagram of the new theme definition spec" width="800px"/> 
+</figure>
+
+This version introduces a new theme definition specification, allowing much greater flexibility when defining the Zellij UI appearance - extending to user plugins as well. This specification concentrates on the generic UI components used to make-up the Zellij UI rather than mapping colors. We look forward to seeing new themes created by the community with these capabilities.</p>
+<p>For more information, see <a href="https://zellij.dev/documentation/themes.html">the theme documentation</a>.</p>
+<p>Special thanks for <a href="https://github.com/DeaconDesperado">DeaconDesperado</a> for implementing the specification.</p>
+<h2 id="new-rust-plugin-apis">New (Rust) Plugin APIs</h2>
+<p>This version adds lots of new capabilities to plugins and exposes them in the built-in Rust SDK. Some highlights:</p>
+<h3 id="change-the-host-folder">Change the <code>/host</code> folder</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> new_host_folder <span style="color:#f92672">=</span> PathBuf::from(<span style="color:#e6db74">&#34;/different/path/on/machine&#34;</span>);
+change_host_folder(new_host_folder);
+</code></pre></div><p>Plugins can now change their mounted <code>/host</code> folder at runtime, so that they can access different parts of the user&rsquo;s machine - gated behind the new <code>FullHdAccess</code> plugin permission. This ability became possible due to our recent migration to <code>wasmtime</code> to manage our WebAssembly/WASI runtime for plugins.</p>
+<h3 id="change-floating-pane-coordinates">Change floating pane coordinates</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">let</span> coordinates <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[
+    (PaneId::Terminal(<span style="color:#ae81ff">1</span>), FloatingPaneCoordinates {
+        x: Some(<span style="color:#ae81ff">10</span>),
+        y: Some(<span style="color:#ae81ff">10</span>),
+        width: Some(<span style="color:#ae81ff">20</span>),
+        height: Some(<span style="color:#ae81ff">20</span>),
+        pinned: Some(<span style="color:#66d9ef">true</span>),
+    })
+];
+change_floating_panes_coordinates(coordinates);
+</code></pre></div><p>Plugins can now change the floating pane coordinates of themselves and other panes. The coordinates include the x/y location, their width/height and whether they&rsquo;re pinned or not. Since these can be done in bulk by sending a vector, this opens lots of interesting possibilities for creating dashboard and control flow experiences.</p>
+<h3 id="stack-arbitrary-panes">Stack arbitrary panes</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">stack_panes(vec<span style="color:#f92672">!</span>[PaneId::Terminal(<span style="color:#ae81ff">1</span>), PaneId::Plugin(<span style="color:#ae81ff">1</span>), PaneId::Terminal(<span style="color:#ae81ff">2</span>)]);
+</code></pre></div><p>Plugins can now combine existing panes into a stack using their pane ids. Combined with the new <code>stacked_resize</code> capabilities described above (also accessible to plugins through the normal resize methods), this can allow plugins to create multiple-select and grouping experiences.</p>
+<h3 id="read-mouse-motions">Read mouse motions</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">update</span>(event: <span style="color:#a6e22e">Event</span>) -&gt; <span style="color:#66d9ef">bool</span> {
+    <span style="color:#66d9ef">match</span> event {
+        Event::Mouse(Mouse::Hover(x, y)) <span style="color:#f92672">=&gt;</span> {
+            eprintln<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;hovering over coordinates: {:?}, {:?}&#34;</span>, x, y);
+        },
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    }
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>Plugins can now read mouse motions when the user hovers over them. Combined with the built-in UI components, this allows creating very pleasant user experiences in the terminal (an example can be seen in the new built-in <code>about</code> plugin, accessible with <code>Ctrl o</code> + <code>a</code>).</p>
+<h2 id="doubletriple-mouse-click-text-selection-in-terminals">Double/Triple Mouse Click Text Selection in Terminals</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/click-boundaries-demo.gif"
+         alt="A video demonstrating the mouse click boundary marking behavior"/> 
+</figure>
+
+Since Zellij implements its own mouse selection and copying, many users have noted the lack of ability to double or triple click text in order to mark the word boundaries or canonical line respectively. This version implements this capability for terminal panes. Upcoming in the next version is the ability for plugins to opt-in to text marking with the keyboard/mouse on all or parts of their scrollback.</p>
+<h2 id="release-notes-and-tips-on-startup">Release Notes and Tips on Startup</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/zellij-tip-demo.png"
+         alt="A demo of the Zellij tip on startup"/> 
+</figure>
+
+Starting this version, on first run Zellij will display the release notes for the current version. On subsequent runs, Zellij will display a random useful usage tip on startup. It&rsquo;s possible to disable both of these behaviors through the config (and in the case of tips, also at runtime through the tips window as specified). More info <a href="https://zellij.dev/documentation/options.html#show_release_nodes">here</a> and <a href="https://zellij.dev/documentation/options.html#show_startup_tips">here</a>.</p>
+<p>Both of these can be browsed through the new <code>about</code> plugin with <code>Ctrl o</code> + <code>a</code>.</p>
+<h2 id="do-you-like-zellij-">Do you like Zellij? ❤️</h2>
+<p>Me too! So much so that I spend 100% of my time developing and maintaining it and have no other income.</p>
+<p>Zellij will always be free and open-source. Zellij will never contain ads or collect your data.</p>
+<p>So if the tool gives you value and you are able, please consider <a href="https://github.com/sponsors/imsnif">a recurring monthly donation</a> of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Aram Drevekenin">
+<meta name="description" content="This release includes a new built-in plugin to navigate across sessions, configurable plugins, a plugin permission system and much more!" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/news/session-resurrection-ui-components/" />
+
+
+    <title>
+        
+            Zellij 0.39.0: Session Resurrection, Cross-Language UI Components, load Plugins from the Web
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Zellij 0.39.0: Session Resurrection, Cross-Language UI Components, load Plugins from the Web">
+<meta itemprop="description" content="This release includes a new built-in plugin to navigate across sessions, configurable plugins, a plugin permission system and much more!"><meta itemprop="datePublished" content="2023-11-07T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2023-11-07T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="331"><meta itemprop="image" content="https://zellij.dev/img/zellij-session-manager-resurrection.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/zellij-session-manager-resurrection.png"/>
+
+<meta name="twitter:title" content="Zellij 0.39.0: Session Resurrection, Cross-Language UI Components, load Plugins from the Web"/>
+<meta name="twitter:description" content="This release includes a new built-in plugin to navigate across sessions, configurable plugins, a plugin permission system and much more!"/>
+
+
+
+    <meta property="og:title" content="Zellij 0.39.0: Session Resurrection, Cross-Language UI Components, load Plugins from the Web" />
+<meta property="og:description" content="This release includes a new built-in plugin to navigate across sessions, configurable plugins, a plugin permission system and much more!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/news/session-resurrection-ui-components/" /><meta property="og:image" content="https://zellij.dev/img/zellij-session-manager-resurrection.png" /><meta property="article:section" content="news" />
+<meta property="article:published_time" content="2023-11-07T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2023-11-07T00:00:00&#43;00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-11-07 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/news/session-resurrection-ui-components/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/news/session-resurrection-ui-components/">Zellij 0.39.0: Session Resurrection, Cross-Language UI Components, load Plugins from the Web</a></h2>
+
+            
+            
+            
+
+                  
+                <span class="post-date">
+                  2023-11-07
+                </span>
+                
+                
+                  <span class="post-author">::
+                    
+                    <a href="https://hachyderm.io/@imsnif">Aram Drevekenin</a>
+                    
+                  </span>
+                
+                <p><img src="https://zellij.dev/img/zellij-session-manager-resurrection.png" alt="Zellij session manager resurrection screen"></p>
+<h2 id="session-resurrection">Session Resurrection</h2>
+<p>Zellij now includes built-in session resurrection capabilities. This means that Zellij sessions can be restored after reboots or graceful quits. Attaching to an exited session will resurrect it, allowing users to keep long-running named workspaces. Sessions are serialized as Human readable Zellij layouts, so they can also be shared across machines or between friends.</p>
+<p><a href="http://zellij.dev/documentation/session-resurrection.html">Read more</a></p>
+<p><em>Special thanks to <a href="https://github.com/AlixBernard">@AlixBernard</a> for implementing the serialization algorithm, as well as to <a href="https://github.com/alekspickle">@alekspickle</a> for helping integrate the algorithm with our code base. Without them this feature would not have come to be.</em></p>
+<h2 id="cross-language-ui-components">Cross-Language UI Components</h2>
+<p><img src="https://zellij.dev/img/cross-language-ui-components.png" alt="Cross platform ui components"></p>
+<p>This release gives Zellij plugins the ability to render beautiful and consistent UI components to build their visual layer. These components are cross-language, being serialized as private ANSI escape codes. Indeed, the Session Resurrection screen from the section above was developed exclusively with these components.</p>
+<p><a href="http://zellij.dev/documentation/plugin-ui-rendering.html">Read more</a></p>
+<h2 id="load-plugins-from-the-web">Load Plugins from the Web</h2>
+<p>This release allows users to load Zellij plugins from the web with an <code>http(s)</code> prefix. This prefix will work inside layouts as well as when loading plugins at runtime.</p>
+<p>This release also adds a <code>zellij plugin</code> CLI command, allowing users to eg.</p>
+<pre><code>zellij plugin -- https://example.com/plugin.wasm
+</code></pre><p>or indeed</p>
+<pre><code>zellij plugin --floating -- https://example.com/plugin.wasm
+</code></pre><p><em>Special thanks to <a href="https://github.com/jaeheonji">@jaeheonji</a> for designing and implementing this feature.</em></p>
+<h2 id="allow-renaming-sessions">Allow Renaming Sessions</h2>
+<p><img src="https://zellij.dev/img/allow-renaming-sessions.png" alt="Allow renaming sessions"></p>
+<p>One of the most requested features after the recently added <code>session-manager</code> allowed users to switch between sessions was the ability to rename sessions.</p>
+<p>This release adds this ability, both as a CLI command:</p>
+<pre><code>zellij action rename-session my-fantastic-session-new
+</code></pre><p>or from the session-manager inside a running session: (<code>Ctrl o</code> + <code>w</code>).</p>
+<h2 id="do-you-like-zellij">Do you like Zellij?</h2>
+<p>Me too! So much so that I spend 100% of my time developing and maintaining it and have no other income.</p>
+<p>Zellij will always be free and open-source. Zellij will never contain ads.</p>
+<p>So if the tool gives you value and you are able, please consider <a href="https://github.com/sponsors/imsnif">a recurring monthly donation</a> of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

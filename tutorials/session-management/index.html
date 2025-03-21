@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="How to use Zellij to manage your sessions in the terminal" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/tutorials/session-management/" />
+
+
+    <title>
+        
+            Session Management with Zellij
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Session Management with Zellij">
+<meta itemprop="description" content="How to use Zellij to manage your sessions in the terminal">
+
+<meta itemprop="wordCount" content="916"><meta itemprop="image" content="https://zellij.dev/img/tutorial-3-preview.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/tutorial-3-preview.png"/>
+
+<meta name="twitter:title" content="Session Management with Zellij"/>
+<meta name="twitter:description" content="How to use Zellij to manage your sessions in the terminal"/>
+
+
+
+    <meta property="og:title" content="Session Management with Zellij" />
+<meta property="og:description" content="How to use Zellij to manage your sessions in the terminal" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/tutorials/session-management/" /><meta property="og:image" content="https://zellij.dev/img/tutorial-3-preview.png" /><meta property="article:section" content="tutorials" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/tutorials/session-management/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/tutorials/session-management/">Session Management with Zellij</a></h2>
+
+            
+            
+            
+
+                  
+                
+                <div class="container" style="display: flex; justify-content: left; align-items: left;">
+  <div id="player-wrapper" class=""></div>
+</div>
+
+<script 
+  type="text/javascript" 
+  src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"
+>
+</script>
+
+<script>
+  var playerElement = document.getElementById("player-wrapper");
+
+  var player = new Clappr.Player({
+    source: "/video/session-management-welcome-screen.mp4",
+    mute: false,
+    
+    height: 540,
+    
+    width: 960
+  });
+
+  player.attachTo(playerElement);  
+</script>
+
+<p>This tutorial shows how to use Zellij to manage sessions in the terminal.</p>
+<p><em>The video screencast and the tutorial contain the same content, with the video screencast also containing some concrete examples of the subject material for inspiration.</em></p>
+<h2 id="why-use-zellij-to-manage-sessions">Why use Zellij to manage sessions?</h2>
+<p>Do you find yourself jumping between tasks a lot?</p>
+<p>When using the terminal, we often open new terminal windows for different tasks, ending up with a mess of open terminals. This can lead to difficulty and overhead when switching contexts: we often end up searching for commands through our shell history, keeping complex notes and having to rebuild our environment every time we return to a task. Zellij can solve these problems and more for us with the <code>session-manager</code> and <code>welcome-screen</code>.</p>
+<h2 id="what-well-cover">What we&rsquo;ll cover</h2>
+<ul>
+<li><a href="#the-zellij-welcome-screen">The Zellij Welcome Screen</a></li>
+<li><a href="#setting-up-the-welcome-screen-to-open-on-terminal-startup">Setting up the Welcome Screen to Open on Terminal Startup</a></li>
+<li><a href="#starting-a-new-session-in-a-specific-folder">Starting a new session in a specific folder</a></li>
+<li><a href="#starting-a-new-session-in-a-specific-folder-and-layout-from-the-session-manager">Starting a new session in a specific folder and layout from the session-manager</a></li>
+<li><a href="#switching-between-running-sessions-to-manage-context">Switching between running sessions to manage context</a></li>
+<li><a href="#resurrecting-exited-sessions-to-revive-old-contexts">Resurrecting exited sessions to revive old contexts</a></li>
+<li><a href="#do-you-like-zellij-">Do you like Zellij?</a></li>
+</ul>
+<h2 id="the-zellij-welcome-screen">The Zellij Welcome Screen</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/tutorial-3-preview.png"
+         alt="An image of Zellij welcome screen."/> 
+</figure>
+
+The Zellij <code>welcome-screen</code> is a friendly start-up menu that allows users to:</p>
+<ol>
+<li>Start a new sessions, optionally in a specific folder and/or with a specific <a href="https://zellij.dev/tutorials/layouts">layout</a>.</li>
+<li>Attach to currently running sessions and switch between them.</li>
+<li>Resurrect exited sessions, creating a new session from old context.</li>
+</ol>
+<h2 id="setting-up-the-welcome-screen-to-open-on-terminal-startup">Setting up the Welcome Screen to open on Terminal startup</h2>
+<p>In most terminals, it&rsquo;s possible to set up the Zellij <code>welcome-screen</code> to start up every time the terminal window is opened. Doing this will create a powerful integration between Zellij and your favorite terminal, allowing Zellij to manage not only your panes, layouts and tabs - but also your sessions and contexts.</p>
+<h3 id="in-alacritty">In Alacritty</h3>
+<p>Open the Alacritty <a href="https://github.com/alacritty/alacritty?tab=readme-ov-file#configuration">configuration file</a> and replace the <code>[shell]</code> section with the following:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml">[<span style="color:#a6e22e">shell</span>]
+<span style="color:#a6e22e">program</span> = <span style="color:#e6db74">&#34;zellij&#34;</span>
+<span style="color:#a6e22e">args</span> = [<span style="color:#e6db74">&#34;-l&#34;</span>, <span style="color:#e6db74">&#34;welcome&#34;</span>]
+</code></pre></div><h3 id="in-gnome-terminal">In gnome-terminal</h3>
+<p>Follow <a href="https://help.gnome.org/users/gnome-terminal/stable/pref-custom-command.html.en">these instructions</a> and pass the command <code>zellij -l welcome</code>.</p>
+<h3 id="in-konsole">In Konsole</h3>
+<p>In the Settings menu, start a new <code>profile</code> and set the command to be <code>zellij -l welcome</code>. Set it as the Default profile and restart Konsole.</p>
+<h3 id="in-wezterm">In WezTerm</h3>
+<p>Set the <code>config.default_prog</code> to:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-lua" data-lang="lua">config.default_prog <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#39;zellij&#39;</span>, <span style="color:#e6db74">&#39;-l&#39;</span>, <span style="color:#e6db74">&#39;welcome&#39;</span> }
+</code></pre></div><p><a href="https://wezfurlong.org/wezterm/config/launch.html#changing-the-default-program">See the WezTerm documentation</a> for more information.</p>
+<h2 id="starting-a-new-session-in-a-specific-folder">Starting a new session in a specific folder</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/tutorial-3-specific-folder.png"
+         alt="An image of Zellij welcome screen with the filepicker opened."/> 
+</figure>
+
+To start a new session in a specific folder, we:</p>
+<ol>
+<li>Optionally type in a session name</li>
+<li>Press <code>Ctrl-f</code> to open up the <code>filepicker</code>, explore our filesystem to search for the new folder, entering folders with <code>&lt;TAB&gt;</code> and once we&rsquo;re inside the folder we want, pressing <code>&lt;ENTER&gt;</code>. The folder will appear in the <code>New session folder:</code> section on the bottom of the <code>New session</code> form.</li>
+<li>We choose a <a href="https://zellij.dev/tutorials/layouts">layout</a> or stick with the <code>default</code> layout.</li>
+<li>Press <code>&lt;ENTER&gt;</code> to start the new session</li>
+</ol>
+<h2 id="starting-a-new-session-in-a-specific-folder-and-layout-from-the-session-manager">Starting a new session in a specific folder and layout from the session-manager</h2>
+<figure>
+    <img src="https://zellij.dev/img/tutorial-3-specific-layout.png"
+         alt="An image of Zellij session-manager pointed to the &#39;default-rust&#39; layout."/> 
+</figure>
+
+<p>Similarly, to start a new session with a specific layout - we follow the above steps but choose a different layout instead of the <code>default</code> one.</p>
+<p>We could either choose one of the built-in layouts (for example: <code>compact</code>), or one of our custom layouts that we saved to the <code>layouts</code> subfolder of the <a href="https://zellij.dev/documentation/configuration#where-does-zellij-look-for-the-config-file">Zellij configuration</a>. For more info on creating layouts, please see the <a href="https://zellij.dev/tutorials/layouts">layout screencast and tutorial</a>.</p>
+<h2 id="switching-between-running-sessions-to-manage-context">Switching between running sessions to manage context</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/tutorial-3-switch-session.png"
+         alt="An image of Zellij session-manager about to attach to a new session."/> 
+</figure>
+
+It&rsquo;s possible to attach to a currently running session either from the <code>welcome-screen</code> or from the <code>session-manager</code> (exactly like the <code>welcome-screen</code> only running inside an existing Zellij session). To launch the <code>session-manager</code>, press <code>Ctrl o</code> + <code>w</code>.</p>
+<p>In the menu, navigate with <code>&lt;TAB&gt;</code> to <code>Attach to Session</code> and select the session you would like to attach to from the list.</p>
+<p>It&rsquo;s very helpful to keep different context for different tasks in separate sessions, thus allowing you to label them, switch between them at will and even resurrect them after a reboot.</p>
+<h2 id="resurrecting-exited-sessions-to-revive-old-contexts">Resurrecting exited sessions to revive old contexts</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/tutorial-3-resurrect-session.png"
+         alt="An image of Zellij welcome-screen about to resurrect a new session."/> 
+</figure>
+
+When a Zellij session exits, Zellij keeps its metadata around: meaning the layout of the panes and tabs as well as which program was running in each pane or tab. This can be very useful to label and keep around old contexts.</p>
+<p>Imagine you were in a debugging session and opened several panes, each one with a specific command that helped you discover a problem in your system. Once you&rsquo;ve solved this problem, instead of closing the session immediately, you can rename: start the <code>session-manager</code> with <code>Ctrl o</code> + <code>w</code>, rename the session with <code>Ctrl r</code> to a descriptive name and then quit Zellij with <code>Ctrl q</code>.</p>
+<p>You can then in the future open a new terminal window to the <code>welcome-screen</code>, press <code>&lt;TAB&gt;</code> until you reach <code>Resurrect Session</code>, search through your sessions for the descriptive name you gave the old session and press <code>&lt;ENTER&gt;</code> to have Zellij resurrect ths session and rebuild your own context. Allowing you to solve the same problem again rather than struggling to remember your steps from the past.</p>
+<h2 id="do-you-like-zellij-">Do you like Zellij? ❤️</h2>
+<p>Me too. So much so that I spend 100% of my time developing and maintaining it and have no other income.</p>
+<p>Zellij will always be free and open-source. Zellij will never contain ads or collect your data.</p>
+<p>If the tool gives you value and you are able, please consider <a href="https://github.com/sponsors/imsnif">a recurring monthly donation</a> of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Aram Drevekenin">
+<meta name="description" content="This new version comes with some great new UI/UX features and extra functionality" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/news/stacked-panes-swap-layouts/" />
+
+
+    <title>
+        
+            Zellij 0.35.1 Stacked Panes and Swap Layouts
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Zellij 0.35.1 Stacked Panes and Swap Layouts">
+<meta itemprop="description" content="This new version comes with some great new UI/UX features and extra functionality"><meta itemprop="datePublished" content="2023-03-07T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2023-03-07T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="485"><meta itemprop="image" content="https://zellij.dev/img/stacked-panes.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/stacked-panes.png"/>
+
+<meta name="twitter:title" content="Zellij 0.35.1 Stacked Panes and Swap Layouts"/>
+<meta name="twitter:description" content="This new version comes with some great new UI/UX features and extra functionality"/>
+
+
+
+    <meta property="og:title" content="Zellij 0.35.1 Stacked Panes and Swap Layouts" />
+<meta property="og:description" content="This new version comes with some great new UI/UX features and extra functionality" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/news/stacked-panes-swap-layouts/" /><meta property="og:image" content="https://zellij.dev/img/stacked-panes.png" /><meta property="article:section" content="news" />
+<meta property="article:published_time" content="2023-03-07T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2023-03-07T00:00:00&#43;00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-03-07 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/news/stacked-panes-swap-layouts/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/news/stacked-panes-swap-layouts/">Zellij 0.35.1 Stacked Panes and Swap Layouts</a></h2>
+
+            
+            
+            
+
+                  
+                <span class="post-date">
+                  2023-03-07
+                </span>
+                
+                
+                  <span class="post-author">::
+                    
+                    <a href="https://hachyderm.io/@imsnif">Aram Drevekenin</a>
+                    
+                  </span>
+                
+                <p>We just released <a href="https://github.com/zellij-org/zellij/releases/tag/v0.35.1">Zellij 0.35.1</a>, including an exciting array of new features and bug fixes. Let&rsquo;s dive in to some of them!</p>
+<h3 id="stacked-panes">Stacked Panes</h3>
+<p><img src="https://zellij.dev/img/stacked-panes-animated.gif" alt="Stacked Panes preview"></p>
+<p>Stacked panes are a new and unique way to arrange panes in your workspace. You can now arrange panes in a stack, showing only the title line of all but one of them - with the last one expanded just like any other pane.</p>
+<p>You can page through them up/down as you would normally move through panes (eg. with <code>Alt</code> + <code>&lt;arrow-keys&gt;</code>, or <code>Alt</code> + <code>hjkl</code>), move them around with <code>Ctrl</code> + <code>h</code> + <code>&lt;arrows&gt;</code>/<code>hjkl</code> and even select through them with a mouse click.</p>
+<h4 id="to-get-stacked-panes">To get stacked panes</h4>
+<ol>
+<li>Start Zellij</li>
+<li>Open 3 panes with <code>Alt</code> + <code>n</code></li>
+<li>Press <code>Alt</code> + <code>[</code> to change the layout to <code>STACKED</code> (see &ldquo;Auto and Swap Layouts&rdquo; below for more details).</li>
+<li>If you like, you can open more panes in the stack with <code>Alt</code> + <code>n</code> or move through them with <code>Alt</code> + <code>&lt;arrow-keys&gt;/hjkl</code></li>
+</ol>
+<p>Stacked panes can also be included <a href="https://zellij.dev/documentation/creating-a-layout.html#stacked">in your layouts</a></p>
+<h3 id="auto-and-swap-layouts">Auto and Swap Layouts</h3>
+<p><img src="https://zellij.dev/img/swap-layouts-preview.gif" alt="Auto and Swap Layouts preview"></p>
+<p>Another major feature of this release is &ldquo;Auto Layouts&rdquo;. Previously, when opening new panes without specifying a split direction (eg. with <code>Alt</code> + <code>n</code>), Zellij would do its best to place them in the largest free area on screen. While great as a stop-gap solution, we decided we could do this more intelligently.</p>
+<p>Starting this version, Zellij will lay these panes automatically according to a predefined set of layouts. These <code>swap_layouts</code> come built-in, and can also be <a href="https://zellij.dev/documentation/swap-layouts.html">configured and adjusted to your liking</a></p>
+<p>As their name implies, you can also switch between these layouts whenever you want (by default with <code>Alt</code> + <code>[]</code>), if you&rsquo;d like to rearrange the panes currently on screen.</p>
+<p>These <code>swap_layouts</code> are distinct for tiled panes (the &ldquo;regular&rdquo; panes on screen) and floating panes.</p>
+<p>To try these for tiled panes:</p>
+<ol>
+<li>Start Zellij</li>
+<li>Open one or more panes with <code>Alt</code> + <code>n</code></li>
+<li>Press <code>Alt</code> + <code>[]</code> to cycle through the swap layouts until you find one you like</li>
+</ol>
+<p>To try these for floating panes:</p>
+<ol>
+<li>Start Zellij</li>
+<li>Open a new floating pane with <code>Ctrl p</code> + <code>w</code></li>
+<li>Add more floating panes with <code>Alt</code> + <code>n</code> or <code>Ctrl p</code> + <code>n</code></li>
+<li>Press <code>Alt</code> + <code>[]</code> to cycle through the floating swap layouts until you find one you like</li>
+</ol>
+<p>Don&rsquo;t like this feature? It can be disabled by adding <code>auto_layout false</code> to your <a href="https://zellij.dev/documentation/options.html#auto_layout">config</a></p>
+<h3 id="floating-panes-in-layouts">Floating Panes in Layouts</h3>
+<p>This version also adds the ability to add floating panes to <a href="https://zellij.dev/tutorials/layouts/">layouts</a>. So now we can do:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">layout</span> {
+    <span style="color:#a6e22e">pane</span> <span style="color:#a6e22e">edit</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;src/main.rs&#34;</span>
+    <span style="color:#a6e22e">floating_panes</span> {
+        <span style="color:#a6e22e">pane</span> <span style="color:#a6e22e">command</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+            <span style="color:#a6e22e">args</span> <span style="color:#e6db74">&#34;check&#34;</span>
+            <span style="color:#a6e22e">y</span> <span style="color:#e6db74">&#34;55%&#34;</span>
+            <span style="color:#a6e22e">width</span> <span style="color:#e6db74">&#34;45%&#34;</span>
+            <span style="color:#a6e22e">height</span> <span style="color:#e6db74">&#34;45%&#34;</span>
+        }
+        <span style="color:#a6e22e">pane</span> <span style="color:#a6e22e">command</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+            <span style="color:#a6e22e">args</span> <span style="color:#e6db74">&#34;run&#34;</span>
+            <span style="color:#a6e22e">x</span> <span style="color:#e6db74">&#34;1%&#34;</span>
+            <span style="color:#a6e22e">y</span> <span style="color:#e6db74">&#34;1%&#34;</span>
+            <span style="color:#a6e22e">width</span> <span style="color:#e6db74">&#34;45%&#34;</span>
+            <span style="color:#a6e22e">height</span> <span style="color:#e6db74">&#34;45%&#34;</span>
+        }
+        <span style="color:#a6e22e">pane</span> <span style="color:#a6e22e">command</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+            <span style="color:#a6e22e">args</span> <span style="color:#e6db74">&#34;test&#34;</span>
+            <span style="color:#a6e22e">x</span> <span style="color:#e6db74">&#34;50%&#34;</span>
+            <span style="color:#a6e22e">y</span> <span style="color:#e6db74">&#34;1%&#34;</span>
+            <span style="color:#a6e22e">width</span> <span style="color:#e6db74">&#34;45%&#34;</span>
+            <span style="color:#a6e22e">height</span> <span style="color:#e6db74">&#34;45%&#34;</span>
+        }
+    }
+}
+</code></pre></div><p>And get:</p>
+<p><img src="https://zellij.dev/img/floating_panes_layouts.png" alt="floating_panes in layouts"></p>
+<h3 id="do-you-like-zellij">Do you like Zellij?</h3>
+<p>Please consider helping sustain its development by <a href="https://github.com/sponsors/imsnif">sponsoring the developer</a>.</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>
