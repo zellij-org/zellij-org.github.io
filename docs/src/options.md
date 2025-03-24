@@ -270,6 +270,18 @@ Options:
 pane_viewport_serialization 100
 ```
 
+### serialization_interval
+How often in seconds sessions are serialized to disk (if `session_serialization` is enabled).
+
+*Note: this might incur higher resource utilization (and certainly a higher cache folder usage...)*
+
+Options:
+  - `int`: the interval in seconds
+
+```javascript
+serialization_interval 60
+```
+
 ### disable_session_metadata
 Enable or disable writing of session metadata to disk
 
@@ -305,7 +317,7 @@ Options:
 show_startup_tips true
 ```
 
-### show_release_nodes
+### show_release_notes
 Show release notes on first run of a new version. These can also be browsed through the `about` plugin with `Ctrl o` + `a`.
 
 Options:

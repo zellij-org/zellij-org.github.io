@@ -620,6 +620,15 @@ Options:</p>
 </ul>
 <pre><code class="language-javascript">pane_viewport_serialization 100
 </code></pre>
+<h3 id="serialization_interval"><a class="header" href="#serialization_interval">serialization_interval</a></h3>
+<p>How often in seconds sessions are serialized to disk (if <code>session_serialization</code> is enabled).</p>
+<p><em>Note: this might incur higher resource utilization (and certainly a higher cache folder usage...)</em></p>
+<p>Options:</p>
+<ul>
+<li><code>int</code>: the interval in seconds</li>
+</ul>
+<pre><code class="language-javascript">serialization_interval 60
+</code></pre>
 <h3 id="disable_session_metadata"><a class="header" href="#disable_session_metadata">disable_session_metadata</a></h3>
 <p>Enable or disable writing of session metadata to disk</p>
 <p><em>Note: If disabled, other sessions might not know metadata info on this session, so features such as the session-manager and session listing might not work properly.</em></p>
@@ -648,7 +657,7 @@ Options:</p>
 </ul>
 <pre><code class="language-javascript">show_startup_tips true
 </code></pre>
-<h3 id="show_release_nodes"><a class="header" href="#show_release_nodes">show_release_nodes</a></h3>
+<h3 id="show_release_notes"><a class="header" href="#show_release_notes">show_release_notes</a></h3>
 <p>Show release notes on first run of a new version. These can also be browsed through the <code>about</code> plugin with <code>Ctrl o</code> + <code>a</code>.</p>
 <p>Options:</p>
 <ul>
