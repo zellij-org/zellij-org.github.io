@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="Basic Functionality (Floating Panes &#43; Command Panes &#43; Scrollback Editing): Here we demonstrate some of the more basic functionality of Zellij and how to use it for everyday tasks.
+  Stacked Resizes and Pinned Floating Panes: Here we demonstrate some of the more basic functionality of Zellij and how to use it for everyday tasks.
+  Layouts: This tutorial walks you through creating Zellij layouts to automate tasks and workflows." />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/screencasts/" />
+
+
+    <title>
+        
+            Screencasts &amp; Tutorials
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Screencasts &amp; Tutorials">
+<meta itemprop="description" content="Basic Functionality (Floating Panes &#43; Command Panes &#43; Scrollback Editing): Here we demonstrate some of the more basic functionality of Zellij and how to use it for everyday tasks.
+  Stacked Resizes and Pinned Floating Panes: Here we demonstrate some of the more basic functionality of Zellij and how to use it for everyday tasks.
+  Layouts: This tutorial walks you through creating Zellij layouts to automate tasks and workflows.">
+
+<meta itemprop="wordCount" content="156"><meta itemprop="image" content="https://zellij.dev/img/floating-panes-preview.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/floating-panes-preview.png"/>
+
+<meta name="twitter:title" content="Screencasts &amp; Tutorials"/>
+<meta name="twitter:description" content="Basic Functionality (Floating Panes &#43; Command Panes &#43; Scrollback Editing): Here we demonstrate some of the more basic functionality of Zellij and how to use it for everyday tasks.
+  Stacked Resizes and Pinned Floating Panes: Here we demonstrate some of the more basic functionality of Zellij and how to use it for everyday tasks.
+  Layouts: This tutorial walks you through creating Zellij layouts to automate tasks and workflows."/>
+
+
+
+    <meta property="og:title" content="Screencasts &amp; Tutorials" />
+<meta property="og:description" content="Basic Functionality (Floating Panes &#43; Command Panes &#43; Scrollback Editing): Here we demonstrate some of the more basic functionality of Zellij and how to use it for everyday tasks.
+  Stacked Resizes and Pinned Floating Panes: Here we demonstrate some of the more basic functionality of Zellij and how to use it for everyday tasks.
+  Layouts: This tutorial walks you through creating Zellij layouts to automate tasks and workflows." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/screencasts/" /><meta property="og:image" content="https://zellij.dev/img/floating-panes-preview.png" /><meta property="article:section" content="" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/screencasts/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></h2>
+
+            
+            
+            
+
+                  
+                
+                <ul>
+<li>
+<p><strong><a href="https://zellij.dev/tutorials/basic-functionality">Basic Functionality (Floating Panes + Command Panes + Scrollback Editing)</a></strong>: Here we demonstrate some of the more basic functionality of Zellij and how to use it for everyday tasks.</p>
+</li>
+<li>
+<p><strong><a href="https://zellij.dev/tutorials/stacked-resize">Stacked Resizes and Pinned Floating Panes</a></strong>: Here we demonstrate some of the more basic functionality of Zellij and how to use it for everyday tasks.</p>
+</li>
+<li>
+<p><strong><a href="https://zellij.dev/tutorials/layouts">Layouts</a></strong>: This tutorial walks you through creating Zellij <a href="https://zellij.dev/documentation/creating-a-layout.html">layouts</a> to automate tasks and workflows.</p>
+</li>
+<li>
+<p><strong><a href="https://zellij.dev/tutorials/session-management">Session Management</a></strong>: Learn how to use Zellij for session-management to separate different tasks and contexts.</p>
+</li>
+<li>
+<p><strong><a href="https://zellij.dev/tutorials/colliding-keybindings">Dealing with Colliding Keyboard Shortcuts</a></strong>: This tutorial demonstrates how to solve the &ldquo;Colliding Keybindings&rdquo; problem, in which the Zellij UI intercepts keys meant for the applications running inside Zellij.</p>
+</li>
+<li>
+<p><strong><a href="https://zellij.dev/tutorials/filepicker">Filepicker</a></strong>: Stop wasting time traversing through your filesystem manually! Use the Zellij filepicker to get a dynamic file exploration experience, complete with fuzzy-finding and autocompletion right in your terminal.</p>
+</li>
+<li>
+<p><strong><a href="https://zellij.dev/tutorials/developing-a-rust-plugin">Developing a Rust Plugin</a></strong>: Learn how to develop a non-trivial plugin for Zellij using Rust.</p>
+</li>
+</ul>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

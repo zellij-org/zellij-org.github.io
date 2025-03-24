@@ -1,0 +1,296 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Events - Zellij User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="plugin-api---events"><a class="header" href="#plugin-api---events">Plugin API - Events</a></h1>
+<p>A plugin can <a href="./plugin-api-commands.html#subscribe">subscribe</a> to multiple Events. These events will be sent to the plugin through its <a href="./plugin-lifecycle.html#update">update</a> method.</p>
+<p>For more detailed information, please see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
+<h2 id="modeupdate"><a class="header" href="#modeupdate">ModeUpdate</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Provides information about the input modes of Zellij (eg. <code>Normal</code>, <code>Locked</code>, <code>Pane</code>, <code>Tab</code>, etc.). It also provides information about the bound keys, the style (the active theme colors) and the session name.</p>
+<h2 id="tabupdate"><a class="header" href="#tabupdate">TabUpdate</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Provides information about the active tabs in Zellij, their position, name, whether they contain a pane in full screen, how many hidden panes they contain and information on the swap layouts.</p>
+<h2 id="paneupdate"><a class="header" href="#paneupdate">PaneUpdate</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Provides information about the active panes in Zellij, their title, command and exit code (if available), etc.</p>
+<h2 id="sessionupdate"><a class="header" href="#sessionupdate">SessionUpdate</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Provides information about the active sessions (of the current version) running on the machine.</p>
+<h2 id="key"><a class="header" href="#key">Key</a></h2>
+<p>A user pressed a key when focused to this plugin, this event also provides the key pressed.</p>
+<h2 id="mouse"><a class="header" href="#mouse">Mouse</a></h2>
+<p>A user issued a mouse action (click, scroll, etc.) while focused on the plugin, this event also provides the action in question.</p>
+<h2 id="timer"><a class="header" href="#timer">Timer</a></h2>
+<p>This event is fired when a timer the plugin set is expired. This corresponds to the <code>set_timeout</code> <a href="./plugin-api-commands.html#set_timeout">plugin command</a>;</p>
+<h2 id="copytoclipboard"><a class="header" href="#copytoclipboard">CopyToClipboard</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>This event is fired when the user copies a String to their clipboard</p>
+<h2 id="systemclipboardfailure"><a class="header" href="#systemclipboardfailure">SystemClipboardFailure</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>This event is fired when the user fails to copy a String to their clipboard</p>
+<h2 id="inputreceived"><a class="header" href="#inputreceived">InputReceived</a></h2>
+<p>This event is fired whenever any input is received in Zellij, but does not specify which input</p>
+<h2 id="visible"><a class="header" href="#visible">Visible</a></h2>
+<p>This event is fired when the current plugin becomes visible or invisible (eg. when switching a tab to and away from it).</p>
+<h2 id="custommessage"><a class="header" href="#custommessage">CustomMessage</a></h2>
+<p>This event corresponds to the <code>post_message_to</code> and <code>post_message_to_plugin</code> <a href="./plugin-api-commands.html">plugin commands</a>, used for a plugin and its workers to communicate. For more information, please see: <a href="./plugin-api-workers.html">Workers for Async Tasks</a>.</p>
+<h2 id="filesystemcreate-filesystemread-filesystemupdate-filesystemdelete"><a class="header" href="#filesystemcreate-filesystemread-filesystemupdate-filesystemdelete">FileSystemCreate, FileSystemRead, FileSystemUpdate, FileSystemDelete</a></h2>
+<p>These events are fired when the user creates a file, reads a file, updates a file or deletes a file in the folder in which Zellij was started. It includes a vector of the files in question.</p>
+<h2 id="runcommandresult"><a class="header" href="#runcommandresult">RunCommandResult</a></h2>
+<p>Returned after the <code>RunCommand</code> <a href="./plugin-api-commands.html">plugin command</a>. Containing the exit status, STDIN and STDOUT of the command as well as the context (an arbitrary string dictionary) provided when initiating the command.</p>
+<h2 id="webrequestresult"><a class="header" href="#webrequestresult">WebRequestResult</a></h2>
+<p>Returned after the <code>WebRequest</code> <a href="./plugin-api-commands.html">plugin command</a>. Containing the status code and body of the request as well as the context (an arbitrary string dictionary) provided when initiating the command.</p>
+<h2 id="commandpaneopened"><a class="header" href="#commandpaneopened">CommandPaneOpened</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Returned after a pane opened with the <code>OpenCommandPane</code> <a href="./plugin-api-commands.html">plugin command</a> is opened. Contains the terminal pane id of the pane, the context (an arbitrary string dictionary) provided when initiating the command.</p>
+<h2 id="commandpaneexited"><a class="header" href="#commandpaneexited">CommandPaneExited</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Returned after a pane opened with the <code>OpenCommandPane</code> <a href="./plugin-api-commands.html">plugin command</a> has exited. Note that this does not mean the pane is closed, it only means the command inside it has exited. This can happen multiple times if (for example) the user reruns the command by pressing <code>Enter</code> when focused on the command pane. Contains the terminal pane id of the pane, the command's numeric exit code (if there was one) as well as the context (an arbitrary string dictionary) provided when initiating the command.</p>
+<h2 id="paneclosed"><a class="header" href="#paneclosed">PaneClosed</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>A pane inside the current session was closed. Includes the pane's id.</p>
+<h2 id="editpaneopened"><a class="header" href="#editpaneopened">EditPaneOpened</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Returned after a pane opened with the <code>OpenFile</code> <a href="./plugin-api-commands.html">plugin command</a> is opened. Contains the terminal pane id of the editor pane, the context (an arbitrary string dictionary) provided when initiating the command.</p>
+<h2 id="editpaneexited"><a class="header" href="#editpaneexited">EditPaneExited</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Returned after a pane opened with the <code>OpenFile</code> <a href="./plugin-api-commands.html">plugin command</a> has exited. Contains the terminal pane id of the editor pane, the editor's numeric exit code (if there was one) as well as the context (an arbitrary string dictionary) provided when initiating the command.</p>
+<h2 id="commandpanererun"><a class="header" href="#commandpanererun">CommandPaneReRun</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Returned after a pane opened with the <code>OpenCommandPane</code> <a href="./plugin-api-commands.html">plugin command</a> has been re-run. This can happen multiple times and is often (but not necessarily) a result of the user pressing <code>Enter</code> when focused on the command pane. Contains the terminal pane id of the pane, the command's numeric exit code (if there was one) as well as the context (an arbitrary string dictionary) provided when initiating the command.</p>
+<h2 id="failedtowriteconfigtodisk"><a class="header" href="#failedtowriteconfigtodisk">FailedToWriteConfigToDisk</a></h2>
+<ul>
+<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>After the plugin attempted writing the configuration to disk (with the <code>Reconfigure</code> <a href="./plugin-api-commands.html">plugin command</a>) and there was an error (eg. the file was read-only), this event is sent - optionally with the relevant error.</p>
+<h2 id="listclients"><a class="header" href="#listclients">ListClients</a></h2>
+<p>The result of the <code>ListClients</code> <a href="./plugin-api-commands.html">plugin command</a>. Contains information about all connected clients in the session, including their id, their focused pane id, the stringified representation of the running command or plugin inside their focused pane (if any), as well as an indication of whether they are the current client or not.</p>
+<h2 id="pastedtext"><a class="header" href="#pastedtext">PastedText</a></h2>
+<p>The user just pasted the given text while focused on the plugin.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="plugin-api.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="plugin-api-commands.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="plugin-api.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="plugin-api-commands.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

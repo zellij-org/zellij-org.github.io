@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Aram Drevekenin">
+<meta name="description" content="This release includes a new built-in plugin to navigate across sessions, configurable plugins, a plugin permission system and much more!" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/news/session-manager-protobuffs/" />
+
+
+    <title>
+        
+            Zellij 0.38.0: including a session-manager, plugin infrastructure improvements and an end to offensive session names
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Zellij 0.38.0: including a session-manager, plugin infrastructure improvements and an end to offensive session names">
+<meta itemprop="description" content="This release includes a new built-in plugin to navigate across sessions, configurable plugins, a plugin permission system and much more!"><meta itemprop="datePublished" content="2023-08-29T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2023-08-29T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="551"><meta itemprop="image" content="https://zellij.dev/img/zellij-session-manager.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/zellij-session-manager.png"/>
+
+<meta name="twitter:title" content="Zellij 0.38.0: including a session-manager, plugin infrastructure improvements and an end to offensive session names"/>
+<meta name="twitter:description" content="This release includes a new built-in plugin to navigate across sessions, configurable plugins, a plugin permission system and much more!"/>
+
+
+
+    <meta property="og:title" content="Zellij 0.38.0: including a session-manager, plugin infrastructure improvements and an end to offensive session names" />
+<meta property="og:description" content="This release includes a new built-in plugin to navigate across sessions, configurable plugins, a plugin permission system and much more!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/news/session-manager-protobuffs/" /><meta property="og:image" content="https://zellij.dev/img/zellij-session-manager.png" /><meta property="article:section" content="news" />
+<meta property="article:published_time" content="2023-08-29T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2023-08-29T00:00:00&#43;00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2023-08-29 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/news/session-manager-protobuffs/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/news/session-manager-protobuffs/">Zellij 0.38.0: including a session-manager, plugin infrastructure improvements and an end to offensive session names</a></h2>
+
+            
+            
+            
+
+                  
+                <span class="post-date">
+                  2023-08-29
+                </span>
+                
+                
+                  <span class="post-author">::
+                    
+                    <a href="https://hachyderm.io/@imsnif">Aram Drevekenin</a>
+                    
+                  </span>
+                
+                <h2 id="session-manager">Session Manager</h2>
+<p><img src="https://zellij.dev/img/zellij-session-manager-animated.gif" alt="Zellij session manager"></p>
+<p>This much requested feature has been implemented as a built-in plugin, allowing users to switch between sessions and move focus to specific tabs or panes in the current or other sessions. And of course, one can fuzzy-find through pane names (often provided by the application running inside the terminal), tab names or session names.</p>
+<p>All of this functionality is now available as part of Zellij&rsquo;s plugin API - so users are welcome and encouraged to fork the plugin and change its behavior to their liking.</p>
+<h2 id="move-panes-between-tabs">Move Panes Between Tabs</h2>
+<p>It&rsquo;s now possible to move panes (tiled or floating) between tabs and even to &ldquo;break&rdquo; a pane into a new tab (essentially creating a new tab around this pane).</p>
+<h2 id="randomly-generated-names-no-longer-offensive">Randomly Generated Names No Longer Offensive</h2>
+<p>Until now, we have used a random name generator for the Zellij session names. We thought this would be a nicer experience than having to remember strings of hexadecimal characters. Unfortunately, the name generator included some unfortunate random combinations. We apologize for this and have now sanitized the lists to only have unobjectionable names.</p>
+<h2 id="plugin-infrastructure-improvements">Plugin Infrastructure Improvements</h2>
+<h3 id="plugins-are-now-configurable">Plugins are now configurable</h3>
+<p>It&rsquo;s now possible to send arbitrary user configuration to plugins. Meaning plugins can be instantiated with different configuration to elicit different behavior. This configuration can be provided when loading a plugin through a Zellij <a href="https://zellij.dev/documentation/layouts">layout</a> or when loading them from the <a href="https://zellij.dev/documentation/cli-actions#launch-or-focus-plugin">command line</a>.</p>
+<h3 id="new-plugin-permission-system">New plugin permission system</h3>
+<p><img src="https://zellij.dev/img/zellij-plugin-permission-request.png" alt="Zellij plugin permission request"></p>
+<p>Externally loaded plugins must now request permission to perform sensitive operations on the user&rsquo;s workspace. When a plugin is loaded, it should request the permissions it needs and these will be presented to the user for their authorization.</p>
+<h3 id="plugins-are-now-forwards-compatible-thanks-to-protobuffers">Plugins are now forwards compatible thanks to protobuffers</h3>
+<p>Up until now, to pass complex data structures to our <a href="https://zellij.dev/news/new-plugin-system">webassembly plugins</a>, we would serialize/deserialize them through STDIN/STDOUT using a json representation. While a good solution at a pinch, its schemaless nature created a lot of grief when loading plugins compiled for a different version of Zellij.</p>
+<p>Starting this version, we transfer these data structures over the same medium using <a href="https://protobuf.dev">protocol buffers</a>. This makes plugins essentially forwards compatible (unless there is breaking API behavior change), and makes it much easier to share these data structures with SDKs for other languages.</p>
+<p>We hope to declare a blanket future compatibility for all plugins some day, but can&rsquo;t promise it at this point. Our plugin system is still young and growing and we might have to break compatibility here and there. We do promise to be as verbose and communicative about it as possible.</p>
+<p><em>Aside: We are aware there are native webassembly solutions for this problem in the works, but at the time of implementation to the best of our knowledge none of them were declared as stable. We look forward to consider them as an add-on when they are stabilized.</em></p>
+<h2 id="read-the-release-notes-for-more-information-and-a-full-list-of-changeshttpsgithubcomzellij-orgzellijreleasestagv0380"><a href="https://github.com/zellij-org/zellij/releases/tag/v0.38.0">Read the release notes for more information and a full list of changes</a></h2>
+<h2 id="do-you-like-zellij">Do you like Zellij?</h2>
+<p>Me too! So much so that I spend 100% of my time developing and maintaining it and have no other income.</p>
+<p>Zellij will always be free and open-source. Zellij will never contain ads.</p>
+<p>So if the tool gives you value and you are able, please consider <a href="https://github.com/sponsors/imsnif">a recurring monthly donation</a> of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="How to quickly solve the issue of Zellij intercepting keys while still maintaining peak efficiency in one&#39;s workflow" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/tutorials/colliding-keybindings/" />
+
+
+    <title>
+        
+            Dealing with Colliding Keyboard Shortcuts
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Dealing with Colliding Keyboard Shortcuts">
+<meta itemprop="description" content="How to quickly solve the issue of Zellij intercepting keys while still maintaining peak efficiency in one&#39;s workflow">
+
+<meta itemprop="wordCount" content="621"><meta itemprop="image" content="https://zellij.dev/img/configuration-screen-1.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/configuration-screen-1.png"/>
+
+<meta name="twitter:title" content="Dealing with Colliding Keyboard Shortcuts"/>
+<meta name="twitter:description" content="How to quickly solve the issue of Zellij intercepting keys while still maintaining peak efficiency in one&#39;s workflow"/>
+
+
+
+    <meta property="og:title" content="Dealing with Colliding Keyboard Shortcuts" />
+<meta property="og:description" content="How to quickly solve the issue of Zellij intercepting keys while still maintaining peak efficiency in one&#39;s workflow" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/tutorials/colliding-keybindings/" /><meta property="og:image" content="https://zellij.dev/img/configuration-screen-1.png" /><meta property="article:section" content="tutorials" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/tutorials/colliding-keybindings/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/tutorials/colliding-keybindings/">Dealing with Colliding Keyboard Shortcuts</a></h2>
+
+            
+            
+            
+
+                  
+                
+                <div class="container" style="display: flex; justify-content: left; align-items: left;">
+  <div id="player-wrapper" class=""></div>
+</div>
+
+<script 
+  type="text/javascript" 
+  src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"
+>
+</script>
+
+<script>
+  var playerElement = document.getElementById("player-wrapper");
+
+  var player = new Clappr.Player({
+    source: "/video/colliding-keybindings-screencast.mp4",
+    mute: false,
+    
+    height: 540,
+    
+    width: 960
+  });
+
+  player.attachTo(playerElement);  
+</script>
+
+<p>This tutorial demonstrates how to solve the &ldquo;Colliding Keybindings&rdquo; problem, in which the Zellij UI intercepts keys meant for the applications running inside Zellij.</p>
+<p><em>The video screencast and the tutorial contain the same content.</em></p>
+<h2 id="what-well-cover">What we&rsquo;ll cover</h2>
+<ul>
+<li><a href="#the-problem">The Problem - what are colliding keybindings?</a></li>
+<li><a href="#the-solution">The Solution - the &ldquo;Unlock-First (non-colliding)&rdquo; Preset</a></li>
+<li><a href="#rebinding-the-unlock-toggle-ctrl-g-or-the-secondary-modifier-alt">Rebinding the &ldquo;Unlock toggle&rdquo; or the secondary modifier (Alt)</a></li>
+<li><a href="#manually-changing-the-configuration-file">Manually Changing the configuration file</a></li>
+<li><a href="#do-you-like-zellij--">Do you like Zellij?</a></li>
+</ul>
+<h2 id="the-problem">The Problem</h2>
+<p>Zellij intercepts certain keys that we as users expect to be sent to the applications running inside Zellij. For example, Zellij uses the <code>Ctrl o</code> shortcut to enter <a href="https://zellij.dev/documentation/keybindings-modes"><code>Session</code> mode</a>, and vim uses the same shortcut to jump forward in the user&rsquo;s <a href="https://vimtricks.com/p/vim-jump-list/">jumplist</a>.</p>
+<h2 id="the-solution">The Solution</h2>
+<p><figure class="center">
+    <img src="https://zellij.dev/img/configuration-screen-1.png"/> 
+</figure>
+
+Starting from version <code>0.41</code>, Zellij introduced a new <code>Unlock-First (non-colliding)</code> keybinding preset. In this preset, one must first &ldquo;unlock&rdquo; the interface in order to access the various input modes. And so, the keybindings will no-longer collide.</p>
+<p>To apply this preset for the current session, press <code>Ctrl o</code> to enter <code>Session</code> mode, and then <code>c</code> to open the <code>Configuration</code> screen. Then press <code>&lt;TAB&gt;</code> to go to <code>Change Mode Behavior</code>, navigate to <code>Unlock-First (non-colliding)</code> with the down arrow, and then press <code>&lt;Enter&gt;</code> to apply this preset to the current session.</p>
+<p>To save this preset to the configuration file so that it persists between sessions (and updates the other sessions on the same machine), you can do the same thing as above except press <code>&lt;Ctrl a&gt;</code> instead of <code>&lt;Enter&gt;</code>. This preset includes lots of specialized keybindings. While it cannot be applied in a single configuration option, the saved configuration file can be transferred to different machines and used to apply this preset without doing so through the <code>Configuration</code> screen every time.</p>
+<h2 id="rebinding-the-unlock-toggle-ctrl-g-or-the-secondary-modifier-alt">Rebinding the &ldquo;Unlock toggle&rdquo; (<code>Ctrl g</code>) or the secondary modifier (<code>Alt</code>)</h2>
+<p><figure class="center">
+    <img src="https://zellij.dev/img/configuration-screen-2.png"/> 
+</figure>
+
+In some cases, the <code>Unlock-First (non-colliding)</code> preset is not enough. For example, when one wishes to use one of the &ldquo;secondary modifier actions&rdquo; such as <code>Alt f</code> or <code>Alt n</code>. Or of course when one wishes to free up <code>Ctrl g</code> itself. In order to do this, one can use the same <code>Configuration</code> screen to:</p>
+<ol>
+<li><strong>Change the Secondary Modifier</strong>: this is by default <code>Alt</code>. It can be changed by going into <code>Session</code> mode (<code>Ctrl o</code> or <code>Ctrl g</code> + <code>o</code>), selecting <code>c</code> to open the <code>Configuration</code> screen, and changing the secondary modifier: navigating with the arrow keys and pressing <code>&lt;SPACE&gt;</code> to add or change the secondary modifier. Then pressing <code>&lt;ENTER&gt;</code> to apply these changes.</li>
+<li><strong>Change the Unlock Toggle</strong>: this is by default <code>Ctrl g</code> in when in the <code>Unlock-First (non-colliding)</code> preset. It can be changed by going into <code>Session</code> mode (<code>Ctrl o</code> or <code>Ctrl g</code> + <code>o</code>), selecting <code>c</code> to open the <code>Configuration</code> screen, and changing the unlock toggle: navigating with the arrow keys and pressing <code>&lt;SPACE&gt;</code> on the unlock toggle, then pressing a new modifier (for example <code>Alt g</code>).</li>
+</ol>
+<h2 id="manually-changing-the-configuration-file">Manually Changing the Configuration file</h2>
+<p>If one would like more fine-grained control over which keys exactly would be bound or unbound, one can directly change them in the configuration file (without needing to restart Zellij). This can be done by editing the file and changing the keys, as detailed <a href="https://zellij.dev/documentation/keybindings">here</a>.</p>
+<h1 id="do-you-like-zellij--">Do you like Zellij ❤️ ?</h1>
+<p>Me too! So much so that I spend 100% of my time developing and maintaining it and have no other income.</p>
+<p>Zellij will always be free and open-source. Zellij will never contain ads or collect your data.</p>
+<p>So if the tool gives you value and you are able, please consider a recurring monthly donation of 5-10$ to help me pay my bills. There are Zellij stickers in it for you! <a href="https://github.com/sponsors/imsnif">https://github.com/sponsors/imsnif</a></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

@@ -1,0 +1,499 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Zellij Action - Zellij User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="cli-actions"><a class="header" href="#cli-actions">CLI Actions</a></h2>
+<h4 id="close-pane"><a class="header" href="#close-pane">close-pane</a></h4>
+<p>Close the focused pane</p>
+<p>eg.</p>
+<pre><code>$ zellij action close-pane
+</code></pre>
+<h4 id="close-tab"><a class="header" href="#close-tab">close-tab</a></h4>
+<p>Close the current tab</p>
+<p>eg.</p>
+<pre><code>$ zellij action close-tab
+</code></pre>
+<h4 id="dump-screen"><a class="header" href="#dump-screen">dump-screen</a></h4>
+<p>Dumps the pane scrollback to a file</p>
+<p><strong>ARGS</strong>: The path to the file on the hard-drive (eg. <code>/tmp/screen-dump.txt</code>)</p>
+<p>eg.</p>
+<pre><code>$ zellij action dump-screen /tmp/screen-dump.txt
+</code></pre>
+<h4 id="edit"><a class="header" href="#edit">edit</a></h4>
+<p>Open the specified file in a new zellij pane with your default EDITOR</p>
+<p><strong>ARGS</strong>: The path to the file to open (eg. <code>/tmp/my-file.rs</code>)</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>-d, --direction &lt;DIRECTION&gt; [right|down]
+-f, --floating
+-l, --line-number &lt;LINE_NUMBER&gt;
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action edit ./my-file.rs -f
+</code></pre>
+<p><strong>Note</strong>: it is also possible to issue this action without the <code>action</code> prefix:</p>
+<p>eg.</p>
+<pre><code>$ zellij edit ./my-file.rs -f
+</code></pre>
+<h4 id="dump-layout"><a class="header" href="#dump-layout">dump-layout</a></h4>
+<p>Dumps the current <a href="./creating-a-layout.html">Layout</a> of the session to STDOUT</p>
+<p>eg.</p>
+<pre><code>$ zellij action dump-layout
+</code></pre>
+<h4 id="edit-scrollback"><a class="header" href="#edit-scrollback">edit-scrollback</a></h4>
+<p>Open the pane scrollback in your default editor</p>
+<p>eg.</p>
+<pre><code>$ zellij action edit-scrollback
+</code></pre>
+<h4 id="focus-next-pane"><a class="header" href="#focus-next-pane">focus-next-pane</a></h4>
+<p>Change focus to the next pane</p>
+<p>eg.</p>
+<pre><code>$ zellij action focus-next-pane
+</code></pre>
+<h4 id="focus-previous-pane"><a class="header" href="#focus-previous-pane">focus-previous-pane</a></h4>
+<p>Change focus to the previous pane</p>
+<p>eg.</p>
+<pre><code>$ zellij action focus-previous-pane
+</code></pre>
+<h4 id="go-to-next-tab"><a class="header" href="#go-to-next-tab">go-to-next-tab</a></h4>
+<p>Go to the next tab</p>
+<p>eg.</p>
+<pre><code>$ zellij action go-to-next-tab
+</code></pre>
+<h4 id="go-to-previous-tab"><a class="header" href="#go-to-previous-tab">go-to-previous-tab</a></h4>
+<p>Go to the previous tab</p>
+<p>eg.</p>
+<pre><code>$ zellij action go-to-previous-tab
+</code></pre>
+<h4 id="go-to-tab"><a class="header" href="#go-to-tab">go-to-tab</a></h4>
+<p>Go to tab with index [index]</p>
+<p><strong>ARGS</strong>: The tab index (eg. 1)</p>
+<p>eg.</p>
+<pre><code>$ zellij action go-to-tab 1
+</code></pre>
+<h4 id="go-to-tab-name"><a class="header" href="#go-to-tab-name">go-to-tab-name</a></h4>
+<p>Go to tab with name [name]</p>
+<p><strong>ARGS</strong>: The tab name (eg. "Tab #1")</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -c, --create        Create a tab if one does not exist
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action go-to-tab-name "Tab #1"
+</code></pre>
+<h4 id="half-page-scroll-down"><a class="header" href="#half-page-scroll-down">half-page-scroll-down</a></h4>
+<p>Scroll down half page in focus pane</p>
+<p>eg.</p>
+<pre><code>$ zellij action half-page-scroll-down
+</code></pre>
+<h4 id="half-page-scroll-up"><a class="header" href="#half-page-scroll-up">half-page-scroll-up</a></h4>
+<p>Scroll up half page in focus pane</p>
+<p>eg.</p>
+<pre><code>$ zellij action half-page-scroll-up
+</code></pre>
+<h4 id="launch-or-focus-plugin"><a class="header" href="#launch-or-focus-plugin">launch-or-focus-plugin</a></h4>
+<p>Launch a plugin if it is not loaded somewhere in the session, focus it if it is.</p>
+<p><strong>ARGS</strong>: The <a href="./plugin-loading.html#plugin-url-schema">plugin URL</a> (eg. <code>file:/path/to/my/plugin.wasm</code>)</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>-f, --floating      Will be used when launching the plugin if it is not already running
+</code></pre>
+<p>eg.</p>
+<pre><code>zellij action launch-or-focus-plugin zellij:strider --floating
+</code></pre>
+<h4 id="list-clients"><a class="header" href="#list-clients">list-clients</a></h4>
+<p>List all clients connected to the current session, their focused pane id and their running program (if it's not the default shell and if Zellij can detect it).</p>
+<p><em>A note about pane ids:</em> Since terminal panes and plugin panes can have overlapping IDs, they are differentiated by prefixing the pane type, eg. <code>terminal_1</code> is a different pane than <code>plugin_1</code>. The ID of terminal panes is the same one that can be discovered through the <code>ZELLIJ_PANE_ID</code> environment variable.</p>
+<p>eg.</p>
+<pre><code>$ zellij action list-clients
+
+CLIENT_ID ZELLIJ_PANE_ID RUNNING_COMMAND
+1         plugin_2       zellij:session-manager
+2         terminal_3     vim /tmp/my-file.txt
+</code></pre>
+<h4 id="move-focus"><a class="header" href="#move-focus">move-focus</a></h4>
+<p>Move the focused pane in the specified direction.</p>
+<p><strong>ARGS</strong>: The direction to move [right|left|up|down]</p>
+<p>eg.</p>
+<pre><code>$ zellij action move-focus left
+</code></pre>
+<h4 id="move-focus-or-tab"><a class="header" href="#move-focus-or-tab">move-focus-or-tab</a></h4>
+<p>Move focus to the pane or tab (if on screen edge) in the specified direction</p>
+<p><strong>ARGS</strong>: The direction to move [right|left|up|down]</p>
+<p>eg.</p>
+<pre><code>$ zellij action move-focus-or-tab left
+</code></pre>
+<h4 id="move-pane"><a class="header" href="#move-pane">move-pane</a></h4>
+<p>Change the location of the focused pane in the specified direction</p>
+<p><strong>ARGS</strong>: The direction to move [right|left|up|down]</p>
+<p>eg.</p>
+<pre><code>$ zellij action move-pane left
+</code></pre>
+<h4 id="new-pane"><a class="header" href="#new-pane">new-pane</a></h4>
+<p>Open a new pane in the specified direction or as a floating pane. If no is specified, will try to use the biggest available space.</p>
+<p><strong>ARGS (optional)</strong>: the command to run inside the pane in place of the default shell (must be preceeded by a double-dash <code>--</code>)</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -c, --close-on-exit            Close the pane immediately when its command exits
+        --cwd &lt;CWD&gt;                Change the working directory of the new pane
+    -d, --direction &lt;DIRECTION&gt;    Direction to open the new pane in
+    -f, --floating                 Open the new pane in floating mode
+    -h, --help                     Print help information
+    -n, --name &lt;NAME&gt;              Name of the new pane
+    -s, --start-suspended          Start the command suspended, only running after you first presses
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action new-pane -f # open a new floating pane with the default shell
+$ zellij action new-pane --name "follow this log!" -- tail -f /tmp/my-log-file # open a new floating pane with the default shell
+</code></pre>
+<p><strong>Note:</strong> This can also be shortened to <code>zellij run</code></p>
+<p>eg.</p>
+<pre><code>$ zellij run -- tail -f /tmp/my-log-file
+</code></pre>
+<h4 id="new-tab"><a class="header" href="#new-tab">new-tab</a></h4>
+<p>Create a new tab, optionally with a specified tab layout and name</p>
+<p>Specifying a path to a layout file with <code>--layout</code> will start that tab with the specified layout.</p>
+<p>If the <code>--cwd</code> flag if included with the <code>--layout</code> flag, all relative paths in that layout will start from this <code>cwd</code>. Replacing the global <code>cwd</code> in the layout if it exists.
+See <a href="./creating-a-layout.html#cwd-composition">layout CWD composition</a> for more info.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -c, --cwd &lt;CWD&gt;
+    -l, --layout &lt;LAYOUT&gt;
+    -n, --name &lt;NAME&gt;
+</code></pre>
+<h4 id="page-scroll-down"><a class="header" href="#page-scroll-down">page-scroll-down</a></h4>
+<p>Scroll down one page in focus pane</p>
+<p>eg.</p>
+<pre><code>$ zellij action page-scroll-down
+</code></pre>
+<h4 id="page-scroll-up"><a class="header" href="#page-scroll-up">page-scroll-up</a></h4>
+<p>Scroll up one page in focus pane</p>
+<p>eg.</p>
+<pre><code>$ zellij action page-scroll-up
+</code></pre>
+<h4 id="rename-pane"><a class="header" href="#rename-pane">rename-pane</a></h4>
+<p>Renames the focused pane (title will appear on the pane frame)</p>
+<p><strong>ARGS</strong>: the pane name</p>
+<p>eg.</p>
+<pre><code>$ zellij action rename-pane "alice the cat"
+</code></pre>
+<h4 id="rename-tab"><a class="header" href="#rename-tab">rename-tab</a></h4>
+<p>Renames the focused tab</p>
+<p><strong>ARGS</strong>: the tab name</p>
+<p>eg.</p>
+<pre><code>$ zellij action rename-tab "alice the cat"
+</code></pre>
+<h4 id="resize"><a class="header" href="#resize">resize</a></h4>
+<p>Resize the focused pane in the specified direction.</p>
+<p><strong>ARGS</strong>: The resize direction [right|left|up|down|+|-]</p>
+<p>eg.</p>
+<pre><code>$ zellij action resize left
+</code></pre>
+<h4 id="scroll-down"><a class="header" href="#scroll-down">scroll-down</a></h4>
+<p>Scroll down 1 line in the focused pane</p>
+<p>eg.</p>
+<pre><code>$ zellij action scroll-down
+</code></pre>
+<h4 id="scroll-to-bottom"><a class="header" href="#scroll-to-bottom">scroll-to-bottom</a></h4>
+<p>Scroll down to bottom in the focused pane</p>
+<p>eg.</p>
+<pre><code>$ zellij action scroll-to-bottom
+</code></pre>
+<h4 id="scroll-up"><a class="header" href="#scroll-up">scroll-up</a></h4>
+<p>Scroll up 1 line in the focused pane</p>
+<p>eg.</p>
+<pre><code>$ zellij action scroll-up
+</code></pre>
+<h4 id="start-or-reload-plugin"><a class="header" href="#start-or-reload-plugin">start-or-reload-plugin</a></h4>
+<p>Launch a plugin if it is not loaded or reload it (skipping cache) if it is. Mostly useful for plugin development.</p>
+<p><strong>ARGS</strong>: The <a href="./plugin-loading.html#plugin-url-schema">plugin URL</a> (eg. <code>file:/path/to/my/plugin.wasm</code>)</p>
+<p>eg.</p>
+<pre><code>zellij action start-or-reload-plugin zellij:strider
+</code></pre>
+<h4 id="switch-mode"><a class="header" href="#switch-mode">switch-mode</a></h4>
+<p>Switch input mode of all connected clients</p>
+<p><strong>ARGS</strong>: The mode to switch to [locked|pane|tab|resize|move|search|session|tmux]</p>
+<p>eg.</p>
+<pre><code>$ zellij action switch-mode locked
+</code></pre>
+<h4 id="toggle-active-sync-tab"><a class="header" href="#toggle-active-sync-tab">toggle-active-sync-tab</a></h4>
+<p>Toggle between sending text input to all panes in the current tab and just to the focused pane (the default)</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-active-sync-tab
+</code></pre>
+<h4 id="toggle-floating-panes"><a class="header" href="#toggle-floating-panes">toggle-floating-panes</a></h4>
+<p>Toggle the visibility of all floating panes in the current Tab, open one if none exist</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-floating-panes
+</code></pre>
+<h4 id="toggle-fullscreen"><a class="header" href="#toggle-fullscreen">toggle-fullscreen</a></h4>
+<p>Toggle between fullscreen focus pane and normal layout</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-fullscreen
+</code></pre>
+<h4 id="toggle-pane-embed-or-floating"><a class="header" href="#toggle-pane-embed-or-floating">toggle-pane-embed-or-floating</a></h4>
+<p>Embed focused pane if floating or float focused pane if embedded</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-pane-embed-or-floating
+</code></pre>
+<h4 id="toggle-pane-frames"><a class="header" href="#toggle-pane-frames">toggle-pane-frames</a></h4>
+<p>Toggle frames around panes in the UI</p>
+<p><strong>Note</strong>: Zellij relies on frames to display parts of the UI, removing them might make certain things a little confusing to those not used to the app.</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-pane-frames
+</code></pre>
+<h4 id="undo-rename-pane"><a class="header" href="#undo-rename-pane">undo-rename-pane</a></h4>
+<p>Remove a previously set pane name</p>
+<p>eg.</p>
+<pre><code>$ zellij action undo-rename-pane
+</code></pre>
+<h4 id="undo-rename-tab"><a class="header" href="#undo-rename-tab">undo-rename-tab</a></h4>
+<p>Remove a previously set tab name</p>
+<p>eg.</p>
+<pre><code>$ zellij action undo-rename-tab
+</code></pre>
+<h4 id="query-tab-names"><a class="header" href="#query-tab-names">query-tab-names</a></h4>
+<p>Query all tab names (receive a textual list on the command line)</p>
+<p>eg.</p>
+<pre><code>$ zellij action query-tab-names
+</code></pre>
+<h4 id="write"><a class="header" href="#write">write</a></h4>
+<p>Write bytes to the focused pane</p>
+<p><strong>ARGS</strong>: An array of bytes to write</p>
+<p>eg.</p>
+<pre><code>$ zellij action write 102 111 111
+</code></pre>
+<h4 id="write-chars"><a class="header" href="#write-chars">write-chars</a></h4>
+<p>Write characters to the focused pane</p>
+<p><strong>ARGS</strong>: A string of characters to write</p>
+<p>eg.</p>
+<pre><code>$ zellij action write-chars "Hi there!"
+</code></pre>
+<h4 id="toggle-pane-pinned"><a class="header" href="#toggle-pane-pinned">toggle-pane-pinned</a></h4>
+<p>If the current pane is a floating pane, toggle its pinned state (always on top).</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-pane-pinned
+</code></pre>
+<h4 id="stack-panes"><a class="header" href="#stack-panes">stack-panes</a></h4>
+<p>Given a list of pane ids, turns them into a stack. (pane ids can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var).</p>
+<p><strong>ARGS</strong>: A list of panes (see example below)</p>
+<p>eg.</p>
+<pre><code># This will create a stack of 3 panes (terminal with ID 1, plugin with ID 1 and terminal with ID 2)
+$ zellij action stack-panes -- terminal_1 plugin_1 terminal_2
+</code></pre>
+<h4 id="change-floating-pane-coordinates"><a class="header" href="#change-floating-pane-coordinates">change-floating-pane-coordinates</a></h4>
+<p>Given a pane id, and coordinates, will change the coordinates of this pane.</p>
+<p><strong>ARGS</strong>: The pane id (see example below - these can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var)
+<strong>OPTIONS:</strong></p>
+<pre><code>        --height &lt;HEIGHT&gt;      The height if the pane is floating as a bare integer (eg. 1) or
+                               percent (eg. 10%)
+    -p, --pane-id &lt;PANE_ID&gt;    The pane_id of the floating pane, eg.  terminal_1, plugin_2 or 3
+                               (equivalent to terminal_3)
+        --pinned &lt;PINNED&gt;      Whether to pin a floating pane so that it is always on top
+        --width &lt;WIDTH&gt;        The width if the pane is floating as a bare integer (eg. 1) or
+                               percent (eg. 10%)
+    -x, --x &lt;X&gt;                The x coordinates if the pane is floating as a bare integer (eg. 1)
+                               or percent (eg. 10%)
+    -y, --y &lt;Y&gt;                The y coordinates if the pane is floating as a bare integer (eg. 1)
+                               or percent (eg. 10%)
+</code></pre>
+<p>eg.</p>
+<pre><code>zellij action change-floating-pane-coordinates --pane-id terminal_15 --height 10 --width 10 -x 10 -y 10
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="zellij-edit.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="zellij-plugin.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="zellij-edit.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="zellij-plugin.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

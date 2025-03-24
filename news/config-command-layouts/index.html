@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Aram Drevekenin">
+<meta name="description" content="We just released a significant version of Zellij with lots of highly anticipated features!" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/news/config-command-layouts/" />
+
+
+    <title>
+        
+            Zellij 0.32.0: YAML =&gt; KDL, Control Zellij through the CLI, Command Panes and a new Layout System
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Zellij 0.32.0: YAML =&gt; KDL, Control Zellij through the CLI, Command Panes and a new Layout System">
+<meta itemprop="description" content="We just released a significant version of Zellij with lots of highly anticipated features!"><meta itemprop="datePublished" content="2022-10-25T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2022-10-25T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="953"><meta itemprop="image" content="https://zellij.dev/img/floating-panes-preview.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/floating-panes-preview.png"/>
+
+<meta name="twitter:title" content="Zellij 0.32.0: YAML =&gt; KDL, Control Zellij through the CLI, Command Panes and a new Layout System"/>
+<meta name="twitter:description" content="We just released a significant version of Zellij with lots of highly anticipated features!"/>
+
+
+
+    <meta property="og:title" content="Zellij 0.32.0: YAML =&gt; KDL, Control Zellij through the CLI, Command Panes and a new Layout System" />
+<meta property="og:description" content="We just released a significant version of Zellij with lots of highly anticipated features!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/news/config-command-layouts/" /><meta property="og:image" content="https://zellij.dev/img/floating-panes-preview.png" /><meta property="article:section" content="news" />
+<meta property="article:published_time" content="2022-10-25T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-10-25T00:00:00&#43;00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-10-25 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/news/config-command-layouts/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/news/config-command-layouts/">Zellij 0.32.0: YAML =&gt; KDL, Control Zellij through the CLI, Command Panes and a new Layout System</a></h2>
+
+            
+            
+            
+
+                  
+                <span class="post-date">
+                  2022-10-25
+                </span>
+                
+                
+                  <span class="post-author">::
+                    
+                    <a href="https://twitter.com/im_snif">Aram Drevekenin</a>
+                    
+                  </span>
+                
+                <p>We just release <a href="https://github.com/zellij-org/zellij/releases/tag/v0.32.0">Zellij 0.32.0</a> with lots of exciting features and improvements.</p>
+<p>In this version, we emphasized features geared toward advanced users. We feel Zellij already provides a great experience to users new to terminal multiplexers, and would now like to make configuring and personalizing the tool easier. We want to grant power users the ability to better harness their terminal workspace, expressing their imagination and sharing their findings with the community.</p>
+<p>You can go right ahead and <a href="https://github.com/zellij-org/zellij#how-do-i-install-it">install it</a> or read on for more details.</p>
+<h3 id="yaml--kdl">YAML =&gt; KDL</h3>
+<p><img src="https://zellij.dev/img/kdl-file-preview.png" alt="kdl file preview"></p>
+<p>This coming version moves all of the Zellij configuration from <code>YAML</code> to <a href="https://kdl.dev"><code>KDL</code></a>.</p>
+<p>Existing configuration and layout files will be automatically converted, with the originals unmodified. The conversion can <a href="https://zellij.dev/documentation/migrating-yaml-config.html">also be done manually</a>.</p>
+<p>Read more about the new configuration <a href="https://zellij.dev/documentation/configuration.html">here</a>.</p>
+<p>Curious how we chose KDL? <a href="#addendum-why-did-we-choose-kdl">Read about it below</a></p>
+<h3 id="command-panes">Command Panes</h3>
+<div class="container" style="display: flex; justify-content: center; align-items: center;">
+  <div id="player-wrapper" class=""></div>
+</div>
+
+<script 
+  type="text/javascript" 
+  src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"
+>
+</script>
+
+<script>
+  var playerElement = document.getElementById("player-wrapper");
+
+  var player = new Clappr.Player({
+    source: "/video/zellij-run-demo.mp4",
+    mute: false,
+    height: 360,
+    width: 640
+  });
+
+  player.attachTo(playerElement);  
+</script>
+
+<p>This release introduces Command Panes. These are terminal panes that run a specific command. When the command exits, they stay open, allowing the user to:</p>
+<ul>
+<li>See the <code>Exit Code</code></li>
+<li>Re-run the command with <code>ENTER</code></li>
+<li>Close the pane with <code>Ctrl-c</code></li>
+</ul>
+<p>These panes can be moved, resized, de-focused, floated or embedded like any other terminal pane.</p>
+<p>We believe this is a powerful new way to interact with the terminal.</p>
+<p>Command panes play a role in both the <a href="#new-layout-system">layout system</a> and as shown above in <a href="#zellij-run">Zellij Run</a>.</p>
+<h3 id="control-zellij-through-the-cli">Control Zellij through the CLI</h3>
+<p>A long requested feature of Zellij has been the ability to script it and generally control the tool through the command-line.</p>
+<p>This release introduces this ability fully in <a href="#zellij-action">Zellij Actions</a> as well as providing top-level conveniences in <a href="#zellij-run">Zellij Run</a> and <a href="#zellij-edit">Zellij Edit</a>.</p>
+<h4 id="zellij-run">Zellij Run</h4>
+<pre><code># Out of the box
+$ zellij run -- git diff
+
+# With a convenient alias for your shell
+$ zr git diff
+</code></pre><p>Zellij run lets users run a new command from the command line in a <a href="#command-panes">Command Pane</a>.</p>
+<p>For more information and options see <a href="https://zellij.dev/documentation/zellij-run.html">the Zellij Run documentation</a>.</p>
+<p>For the alias, see <a href="https://zellij.dev/documentation/controlling-zellij-through-cli.html#completions">Zellij CLI completions</a>.</p>
+<h4 id="zellij-edit">Zellij Edit</h4>
+<pre><code># Out of the box
+$ zellij edit my-file.rs
+
+# With a convenient alias for your shell
+$ ze my-file.rs
+</code></pre><p>Zellij edit lets users open a new pane with their default editor (eg. <code>vim</code>) pointed at the provided file.</p>
+<p>For more information see <a href="https://zellij.dev/documentation/zellij-edit.html">the Zellij Edit documentation</a>.</p>
+<p>For the alias, see <a href="https://zellij.dev/documentation/controlling-zellij-through-cli.html#completions">Zellij CLI completions</a>.</p>
+<h4 id="zellij-action">Zellij Action</h4>
+<pre><code>$ zellij action switch-mode locked
+
+$ zellij action rename-pane TESTS
+</code></pre><p>Zellij action is the CLI entry-point for Zellij. It provides an extensive list of actions that can be performed on the current or other sessions.</p>
+<p>Anything from locking the interface to opening a new tab with a specified layout.</p>
+<p>For more information, see <a href="https://zellij.dev/documentation/controlling-zellij-through-cli.html">Controlling Zellij through the CLI</a>.</p>
+<h3 id="new-layout-system">New Layout System</h3>
+<p>While converting our old layout system to use <code>KDL</code>, we decided to both simplify it and make it more powerful.</p>
+<p>We would like Zellij layouts to be part of a command-line user&rsquo;s toolbox. Allowing them to be used as quick shortcuts to dynamically open a predefined set of panes with <a href="#command-panes">commands</a> and CWDs, defined and adjusted on the fly and shared in dotfile repositories.</p>
+<p>The new layout system also includes entirely new capabilities such as <code>pane_templates</code>, <code>tab_templates</code> and <code>cwd</code> composition to allow for more dynamic layouts.</p>
+<h4 id="example-layout">Example Layout</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">layout</span> {
+    <span style="color:#a6e22e">pane</span> <span style="color:#a6e22e">split_direction</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;vertical&#34;</span> <span style="color:#a6e22e">size</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;60%&#34;</span> {
+        <span style="color:#a6e22e">pane</span> <span style="color:#a6e22e">edit</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;src/main.rs&#34;</span>
+        <span style="color:#a6e22e">pane</span> <span style="color:#a6e22e">edit</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Cargo.toml&#34;</span>
+    }
+    <span style="color:#a6e22e">pane</span> <span style="color:#a6e22e">split_direction</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;vertical&#34;</span> <span style="color:#a6e22e">size</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;40%&#34;</span> {
+        <span style="color:#a6e22e">pane</span> <span style="color:#a6e22e">command</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+            <span style="color:#a6e22e">args</span> <span style="color:#e6db74">&#34;run&#34;</span>
+            <span style="color:#a6e22e">focus</span> <span style="color:#66d9ef">true</span>
+        }
+        <span style="color:#a6e22e">pane</span> <span style="color:#a6e22e">command</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+            <span style="color:#a6e22e">args</span> <span style="color:#e6db74">&#34;test&#34;</span>
+        }
+    }
+}
+</code></pre></div><p>Opening this layout in a <a href="https://zellij.dev/documentation/cli-actions.html#new-tab">new-tab</a> in a Rust boilerplate project can look like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ zellij action new-tab --layout /path/to/above/layout-file.kdl
+</code></pre></div><p><img src="https://zellij.dev/documentation/img/basic-rust-project-layout.png" alt="basic-rust-project-layout-example"></p>
+<p>See <a href="https://zellij.dev/documentation/layout-examples.html">more examples</a> or <a href="https://zellij.dev/documentation/layouts.html">read more</a> about layouts.</p>
+<p>Did you make a cool and/or useful Zellij layout? Please <a href="https://twitter.com/Zellij_dev">tweet it at us</a> or post it in our <a href="https://www.reddit.com/r/zellij/">Reddit</a>.</p>
+<h3 id="what-else">What else?</h3>
+<p>Throughout October, Zellij participated in <a href="https://hacktoberfest.com/">Hacktoberfest</a>. We emphasized contributions to improve our Error Handling story, contributing both to the stability of Zellij and to better communicating error causes and remedies to users.</p>
+<p>We heartily thank all of our community contributors.</p>
+<h3 id="whats-next-for-zellij">What&rsquo;s next for Zellij?</h3>
+<p>In the coming months, we&rsquo;re going to overhaul Zellij&rsquo;s plugin system. We have unfortunately not been able to devote to it the attention it deserves ever since Zellij has been released due to maintainer availability. This will soon change. Look out for more info on it in the near future.</p>
+<h3 id="addendum-why-did-we-choose-kdl">Addendum: Why did we choose KDL?</h3>
+<h4 id="why-not-yaml">Why not YAML?</h4>
+<p>Much has been said about <a href="https://www.arp242.net/yaml-config.html">the downsides of YAML</a>, for us it boiled down to:</p>
+<ol>
+<li><em>Indentation being meaningful</em> - configuration files, and especially <a href="#new-layout-system">layouts</a> can get very large. Changing an arbitrary part in the middle of 100s or 1000s of lines becomes a challenge and often, in the context of build-systems and production use, a source of anxiety. We want our users to love using our configuration language, not fear it.</li>
+<li><em>Copying and Pasting parts from other sources can be disastrous</em> - The Zellij configuration and layout system benefits from re-use and tricks <a href="https://twitter.com/Zellij_dev">learned from the community</a>. These snippets, when copy/pasted, can do <a href="https://www.tutorialspoint.com/yaml/yaml_indentation_and_separation.htm">unexpected things</a> in different contexts depending on their indentation amount or even type.</li>
+</ol>
+<h4 id="why-kdl">Why KDL?</h4>
+<p>When looking at configuration languages, we ended up considering either <code>TOML</code> or <code>KDL</code>. The former, while being excellent and fairly popular, doesn&rsquo;t make nesting very easy. Since our <a href="#new-layout-system"><code>layouts</code></a> make heavy use of nesting, this was a deal-breaker for us.</p>
+<p>While working with <code>KDL</code>, we found its easy-to-pick-up syntax pleasant both to write and to read - even when dealing with large files. And while there are downsides, the great ecosystem around <code>KDL</code> for Rust allowed us to incorporate some really helpful and verbose errors to help guide users in creating configuration and layout files.</p>
+<p><img src="https://zellij.dev/img/kdl-error-demo.png" alt="kdl error demo"></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

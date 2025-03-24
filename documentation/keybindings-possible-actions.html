@@ -1,0 +1,479 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Possible Actions - Zellij User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="possible-actions"><a class="header" href="#possible-actions">Possible Actions</a></h1>
+<h2 id="clear"><a class="header" href="#clear"><code>Clear</code></a></h2>
+<p>Clear the scrollback buffer of the focused pane</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>eg.</p>
+<pre><code class="language-javascript">    bind "a" { Clear; }
+</code></pre>
+<h2 id="closefocus"><a class="header" href="#closefocus"><code>CloseFocus</code></a></h2>
+<p>Close the focused pane</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>eg.</p>
+<pre><code class="language-javascript">    bind "a" { CloseFocus; }
+</code></pre>
+<h2 id="closetab"><a class="header" href="#closetab"><code>CloseTab</code></a></h2>
+<p>Close the focused tab</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>eg.</p>
+<pre><code class="language-javascript">    bind "a" { CloseTab; }
+</code></pre>
+<h2 id="detach"><a class="header" href="#detach"><code>Detach</code></a></h2>
+<p>Detach from the current session, leaving it running in the background</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>eg.</p>
+<pre><code class="language-javascript">    bind "a" { Detach; }
+</code></pre>
+<h2 id="dumpscreen"><a class="header" href="#dumpscreen"><code>DumpScreen</code></a></h2>
+<p>Dump the contents of the focused pane, including its entire scrollback, to the specified file.</p>
+<p><strong>Required arguments</strong>: A path to a file on the hard-drive</p>
+<p>eg.</p>
+<pre><code class="language-javascript">    bind "a" { DumpScreen "/tmp/my-dump.txt"; }
+</code></pre>
+<h2 id="editscrollback"><a class="header" href="#editscrollback"><code>EditScrollback</code></a></h2>
+<p>Edit the scrollback of the currently focused pane with the user's default editor.</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { EditScrollback; }
+</code></pre>
+<h2 id="focusnextpane"><a class="header" href="#focusnextpane"><code>FocusNextPane</code></a></h2>
+<p>Change focus to the next pane (order not guaranteed)</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { FocusNextPane; }
+</code></pre>
+<h2 id="focuspreviouspane"><a class="header" href="#focuspreviouspane"><code>FocusPreviousPane</code></a></h2>
+<p>Change focus to the previous pane (order not guaranteed)</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { FocusPreviousPane; }
+</code></pre>
+<h2 id="gotonexttab"><a class="header" href="#gotonexttab"><code>GoToNextTab</code></a></h2>
+<p>Change focus to the next tab</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { GoToNextTab; }
+</code></pre>
+<h2 id="gotoprevioustab"><a class="header" href="#gotoprevioustab"><code>GoToPreviousTab</code></a></h2>
+<p>Change focus to the previous tab</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { GoToPreviousTab; }
+</code></pre>
+<h2 id="gototab"><a class="header" href="#gototab"><code>GoToTab</code></a></h2>
+<p>Change focus to a tab with a specific index</p>
+<p><strong>Required arguments</strong>: numeric tab index (eg. 1)</p>
+<pre><code class="language-javascript">    bind "a" { GoToTab 1; }
+</code></pre>
+<h2 id="halfpagescrolldown"><a class="header" href="#halfpagescrolldown"><code>HalfPageScrollDown</code></a></h2>
+<p>Scroll the focused pane half a page down</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { HalfPageScrollDown; }
+</code></pre>
+<h2 id="halfpagescrollup"><a class="header" href="#halfpagescrollup"><code>HalfPageScrollUp</code></a></h2>
+<p>Scroll the focused pane half a page up</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { HalfPageScrollUp; }
+</code></pre>
+<h2 id="launchorfocusplugin"><a class="header" href="#launchorfocusplugin"><code>LaunchOrFocusPlugin</code></a></h2>
+<p>Launch a plugin if it is not already loaded somewhere in the session, focus it if it is</p>
+<p><strong>Required arguments</strong>: The <a href="./plugin-loading.html#plugin-url-schema">plugin URL</a> (eg. <code>file:/path/to/my/plugin.wasm</code>)</p>
+<p><strong>Optional arguments</strong>: <code>floating</code> - <code>true</code> or <code>false</code> (default is <code>false</code>)</p>
+<pre><code class="language-javascript">    bind "a" {
+        LaunchOrFocusPlugin "zellij:strider" {
+            floating true
+        }
+    }
+</code></pre>
+<h2 id="messageplugin"><a class="header" href="#messageplugin"><code>MessagePlugin</code></a></h2>
+<p>Send a message to one or more plugins, using a <a href="./plugin-pipes.html">pipe</a> - meaning the plugin will be launched if it is not already running.</p>
+<p><strong>Required arguments</strong>: None (with no options specified, this keybind will send an empty message to all plugins)</p>
+<p><strong>Optional arguments:</strong>:
+- <code>launch_new</code> (<code>true/false</code>): force a new plugin to launch even if one is already running
+- <code>skip_cache</code> (<code>true/false</code>): force re-compilation (and re-download if the plugin is http), even if the plugin is already running or cached
+- <code>floating</code> (<code>true/false</code>): if launching a new plugin, should it be floating or tiled
+- <code>name</code> (<code>String</code>): The name of the message
+- <code>payload</code> (<code>String</code>): The payload of the message
+- <code>title</code> (<code>String</code>): The pane title of the pane if launching a new plugin instance
+- <code>cwd</code> (<code>String</code>): The working directory of the plugin if launching a new instance</p>
+<pre><code class="language-javascript">    bind "a" {
+        MessagePlugin "file:/path/to/my/plugin.wasm" {
+            name "message_name"
+            payload "message_payload"
+            cwd "/path/to/my/working/directory"
+        }
+    }
+</code></pre>
+<h2 id="movefocus"><a class="header" href="#movefocus"><code>MoveFocus</code></a></h2>
+<p>Move focus in a specific direction</p>
+<p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code></p>
+<pre><code class="language-javascript">    bind "a" { MoveFocus "Left"; }
+</code></pre>
+<h2 id="movefocusortab"><a class="header" href="#movefocusortab"><code>MoveFocusOrTab</code></a></h2>
+<p>Move focus left or right, or to the next or previous tab if on screen edge</p>
+<p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code></p>
+<pre><code class="language-javascript">    bind "a" { MoveFocusOrTab "Left"; }
+</code></pre>
+<h2 id="movepane"><a class="header" href="#movepane"><code>MovePane</code></a></h2>
+<p>Move the position of the focused pane in the specific direction</p>
+<p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code></p>
+<pre><code class="language-javascript">    bind "a" { MovePane "Left"; }
+</code></pre>
+<h2 id="movetab"><a class="header" href="#movetab"><code>MoveTab</code></a></h2>
+<p>Change the position of the active tab either left or right.</p>
+<p><strong>Required arguments</strong>: the direction, either "Left" or "Right"</p>
+<pre><code class="language-javascript">    bind "a" { MoveTab "Left"; }
+</code></pre>
+<h2 id="nextswaplayout"><a class="header" href="#nextswaplayout"><code>NextSwapLayout</code></a></h2>
+<p>Change the layout of the current tab (either tiled or floating) to the next one</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { NextSwapLayout; }
+</code></pre>
+<h2 id="newpane"><a class="header" href="#newpane"><code>NewPane</code></a></h2>
+<p>Open a new pane (in the specified direction)</p>
+<p><strong>Possible arguments</strong>: <code>Down</code> | <code>Right</code></p>
+<p><strong>Behaviour without arguments</strong>: Opens a pane in the largest available space or if floating panes are visible, in the next floating pane position.</p>
+<pre><code class="language-javascript">    bind "a" { NewPane "Right"; }
+</code></pre>
+<h2 id="newtab"><a class="header" href="#newtab"><code>NewTab</code></a></h2>
+<p>Open a new tab</p>
+<p><strong>Possible arguments</strong>: <code>cwd</code></p>
+<p>Current working directory for the new tab, <code>name</code> - the name of the new tab, <code>layout</code> - path to the layout file to load for this tab</p>
+<pre><code class="language-javascript">    bind "a" { NewTab; }
+</code></pre>
+<p>or:</p>
+<pre><code class="language-javascript">    bind "a" {
+       NewTab {
+           cwd "/tmp"
+           name "My tab name"
+           layout "/path/to/my/layout.kdl"
+       }
+    }
+</code></pre>
+<h2 id="pagescrolldown"><a class="header" href="#pagescrolldown"><code>PageScrollDown</code></a></h2>
+<p>Scroll the focused pane one page down</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { PageScrollDown; }
+</code></pre>
+<h2 id="pagescrollup"><a class="header" href="#pagescrollup"><code>PageScrollUp</code></a></h2>
+<p>Scroll the focused pane one page up</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { PageScrollUp; }
+</code></pre>
+<h2 id="previousswaplayout"><a class="header" href="#previousswaplayout"><code>PreviousSwapLayout</code></a></h2>
+<p>Change the layout of the current tab (either tiled or floating) to the previous one</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { PreviousSwapLayout; }
+</code></pre>
+<h2 id="quit"><a class="header" href="#quit"><code>Quit</code></a></h2>
+<p>Quit Zellij :(</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { Quit; }
+</code></pre>
+<h2 id="resize"><a class="header" href="#resize"><code>Resize</code></a></h2>
+<p>Resize the focused pane either in the specified direction or increase/decrease its size automatically</p>
+<p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code> | <code>Increase</code> | <code>Decrease</code></p>
+<pre><code class="language-javascript">    bind "a" { Resize "Increase"; }
+</code></pre>
+<h2 id="run"><a class="header" href="#run"><code>Run</code></a></h2>
+<p>Run the specified command</p>
+<p><strong>Required arguments</strong>: The command to run, followed by optional arguments</p>
+<p><strong>Possible arguments</strong>: <code>cwd</code> - current working directory, <code>direction</code> - the direction to open the new command pane</p>
+<pre><code class="language-javascript">    // will run "tail -f /tmp/foo" in a pane opened below the focused one
+    bind "a" {
+        Run "tail" "-f" "foo" {
+            cwd "/tmp"
+            direction "Down"
+        }
+    }
+</code></pre>
+<h2 id="scrolldown"><a class="header" href="#scrolldown"><code>ScrollDown</code></a></h2>
+<p>Scroll the focused pane down 1 line</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ScrollDown; }
+</code></pre>
+<h2 id="scrolltobottom"><a class="header" href="#scrolltobottom"><code>ScrollToBottom</code></a></h2>
+<p>Scroll the focused pane completely down</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ScrollToBottom; }
+</code></pre>
+<h2 id="scrollup"><a class="header" href="#scrollup"><code>ScrollUp</code></a></h2>
+<p>Scroll the focused pane up 1 line</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ScrollUp; }
+</code></pre>
+<h2 id="scrolltotop"><a class="header" href="#scrolltotop"><code>ScrollToTop</code></a></h2>
+<p>Scroll the focused pane completely up</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ScrollToTop; }
+</code></pre>
+<h2 id="search"><a class="header" href="#search"><code>Search</code></a></h2>
+<p>When searching, move to the next or previous search occurrence</p>
+<p><strong>Required arguments</strong>: "down" | "up"</p>
+<pre><code class="language-javascript">    bind "a" { Search "up"; }
+</code></pre>
+<h2 id="searchtoggleoption"><a class="header" href="#searchtoggleoption"><code>SearchToggleOption</code></a></h2>
+<p>Toggle various search options on/off</p>
+<p><strong>Required arguments</strong>: "CaseSensitivity" | "Wrap" | "WhileWord"</p>
+<pre><code class="language-javascript">    bind "a" { SearchToggleOption "CaseSensitivity"; }
+</code></pre>
+<h2 id="switchtomode"><a class="header" href="#switchtomode"><code>SwitchToMode</code></a></h2>
+<p>Switch the current input mode</p>
+<p><strong>Required arguments</strong>: See <a href="#modes">Modes</a></p>
+<pre><code class="language-javascript">    bind "a" { SwitchToMode "locked"; }
+</code></pre>
+<h2 id="toggleactivesynctab"><a class="header" href="#toggleactivesynctab"><code>ToggleActiveSyncTab</code></a></h2>
+<p>Toggle the syncing of input between all panes in the focused tab</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ToggleActiveSyncTab; }
+</code></pre>
+<h2 id="togglefloatingpanes"><a class="header" href="#togglefloatingpanes"><code>ToggleFloatingPanes</code></a></h2>
+<p>Show/hide floating panes; if none are open, one will be opened</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ToggleFloatingPanes; }
+</code></pre>
+<h2 id="togglefocusfullscreen"><a class="header" href="#togglefocusfullscreen"><code>ToggleFocusFullscreen</code></a></h2>
+<p>Toggle the focused pane as fullscreen on/off</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ToggleFocusFullscreen; }
+</code></pre>
+<h2 id="togglemousemode"><a class="header" href="#togglemousemode"><code>ToggleMouseMode</code></a></h2>
+<p>Toggle mouse support on/off</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ToggleMouseMode; }
+</code></pre>
+<h2 id="togglepaneembedorfloating"><a class="header" href="#togglepaneembedorfloating"><code>TogglePaneEmbedOrFloating</code></a></h2>
+<p>Float focused embedded pane or embed focused floating pane</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { TogglePaneEmbedOrFloating; }
+</code></pre>
+<h2 id="togglepaneframes"><a class="header" href="#togglepaneframes"><code>TogglePaneFrames</code></a></h2>
+<p>Show/hide the frames around panes (notice, these might have valuable UX info)</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { TogglePaneFrames; }
+</code></pre>
+<h2 id="toggletab"><a class="header" href="#toggletab"><code>ToggleTab</code></a></h2>
+<p>Change the tab focus</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ToggleTab; }
+</code></pre>
+<h2 id="undorenamepane"><a class="header" href="#undorenamepane"><code>UndoRenamePane</code></a></h2>
+<p>Undo a rename pane operation currently in progress (reverting to the previous name)</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { UndoRenamePane; }
+</code></pre>
+<h2 id="undorenametab"><a class="header" href="#undorenametab"><code>UndoRenameTab</code></a></h2>
+<p>Undo a rename tab operation currently in progress (reverting to the previous name)</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { UndoRenameTab; }
+</code></pre>
+<h2 id="write"><a class="header" href="#write"><code>Write</code></a></h2>
+<p>Write bytes to the active pane</p>
+<p><strong>Required arguments</strong>: the bytes to write as integers</p>
+<pre><code class="language-javascript">    bind "a" { Write 102 111 111; }
+</code></pre>
+<h2 id="writechars"><a class="header" href="#writechars"><code>WriteChars</code></a></h2>
+<p>Write a string of characters to the active pane</p>
+<p><strong>Required arguments</strong>: the string of characters to write</p>
+<pre><code class="language-javascript">    bind "a" { WriteChars "hi there!"; }
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="keybindings-keys.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="keybindings-shared.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="keybindings-keys.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="keybindings-shared.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

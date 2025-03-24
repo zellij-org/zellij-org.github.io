@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="A walkthrough of creating a Zellij plugin from start to end" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/tutorials/developing-a-rust-plugin/" />
+
+
+    <title>
+        
+            Developing a Zellij plugin using Rust
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Developing a Zellij plugin using Rust">
+<meta itemprop="description" content="A walkthrough of creating a Zellij plugin from start to end">
+
+<meta itemprop="wordCount" content="4630"><meta itemprop="image" content="https://zellij.dev/img/develop-rust-plugin.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/develop-rust-plugin.png"/>
+
+<meta name="twitter:title" content="Developing a Zellij plugin using Rust"/>
+<meta name="twitter:description" content="A walkthrough of creating a Zellij plugin from start to end"/>
+
+
+
+    <meta property="og:title" content="Developing a Zellij plugin using Rust" />
+<meta property="og:description" content="A walkthrough of creating a Zellij plugin from start to end" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/tutorials/developing-a-rust-plugin/" /><meta property="og:image" content="https://zellij.dev/img/develop-rust-plugin.png" /><meta property="article:section" content="tutorials" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/tutorials/developing-a-rust-plugin/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/tutorials/developing-a-rust-plugin/">Developing a Zellij plugin using Rust</a></h2>
+
+            
+            
+            
+
+                  
+                
+                <div class="container" style="display: flex; justify-content: left; align-items: left;">
+  <div id="player-wrapper" class=""></div>
+</div>
+
+<script 
+  type="text/javascript" 
+  src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"
+>
+</script>
+
+<script>
+  var playerElement = document.getElementById("player-wrapper");
+
+  var player = new Clappr.Player({
+    source: "/video/developing-a-rust-plugin.mp4",
+    mute: false,
+    
+    height: 540,
+    
+    width: 960
+  });
+
+  player.attachTo(playerElement);  
+</script>
+
+<p>This tutorial will walk you through developing a Zellij plugin with rust, using specialized Zellij tools to short-circuit some of the trickier parts.</p>
+<p><em>The video screencast and the tutorial contain the same content.</em></p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li><strong>Basic knowledge of Rust</strong>: the code itself is pretty straightforward, so this is not a must.</li>
+<li><strong>Rust development tools</strong>: see <a href="https://rustup.rs/">https://rustup.rs/</a></li>
+<li><strong>Zellij 0.41 and above</strong>: see <a href="https://github.com/zellij-org/zellij?tab=readme-ov-file#how-do-i-install-it">https://github.com/zellij-org/zellij?tab=readme-ov-file#how-do-i-install-it</a></li>
+<li><strong>A code editor</strong>: This tutorial works best with a terminal code editor such as <code>vim</code>, <code>helix</code> or <code>neovim</code> but using graphical IDEs such as <code>VSCode</code> is also possible.</li>
+</ul>
+<h2 id="what-well-cover">What we&rsquo;ll cover</h2>
+<ul>
+<li><a href="#autogenerating-a-skeleton-repository-scaffolding">Autogenerating a Skeleton Repository (scaffolding)</a></li>
+<li><a href="#using-the-development-environment">Using the Development Environment</a></li>
+<li><a href="#step-1-rendering-a-ui">Step 1: Rendering a UI</a></li>
+<li><a href="#step-2-receiving-user-input">Step 2: Receiving user input</a></li>
+<li><a href="#step-3-parsing-and-reacting-to-the-zellij-state">Step 3: Parsing and reacting to the Zellij state</a></li>
+<li><a href="#step-4-finalizing-and-distributing-the-plugin">Step 4: Finalizing and distributing the plugin</a></li>
+<li><a href="#documentation-api-references-and-getting-help">Documentation, API-references and getting Help</a></li>
+<li><a href="#do-you-like-zellij--">Do you like Zellij?</a></li>
+</ul>
+<h2 id="what-are-we-building">What are we building?</h2>
+<figure>
+    <img src="https://zellij.dev/img/carousel-finished.png"/> 
+</figure>
+
+<p>The plugin we&rsquo;re building is called &ldquo;Carousel&rdquo;. It will allow users to &ldquo;mark&rdquo; panes, adding them to a quick-jump pane-carousel list for easy access and overview.</p>
+<p>To follow along with this tutorial, you can clone the <a href="https://github.com/imsnif/carousel">repository</a>. You can check out the specific commits linked to at the beginning of each section. Each such commit represents the state of our plugin at the end of the previous section.</p>
+<h2 id="autogenerating-a-skeleton-repository-scaffolding">Autogenerating a Skeleton Repository (scaffolding)</h2>
+<p>We&rsquo;re going to start by autogenerating a skeleton folder and development environment for our project. We&rsquo;ll do this using <a href="https://github.com/zellij-org/create-rust-plugin"><code>create-rust-plugin</code></a>, which is itself a Zellij plugin.
+We can load it directly from the web from inside a Zellij session, like this:</p>
+<pre><code>zellij plugin -f -- https://github.com/zellij-org/create-rust-plugin/releases/latest/download/create-rust-plugin.wasm
+</code></pre><p>After we grant the plugin its requested permissions, we&rsquo;ll get this window:
+<figure>
+    <img src="https://zellij.dev/img/create-rust-plugin.png"/> 
+</figure>
+</p>
+<p>Let&rsquo;s give the plugin a unique name (eg. <code>carousel</code>) and press <code>Enter</code>.</p>
+<p>Tip: Generating lots of plugins? You can bind this to a <a href="https://zellij.dev/documentation/keybindings.html">keybinding</a> shortcut:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">shared</span> {
+    <span style="color:#a6e22e">bind</span> <span style="color:#e6db74">&#34;Ctrl y&#34;</span> {
+        <span style="color:#a6e22e">LaunchOrFocusPlugin</span> <span style="color:#e6db74">&#34;https://github.com/zellij-org/create-rust-plugin/releases/latest/download/create-rust-plugin.wasm&#34;</span> {
+            <span style="color:#a6e22e">project_dir</span> <span style="color:#e6db74">&#34;/home/aram/code&#34;</span> <span style="color:#75715e">// TODO: change-me!
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">floating</span> <span style="color:#66d9ef">true</span> <span style="color:#75715e">// will open the tool in a new floating pane
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">move_to_focused_tab</span> <span style="color:#66d9ef">true</span> <span style="color:#75715e">// will prefer to focus the plugin if it exists rather than opening it, moving it to the focused tab
+</span><span style="color:#75715e"></span>        }
+    }
+}
+</code></pre></div><h2 id="using-the-development-environment">Using the Development Environment</h2>
+<p>The above step creates the skeleton repository for us and drops us into a development environment for our new plugin. This environment includes another tool <a href="https://github.com/zellij-org/develop-rust-plugin"><code>develop-rust-plugin</code></a> which will allow us quickly iterate over our plugin and see the changes in real time. Whenever we&rsquo;d like to compile and reload our plugin, we&rsquo;ll press <code>Ctrl Shift r</code> and this tool will compile our plugin with <code>cargo build</code> and reload the generated <code>wasm</code> file directly in our workspace.
+<figure>
+    <img src="https://zellij.dev/img/develop-rust-plugin.png"/> 
+</figure>
+</p>
+<p>Otherwise, we also had our <code>$EDITOR</code> opened to the <code>src/main.rs</code> file in this repository, which includes the skeleton of our new plugin. Let&rsquo;s press <code>Ctrl Shift r</code> once to see what we&rsquo;ve got:
+<figure>
+    <img src="https://zellij.dev/img/developing-a-plugin-0.png"/> 
+</figure>
+</p>
+<p>Not much here yet! Let&rsquo;s get to work.</p>
+<h2 id="step-1-rendering-a-ui">Step 1: Rendering a UI</h2>
+<p><strong>COMMIT:</strong> <a href="https://github.com/imsnif/carousel/tree/f812eb01c0da32b24d3e4f679556a2ae0f05ae82">https://github.com/imsnif/carousel/tree/f812eb01c0da32b24d3e4f679556a2ae0f05ae82</a></p>
+<p>Arguably the most important part of creating user-facing tools is rendering a nice user interface. To do this, we&rsquo;re going to use the <a href="https://zellij.dev/documentation/plugin-ui-rendering#using-the-built-in-ui-components"><code>UI Components</code></a> provided by Zellij.</p>
+<p>Let&rsquo;s go to the <code>render</code> function in our project skeleton. Currently, it looks like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">render</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, rows: <span style="color:#66d9ef">usize</span>, cols: <span style="color:#66d9ef">usize</span>) {
+    println<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Hi there! I have {rows} rows and {cols} columns&#34;</span>);
+}
+</code></pre></div><h3 id="rendering-simple-text">Rendering simple Text</h3>
+<p>We&rsquo;ll start by rendering a title:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">render</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, rows: <span style="color:#66d9ef">usize</span>, cols: <span style="color:#66d9ef">usize</span>) {
+    <span style="color:#66d9ef">let</span> title_text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CAROUSEL&#34;</span>;
+    <span style="color:#66d9ef">let</span> title <span style="color:#f92672">=</span> Text::new(title_text).color_range(<span style="color:#ae81ff">2</span>, ..);
+    print_text_with_coordinates(title, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, None, None);
+}
+</code></pre></div><p>Here we used the <code>Text</code> UI component with the <code>color_range</code> method. This method accepts a <code>color_index</code>, of 0 to 3 (<code>2</code> in our case) and a <a href="https://doc.rust-lang.org/std/ops/struct.Range.html"><code>Range</code></a> (<code>..</code> in our case). The color index represents one of four possible text colorings that would fit neatly and still be readable and consistent with the user&rsquo;s theme without us having to think about it too much. The range represents the letter indices which we would like to color in the <code>Text</code> string. In our case we elect <code>..</code> to color them all.</p>
+<p><strong>Tip:</strong> You can use several calls for <code>color_range</code> in the same <code>Text</code> element to color it differently, and also use <code>color_indices</code> to only color specific non-contiguous indices.</p>
+<p>Finally, we use the <code>print_text_with_coordinates</code> method, which accepts (in order) the <code>x</code> and <code>y</code> coordinates of this element within our plugin, and optionally the element&rsquo;s <code>width</code> and <code>height</code>. We left those last ones empty (<code>None</code>) for now.</p>
+<p>Now we press <code>Ctrl Shift r</code> and get:
+<figure>
+    <img src="https://zellij.dev/img/developing-a-plugin-2.png"/> 
+</figure>
+</p>
+<h3 id="a-less-trivial-text-rendering-example">A less trivial Text rendering example</h3>
+<p>What happens if the user&rsquo;s screen is too small to render all the text we&rsquo;d like?</p>
+<p>Zellij always tells us how large our plugin screen is in the <code>render</code> function. Giving us the plugin&rsquo;s <code>rows</code> and <code>cols</code> count. We can use this to make sure our UI doesn&rsquo;t overflow and get wrapped if the plugin window is smaller than we were planning.</p>
+<p>Let&rsquo;s see how this works by rendering the <code>Help</code> line:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">render</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, rows: <span style="color:#66d9ef">usize</span>, cols: <span style="color:#66d9ef">usize</span>) {
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> help_text_full <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Help: &lt;ENTER&gt; - focus selected, &lt;0-9&gt; - focus index, &lt;↓↑&gt; - navigate, &lt;Del&gt; - delete selected, &lt;ESC&gt; - hide&#34;</span>;
+    <span style="color:#66d9ef">let</span> help_text_short <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&lt;ENTER/0-9&gt; - focus selected/index, &lt;↓↑/ESC&gt; - navigate/hide, &lt;Del&gt; - delete&#34;</span>;
+    <span style="color:#66d9ef">let</span> help <span style="color:#f92672">=</span> <span style="color:#66d9ef">if</span> help_text_full.chars().count() <span style="color:#f92672">&lt;=</span> cols {
+        Text::new(help_text_full)
+            .color_range(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">6</span>..<span style="color:#f92672">=</span><span style="color:#ae81ff">12</span>)
+            .color_range(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">32</span>..<span style="color:#f92672">=</span><span style="color:#ae81ff">36</span>)
+            .color_range(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">53</span>..<span style="color:#f92672">=</span><span style="color:#ae81ff">56</span>)
+            .color_range(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">70</span>..<span style="color:#f92672">=</span><span style="color:#ae81ff">74</span>)
+            .color_range(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">95</span>..<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>)
+    } <span style="color:#66d9ef">else</span> {
+        Text::new(help_text_short)
+            .color_range(<span style="color:#ae81ff">3</span>, ..<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>)
+            .color_range(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">36</span>..<span style="color:#f92672">=</span><span style="color:#ae81ff">43</span>)
+            .color_range(<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">62</span>..<span style="color:#f92672">=</span><span style="color:#ae81ff">66</span>)
+    };
+    print_text_with_coordinates(help, <span style="color:#ae81ff">0</span>, rows, None, None);
+}
+</code></pre></div><p>Here we have two versions of the <code>Help</code> line. A &ldquo;full&rdquo; and a &ldquo;short&rdquo; one. If the full version is wider than the plugin, we&rsquo;ll render the short one.</p>
+<p>Here&rsquo;s how it looks:
+<figure>
+    <img src="https://zellij.dev/img/developing-a-plugin-3.png"/> 
+</figure>
+
+<figure>
+    <img src="https://zellij.dev/img/developing-a-plugin-4.png"/> 
+</figure>
+</p>
+<h3 id="rendering-dynamic-content">Rendering dynamic content</h3>
+<p>Finally, let&rsquo;s see how we render dynamic contents and get around some of the &ldquo;gotcha&quot;s involved.</p>
+<p>We&rsquo;re going to render the list of &ldquo;marked panes&rdquo;, these are the panes the user decided to mark and add to the quick-jump list displayed in this plugin. For each of these panes, we&rsquo;ll render its title and an index shortcut that can be used to quickly jump to it. Since the user should be able to browse through these panes (by pressing the up or down arrows to move the selection), we&rsquo;ll also mark one of these panes as visually selected.</p>
+<p>To do this, we&rsquo;re going to add a <code>marked_panes</code> attribute to our plugin <code>State</code> which will include a <code>Vec</code> of <code>PaneId</code>s. We&rsquo;ll also include a <code>selected_index</code> attribute, indexing the aforementioned <code>Vec</code> and letting us know which <code>PaneId</code> is selected. We&rsquo;re also going to add a <code>mock_data</code> attribute, representing a dictionary of <code>PaneId</code> to <code>String</code> - mocking the title of the panes. Later on in this tutorial we&rsquo;ll swap the <code>mock_data</code> attribute for real data we&rsquo;ll get from Zellij.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">#[derive(Default)]</span>
+<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">State</span> {
+    marked_panes: Vec<span style="color:#f92672">&lt;</span>PaneId<span style="color:#f92672">&gt;</span>,
+    selected_index: <span style="color:#66d9ef">usize</span>,
+    mock_data: <span style="color:#a6e22e">BTreeMap</span><span style="color:#f92672">&lt;</span>PaneId, String<span style="color:#f92672">&gt;</span>
+}
+
+<span style="color:#66d9ef">impl</span> State {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">render_marked_panes</span>(<span style="color:#f92672">&amp;</span>self, max_width: <span style="color:#66d9ef">usize</span>) -&gt; (Vec<span style="color:#f92672">&lt;</span>Text<span style="color:#f92672">&gt;</span>, <span style="color:#66d9ef">usize</span>) {
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> longest_line_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> text_items: Vec<span style="color:#f92672">&lt;</span>Text<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[];
+        <span style="color:#66d9ef">for</span> (i, pane_id) <span style="color:#66d9ef">in</span> self.marked_panes.iter().enumerate() {
+            <span style="color:#66d9ef">let</span> (item, item_width) <span style="color:#f92672">=</span> self.render_list_item(pane_id, max_width, i);
+            longest_line_count <span style="color:#f92672">=</span> std::cmp::max(longest_line_count, item_width);
+            text_items.push(item);
+        }
+        <span style="color:#66d9ef">if</span> text_items.is_empty() {
+            (vec<span style="color:#f92672">!</span>[Text::new(<span style="color:#e6db74">&#34;NO ITEMS.&#34;</span>).color_range(<span style="color:#ae81ff">0</span>, ..)], longest_line_count)
+        } <span style="color:#66d9ef">else</span> {
+            (text_items, longest_line_count)
+        }
+    }
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">render_list_item</span>(<span style="color:#f92672">&amp;</span>self, pane_id: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">PaneId</span>, max_width: <span style="color:#66d9ef">usize</span>, i: <span style="color:#66d9ef">usize</span>) -&gt; (Text, <span style="color:#66d9ef">usize</span>) {
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> pane_title <span style="color:#f92672">=</span> self
+            .mock_data
+            .get(<span style="color:#f92672">&amp;</span>pane_id)
+            .map(<span style="color:#f92672">|</span>p<span style="color:#f92672">|</span> p.as_str())
+            .unwrap_or(<span style="color:#e6db74">&#34;&lt;UNKNOWN&gt;&#34;</span>)
+            .to_owned();
+        <span style="color:#66d9ef">let</span> shortcut_len_and_padding <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>;
+        <span style="color:#66d9ef">let</span> truncation_len <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>;
+        <span style="color:#66d9ef">if</span> pane_title.chars().count() <span style="color:#f92672">+</span> truncation_len <span style="color:#f92672">&gt;</span> max_width.saturating_sub(shortcut_len_and_padding) {
+            pane_title.truncate(max_width.saturating_sub(shortcut_len_and_padding <span style="color:#f92672">+</span> truncation_len));
+            pane_title <span style="color:#f92672">=</span> format<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;{}...&#34;</span>, pane_title);
+        };
+        <span style="color:#66d9ef">let</span> list_item_text <span style="color:#f92672">=</span> format<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;&lt;{i}&gt; {}&#34;</span>, pane_title);
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> list_item <span style="color:#f92672">=</span> Text::new(<span style="color:#f92672">&amp;</span>list_item_text).color_range(<span style="color:#ae81ff">0</span>, ..).color_range(<span style="color:#ae81ff">3</span>, ..<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>);
+        <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> self.selected_index {
+            list_item <span style="color:#f92672">=</span> list_item.selected();
+        }
+        (list_item, list_item_text.chars().count())
+    }
+}
+</code></pre></div><p>In the <code>render_marked_panes</code> function we&rsquo;re looping through our <code>marked_panes</code>, keeping track of their width in <code>longest_line_count</code>. We do this so that we can make sure the selection background is the width of the longest line rather than just the current line for a more consistent UI look. If we don&rsquo;t have any <code>marked_panes</code>, we render the <code>NO ITEMS</code> Text item to indicate this to the user.</p>
+<p>In the <code>render_list_item</code> method, we get the title of the marked pane from our <code>mock_data</code> attribute and then truncate it if it&rsquo;s longer than our UI width. If the list item index squals our <code>selected_index</code> attribute, we make sure to mark the <code>Text</code> as <code>selected</code> using <code>list_item = list_item.selected()</code>.</p>
+<p>From the <code>render_marked_panes</code> method, we make sure to return not only the list of <code>text_items</code> to be rendered as a <code>Vec</code> but also the width of the longest line so that the rest of the UI can center itself. Putting it all together with our <code>render</code> function and adding some more explanation texts to let the user know how to add panes to the list and toggle its visibility, we get:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">render</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, rows: <span style="color:#66d9ef">usize</span>, cols: <span style="color:#66d9ef">usize</span>) {
+    <span style="color:#66d9ef">let</span> (title, title_width) <span style="color:#f92672">=</span> self.render_title(cols);
+    <span style="color:#66d9ef">let</span> (<span style="color:#66d9ef">mut</span> explanation_text_lines, explanation_text_width) <span style="color:#f92672">=</span> self.render_explanation_text(cols);
+    <span style="color:#66d9ef">let</span> (help, help_text_width) <span style="color:#f92672">=</span> self.render_help_text(cols);
+
+    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> lengths <span style="color:#f92672">=</span> vec<span style="color:#f92672">!</span>[title_width, explanation_text_width, help_text_width];
+    lengths.sort();
+    <span style="color:#66d9ef">let</span> longest_line_count <span style="color:#f92672">=</span> lengths.last().copied().unwrap_or(<span style="color:#ae81ff">0</span>);
+
+    <span style="color:#66d9ef">let</span> (<span style="color:#66d9ef">mut</span> marked_panes, marked_panes_width) <span style="color:#f92672">=</span> self.render_marked_panes(longest_line_count, cols);
+    <span style="color:#66d9ef">let</span> longest_line_count <span style="color:#f92672">=</span> std::cmp::max(longest_line_count, marked_panes_width);
+
+    <span style="color:#66d9ef">let</span> item_count <span style="color:#f92672">=</span> std::cmp::max(self.marked_panes.iter().count(), <span style="color:#ae81ff">1</span>);
+    <span style="color:#66d9ef">let</span> base_y <span style="color:#f92672">=</span> rows.saturating_sub(item_count <span style="color:#f92672">+</span> <span style="color:#ae81ff">7</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+    <span style="color:#66d9ef">let</span> base_x <span style="color:#f92672">=</span> cols.saturating_sub(longest_line_count) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+    print_text_with_coordinates(title, base_x <span style="color:#f92672">+</span> longest_line_count.saturating_sub(title_width) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>, base_y, Some(cols), None);
+    <span style="color:#66d9ef">for</span> (i, line) <span style="color:#66d9ef">in</span> explanation_text_lines.drain(..).enumerate() {
+        print_text_with_coordinates(line, base_x, base_y <span style="color:#f92672">+</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>, None, None);
+    }
+    <span style="color:#66d9ef">for</span> (i, text_item) <span style="color:#66d9ef">in</span> marked_panes.drain(..).enumerate() {
+        print_text_with_coordinates(text_item, base_x, base_y <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">+</span> i, Some(longest_line_count), None);
+    }
+    print_text_with_coordinates(help, base_x, base_y <span style="color:#f92672">+</span> item_count <span style="color:#f92672">+</span> <span style="color:#ae81ff">6</span>, None, None);
+}
+</code></pre></div><p>Note how we&rsquo;re keeping track of line lengths throughout the rendering process. We do this in order to later center the whole UI using the <code>base_x</code> and <code>base_y</code> coordinates. A good practice is to always use <code>saturating_sub</code> when calculating coordinates, in case the plugin window is reduced far below the size we expect.</p>
+<p>This gives us:
+<figure>
+    <img src="https://zellij.dev/img/developing-a-plugin-5.png"/> 
+</figure>
+</p>
+<p>The first item is marked as our selection because our <code>selected_index</code> defaults to <code>0</code>. In the next session we&rsquo;re going to see how we can give our users control of our plugin and changing this.</p>
+<h2 id="step-2-receiving-user-input">Step 2: Receiving user input</h2>
+<p><strong>COMMIT:</strong> <a href="https://github.com/imsnif/carousel/tree/42f1ab6135f571e8eec35a404c1bce0759a26dbe">https://github.com/imsnif/carousel/tree/42f1ab6135f571e8eec35a404c1bce0759a26dbe</a></p>
+<p>Let&rsquo;s make things more interactive! When a user is focused on a plugin and types something on the keyboard, we can receive this information as <a href="https://docs.rs/zellij-tile/latest/zellij_tile/prelude/enum.Event.html"><code>Event</code></a>s. Specifically a <code>Key</code> Event. We&rsquo;re going to use these events to move the selection up and down.</p>
+<h3 id="the-subscribe-function">The <code>subscribe</code> function</h3>
+<p>We use the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/shim/fn.subscribe.html"><code>subscribe</code></a> function to tell Zellij which events our plugin is interested in. We provide this function with a list of <a href="https://docs.rs/zellij-tile/latest/zellij_tile/prelude/enum.EventType.html"><code>EventType</code></a>s corresponding to the sort of <code>Event</code>s we&rsquo;d like to subscribe. Let&rsquo;s do this on plugin load and subscribe to the <code>Key</code> event:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> ZellijPlugin <span style="color:#66d9ef">for</span> State {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">load</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, configuration: <span style="color:#a6e22e">BTreeMap</span><span style="color:#f92672">&lt;</span>String, String<span style="color:#f92672">&gt;</span>) {
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>        subscribe(<span style="color:#f92672">&amp;</span>[EventType::Key]);
+    }
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h3 id="reacting-to-key-events">Reacting to <code>Key</code> events</h3>
+<p>Once we&rsquo;ve subscribed to these events, Zellij will trigger our <code>update</code> function every time the user presses a key while focused on our plugin. For each <code>Key</code> event, Zellij will provide us the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/prelude/struct.KeyWithModifier.html"><code>KeyWithModifier</code></a> struct so that we can figure our which key was pressed and react to it. Let&rsquo;s take a look at this struct and its associated attributes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">KeyWithModifier</span> {
+    <span style="color:#66d9ef">pub</span> bare_key: <span style="color:#a6e22e">BareKey</span>,
+    <span style="color:#66d9ef">pub</span> key_modifiers: <span style="color:#a6e22e">BTreeSet</span><span style="color:#f92672">&lt;</span>KeyModifier<span style="color:#f92672">&gt;</span>,
+}
+
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">BareKey</span> {
+    PageDown,
+    PageUp,
+    Left,
+    Down,
+    Up,
+    Right,
+    Backspace,
+    Char(char),
+    Tab,
+    Esc,
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">KeyModifier</span> {
+    Ctrl,
+    Alt,
+    Shift,
+    Super,
+}
+</code></pre></div><p>Each <code>KeyWithModifier</code> as a <code>BareKey</code> enum (truncated for brevity) and a <code>KeyModifier</code> set. So for example, when the user presses <code>Ctrl Shift a</code>, the <code>KeyWithModifier</code> will be:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#75715e">// pseudocode
+</span><span style="color:#75715e"></span>KeyWithModifier {
+    bare_key: <span style="color:#a6e22e">BareKey</span>::Char(<span style="color:#e6db74">&#39;a&#39;</span>),
+    key_modifiers: <span style="color:#a6e22e">BTreeSet</span><span style="color:#f92672">&lt;</span>{KeyModifier::Ctrl, KeyModifier::Shift}<span style="color:#f92672">&gt;</span>
+}
+</code></pre></div><p>The <code>KeyWithModifier</code> struct provides us with useful methods so that we can match against it in a readable way. Let&rsquo;s look at our <code>update</code> function now:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> ZellijPlugin <span style="color:#66d9ef">for</span> State {
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">update</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, event: <span style="color:#a6e22e">Event</span>) -&gt; <span style="color:#66d9ef">bool</span> {
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> should_render <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+        <span style="color:#66d9ef">match</span> event {
+            Event::Key(key) <span style="color:#f92672">=&gt;</span> {
+                <span style="color:#66d9ef">match</span> key.bare_key {
+                    BareKey::Down <span style="color:#66d9ef">if</span> key.has_no_modifiers() <span style="color:#f92672">=&gt;</span> {
+                        <span style="color:#66d9ef">if</span> self.selected_index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> self.marked_panes.len() {
+                            self.selected_index <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
+                            should_render <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+                        }
+                    }
+                    BareKey::Up <span style="color:#66d9ef">if</span> key.has_no_modifiers() <span style="color:#f92672">=&gt;</span> {
+                        <span style="color:#66d9ef">if</span> self.selected_index <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> {
+                            self.selected_index <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>;
+                            should_render <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+                        }
+                    }
+                    _ <span style="color:#f92672">=&gt;</span> {}
+                }
+            }
+            _ <span style="color:#f92672">=&gt;</span> {}
+        }
+        should_render
+    }
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>When a user presses a key while focused on our plugin, the <code>update</code> method above will be triggered with the <code>Key</code> event, providing us the relevant <code>KeyWithModifier</code>. We match against the <code>BareKey</code>, and if it is <code>Down</code> or <code>Up</code> and has no modifiers (eg. <code>Ctrl</code> or <code>Shift</code>) we move the <code>selected_index</code> up or down (making sure it&rsquo;s within the bounds of our list).</p>
+<p>Another thing to note is the <code>bool</code> return value of the <code>update</code> function. If we return <code>true</code> from this function, Zellij will assume the plugin would like to render itself (i.e. there was a change in the UI) and call the plugin&rsquo;s <code>render</code> function (discussed above in the UI section). So we make sure to change the <code>should_render</code> bool to <code>true</code> if our <code>selected_index</code> moved as a result of the user pressing one of the above keys.</p>
+<p>But what if we&rsquo;d like to react to keys the user pressed while to react to keys the user pressed while not focused on our plugin? Our user needs to be able to mark the panes they are focused on using <code>Ctrl Shift i</code>, in this case by definition they are not focused on our plugin! Let&rsquo;s look at <code>pipes</code> in order to achieve this.</p>
+<h3 id="communicating-with-running-plugins-using-pipes">Communicating with running plugins using Pipes</h3>
+<p><strong>COMMIT:</strong> <a href="https://github.com/imsnif/carousel/tree/0d5573084207f8bc691f5f6cc3f74d2bb5af3bdb">https://github.com/imsnif/carousel/tree/0d5573084207f8bc691f5f6cc3f74d2bb5af3bdb</a></p>
+<p><a href="https://zellij.dev/documentation/plugin-pipes">Pipes</a> in Zellij are very similar to pipes on the command line (and indeed can seamlessly interact with them). In this case, we&rsquo;re going to use them to send keypresses to plugins. They are a very versatile entity and the reader is encouraged to read more about them for more creative and powerful uses.</p>
+<p>Our generated plugin template includes a <code>pipe</code> method, which will be triggered every time messages are piped to our plugin:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> ZellijPlugin <span style="color:#66d9ef">for</span> State {
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">pipe</span> (<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, pipe_message: <span style="color:#a6e22e">PipeMessage</span>) -&gt; <span style="color:#66d9ef">bool</span> {
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> should_render <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+        should_render
+    }
+    <span style="color:#75715e">// ...
+</span></code></pre></div><p>Right now, this method doesn&rsquo;t do much. Similar to the <code>update</code> method described above, it returns a <code>bool</code> value letting Zellij know whether the plugin would like to render itself.</p>
+<p>Let&rsquo;s add some debug printing to see how this works:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> ZellijPlugin <span style="color:#66d9ef">for</span> State {
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">pipe</span> (<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, pipe_message: <span style="color:#a6e22e">PipeMessage</span>) -&gt; <span style="color:#66d9ef">bool</span> {
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> should_render <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+        eprintln<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Received pipe_message: {:#?}&#34;</span>, pipe_message);
+        should_render
+    }
+    <span style="color:#75715e">// ...
+</span></code></pre></div><p>By printing to <code>STDERR</code> with <code>eprintln</code>, we&rsquo;re telling Zellij to place these messages in its log file. The log file location can be found by issuing <code>zellij setup --check</code> through the command-line. On my machine it is <code>/tmp/zellij-1000/zellij-log/zellij.log</code>, let&rsquo;s tail it in a new Zellij pane with <code>tail -f /tmp/zellij-1000/zellij-log/zellij.log</code>. In a different pane, we&rsquo;re going to pipe a message to this plugin through the command line with <code>zellij pipe -- &quot;hi there!&quot;</code></p>
+<p>Here&rsquo;s what we see: (truncated for clarity)</p>
+<pre><code>Received pipe_message: PipeMessage {
+    source: Cli(
+        &quot;c82fc6e8-064f-4c91-b494-912041339867&quot;,
+    ),
+    name: &quot;f985faa1-43b4-4e64-a52b-ff49329bd9cd&quot;,
+    payload: Some(
+        &quot;hi there!&quot;,
+    ),
+    args: {},
+    is_private: false,
+}
+</code></pre><p>The <a href="https://docs.rs/zellij-tile/latest/zellij_tile/prelude/struct.PipeMessage.html"><code>PipeMessage</code></a> provides us the payload we gave it through the command line (<code>hi there!</code>) as well as some metadata regarding the pipe itself. We can see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/prelude/enum.PipeSource.html"><code>PipeSource</code></a> for example, letting us know that the pipe came from the command line and giving us its ID in case we&rsquo;d like to perform operations on it such as applying backpressure.</p>
+<p>The <code>PipeMessage</code> also lets us know that this pipe is not private. This is because pipes are broadcast by default, sent to all running plugins in the session. In order to send a pipe to a specific plugin, we&rsquo;re going to need either its unique ID in our session or the URL and configuration with which it was loaded.</p>
+<p>In our case, we&rsquo;d like the user to pipe information to our plugin when pressing a keybinding rather than through the command line. We can achieve this by having our plugin temporarily bind a key in the user&rsquo;s current session that would pipe information to our plugin. To do this, we&rsquo;re going to need to first discover our plugin&rsquo;s unique <a href="https://docs.rs/zellij-tile/latest/zellij_tile/prelude/enum.PaneId.html"><code>PaneId</code></a>. We do this with the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/shim/fn.get_plugin_ids.html">get_plugin_ids</a> function on plugin load like so:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> ZellijPlugin <span style="color:#66d9ef">for</span> State {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">load</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, configuration: <span style="color:#a6e22e">BTreeMap</span><span style="color:#f92672">&lt;</span>String, String<span style="color:#f92672">&gt;</span>) {
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">let</span> plugin_ids <span style="color:#f92672">=</span> get_plugin_ids();
+        self.own_plugin_id <span style="color:#f92672">=</span> Some(plugin_ids.plugin_id);
+    }
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>This id is guaranteed not to change for the lifetime of the plugin. Once we have this, we can use it as a destination for our keybind pipe. We bind this key temporarily for the user with the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/shim/fn.reconfigure.html"><code>reconfigure</code></a> function:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">bind_key</span>(own_plugin_id: <span style="color:#66d9ef">u32</span>) {
+    <span style="color:#66d9ef">let</span> new_config <span style="color:#f92672">=</span> format<span style="color:#f92672">!</span>(
+        <span style="color:#e6db74">&#34;
+</span><span style="color:#e6db74">        keybinds {{
+</span><span style="color:#e6db74">            shared {{
+</span><span style="color:#e6db74">                bind \&#34;Ctrl Shift i\&#34; {{
+</span><span style="color:#e6db74">                    MessagePluginId {} {{
+</span><span style="color:#e6db74">                        name \&#34;mark_pane\&#34;
+</span><span style="color:#e6db74">                    }}
+</span><span style="color:#e6db74">                }}
+</span><span style="color:#e6db74">            }}
+</span><span style="color:#e6db74">        }}
+</span><span style="color:#e6db74">        &#34;</span>,
+        own_plugin_id,
+    );
+    reconfigure(new_config, <span style="color:#66d9ef">false</span>);
+}
+</code></pre></div><p>The <code>reconfigure</code> function in the example above sends a new <a href="https://zellij.dev/documentation/keybindings.html"><code>Keybindings</code></a> configuration to be applied to the current Zellij session. Since we did not clear the previous configuration with <a href="https://zellij.dev/documentation/keybindings-binding#overriding-keys"><code>clear-defaults</code></a>, our keybindings will be applied &ldquo;on top&rdquo; of the user&rsquo;s existing keybindings, only overriding them if the user had a previous key bound to the same shortcut.</p>
+<p>In this example, we bind <code>&quot;Ctrl Shift i&quot;</code> hard-coded, but if we wanted to make the keybinding dynamic, we could also place our own <code>KeyWithModifier</code> in the string using its <code>Display</code> property to stringify it without us having to do it ourselves. We use the <code>MessagePluginId</code> action which pipes a message to the plugin id we received above using the <code>get_plugin_ids</code> method. We also give the pipe message a name we can recognize later (<code>&quot;mark_pane&quot;</code>). But where do we use this function?</p>
+<p>The easiest answer would be in our <code>load</code> function, which is triggered whenever the plugin is loaded - but this would unfortunately not be the best course of action. The reason is that in order to reconfigure the user&rsquo;s keybinding, we&rsquo;re going to need to ask for permission and only bind the key once we&rsquo;re sure the permission has been granted. Let&rsquo;s take a look at how we can achieve this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> ZellijPlugin <span style="color:#66d9ef">for</span> State {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">load</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, configuration: <span style="color:#a6e22e">BTreeMap</span><span style="color:#f92672">&lt;</span>String, String<span style="color:#f92672">&gt;</span>) {
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>        request_permission(<span style="color:#f92672">&amp;</span>[PermissionType::Reconfigure]);
+        subscribe(<span style="color:#f92672">&amp;</span>[EventType::Key, EventType::PermissionRequestResult]);
+    }
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>Here in the load function, we added a call to <code>request_permission</code>. This function will request permissions for our plugin (<code>Reconfigure</code> in this case), prompting the user on plugin load (when we called the function) and returning the response to us as a <code>PermissionRequestResult</code> - which we made sure to also subscribe to.</p>
+<p>The user will see something like this:
+<figure>
+    <img src="https://zellij.dev/img/developing-a-plugin-6.png"/> 
+</figure>
+</p>
+<p>Once they press <code>y</code> or <code>n</code>, we will receive their response as a <code>PermissionRequestResult</code> event and can react to it in our <code>update</code> function like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> ZellijPlugin <span style="color:#66d9ef">for</span> State {
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">update</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, event: <span style="color:#a6e22e">Event</span>) -&gt; <span style="color:#66d9ef">bool</span> {
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> should_render <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+        <span style="color:#66d9ef">match</span> event {
+            Event::PermissionRequestResult(permission_status) <span style="color:#f92672">=&gt;</span> {
+                <span style="color:#66d9ef">match</span> permission_status {
+                    PermissionStatus::Granted <span style="color:#f92672">=&gt;</span> {
+                        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(own_plugin_id) <span style="color:#f92672">=</span> self.own_plugin_id {
+                            bind_key(own_plugin_id);
+                        }
+                    }
+                    PermissionStatus::Denied <span style="color:#f92672">=&gt;</span> {
+                        eprintln<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;Permission denied!&#34;</span>);
+                    }
+                }
+            }
+            <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>            _ <span style="color:#f92672">=&gt;</span> {}
+        }
+        should_render
+    }
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>Permissions are cached by the plugin url which the plugin was loaded from. So on the next run, the user will not be prompted for permission if they have already accepted it. We will however always receive the <code>PermissionRequestResult</code> after plugin load, meaning it&rsquo;s safe to leave our logic there regardless of whether we already have permission or not.</p>
+<p>Now that we&rsquo;ve bound our key globally to pipe a message to us, let&rsquo;s adjust our <code>pipe</code> function:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> ZellijPlugin <span style="color:#66d9ef">for</span> State {
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">pipe</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, pipe_message: <span style="color:#a6e22e">PipeMessage</span>) -&gt; <span style="color:#66d9ef">bool</span> {
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> should_render <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+        <span style="color:#66d9ef">if</span> pipe_message.source <span style="color:#f92672">==</span> PipeSource::Keybind <span style="color:#f92672">&amp;&amp;</span> pipe_message.is_private {
+            <span style="color:#66d9ef">if</span> pipe_message.name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;mark_pane&#34;</span> {
+                eprintln<span style="color:#f92672">!</span>(<span style="color:#e6db74">&#34;The user asked to mark their focused pane!&#34;</span>);
+            }
+        }
+        should_render
+    }
+}
+</code></pre></div><p>Here, we make sure to only react to a pipe message that came from a <code>Keybind</code>, is private to us (as opposed to broadcast to all plugins), and has the <code>mark_pane</code> message name which we have defined above in the <code>reconfigure</code> command. When we get this message, we print a message to the log. Not very interesting, but it&rsquo;s a start! In the next section, we&rsquo;ll see how we can figure out which pane the user is focused on so that we can add it to our list and display it in the UI.</p>
+<p><em>A note about security</em>: while in order to message plugins another plugin would need the relevant permission, it&rsquo;s probably a good idea to include a unique identifier (eg. a <code>uuid</code>) with pipe messages as an argument and to compare against it when reacting to the pipe message. This is not a must (especially when doing trivial things such as marking a pane) but is good to keep in mind. Pipes are a public interface and should be treated as such.</p>
+<h2 id="step-3-parsing-and-reacting-to-the-zellij-state">Step 3: Parsing and reacting to the Zellij state</h2>
+<p><strong>COMMIT:</strong> <a href="https://github.com/imsnif/carousel/tree/3792a6eb3b92fa0c3b967a5361a62bea55a59969">https://github.com/imsnif/carousel/tree/3792a6eb3b92fa0c3b967a5361a62bea55a59969</a></p>
+<p>As a plugin, given the right permissions, we can find out lots of things about the state of the Zellij workspace: we can get information about <a href="https://docs.rs/zellij-tile/latest/zellij_tile/prelude/struct.PaneManifest.html">panes</a>, <a href="https://docs.rs/zellij-tile/latest/zellij_tile/prelude/struct.TabInfo.html">tabs</a> and even other <a href="https://docs.rs/zellij-tile/latest/zellij_tile/prelude/struct.SessionInfo.html">sessions</a>. In our case, we need to find out two important pieces of information:</p>
+<ol>
+<li>Which pane the user is focused on (so that we can mark it when the user presses <code>Ctrl shift i</code>)</li>
+<li>What are the pane titles corresponding to the list of pane ids that we have (so that we can display them on screen rather than just their <code>PaneId</code>)</li>
+</ol>
+<p>To get this information, we&rsquo;re going to need to request the relevant permission (<code>ReadApplicationState</code>) and subscribe to 2 different events: <code>PaneUpdate</code> and <code>TabUpdate</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> ZellijPlugin <span style="color:#66d9ef">for</span> State {
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">load</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, configuration: <span style="color:#a6e22e">BTreeMap</span><span style="color:#f92672">&lt;</span>String, String<span style="color:#f92672">&gt;</span>) {
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>        request_permission(<span style="color:#f92672">&amp;</span>[PermissionType::Reconfigure, PermissionType::ReadApplicationState]);
+        subscribe(<span style="color:#f92672">&amp;</span>[
+            EventType::Key,
+            EventType::PaneUpdate,
+            EventType::TabUpdate,
+        ]);
+    }
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p>After we are granted permissions, we&rsquo;ll start getting these events whenever the information they contain change (and also once on plugin load). Let&rsquo;s see how we can use them to achieve our goals:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> ZellijPlugin <span style="color:#66d9ef">for</span> State {
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">update</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, event: <span style="color:#a6e22e">Event</span>) -&gt; <span style="color:#66d9ef">bool</span> {
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> should_render <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+        <span style="color:#66d9ef">match</span> event {
+            <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>            Event::TabUpdate(tab_infos) <span style="color:#f92672">=&gt;</span> {
+                self.update_tab_info(tab_infos);
+                should_render <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+            }
+            Event::PaneUpdate(pane_manifest) <span style="color:#f92672">=&gt;</span> {
+                self.update_latest_pane_manifest(pane_manifest);
+                should_render <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+            }
+            _ <span style="color:#f92672">=&gt;</span> {}
+        }
+        should_render
+    }
+}
+</code></pre></div><p>One thing to note here is that after each of these events we&rsquo;re setting <code>should_render</code> to <code>true</code> because they represent a potential UI change. If we wanted, we could be even more exact about this - only setting <code>should_render</code> to true if our UI actually changed - but that&rsquo;s out of scope for this tutorial. Let&rsquo;s flesh out the <code>update_tab_info</code> and <code>update_latest_pane_manifest</code> functions:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">State</span> {
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    focused_pane_id: Option<span style="color:#f92672">&lt;</span>PaneId<span style="color:#f92672">&gt;</span>,
+    latest_pane_manifest: Option<span style="color:#f92672">&lt;</span>PaneManifest<span style="color:#f92672">&gt;</span>,
+    active_tab_position_and_floating_panes_visible: Option<span style="color:#f92672">&lt;</span>(<span style="color:#66d9ef">usize</span>, <span style="color:#66d9ef">bool</span>)<span style="color:#f92672">&gt;</span>,
+    pane_titles: <span style="color:#a6e22e">HashMap</span><span style="color:#f92672">&lt;</span>PaneId, String<span style="color:#f92672">&gt;</span>,
+}
+
+<span style="color:#66d9ef">impl</span> State {
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">update_tab_info</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, tab_infos: Vec<span style="color:#f92672">&lt;</span>TabInfo<span style="color:#f92672">&gt;</span>) {
+        <span style="color:#66d9ef">for</span> tab <span style="color:#66d9ef">in</span> tab_infos {
+            <span style="color:#66d9ef">if</span> tab.active {
+                <span style="color:#66d9ef">let</span> floating_panes_are_visible <span style="color:#f92672">=</span> tab.are_floating_panes_visible;
+                self.active_tab_position_and_floating_panes_visible <span style="color:#f92672">=</span> Some((tab.position, floating_panes_are_visible));
+            }
+        }
+        self.update_panes();
+    }
+    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">update_latest_pane_manifest</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, pane_manifest: <span style="color:#a6e22e">PaneManifest</span>) {
+        self.latest_pane_manifest <span style="color:#f92672">=</span> Some(pane_manifest);
+        self.update_panes();
+    }
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">update_panes</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) {
+        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(pane_manifest) <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>self.latest_pane_manifest {
+            <span style="color:#66d9ef">for</span> (tab_index, panes_in_tab) <span style="color:#66d9ef">in</span> <span style="color:#f92672">&amp;</span>pane_manifest.panes {
+                <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some((active_tab_position, floating_panes_are_visible)) <span style="color:#f92672">=</span> self.active_tab_position_and_floating_panes_visible.as_ref() {
+                    <span style="color:#66d9ef">for</span> pane <span style="color:#66d9ef">in</span> panes_in_tab {
+                        <span style="color:#66d9ef">if</span> pane.is_suppressed {
+                            <span style="color:#75715e">// suppressed panes are panes that are administratively hidden and not visible to the user
+</span><span style="color:#75715e"></span>                            <span style="color:#75715e">// it is safe to completely ignore them in this context
+</span><span style="color:#75715e"></span>                            <span style="color:#66d9ef">continue</span>;
+                        }
+                        <span style="color:#66d9ef">let</span> pane_id <span style="color:#f92672">=</span> <span style="color:#66d9ef">if</span> pane.is_plugin {
+                            PaneId::Plugin(pane.id)
+                        } <span style="color:#66d9ef">else</span> {
+                            PaneId::Terminal(pane.id)
+                        };
+                        <span style="color:#66d9ef">if</span> tab_index <span style="color:#f92672">==</span> active_tab_position <span style="color:#f92672">&amp;&amp;</span>
+                            pane.is_focused <span style="color:#f92672">&amp;&amp;</span>
+                            pane.is_floating <span style="color:#f92672">==</span> <span style="color:#f92672">*</span>floating_panes_are_visible
+                        {
+                            self.focused_pane_id <span style="color:#f92672">=</span> Some(pane_id);
+                        }
+                        self.pane_titles.insert(pane_id, pane.title.to_owned());
+                    }
+                }
+            }
+        }
+    }
+}
+</code></pre></div><p>Here we are answering the questions we asked in the previous section:</p>
+<ol>
+<li><strong>Which pane the user is focused on:</strong> We record this in <code>focused_pane_id</code></li>
+<li><strong>What are the pane titles corresponding to the list of pane ids that we have:</strong> we record all pane titles in a <code>HashMap</code> with their <code>PaneId</code> as the key and their title as the value</li>
+</ol>
+<p>In order to determine if a pane is focused, we need to check 3 things:</p>
+<ol>
+<li>Is its own <code>is_focused</code> property set to <code>true</code></li>
+<li>Is its tab&rsquo;s <code>active</code> property set to true (a pane may be focused in an unfocused tab)</li>
+<li>If it is a floating pane, is its tab&rsquo;s <code>are_floating_panes_visible</code> property set to <code>true</code>. If it is not a floating pane, is its tab&rsquo;s <code>are_floating_panes_visible</code> set to <code>false</code>.</li>
+</ol>
+<p>Now, once we start recording this info we can make our <code>pipe</code> function do the right thing!</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> ZellijPlugin <span style="color:#66d9ef">for</span> State {
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">pipe</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, pipe_message: <span style="color:#a6e22e">PipeMessage</span>) -&gt; <span style="color:#66d9ef">bool</span> {
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> should_render <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+        <span style="color:#66d9ef">if</span> pipe_message.source <span style="color:#f92672">==</span> PipeSource::Keybind <span style="color:#f92672">&amp;&amp;</span> pipe_message.is_private {
+            <span style="color:#66d9ef">if</span> pipe_message.name <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;mark_pane&#34;</span> {
+                should_render <span style="color:#f92672">=</span> self.mark_focused_pane();
+            }
+        }
+        should_render
+    }
+    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">mark_focused_pane</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) -&gt; <span style="color:#66d9ef">bool</span> {
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> marked_pane <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(focused_pane_id) <span style="color:#f92672">=</span> self.focused_pane_id {
+            <span style="color:#66d9ef">match</span> self.marked_panes.iter().position(<span style="color:#f92672">|</span>p<span style="color:#f92672">|</span> p <span style="color:#f92672">==</span> <span style="color:#f92672">&amp;</span>focused_pane_id) {
+                Some(existing_pane_id_position) <span style="color:#f92672">=&gt;</span> {
+                    <span style="color:#75715e">// if it&#39;s already in the list, remove it
+</span><span style="color:#75715e"></span>                    self.marked_panes.remove(existing_pane_id_position);
+                },
+                None <span style="color:#f92672">=&gt;</span> {
+                    self.marked_panes.push(focused_pane_id);
+                }
+            }
+            marked_pane <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+        }
+        marked_pane
+    }
+}
+</code></pre></div><p>Now, the last piece of our plugin is&hellip; doing the actual work! Let&rsquo;s react to the user pressing <code>Enter</code> and get them to their desired pane:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">impl</span> ZellijPlugin <span style="color:#66d9ef">for</span> State {
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">update</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, event: <span style="color:#a6e22e">Event</span>) -&gt; <span style="color:#66d9ef">bool</span> {
+        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> should_render <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+        <span style="color:#66d9ef">match</span> event {
+            <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>            Event::Key(key) <span style="color:#f92672">=&gt;</span> {
+                <span style="color:#66d9ef">match</span> key.bare_key {
+                    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>                    BareKey::Enter <span style="color:#66d9ef">if</span> key.has_no_modifiers() <span style="color:#f92672">=&gt;</span> {
+                        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(selected_pane_id) <span style="color:#f92672">=</span> self.marked_panes.get(self.selected_index) {
+                            focus_pane_with_id(<span style="color:#f92672">*</span>selected_pane_id, <span style="color:#66d9ef">true</span>); <span style="color:#75715e">// true means that if this pane is suppressed, it should reappear as floating
+</span><span style="color:#75715e"></span>                            hide_self();
+                        }
+                    }
+                    _ <span style="color:#f92672">=&gt;</span>  {}
+                }
+            },
+            _ <span style="color:#f92672">=&gt;</span> {}
+        }
+        should_render
+    }
+}
+</code></pre></div><p>There are a few more pieces to this plugin that are largely repetitions of things we already covered. For example: having he plugin show itself when the user presses a certain key combination through an additional pipe message. If you&rsquo;d like to learn more, you can take a look at the <a href="https://github.com/imsnif/carousel">source code of the finished plugin</a>.</p>
+<h2 id="step-4-finalizing-and-distributing-the-plugin">Step 4: Finalizing and distributing the plugin</h2>
+<p><strong>COMMIT:</strong> <a href="https://github.com/imsnif/carousel/tree/aecd0319165202574c44c35b2f5292dacb319c26">https://github.com/imsnif/carousel/tree/aecd0319165202574c44c35b2f5292dacb319c26</a></p>
+<p>Once we have finished iterating over the plugin and decided we&rsquo;re ready to start using it ourselves and publish a first version, we build a release version:</p>
+<pre><code>cargo build --release
+</code></pre><p>This will create a wasm file in the following path: <code>&lt;OUR_PLUGIN_DIR&gt;/target/wasm32-wasi/release/&lt;OUR_PLUGIN_NAME&gt;.wasm</code>.</p>
+<p>We can load this file into Zellij with the <code>Plugin Manager</code> (accessible by default with <code>Ctrl o</code> + <code>p</code>) by pressing <code>Ctrl a</code> and following the on-screen instructions.
+We can also load it through the command line with <code>zellij plugin -- file:/&lt;PATH_TO_OUR_FILE&gt;</code>.</p>
+<h3 id="sharing-our-plugin-with-others">Sharing our plugin with others</h3>
+<p>A good way to distribute our plugin is to publish it as part of some release mechanism in an online code repository. If you&rsquo;re using <code>GitHub</code>, here&rsquo;s a GitHub action that will build and publish a release of your plugin every time you <code>git tag</code> it with a version number: <a href="https://github.com/imsnif/carousel/blob/main/.github/workflows/release.yml">https://github.com/imsnif/carousel/blob/main/.github/workflows/release.yml</a></p>
+<p>Be sure to change the plugin name in the linked file from <code>carousel</code> to your plugin name!</p>
+<p>If you create a plugin and would like to share it with the community, you can also make a PR to <a href="https://github.com/zellij-org/awesome-zellij">awesome-zellij</a>.</p>
+<h2 id="documentation-api-references-and-getting-help">Documentation, API-references and getting help</h2>
+<p>For further reading, you can check out the full plugin development documentation: <a href="https://zellij.dev/documentation/plugins">https://zellij.dev/documentation/plugins</a></p>
+<p>For the Rust API reference, check out: <a href="https://docs.rs/zellij-tile/latest/zellij_tile/index.html">https://docs.rs/zellij-tile/latest/zellij_tile/index.html</a></p>
+<p>The latter includes a list of <a href="https://docs.rs/zellij-tile/latest/zellij_tile/shim/index.html">commands</a> that plugins can issue to Zellij. As well as a list of <a href="https://docs.rs/zellij-tile/latest/zellij_tile/prelude/enum.Event.html"><code>Event</code>s</a> plugins can subscribe to.</p>
+<p>If you would like help, please join our <a href="https://discord.gg/CrUAFH3">Discord</a> - many plugin developers hang out there.</p>
+<h2 id="do-you-like-zellij--">Do you like Zellij ❤️ ?</h2>
+<p>Me too! So much so that I spend 100% of my time developing and maintaining it and have no other income.</p>
+<p>Zellij will always be free and open-source. Zellij will never contain ads or collect your data.</p>
+<p>So if the tool gives you value and you are able, please consider a recurring monthly donation of 5-10$ to help me pay my bills. There are Zellij stickers in it for you! <a href="https://github.com/sponsors/imsnif">https://github.com/sponsors/imsnif</a></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

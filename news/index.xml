@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>News on Zellij</title>
+    <link>https://zellij.dev/news/</link>
+    <description>Recent content in News on Zellij</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright>
+    <lastBuildDate>Mon, 17 Mar 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://zellij.dev/news/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Zellij 0.42.0: Stacked Resize, Pinned Floating Panes, New Theme Spec</title>
+      <link>https://zellij.dev/news/stacked-resize-pinned-panes/</link>
+      <pubDate>Mon, 17 Mar 2025 00:00:00 +0000</pubDate>
+      
+      <guid>https://zellij.dev/news/stacked-resize-pinned-panes/</guid>
+      <description>Zellij 0.42.0 has just been released! Check it out!
+Some highlights:
+ Stacked Resize Pinned Floating Panes New Theme Definition Spec New (Rust) Plugin APIs Double/Triple Mouse Click Text Selection in Terminals Release Notes and Tips on Startup Do you like Zellij? ❤️  Here&amp;rsquo;s a short video demonstrating the highlights. Be sure to scroll down to read more!
+    var playerElement = document.getElementById(&#34;player-wrapper&#34;); var player = new Clappr.</description>
+    </item>
+    
+    <item>
+      <title>Zellij 0.41.0: Solutions for Colliding Keybindings, Plugin Manager, new UI</title>
+      <link>https://zellij.dev/news/colliding-keybinds-plugin-manager/</link>
+      <pubDate>Mon, 04 Nov 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://zellij.dev/news/colliding-keybinds-plugin-manager/</guid>
+      <description>Zellij 0.41.0 has just been released! Check it out!
+Here&amp;rsquo;s a short video demonstrating the highlights. Be sure to scroll down to read more!
+    var playerElement = document.getElementById(&#34;player-wrapper&#34;); var player = new Clappr.Player({ source: &#34;/video/version-041-intro.mp4&#34;, mute: false, height: 540, width: 960 }); player.attachTo(playerElement);  Some highlights:
+ Solutions for Colliding Keybindings Support for multiple-modifiers and the kitty keyboard protocol Change the Configuration at Runtime New UI Configuration Screen and Setup Wizard Load Layouts from the Web New Plugin APIs A new Plugin Manager New Themes Do you like Zellij?</description>
+    </item>
+    
+    <item>
+      <title>Zellij 0.40.0: Welcome Screen, Filepicker, Pipes, Plugin Aliases</title>
+      <link>https://zellij.dev/news/welcome-screen-pipes-filepicker/</link>
+      <pubDate>Tue, 16 Apr 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://zellij.dev/news/welcome-screen-pipes-filepicker/</guid>
+      <description>Zellij 0.40.0 has just been released! Grab it while it&amp;rsquo;s hot!
+Some highlights:
+ Welcome Screen New Filepicker Pipes Open Floating Panes at Specific Coordinates Rearrange Tabs Disconnect other Clients Plugin Aliases New Possible Keys to Bind Start session in the background Performance Improvements Do you like Zellij? ❤️  Welcome Screen   This new release introduces the &amp;ldquo;welcome screen&amp;rdquo;. The welcome screen is a friendly menu, intended to be run on terminal startup and allow users to either:</description>
+    </item>
+    
+    <item>
+      <title>Zellij 0.39.0: Session Resurrection, Cross-Language UI Components, load Plugins from the Web</title>
+      <link>https://zellij.dev/news/session-resurrection-ui-components/</link>
+      <pubDate>Tue, 07 Nov 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://zellij.dev/news/session-resurrection-ui-components/</guid>
+      <description>Session Resurrection Zellij now includes built-in session resurrection capabilities. This means that Zellij sessions can be restored after reboots or graceful quits. Attaching to an exited session will resurrect it, allowing users to keep long-running named workspaces. Sessions are serialized as Human readable Zellij layouts, so they can also be shared across machines or between friends.
+Read more
+Special thanks to @AlixBernard for implementing the serialization algorithm, as well as to @alekspickle for helping integrate the algorithm with our code base.</description>
+    </item>
+    
+    <item>
+      <title>Zellij 0.38.0: including a session-manager, plugin infrastructure improvements and an end to offensive session names</title>
+      <link>https://zellij.dev/news/session-manager-protobuffs/</link>
+      <pubDate>Tue, 29 Aug 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://zellij.dev/news/session-manager-protobuffs/</guid>
+      <description>Session Manager This much requested feature has been implemented as a built-in plugin, allowing users to switch between sessions and move focus to specific tabs or panes in the current or other sessions. And of course, one can fuzzy-find through pane names (often provided by the application running inside the terminal), tab names or session names.
+All of this functionality is now available as part of Zellij&amp;rsquo;s plugin API - so users are welcome and encouraged to fork the plugin and change its behavior to their liking.</description>
+    </item>
+    
+    <item>
+      <title>Build Zellij WebAssembly (Rust) Plugins for your Terminal</title>
+      <link>https://zellij.dev/news/new-plugin-system/</link>
+      <pubDate>Tue, 27 Jun 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://zellij.dev/news/new-plugin-system/</guid>
+      <description>Wouldn&amp;rsquo;t it be cool to be able to develop terminal applets like UI components? Visual scripts to help you automate your workflow, shareable with others and written in Rust?
+The Zellij team has just overhauled our WebAssembly plugin system, and we&amp;rsquo;d like to invite plugin developers to build this with us.
+Want to participate in building something new? Don&amp;rsquo;t mind a few rough edges? Please read on!
+What is a Zellij plugin?</description>
+    </item>
+    
+    <item>
+      <title>Zellij 0.35.1 Stacked Panes and Swap Layouts</title>
+      <link>https://zellij.dev/news/stacked-panes-swap-layouts/</link>
+      <pubDate>Tue, 07 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://zellij.dev/news/stacked-panes-swap-layouts/</guid>
+      <description>We just released Zellij 0.35.1, including an exciting array of new features and bug fixes. Let&amp;rsquo;s dive in to some of them!
+Stacked Panes Stacked panes are a new and unique way to arrange panes in your workspace. You can now arrange panes in a stack, showing only the title line of all but one of them - with the last one expanded just like any other pane.
+You can page through them up/down as you would normally move through panes (eg.</description>
+    </item>
+    
+    <item>
+      <title>Zellij 0.32.0: YAML =&gt; KDL, Control Zellij through the CLI, Command Panes and a new Layout System</title>
+      <link>https://zellij.dev/news/config-command-layouts/</link>
+      <pubDate>Tue, 25 Oct 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://zellij.dev/news/config-command-layouts/</guid>
+      <description>We just release Zellij 0.32.0 with lots of exciting features and improvements.
+In this version, we emphasized features geared toward advanced users. We feel Zellij already provides a great experience to users new to terminal multiplexers, and would now like to make configuring and personalizing the tool easier. We want to grant power users the ability to better harness their terminal workspace, expressing their imagination and sharing their findings with the community.</description>
+    </item>
+    
+    <item>
+      <title>Zellij 0.31.0: Sixel support, search panes and custom status-bar keybindings</title>
+      <link>https://zellij.dev/news/sixel-search-statusbar/</link>
+      <pubDate>Fri, 29 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://zellij.dev/news/sixel-search-statusbar/</guid>
+      <description>Zellij 0.31.0 was just released. This version includes three highly anticipated features that have each been in the works for a long while.
+The new release is available through crates.io with a cargo install zellij, a prebuilt binary can be downloaded directly from the release page, or you can check our third party release page to see if it&amp;rsquo;s already available for your distro.
+If you like, you can even try Zellij without installing it.</description>
+    </item>
+    
+    <item>
+      <title>Zellij 0.30.0: use your $EDITOR to search and save your scrollback</title>
+      <link>https://zellij.dev/news/edit-scrollback-compact/</link>
+      <pubDate>Wed, 08 Jun 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://zellij.dev/news/edit-scrollback-compact/</guid>
+      <description>We just released Zellij 0.30.0, which adds a few very exciting features.
+The new release is available through crates.io with a cargo install zellij, a prebuilt binary can be downloaded directly from the release page, or you can check our third party release page to see if it&amp;rsquo;s already available for your distro.
+Starting this release, you can also try Zellij without installing it (check out the main page: https://zellij.dev).</description>
+    </item>
+    
+  </channel>
+</rss>

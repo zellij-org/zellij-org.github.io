@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="How to use Zellij as a powerful engine for terminal development" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/tutorials/basic-functionality/" />
+
+
+    <title>
+        
+            Basic Development with Zellij
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Basic Development with Zellij">
+<meta itemprop="description" content="How to use Zellij as a powerful engine for terminal development">
+
+<meta itemprop="wordCount" content="676"><meta itemprop="image" content="https://zellij.dev/img/tutorial-1-preview.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/tutorial-1-preview.png"/>
+
+<meta name="twitter:title" content="Basic Development with Zellij"/>
+<meta name="twitter:description" content="How to use Zellij as a powerful engine for terminal development"/>
+
+
+
+    <meta property="og:title" content="Basic Development with Zellij" />
+<meta property="og:description" content="How to use Zellij as a powerful engine for terminal development" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/tutorials/basic-functionality/" /><meta property="og:image" content="https://zellij.dev/img/tutorial-1-preview.png" /><meta property="article:section" content="tutorials" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/tutorials/basic-functionality/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/tutorials/basic-functionality/">Basic Development with Zellij</a></h2>
+
+            
+            
+            
+
+                  
+                
+                <div class="container" style="display: flex; justify-content: left; align-items: left;">
+  <div id="player-wrapper" class=""></div>
+</div>
+
+<script 
+  type="text/javascript" 
+  src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"
+>
+</script>
+
+<script>
+  var playerElement = document.getElementById("player-wrapper");
+
+  var player = new Clappr.Player({
+    source: "/video/basic-development-screencast.mp4",
+    mute: false,
+    
+    height: 540,
+    
+    width: 960
+  });
+
+  player.attachTo(playerElement);  
+</script>
+
+<p>This tutorial demonstrates some basic features of Zellij through a real world use-case of using the terminal for development.</p>
+<p>You need not be a terminal developer to benefit from this tutorial.</p>
+<p><em>The video screencast and the tutorial contain the same content.</em></p>
+<h2 id="what-well-cover">What we&rsquo;ll cover</h2>
+<ul>
+<li><a href="#opening-new-panes">Opening New Panes</a></li>
+<li><a href="#using-floating-panes">Using Floating Panes</a></li>
+<li><a href="#starting-command-panes-from-the-cli">Starting Command Panes from the CLI</a></li>
+<li><a href="#editing-the-scrollback-with-your-own-editor">Editing Pane Scrollback with your own $EDITOR</a></li>
+<li><a href="#do-you-like-zellij-">Do you like Zellij?</a></li>
+</ul>
+<h2 id="getting-started">Getting Started</h2>
+<p><figure class="center">
+    <img src="https://zellij.dev/img/tutorial-1-getting-started.png"
+         alt="An image of Zellij running inside a terminal with vim open to the main.rs file of the project."/> 
+</figure>
+
+We&rsquo;ll use a basic Rust project as an example, but it can work with any sort of code. To follow along, you can clone <a href="https://github.com/imsnif/zellij-screencast-1">the repository</a>.</p>
+<p>After <a href="https://zellij.dev/documentation/installation.html">installing Zellij</a>, let&rsquo;s start it up in the project&rsquo;s directory.</p>
+<p>Then let&rsquo;s open up <code>vim</code> to the main file in the repository: <code>vim src/main.rs</code></p>
+<h2 id="opening-new-panes">Opening New Panes</h2>
+<p><figure class="center">
+    <img src="https://zellij.dev/img/tutorial-1-opening-new-panes.png"
+         alt="An image of Zellij with three panes, one open to main.rs, one running cargo run and the third running cargo test"/> 
+</figure>
+
+The most basic functionality of Zellij is opening up different terminal panes in the same tab. Let&rsquo;s open up some and run different commands in each.</p>
+<p>First we split the terminal down so that we can run our code: <code>Ctrl p</code> + <code>d</code> then <code>cargo run</code> in the new pane.</p>
+<p>Next, let us open another pane to run tests: <code>Alt n</code> will open a new pane in the largest available space. <code>cargo test</code> inside this new pane will run our tests.</p>
+<h2 id="using-floating-panes">Using Floating Panes</h2>
+<p><figure class="center">
+    <img src="https://zellij.dev/img/tutorial-1-using-floating-panes.png"
+         alt="An image of Zellij with a floating pane running cargo test"/> 
+</figure>
+
+Floating panes can be a powerful tool for toggling context. Running tests inside them is a classic use-case.</p>
+<p>Let&rsquo;s make our existing &ldquo;tests&rdquo; pane floating by ejecting it with: <code>Ctrl p</code> + <code>e</code></p>
+<p>Now that it is floating, we can toggle its visibility and focus: <code>Ctrl p</code> + <code>w</code> to hide, and <code>Ctrl p</code> + <code>w</code> again to show.</p>
+<p><em>Tip:</em> When toggling floating panes with <code>Ctrl p</code> + <code>w</code>, if none exist one will be opened.</p>
+<p><em>Another tip:</em> When floating panes are visible, you can open new ones with <code>Alt n</code>, move existing ones with the mouse or use all Zellij keyboard shortcuts on them as you would with regular &ldquo;tiled&rdquo; panes.</p>
+<h2 id="starting-command-panes-from-the-cli">Starting Command Panes from the CLI</h2>
+<p><figure class="center">
+    <img src="https://zellij.dev/img/tutorial-1-command-panes.png"
+         alt="An image of Zellij with two floating panes, the front one running cargo test and showing its exit status and extra controls on screen"/> 
+</figure>
+
+Instead of retyping, pressing the up arrow or searching our history for a particular command - we can have it waiting for us in a command pane.</p>
+<p>From the CLI, we use the <code>zrf</code> <a href="https://zellij.dev/documentation/controlling-zellij-through-cli.html#completions">alias</a> (zellij run floating) to run the <code>cargo test</code> command as a floating command pane:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ zrf cargo test
+</code></pre></div><p>We see the exit status of the pane, can scroll / search through its output normally and can re-run it by pressing <code>&lt;ENTER&gt;</code></p>
+<h2 id="editing-the-scrollback-with-your-own-editor">Editing the Scrollback with your own $EDITOR</h2>
+<p><figure class="center">
+    <img src="https://zellij.dev/img/tutorial-1-editing-scrollback.png"
+         alt="An image of Zellij with a pane open to the vim editor editing its own scrollback"/> 
+</figure>
+
+Zellij allows you to open a pane&rsquo;s existing scrollback with your own <code>$EDITOR</code> eg. vim. Let&rsquo;s try it out.</p>
+<p>To get some output, let&rsquo;s change the <code>main</code> function in <code>main.rs</code> to:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust"><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+    why_would_i_want_this();
+}
+</code></pre></div><p>Now let&rsquo;s move focus to the bottom pane either by clicking it with the mouse, with <code>Alt j</code> or with <code>Alt &lt;down-arrow&gt;</code>.</p>
+<p>We run the program with <code>cargo run</code> and see all the output on screen.</p>
+<p>Now, let&rsquo;s press <code>Ctrl s</code> + <code>e</code> and the output is opened up in our editor (vim in the author&rsquo;s case). When using vim, we can issue the following command to delete all lines that don&rsquo;t contain the word &ldquo;error&rdquo;: <code>:%g!/error/d</code>.</p>
+<p>Then, let&rsquo;s save the resulting lines to a different file (in vim: <code>:s /tmp/my-other-file.md</code>) and we can send it to a friend or do whatever we like with it.</p>
+<h2 id="finally">Finally</h2>
+<p>Here we learned the very basics of Zellij usage. Be they classic multiplexer features such as splitting panes or slightly more advanced workspace features such as managing Command Panes and editing scrollback.</p>
+<h2 id="do-you-like-zellij-">Do you like Zellij? ❤️</h2>
+<p>Me too. So much so that I spend 100% of my time developing and maintaining it and have no other income.</p>
+<p>Zellij will always be free and open-source. Zellij will never contain ads or collect your data.</p>
+<p>If the tool gives you value and you are able, please consider <a href="https://github.com/sponsors/imsnif">a recurring monthly donation</a> of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

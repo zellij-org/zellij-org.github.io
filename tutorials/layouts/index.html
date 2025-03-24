@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="How to create and use Zellij layouts to automate tasks and workflows" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/tutorials/layouts/" />
+
+
+    <title>
+        
+            Using Layouts for Personal Automation
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Using Layouts for Personal Automation">
+<meta itemprop="description" content="How to create and use Zellij layouts to automate tasks and workflows">
+
+<meta itemprop="wordCount" content="1133"><meta itemprop="image" content="https://zellij.dev/img/tutorial-2-preview.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/tutorial-2-preview.png"/>
+
+<meta name="twitter:title" content="Using Layouts for Personal Automation"/>
+<meta name="twitter:description" content="How to create and use Zellij layouts to automate tasks and workflows"/>
+
+
+
+    <meta property="og:title" content="Using Layouts for Personal Automation" />
+<meta property="og:description" content="How to create and use Zellij layouts to automate tasks and workflows" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/tutorials/layouts/" /><meta property="og:image" content="https://zellij.dev/img/tutorial-2-preview.png" /><meta property="article:section" content="tutorials" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/tutorials/layouts/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/tutorials/layouts/">Using Layouts for Personal Automation</a></h2>
+
+            
+            
+            
+
+                  
+                
+                <p>This tutorial walks you through creating Zellij <a href="https://zellij.dev/documentation/creating-a-layout.html">layouts</a> to automate tasks and workflows.</p>
+<p>Layouts describe a pre-defined set of panes and tabs with different terminals, commands and plugins. They can be great to automate and formalize workflows and tasks.</p>
+<p>If you prefer a <a href="#the-goal"><em>written tutorial</em></a>, or would like to copy/paste the examples, scroll down past this video.</p>
+<div class="container" style="display: flex; justify-content: left; align-items: left;">
+  <div id="player-wrapper" class=""></div>
+</div>
+
+<script 
+  type="text/javascript" 
+  src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"
+>
+</script>
+
+<script>
+  var playerElement = document.getElementById("player-wrapper");
+
+  var player = new Clappr.Player({
+    source: "/video/layouts-screencast.mp4",
+    mute: false,
+    
+    height: 540,
+    
+    width: 960
+  });
+
+  player.attachTo(playerElement);  
+</script>
+
+<h2 id="the-goal">The Goal</h2>
+<p><figure class="center">
+    <img src="https://zellij.dev/img/tutorial-2-preview.png"/> 
+</figure>
+
+The layout we&rsquo;re creating is for a default Rust project. Rust is used as an example, but knowledge of Rust is not required to benefit from this tutorial.</p>
+<p><em>In the above screenshot</em>: on the left, we have our default editor (vim in the author&rsquo;s case) opened to the main file (<code>src/main.rs</code>), and on the right we have three often-used commands - one in each pane. These are Command Panes, meaning they&rsquo;re first-class citizens of Zellij rather than a command run in a terminal. This means we get to see their <code>Exit Code</code> as well as re-run them by pressing <code>Enter</code>.</p>
+<h2 id="what-well-cover">What we&rsquo;ll cover</h2>
+<ul>
+<li><a href="#creating-and-opening-a-basic-layout-file">Creating and Opening a Basic Layout</a></li>
+<li><a href="#edit-and-command-panes">Edit and Command Panes</a></li>
+<li><a href="#changing-pane-orientation">Changing Pane Orientation</a></li>
+<li><a href="#avoiding-repetition-with-pane-templates">Avoiding Repetition with Pane Templates</a></li>
+<li><a href="#do-you-like-zellij-">Do you like Zellij?</a></li>
+</ul>
+<h2 id="getting-started">Getting Started</h2>
+<p>To follow along, you can clone <a href="https://github.com/imsnif/zellij-screencast-2">the repository</a>.</p>
+<p>Zellij uses <a href="https://kdl.dev">KDL</a> as its configuration language. You can get syntax highlighting for your favorite editor on the KDL website.</p>
+<p><em>OPTIONAL:</em> If you don&rsquo;t have <code>cargo</code> installed, you can install it through <a href="https://rustup.rs/">rustup</a> so that the layout we&rsquo;re creating will work on your computer. This step is not necessary to benefit from this tutorial.</p>
+<h2 id="creating-and-opening-a-basic-layout-file">Creating and Opening a Basic Layout File</h2>
+<p>Let&rsquo;s start by creating an empty layout file and add a single<code>layout</code> node to it:</p>
+<h3 id="basic-rust-layoutkdl">basic-rust-layout.kdl</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">layout
+</code></pre></div><p>Now let&rsquo;s navigate to our Rust project and open the layout, in a new Zellij session if we&rsquo;re not inside one already:</p>
+<pre><code>zellij --layout /path/to/basic-rust-layout.kdl
+</code></pre><p>Or in a new-tab if we&rsquo;re in an existing Zellij session:</p>
+<pre><code>zellij action new-tab -l /path/to/basic-rust-layout.kdl
+</code></pre><figure class="center">
+    <img src="https://zellij.dev/img/tutorial-2-layout-1.png"/> 
+</figure>
+
+<p>Here we are greeted with one terminal window, which is the default single-pane for an empty layout file.</p>
+<h2 id="edit-and-command-panes">Edit and Command Panes</h2>
+<p>Let&rsquo;s add some content to our layout. First, let&rsquo;s add an <code>edit</code> pane:</p>
+<h3 id="basic-rust-layoutkdl-1">basic-rust-layout.kdl</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">layout {
+    pane edit<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;src/main.rs&#34;</span>
+}
+</code></pre></div><p>Opening this layout now, we&rsquo;re greeted with a single editor pane. This pane uses our default <code>$EDITOR</code> (vim in the author&rsquo;s case), opened to the main.rs file:
+<figure class="center">
+    <img src="https://zellij.dev/img/tutorial-2-layout-2.png"/> 
+</figure>
+</p>
+<p>Moving onwards, let&rsquo;s add three Command panes to run 3 often used commands:</p>
+<ol>
+<li><code>cargo check</code> - to see if our code compiles without running it</li>
+<li><code>cargo run</code> - to compile and run our project</li>
+<li><code>cargo test</code> - to run our tests</li>
+</ol>
+<p>In our layout file, this looks like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">layout {
+    pane edit<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;src/main.rs&#34;</span>
+    pane command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+        args <span style="color:#e6db74">&#34;check&#34;</span>
+    }
+    pane command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+        args <span style="color:#e6db74">&#34;run&#34;</span>
+    }
+    pane command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+        args <span style="color:#e6db74">&#34;test&#34;</span>
+    }
+}
+</code></pre></div><p>Opening this layout now, we get:
+<figure class="center">
+    <img src="https://zellij.dev/img/tutorial-2-layout-3.png"/> 
+</figure>
+</p>
+<p>We now have all the panes we need, but their content is not very easy to read or manage. We could definitely take better advantage of our screen real-estate!</p>
+<h2 id="changing-pane-orientation">Changing Pane Orientation</h2>
+<p>To change pane orientation between vertical and horizontal, we need to create logical containers around the panes whose orientation we&rsquo;d like to change.</p>
+<p>Our first container is around the entire layout, and out second container is around just the three Command panes.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">layout {
+    pane split_direction<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;vertical&#34;</span> { <span style="color:#75715e">// first logical container
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// all these panes will be laid out vertically next to each other
+</span><span style="color:#75715e"></span>        pane edit<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;src/main.rs&#34;</span>
+        pane split_direction<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;horizontal&#34;</span> { <span style="color:#75715e">// second logical container
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// all these panes will be laid out horizontally next to each other
+</span><span style="color:#75715e"></span>            pane command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+                args <span style="color:#e6db74">&#34;check&#34;</span>
+            }
+            pane command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+                args <span style="color:#e6db74">&#34;run&#34;</span>
+            }
+            pane command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+                args <span style="color:#e6db74">&#34;test&#34;</span>
+            }
+        }
+    }
+}
+</code></pre></div><p>Opening this layout now, we get:
+<figure class="center">
+    <img src="https://zellij.dev/img/tutorial-2-layout-4.png"/> 
+</figure>
+</p>
+<h2 id="suspending-pane-command-startup">Suspending Pane Command Startup</h2>
+<p>While the commands we added are relatively short lived, there might be occasions where we&rsquo;d like to add a pane with a resource-intensive command that we&rsquo;d only like to run on demand, and not immediately when we open the layout.</p>
+<p>To do this, we add the <code>start_suspended</code> attribute to our Command panes:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">layout {
+    pane split_direction<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;vertical&#34;</span> {
+        pane edit<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;src/main.rs&#34;</span>
+        pane split_direction<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;horizontal&#34;</span> {
+            pane command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+                args <span style="color:#e6db74">&#34;check&#34;</span>
+                start_suspended <span style="color:#66d9ef">true</span>
+            }
+            pane command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+                args <span style="color:#e6db74">&#34;run&#34;</span>
+                start_suspended <span style="color:#66d9ef">true</span>
+            }
+            pane command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+                args <span style="color:#e6db74">&#34;test&#34;</span>
+                start_suspended <span style="color:#66d9ef">true</span>
+            }
+        }
+    }
+}
+</code></pre></div><p>Now, when we open the layout, these three commands will be patiently waiting for us to press <code>Enter</code> to run them for the first time:
+<figure class="center">
+    <img src="https://zellij.dev/img/tutorial-2-layout-5.png"/> 
+</figure>
+</p>
+<h2 id="adding-the-zellij-ui-plugins">Adding the Zellij UI (plugins)</h2>
+<p>When we open the layout we created above, we don&rsquo;t see the Zellij UI. This is because the Zellij UI is made up of plugins that, while they come built-in with Zellij, need to be specified in the layout. So let&rsquo;s add them.</p>
+<p>We&rsquo;re going to add the compact-bar, which is the minimal Zellij UI showing the session name, the current input mode and the open tabs. To do this, we can take a look at one of the default layouts (the compact layout) and copy it from there: <code>zellij setup --dump-layout compact</code>.</p>
+<p>Here&rsquo;s what we&rsquo;ll end up with:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">layout {
+    pane split_direction<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;vertical&#34;</span> {
+        pane edit<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;src/main.rs&#34;</span>
+        pane split_direction<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;horizontal&#34;</span> {
+            pane command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+                args <span style="color:#e6db74">&#34;check&#34;</span>
+                start_suspended <span style="color:#66d9ef">true</span>
+            }
+            pane command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+                args <span style="color:#e6db74">&#34;run&#34;</span>
+                start_suspended <span style="color:#66d9ef">true</span>
+            }
+            pane command<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+                args <span style="color:#e6db74">&#34;test&#34;</span>
+                start_suspended <span style="color:#66d9ef">true</span>
+            }
+        }
+    }
+    pane size<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> borderless<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span> {
+        plugin location<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;zellij:compact-bar&#34;</span>
+    }
+}
+</code></pre></div><p>And now we get:
+<figure class="center">
+    <img src="https://zellij.dev/img/tutorial-2-preview.png"/> 
+</figure>
+</p>
+<h2 id="avoiding-repetition-with-pane-templates">Avoiding Repetition with Pane Templates</h2>
+<p>We could make the above layout more succinct by using a <code>pane_template</code>. We have 3 panes which all run <code>cargo</code>, all have the <code>start_suspended true</code> attribute and only differ in the arguments passed to the command.
+If we create a template like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">pane_template name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+    command <span style="color:#e6db74">&#34;cargo&#34;</span>
+    start_suspended <span style="color:#66d9ef">true</span>
+}
+</code></pre></div><p>We would be able to shorten each pane declaration to:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">    cargo { args <span style="color:#e6db74">&#34;test&#34;</span>; }
+</code></pre></div><p>So finally, our layout looks like this:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-rust" data-lang="rust">layout {
+    pane split_direction<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;vertical&#34;</span> {
+        pane edit<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;src/main.rs&#34;</span>
+        pane split_direction<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;horizontal&#34;</span> {
+            cargo { args <span style="color:#e6db74">&#34;check&#34;</span>; }
+            cargo { args <span style="color:#e6db74">&#34;run&#34;</span>; }
+            cargo { args <span style="color:#e6db74">&#34;test&#34;</span>; }
+        }
+    }
+    pane size<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> borderless<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span> {
+        plugin location<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;zellij:compact-bar&#34;</span>
+    }
+    pane_template name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cargo&#34;</span> {
+        command <span style="color:#e6db74">&#34;cargo&#34;</span>
+        start_suspended <span style="color:#66d9ef">true</span>
+    }
+}
+</code></pre></div><h2 id="conclusion-and-further-reading">Conclusion and Further Reading</h2>
+<p>Here we learned how to create a basic layout to facilitate working with a Rust project through the terminal. There are plenty additional layout features to explore, such as tabs, tab_templates and cwd composition. Check out more in the <a href="https://zellij.dev/documentation/creating-a-layout.html">official docs</a>.</p>
+<h2 id="do-you-like-zellij-">Do you like Zellij? ❤️</h2>
+<p>Me too. So much so that I spend 100% of my time developing and maintaining it and have no other income.</p>
+<p>Zellij will always be free and open-source. Zellij will never contain ads or collect your data.</p>
+<p>If the tool gives you value and you are able, please consider <a href="https://github.com/sponsors/imsnif">a recurring monthly donation</a> of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

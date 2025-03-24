@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Aram Drevekenin">
+<meta name="description" content="The latest Zellij version introduces the ability to edit your scrollback with your $EDITOR, a compact layout and much more!" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/news/edit-scrollback-compact/" />
+
+
+    <title>
+        
+            Zellij 0.30.0: use your $EDITOR to search and save your scrollback
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Zellij 0.30.0: use your $EDITOR to search and save your scrollback">
+<meta itemprop="description" content="The latest Zellij version introduces the ability to edit your scrollback with your $EDITOR, a compact layout and much more!"><meta itemprop="datePublished" content="2022-06-08T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2022-06-08T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="533"><meta itemprop="image" content="https://zellij.dev/img/floating-panes-preview.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/floating-panes-preview.png"/>
+
+<meta name="twitter:title" content="Zellij 0.30.0: use your $EDITOR to search and save your scrollback"/>
+<meta name="twitter:description" content="The latest Zellij version introduces the ability to edit your scrollback with your $EDITOR, a compact layout and much more!"/>
+
+
+
+    <meta property="og:title" content="Zellij 0.30.0: use your $EDITOR to search and save your scrollback" />
+<meta property="og:description" content="The latest Zellij version introduces the ability to edit your scrollback with your $EDITOR, a compact layout and much more!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/news/edit-scrollback-compact/" /><meta property="og:image" content="https://zellij.dev/img/floating-panes-preview.png" /><meta property="article:section" content="news" />
+<meta property="article:published_time" content="2022-06-08T00:00:00&#43;00:00" />
+<meta property="article:modified_time" content="2022-06-08T00:00:00&#43;00:00" />
+
+
+
+
+
+
+
+    <meta property="article:published_time" content="2022-06-08 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/news/edit-scrollback-compact/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/news/edit-scrollback-compact/">Zellij 0.30.0: use your $EDITOR to search and save your scrollback</a></h2>
+
+            
+            
+            
+
+                  
+                <span class="post-date">
+                  2022-06-08
+                </span>
+                
+                
+                  <span class="post-author">::
+                    
+                    <a href="https://twitter.com/im_snif">Aram Drevekenin</a>
+                    
+                  </span>
+                
+                <p>We just released <a href="https://github.com/zellij-org/zellij/releases/tag/v0.30.0">Zellij 0.30.0</a>, which adds a few very exciting features.</p>
+<p>The new release is available through crates.io with a <code>cargo install zellij</code>, a prebuilt binary can be downloaded directly from the release page, or you can check our <a href="https://github.com/zellij-org/zellij/blob/main/docs/THIRD_PARTY_INSTALL.md">third party release page</a> to see if it&rsquo;s already available for your distro.</p>
+<p>Starting this release, you can also try Zellij without installing it (check out the main page: <a href="https://zellij.dev">https://zellij.dev</a>).</p>
+<p>So what&rsquo;s new?</p>
+<h3 id="edit-your-scrollback-in-your-default-editor">Edit your scrollback in your default $EDITOR</h3>
+<p>Imagine you&rsquo;re working in a session and you&rsquo;d like to:</p>
+<ol>
+<li>Save all your scrollback for later for reference or to send to a friend</li>
+<li>Copy parts of the scrollback and save them in a different file</li>
+<li>Search through the scrollback just like you would through a normal file</li>
+</ol>
+<p>Starting with this version, you can issue a <code>Ctrl + &lt;s&gt; + &lt;e&gt;</code> and Zellij will open the editor you have defined in <code>$EDITOR</code> or <code>$VISUAL</code> (eg. /usr/bin/vim) in place instead of your pane.
+There you can edit the file, save it, copy from it or search inside it. Once you close the editor (or close the pane normally with <code>Ctrl + &lt;p&gt; + &lt;x&gt;</code>), you&rsquo;ll be back in your pane where you started.</p>
+<div class="container" style="display: flex; justify-content: center; align-items: center;">
+  <div id="player-wrapper" class="my-5"></div>
+</div>
+
+<script 
+  type="text/javascript" 
+  src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"
+>
+</script>
+
+<script>
+  var playerElement = document.getElementById("player-wrapper");
+
+  var player = new Clappr.Player({
+    source: "/video/edit-buffer-demo.mp4",
+    mute: false,
+    height: 360,
+    width: 640
+  });
+
+  player.attachTo(playerElement);  
+</script>
+
+<h3 id="compact-layout">Compact layout</h3>
+<p>One of the things we hear a lot from users is that while they really like the discoverability of the Zellij UI, after a while once they&rsquo;ve learned the shortcuts it takes up too much screen real-estate.
+Starting this version, Zellij also includes a &ldquo;compact&rdquo; layout. You can get it by starting Zellij with:</p>
+<pre><code>zellij --layout compact
+</code></pre><p>This version of our UI includes just one bar with the session name, tabs and the current input mode.</p>
+<figure class="center">
+    <img src="https://zellij.dev/img/compact-bar.png"/> 
+</figure>
+
+<p>If you&rsquo;d like even more screen space, you can always additionally disable the pane frames. At run time using <code>Ctrl + &lt;p&gt; + &lt;z&gt;</code> or in the config using <code>pane-frames: false</code>.</p>
+<h3 id="handy-tips-at-runtime">Handy Tips at Runtime</h3>
+<p>One of the cool things about Zellij is that a lot of its features are community driven. Contributed not as part of an official roadmap, but in order to scratch an itch for one or more of its users. As such, these can sometimes be a little challenging to discover. No matter how much documentation we add, there is no substitute to finding out about these extra features from the app itself.</p>
+<p>Starting this version - if you do choose to load the full UI with the status bar - you&rsquo;ll see a random tip on the bottom line to hopefully help brighten up your workflow.</p>
+<figure class="center">
+    <img src="https://zellij.dev/img/tip-preview.png"/> 
+</figure>
+
+<h4 id="and-theres-lots-more-in-this-versionhttpsgithubcomzellij-orgzellijreleasestagv0300"><a href="https://github.com/zellij-org/zellij/releases/tag/v0.30.0">And there&rsquo;s lots more in this version!</a></h4>
+<h3 id="so-whats-next-for-zellij">So what&rsquo;s next for Zellij?</h3>
+<p>We&rsquo;ve recently published a roadmap for the near to medium future. You can check it out <a href="https://zellij.dev/roadmap">here</a>.</p>
+<p>Zellij is a volunteer not-for-profit open-source project. Most of our maintainers have started out contributing features and fixing bugs. If one of the features in the roadmap interests you, we&rsquo;d be very happy to guide you through implementing it. Feel free to drop by one of our chat servers (links in the <a href="https://github.com/zellij-org/zellij">README</a>) or ask for help in the issue directly.</p>
+<p>Happy terminal multiplexing!</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>

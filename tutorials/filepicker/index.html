@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="">
+<meta name="description" content="How to use Zellij to manage your sessions in the terminal" />
+<meta name="keywords" content="rust,terminal,multiplexer" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://zellij.dev/tutorials/filepicker/" />
+
+
+    <title>
+        
+            The Zellij Filepicker
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="https://zellij.dev/main.c227895a407c08719ca11b5c73c23c54382deb7d048d83dc9f9d67e7f3a16f95.css">
+
+
+
+
+
+
+<meta itemprop="name" content="The Zellij Filepicker">
+<meta itemprop="description" content="How to use Zellij to manage your sessions in the terminal">
+
+<meta itemprop="wordCount" content="704"><meta itemprop="image" content="https://zellij.dev/img/tutorial-4-preview.png">
+<meta itemprop="keywords" content="" />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://zellij.dev/img/tutorial-4-preview.png"/>
+
+<meta name="twitter:title" content="The Zellij Filepicker"/>
+<meta name="twitter:description" content="How to use Zellij to manage your sessions in the terminal"/>
+
+
+
+    <meta property="og:title" content="The Zellij Filepicker" />
+<meta property="og:description" content="How to use Zellij to manage your sessions in the terminal" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://zellij.dev/tutorials/filepicker/" /><meta property="og:image" content="https://zellij.dev/img/tutorial-4-preview.png" /><meta property="article:section" content="tutorials" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://zellij.dev/" style="text-decoration: none;">
+    <div class="logo">
+        
+        
+            <span class="logo__mark"><img src="https://zellij.dev/img/logo.png" alt="Zellij logo"></span>
+            
+            <span class="logo__text">~/zellij/tutorials/filepicker/</span>
+            <span class="logo__cursor" style=
+                  "
+                   background-color:#BE616B;
+                   animation-duration:1s;">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner">
+        <li style="color: #BE616B;"><a href="https://github.com/sponsors/imsnif">Sponsor</a></li><li><a href="https://zellij.dev/about/">About</a></li><li><a href="https://zellij.dev/news/">News</a></li><li><a href="https://zellij.dev/roadmap/">Roadmap</a></li><li><a href="https://zellij.dev/documentation/">Documentation</a></li><li><a href="https://zellij.dev/screencasts/">Screencasts &amp; Tutorials</a></li><li><a href="https://github.com/zellij-org/zellij">Repository</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://zellij.dev/tutorials/filepicker/">The Zellij Filepicker</a></h2>
+
+            
+            
+            
+
+                  
+                
+                <div class="container" style="display: flex; justify-content: left; align-items: left;">
+  <div id="player-wrapper" class=""></div>
+</div>
+
+<script 
+  type="text/javascript" 
+  src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"
+>
+</script>
+
+<script>
+  var playerElement = document.getElementById("player-wrapper");
+
+  var player = new Clappr.Player({
+    source: "/video/filepicker.mp4",
+    mute: false,
+    
+    height: 540,
+    
+    width: 960
+  });
+
+  player.attachTo(playerElement);  
+</script>
+
+<p>This tutorial shows how to use the Zellij filepicker, also known as Strider.</p>
+<p><em>The video screencast and the tutorial contain the same content, with the video screencast also containing some concrete examples of the subject material for inspiration.</em></p>
+<h2 id="why-use-the-zellij-filepicker">Why use the Zellij filepicker?</h2>
+<p>The Zellij filepicker is a built-in plugin that will allow you to dynamically traverse your filesystem, optionally using fuzzy finding to look for files or folders in a deterministic way. It&rsquo;s much faster than doing the usual cycle of &ldquo;cd&rdquo;, &ldquo;ls&rdquo;, look for folder, &ldquo;cd&rdquo; and &ldquo;ls&rdquo; again.</p>
+<p>It&rsquo;s also versatile: you can launch the filepicker directly and close it once you&rsquo;ve chosen a file, you can keep it open to open multiple files and you can even insert it into traditional shell pipelines to pipe your chosen path into a different command.</p>
+<h2 id="what-well-cover">What we&rsquo;ll cover</h2>
+<ul>
+<li><a href="#basic-usage-of-the-filepicker">Basic usage of the filepicker</a></li>
+<li><a href="#how-to-launch-the-filepicker-through-a-keybinding">How to launch the filepicker through a keybinding</a></li>
+<li><a href="#how-to-launch-the-filepicker-from-the-command-line">How to launch the filepicker from the command line</a></li>
+<li><a href="#how-to-get-an-ide-like-experience-with-the-filepicker">How to get an IDE-like experience with the filepicker</a></li>
+<li><a href="#how-to-pipe-the-filepickers-output-to-another-command">How to pipe the filepicker&rsquo;s output to another command</a></li>
+<li><a href="#do-you-like-zellij-">Do you like Zellij?</a></li>
+</ul>
+<h2 id="basic-usage-of-the-filepicker">Basic usage of the filepicker</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/tutorial-4-preview.png"
+         alt="An image of Zellij filepicker."/> 
+</figure>
+
+When launching the filepicker, it will start in the working directory of the focused pane. We are presented with a list of the files and folders, allowing us to traverse through them with the arrow keys, backspace and tab.</p>
+<p>When we select a file or folder (either with the right arrow or with <code>&lt;TAB&gt;</code>), it will be added to our <code>PATH:</code>. When we press <code>&lt;ENTER&gt;</code>, the filepicker will open whatever is in the <code>PATH:</code> either in our default editor if it&rsquo;s a file or open a terminal to this location if it&rsquo;s a folder.</p>
+<p>We can toggle hidden files on and off with <code>Ctrl e</code>.</p>
+<h2 id="how-to-launch-the-filepicker-through-a-keybinding">How to launch the filepicker through a keybinding</h2>
+<p>To launch the filepicker through a keyboard shortcut, we&rsquo;ll need to add the following lines (starting from <code>bind</code>) to the <code>shared_except &quot;locked&quot;</code> section of our <code>keybindings</code> in the <a href="https://zellij.dev/documentation/configuration.html">configuration file</a>.</p>
+<p>For more info, please see <a href="https://zellij.dev/documentation/keybindings.html">configuring keybindings</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">shared_except</span> <span style="color:#e6db74">&#34;locked&#34;</span> {
+<span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">bind</span> <span style="color:#e6db74">&#34;Alt f&#34;</span> {
+        <span style="color:#a6e22e">LaunchPlugin</span> <span style="color:#e6db74">&#34;filepicker&#34;</span> {
+            <span style="color:#75715e">// floating true // uncomment this to have the filepicker opened in a floating window
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">close_on_selection</span> <span style="color:#66d9ef">true</span> <span style="color:#75715e">// comment this out to have the filepicker remain open even after selecting a file
+</span><span style="color:#75715e"></span>        };
+    }
+}
+</code></pre></div><h2 id="how-to-launch-the-filepicker-from-the-command-line">How to launch the filepicker from the command line</h2>
+<p>To launch the filepicker from the command line:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zellij plugin -- filepicker
+</code></pre></div><h2 id="how-to-get-an-ide-like-experience-with-the-filepicker">How to get an IDE-like experience with the filepicker</h2>
+<p><figure>
+    <img src="https://zellij.dev/img/tutorial-4-ide-like.png"
+         alt="An image of Zellij filepicker opened on the side, similar to an IDE."/> 
+</figure>
+
+We can get an &ldquo;IDE-like&rdquo; experience of having the filepicker always open on the side by using the &ldquo;strider&rdquo; built in layout.</p>
+<p>We can either start a session with it from the command line:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zellij -l strider
+</code></pre></div><p>Start a session with it through the <a href="https://zellij.dev/tutorials/session-management">welcome screen</a>.</p>
+<p>Or, we could open a new tab with it in an existing session:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zellij action new-tab -l strider
+</code></pre></div><h2 id="how-to-pipe-the-filepickers-output-to-another-command">How to pipe the filepicker&rsquo;s output to another command</h2>
+<p>We can also pipe the output of the filepicker - our chosen file or folder - into another command with a traditional CLI pipeline.</p>
+<p>To do this, we launch the filepicker through the <code>zpipe</code> alias (or using <code>zellij pipe</code>):</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zpipe filepicker
+zellij pipe -p filepicker
+</code></pre></div><p>This will open the filepicker, allowing us to choose a file or folder. Once we press <code>&lt;ENTER&gt;</code>, the filepicker will close and print our chosen path to <code>STDOUT</code>. This means that we can use it to select paths dynamically and send them to other commands, for example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">zpipe filepicker | xargs -i cp <span style="color:#f92672">{}</span> my-chosen-file
+</code></pre></div><p>This will open the filepicker so that we can select a file and then copy this file to <code>my-chosen-file</code> in our local directory.</p>
+<h2 id="do-you-like-zellij-">Do you like Zellij? ❤️</h2>
+<p>Me too. So much so that I spend 100% of my time developing and maintaining it and have no other income.</p>
+<p>Zellij will always be free and open-source. Zellij will never contain ads or collect your data.</p>
+<p>If the tool gives you value and you are able, please consider <a href="https://github.com/sponsors/imsnif">a recurring monthly donation</a> of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+            
+  		</div>
+    </main>
+
+            </div>
+
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="https://zellij.dev/bundle.min.1af780deb4c491c3dcba9a69995c5c56e1a5776d214ecc0e650e80cbc0420838f85a63110ec92adb92496f89210b8d9d8d503af53b79cc0aa90601333d61f4ea.js" integrity="sha512-GveA3rTEkcPcupppmVxcVuGld20hTswOZQ6Ay8BCCDj4WmMRDskq25JJb4khC42djVA69Tt5zAqpBgEzPWH06g=="></script>
+
+
+
+    </body>
+</html>
