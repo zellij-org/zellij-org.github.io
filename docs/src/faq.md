@@ -29,9 +29,10 @@ Some terminals don't support the the OSC 52 signal, which is the method Zellij u
 To do the latter, add one of the following to your [Zellij Config](./configuration.md):
 
 ```
-copy_command: "xclip -selection clipboard" # x11
-copy_command: "wl-copy"                    # wayland
-copy_command: "pbcopy"                     # osx
+copy_command "xclip -selection clipboard" # x11
+copy_command "wl-copy"                    # wayland
+copy_command "pbcopy"                     # osx
+copy_command "clip.exe"                   # Windows WSL2
 ```
 
 Note that the only method that works when connecting to a remote Zellij session (eg. through SSH) is OSC 52. If you require this functionality, please consider using a terminal that supports it.
