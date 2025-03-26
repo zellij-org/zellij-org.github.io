@@ -36,6 +36,14 @@ copy_command: "pbcopy"                     # osx
 
 Note that the only method that works when connecting to a remote Zellij session (eg. through SSH) is OSC 52. If you require this functionality, please consider using a terminal that supports it.
 
+Note that in case you applied previous configuration and you still have error said `Error using the system clipboard.`, kindly install below incase you have debian based OS (x11):
+
+```shell
+sudo apt install xclip
+```
+
+Then it should work fine.
+
 ## How can I use floating panes?
 You can toggle showing/hiding floating panes with `Ctrl + <p> + <w>` (if no floating panes are open, one will be opened when they are shown).
 
