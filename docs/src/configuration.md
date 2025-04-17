@@ -38,7 +38,7 @@ or use the `ZELLIJ_CONFIG_FILE` environment variable.
 To start without loading configuration from default directories:
 
 ```
-zellij options --clean
+zellij setup --clean
 ```
 
 ## How do I update the config file for running sessions?
