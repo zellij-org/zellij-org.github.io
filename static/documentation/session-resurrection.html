@@ -165,6 +165,11 @@ Zellij includes built-in session resurrection capabilities. This means that by d
 <p>When <code>session_serialization</code> is enabled, setting <code>pane_viewport_serialization</code> to <code>true</code> in the <a href="./configuration.html">config</a> will also serialize the pane viewport (the part of the terminal visible on screen).</p>
 <h3 id="scrollback_lines_to_serialize"><a class="header" href="#scrollback_lines_to_serialize"><code>scrollback_lines_to_serialize</code></a></h3>
 <p>When <code>pane_viewport_serialization</code> is enabled, setting <code>scrollback_lines_to_serialize</code> to <code>0</code> in the <a href="./configuration.html">config</a> will serialize all scrollback and to any other number will serialize line number up to that scrollback. Note that this might incur higher resource utilization (and certainly a higher cache folder usage...)</p>
+<h3 id="post_command_discovery_hook"><a class="header" href="#post_command_discovery_hook"><code>post_command_discovery_hook</code></a></h3>
+<p>When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a <code>post_command_discovery_hook</code>. This is a command that will run in the context of te user's default shell and be provided the <code>$RESURRECT_COMMAND</code> that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over <code>STDOUT</code> will be serialized in place of the discovered command.</p>
+<p>Example:</p>
+<pre><code class="language-javascript">post_command_discovery_hook "echo \"$RESURRECT_COMMAND\" | sed 's/^sudo\\s\\+//'" // strip sudo from commands
+</code></pre>
 <h2 id="resurrecting-sessions-through-the-cli"><a class="header" href="#resurrecting-sessions-through-the-cli">Resurrecting Sessions through the CLI</a></h2>
 <p>To list exited sessions, use <code>zellij list-sessions</code> (or <code>zellij ls</code>) for short:</p>
 <p><img src="img/zellij-ls-resurrection.png" alt="zellij-list-sessions-output" /></p>
@@ -184,7 +189,7 @@ Zellij includes built-in session resurrection capabilities. This means that by d
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="compatibility.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="web-client.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -198,7 +203,7 @@ Zellij includes built-in session resurrection capabilities. This means that by d
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="compatibility.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="web-client.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

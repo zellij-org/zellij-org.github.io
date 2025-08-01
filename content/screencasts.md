@@ -11,6 +11,8 @@ images: ["/img/floating-panes-preview.png"]
 
 - **[Session Management](/tutorials/session-management)**: Learn how to use Zellij for session-management to separate different tasks and contexts.
 
+- **[Web Client - Sharing Sessions in the Browser](/tutorials/web-client)**: Here we demonstrate how to use Zellij in the browser in addition or even instead of a dedicated terminal emulator.
+
 - **[Dealing with Colliding Keyboard Shortcuts](/tutorials/colliding-keybindings)**: This tutorial demonstrates how to solve the "Colliding Keybindings" problem, in which the Zellij UI intercepts keys meant for the applications running inside Zellij.
 
 - **[Filepicker](/tutorials/filepicker)**: Stop wasting time traversing through your filesystem manually! Use the Zellij filepicker to get a dynamic file exploration experience, complete with fuzzy-finding and autocompletion right in your terminal.

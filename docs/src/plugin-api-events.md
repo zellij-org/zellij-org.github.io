@@ -102,3 +102,18 @@ The result of the `ListClients` [plugin command](./plugin-api-commands.md). Cont
 
 ## PastedText
 The user just pasted the given text while focused on the plugin.
+
+## ConfigWasWrittenToDisk
+A new configuration was successfully saved in the configuration file listened to by the current session.
+
+## WebServerStatus
+This event is sent as a reply to the `QueryWebServer` command. It can be either online (and include the base url), offline or different_version (including the specified version).
+
+## FailedToStartWebServer
+This event is sent as a reply to the `StartWebServer` command, when Zellij failed to start the web server. It includes a String representing the error.
+
+## BeforeClose
+This event (if subscribed to) is called before a plugin is being unloaded, and is a chance for a plugin to do some cleanups.
+
+## InterceptedKeyPress
+This event is similar to the Key Event, but represent a keypress that was intercepted after the InterceptKeyPresses plugin command was issued.

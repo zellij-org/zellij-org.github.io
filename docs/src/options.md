@@ -327,3 +327,45 @@ Options:
 ```javascript
 show_release_notes true
 ```
+
+### post_command_discovery_hook
+When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a `post_command_discovery_hook`. This is a command that will run in the context of te user's default shell and be provided the `$RESURRECT_COMMAND` that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over `STDOUT` will be serialized in place of the discovered command.
+
+Example:
+```javascript
+post_command_discovery_hook "echo \"$RESURRECT_COMMAND\" | sed 's/^sudo\\s\\+//'" // strip sudo from commands
+```
+
+
+### web_server
+Whether to start the Zellij [web-server](./web-client.md) on startup.
+
+Options:
+  - true
+  - false (default)
+
+### web_server_ip
+The IP for the Zellij [web-server](./web-client.md) to listen on when it's started. Default: `127.0.0.1`.
+
+### web_server_port
+The port for the Zellij [web-server](./web-client.md) to listen on when it's started. Default: `8082`.
+
+### web_server_cert
+The path to the SSL certificate for the Zellij [web-server](./web-client.md). Note: the `web_server_key` must also be present for the server to serve itself as HTTPS.
+
+### web_server_key
+The path to the private_key of te SSL certificate for the Zellij [web-server](./web-client.md). Note: the `web_server_cert` must also be present for the server to serve itself as HTTPS.
+
+### enforce_https_on_localhost
+Whether to enforce https on localhost for the Zellij [web-server](./web-client.md). This is always enforced when listening on non-localhost addresses.
+
+Options:
+    - true
+    - false (default)
+
+### advanced_mouse_actions
+Whether to enable mouse hover effects and multiple select functionality (pane grouping).
+
+Options:
+    - true (default)
+    - false

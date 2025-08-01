@@ -242,6 +242,16 @@
 <p>The result of the <code>ListClients</code> <a href="./plugin-api-commands.html">plugin command</a>. Contains information about all connected clients in the session, including their id, their focused pane id, the stringified representation of the running command or plugin inside their focused pane (if any), as well as an indication of whether they are the current client or not.</p>
 <h2 id="pastedtext"><a class="header" href="#pastedtext">PastedText</a></h2>
 <p>The user just pasted the given text while focused on the plugin.</p>
+<h2 id="configwaswrittentodisk"><a class="header" href="#configwaswrittentodisk">ConfigWasWrittenToDisk</a></h2>
+<p>A new configuration was successfully saved in the configuration file listened to by the current session.</p>
+<h2 id="webserverstatus"><a class="header" href="#webserverstatus">WebServerStatus</a></h2>
+<p>This event is sent as a reply to the <code>QueryWebServer</code> command. It can be either online (and include the base url), offline or different_version (including the specified version).</p>
+<h2 id="failedtostartwebserver"><a class="header" href="#failedtostartwebserver">FailedToStartWebServer</a></h2>
+<p>This event is sent as a reply to the <code>StartWebServer</code> command, when Zellij failed to start the web server. It includes a String representing the error.</p>
+<h2 id="beforeclose"><a class="header" href="#beforeclose">BeforeClose</a></h2>
+<p>This event (if subscribed to) is called before a plugin is being unloaded, and is a chance for a plugin to do some cleanups.</p>
+<h2 id="interceptedkeypress"><a class="header" href="#interceptedkeypress">InterceptedKeyPress</a></h2>
+<p>This event is similar to the Key Event, but represent a keypress that was intercepted after the InterceptKeyPresses plugin command was issued.</p>
 
                     </main>
 

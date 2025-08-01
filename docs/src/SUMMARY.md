@@ -62,4 +62,5 @@
   - [Developing a Plugin in Other Languages](./plugin-other-languages.md)
   - [Plugin Upgrade Guide for version 0.38.0](./plugin-upgrade-0.38.0.md)
 - [Session Resurrection](./session-resurrection.md)
+- [Web Client](./web-client.md)
 - [Compatibility](./compatibility.md)

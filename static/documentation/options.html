@@ -384,6 +384,36 @@ Options:</p>
 </ul>
 <pre><code class="language-javascript">show_release_notes true
 </code></pre>
+<h3 id="post_command_discovery_hook"><a class="header" href="#post_command_discovery_hook">post_command_discovery_hook</a></h3>
+<p>When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a <code>post_command_discovery_hook</code>. This is a command that will run in the context of te user's default shell and be provided the <code>$RESURRECT_COMMAND</code> that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over <code>STDOUT</code> will be serialized in place of the discovered command.</p>
+<p>Example:</p>
+<pre><code class="language-javascript">post_command_discovery_hook "echo \"$RESURRECT_COMMAND\" | sed 's/^sudo\\s\\+//'" // strip sudo from commands
+</code></pre>
+<h3 id="web_server"><a class="header" href="#web_server">web_server</a></h3>
+<p>Whether to start the Zellij <a href="./web-client.html">web-server</a> on startup.</p>
+<p>Options:</p>
+<ul>
+<li>true</li>
+<li>false (default)</li>
+</ul>
+<h3 id="web_server_ip"><a class="header" href="#web_server_ip">web_server_ip</a></h3>
+<p>The IP for the Zellij <a href="./web-client.html">web-server</a> to listen on when it's started. Default: <code>127.0.0.1</code>.</p>
+<h3 id="web_server_port"><a class="header" href="#web_server_port">web_server_port</a></h3>
+<p>The port for the Zellij <a href="./web-client.html">web-server</a> to listen on when it's started. Default: <code>8082</code>.</p>
+<h3 id="web_server_cert"><a class="header" href="#web_server_cert">web_server_cert</a></h3>
+<p>The path to the SSL certificate for the Zellij <a href="./web-client.html">web-server</a>. Note: the <code>web_server_key</code> must also be present for the server to serve itself as HTTPS.</p>
+<h3 id="web_server_key"><a class="header" href="#web_server_key">web_server_key</a></h3>
+<p>The path to the private_key of te SSL certificate for the Zellij <a href="./web-client.html">web-server</a>. Note: the <code>web_server_cert</code> must also be present for the server to serve itself as HTTPS.</p>
+<h3 id="enforce_https_on_localhost"><a class="header" href="#enforce_https_on_localhost">enforce_https_on_localhost</a></h3>
+<p>Whether to enforce https on localhost for the Zellij <a href="./web-client.html">web-server</a>. This is always enforced when listening on non-localhost addresses.</p>
+<p>Options:
+- true
+- false (default)</p>
+<h3 id="advanced_mouse_actions"><a class="header" href="#advanced_mouse_actions">advanced_mouse_actions</a></h3>
+<p>Whether to enable mouse hover effects and multiple select functionality (pane grouping).</p>
+<p>Options:
+- true (default)
+- false</p>
 
                     </main>
 

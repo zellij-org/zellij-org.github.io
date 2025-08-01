@@ -6,77 +6,61 @@ linktitle: "How to use Zellij as a powerful engine for terminal development"
 ---
 {{<video-left-aligned "/video/basic-development-screencast.mp4">}}
 
-This tutorial demonstrates some basic features of Zellij through a real world use-case of using the terminal for development.
+This screencast demonstrates some basic features of Zellij, tying them into some real-world use cases as a demonstration.
 
-You need not be a terminal developer to benefit from this tutorial.
-
-*The video screencast and the tutorial contain the same content.*
+The tutorial lists all the relevant actions for easy reference as well as some bonus content.
 
 ## What we'll cover
+- [The Zellij UI](#the-zellij-ui)
 - [Opening New Panes](#opening-new-panes)
 - [Using Floating Panes](#using-floating-panes)
-- [Starting Command Panes from the CLI](#starting-command-panes-from-the-cli)
+- [Using Multiple Pane Select](#using-multiple-pane-select)
 - [Editing Pane Scrollback with your own $EDITOR](#editing-the-scrollback-with-your-own-editor)
-- [Do you like Zellij?](#do-you-like-zellij-)
+- [Do you like Zellij?](#do-you-like-zellij-) ❤️
 
-## Getting Started
-{{<figure src="/img/tutorial-1-getting-started.png" class="center" style="max-width 995px;" alt="An image of Zellij running inside a terminal with vim open to the main.rs file of the project.">}}
-We'll use a basic Rust project as an example, but it can work with any sort of code. To follow along, you can clone [the repository](https://github.com/imsnif/zellij-screencast-1).
+## The Zellij UI
+{{<figure src="/img/zellij-ui.png" class="center" style="max-width 995px;" alt="An image of the Zellij UI, with labels for the tab bar, the status bar and the session name">}}
 
-After [installing Zellij](/documentation/installation.html), let's start it up in the project's directory.
+On the top of the Zellij UI is the `tab-bar`, showing us our session name (by default a randomly generated Human readable name), and the tabs we have in this session.
 
-Then let's open up `vim` to the main file in the repository: `vim src/main.rs`
+On the bottom, we have the `status-bar`, showing us the key shortcuts we can use to enter the various modes as well as the immediate shortcuts on the right we can use to perform context-dependent immediate actions (for example: opening a new pane).
 
 ## Opening New Panes
-{{<figure src="/img/tutorial-1-opening-new-panes.png" class="center" style="max-width 995px;" alt="An image of Zellij with three panes, one open to main.rs, one running cargo run and the third running cargo test">}}
-The most basic functionality of Zellij is opening up different terminal panes in the same tab. Let's open up some and run different commands in each.
+{{<figure src="/img/zellij-new-panes.png" class="center" style="max-width 995px;" alt="An image of Zellij, demonstrating splitting panes to the right and down, as well as stacked panes (several panes on top of each other)">}}
 
-First we split the terminal down so that we can run our code: `Ctrl p` + `d` then `cargo run` in the new pane.
+In Zellij, we normally open new panes with `Alt n`. When we issue this shortcut, Zellij opens a pane where it thinks would make the most sense depending on the other open panes in the tab.
 
-Next, let us open another pane to run tests: `Alt n` will open a new pane in the largest available space. `cargo test` inside this new pane will run our tests.
+We can also tell Zellij explicitly where to open a new pane by pressing `Ctrl p` to enter `Pane` mode and then `d` to split the focused pane Down, or `r` to split the current pane Right.
+
+We can also open a new pane that will be "stacked" on top of the current pane with `Ctrl p` + `s`.
+
+We can switch focus between this panes with `Alt` + `<arrow keys>` or `Alt` + `hjkl`.
 
 ## Using Floating Panes
-{{<figure src="/img/tutorial-1-using-floating-panes.png" class="center" style="max-width 995px;" alt="An image of Zellij with a floating pane running cargo test">}}
-Floating panes can be a powerful tool for toggling context. Running tests inside them is a classic use-case.
+{{<figure src="/img/zellij-floating-panes.png" class="center" style="max-width 995px;" alt="An image of Zellij with a floating pane with text labels indicating where to toggle the pane as pinned (always on top), to toggle the floating surface and to open more floating panes.">}}
 
-Let's make our existing "tests" pane floating by ejecting it with: `Ctrl p` + `e`
+Floating panes are first-class citizens in Zellij. They are can be toggled on and off and are persistent - meaning if we run a command in a floating pane, hide it and then show it again - the command will still have been running in the background and we'll see its current state.
 
-Now that it is floating, we can toggle its visibility and focus: `Ctrl p` + `w` to hide, and `Ctrl p` + `w` again to show.
+We can toggle floating panes with `Alt f`, which will open our first floating pane (if none are open yet). Once this pane is shown, we can open more panes with `Alt n` and move focus between them with `Alt` + `<arrow keys>` or `Alt` + `hjkl`.
 
-*Tip:* When toggling floating panes with `Ctrl p` + `w`, if none exist one will be opened.
+Floating panes can be moved around with the mouse by clicking their frame and dragging, they can also be moved with the keyboard by entering `Move` mode with `Ctrl h`.
 
-*Another tip:* When floating panes are visible, you can open new ones with `Alt n`, move existing ones with the mouse or use all Zellij keyboard shortcuts on them as you would with regular "tiled" panes.
+Floating panes can also be "pinned", meaning they will remain always-on-top. This can be done by clicking the "PIN" frame with the mouse or with `Ctrl p` + `i`.
 
-## Starting Command Panes from the CLI
-{{<figure src="/img/tutorial-1-command-panes.png" class="center" style="max-width 995px;" alt="An image of Zellij with two floating panes, the front one running cargo test and showing its exit status and extra controls on screen">}}
-Instead of retyping, pressing the up arrow or searching our history for a particular command - we can have it waiting for us in a command pane.
+## Using Multiple Pane Select
+{{<figure src="/img/zellij-multiple-select.png" class="left" style="max-width 995px;" alt="An image of the multiple-select plugin, showing 2 selected panes and a list of actions that can be performed on them in bulk.">}}
 
-From the CLI, we use the `zrf` [alias](https://zellij.dev/documentation/controlling-zellij-through-cli.html#completions) (zellij run floating) to run the `cargo test` command as a floating command pane:
-```bash
-$ zrf cargo test
-```
-We see the exit status of the pane, can scroll / search through its output normally and can re-run it by pressing `<ENTER>`
+Zellij can perform bulk operations on a few panes at once. For example: "close", "break to new tab" or "stack".
+
+To do this, one can either select the relevant panes with `Alt` + `<left-mouse-click>` (HINT: one can also keep the mouse button down and drag to select multiple panes), move to the relevant panes and click `Alt p`, or click `Alt Shift p` and have the selection follow ones focus.
+
+When we select panes, the "Multiple Pane Select" dialog will open on the bottom right to show us which actions are available to us.
 
 ## Editing the Scrollback with your own $EDITOR
 {{<figure src="/img/tutorial-1-editing-scrollback.png" class="center" style="max-width 995px;" alt="An image of Zellij with a pane open to the vim editor editing its own scrollback">}}
-Zellij allows you to open a pane's existing scrollback with your own `$EDITOR` eg. vim. Let's try it out.
+Zellij allows you to open a pane's existing scrollback with your own `$EDITOR` eg. vim. Once we do this, we can edit the scrollback and save it to an external file (for example, in order to send command output to a teammate).
 
-To get some output, let's change the `main` function in `main.rs` to:
-```rust
-fn main() {
-    why_would_i_want_this();
-}
-```
-Now let's move focus to the bottom pane either by clicking it with the mouse, with `Alt j` or with `Alt <down-arrow>`.
-
-We run the program with `cargo run` and see all the output on screen.
-
-Now, let's press `Ctrl s` + `e` and the output is opened up in our editor (vim in the author's case). When using vim, we can issue the following command to delete all lines that don't contain the word "error": `:%g!/error/d`.
-
-Then, let's save the resulting lines to a different file (in vim: `:s /tmp/my-other-file.md`) and we can send it to a friend or do whatever we like with it.
-
-## Finally
-Here we learned the very basics of Zellij usage. Be they classic multiplexer features such as splitting panes or slightly more advanced workspace features such as managing Command Panes and editing scrollback.
+To do this, on any pane we can press `Ctrl s` + `e`.
 
 ## Do you like Zellij? ❤️
 Me too. So much so that I spend 100% of my time developing and maintaining it and have no other income.

@@ -158,6 +158,18 @@
 <h2 id="the-ui-takes-up-too-much-space-what-can-i-do-about-it"><a class="header" href="#the-ui-takes-up-too-much-space-what-can-i-do-about-it">The UI takes up too much space, what can I do about it?</a></h2>
 <p>You can load the <code>compact</code> layout with <code>zellij --layout compact</code>.</p>
 <p>Additionally, you can disable pane frames either at runtime with <code>Ctrl + &lt;p&gt; + &lt;z&gt;</code> or through the <a href="./configuration.html">config</a> with <code>pane_frames: false</code>.</p>
+<h3 id="followup-question-can-i-use-the-compact-layout-but-still-see-the-keybinding-hints-when-necessary"><a class="header" href="#followup-question-can-i-use-the-compact-layout-but-still-see-the-keybinding-hints-when-necessary">Followup Question: can I use the <code>compact</code> layout but still see the keybinding hints when necessary?</a></h3>
+<p>Yes! You can set up a keybinding tooltip toggle for the compact-bar. Choose a key (for example <code>F1</code>) and set it up in the <a href="./configuration.html">config</a> (and then restart):</p>
+<pre><code class="language-javascript">plugins {
+    // ...
+    // compact-bar location="zellij:compact-bar" &lt;== COMMENT OUT THIS LINE
+    // and replace it with the following:
+    compact-bar location="zellij:compact-bar" {
+      tooltip "F1"
+    }
+    // ...
+}
+</code></pre>
 <h2 id="i-see-broken-characters-in-the-default-ui-how-can-i-fix-this"><a class="header" href="#i-see-broken-characters-in-the-default-ui-how-can-i-fix-this">I see broken characters in the default UI, how can I fix this?</a></h2>
 <p>This means your default terminal font doesn't include some special characters used by Zellij. A safe bet would be to install and use a font from <a href="https://www.nerdfonts.com">nerdfonts</a>.</p>
 <p>If you don't want to install a new font, you can also load the simplified UI that doesn't use these characters, with:</p>

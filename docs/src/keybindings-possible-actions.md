@@ -217,7 +217,7 @@ Send a message to one or more plugins, using a [pipe](./plugin-pipes.md) - meani
 
  Open a new pane (in the specified direction)
 
-**Possible arguments**: `Down` | `Right`
+**Possible arguments**: `Down` | `Right` | `Stacked`
 
 **Behaviour without arguments**: Opens a pane in the largest available space or if floating panes are visible, in the next floating pane position.
 
