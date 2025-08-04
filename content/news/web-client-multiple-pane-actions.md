@@ -118,4 +118,4 @@ Zellij is a labor of love and is provided free and open-source to anyone who wis
 
 Zellij will never display ads or collect your data.
 
- To help sustain the project, please consider a recurring donation so that the developers can pay their bills: https://github.com/sponsors/imsnif
+To help sustain the project, please consider a recurring donation so that the developer can pay their bills: https://github.com/sponsors/imsnif

@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -31,10 +31,11 @@
         <!-- Custom theme stylesheets -->
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -44,8 +45,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -59,7 +60,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -72,8 +74,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -99,7 +101,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -109,6 +111,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -190,6 +193,43 @@ web_server_port 443 // the port to listen on (default: 8082)
 web_server_cert "/path/to/my/certs/localhost+3.pem" // SSL certificate
 web_server_key "/path/to/my/certs/localhost+3-key.pem" // SSL private key
 enforce_https_on_localhost true // whether to enforce an https certificate being present also when listening on localhost (default: false)
+</code></pre>
+<p>It's also possible to configure the browser terminal itself:</p>
+<pre><code class="language-javascript">web_client {
+  font "Iosevka Term" // default is "monospace" - deferring this decision to the browser/os
+  cursor_blink true // default is false
+  cursor_style "block" // possibilities: "block", "bar", "underline"
+  cursor_inactive_style "outline" // possibilities: "outline", "block", "bar", "underline"
+  mac_option_is_meta false // default is true
+  theme {
+    // NOTE: this is the theme of the terminal web client which is separate from Zellij's theme
+    //
+    // all values are optional and should be in the form of "r g b" (eg. 10 20 30)
+    background 10 20 30
+    foreground 10 20 30
+    black 10 20 30
+    blue 10 20 30
+    bright_black 10 20 30
+    bright_blue 10 20 30
+    bright_cyan 10 20 30
+    bright_green 10 20 30
+    bright_magenta 10 20 30
+    bright_red 10 20 30
+    bright_white 10 20 30
+    bright_yellow 10 20 30
+    cursor 10 20 30
+    cursor_accent 10 20 30
+    cyan 10 20 30
+    green 10 20 30
+    magenta 10 20 30
+    red 10 20 30
+    white 10 20 30
+    yellow 10 20 30
+    selection_background 10 20 30
+    selection_foreground 10 20 30
+    selection_inactive_background 10 20 30
+  }
+}
 </code></pre>
 <h2 id="security-considerations-and-recommendations"><a class="header" href="#security-considerations-and-recommendations">Security Considerations and Recommendations</a></h2>
 <p>The Zellij web server is security and privacy conscious, enforcing HTTPS if accessed over the network and authentication at all times. It is however recommended to place the server behind a reverse proxy (such as <code>nginx</code>) if exposing it to an untrusted network (eg. the Internet). This is because the web server does not provide its own rate-limiting to mitigate denial of service and similar attacks.</p>

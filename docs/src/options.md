@@ -359,6 +359,9 @@ The path to the private_key of te SSL certificate for the Zellij [web-server](./
 ### enforce_https_on_localhost
 Whether to enforce https on localhost for the Zellij [web-server](./web-client.md). This is always enforced when listening on non-localhost addresses.
 
+### web_client
+Configuration having to do with the in-browser terminal of the Zellij web client (eg. colors, font). For more info, please see: [web-server](./web-client.md).
+
 Options:
     - true
     - false (default)
