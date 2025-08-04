@@ -25,7 +25,7 @@ zellij web --create-token
 **IMPORTANT:** These tokens are hashed in a local database and so will only be displayed once. They cannot be retrieved, only revoked (either from the CLI or from the `share` plugin).
 
 ## HTTPS?
-The Zellij web server can work with a user provided SSL certificate to server terminal sessions over an encrypted HTTPS connection. This is a hard requirement if listening on any interface that is not `127.0.0.1` but is very much recommended even when working on `127.0.0.1`. (for more detailed instructions on how to do this, take a look at the [screencast](/tutorials/web-client/)).
+The Zellij web server can work with a user provided SSL certificate to serve terminal sessions over an encrypted HTTPS connection. This is a hard requirement if listening on any interface that is not `127.0.0.1` but is very much recommended even when working on `127.0.0.1`. (for more detailed instructions on how to do this, take a look at the [screencast](/tutorials/web-client/)).
 
 To set up an SSL certificate in the Zellij [configuration](./configuration):
 

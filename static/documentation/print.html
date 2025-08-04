@@ -4044,7 +4044,7 @@ Zellij includes built-in session resurrection capabilities. This means that by d
 </code></pre>
 <p><strong>IMPORTANT:</strong> These tokens are hashed in a local database and so will only be displayed once. They cannot be retrieved, only revoked (either from the CLI or from the <code>share</code> plugin).</p>
 <h2 id="https"><a class="header" href="#https">HTTPS?</a></h2>
-<p>The Zellij web server can work with a user provided SSL certificate to server terminal sessions over an encrypted HTTPS connection. This is a hard requirement if listening on any interface that is not <code>127.0.0.1</code> but is very much recommended even when working on <code>127.0.0.1</code>. (for more detailed instructions on how to do this, take a look at the <a href="/tutorials/web-client/">screencast</a>).</p>
+<p>The Zellij web server can work with a user provided SSL certificate to serve terminal sessions over an encrypted HTTPS connection. This is a hard requirement if listening on any interface that is not <code>127.0.0.1</code> but is very much recommended even when working on <code>127.0.0.1</code>. (for more detailed instructions on how to do this, take a look at the <a href="/tutorials/web-client/">screencast</a>).</p>
 <p>To set up an SSL certificate in the Zellij <a href="./configuration">configuration</a>:</p>
 <pre><code class="language-javascript">web_server_cert "/path/to/my/certs/localhost+3.pem" // certificate
 web_server_key "/path/to/my/certs/localhost+3-key.pem" // private key
