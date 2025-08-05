@@ -36,6 +36,8 @@ No more "can you share your screen?", no more ssh key exchange and NAT traversal
 
 Use for remote access, teaching, demos, collaborative debugging or even as your daily driver - making a dedicated terminal emulator optional.
 
+*Check out the new [web-client screencast](/tutorials/web-client) if you'd like to learn more.*
+
 ### Bookmarkable Sessions
 Each session gets its own unique URL (eg. `https://127.0.0.1/my-session-name`)
 
