@@ -1,4 +1,4 @@
-name: Push to GitHub Pages on push to main
+name: Push to GitHub Pages on push to master
 on:
   push:
     branches:
@@ -20,7 +20,5 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
-          personal_token: ${{ secrets.DEPLOY_TOKEN }}
-          external_repository: zellij-org/zellij.dev
-          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
