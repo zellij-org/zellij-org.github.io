@@ -4,6 +4,8 @@ Zellij includes built-in session resurrection capabilities. This means that by d
 
 These exited resurrectable sessions can be listed through the CLI or the built-in `session-manager`. They can be resurrected through the CLI by attaching to them or through the `session-manager` by selecting them in the `EXITED` section.
 
+> NOTE - When running an AppImage, the ability to resurrect sessions with the correct current working directory (CWD) may be impacted. This is a characteristic of how AppImages are handled in the system and not a limitation of Zellij itself. Users should be aware of this potential limitation when using Zellij with AppImage.
+
 ## What is Resurrected and how to Configure
 By default, Zellij serializes the session layout (panes and tabs) and the command running in each pane (it will re-run them in command panes). Through configuration it's possible to have Zellij also serialize and resurrect the pane viewport and scrollback.
 
