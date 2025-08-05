@@ -1,91 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Tutorials on Zellij</title>
-    <link>https://zellij.dev/tutorials/</link>
-    <description>Recent content in Tutorials on Zellij</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://zellij.dev/tutorials/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Developing a Zellij plugin using Rust</title>
-      <link>https://zellij.dev/tutorials/developing-a-rust-plugin/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://zellij.dev/tutorials/developing-a-rust-plugin/</guid>
-      <description>var playerElement = document.getElementById(&#34;player-wrapper&#34;); var player = new Clappr.Player({ source: &#34;/video/developing-a-rust-plugin.mp4&#34;, mute: false, height: 540, width: 960 }); player.attachTo(playerElement);  This tutorial will walk you through developing a Zellij plugin with rust, using specialized Zellij tools to short-circuit some of the trickier parts.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Tutorials on Zellij</title><link>https://zellij.dev/tutorials/</link><description>Recent content in Tutorials on Zellij</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><atom:link href="https://zellij.dev/tutorials/index.xml" rel="self" type="application/rss+xml"/><item><title>Developing a Zellij plugin using Rust</title><link>https://zellij.dev/tutorials/developing-a-rust-plugin/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://zellij.dev/tutorials/developing-a-rust-plugin/</guid><description>var playerElement = document.getElementById("player-wrapper"); var player = new Clappr.Player({ source: "/video/developing-a-rust-plugin.mp4", mute: false, height: 540, width: 960 }); player.attachTo(playerElement); This tutorial will walk you through developing a Zellij plugin with rust, using specialized Zellij tools to short-circuit some of the trickier parts.
 The video screencast and the tutorial contain the same content.
-Prerequisites  Basic knowledge of Rust: the code itself is pretty straightforward, so this is not a must.</description>
-    </item>
-    
-    <item>
-      <title>Using Layouts for Personal Automation</title>
-      <link>https://zellij.dev/tutorials/layouts/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://zellij.dev/tutorials/layouts/</guid>
-      <description>This tutorial walks you through creating Zellij layouts to automate tasks and workflows.
+Prerequisites Basic knowledge of Rust: the code itself is pretty straightforward, so this is not a must.</description></item><item><title>Using Layouts for Personal Automation</title><link>https://zellij.dev/tutorials/layouts/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://zellij.dev/tutorials/layouts/</guid><description>This tutorial walks you through creating Zellij layouts to automate tasks and workflows.
 Layouts describe a pre-defined set of panes and tabs with different terminals, commands and plugins. They can be great to automate and formalize workflows and tasks.
 If you prefer a written tutorial, or would like to copy/paste the examples, scroll down past this video.
-    var playerElement = document.getElementById(&#34;player-wrapper&#34;); var player = new Clappr.Player({ source: &#34;</description>
-    </item>
-    
-    <item>
-      <title>Dealing with Colliding Keyboard Shortcuts</title>
-      <link>https://zellij.dev/tutorials/colliding-keybindings/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://zellij.dev/tutorials/colliding-keybindings/</guid>
-      <description>var playerElement = document.getElementById(&#34;player-wrapper&#34;); var player = new Clappr.Player({ source: &#34;/video/colliding-keybindings-screencast.mp4&#34;, mute: false, height: 540, width: 960 }); player.attachTo(playerElement);  This tutorial demonstrates how to solve the &amp;ldquo;Colliding Keybindings&amp;rdquo; problem, in which the Zellij UI intercepts keys meant for the applications running inside Zellij.
+var playerElement = document.getElementById("player-wrapper"); var player = new Clappr.Player({ source: "</description></item><item><title>Dealing with Colliding Keyboard Shortcuts</title><link>https://zellij.dev/tutorials/colliding-keybindings/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://zellij.dev/tutorials/colliding-keybindings/</guid><description>var playerElement = document.getElementById("player-wrapper"); var player = new Clappr.Player({ source: "/video/colliding-keybindings-screencast.mp4", mute: false, height: 540, width: 960 }); player.attachTo(playerElement); This tutorial demonstrates how to solve the &amp;ldquo;Colliding Keybindings&amp;rdquo; problem, in which the Zellij UI intercepts keys meant for the applications running inside Zellij.
 The video screencast and the tutorial contain the same content.
-What we&amp;rsquo;ll cover  The Problem - what are colliding keybindings? The Solution - the &amp;ldquo;Unlock-First (non-colliding)&amp;rdquo; Preset Rebinding the &amp;ldquo;Unlock toggle&amp;rdquo; or the secondary modifier (Alt) Manually Changing the configuration file Do you like Zellij?</description>
-    </item>
-    
-    <item>
-      <title>Stacked Resize and Pinned Floating Panes</title>
-      <link>https://zellij.dev/tutorials/stacked-resize/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://zellij.dev/tutorials/stacked-resize/</guid>
-      <description>var playerElement = document.getElementById(&#34;player-wrapper&#34;); var player = new Clappr.Player({ source: &#34;/video/stacked-resize-screencast.mp4&#34;, mute: false, height: 540, width: 960 }); player.attachTo(playerElement);  This tutorial demonstrates two key features in Zellij through the use-case of terminal development: stacked resize and pinned floating panes.
+What we&amp;rsquo;ll cover The Problem - what are colliding keybindings? The Solution - the &amp;ldquo;Unlock-First (non-colliding)&amp;rdquo; Preset Rebinding the &amp;ldquo;Unlock toggle&amp;rdquo; or the secondary modifier (Alt) Manually Changing the configuration file Do you like Zellij?</description></item><item><title>The Zellij Web Client - Share Sessions in the Browser</title><link>https://zellij.dev/tutorials/web-client/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://zellij.dev/tutorials/web-client/</guid><description>var playerElement = document.getElementById("player-wrapper"); var player = new Clappr.Player({ source: "/video/web-client-screencast.mp4", mute: false, height: 540, width: 960 }); player.attachTo(playerElement); The Zellij Web Client allows users to seamlessly share sessions between the terminal and the browser. Including built-in authentication, true multiplayer capabilities and bookmarkable persistent sessions.
+This tutorial will demonstrate how to set up and use the web client locally.
+The video screencast and the tutorial contain the same content.</description></item><item><title>Stacked Resize and Pinned Floating Panes</title><link>https://zellij.dev/tutorials/stacked-resize/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://zellij.dev/tutorials/stacked-resize/</guid><description>var playerElement = document.getElementById("player-wrapper"); var player = new Clappr.Player({ source: "/video/stacked-resize-screencast.mp4", mute: false, height: 540, width: 960 }); player.attachTo(playerElement); This tutorial demonstrates two key features in Zellij through the use-case of terminal development: stacked resize and pinned floating panes.
 You need not be a terminal developer to benefit from this tutorial.
 The video screencast and the tutorial contain the same content.
-What we&amp;rsquo;ll cover  A Practical Workflow Example An explanation about the Mechanics of Stacked Resize Do you like Zellij?</description>
-    </item>
-    
-    <item>
-      <title>Basic Development with Zellij</title>
-      <link>https://zellij.dev/tutorials/basic-functionality/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://zellij.dev/tutorials/basic-functionality/</guid>
-      <description>var playerElement = document.getElementById(&#34;player-wrapper&#34;); var player = new Clappr.Player({ source: &#34;/video/basic-development-screencast.mp4&#34;, mute: false, height: 540, width: 960 }); player.attachTo(playerElement);  This tutorial demonstrates some basic features of Zellij through a real world use-case of using the terminal for development.
-You need not be a terminal developer to benefit from this tutorial.
-The video screencast and the tutorial contain the same content.
-What we&amp;rsquo;ll cover  Opening New Panes Using Floating Panes Starting Command Panes from the CLI Editing Pane Scrollback with your own $EDITOR Do you like Zellij?</description>
-    </item>
-    
-    <item>
-      <title>The Zellij Filepicker</title>
-      <link>https://zellij.dev/tutorials/filepicker/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://zellij.dev/tutorials/filepicker/</guid>
-      <description>var playerElement = document.getElementById(&#34;player-wrapper&#34;); var player = new Clappr.Player({ source: &#34;/video/filepicker.mp4&#34;, mute: false, height: 540, width: 960 }); player.attachTo(playerElement);  This tutorial shows how to use the Zellij filepicker, also known as Strider.
+What we&amp;rsquo;ll cover A Practical Workflow Example An explanation about the Mechanics of Stacked Resize Do you like Zellij?</description></item><item><title>Basic Development with Zellij</title><link>https://zellij.dev/tutorials/basic-functionality/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://zellij.dev/tutorials/basic-functionality/</guid><description>var playerElement = document.getElementById("player-wrapper"); var player = new Clappr.Player({ source: "/video/basic-development-screencast.mp4", mute: false, height: 540, width: 960 }); player.attachTo(playerElement); This screencast demonstrates some basic features of Zellij, tying them into some real-world use cases as a demonstration.
+The tutorial lists all the relevant actions for easy reference as well as some bonus content.
+What we&amp;rsquo;ll cover The Zellij UI Opening New Panes Using Floating Panes Using Multiple Pane Select Editing Pane Scrollback with your own $EDITOR Do you like Zellij?</description></item><item><title>The Zellij Filepicker</title><link>https://zellij.dev/tutorials/filepicker/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://zellij.dev/tutorials/filepicker/</guid><description>var playerElement = document.getElementById("player-wrapper"); var player = new Clappr.Player({ source: "/video/filepicker.mp4", mute: false, height: 540, width: 960 }); player.attachTo(playerElement); This tutorial shows how to use the Zellij filepicker, also known as Strider.
 The video screencast and the tutorial contain the same content, with the video screencast also containing some concrete examples of the subject material for inspiration.
-Why use the Zellij filepicker? The Zellij filepicker is a built-in plugin that will allow you to dynamically traverse your filesystem, optionally using fuzzy finding to look for files or folders in a deterministic way.</description>
-    </item>
-    
-    <item>
-      <title>Session Management with Zellij</title>
-      <link>https://zellij.dev/tutorials/session-management/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://zellij.dev/tutorials/session-management/</guid>
-      <description>var playerElement = document.getElementById(&#34;player-wrapper&#34;); var player = new Clappr.Player({ source: &#34;/video/session-management-welcome-screen.mp4&#34;, mute: false, height: 540, width: 960 }); player.attachTo(playerElement);  This tutorial shows how to use Zellij to manage sessions in the terminal.
+Why use the Zellij filepicker? The Zellij filepicker is a built-in plugin that will allow you to dynamically traverse your filesystem, optionally using fuzzy finding to look for files or folders in a deterministic way.</description></item><item><title>Session Management with Zellij</title><link>https://zellij.dev/tutorials/session-management/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://zellij.dev/tutorials/session-management/</guid><description>var playerElement = document.getElementById("player-wrapper"); var player = new Clappr.Player({ source: "/video/session-management-welcome-screen.mp4", mute: false, height: 540, width: 960 }); player.attachTo(playerElement); This tutorial shows how to use Zellij to manage sessions in the terminal.
 The video screencast and the tutorial contain the same content, with the video screencast also containing some concrete examples of the subject material for inspiration.
-Why use Zellij to manage sessions? Do you find yourself jumping between tasks a lot?</description>
-    </item>
-    
-  </channel>
-</rss>
+Why use Zellij to manage sessions? Do you find yourself jumping between tasks a lot?</description></item></channel></rss>
