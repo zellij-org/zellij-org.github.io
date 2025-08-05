@@ -1,22 +1,26 @@
-name: Push to GitHub Pages on push to master
+name: Push to GitHub Pages on push to main
 on:
   push:
     branches:
       - main
-
 jobs:
   build:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout master
-        uses: actions/checkout@v3
-
-      - name: Deploy the site
-        uses: benmatselby/hugo-deploy-gh-pages@master
-        env:
-          HUGO_VERSION: 0.82.0
-          HUGO_EXTENDED: true
-          TARGET_REPO: zellij-org/zellij.dev
-          TARGET_BRANCH: gh-pages
-          TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        uses: actions/checkout@v4
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.82.0'
+          extended: true
+      - name: Build
+        run: hugo --minify
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.DEPLOY_TOKEN }}
+          external_repository: zellij-org/zellij.dev
+          publish_branch: gh-pages
+          publish_dir: ./public
