@@ -612,3 +612,93 @@ Given a list of pane ids, turns them into a stack.
 * Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
 
 Given a list of pane ids and corresponding coordinates (x, y, width, height) will change the location of all of these IDs to the desired coordinates.
+
+## group_and_ungroup_panes
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Accepts two lists of panes, first one to group, second one to ungroup (in this logical order). Grouping is performed for the benefit of the "multiple-select" functionality.
+
+## highlight_and_unhighlight_panes
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Accepts two lists of panes, first one to group, second one to ungroup (in this logical order). The highlight is cosmetic and is meant to help mark panes.
+
+## close_multiple_panes
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Accepts a list of pane ids to close.
+
+## float_multiple_panes
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Accepts a list of pane ids to make floating (ignores panes that are already floating).
+
+## embed_multiple_panes
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Accepts a list of pane ids to embed (not floating). Ignores panes that are already floating.
+
+## start_web_server
+* Requires the `StartWebServer` [permission](./plugin-api-permissions.md)
+
+Start the Zellij [web-server](./web-client.md).
+
+## stop_web_server
+* Requires the `StartWebServer` [permission](./plugin-api-permissions.md)
+
+Stop the Zellij [web-server](./web-client.md).
+
+## share_current_session
+* Requires the `StartWebServer` [permission](./plugin-api-permissions.md)
+
+Allows the current session to be shared (attached to) on the Zellij [web-server](./web-client.md).
+
+## stop_sharing_current_session
+* Requires the `StartWebServer` [permission](./plugin-api-permissions.md)
+
+Removes permission for the current session to be shared (attached to) on the Zellij [web-server](./web-client.md), also disconnects current web clients.
+
+## query_web_server_status
+* Requires the `StartWebServer` [permission](./plugin-api-permissions.md)
+
+Queries the status of the Zellij [web-server](./web-client.md), response will be returned as the `WebServerStatus` [event](./plugin-api-events.md) (which must also be subscribed to).
+
+## generate_web_login_token
+* Requires the `StartWebServer` [permission](./plugin-api-permissions.md)
+
+Generates (and returns) a new web login token, optionally with a provided name as a String. (This token is hashed in a local DB, so can never be displayed again).
+
+## revoke_web_login_token
+* Requires the `StartWebServer` [permission](./plugin-api-permissions.md)
+
+Revoked an existing web login token by its name.
+
+## revoke_all_web_login_tokens
+* Requires the `StartWebServer` [permission](./plugin-api-permissions.md)
+
+Revokes all web login tokens.
+
+## list_web_login_tokens
+* Requires the `StartWebServer` [permission](./plugin-api-permissions.md)
+
+Returns a list of existing web login tokens (their names, the tokens themselves cannot be displayed) and their creation times.
+
+## rename_web_login_token
+* Requires the `StartWebServer` [permission](./plugin-api-permissions.md)
+
+Rename a web login token by providing its existing name.
+
+## intercept_key_presses
+* Requires the `InterceptInput` [permission](./plugin-api-permissions.md)
+
+Intercept all user input, having it sent to the plugin as an `InterceptedKeyPress` [event](./plugin-api-events.md)
+
+## clear_key_presses_intercepts
+* Requires the `InterceptInput` [permission](./plugin-api-permissions.md)
+
+Clear the interception of key presses, having them return to being sent to the application itself. This happens automatically when the plugin is unloaded.
+
+## replace_pane_with_existing_pane
+* Requires the `ChangeApplicationState` [permission](./plugin-api-permissions.md)
+
+Replaces a specific pane (denoted by is PaneId) with another existing pane (also denoted by its PaneId)

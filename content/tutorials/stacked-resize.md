@@ -3,6 +3,9 @@ title: "Stacked Resize and Pinned Floating Panes"
 images: ["/img/stacked-resize-tutorial-preview.png"]
 description: "How to use stacked resize and pinned floating panes in Zellij"
 linktitle: "How to use stacked resize and pinned floating panes in Zellij"
+aliases:
+  - /screencasts/stacked-resize
+  - /screencasts/stacked-resize/
 ---
 {{<video-left-aligned "/video/stacked-resize-screencast.mp4">}}
 

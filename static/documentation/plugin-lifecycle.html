@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -31,10 +31,11 @@
         <!-- Custom theme stylesheets -->
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -44,8 +45,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -59,7 +60,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -72,8 +74,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -99,7 +101,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -109,6 +111,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -155,16 +158,13 @@
                         <h1 id="plugin-lifecycle"><a class="header" href="#plugin-lifecycle">Plugin Lifecycle</a></h1>
 <p>Zellij provides the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> crate to plugins to facilitate development.</p>
 <p>The <code>zellij-tile</code> crate provides the <code>ZellijPlugin</code> trait:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub trait ZellijPlugin {
+<pre><code class="language-rust">pub trait ZellijPlugin {
     fn load(&amp;mut self) {}
     fn update(&amp;mut self, event: Event) -&gt; bool {
         false
     } // return true if it should render
     fn render(&amp;mut self, rows: usize, cols: usize) {}
-}
-<span class="boring">}</span></code></pre></pre>
+}</code></pre>
 <h2 id="lifecycle-methods"><a class="header" href="#lifecycle-methods">Lifecycle Methods</a></h2>
 <h3 id="load"><a class="header" href="#load">load</a></h3>
 <p>Will be called when the plugin is loaded, this is a good place to <a href="./plugin-api-commands.html#subscribe">subscribe</a> to events that are interesting for this plugin.</p>
@@ -180,9 +180,7 @@ can be found in <a href="https://blog.nerd.rocks/posts/common-snippets-for-zelli
 <p>This function is expeted to print to <code>STDOUT</code> whatever the plugin would like to render inside its pane. For more information, see <a href="plugin-ui-rendering.html">plugin ui rendering</a>.</p>
 <h2 id="registering-a-plugin"><a class="header" href="#registering-a-plugin">Registering a plugin</a></h2>
 <p>After implementing the trait on a struct, we'll need to use the <code>register_plugin</code> macro on it:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>struct MyPlugin {
+<pre><code class="language-rust">struct MyPlugin {
     // ...
 }
 
@@ -190,8 +188,7 @@ impl ZellijPlugin for MyPlugin {
     // ...
 }
 
-register_plugin!(MyPlugin);
-<span class="boring">}</span></code></pre></pre>
+register_plugin!(MyPlugin);</code></pre>
 <p>Zellij will then instantiate the plugin (using the <code>Default</code> implementation) and call it as needed.</p>
 
                     </main>

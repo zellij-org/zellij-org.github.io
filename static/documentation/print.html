@@ -8,7 +8,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -32,10 +32,11 @@
         <!-- Custom theme stylesheets -->
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -100,7 +102,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -280,6 +283,18 @@ fi
 <h2 id="the-ui-takes-up-too-much-space-what-can-i-do-about-it"><a class="header" href="#the-ui-takes-up-too-much-space-what-can-i-do-about-it">The UI takes up too much space, what can I do about it?</a></h2>
 <p>You can load the <code>compact</code> layout with <code>zellij --layout compact</code>.</p>
 <p>Additionally, you can disable pane frames either at runtime with <code>Ctrl + &lt;p&gt; + &lt;z&gt;</code> or through the <a href="./configuration.html">config</a> with <code>pane_frames: false</code>.</p>
+<h3 id="followup-question-can-i-use-the-compact-layout-but-still-see-the-keybinding-hints-when-necessary"><a class="header" href="#followup-question-can-i-use-the-compact-layout-but-still-see-the-keybinding-hints-when-necessary">Followup Question: can I use the <code>compact</code> layout but still see the keybinding hints when necessary?</a></h3>
+<p>Yes! You can set up a keybinding tooltip toggle for the compact-bar. Choose a key (for example <code>F1</code>) and set it up in the <a href="./configuration.html">config</a> (and then restart):</p>
+<pre><code class="language-javascript">plugins {
+    // ...
+    // compact-bar location="zellij:compact-bar" &lt;== COMMENT OUT THIS LINE
+    // and replace it with the following:
+    compact-bar location="zellij:compact-bar" {
+      tooltip "F1"
+    }
+    // ...
+}
+</code></pre>
 <h2 id="i-see-broken-characters-in-the-default-ui-how-can-i-fix-this"><a class="header" href="#i-see-broken-characters-in-the-default-ui-how-can-i-fix-this">I see broken characters in the default UI, how can I fix this?</a></h2>
 <p>This means your default terminal font doesn't include some special characters used by Zellij. A safe bet would be to install and use a font from <a href="https://www.nerdfonts.com">nerdfonts</a>.</p>
 <p>If you don't want to install a new font, you can also load the simplified UI that doesn't use these characters, with:</p>
@@ -666,6 +681,38 @@ Options:</p>
 </ul>
 <pre><code class="language-javascript">show_release_notes true
 </code></pre>
+<h3 id="post_command_discovery_hook"><a class="header" href="#post_command_discovery_hook">post_command_discovery_hook</a></h3>
+<p>When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a <code>post_command_discovery_hook</code>. This is a command that will run in the context of te user's default shell and be provided the <code>$RESURRECT_COMMAND</code> that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over <code>STDOUT</code> will be serialized in place of the discovered command.</p>
+<p>Example:</p>
+<pre><code class="language-javascript">post_command_discovery_hook "echo \"$RESURRECT_COMMAND\" | sed 's/^sudo\\s\\+//'" // strip sudo from commands
+</code></pre>
+<h3 id="web_server"><a class="header" href="#web_server">web_server</a></h3>
+<p>Whether to start the Zellij <a href="./web-client.html">web-server</a> on startup.</p>
+<p>Options:</p>
+<ul>
+<li>true</li>
+<li>false (default)</li>
+</ul>
+<h3 id="web_server_ip"><a class="header" href="#web_server_ip">web_server_ip</a></h3>
+<p>The IP for the Zellij <a href="./web-client.html">web-server</a> to listen on when it's started. Default: <code>127.0.0.1</code>.</p>
+<h3 id="web_server_port"><a class="header" href="#web_server_port">web_server_port</a></h3>
+<p>The port for the Zellij <a href="./web-client.html">web-server</a> to listen on when it's started. Default: <code>8082</code>.</p>
+<h3 id="web_server_cert"><a class="header" href="#web_server_cert">web_server_cert</a></h3>
+<p>The path to the SSL certificate for the Zellij <a href="./web-client.html">web-server</a>. Note: the <code>web_server_key</code> must also be present for the server to serve itself as HTTPS.</p>
+<h3 id="web_server_key"><a class="header" href="#web_server_key">web_server_key</a></h3>
+<p>The path to the private_key of te SSL certificate for the Zellij <a href="./web-client.html">web-server</a>. Note: the <code>web_server_cert</code> must also be present for the server to serve itself as HTTPS.</p>
+<h3 id="enforce_https_on_localhost"><a class="header" href="#enforce_https_on_localhost">enforce_https_on_localhost</a></h3>
+<p>Whether to enforce https on localhost for the Zellij <a href="./web-client.html">web-server</a>. This is always enforced when listening on non-localhost addresses.</p>
+<h3 id="web_client"><a class="header" href="#web_client">web_client</a></h3>
+<p>Configuration having to do with the in-browser terminal of the Zellij web client (eg. colors, font). For more info, please see: <a href="./web-client.html">web-server</a>.</p>
+<p>Options:
+- true
+- false (default)</p>
+<h3 id="advanced_mouse_actions"><a class="header" href="#advanced_mouse_actions">advanced_mouse_actions</a></h3>
+<p>Whether to enable mouse hover effects and multiple select functionality (pane grouping).</p>
+<p>Options:
+- true (default)
+- false</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="configuring-keybindings"><a class="header" href="#configuring-keybindings">Configuring Keybindings</a></h1>
 <p>Zellij comes with a default set of keybindings that try to fit as many different users and use cases while trying to maximize comfort for everyone.</p>
 <p>It is possible to add to these defaults or even override them with an external configuration. For more information about the configuration file itself, see <a href="./configuration.html">Configuration</a>.</p>
@@ -927,7 +974,7 @@ bind "Left" // bind the left arrow key
 </code></pre>
 <h2 id="newpane"><a class="header" href="#newpane"><code>NewPane</code></a></h2>
 <p>Open a new pane (in the specified direction)</p>
-<p><strong>Possible arguments</strong>: <code>Down</code> | <code>Right</code></p>
+<p><strong>Possible arguments</strong>: <code>Down</code> | <code>Right</code> | <code>Stacked</code></p>
 <p><strong>Behaviour without arguments</strong>: Opens a pane in the largest available space or if floating panes are visible, in the next floating pane position.</p>
 <pre><code class="language-javascript">    bind "a" { NewPane "Right"; }
 </code></pre>
@@ -1140,6 +1187,8 @@ bind "Left" // bind the left arrow key
 <p>A line item in a nested list, it can be arbitrarily indented. Its indentation indication is not included in the item specification.</p>
 <h4 id="list_selected"><a class="header" href="#list_selected">list_selected</a></h4>
 <p>Often differentiated from its unselected counterpart with a different background color.</p>
+<h4 id="frame_unselected"><a class="header" href="#frame_unselected">frame_unselected</a></h4>
+<p>The frame around the other non-focused panes.</p>
 <h4 id="frame_selected"><a class="header" href="#frame_selected">frame_selected</a></h4>
 <p>The frame around the focused pane.</p>
 <h4 id="frame_highlight"><a class="header" href="#frame_highlight">frame_highlight</a></h4>
@@ -2792,6 +2841,16 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 <p>The result of the <code>ListClients</code> <a href="./plugin-api-commands.html">plugin command</a>. Contains information about all connected clients in the session, including their id, their focused pane id, the stringified representation of the running command or plugin inside their focused pane (if any), as well as an indication of whether they are the current client or not.</p>
 <h2 id="pastedtext"><a class="header" href="#pastedtext">PastedText</a></h2>
 <p>The user just pasted the given text while focused on the plugin.</p>
+<h2 id="configwaswrittentodisk"><a class="header" href="#configwaswrittentodisk">ConfigWasWrittenToDisk</a></h2>
+<p>A new configuration was successfully saved in the configuration file listened to by the current session.</p>
+<h2 id="webserverstatus"><a class="header" href="#webserverstatus">WebServerStatus</a></h2>
+<p>This event is sent as a reply to the <code>QueryWebServer</code> command. It can be either online (and include the base url), offline or different_version (including the specified version).</p>
+<h2 id="failedtostartwebserver"><a class="header" href="#failedtostartwebserver">FailedToStartWebServer</a></h2>
+<p>This event is sent as a reply to the <code>StartWebServer</code> command, when Zellij failed to start the web server. It includes a String representing the error.</p>
+<h2 id="beforeclose"><a class="header" href="#beforeclose">BeforeClose</a></h2>
+<p>This event (if subscribed to) is called before a plugin is being unloaded, and is a chance for a plugin to do some cleanups.</p>
+<h2 id="interceptedkeypress"><a class="header" href="#interceptedkeypress">InterceptedKeyPress</a></h2>
+<p>This event is similar to the Key Event, but represent a keypress that was intercepted after the InterceptKeyPresses plugin command was issued.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api---commands"><a class="header" href="#plugin-api---commands">Plugin API - Commands</a></h1>
 <p>Zellij exports functions that allow plugins to control Zellij or change its behavior.</p>
 <p>For more exact information, please see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
@@ -3227,9 +3286,7 @@ Make a web request, optionally being notified of its output if subscribed to the
 <h3 id="use-this-command-to-bind-global-keys-to-the-plugin"><a class="header" href="#use-this-command-to-bind-global-keys-to-the-plugin">Use this command to bind global keys to the plugin</a></h3>
 <p>It's possible to use the <code>reconfigure</code> command to bind the special <code>MessagePluginId</code> temporary keybinding (which will not be saved to disk). This keybind, along with the plugin's id obtained from <code>get_plugin_ids</code> can be used to bind a user key to trigger this plugin with a <a href="./plugin-pipes.html">pipe</a>.</p>
 <p>Example:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let config = format!(r#"
+<pre><code class="language-rust">let config = format!(r#"
 keybinds {{
     shared {{
         bind "Ctrl Shift r" {{
@@ -3240,8 +3297,7 @@ keybinds {{
     }}
 }}"#);
 reconfigure(config, false)
-// now, whenever a user pressed `Ctrt Shift r` anywhere in the app, the plugin's pipe method will trigger with the "my_message_name" message
-<span class="boring">}</span></code></pre></pre>
+// now, whenever a user pressed `Ctrt Shift r` anywhere in the app, the plugin's pipe method will trigger with the "my_message_name" message</code></pre>
 <h2 id="hide_pane_with_id"><a class="header" href="#hide_pane_with_id">hide_pane_with_id</a></h2>
 <ul>
 <li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
@@ -3392,6 +3448,96 @@ reconfigure(config, false)
 <li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>Given a list of pane ids and corresponding coordinates (x, y, width, height) will change the location of all of these IDs to the desired coordinates.</p>
+<h2 id="group_and_ungroup_panes"><a class="header" href="#group_and_ungroup_panes">group_and_ungroup_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Accepts two lists of panes, first one to group, second one to ungroup (in this logical order). Grouping is performed for the benefit of the "multiple-select" functionality.</p>
+<h2 id="highlight_and_unhighlight_panes"><a class="header" href="#highlight_and_unhighlight_panes">highlight_and_unhighlight_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Accepts two lists of panes, first one to group, second one to ungroup (in this logical order). The highlight is cosmetic and is meant to help mark panes.</p>
+<h2 id="close_multiple_panes"><a class="header" href="#close_multiple_panes">close_multiple_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Accepts a list of pane ids to close.</p>
+<h2 id="float_multiple_panes"><a class="header" href="#float_multiple_panes">float_multiple_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Accepts a list of pane ids to make floating (ignores panes that are already floating).</p>
+<h2 id="embed_multiple_panes"><a class="header" href="#embed_multiple_panes">embed_multiple_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Accepts a list of pane ids to embed (not floating). Ignores panes that are already floating.</p>
+<h2 id="start_web_server"><a class="header" href="#start_web_server">start_web_server</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Start the Zellij <a href="./web-client.html">web-server</a>.</p>
+<h2 id="stop_web_server"><a class="header" href="#stop_web_server">stop_web_server</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Stop the Zellij <a href="./web-client.html">web-server</a>.</p>
+<h2 id="share_current_session"><a class="header" href="#share_current_session">share_current_session</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Allows the current session to be shared (attached to) on the Zellij <a href="./web-client.html">web-server</a>.</p>
+<h2 id="stop_sharing_current_session"><a class="header" href="#stop_sharing_current_session">stop_sharing_current_session</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Removes permission for the current session to be shared (attached to) on the Zellij <a href="./web-client.html">web-server</a>, also disconnects current web clients.</p>
+<h2 id="query_web_server_status"><a class="header" href="#query_web_server_status">query_web_server_status</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Queries the status of the Zellij <a href="./web-client.html">web-server</a>, response will be returned as the <code>WebServerStatus</code> <a href="./plugin-api-events.html">event</a> (which must also be subscribed to).</p>
+<h2 id="generate_web_login_token"><a class="header" href="#generate_web_login_token">generate_web_login_token</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Generates (and returns) a new web login token, optionally with a provided name as a String. (This token is hashed in a local DB, so can never be displayed again).</p>
+<h2 id="revoke_web_login_token"><a class="header" href="#revoke_web_login_token">revoke_web_login_token</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Revoked an existing web login token by its name.</p>
+<h2 id="revoke_all_web_login_tokens"><a class="header" href="#revoke_all_web_login_tokens">revoke_all_web_login_tokens</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Revokes all web login tokens.</p>
+<h2 id="list_web_login_tokens"><a class="header" href="#list_web_login_tokens">list_web_login_tokens</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Returns a list of existing web login tokens (their names, the tokens themselves cannot be displayed) and their creation times.</p>
+<h2 id="rename_web_login_token"><a class="header" href="#rename_web_login_token">rename_web_login_token</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Rename a web login token by providing its existing name.</p>
+<h2 id="intercept_key_presses"><a class="header" href="#intercept_key_presses">intercept_key_presses</a></h2>
+<ul>
+<li>Requires the <code>InterceptInput</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Intercept all user input, having it sent to the plugin as an <code>InterceptedKeyPress</code> <a href="./plugin-api-events.html">event</a></p>
+<h2 id="clear_key_presses_intercepts"><a class="header" href="#clear_key_presses_intercepts">clear_key_presses_intercepts</a></h2>
+<ul>
+<li>Requires the <code>InterceptInput</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Clear the interception of key presses, having them return to being sent to the application itself. This happens automatically when the plugin is unloaded.</p>
+<h2 id="replace_pane_with_existing_pane"><a class="header" href="#replace_pane_with_existing_pane">replace_pane_with_existing_pane</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Replaces a specific pane (denoted by is PaneId) with another existing pane (also denoted by its PaneId)</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="permissions"><a class="header" href="#permissions">Permissions</a></h1>
 <p>The plugin system provides a permission system to provide extra security and protection to the user.</p>
 <p>The system places certain <a href="./plugin-api-events.html">Events</a> and <a href="./plugin-api-commands.html">Commands</a> behind certain permissions.
@@ -3413,6 +3559,10 @@ Plugins who want to listen to these events or use these commands should prompt t
 <p>Change the <a href="./configuration.html">configuration</a> (running and also saved in the configuration file) of Zellij.</p>
 <h3 id="fullhdaccess"><a class="header" href="#fullhdaccess">FullHdAccess</a></h3>
 <p>Access the full HD on the machine rather than just the folder in which Zellij was started.</p>
+<h3 id="startwebserver"><a class="header" href="#startwebserver">StartWebServer</a></h3>
+<p>Control (start, stop, get status, manage login tokens) the Zellij <a href="./web-client.html">web-server</a></p>
+<h3 id="interceptinput"><a class="header" href="#interceptinput">InterceptInput</a></h3>
+<p>Intercept user input (eg. keypresses), having all of this input sent to the plugin instead.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api---configuration"><a class="header" href="#plugin-api---configuration">Plugin API - Configuration</a></h1>
 <p>Plugins can be configured (have their behavior changed when instantiated) with an arbitrary key/value list.
 This configuration is available to plugins in their <code>load</code> method. It can be provided through layouts:</p>
@@ -3429,10 +3579,7 @@ This configuration is available to plugins in their <code>load</code> method. It
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api---reading-from-the-filesystem"><a class="header" href="#plugin-api---reading-from-the-filesystem">Plugin API - Reading from the Filesystem</a></h1>
 <p>Plugins can use their own native standard library to read from the filesystem.</p>
 <p>eg.</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>std::fs::write("/host/my_file.txt", "hi from a plugin!").unwrap()
-<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-rust">std::fs::write("/host/my_file.txt", "hi from a plugin!").unwrap()</code></pre>
 <p>Zellij maps three paths for each plugin:</p>
 <ul>
 <li><code>/host</code> - the cwd of the last focused terminal, or the folder where Zellij was started if that's not available</li>
@@ -3446,19 +3593,14 @@ This configuration is available to plugins in their <code>load</code> method. It
 <p>Plugin workers are a way to get around the fact that wasm/wasi threads are not stable yet. If a plugin has a potentially long operation to perform, it can declare a worker on startup and send and receive messages from it.</p>
 <h2 id="the-zellijworker-trait"><a class="header" href="#the-zellijworker-trait">The ZellijWorker trait</a></h2>
 <p><code>zellij-tile</code> provides the following interface for workers:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub trait ZellijWorker&lt;'de&gt;: Default + Serialize + Deserialize&lt;'de&gt; {
+<pre><code class="language-rust">pub trait ZellijWorker&lt;'de&gt;: Default + Serialize + Deserialize&lt;'de&gt; {
     fn on_message(&amp;mut self, message: String, payload: String) {}
-}
-<span class="boring">}</span></code></pre></pre>
+}</code></pre>
 <p>The <code>on_message</code> method will be called when the plugin uses the <a href="./plugin-api-commands.html#post_message_to"><code>post_message_to</code></a> plugin command with an arbitrary <code>message</code> and <code>payload</code>. These are specified as <code>String</code>s so that plugins can decide on their own method of serialization.</p>
 <h2 id="registering-workers"><a class="header" href="#registering-workers">Registering Workers</a></h2>
 <p>To register workers on startup, plugins can use the <code>register_worker</code> macro like so:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span>
-<span class="boring">fn main() {
-</span>pub struct TestWorker {
+<pre><code class="language-rust">
+pub struct TestWorker {
     // ...
 }
 impl ZellijWorker for TestWorker {
@@ -3468,8 +3610,7 @@ register_worker!(
     TestWorker,
     test_worker, // the namespace of the worker, anything before the final _worker will be the worker namespace
     TEST_WORKER // a name for static variable used to store the worker state between invocations
-);
-<span class="boring">}</span></code></pre></pre>
+);</code></pre>
 <p>For more information, please see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
 <h2 id="sending-messages-to-workers"><a class="header" href="#sending-messages-to-workers">Sending messages to workers</a></h2>
 <p>When a plugin (or another worker) wishes to send messages to a worker, they use the <a href="./plugin-api-commands.html#post_message_to"><code>post_message_to</code></a> plugin command. They should use the worker namespace used when registering the worker, eg. <code>post_message_to("test", ...)</code> for the <code>test_worker</code> example above.</p>
@@ -3498,9 +3639,7 @@ register_worker!(
 <p>Plugins may listen to pipes by implementing the <code>pipe</code> lifecycle method. This method is called every time a message is sent over a pipe to this plugin (whether it's broadcast to all plugins or specifically directed at this one). It receives a <code>PipeMessage</code> containing the source of the pipe (CLI, another plugin or a keybinding), as well as information about said source (the plugin id or the CLI pipe id). The <code>PipeMessage</code> also contains the name of the pipe (explicitly provided by the user or a random UUID assigned by Zellij), its payload if it has one, its arguments and whether it is private or not (a private message is one directed specifically at this plugin rather than broadcast to all plugins).</p>
 <p>Similar to the <a href="./plugin-lifecycle.html#update">update method</a>, the pipe lifecycle method returns a bool, true if it would like to render itself, in which case the render function will be called as normal.</p>
 <p>Here's a small Rust example:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>fn pipe(&amp;mut self, pipe_message: PipeMessage) -&gt; bool {
+<pre><code class="language-rust">fn pipe(&amp;mut self, pipe_message: PipeMessage) -&gt; bool {
     let mut should_render = false;
     match pipe_message.source {
         PipeSource::Cli(input_pipe_id) =&gt; {
@@ -3524,19 +3663,15 @@ register_worker!(
         }
     }
     should_render
-}
-<span class="boring">}</span></code></pre></pre>
+}</code></pre>
 <h3 id="the-pipe_message_to_plugin-plugin-api-command"><a class="header" href="#the-pipe_message_to_plugin-plugin-api-command">The <code>pipe_message_to_plugin</code> plugin API command</a></h3>
 <p>This <a href="./plugin-api-commands.html#pipe_message_to_plugin"><code>pipe_message_to_plugin</code> API command</a> allows plugins to start a new pipe to another plugin. It allows spcifying a pipe destination, name, payload, args and also some information to be used in case this message will end up launching a new plugin (for example, the pane title of the new plugin).</p>
 <p>Here's a short Rust example:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pipe_message_to_plugin(
+<pre><code class="language-rust">pipe_message_to_plugin(
     MessageToPlugin::new("message_name")
         .with_plugin_url("https://example.com/my-plugin.wasm")
         .new_plugin_instance_should_have_pane_title("new_plugin_pane_title")
-);
-<span class="boring">}</span></code></pre></pre>
+);</code></pre>
 <h3 id="the-special-zellijown_url-pipe-destination"><a class="header" href="#the-special-zellijown_url-pipe-destination">The special <code>zellij:OWN_URL</code> pipe destination</a></h3>
 <p>When plugins open pipes, they can use the special <code>zellij:OWN_URL</code> destination url. Zellij will replace this URL with the plugin's own URL. This is useful when plugins want to launch new instances of themselves and communicate with them (for example, in order for the plugin to play different roles or to create a visual pipeline with multiple panes on the user's screen).</p>
 <p>It's important to remember though that if this is used, care needs to be taken to make sure the new plugin's configuration is different from the currently running one - otherwise Zellij will send this message back to the plugin (see plugin uniqueness above).</p>
@@ -3571,16 +3706,13 @@ layout {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-lifecycle"><a class="header" href="#plugin-lifecycle">Plugin Lifecycle</a></h1>
 <p>Zellij provides the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> crate to plugins to facilitate development.</p>
 <p>The <code>zellij-tile</code> crate provides the <code>ZellijPlugin</code> trait:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>pub trait ZellijPlugin {
+<pre><code class="language-rust">pub trait ZellijPlugin {
     fn load(&amp;mut self) {}
     fn update(&amp;mut self, event: Event) -&gt; bool {
         false
     } // return true if it should render
     fn render(&amp;mut self, rows: usize, cols: usize) {}
-}
-<span class="boring">}</span></code></pre></pre>
+}</code></pre>
 <h2 id="lifecycle-methods"><a class="header" href="#lifecycle-methods">Lifecycle Methods</a></h2>
 <h3 id="load"><a class="header" href="#load">load</a></h3>
 <p>Will be called when the plugin is loaded, this is a good place to <a href="./plugin-api-commands.html#subscribe">subscribe</a> to events that are interesting for this plugin.</p>
@@ -3596,9 +3728,7 @@ can be found in <a href="https://blog.nerd.rocks/posts/common-snippets-for-zelli
 <p>This function is expeted to print to <code>STDOUT</code> whatever the plugin would like to render inside its pane. For more information, see <a href="plugin-ui-rendering.html">plugin ui rendering</a>.</p>
 <h2 id="registering-a-plugin"><a class="header" href="#registering-a-plugin">Registering a plugin</a></h2>
 <p>After implementing the trait on a struct, we'll need to use the <code>register_plugin</code> macro on it:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>struct MyPlugin {
+<pre><code class="language-rust">struct MyPlugin {
     // ...
 }
 
@@ -3606,8 +3736,7 @@ impl ZellijPlugin for MyPlugin {
     // ...
 }
 
-register_plugin!(MyPlugin);
-<span class="boring">}</span></code></pre></pre>
+register_plugin!(MyPlugin);</code></pre>
 <p>Zellij will then instantiate the plugin (using the <code>Default</code> implementation) and call it as needed.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rendering-a-ui"><a class="header" href="#rendering-a-ui">Rendering a UI</a></h1>
 <h2 id="rendering-ansi-through-stdout"><a class="header" href="#rendering-ansi-through-stdout">Rendering ANSI through STDOUT</a></h2>
@@ -3621,52 +3750,40 @@ register_plugin!(MyPlugin);
 <p><img src="img/table-ui-component.png" alt="table" /></p>
 <p>Consists of a title line with an emphasis style and a grid of width-justified cells. Each cell can be styled individually (see <code>Text</code> below) and also marked as "selected". Marking adjacent cells as selected can create a "selected row" effect.</p>
 <p>Example from the Rust SDK (renders the screeshot above):</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let table = Table::new()
+<pre><code class="language-rust">let table = Table::new()
     .add_row(vec!["title1", "title2", "title3"])
     .add_styled_row(vec![Text::new("content 1").color_range(0, 1..5), Text::new("content 2").color_range(2, ..), Text::new("content 3")])
     .add_styled_row(vec![Text::new("content 11").selected(), Text::new("content 22").selected(), Text::new("content 33").selected()])
     .add_styled_row(vec![Text::new("content 111"), Text::new("content 222").selected(), Text::new("content 33")])
     .add_styled_row(vec![Text::new("content 11"), Text::new("content 22").selected(), Text::new("content 33")]);
 print_table(table); // will print this table wherever the cursor may be at the moment
-print_table_with_coordinates(table, 4, 5, None, None); // will print this table at x: 4, y: 5, the last two `Option`s are width/height
-<span class="boring">}</span></code></pre></pre>
+print_table_with_coordinates(table, 4, 5, None, None); // will print this table at x: 4, y: 5, the last two `Option`s are width/height</code></pre>
 <h4 id="ribbon"><a class="header" href="#ribbon">Ribbon</a></h4>
 <p><img src="img/ribbon-ui-component.png" alt="ribbon" /></p>
 <p>Ribbons are the UI elements used for tabs in the Zellij tab bar and for modes in the Zellij status-bar. They can be selected, which would change their background color, and can contain styled text themselves (see Text below).</p>
 <p>Example from the Rust SDK (renders the screenshot above):</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>print_ribbon_with_coordinates(Text::new("ribbon 1").color_range(0, 1..5), 0, 0, Some(12), None);
+<pre><code class="language-rust">print_ribbon_with_coordinates(Text::new("ribbon 1").color_range(0, 1..5), 0, 0, Some(12), None);
 print_ribbon_with_coordinates(Text::new("ribbon 2").color_range(1, 1..5).selected(), 12, 0,  Some(12), None);
 print_ribbon_with_coordinates(Text::new("ribbon 3").color_range(2, 1..5), 24, 0, Some(12), None);
-print_ribbon_with_coordinates(Text::new("ribbon 4").color_range(3, 1..5), 36, 0,  Some(12), None);
-<span class="boring">}</span></code></pre></pre>
+print_ribbon_with_coordinates(Text::new("ribbon 4").color_range(3, 1..5), 36, 0,  Some(12), None);</code></pre>
 <h4 id="nested-list"><a class="header" href="#nested-list">Nested List</a></h4>
 <p><img src="img/nested-list-ui-component.png" alt="nested-list" /></p>
 <p>A nested list is the UI element used in the Zellij session-manager. It is a list with possibility indented lines to an arbitrary level. Each line can be selected (multiple lines can be selected as well), and each line can be styled individually (see Text below).</p>
 <p>Example from the Rust SDK (renders the screenshot above):</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>print_nested_list_with_coordinates(vec![
+<pre><code class="language-rust">print_nested_list_with_coordinates(vec![
     NestedListItem::new("item 1 with some nice text...").color_range(1, ..).color_range(3, 10..25).color_indices(1, vec![8]),
     NestedListItem::new("item 2 with some more text").indent(1).color_range(0, 1..15).color_indices(1, vec![8]),
     NestedListItem::new("item 3 is a real eye opener").color_range(2, ..).color_range(3, 5..20).color_indices(1, vec![8]).selected(),
     NestedListItem::new("item 4 is just another item, really").indent(1).color_range(0, ..).color_range(1, 1..15).color_indices(1, vec![8]),
-], 1, 1, None, None);
-<span class="boring">}</span></code></pre></pre>
+], 1, 1, None, None);</code></pre>
 <h4 id="text"><a class="header" href="#text">Text</a></h4>
 <p><img src="img/text-ui-component.png" alt="text" /></p>
 <p>While this element can be rendered on its own, it's mainly used inside other elements for styling.</p>
 <p>A <code>Text</code> element can be selected - which will be interpreted in the context of the element it resides in, generally changing its background in one way or another.
 A <code>Text</code> element can also have indices. These indices can be one of 4 colors (preset depending on the user's theme) assigned to characters or ranges inside the element. This can be especially useful when incorporated with fuzzy finding.</p>
 <p>Example from the Rust SDK (renders the screenshot above):</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let text = Text::new("foo bar baz").selected().color_range(0, 0..=2).color_range(1, 3..=5).color_range(2, 7..=9);
-print_text_with_coordinates(text, 0, 0, None, None);
-<span class="boring">}</span></code></pre></pre>
+<pre><code class="language-rust">let text = Text::new("foo bar baz").selected().color_range(0, 0..=2).color_range(1, 3..=5).color_range(2, 7..=9);
+print_text_with_coordinates(text, 0, 0, None, None);</code></pre>
 <h3 id="the-protocol"><a class="header" href="#the-protocol">The Protocol</a></h3>
 <p><em>Note: This section discusses the private DCS ANSI serialization protocol used to represent the above components. It could be of interest to SDK authors, but plugin developers are encouraged to use the SDK abstractions instead.</em></p>
 <p>An example component can look like this: (<code>&lt;ESC&gt;</code>, represents the escape character)</p>
@@ -3865,6 +3982,11 @@ Zellij includes built-in session resurrection capabilities. This means that by d
 <p>When <code>session_serialization</code> is enabled, setting <code>pane_viewport_serialization</code> to <code>true</code> in the <a href="./configuration.html">config</a> will also serialize the pane viewport (the part of the terminal visible on screen).</p>
 <h3 id="scrollback_lines_to_serialize-1"><a class="header" href="#scrollback_lines_to_serialize-1"><code>scrollback_lines_to_serialize</code></a></h3>
 <p>When <code>pane_viewport_serialization</code> is enabled, setting <code>scrollback_lines_to_serialize</code> to <code>0</code> in the <a href="./configuration.html">config</a> will serialize all scrollback and to any other number will serialize line number up to that scrollback. Note that this might incur higher resource utilization (and certainly a higher cache folder usage...)</p>
+<h3 id="post_command_discovery_hook-1"><a class="header" href="#post_command_discovery_hook-1"><code>post_command_discovery_hook</code></a></h3>
+<p>When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a <code>post_command_discovery_hook</code>. This is a command that will run in the context of te user's default shell and be provided the <code>$RESURRECT_COMMAND</code> that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over <code>STDOUT</code> will be serialized in place of the discovered command.</p>
+<p>Example:</p>
+<pre><code class="language-javascript">post_command_discovery_hook "echo \"$RESURRECT_COMMAND\" | sed 's/^sudo\\s\\+//'" // strip sudo from commands
+</code></pre>
 <h2 id="resurrecting-sessions-through-the-cli"><a class="header" href="#resurrecting-sessions-through-the-cli">Resurrecting Sessions through the CLI</a></h2>
 <p>To list exited sessions, use <code>zellij list-sessions</code> (or <code>zellij ls</code>) for short:</p>
 <p><img src="img/zellij-ls-resurrection.png" alt="zellij-list-sessions-output" /></p>
@@ -3875,6 +3997,88 @@ Zellij includes built-in session resurrection capabilities. This means that by d
 <p>Resurrectable sessions can be permanently deleted with the <code>zellij delete-session</code> or <code>zellij delete-all-sessions</code> CLI commands. They can also be deleted from the <code>session-manager</code>.</p>
 <h2 id="session-files-in-the-cache"><a class="header" href="#session-files-in-the-cache">Session files in the cache</a></h2>
 <p>Zellij serializes the session data into a <a href="./layouts.html">layout</a> every 1 second and saves it to the system's cache folder. These layouts can later be examined, altered and even shared as is across machines. They can be loaded with <code>zellij --layout session-layout.kdl</code> just like any other layout. They are intentionally Human readable to facilitate their re-use.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="web-client"><a class="header" href="#web-client">Web Client</a></h1>
+<p>Zellij can also work in the browser, allowing users to share existing sessions and start new ones. This is useful for easy and secure remote access, and can also allow users to forgo their terminal emulator entirely if they wish.</p>
+<p>This is done through a built-in webserver (turned off by default) that provides built-in authentication and session-management.</p>
+<p>For a detailed walk through, see the <a href="/tutorials/web-client/">screencast</a>.</p>
+<h2 id="how-to-start"><a class="header" href="#how-to-start">How to start?</a></h2>
+<p>The web server can be started from the <code>share</code> plugin (accessible by default with <code>Ctrl o</code> + <code>s</code>):</p>
+<p><img src="/img/web-client-preview.png" alt="Web client preview" /></p>
+<p>The web server can also be started from the CLI with:</p>
+<pre><code>$ zellij web
+</code></pre>
+<h2 id="how-to-log-in"><a class="header" href="#how-to-log-in">How to log-in?</a></h2>
+<p>For privacy and security, the Zellij web server requires users be authenticated before they can log in. To do this, one must create a "login-token". These tokens can be created from the "share" plugin (accessible by default with <code>Ctrl o</code> + <code>s</code>) or from the CLI:</p>
+<pre><code>zellij web --create-token
+</code></pre>
+<p><strong>IMPORTANT:</strong> These tokens are hashed in a local database and so will only be displayed once. They cannot be retrieved, only revoked (either from the CLI or from the <code>share</code> plugin).</p>
+<h2 id="https"><a class="header" href="#https">HTTPS?</a></h2>
+<p>The Zellij web server can work with a user provided SSL certificate to serve terminal sessions over an encrypted HTTPS connection. This is a hard requirement if listening on any interface that is not <code>127.0.0.1</code> but is very much recommended even when working on <code>127.0.0.1</code>. (for more detailed instructions on how to do this, take a look at the <a href="/tutorials/web-client/">screencast</a>).</p>
+<p>To set up an SSL certificate in the Zellij <a href="./configuration">configuration</a>:</p>
+<pre><code class="language-javascript">web_server_cert "/path/to/my/certs/localhost+3.pem" // certificate
+web_server_key "/path/to/my/certs/localhost+3-key.pem" // private key
+</code></pre>
+<h2 id="url-scheme"><a class="header" href="#url-scheme">URL scheme</a></h2>
+<p>By default, once started, the web server will listen on <code>http://127.0.0.1:8082</code>. When connecting to this address, users will be greeted with the <code>welcome-screen</code>, allowing them to start a new session, attach to an existing one or resurrect an exited one.</p>
+<p>The web server works with a URL scheme, such that following the root URL with a session-name (eg. <code>http://127.0.0.1:8082/my-amazing-session</code>), will:</p>
+<ol>
+<li>Start a new session by this name if it does not exist</li>
+<li>Attach to this session if it exists</li>
+<li><a href="./session-resurrection.html">Resurrect</a> this session if it has exited</li>
+</ol>
+<p>This means that if we bookmark this URL, we will be able to drop back in to exactly where we left off with this particular session - even if we've since shut down our machine completely.</p>
+<h2 id="configuration-2"><a class="header" href="#configuration-2">Configuration</a></h2>
+<p>To configure the webserver, in the Zellij <a href="./configuration.html">configuration</a>:</p>
+<pre><code class="language-javascript">web_server true // always start the web server on Zellij startup (default: false)
+web_server_ip "0.0.0.0" // the IP to listen on, 0.0.0.0 is all (default: 127.0.0.1)
+web_server_port 443 // the port to listen on (default: 8082)
+web_server_cert "/path/to/my/certs/localhost+3.pem" // SSL certificate
+web_server_key "/path/to/my/certs/localhost+3-key.pem" // SSL private key
+enforce_https_on_localhost true // whether to enforce an https certificate being present also when listening on localhost (default: false)
+</code></pre>
+<p>It's also possible to configure the browser terminal itself:</p>
+<pre><code class="language-javascript">web_client {
+  font "Iosevka Term" // default is "monospace" - deferring this decision to the browser/os
+  cursor_blink true // default is false
+  cursor_style "block" // possibilities: "block", "bar", "underline"
+  cursor_inactive_style "outline" // possibilities: "outline", "block", "bar", "underline"
+  mac_option_is_meta false // default is true
+  theme {
+    // NOTE: this is the theme of the terminal web client which is separate from Zellij's theme
+    //
+    // all values are optional and should be in the form of "r g b" (eg. 10 20 30)
+    background 10 20 30
+    foreground 10 20 30
+    black 10 20 30
+    blue 10 20 30
+    bright_black 10 20 30
+    bright_blue 10 20 30
+    bright_cyan 10 20 30
+    bright_green 10 20 30
+    bright_magenta 10 20 30
+    bright_red 10 20 30
+    bright_white 10 20 30
+    bright_yellow 10 20 30
+    cursor 10 20 30
+    cursor_accent 10 20 30
+    cyan 10 20 30
+    green 10 20 30
+    magenta 10 20 30
+    red 10 20 30
+    white 10 20 30
+    yellow 10 20 30
+    selection_background 10 20 30
+    selection_foreground 10 20 30
+    selection_inactive_background 10 20 30
+  }
+}
+</code></pre>
+<h2 id="security-considerations-and-recommendations"><a class="header" href="#security-considerations-and-recommendations">Security Considerations and Recommendations</a></h2>
+<p>The Zellij web server is security and privacy conscious, enforcing HTTPS if accessed over the network and authentication at all times. It is however recommended to place the server behind a reverse proxy (such as <code>nginx</code>) if exposing it to an untrusted network (eg. the Internet). This is because the web server does not provide its own rate-limiting to mitigate denial of service and similar attacks.</p>
+<p>In its security model, the web-server assumes that <strong>authenticated users are trusted</strong>. This is because the server can only serve terminal sessions of a single particular user on a single particular machine. This user by-definition has access to start/stop the web server itself, as well as access sensitive information on the machine by nature of this being a terminal session.</p>
+<p>The web server only saves session-tokens (not the actual log-in tokens) in the browser as cookies, preventing javascript access to them and instead relying on http headers to authenticate them on the server side. Whenever an authentication token is revoked, all of its associated session tokens are revoked as well.</p>
+<h2 id="this-feature-can-optionally-be-disabled-at-compile-time"><a class="header" href="#this-feature-can-optionally-be-disabled-at-compile-time">This feature can optionally be disabled at compile-time</a></h2>
+<p>For those who are averse to this feature (even when it's disabled - which is the default), Zellij can be compiled completely without this feature or its dependencies by removing the <code>web-server-capability</code> compile-time flag. For convenience, Zellij also provides an additional pre-built binary compiled without this flag called <code>zellij-no-web</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="compatibility"><a class="header" href="#compatibility">Compatibility</a></h1>
 <h2 id="issues"><a class="header" href="#issues">Issues</a></h2>
 <p>Please report issues <a href="https://github.com/zellij-org/zellij/issues">here.</a></p>

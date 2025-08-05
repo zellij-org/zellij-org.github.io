@@ -1,0 +1,291 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Web Client - Zellij User Guide</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="web-client"><a class="header" href="#web-client">Web Client</a></h1>
+<p>Zellij can also work in the browser, allowing users to share existing sessions and start new ones. This is useful for easy and secure remote access, and can also allow users to forgo their terminal emulator entirely if they wish.</p>
+<p>This is done through a built-in webserver (turned off by default) that provides built-in authentication and session-management.</p>
+<p>For a detailed walk through, see the <a href="/tutorials/web-client/">screencast</a>.</p>
+<h2 id="how-to-start"><a class="header" href="#how-to-start">How to start?</a></h2>
+<p>The web server can be started from the <code>share</code> plugin (accessible by default with <code>Ctrl o</code> + <code>s</code>):</p>
+<p><img src="/img/web-client-preview.png" alt="Web client preview" /></p>
+<p>The web server can also be started from the CLI with:</p>
+<pre><code>$ zellij web
+</code></pre>
+<h2 id="how-to-log-in"><a class="header" href="#how-to-log-in">How to log-in?</a></h2>
+<p>For privacy and security, the Zellij web server requires users be authenticated before they can log in. To do this, one must create a "login-token". These tokens can be created from the "share" plugin (accessible by default with <code>Ctrl o</code> + <code>s</code>) or from the CLI:</p>
+<pre><code>zellij web --create-token
+</code></pre>
+<p><strong>IMPORTANT:</strong> These tokens are hashed in a local database and so will only be displayed once. They cannot be retrieved, only revoked (either from the CLI or from the <code>share</code> plugin).</p>
+<h2 id="https"><a class="header" href="#https">HTTPS?</a></h2>
+<p>The Zellij web server can work with a user provided SSL certificate to serve terminal sessions over an encrypted HTTPS connection. This is a hard requirement if listening on any interface that is not <code>127.0.0.1</code> but is very much recommended even when working on <code>127.0.0.1</code>. (for more detailed instructions on how to do this, take a look at the <a href="/tutorials/web-client/">screencast</a>).</p>
+<p>To set up an SSL certificate in the Zellij <a href="./configuration">configuration</a>:</p>
+<pre><code class="language-javascript">web_server_cert "/path/to/my/certs/localhost+3.pem" // certificate
+web_server_key "/path/to/my/certs/localhost+3-key.pem" // private key
+</code></pre>
+<h2 id="url-scheme"><a class="header" href="#url-scheme">URL scheme</a></h2>
+<p>By default, once started, the web server will listen on <code>http://127.0.0.1:8082</code>. When connecting to this address, users will be greeted with the <code>welcome-screen</code>, allowing them to start a new session, attach to an existing one or resurrect an exited one.</p>
+<p>The web server works with a URL scheme, such that following the root URL with a session-name (eg. <code>http://127.0.0.1:8082/my-amazing-session</code>), will:</p>
+<ol>
+<li>Start a new session by this name if it does not exist</li>
+<li>Attach to this session if it exists</li>
+<li><a href="./session-resurrection.html">Resurrect</a> this session if it has exited</li>
+</ol>
+<p>This means that if we bookmark this URL, we will be able to drop back in to exactly where we left off with this particular session - even if we've since shut down our machine completely.</p>
+<h2 id="configuration"><a class="header" href="#configuration">Configuration</a></h2>
+<p>To configure the webserver, in the Zellij <a href="./configuration.html">configuration</a>:</p>
+<pre><code class="language-javascript">web_server true // always start the web server on Zellij startup (default: false)
+web_server_ip "0.0.0.0" // the IP to listen on, 0.0.0.0 is all (default: 127.0.0.1)
+web_server_port 443 // the port to listen on (default: 8082)
+web_server_cert "/path/to/my/certs/localhost+3.pem" // SSL certificate
+web_server_key "/path/to/my/certs/localhost+3-key.pem" // SSL private key
+enforce_https_on_localhost true // whether to enforce an https certificate being present also when listening on localhost (default: false)
+</code></pre>
+<p>It's also possible to configure the browser terminal itself:</p>
+<pre><code class="language-javascript">web_client {
+  font "Iosevka Term" // default is "monospace" - deferring this decision to the browser/os
+  cursor_blink true // default is false
+  cursor_style "block" // possibilities: "block", "bar", "underline"
+  cursor_inactive_style "outline" // possibilities: "outline", "block", "bar", "underline"
+  mac_option_is_meta false // default is true
+  theme {
+    // NOTE: this is the theme of the terminal web client which is separate from Zellij's theme
+    //
+    // all values are optional and should be in the form of "r g b" (eg. 10 20 30)
+    background 10 20 30
+    foreground 10 20 30
+    black 10 20 30
+    blue 10 20 30
+    bright_black 10 20 30
+    bright_blue 10 20 30
+    bright_cyan 10 20 30
+    bright_green 10 20 30
+    bright_magenta 10 20 30
+    bright_red 10 20 30
+    bright_white 10 20 30
+    bright_yellow 10 20 30
+    cursor 10 20 30
+    cursor_accent 10 20 30
+    cyan 10 20 30
+    green 10 20 30
+    magenta 10 20 30
+    red 10 20 30
+    white 10 20 30
+    yellow 10 20 30
+    selection_background 10 20 30
+    selection_foreground 10 20 30
+    selection_inactive_background 10 20 30
+  }
+}
+</code></pre>
+<h2 id="security-considerations-and-recommendations"><a class="header" href="#security-considerations-and-recommendations">Security Considerations and Recommendations</a></h2>
+<p>The Zellij web server is security and privacy conscious, enforcing HTTPS if accessed over the network and authentication at all times. It is however recommended to place the server behind a reverse proxy (such as <code>nginx</code>) if exposing it to an untrusted network (eg. the Internet). This is because the web server does not provide its own rate-limiting to mitigate denial of service and similar attacks.</p>
+<p>In its security model, the web-server assumes that <strong>authenticated users are trusted</strong>. This is because the server can only serve terminal sessions of a single particular user on a single particular machine. This user by-definition has access to start/stop the web server itself, as well as access sensitive information on the machine by nature of this being a terminal session.</p>
+<p>The web server only saves session-tokens (not the actual log-in tokens) in the browser as cookies, preventing javascript access to them and instead relying on http headers to authenticate them on the server side. Whenever an authentication token is revoked, all of its associated session tokens are revoked as well.</p>
+<h2 id="this-feature-can-optionally-be-disabled-at-compile-time"><a class="header" href="#this-feature-can-optionally-be-disabled-at-compile-time">This feature can optionally be disabled at compile-time</a></h2>
+<p>For those who are averse to this feature (even when it's disabled - which is the default), Zellij can be compiled completely without this feature or its dependencies by removing the <code>web-server-capability</code> compile-time flag. For convenience, Zellij also provides an additional pre-built binary compiled without this flag called <code>zellij-no-web</code>.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="session-resurrection.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="compatibility.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="session-resurrection.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="compatibility.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -65,6 +65,9 @@ A line item in a nested list, it can be arbitrarily indented. Its indentation in
 #### list_selected
 Often differentiated from its unselected counterpart with a different background color.
 
+#### frame_unselected
+The frame around the other non-focused panes.
+
 #### frame_selected
 The frame around the focused pane.
 

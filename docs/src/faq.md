@@ -9,6 +9,21 @@ You can load the `compact` layout with `zellij --layout compact`.
 
 Additionally, you can disable pane frames either at runtime with `Ctrl + <p> + <z>` or through the [config](./configuration.md) with `pane_frames: false`.
 
+### Followup Question: can I use the `compact` layout but still see the keybinding hints when necessary?
+Yes! You can set up a keybinding tooltip toggle for the compact-bar. Choose a key (for example `F1`) and set it up in the [config](./configuration.md) (and then restart):
+
+```javascript
+plugins {
+    // ...
+    // compact-bar location="zellij:compact-bar" <== COMMENT OUT THIS LINE
+    // and replace it with the following:
+    compact-bar location="zellij:compact-bar" {
+      tooltip "F1"
+    }
+    // ...
+}
+```
+
 ## I see broken characters in the default UI, how can I fix this?
 This means your default terminal font doesn't include some special characters used by Zellij. A safe bet would be to install and use a font from [nerdfonts](https://www.nerdfonts.com).
 

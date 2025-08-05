@@ -18,6 +18,14 @@ When `session_serialization` is enabled, setting `pane_viewport_serialization` t
 ### `scrollback_lines_to_serialize`
 When `pane_viewport_serialization` is enabled, setting `scrollback_lines_to_serialize` to `0` in the [config](./configuration.md) will serialize all scrollback and to any other number will serialize line number up to that scrollback. Note that this might incur higher resource utilization (and certainly a higher cache folder usage...)
 
+### `post_command_discovery_hook`
+When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a `post_command_discovery_hook`. This is a command that will run in the context of te user's default shell and be provided the `$RESURRECT_COMMAND` that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over `STDOUT` will be serialized in place of the discovered command.
+
+Example:
+```javascript
+post_command_discovery_hook "echo \"$RESURRECT_COMMAND\" | sed 's/^sudo\\s\\+//'" // strip sudo from commands
+```
+
 ## Resurrecting Sessions through the CLI
 To list exited sessions, use `zellij list-sessions` (or `zellij ls`) for short:
 

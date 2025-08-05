@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-
+        
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -31,10 +31,11 @@
         <!-- Custom theme stylesheets -->
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -44,8 +45,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -59,7 +60,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -72,8 +74,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -99,7 +101,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -109,6 +111,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -587,9 +590,7 @@ Make a web request, optionally being notified of its output if subscribed to the
 <h3 id="use-this-command-to-bind-global-keys-to-the-plugin"><a class="header" href="#use-this-command-to-bind-global-keys-to-the-plugin">Use this command to bind global keys to the plugin</a></h3>
 <p>It's possible to use the <code>reconfigure</code> command to bind the special <code>MessagePluginId</code> temporary keybinding (which will not be saved to disk). This keybind, along with the plugin's id obtained from <code>get_plugin_ids</code> can be used to bind a user key to trigger this plugin with a <a href="./plugin-pipes.html">pipe</a>.</p>
 <p>Example:</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
-</span><span class="boring">fn main() {
-</span>let config = format!(r#"
+<pre><code class="language-rust">let config = format!(r#"
 keybinds {{
     shared {{
         bind "Ctrl Shift r" {{
@@ -600,8 +601,7 @@ keybinds {{
     }}
 }}"#);
 reconfigure(config, false)
-// now, whenever a user pressed `Ctrt Shift r` anywhere in the app, the plugin's pipe method will trigger with the "my_message_name" message
-<span class="boring">}</span></code></pre></pre>
+// now, whenever a user pressed `Ctrt Shift r` anywhere in the app, the plugin's pipe method will trigger with the "my_message_name" message</code></pre>
 <h2 id="hide_pane_with_id"><a class="header" href="#hide_pane_with_id">hide_pane_with_id</a></h2>
 <ul>
 <li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
@@ -752,6 +752,96 @@ reconfigure(config, false)
 <li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
 </ul>
 <p>Given a list of pane ids and corresponding coordinates (x, y, width, height) will change the location of all of these IDs to the desired coordinates.</p>
+<h2 id="group_and_ungroup_panes"><a class="header" href="#group_and_ungroup_panes">group_and_ungroup_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Accepts two lists of panes, first one to group, second one to ungroup (in this logical order). Grouping is performed for the benefit of the "multiple-select" functionality.</p>
+<h2 id="highlight_and_unhighlight_panes"><a class="header" href="#highlight_and_unhighlight_panes">highlight_and_unhighlight_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Accepts two lists of panes, first one to group, second one to ungroup (in this logical order). The highlight is cosmetic and is meant to help mark panes.</p>
+<h2 id="close_multiple_panes"><a class="header" href="#close_multiple_panes">close_multiple_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Accepts a list of pane ids to close.</p>
+<h2 id="float_multiple_panes"><a class="header" href="#float_multiple_panes">float_multiple_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Accepts a list of pane ids to make floating (ignores panes that are already floating).</p>
+<h2 id="embed_multiple_panes"><a class="header" href="#embed_multiple_panes">embed_multiple_panes</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Accepts a list of pane ids to embed (not floating). Ignores panes that are already floating.</p>
+<h2 id="start_web_server"><a class="header" href="#start_web_server">start_web_server</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Start the Zellij <a href="./web-client.html">web-server</a>.</p>
+<h2 id="stop_web_server"><a class="header" href="#stop_web_server">stop_web_server</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Stop the Zellij <a href="./web-client.html">web-server</a>.</p>
+<h2 id="share_current_session"><a class="header" href="#share_current_session">share_current_session</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Allows the current session to be shared (attached to) on the Zellij <a href="./web-client.html">web-server</a>.</p>
+<h2 id="stop_sharing_current_session"><a class="header" href="#stop_sharing_current_session">stop_sharing_current_session</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Removes permission for the current session to be shared (attached to) on the Zellij <a href="./web-client.html">web-server</a>, also disconnects current web clients.</p>
+<h2 id="query_web_server_status"><a class="header" href="#query_web_server_status">query_web_server_status</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Queries the status of the Zellij <a href="./web-client.html">web-server</a>, response will be returned as the <code>WebServerStatus</code> <a href="./plugin-api-events.html">event</a> (which must also be subscribed to).</p>
+<h2 id="generate_web_login_token"><a class="header" href="#generate_web_login_token">generate_web_login_token</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Generates (and returns) a new web login token, optionally with a provided name as a String. (This token is hashed in a local DB, so can never be displayed again).</p>
+<h2 id="revoke_web_login_token"><a class="header" href="#revoke_web_login_token">revoke_web_login_token</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Revoked an existing web login token by its name.</p>
+<h2 id="revoke_all_web_login_tokens"><a class="header" href="#revoke_all_web_login_tokens">revoke_all_web_login_tokens</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Revokes all web login tokens.</p>
+<h2 id="list_web_login_tokens"><a class="header" href="#list_web_login_tokens">list_web_login_tokens</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Returns a list of existing web login tokens (their names, the tokens themselves cannot be displayed) and their creation times.</p>
+<h2 id="rename_web_login_token"><a class="header" href="#rename_web_login_token">rename_web_login_token</a></h2>
+<ul>
+<li>Requires the <code>StartWebServer</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Rename a web login token by providing its existing name.</p>
+<h2 id="intercept_key_presses"><a class="header" href="#intercept_key_presses">intercept_key_presses</a></h2>
+<ul>
+<li>Requires the <code>InterceptInput</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Intercept all user input, having it sent to the plugin as an <code>InterceptedKeyPress</code> <a href="./plugin-api-events.html">event</a></p>
+<h2 id="clear_key_presses_intercepts"><a class="header" href="#clear_key_presses_intercepts">clear_key_presses_intercepts</a></h2>
+<ul>
+<li>Requires the <code>InterceptInput</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Clear the interception of key presses, having them return to being sent to the application itself. This happens automatically when the plugin is unloaded.</p>
+<h2 id="replace_pane_with_existing_pane"><a class="header" href="#replace_pane_with_existing_pane">replace_pane_with_existing_pane</a></h2>
+<ul>
+<li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+</ul>
+<p>Replaces a specific pane (denoted by is PaneId) with another existing pane (also denoted by its PaneId)</p>
 
                     </main>
 
