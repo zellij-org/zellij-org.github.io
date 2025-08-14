@@ -4,7 +4,9 @@ The easiest way to install Zellij is through [a package for your OS](#third-part
 
 If one is not available for your OS, you can [download a prebuilt binary](#binary-download) or even [try Zellij without installing](https://zellij.dev).
 
-Otherwise, you can [install it with Cargo](#rust-cargo).
+If you have Cargo installed, you can download the latest release using [cargo binstall](#cargo-binstall).
+
+Otherwise, you can [compile and install it with Cargo](#rust-cargo).
 
 -------------------------------
 
@@ -22,6 +24,17 @@ If experiencing errors, if installed through rustup, please try running:
 ```
 rustup update
 ```
+-------------------------------
+
+## Cargo - binstall
+
+For smaller machines like laptops, you might want to just install the binary instead of compiling everything.
+
+The easiest way if cargo is present, is to install with the [binstall cargo extension](https://crates.io/crates/cargo-binstall): 
+```
+cargo binstall zellij
+```
+
 
 -------------------------------
 
