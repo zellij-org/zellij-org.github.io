@@ -42,6 +42,14 @@ program = "zellij"
 args = ["-l", "welcome"]
 ```
 
+### In Ghostty
+Locate your [Ghostty configuration file](https://ghostty.org/docs/config#file-location) and add the following:
+```toml
+command = "zellij -l welcome"
+```
+This sets zellij with the `welcome` layout as the default shell.
+[See the Ghostty documentation for the difference between command and initial-command](https://ghostty.org/docs/config/reference#initial-command) for a more nuanced workflow.
+
 ### In gnome-terminal
 Follow [these instructions](https://help.gnome.org/users/gnome-terminal/stable/pref-custom-command.html.en) and pass the command `zellij -l welcome`.
 
