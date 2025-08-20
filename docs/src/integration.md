@@ -61,6 +61,21 @@ The following environment variables can also be used in the provided script.
 | `ZELLIJ_AUTO_ATTACH` | If the zellij session already exists, attach to the default session. (not starting as a new session) |  false  |
 | `ZELLIJ_AUTO_EXIT`   | When zellij exits, the shell exits as well.                                                          |  false  |
 
+## Keep session running after logout on systemd
+
+Systemd ensures that no processes are accidentally left running after logouts.
+One common use case for zellij (and other terminal multiplexers) is to run
+processes after logging out and reconnect after logging in later possibly
+switching between local and remote (ssh) logins. To achieve this let systemd-run
+run zellij from outside of the session scope with:
+
+```
+systemd-run --scope --user zellij
+```
+
+For more information see example 5 in [systemd-run's man page](https://
+www.freedesktop.org/software/systemd/man/latest/systemd-run.html).
+
 ## List current sessions
 List current sessions, attach to a running session, or create a new one.
 Depends on [`sk`](https://github.com/lotabout/skim) & `bash`
