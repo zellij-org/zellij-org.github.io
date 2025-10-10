@@ -8,7 +8,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -32,11 +32,10 @@
         <!-- Custom theme stylesheets -->
 
 
-        <!-- Provide site root and default themes to javascript -->
+        <!-- Provide site root to javascript -->
         <script>
-            const path_to_root = "";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -46,8 +45,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -61,8 +60,7 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -75,8 +73,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -102,7 +100,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -112,7 +110,6 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -170,7 +167,8 @@
 <div style="break-before: page; page-break-before: always;"></div><h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
 <p>The easiest way to install Zellij is through <a href="installation.html#third-party-repositories">a package for your OS</a>.</p>
 <p>If one is not available for your OS, you can <a href="installation.html#binary-download">download a prebuilt binary</a> or even <a href="https://zellij.dev">try Zellij without installing</a>.</p>
-<p>Otherwise, you can <a href="installation.html#rust-cargo">install it with Cargo</a>.</p>
+<p>If you have Cargo installed, you can download the latest release using <a href="installation.html#cargo-binstall">cargo binstall</a>.</p>
+<p>Otherwise, you can <a href="installation.html#rust-cargo">compile and install it with Cargo</a>.</p>
 <hr />
 <h2 id="rust---cargo"><a class="header" href="#rust---cargo">Rust - Cargo</a></h2>
 <p>For instructions on how to install Cargo see <a href="https://doc.rust-lang.org/cargo/getting-started/installation.html">here</a>.</p>
@@ -179,6 +177,12 @@
 </code></pre>
 <p>If experiencing errors, if installed through rustup, please try running:</p>
 <pre><code>rustup update
+</code></pre>
+<hr />
+<h2 id="cargo---binstall"><a class="header" href="#cargo---binstall">Cargo - binstall</a></h2>
+<p>For smaller machines like laptops, you might want to just install the binary instead of compiling everything.</p>
+<p>The easiest way if cargo is present, is to install with the <a href="https://crates.io/crates/cargo-binstall">binstall cargo extension</a>:</p>
+<pre><code>cargo binstall zellij
 </code></pre>
 <hr />
 <h2 id="binary-download"><a class="header" href="#binary-download">Binary Download</a></h2>
@@ -1142,7 +1146,7 @@ bind "Left" // bind the left arrow key
 <p>The built-in themes in Zellij can be used by setting the <code>theme [THEME_NAME]</code> in the <a href="./configuration.html">configuration file</a>. Take a look at the <a href="./theme-list.html">list of themes</a> to see what's possible.</p>
 <h2 id="theme-definition-specification"><a class="header" href="#theme-definition-specification">Theme Definition Specification</a></h2>
 <p>Themes in Zellij are defined according to UI components. These components are used in the various plugins that make up the Zellij interface, and can also be used dynamically in user plugins.</p>
-<p><img src="img/theme-spec.png" alt="theme definition spec diagram" /></p>
+<p><img src="/img/theme-spec.png" alt="theme definition spec diagram" /></p>
 <h2 id="structure-of-a-theme-definition"><a class="header" href="#structure-of-a-theme-definition">Structure of a theme definition</a></h2>
 <p>A theme definition is a <code>KDL</code> file (or part of one) defined as so:</p>
 <pre><code class="language-javascript">themes { // a node named "themes"
@@ -3286,7 +3290,9 @@ Make a web request, optionally being notified of its output if subscribed to the
 <h3 id="use-this-command-to-bind-global-keys-to-the-plugin"><a class="header" href="#use-this-command-to-bind-global-keys-to-the-plugin">Use this command to bind global keys to the plugin</a></h3>
 <p>It's possible to use the <code>reconfigure</code> command to bind the special <code>MessagePluginId</code> temporary keybinding (which will not be saved to disk). This keybind, along with the plugin's id obtained from <code>get_plugin_ids</code> can be used to bind a user key to trigger this plugin with a <a href="./plugin-pipes.html">pipe</a>.</p>
 <p>Example:</p>
-<pre><code class="language-rust">let config = format!(r#"
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let config = format!(r#"
 keybinds {{
     shared {{
         bind "Ctrl Shift r" {{
@@ -3297,7 +3303,8 @@ keybinds {{
     }}
 }}"#);
 reconfigure(config, false)
-// now, whenever a user pressed `Ctrt Shift r` anywhere in the app, the plugin's pipe method will trigger with the "my_message_name" message</code></pre>
+// now, whenever a user pressed `Ctrt Shift r` anywhere in the app, the plugin's pipe method will trigger with the "my_message_name" message
+<span class="boring">}</span></code></pre></pre>
 <h2 id="hide_pane_with_id"><a class="header" href="#hide_pane_with_id">hide_pane_with_id</a></h2>
 <ul>
 <li>Requires the <code>ChangeApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
@@ -3579,7 +3586,10 @@ This configuration is available to plugins in their <code>load</code> method. It
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api---reading-from-the-filesystem"><a class="header" href="#plugin-api---reading-from-the-filesystem">Plugin API - Reading from the Filesystem</a></h1>
 <p>Plugins can use their own native standard library to read from the filesystem.</p>
 <p>eg.</p>
-<pre><code class="language-rust">std::fs::write("/host/my_file.txt", "hi from a plugin!").unwrap()</code></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>std::fs::write("/host/my_file.txt", "hi from a plugin!").unwrap()
+<span class="boring">}</span></code></pre></pre>
 <p>Zellij maps three paths for each plugin:</p>
 <ul>
 <li><code>/host</code> - the cwd of the last focused terminal, or the folder where Zellij was started if that's not available</li>
@@ -3593,14 +3603,19 @@ This configuration is available to plugins in their <code>load</code> method. It
 <p>Plugin workers are a way to get around the fact that wasm/wasi threads are not stable yet. If a plugin has a potentially long operation to perform, it can declare a worker on startup and send and receive messages from it.</p>
 <h2 id="the-zellijworker-trait"><a class="header" href="#the-zellijworker-trait">The ZellijWorker trait</a></h2>
 <p><code>zellij-tile</code> provides the following interface for workers:</p>
-<pre><code class="language-rust">pub trait ZellijWorker&lt;'de&gt;: Default + Serialize + Deserialize&lt;'de&gt; {
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait ZellijWorker&lt;'de&gt;: Default + Serialize + Deserialize&lt;'de&gt; {
     fn on_message(&amp;mut self, message: String, payload: String) {}
-}</code></pre>
+}
+<span class="boring">}</span></code></pre></pre>
 <p>The <code>on_message</code> method will be called when the plugin uses the <a href="./plugin-api-commands.html#post_message_to"><code>post_message_to</code></a> plugin command with an arbitrary <code>message</code> and <code>payload</code>. These are specified as <code>String</code>s so that plugins can decide on their own method of serialization.</p>
 <h2 id="registering-workers"><a class="header" href="#registering-workers">Registering Workers</a></h2>
 <p>To register workers on startup, plugins can use the <code>register_worker</code> macro like so:</p>
-<pre><code class="language-rust">
-pub struct TestWorker {
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>pub struct TestWorker {
     // ...
 }
 impl ZellijWorker for TestWorker {
@@ -3610,7 +3625,8 @@ register_worker!(
     TestWorker,
     test_worker, // the namespace of the worker, anything before the final _worker will be the worker namespace
     TEST_WORKER // a name for static variable used to store the worker state between invocations
-);</code></pre>
+);
+<span class="boring">}</span></code></pre></pre>
 <p>For more information, please see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
 <h2 id="sending-messages-to-workers"><a class="header" href="#sending-messages-to-workers">Sending messages to workers</a></h2>
 <p>When a plugin (or another worker) wishes to send messages to a worker, they use the <a href="./plugin-api-commands.html#post_message_to"><code>post_message_to</code></a> plugin command. They should use the worker namespace used when registering the worker, eg. <code>post_message_to("test", ...)</code> for the <code>test_worker</code> example above.</p>
@@ -3639,7 +3655,9 @@ register_worker!(
 <p>Plugins may listen to pipes by implementing the <code>pipe</code> lifecycle method. This method is called every time a message is sent over a pipe to this plugin (whether it's broadcast to all plugins or specifically directed at this one). It receives a <code>PipeMessage</code> containing the source of the pipe (CLI, another plugin or a keybinding), as well as information about said source (the plugin id or the CLI pipe id). The <code>PipeMessage</code> also contains the name of the pipe (explicitly provided by the user or a random UUID assigned by Zellij), its payload if it has one, its arguments and whether it is private or not (a private message is one directed specifically at this plugin rather than broadcast to all plugins).</p>
 <p>Similar to the <a href="./plugin-lifecycle.html#update">update method</a>, the pipe lifecycle method returns a bool, true if it would like to render itself, in which case the render function will be called as normal.</p>
 <p>Here's a small Rust example:</p>
-<pre><code class="language-rust">fn pipe(&amp;mut self, pipe_message: PipeMessage) -&gt; bool {
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn pipe(&amp;mut self, pipe_message: PipeMessage) -&gt; bool {
     let mut should_render = false;
     match pipe_message.source {
         PipeSource::Cli(input_pipe_id) =&gt; {
@@ -3663,15 +3681,19 @@ register_worker!(
         }
     }
     should_render
-}</code></pre>
+}
+<span class="boring">}</span></code></pre></pre>
 <h3 id="the-pipe_message_to_plugin-plugin-api-command"><a class="header" href="#the-pipe_message_to_plugin-plugin-api-command">The <code>pipe_message_to_plugin</code> plugin API command</a></h3>
 <p>This <a href="./plugin-api-commands.html#pipe_message_to_plugin"><code>pipe_message_to_plugin</code> API command</a> allows plugins to start a new pipe to another plugin. It allows spcifying a pipe destination, name, payload, args and also some information to be used in case this message will end up launching a new plugin (for example, the pane title of the new plugin).</p>
 <p>Here's a short Rust example:</p>
-<pre><code class="language-rust">pipe_message_to_plugin(
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pipe_message_to_plugin(
     MessageToPlugin::new("message_name")
         .with_plugin_url("https://example.com/my-plugin.wasm")
         .new_plugin_instance_should_have_pane_title("new_plugin_pane_title")
-);</code></pre>
+);
+<span class="boring">}</span></code></pre></pre>
 <h3 id="the-special-zellijown_url-pipe-destination"><a class="header" href="#the-special-zellijown_url-pipe-destination">The special <code>zellij:OWN_URL</code> pipe destination</a></h3>
 <p>When plugins open pipes, they can use the special <code>zellij:OWN_URL</code> destination url. Zellij will replace this URL with the plugin's own URL. This is useful when plugins want to launch new instances of themselves and communicate with them (for example, in order for the plugin to play different roles or to create a visual pipeline with multiple panes on the user's screen).</p>
 <p>It's important to remember though that if this is used, care needs to be taken to make sure the new plugin's configuration is different from the currently running one - otherwise Zellij will send this message back to the plugin (see plugin uniqueness above).</p>
@@ -3706,13 +3728,16 @@ layout {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-lifecycle"><a class="header" href="#plugin-lifecycle">Plugin Lifecycle</a></h1>
 <p>Zellij provides the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> crate to plugins to facilitate development.</p>
 <p>The <code>zellij-tile</code> crate provides the <code>ZellijPlugin</code> trait:</p>
-<pre><code class="language-rust">pub trait ZellijPlugin {
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait ZellijPlugin {
     fn load(&amp;mut self) {}
     fn update(&amp;mut self, event: Event) -&gt; bool {
         false
     } // return true if it should render
     fn render(&amp;mut self, rows: usize, cols: usize) {}
-}</code></pre>
+}
+<span class="boring">}</span></code></pre></pre>
 <h2 id="lifecycle-methods"><a class="header" href="#lifecycle-methods">Lifecycle Methods</a></h2>
 <h3 id="load"><a class="header" href="#load">load</a></h3>
 <p>Will be called when the plugin is loaded, this is a good place to <a href="./plugin-api-commands.html#subscribe">subscribe</a> to events that are interesting for this plugin.</p>
@@ -3728,7 +3753,9 @@ can be found in <a href="https://blog.nerd.rocks/posts/common-snippets-for-zelli
 <p>This function is expeted to print to <code>STDOUT</code> whatever the plugin would like to render inside its pane. For more information, see <a href="plugin-ui-rendering.html">plugin ui rendering</a>.</p>
 <h2 id="registering-a-plugin"><a class="header" href="#registering-a-plugin">Registering a plugin</a></h2>
 <p>After implementing the trait on a struct, we'll need to use the <code>register_plugin</code> macro on it:</p>
-<pre><code class="language-rust">struct MyPlugin {
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>struct MyPlugin {
     // ...
 }
 
@@ -3736,7 +3763,8 @@ impl ZellijPlugin for MyPlugin {
     // ...
 }
 
-register_plugin!(MyPlugin);</code></pre>
+register_plugin!(MyPlugin);
+<span class="boring">}</span></code></pre></pre>
 <p>Zellij will then instantiate the plugin (using the <code>Default</code> implementation) and call it as needed.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="rendering-a-ui"><a class="header" href="#rendering-a-ui">Rendering a UI</a></h1>
 <h2 id="rendering-ansi-through-stdout"><a class="header" href="#rendering-ansi-through-stdout">Rendering ANSI through STDOUT</a></h2>
@@ -3750,40 +3778,52 @@ register_plugin!(MyPlugin);</code></pre>
 <p><img src="img/table-ui-component.png" alt="table" /></p>
 <p>Consists of a title line with an emphasis style and a grid of width-justified cells. Each cell can be styled individually (see <code>Text</code> below) and also marked as "selected". Marking adjacent cells as selected can create a "selected row" effect.</p>
 <p>Example from the Rust SDK (renders the screeshot above):</p>
-<pre><code class="language-rust">let table = Table::new()
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let table = Table::new()
     .add_row(vec!["title1", "title2", "title3"])
     .add_styled_row(vec![Text::new("content 1").color_range(0, 1..5), Text::new("content 2").color_range(2, ..), Text::new("content 3")])
     .add_styled_row(vec![Text::new("content 11").selected(), Text::new("content 22").selected(), Text::new("content 33").selected()])
     .add_styled_row(vec![Text::new("content 111"), Text::new("content 222").selected(), Text::new("content 33")])
     .add_styled_row(vec![Text::new("content 11"), Text::new("content 22").selected(), Text::new("content 33")]);
 print_table(table); // will print this table wherever the cursor may be at the moment
-print_table_with_coordinates(table, 4, 5, None, None); // will print this table at x: 4, y: 5, the last two `Option`s are width/height</code></pre>
+print_table_with_coordinates(table, 4, 5, None, None); // will print this table at x: 4, y: 5, the last two `Option`s are width/height
+<span class="boring">}</span></code></pre></pre>
 <h4 id="ribbon"><a class="header" href="#ribbon">Ribbon</a></h4>
 <p><img src="img/ribbon-ui-component.png" alt="ribbon" /></p>
 <p>Ribbons are the UI elements used for tabs in the Zellij tab bar and for modes in the Zellij status-bar. They can be selected, which would change their background color, and can contain styled text themselves (see Text below).</p>
 <p>Example from the Rust SDK (renders the screenshot above):</p>
-<pre><code class="language-rust">print_ribbon_with_coordinates(Text::new("ribbon 1").color_range(0, 1..5), 0, 0, Some(12), None);
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>print_ribbon_with_coordinates(Text::new("ribbon 1").color_range(0, 1..5), 0, 0, Some(12), None);
 print_ribbon_with_coordinates(Text::new("ribbon 2").color_range(1, 1..5).selected(), 12, 0,  Some(12), None);
 print_ribbon_with_coordinates(Text::new("ribbon 3").color_range(2, 1..5), 24, 0, Some(12), None);
-print_ribbon_with_coordinates(Text::new("ribbon 4").color_range(3, 1..5), 36, 0,  Some(12), None);</code></pre>
+print_ribbon_with_coordinates(Text::new("ribbon 4").color_range(3, 1..5), 36, 0,  Some(12), None);
+<span class="boring">}</span></code></pre></pre>
 <h4 id="nested-list"><a class="header" href="#nested-list">Nested List</a></h4>
 <p><img src="img/nested-list-ui-component.png" alt="nested-list" /></p>
 <p>A nested list is the UI element used in the Zellij session-manager. It is a list with possibility indented lines to an arbitrary level. Each line can be selected (multiple lines can be selected as well), and each line can be styled individually (see Text below).</p>
 <p>Example from the Rust SDK (renders the screenshot above):</p>
-<pre><code class="language-rust">print_nested_list_with_coordinates(vec![
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>print_nested_list_with_coordinates(vec![
     NestedListItem::new("item 1 with some nice text...").color_range(1, ..).color_range(3, 10..25).color_indices(1, vec![8]),
     NestedListItem::new("item 2 with some more text").indent(1).color_range(0, 1..15).color_indices(1, vec![8]),
     NestedListItem::new("item 3 is a real eye opener").color_range(2, ..).color_range(3, 5..20).color_indices(1, vec![8]).selected(),
     NestedListItem::new("item 4 is just another item, really").indent(1).color_range(0, ..).color_range(1, 1..15).color_indices(1, vec![8]),
-], 1, 1, None, None);</code></pre>
+], 1, 1, None, None);
+<span class="boring">}</span></code></pre></pre>
 <h4 id="text"><a class="header" href="#text">Text</a></h4>
 <p><img src="img/text-ui-component.png" alt="text" /></p>
 <p>While this element can be rendered on its own, it's mainly used inside other elements for styling.</p>
 <p>A <code>Text</code> element can be selected - which will be interpreted in the context of the element it resides in, generally changing its background in one way or another.
 A <code>Text</code> element can also have indices. These indices can be one of 4 colors (preset depending on the user's theme) assigned to characters or ranges inside the element. This can be especially useful when incorporated with fuzzy finding.</p>
 <p>Example from the Rust SDK (renders the screenshot above):</p>
-<pre><code class="language-rust">let text = Text::new("foo bar baz").selected().color_range(0, 0..=2).color_range(1, 3..=5).color_range(2, 7..=9);
-print_text_with_coordinates(text, 0, 0, None, None);</code></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let text = Text::new("foo bar baz").selected().color_range(0, 0..=2).color_range(1, 3..=5).color_range(2, 7..=9);
+print_text_with_coordinates(text, 0, 0, None, None);
+<span class="boring">}</span></code></pre></pre>
 <h3 id="the-protocol"><a class="header" href="#the-protocol">The Protocol</a></h3>
 <p><em>Note: This section discusses the private DCS ANSI serialization protocol used to represent the above components. It could be of interest to SDK authors, but plugin developers are encouraged to use the SDK abstractions instead.</em></p>
 <p>An example component can look like this: (<code>&lt;ESC&gt;</code>, represents the escape character)</p>

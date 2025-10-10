@@ -7,7 +7,7 @@ The built-in themes in Zellij can be used by setting the `theme [THEME_NAME]` in
 Themes in Zellij are defined according to UI components. These components are used in the various plugins that make up the Zellij interface, and can also be used dynamically in user plugins.
 
 
-![theme definition spec diagram](img/theme-spec.png)
+![theme definition spec diagram](/img/theme-spec.png)
 
 ## Structure of a theme definition
 A theme definition is a `KDL` file (or part of one) defined as so:

@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -31,11 +31,10 @@
         <!-- Custom theme stylesheets -->
 
 
-        <!-- Provide site root and default themes to javascript -->
+        <!-- Provide site root to javascript -->
         <script>
-            const path_to_root = "";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -45,8 +44,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,8 +59,7 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -74,8 +72,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -101,7 +99,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -111,7 +109,6 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -178,7 +175,9 @@
 <p>Plugins may listen to pipes by implementing the <code>pipe</code> lifecycle method. This method is called every time a message is sent over a pipe to this plugin (whether it's broadcast to all plugins or specifically directed at this one). It receives a <code>PipeMessage</code> containing the source of the pipe (CLI, another plugin or a keybinding), as well as information about said source (the plugin id or the CLI pipe id). The <code>PipeMessage</code> also contains the name of the pipe (explicitly provided by the user or a random UUID assigned by Zellij), its payload if it has one, its arguments and whether it is private or not (a private message is one directed specifically at this plugin rather than broadcast to all plugins).</p>
 <p>Similar to the <a href="./plugin-lifecycle.html#update">update method</a>, the pipe lifecycle method returns a bool, true if it would like to render itself, in which case the render function will be called as normal.</p>
 <p>Here's a small Rust example:</p>
-<pre><code class="language-rust">fn pipe(&amp;mut self, pipe_message: PipeMessage) -&gt; bool {
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn pipe(&amp;mut self, pipe_message: PipeMessage) -&gt; bool {
     let mut should_render = false;
     match pipe_message.source {
         PipeSource::Cli(input_pipe_id) =&gt; {
@@ -202,15 +201,19 @@
         }
     }
     should_render
-}</code></pre>
+}
+<span class="boring">}</span></code></pre></pre>
 <h3 id="the-pipe_message_to_plugin-plugin-api-command"><a class="header" href="#the-pipe_message_to_plugin-plugin-api-command">The <code>pipe_message_to_plugin</code> plugin API command</a></h3>
 <p>This <a href="./plugin-api-commands.html#pipe_message_to_plugin"><code>pipe_message_to_plugin</code> API command</a> allows plugins to start a new pipe to another plugin. It allows spcifying a pipe destination, name, payload, args and also some information to be used in case this message will end up launching a new plugin (for example, the pane title of the new plugin).</p>
 <p>Here's a short Rust example:</p>
-<pre><code class="language-rust">pipe_message_to_plugin(
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pipe_message_to_plugin(
     MessageToPlugin::new("message_name")
         .with_plugin_url("https://example.com/my-plugin.wasm")
         .new_plugin_instance_should_have_pane_title("new_plugin_pane_title")
-);</code></pre>
+);
+<span class="boring">}</span></code></pre></pre>
 <h3 id="the-special-zellijown_url-pipe-destination"><a class="header" href="#the-special-zellijown_url-pipe-destination">The special <code>zellij:OWN_URL</code> pipe destination</a></h3>
 <p>When plugins open pipes, they can use the special <code>zellij:OWN_URL</code> destination url. Zellij will replace this URL with the plugin's own URL. This is useful when plugins want to launch new instances of themselves and communicate with them (for example, in order for the plugin to play different roles or to create a visual pipeline with multiple panes on the user's screen).</p>
 <p>It's important to remember though that if this is used, care needs to be taken to make sure the new plugin's configuration is different from the currently running one - otherwise Zellij will send this message back to the plugin (see plugin uniqueness above).</p>
