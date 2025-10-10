@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -31,11 +31,10 @@
         <!-- Custom theme stylesheets -->
 
 
-        <!-- Provide site root and default themes to javascript -->
+        <!-- Provide site root to javascript -->
         <script>
-            const path_to_root = "";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -45,8 +44,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,8 +59,7 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -74,8 +72,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -101,7 +99,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -111,7 +109,6 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -159,14 +156,19 @@
 <p>Plugin workers are a way to get around the fact that wasm/wasi threads are not stable yet. If a plugin has a potentially long operation to perform, it can declare a worker on startup and send and receive messages from it.</p>
 <h2 id="the-zellijworker-trait"><a class="header" href="#the-zellijworker-trait">The ZellijWorker trait</a></h2>
 <p><code>zellij-tile</code> provides the following interface for workers:</p>
-<pre><code class="language-rust">pub trait ZellijWorker&lt;'de&gt;: Default + Serialize + Deserialize&lt;'de&gt; {
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait ZellijWorker&lt;'de&gt;: Default + Serialize + Deserialize&lt;'de&gt; {
     fn on_message(&amp;mut self, message: String, payload: String) {}
-}</code></pre>
+}
+<span class="boring">}</span></code></pre></pre>
 <p>The <code>on_message</code> method will be called when the plugin uses the <a href="./plugin-api-commands.html#post_message_to"><code>post_message_to</code></a> plugin command with an arbitrary <code>message</code> and <code>payload</code>. These are specified as <code>String</code>s so that plugins can decide on their own method of serialization.</p>
 <h2 id="registering-workers"><a class="header" href="#registering-workers">Registering Workers</a></h2>
 <p>To register workers on startup, plugins can use the <code>register_worker</code> macro like so:</p>
-<pre><code class="language-rust">
-pub struct TestWorker {
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span>
+<span class="boring">fn main() {
+</span>pub struct TestWorker {
     // ...
 }
 impl ZellijWorker for TestWorker {
@@ -176,7 +178,8 @@ register_worker!(
     TestWorker,
     test_worker, // the namespace of the worker, anything before the final _worker will be the worker namespace
     TEST_WORKER // a name for static variable used to store the worker state between invocations
-);</code></pre>
+);
+<span class="boring">}</span></code></pre></pre>
 <p>For more information, please see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
 <h2 id="sending-messages-to-workers"><a class="header" href="#sending-messages-to-workers">Sending messages to workers</a></h2>
 <p>When a plugin (or another worker) wishes to send messages to a worker, they use the <a href="./plugin-api-commands.html#post_message_to"><code>post_message_to</code></a> plugin command. They should use the worker namespace used when registering the worker, eg. <code>post_message_to("test", ...)</code> for the <code>test_worker</code> example above.</p>

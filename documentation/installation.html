@@ -7,7 +7,7 @@
 
 
         <!-- Custom HTML head -->
-        
+
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
@@ -31,11 +31,10 @@
         <!-- Custom theme stylesheets -->
 
 
-        <!-- Provide site root and default themes to javascript -->
+        <!-- Provide site root to javascript -->
         <script>
-            const path_to_root = "";
-            const default_light_theme = "light";
-            const default_dark_theme = "navy";
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -45,8 +44,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                let theme = localStorage.getItem('mdbook-theme');
-                let sidebar = localStorage.getItem('mdbook-sidebar');
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,8 +59,7 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
-            let theme;
+            var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -74,8 +72,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -101,7 +99,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
                         <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -111,7 +109,6 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -158,7 +155,8 @@
                         <h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
 <p>The easiest way to install Zellij is through <a href="#third-party-repositories">a package for your OS</a>.</p>
 <p>If one is not available for your OS, you can <a href="#binary-download">download a prebuilt binary</a> or even <a href="https://zellij.dev">try Zellij without installing</a>.</p>
-<p>Otherwise, you can <a href="#rust-cargo">install it with Cargo</a>.</p>
+<p>If you have Cargo installed, you can download the latest release using <a href="#cargo-binstall">cargo binstall</a>.</p>
+<p>Otherwise, you can <a href="#rust-cargo">compile and install it with Cargo</a>.</p>
 <hr />
 <h2 id="rust---cargo"><a class="header" href="#rust---cargo">Rust - Cargo</a></h2>
 <p>For instructions on how to install Cargo see <a href="https://doc.rust-lang.org/cargo/getting-started/installation.html">here</a>.</p>
@@ -167,6 +165,12 @@
 </code></pre>
 <p>If experiencing errors, if installed through rustup, please try running:</p>
 <pre><code>rustup update
+</code></pre>
+<hr />
+<h2 id="cargo---binstall"><a class="header" href="#cargo---binstall">Cargo - binstall</a></h2>
+<p>For smaller machines like laptops, you might want to just install the binary instead of compiling everything.</p>
+<p>The easiest way if cargo is present, is to install with the <a href="https://crates.io/crates/cargo-binstall">binstall cargo extension</a>:</p>
+<pre><code>cargo binstall zellij
 </code></pre>
 <hr />
 <h2 id="binary-download"><a class="header" href="#binary-download">Binary Download</a></h2>
