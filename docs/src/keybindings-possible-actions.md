@@ -358,7 +358,7 @@ or:
 
  Toggle various search options on/off
 
-**Required arguments**: "CaseSensitivity" | "Wrap" | "WhileWord"
+**Required arguments**: "CaseSensitivity" | "Wrap" | "WholeWord"
 
 ```javascript
     bind "a" { SearchToggleOption "CaseSensitivity"; }
