@@ -67,7 +67,7 @@ Depends on [`sk`](https://github.com/lotabout/skim) & `bash`
 
 ```
 #!/usr/bin/env bash
-ZJ_SESSIONS=$(zellij list-sessions)
+ZJ_SESSIONS=$(zellij list-sessions --short --no-formatting)
 NO_SESSIONS=$(echo "${ZJ_SESSIONS}" | wc -l)
 
 if [ "${NO_SESSIONS}" -ge 2 ]; then
