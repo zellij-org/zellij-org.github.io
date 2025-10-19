@@ -63,16 +63,16 @@ The following environment variables can also be used in the provided script.
 
 ## List current sessions
 List current sessions, attach to a running session, or create a new one.
-Depends on [`sk`](https://github.com/lotabout/skim) & `bash`
+Depends on [`fzf`](https://github.com/junegunn/fzf) & `bash`.
 
-```
+```sh
 #!/usr/bin/env bash
 ZJ_SESSIONS=$(zellij list-sessions)
 NO_SESSIONS=$(echo "${ZJ_SESSIONS}" | wc -l)
 
 if [ "${NO_SESSIONS}" -ge 2 ]; then
     zellij attach \
-    "$(echo "${ZJ_SESSIONS}" | sk)"
+    "$(echo "${ZJ_SESSIONS}" | fzf --bind 'enter:become(echo {1})' --ansi)"
 else
    zellij attach -c
 fi
