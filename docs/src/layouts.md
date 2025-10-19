@@ -48,7 +48,8 @@ For security reasons, remote layouts will have all their commands suspended behi
 
 ### Layout default directory
 
-By default Zellij will load the `default.kdl` layout, found in the `layouts` directory (a subdirectory of the `config` directory [config/layouts]).
+By default Zellij will load the `default.kdl` layout, found in the `layouts` directory (a subdirectory of the `config` directory).
+This will be probably under `~/.config/zellij/layouts` on a Linux system.
 
 If not found, Zellij will start with one pane and one tab.
 
