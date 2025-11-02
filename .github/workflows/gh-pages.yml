@@ -2,10 +2,10 @@ name: Push to GitHub Pages on push to master
 on:
   push:
     paths:
-      - docs
-      - content
-      - svg
-      - layouts
+      - 'docs/**'
+      - 'content/**'
+      - 'svg/**'
+      - 'layouts/**'
     branches:
       - main
 jobs:
