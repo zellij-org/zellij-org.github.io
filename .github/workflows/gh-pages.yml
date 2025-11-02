@@ -1,13 +1,13 @@
 name: Push to GitHub Pages on push to master
 on:
   push:
+    branches:
+      - main
     paths:
       - 'docs/**'
       - 'content/**'
       - 'svg/**'
       - 'layouts/**'
-    branches:
-      - main
 jobs:
   build:
     name: Deploy
