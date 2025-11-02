@@ -1,6 +1,11 @@
 name: Push to GitHub Pages on push to master
 on:
   push:
+    paths:
+      - docs
+      - content
+      - svg
+      - layouts
     branches:
       - main
 jobs:
@@ -10,15 +15,25 @@ jobs:
     steps:
       - name: Checkout master
         uses: actions/checkout@v4
+
+      - name: Setup mdBook
+        uses: peaceiris/actions-mdbook@v2
+
+      - name: Build mdBook
+        run: mdbook build docs/ -d ../static/documentation
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
           hugo-version: '0.82.0'
           extended: true
+
       - name: Build
         run: hugo --minify
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
+          cname: zellij.dev
