@@ -67,15 +67,7 @@ Depends on [`sk`](https://github.com/lotabout/skim) & `bash`
 
 ```
 #!/usr/bin/env bash
-ZJ_SESSIONS=$(zellij list-sessions)
-NO_SESSIONS=$(echo "${ZJ_SESSIONS}" | wc -l)
-
-if [ "${NO_SESSIONS}" -ge 2 ]; then
-    zellij attach \
-    "$(echo "${ZJ_SESSIONS}" | sk)"
-else
-   zellij attach -c
-fi
+zellij attach $(zellij list-sessions | sk -0 -1) -c
 ```
 
 ## List layout files and create a layout
