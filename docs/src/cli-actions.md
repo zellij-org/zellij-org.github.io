@@ -44,7 +44,7 @@ eg.
 $ zellij action edit ./my-file.rs -f
 ```
 
-**Note**: it is also possible to issue this action without the `action` prefix:
+**Note:** This can also be shortened to [`zellij edit`](zellij-edit.md)
 
 eg.
 ```
@@ -221,7 +221,7 @@ $ zellij action new-pane -f # open a new floating pane with the default shell
 $ zellij action new-pane --name "follow this log!" -- tail -f /tmp/my-log-file # open a new floating pane with the default shell
 ```
 
-**Note:** This can also be shortened to `zellij run`
+**Note:** This can also be shortened to [`zellij run`](zellij-run.md)
 
 eg.
 ```
