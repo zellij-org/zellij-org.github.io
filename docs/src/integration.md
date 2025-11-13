@@ -13,46 +13,26 @@ set to `0` inside a zellij session.
 Arbitrary key value pairs can be set through configuration, or layouts.
 Note that `ZELLIJ_SESSION_NAME` will not be updated for existing terminal panes when renaming a session (but will for new panes).
 
-
 Here are some limited examples to help get you started:
 
 ## Autostart on shell creation
 Autostart a new zellij shell, if not already inside one.
-Shell dependent, fish:
+
+Due to its shell dependency, zellij provides a generation tool:
+
 ```
-if set -q ZELLIJ
-else
-  zellij
-end
+echo 'eval "$(zellij setup --generate-auto-start <SHELL>)"' >> <SHELL_CONFIG_FILE>
 ```
+Replace `<SHELL>` for your shell (`bash` and `zsh` supported) and `<SHELL_CONFIG_FILE`> for its configuration file (`~/.bashrc` or `~/.zshrc`, respectively).
 
-other ways, zellij provides a pre-defined auto start scripts.
-
-### bash
+For fish, we actually recommend you use it like this
 ```
-echo 'eval "$(zellij setup --generate-auto-start bash)"' >> ~/.bashrc
-```
-
-### zsh
-```
-echo 'eval "$(zellij setup --generate-auto-start zsh)"' >> ~/.zshrc
-```
-
-### fish
-
-⚠️ Depending on the version of the `fish` shell, the setting may not work. In that case, check out this [issue](https://github.com/zellij-org/zellij/issues/1534).
-
-Add 
-
-```fish
 if status is-interactive
     ...
     eval (zellij setup --generate-auto-start fish | string collect)
 end
 ```
-
-to `$HOME/.config/fish/config.fish` file.
-
+⚠️ Depending on the version of the `fish` shell, the setting may not work. In that case, check out this [issue](https://github.com/zellij-org/zellij/issues/1534).
 
 The following environment variables can also be used in the provided script.
 
