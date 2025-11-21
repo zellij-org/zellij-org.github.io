@@ -5,8 +5,8 @@ These themes are provided built-in with Zellij. One can switch to them by changi
 * ansi
 * ao
 * atelier-sulphurpool
-* ayu_mirage
-* ayu_dark
+* ayu-mirage
+* ayu-dark
 * catppuccin-frappe
 * catppuccin-macchiato
 * cyber-noir
@@ -32,7 +32,7 @@ These themes are provided built-in with Zellij. One can switch to them by changi
 * vesper
 
 ## Light Themes
-* ayu_light
+* ayu-light
 * catppuccin-latte
 * everforest-light
 * gruvbox-light
