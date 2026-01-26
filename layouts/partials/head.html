@@ -43,9 +43,7 @@
 {{ end }}
 
 <!-- Structured Data (JSON-LD) -->
-{{- if templates.Exists "partials/structured-data.html" -}}
-    {{ partial "structured-data.html" . }}
-{{- end -}}
+{{ partial "structured-data.html" . }}
 
 {{ range .Params.categories }}
     <meta property="article:section" content="{{ . }}" />
@@ -66,12 +64,5 @@
     type="application/json" title="{{ .Site.Title }}" />
 {{ end }}
 
-<!-- Custom head tags -->
-{{- if templates.Exists "partials/extra-head.html" -}}
-    {{ partial "extra-head.html" . }}
-{{- end }}
-
 <!-- Analytics -->
-{{- if templates.Exists "partials/analytics.html" -}}
-    {{ partial "analytics.html" . }}
-{{- end -}}
+{{ partial "analytics.html" . }}
