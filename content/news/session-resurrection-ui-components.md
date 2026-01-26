@@ -7,10 +7,10 @@ type:
 - post
 - posts
 title: "Zellij 0.39.0: Session Resurrection, Cross-Language UI Components, load Plugins from the Web"
-type:
 images: ["/img/zellij-session-manager-resurrection.png"]
 description: "This release includes a new built-in plugin to navigate across sessions, configurable plugins, a plugin permission system and much more!"
 alttext: "An image of the Zellij session manager, showing a list of sessions it would be possible to switch to, as well as information about their tabs, panes and connected users"
+tags: ["release", "feature", "plugins"]
 weight: 10
 ---
 ![Zellij session manager resurrection screen](/img/zellij-session-manager-resurrection.png)

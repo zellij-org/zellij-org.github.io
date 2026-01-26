@@ -1,0 +1,71 @@
+{{ if .IsHome }}
+<!-- SoftwareApplication Schema for Homepage -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Zellij",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": ["Linux", "macOS"],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "{{ .Site.Params.description }}",
+  "url": "{{ .Site.BaseURL }}",
+  "downloadUrl": "{{ .Site.BaseURL }}documentation/installation.html",
+  "screenshot": "{{ .Site.BaseURL }}img/floating-panes-preview.png",
+  "author": {
+    "@type": "Organization",
+    "name": "Zellij",
+    "url": "{{ .Site.BaseURL }}"
+  }
+}
+</script>
+{{ end }}
+
+{{ if in .Permalink "/tutorials/" }}
+<!-- VideoObject Schema for Tutorials -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "{{ .Title }}",
+  "description": "{{ .Description }}",
+  "thumbnailUrl": "{{ if .Params.images }}{{ index .Params.images 0 }}{{ end }}",
+  "uploadDate": "{{ .Date }}",
+  "contentUrl": "{{ .Permalink }}"
+}
+</script>
+{{ end }}
+
+{{ if in .Permalink "/news/" }}
+<!-- BlogPosting Schema for News Posts -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ .Title }}",
+  "datePublished": "{{ .Date }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ if .Params.author }}{{ .Params.author }}{{ else }}Zellij Team{{ end }}"
+  },
+  "description": "{{ .Description }}"
+}
+</script>
+{{ end }}
+
+{{ if in .Permalink "/faq/" }}
+<!-- FAQPage Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "name": "{{ .Title }}",
+  "description": "{{ .Description }}",
+  "url": "{{ .Permalink }}"
+}
+</script>
+{{ end }}

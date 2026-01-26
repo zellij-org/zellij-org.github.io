@@ -1,7 +1,7 @@
 ---
 title: "Developing a Zellij plugin using Rust"
 images: ["/img/develop-rust-plugin.png"]
-description: "A walkthrough of creating a Zellij plugin from start to end"
+description: "Build a Zellij plugin with Rust. Complete tutorial from scaffolding to distribution, covering UI rendering, input handling, and state management."
 linktitle: "A walkthrough of creating a Zellij plugin from start to end"
 ---
 {{<video-left-aligned "/video/developing-a-rust-plugin.mp4">}}
@@ -27,7 +27,7 @@ This tutorial will walk you through developing a Zellij plugin with rust, using 
 - [Do you like Zellij?](#do-you-like-zellij--)
 
 ## What are we building?
-{{<figure src="/img/carousel-finished.png" style="max-width 995px;">}}
+{{<figure src="/img/carousel-finished.png" style="max-width 995px;" alt="Finished Carousel plugin showing a list of marked panes for quick navigation">}}
 
 The plugin we're building is called "Carousel". It will allow users to "mark" panes, adding them to a quick-jump pane-carousel list for easy access and overview.
 
@@ -43,7 +43,7 @@ zellij plugin -f -- https://github.com/zellij-org/create-rust-plugin/releases/la
 ```
 
 After we grant the plugin its requested permissions, we'll get this window:
-{{<figure src="/img/create-rust-plugin.png" style="max-width 995px;">}}
+{{<figure src="/img/create-rust-plugin.png" style="max-width 995px;" alt="Create-rust-plugin interface with input field for plugin name and project directory">}}
 
 Let's give the plugin a unique name (eg. `carousel`) and press `Enter`.
 
@@ -62,10 +62,10 @@ shared {
 
 ## Using the Development Environment
 The above step creates the skeleton repository for us and drops us into a development environment for our new plugin. This environment includes another tool [`develop-rust-plugin`](https://github.com/zellij-org/develop-rust-plugin) which will allow us quickly iterate over our plugin and see the changes in real time. Whenever we'd like to compile and reload our plugin, we'll press `Ctrl Shift r` and this tool will compile our plugin with `cargo build` and reload the generated `wasm` file directly in our workspace.
-{{<figure src="/img/develop-rust-plugin.png" style="max-width 995px;">}}
+{{<figure src="/img/develop-rust-plugin.png" style="max-width 995px;" alt="Zellij development environment with editor on left and develop-rust-plugin tool on right">}}
 
 Otherwise, we also had our `$EDITOR` opened to the `src/main.rs` file in this repository, which includes the skeleton of our new plugin. Let's press `Ctrl Shift r` once to see what we've got:
-{{<figure src="/img/developing-a-plugin-0.png" style="max-width 995px;">}}
+{{<figure src="/img/developing-a-plugin-0.png" style="max-width 995px;" alt="Initial skeleton plugin showing empty state before any customization">}}
 
 Not much here yet! Let's get to work.
 
@@ -97,7 +97,7 @@ Here we used the `Text` UI component with the `color_range` method. This method 
 Finally, we use the `print_text_with_coordinates` method, which accepts (in order) the `x` and `y` coordinates of this element within our plugin, and optionally the element's `width` and `height`. We left those last ones empty (`None`) for now.
 
 Now we press `Ctrl Shift r` and get:
-{{<figure src="/img/developing-a-plugin-2.png" style="max-width 995px;">}}
+{{<figure src="/img/developing-a-plugin-2.png" style="max-width 995px;" alt="Carousel plugin with basic UI rendering showing title and help text">}}
 
 ### A less trivial Text rendering example
 What happens if the user's screen is too small to render all the text we'd like?
@@ -130,8 +130,8 @@ fn render(&mut self, rows: usize, cols: usize) {
 Here we have two versions of the `Help` line. A "full" and a "short" one. If the full version is wider than the plugin, we'll render the short one.
 
 Here's how it looks:
-{{<figure src="/img/developing-a-plugin-3.png" style="max-width 995px;">}}
-{{<figure src="/img/developing-a-plugin-4.png" style="max-width 995px;">}}
+{{<figure src="/img/developing-a-plugin-3.png" style="max-width 995px;" alt="Carousel plugin in wide view showing full help text">}}
+{{<figure src="/img/developing-a-plugin-4.png" style="max-width 995px;" alt="Carousel plugin in narrow view showing shortened help text">}}
 
 ### Rendering dynamic content
 Finally, let's see how we render dynamic contents and get around some of the "gotcha"s involved.
@@ -222,7 +222,7 @@ fn render(&mut self, rows: usize, cols: usize) {
 Note how we're keeping track of line lengths throughout the rendering process. We do this in order to later center the whole UI using the `base_x` and `base_y` coordinates. A good practice is to always use `saturating_sub` when calculating coordinates, in case the plugin window is reduced far below the size we expect.
 
 This gives us:
-{{<figure src="/img/developing-a-plugin-5.png" style="max-width 995px;">}}
+{{<figure src="/img/developing-a-plugin-5.png" style="max-width 995px;" alt="Carousel plugin with centered UI showing marked panes list">}}
 
 The first item is marked as our selection because our `selected_index` defaults to `0`. In the next session we're going to see how we can give our users control of our plugin and changing this.
 
@@ -431,7 +431,7 @@ impl ZellijPlugin for State {
 Here in the load function, we added a call to `request_permission`. This function will request permissions for our plugin (`Reconfigure` in this case), prompting the user on plugin load (when we called the function) and returning the response to us as a `PermissionRequestResult` - which we made sure to also subscribe to.
 
 The user will see something like this:
-{{<figure src="/img/developing-a-plugin-6.png" style="max-width 995px;">}}
+{{<figure src="/img/developing-a-plugin-6.png" style="max-width 995px;" alt="Permission request dialog asking user to grant Reconfigure permission to the plugin">}}
 
 Once they press `y` or `n`, we will receive their response as a `PermissionRequestResult` event and can react to it in our `update` function like this:
 
@@ -695,3 +695,5 @@ Me too! So much so that I spend 100% of my time developing and maintaining it an
 Zellij will always be free and open-source. Zellij will never contain ads or collect your data.
 
 So if the tool gives you value and you are able, please consider a recurring monthly donation of 5-10$ to help me pay my bills. There are Zellij stickers in it for you! https://github.com/sponsors/imsnif
+
+{{< related-tutorials >}}

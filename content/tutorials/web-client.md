@@ -1,7 +1,7 @@
 ---
 title: "The Zellij Web Client - Share Sessions in the Browser"
 images: ["/img/web-client-screencast-preview.png"]
-description: "How to share Zellij sessions in the browser, making the terminal emulator optional"
+description: "Use Zellij in your browser. Learn how to share sessions via web client with built-in authentication and multiplayer capabilities."
 linktitle: "How to share Zellij sessions in the browser, making the terminal emulator optional"
 ---
 {{<video-left-aligned "/video/web-client-screencast.mp4">}}
@@ -66,3 +66,5 @@ Me too. So much so that I spend 100% of my time developing and maintaining it an
 Zellij will always be free and open-source. Zellij will never contain ads or collect your data.
 
 If the tool gives you value and you are able, please consider [a recurring monthly donation](https://github.com/sponsors/imsnif) of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!
+
+{{< related-tutorials >}}

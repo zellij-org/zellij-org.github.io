@@ -10,6 +10,7 @@ title: "Build Zellij WebAssembly (Rust) Plugins for your Terminal"
 images: ["/img/zellij-plugins-diagram.png"]
 description: "Wouldn't it be cool to be able to develop terminal applets like UI components?"
 alttext: "A diagram of how Zellij plugins fit into the Zellij workspace"
+tags: ["release", "feature", "plugins", "tutorial"]
 weight: 10
 ---
 ![Zellij plugins diagram](/img/zellij-plugins-diagram.png)

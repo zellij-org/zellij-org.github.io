@@ -7,10 +7,10 @@ type:
 - post
 - posts
 title: "Zellij 0.38.0: including a session-manager, plugin infrastructure improvements and an end to offensive session names"
-type:
 images: ["/img/zellij-session-manager.png"]
 description: "This release includes a new built-in plugin to navigate across sessions, configurable plugins, a plugin permission system and much more!"
 alttext: "An image of the Zellij session manager, showing a list of sessions it would be possible to switch to, as well as information about their tabs, panes and connected users"
+tags: ["release", "feature", "plugins"]
 weight: 10
 ---
 ## Session Manager

@@ -10,6 +10,7 @@ title: "Zellij 0.31.0: Sixel support, search panes and custom status-bar keybind
 images: ["/img/floating-panes-preview.png"]
 description: "We just released a significant version of Zellij with lots of highly anticipated features!"
 alttext: "An image of the Zellij terminal multiplexer"
+tags: ["release", "feature"]
 weight: 10
 ---
 

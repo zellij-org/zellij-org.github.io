@@ -10,6 +10,7 @@ title: "Zellij 0.35.1 Stacked Panes and Swap Layouts"
 images: ["/img/stacked-panes.png"]
 description: "This new version comes with some great new UI/UX features and extra functionality"
 alttext: "An image of the Zellij terminal multiplexer"
+tags: ["release", "feature", "layouts"]
 weight: 10
 ---
 We just released [Zellij 0.35.1](https://github.com/zellij-org/zellij/releases/tag/v0.35.1), including an exciting array of new features and bug fixes. Let's dive in to some of them!

@@ -1,7 +1,7 @@
 ---
 title: "Using Layouts for Personal Automation"
 images: ["/img/tutorial-2-preview.png"]
-description: "How to create and use Zellij layouts to automate tasks and workflows"
+description: "Learn how to create Zellij layouts to automate tasks and workflows. Video and tutorial covering workspace structuring and automation."
 linktitle: "How to create and use Zellij layouts to automate tasks and workflows"
 ---
 
@@ -14,7 +14,7 @@ If you prefer a [*written tutorial*](#the-goal), or would like to copy/paste the
 {{<video-left-aligned "/video/layouts-screencast.mp4">}}
 
 ## The Goal
-{{<figure src="/img/tutorial-2-preview.png" class="center" style="max-width 995px;">}}
+{{<figure src="/img/tutorial-2-preview.png" class="center" style="max-width 995px;" alt="Zellij layout with editor pane on left showing main.rs and three command panes on right for cargo check, run, and test">}}
 The layout we're creating is for a default Rust project. Rust is used as an example, but knowledge of Rust is not required to benefit from this tutorial.
 
 *In the above screenshot*: on the left, we have our default editor (vim in the author's case) opened to the main file (`src/main.rs`), and on the right we have three often-used commands - one in each pane. These are Command Panes, meaning they're first-class citizens of Zellij rather than a command run in a terminal. This means we get to see their `Exit Code` as well as re-run them by pressing `Enter`.
@@ -50,7 +50,7 @@ Or in a new-tab if we're in an existing Zellij session:
 ```
 zellij action new-tab -l /path/to/basic-rust-layout.kdl
 ```
-{{<figure src="/img/tutorial-2-layout-1.png" class="center" style="max-width 995px;">}}
+{{<figure src="/img/tutorial-2-layout-1.png" class="center" style="max-width 995px;" alt="Zellij with a single empty terminal pane from an empty layout file">}}
 
 Here we are greeted with one terminal window, which is the default single-pane for an empty layout file.
 
@@ -64,7 +64,7 @@ layout {
 ```
 
 Opening this layout now, we're greeted with a single editor pane. This pane uses our default `$EDITOR` (vim in the author's case), opened to the main.rs file:
-{{<figure src="/img/tutorial-2-layout-2.png" class="center" style="max-width 995px;">}}
+{{<figure src="/img/tutorial-2-layout-2.png" class="center" style="max-width 995px;" alt="Zellij with a single editor pane showing vim opened to main.rs">}}
 
 Moving onwards, let's add three Command panes to run 3 often used commands: 
 1. `cargo check` - to see if our code compiles without running it
@@ -88,7 +88,7 @@ layout {
 ```
 
 Opening this layout now, we get:
-{{<figure src="/img/tutorial-2-layout-3.png" class="center" style="max-width 995px;">}}
+{{<figure src="/img/tutorial-2-layout-3.png" class="center" style="max-width 995px;" alt="Zellij layout with editor pane and three command panes arranged horizontally in a single row">}}
 
 We now have all the panes we need, but their content is not very easy to read or manage. We could definitely take better advantage of our screen real-estate!
 
@@ -119,7 +119,7 @@ layout {
 ```
 
 Opening this layout now, we get:
-{{<figure src="/img/tutorial-2-layout-4.png" class="center" style="max-width 995px;">}}
+{{<figure src="/img/tutorial-2-layout-4.png" class="center" style="max-width 995px;" alt="Zellij layout with vertical split - editor pane on left and three command panes stacked on right">}}
 
 ## Suspending Pane Command Startup
 While the commands we added are relatively short lived, there might be occasions where we'd like to add a pane with a resource-intensive command that we'd only like to run on demand, and not immediately when we open the layout.
@@ -149,7 +149,7 @@ layout {
 ```
 
 Now, when we open the layout, these three commands will be patiently waiting for us to press `Enter` to run them for the first time:
-{{<figure src="/img/tutorial-2-layout-5.png" class="center" style="max-width 995px;">}}
+{{<figure src="/img/tutorial-2-layout-5.png" class="center" style="max-width 995px;" alt="Zellij layout with suspended command panes showing WAITING status and Enter to run prompt">}}
 
 ## Adding the Zellij UI (plugins)
 When we open the layout we created above, we don't see the Zellij UI. This is because the Zellij UI is made up of plugins that, while they come built-in with Zellij, need to be specified in the layout. So let's add them.
@@ -182,7 +182,7 @@ layout {
 }
 ```
 And now we get:
-{{<figure src="/img/tutorial-2-preview.png" class="center" style="max-width 995px;">}}
+{{<figure src="/img/tutorial-2-preview.png" class="center" style="max-width 995px;" alt="Completed Zellij layout with Zellij UI, editor pane, and command panes in organized workspace">}}
 
 ## Avoiding Repetition with Pane Templates
 We could make the above layout more succinct by using a `pane_template`. We have 3 panes which all run `cargo`, all have the `start_suspended true` attribute and only differ in the arguments passed to the command.
@@ -229,3 +229,5 @@ Me too. So much so that I spend 100% of my time developing and maintaining it an
 Zellij will always be free and open-source. Zellij will never contain ads or collect your data.
 
 If the tool gives you value and you are able, please consider [a recurring monthly donation](https://github.com/sponsors/imsnif) of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!
+
+{{< related-tutorials >}}

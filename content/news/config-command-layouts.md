@@ -10,6 +10,7 @@ title: "Zellij 0.32.0: YAML => KDL, Control Zellij through the CLI, Command Pane
 images: ["/img/floating-panes-preview.png"]
 description: "We just released a significant version of Zellij with lots of highly anticipated features!"
 alttext: "An image of the Zellij terminal multiplexer"
+tags: ["release", "feature", "configuration", "layouts"]
 weight: 10
 ---
 

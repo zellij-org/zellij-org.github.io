@@ -7,10 +7,10 @@ type:
 - post
 - posts
 title: "Zellij 0.41.0: Solutions for Colliding Keybindings, Plugin Manager, new UI"
-type:
 images: ["/img/presets-diagram.png"]
 description: "A solution for the colliding keybindings problem, a new plugin manager and UI, reloading configuration at runtime and a new setup wizard."
 alttext: "A diagram explaining the different keybinding presets"
+tags: ["release", "feature", "plugins", "configuration"]
 weight: 10
 
 ---

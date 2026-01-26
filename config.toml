@@ -33,6 +33,14 @@ disableSitemap = false
 disable404     = false
 disableHugoGeneratorInject = false
 
+[minify]
+  disableCSS = false
+  disableHTML = false
+  disableJS = false
+  disableJSON = false
+  disableSVG = false
+  disableXML = false
+
 [permalinks]
   posts = "/news/:title/"
 
@@ -41,6 +49,15 @@ disableHugoGeneratorInject = false
 
 [blackfriday]
   hrefTargetBlank = true
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 2
 
 [taxonomies]
   tag      = "tags"
@@ -54,14 +71,14 @@ disableHugoGeneratorInject = false
   dateformNumTime = "2006-01-02 15:04"
 
   # Metadata mostly used in document's head
-  # 
-  description = "A terminal workspace with batteries included"
+  #
+  description = "A terminal workspace that doesn't sacrifice simplicity for power. Features floating panes, layouts, multiplayer collaboration, plugins, and works in your browser."
   keywords = "rust,terminal,multiplexer"
   images = ["/img/floating-panes-preview.png"]
 
   # Home subtitle of the index page.
   #
-  homeSubtitle = "A terminal workspace with batteries included"
+  homeSubtitle = "Terminal Workspace with Batteries Included"
 
   # Set a background for the homepage
   # backgroundImage = "assets/images/background.jpg"
@@ -93,7 +110,7 @@ disableHugoGeneratorInject = false
   # Integrate Javascript files or stylesheets by adding the url to the external assets or by
   # linking local files with their path relative to the static folder, e.g. "css/styles.css"
   #
-  customCSS = []
+  customCSS = ["css/heading-anchors.css"]
   customJS  = []
 
   # Toggle this option need to rebuild SCSS, requires extended version of Hugo
@@ -140,7 +157,7 @@ disableHugoGeneratorInject = false
   #
   [params.portrait]
     path     = "/img/logo.png"
-    alt      = "Portrait"
+    alt      = "Zellij logo - terminal workspace"
     maxWidth = "250px"
 
   # Social icons
@@ -181,10 +198,10 @@ disableHugoGeneratorInject = false
     name       = "News"
     url        = "news/"
   [[menu.main]]
-    weight = 2
-    identifier = "roadmap"
-    name       = "Roadmap"
-    url        = "roadmap/"
+    weight = 3
+    identifier = "features"
+    name       = "Features"
+    url        = "features/"
   [[menu.main]]
     weight = 4
     identifier = "documentation"
@@ -197,6 +214,21 @@ disableHugoGeneratorInject = false
     url        = "screencasts/"
   [[menu.main]]
     weight = 6
+    identifier = "roadmap"
+    name       = "Roadmap"
+    url        = "roadmap/"
+  [[menu.main]]
+    weight = 7
     identifier = "repository"
     name       = "Repository"
     url        = "https://github.com/zellij-org/zellij"
+  [[menu.main]]
+    weight = 8
+    identifier = "stickers"
+    name       = "Stickers"
+    url        = "stickers/"
+  [[menu.main]]
+    weight = 9
+    identifier = "faq"
+    name       = "FAQ"
+    url        = "faq/"

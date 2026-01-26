@@ -1,7 +1,7 @@
 ---
 title: "Session Management with Zellij"
 images: ["/img/tutorial-3-preview.png"]
-description: "How to use Zellij to manage your sessions in the terminal"
+description: "Learn to manage terminal sessions with Zellij. Tutorial covering context switching, session resurrection, and the welcome screen."
 linktitle: "How to use Zellij to manage your sessions in the terminal"
 ---
 {{<video-left-aligned "/video/session-management-welcome-screen.mp4">}}
@@ -92,3 +92,5 @@ Me too. So much so that I spend 100% of my time developing and maintaining it an
 Zellij will always be free and open-source. Zellij will never contain ads or collect your data.
 
 If the tool gives you value and you are able, please consider [a recurring monthly donation](https://github.com/sponsors/imsnif) of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!
+
+{{< related-tutorials >}}

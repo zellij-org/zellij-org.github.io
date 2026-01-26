@@ -1,0 +1,54 @@
+{{ define "body" }}
+    <body class="{{ if .Site.Params.backgroundImage }} background-image" style="background-image: url('{{ .Site.Params.backgroundImage }}');" {{ else }}"{{ end }}>
+{{ end }}
+
+{{ define "main" }}
+    <main aria-role="main">
+        <div>
+            {{ if .Site.Params.Portrait.Path }}
+               <img src="{{ .Site.Params.Portrait.Path }}" class="circle" alt="{{ .Site.Params.Portrait.Alt }}" style="max-width:{{ .Site.Params.Portrait.MaxWidth }}; border-radius:0px" />
+            {{ end }}
+
+            <h1>{{ .Site.Title }}</h1>
+            {{- with .Site.Params.homeSubtitle }}
+                <p style="font-size: 1.5rem; margin-bottom: 45px">{{.}}</p>
+            {{- end }}
+            <div class="container" style="display: flex; align-items: center; justify-content: center; flex-direction: row; justify-content: space-between; width: 80%; margin: auto; margin-bottom: 50px;">
+              <button type="button" class="download-hover" onclick="location.href='https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz'">
+                linux download
+              </button>
+              <button type="button" class="download-hover" onclick="location.href='https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-apple-darwin.tar.gz'">
+                macOS download
+              </button>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+              <h4 style="margin: 0px; border-bottom: 1px solid #ddd; justify-content: center;">Try Zellij Without Installing</h4>
+              <table style="text-align: left;">
+                <tr style="display: flexbox;">
+                  <th>For bash/zsh:</th>
+                  <td><code type="text" id="bashCmd">bash <(curl -L https://zellij.dev/launch)</code></td>
+                  <td><button id="bashCmdBtn" onclick="copyOnClick('bashCmd')">Copy</button></td>
+                </tr>
+                <tr style="display: flexbox;">
+                  <th>For fish:</th>
+                  <td><code type="text" id="fishCmd">bash (curl -L https://zellij.dev/launch | psub)</code></td>
+                  <td><button id="fishCmdBtn" onclick="copyOnClick('fishCmd')">Copy</button></td>
+                </tr>
+              </table>
+              <p style="margin: 0; border-top: 1px solid #ddd; margin-bottom: 20px">View the script that will be executed <a href="/launch">here</a></p>
+              <p style="text-align: center; margin-bottom: 40px"><a href="/features/"><strong>Explore Zellij's powerful features →<strong></a></p>
+            </div>
+
+            {{- with .Site.Params.social }}
+                <div>
+                    {{ partial "social-icons.html" . }}
+                </div>
+            {{- end }}
+            <div align="center" style="margin-top: 40px; display: flex; justify-content: center;">
+              <a href="https://discord.gg/CrUAFH3"><img alt="Discord Chat" src="https://img.shields.io/discord/771367133715628073?color=5865F2&label=discord&style=flat-square"></a>
+              <a href="https://matrix.to/#/#zellij_general:matrix.org"><img alt="Matrix Chat" src="https://img.shields.io/matrix/zellij_general:matrix.org?color=1d7e64&label=matrix%20chat&style=flat-square&logo=matrix"></a>
+            </div>
+        </div>
+    </main>
+{{ end }}

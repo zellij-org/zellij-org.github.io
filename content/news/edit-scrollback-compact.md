@@ -10,6 +10,7 @@ title: "Zellij 0.30.0: use your $EDITOR to search and save your scrollback"
 images: ["/img/floating-panes-preview.png"]
 description: "The latest Zellij version introduces the ability to edit your scrollback with your $EDITOR, a compact layout and much more!"
 alttext: "An image of the Zellij terminal multiplexer"
+tags: ["release", "feature"]
 weight: 10
 ---
 
