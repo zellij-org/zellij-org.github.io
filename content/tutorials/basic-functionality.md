@@ -1,7 +1,7 @@
 ---
 title: "Basic Development with Zellij"
 images: ["/img/tutorial-1-preview.png"]
-description: "How to use Zellij as a powerful engine for terminal development"
+description: "Learn Zellij's floating panes, command panes, and scrollback editing. Video tutorial showing core features for everyday terminal work."
 linktitle: "How to use Zellij as a powerful engine for terminal development"
 ---
 {{<video-left-aligned "/video/basic-development-screencast.mp4">}}
@@ -68,3 +68,5 @@ Me too. So much so that I spend 100% of my time developing and maintaining it an
 Zellij will always be free and open-source. Zellij will never contain ads or collect your data.
 
 If the tool gives you value and you are able, please consider [a recurring monthly donation](https://github.com/sponsors/imsnif) of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!
+
+{{< related-tutorials >}}

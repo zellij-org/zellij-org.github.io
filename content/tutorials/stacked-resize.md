@@ -1,7 +1,7 @@
 ---
 title: "Stacked Resize and Pinned Floating Panes"
 images: ["/img/stacked-resize-tutorial-preview.png"]
-description: "How to use stacked resize and pinned floating panes in Zellij"
+description: "Discover Zellij's stacked resizing and pinned floating panes. Video tutorial showing workspace optimization techniques for terminal development."
 linktitle: "How to use stacked resize and pinned floating panes in Zellij"
 aliases:
   - /screencasts/stacked-resize
@@ -140,3 +140,5 @@ Me too. So much so that I spend 100% of my time developing and maintaining it an
 Zellij will always be free and open-source. Zellij will never contain ads or collect your data.
 
 If the tool gives you value and you are able, please consider [a recurring monthly donation](https://github.com/sponsors/imsnif) of 5-10$ to help me pay my bills. There are Zellij stickers in it for you!
+
+{{< related-tutorials >}}

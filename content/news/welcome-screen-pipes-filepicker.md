@@ -7,10 +7,10 @@ type:
 - post
 - posts
 title: "Zellij 0.40.0: Welcome Screen, Filepicker, Pipes, Plugin Aliases"
-type:
 images: ["/img/welcome-screen-preview.png"]
 description: "A new welcome screen to facilitate session management, a new filepicker, a powerful new concept called pipes and lots of long awaited features"
 alttext: "An image of the Zellij welcome screen with the Zellij filepicker opened to select the location of the session"
+tags: ["release", "feature", "plugins"]
 weight: 10
 
 ---

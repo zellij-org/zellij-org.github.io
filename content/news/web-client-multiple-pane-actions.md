@@ -10,6 +10,7 @@ title: "Zellij 0.43.0: web client, multiple pane actions, compact-bar tooltips"
 images: ["/img/version-43-social-preview.png"]
 description: "Share sessions in the browser, perform bulk operations on multiple panes, toggle tooltips in the compact-bar..."
 alttext: "A screenshot of the Zellij share plugin, explaining how to share a session in the browser"
+tags: ["release", "feature", "web-client"]
 weight: 10
 
 ---

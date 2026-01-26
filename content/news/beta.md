@@ -9,6 +9,7 @@ type:
 title: "Zellij: a Rusty terminal workspace releases a beta"
 images: ["/img/beta-post-preview.png"]
 description: "After long months of work by a dedicated team of enthusiasts, today we are proud to announce the release of the beta version of Zellij"
+tags: ["release", "announcement"]
 weight: 10
 ---
 

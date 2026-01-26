@@ -9,6 +9,7 @@ type:
 title: "Zellij 0.16.0: new UI, many bugfixes and more!"
 images: ["/img/zellij-preview.png"]
 description: "Updates and a walkthrough through some of the many improvements in Zellij's latest release"
+tags: ["release", "feature"]
 weight: 10
 ---
 

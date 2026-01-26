@@ -10,6 +10,7 @@ title: "Zellij 0.25.0: floating panes, tmux mode and more!"
 images: ["/img/floating-panes-preview.png"]
 description: "The latest Zellij version introduces floating panes you can move with your mouse, a built-in tmux mode to help those migrating and much more!"
 alttext: "An image of Zellij demonstrating its floating panes capabilities"
+tags: ["release", "feature"]
 weight: 10
 ---
 

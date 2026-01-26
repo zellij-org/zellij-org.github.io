@@ -9,6 +9,7 @@ type:
 title: "Share your Terminal with Multiple Cursors"
 images: ["/img/multiple-users-zellij-screenshot.png"]
 description: "The latest Zellij version introduces multiplayer sessions, allowing multiple users to connect to the same Zellij session, each with their own cursor."
+tags: ["release", "feature", "collaboration"]
 weight: 10
 ---
 
