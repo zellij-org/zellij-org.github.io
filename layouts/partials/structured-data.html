@@ -50,9 +50,12 @@
   "datePublished": "{{ .Date }}",
   "author": {
     "@type": "Person",
-    "name": "{{ if .Params.author }}{{ .Params.author }}{{ else }}Zellij Team{{ end }}"
+    "name": "{{ if .Params.author }}{{ .Params.author }}{{ else }}Zellij Team{{ end }}",
+    "url": "https://poor.dev"
   },
-  "description": "{{ .Description }}"
+  "description": "{{ .Description }}",
+  {{ if .Params.images }}"image": "{{ index .Params.images 0 }}",{{ end }}
+  "url": "{{ .Permalink }}"
 }
 </script>
 {{ end }}
