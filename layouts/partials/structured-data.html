@@ -50,9 +50,12 @@
   "datePublished": "{{ .Date }}",
   "author": {
     "@type": "Person",
-    "name": "{{ if .Params.author }}{{ .Params.author }}{{ else }}Zellij Team{{ end }}"
+    "name": "{{ if .Params.author }}{{ .Params.author }}{{ else }}Zellij Team{{ end }}",
+    "url": "https://poor.dev"
   },
-  "description": "{{ .Description }}"
+  "description": "{{ .Description }}",
+  {{ if .Params.images }}"image": "{{ index .Params.images 0 }}",{{ end }}
+  "url": "{{ .Permalink }}"
 }
 </script>
 {{ end }}
@@ -65,7 +68,25 @@
   "@type": "FAQPage",
   "name": "{{ .Title }}",
   "description": "{{ .Description }}",
-  "url": "{{ .Permalink }}"
+  "url": "{{ .Permalink }}",
+  "mainEntity": [
+    {{ range $index, $element := split .RawContent "## " }}
+      {{ if gt $index 0 }}
+        {{ if gt $index 1 }},{{ end }}
+        {{ $parts := split $element "\n\n" }}
+        {{ $question := index $parts 0 | trim "\n\r " }}
+        {{ $answer := delimit (after 1 $parts) "\n\n" | plainify }}
+        {
+          "@type": "Question",
+          "name": "{{ $question }}",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ $answer | jsonify }}
+          }
+        }
+      {{ end }}
+    {{ end }}
+  ]
 }
 </script>
 {{ end }}
