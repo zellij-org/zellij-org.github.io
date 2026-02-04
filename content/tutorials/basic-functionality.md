@@ -1,5 +1,6 @@
 ---
 title: "Basic Development with Zellij"
+date: 2026-01-26T10:15:30+01:00
 images: ["/img/tutorial-1-preview.png"]
 description: "Learn Zellij's floating panes, command panes, and scrollback editing. Video tutorial showing core features for everyday terminal work."
 linktitle: "How to use Zellij as a powerful engine for terminal development"

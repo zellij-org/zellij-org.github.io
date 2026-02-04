@@ -1,5 +1,6 @@
 ---
 title: "The Zellij Web Client - Share Sessions in the Browser"
+date: 2025-03-12T15:20:12+01:00
 images: ["/img/web-client-screencast-preview.png"]
 description: "Use Zellij in your browser. Learn how to share sessions via web client with built-in authentication and multiplayer capabilities."
 linktitle: "How to share Zellij sessions in the browser, making the terminal emulator optional"

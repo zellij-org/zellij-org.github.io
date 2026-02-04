@@ -1,5 +1,6 @@
 ---
 title: "Developing a Zellij plugin using Rust"
+date: 2024-12-03T20:51:34+01:00
 images: ["/img/develop-rust-plugin.png"]
 description: "Build a Zellij plugin with Rust. Complete tutorial from scaffolding to distribution, covering UI rendering, input handling, and state management."
 linktitle: "A walkthrough of creating a Zellij plugin from start to end"
