@@ -1,5 +1,6 @@
 ---
 title: "Stacked Resize and Pinned Floating Panes"
+date: 2025-03-12T15:20:12+01:00
 images: ["/img/stacked-resize-tutorial-preview.png"]
 description: "Discover Zellij's stacked resizing and pinned floating panes. Video tutorial showing workspace optimization techniques for terminal development."
 linktitle: "How to use stacked resize and pinned floating panes in Zellij"

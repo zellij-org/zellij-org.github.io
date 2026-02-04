@@ -1,5 +1,6 @@
 ---
 title: "Using Layouts for Personal Automation"
+date: 2022-12-08T19:54:34+01:00
 images: ["/img/tutorial-2-preview.png"]
 description: "Learn how to create Zellij layouts to automate tasks and workflows. Video and tutorial covering workspace structuring and automation."
 linktitle: "How to create and use Zellij layouts to automate tasks and workflows"

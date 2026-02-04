@@ -1,5 +1,6 @@
 ---
 title: "The Zellij Filepicker"
+date: 2024-04-09T17:16:43+02:00
 images: ["/img/tutorial-4-preview.png"]
 description: "Explore the Zellij filepicker plugin. Learn dynamic filesystem traversal with fuzzy finding for faster file navigation and workflows."
 linktitle: "Dynamic file navigation with the Zellij filepicker"

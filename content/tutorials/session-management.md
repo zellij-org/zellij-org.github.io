@@ -1,5 +1,6 @@
 ---
 title: "Session Management with Zellij"
+date: 2024-04-08T19:29:12+02:00
 images: ["/img/tutorial-3-preview.png"]
 description: "Learn to manage terminal sessions with Zellij. Tutorial covering context switching, session resurrection, and the welcome screen."
 linktitle: "How to use Zellij to manage your sessions in the terminal"

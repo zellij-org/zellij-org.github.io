@@ -34,7 +34,7 @@
   "name": "{{ .Title }}",
   "description": "{{ .Description }}",
   "thumbnailUrl": "{{ if .Params.images }}{{ index .Params.images 0 }}{{ end }}",
-  "uploadDate": "{{ .Date }}",
+  "uploadDate": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
   "contentUrl": "{{ .Permalink }}"
 }
 </script>
