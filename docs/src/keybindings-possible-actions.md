@@ -1,12 +1,41 @@
 # Possible Actions
 
+## `BreakPane`
+
+ Break out pane to a new tab
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { BreakPane; }
+```
+
+## `BreakPaneLeft`
+
+ Break out pane to the left tab
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { BreakPaneLeft; }
+```
+
+## `BreakPaneRight`
+
+ Break out pane to the right tab
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { BreakPaneRight; }
+```
+
 ## `Clear`
 
  Clear the scrollback buffer of the focused pane
 
 **Possible arguments**: None
 
-eg.
 ```javascript
     bind "a" { Clear; }
 ```
@@ -17,7 +46,6 @@ eg.
 
 **Possible arguments**: None
 
-eg.
 ```javascript
     bind "a" { CloseFocus; }
 ```
@@ -27,27 +55,66 @@ eg.
 
 **Possible arguments**: None
 
-eg.
 ```javascript
     bind "a" { CloseTab; }
 ```
+
+## `Confirm`
+
+ Confirm a prompt
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { Confirm; }
+```
+
+## `Copy`
+
+ Copy
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { Copy; }
+```
+
+## `Deny`
+
+ Deny a prompt
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { Deny; }
+```
+
 ## `Detach`
 
  Detach from the current session, leaving it running in the background
 
 **Possible arguments**: None
 
-eg.
 ```javascript
     bind "a" { Detach; }
 ```
+
+## `DumpLayout`
+
+ Dump the current layout
+
+**Required arguments**: A path to a file on the hard-drive
+
+```javascript
+    bind "a" { DumpLayout "/tmp/my-dump.txt"; }
+```
+
 ## `DumpScreen`
 
  Dump the contents of the focused pane, including its entire scrollback, to the specified file.
 
 **Required arguments**: A path to a file on the hard-drive
 
-eg.
 ```javascript
     bind "a" { DumpScreen "/tmp/my-dump.txt"; }
 ```
@@ -130,11 +197,34 @@ eg.
 
 **Required arguments**: The [plugin URL](./plugin-loading.md#plugin-url-schema) (eg. `file:/path/to/my/plugin.wasm`)
 
-**Optional arguments**: `floating` - `true` or `false` (default is `false`)
+**Optional arguments**:
+- `move_to_focused_tab` (`true/false`): if the plugin is already opened, should it be moved to the focused tab
+- `floating` (`true/false`): should it be floating or tiled
+- `in_place` (`true/false`): if launching a new plugin, should it be opened in place of the current pane, temporarily suspending it
+- `skip_plugin_cache` (`true/false`): if launching a new plugin, force re-compilation (and re-download if the plugin is http)
 
 ```javascript
     bind "a" {
         LaunchOrFocusPlugin "zellij:strider" {
+            floating true
+        }
+    }
+```
+
+## `LaunchPlugin`
+
+ Launch a plugin, even if one is already running
+
+**Required arguments**: The [plugin URL](./plugin-loading.md#plugin-url-schema) (eg. `file:/path/to/my/plugin.wasm`)
+
+**Optional arguments**:
+- `floating` (`true/false`): should it be floating or tiled
+- `in_place` (`true/false`): should it be opened in place of the current pane, temporarily suspending it
+- `skip_plugin_cache` (`true/false`): force re-compilation (and re-download if the plugin is http)
+
+```javascript
+    bind "a" {
+        LaunchPlugin "zellij:strider" {
             floating true
         }
     }
@@ -146,14 +236,14 @@ Send a message to one or more plugins, using a [pipe](./plugin-pipes.md) - meani
 
 **Required arguments**: None (with no options specified, this keybind will send an empty message to all plugins)
 
-**Optional arguments:**:
-    - `launch_new` (`true/false`): force a new plugin to launch even if one is already running
-    - `skip_cache` (`true/false`): force re-compilation (and re-download if the plugin is http), even if the plugin is already running or cached
-    - `floating` (`true/false`): if launching a new plugin, should it be floating or tiled
-    - `name` (`String`): The name of the message
-    - `payload` (`String`): The payload of the message
-    - `title` (`String`): The pane title of the pane if launching a new plugin instance
-    - `cwd` (`String`): The working directory of the plugin if launching a new instance
+**Optional arguments**:
+- `launch_new` (`true/false`): force a new plugin to launch even if one is already running
+- `skip_cache` (`true/false`): force re-compilation (and re-download if the plugin is http), even if the plugin is already running or cached
+- `floating` (`true/false`): if launching a new plugin, should it be floating or tiled
+- `name` (`String`): name of the message
+- `payload` (`String`): payload of the message
+- `title` (`String`): pane title of the pane if launching a new plugin instance
+- `cwd` (`String`): working directory of the plugin if launching a new instance
 
 ```javascript
     bind "a" {
@@ -184,14 +274,25 @@ Send a message to one or more plugins, using a [pipe](./plugin-pipes.md) - meani
 ```javascript
     bind "a" { MoveFocusOrTab "Left"; }
 ```
+
 ## `MovePane`
 
- Move the position of the focused pane in the specific direction
+ Move the focused pane, optionally in the specific direction
 
-**Required arguments**: `Left` | `Right` | `Up` | `Down`
+**Possible arguments**: `Left` | `Right` | `Up` | `Down`
 
 ```javascript
     bind "a" { MovePane "Left"; }
+```
+
+## `MovePaneBackwards`
+
+ Move the focused pane backwards
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { MovePaneBackwards; }
 ```
 
 ## `MoveTab`
@@ -228,9 +329,10 @@ Send a message to one or more plugins, using a [pipe](./plugin-pipes.md) - meani
 
  Open a new tab
 
-**Possible arguments**: `cwd`
-
- Current working directory for the new tab, `name` - the name of the new tab, `layout` - path to the layout file to load for this tab
+**Possible arguments**:
+- `cwd` (`String`): change the working directory of the new tab
+- `name` (`String`): name of the new tab
+- `layout` (`String`): path to the layout file to load for this tab
 
 ```javascript
     bind "a" { NewTab; }
@@ -245,6 +347,17 @@ or:
        }
     }
 ```
+
+## `PaneNameInput`
+
+ Change pane name
+
+**Required arguments**: `0`
+
+```javascript
+    bind "a" { PaneNameInput 0; }
+```
+
 ## `PageScrollDown`
 
  Scroll the focused pane one page down
@@ -282,6 +395,17 @@ or:
 ```javascript
     bind "a" { Quit; }
 ```
+
+## `RenameSession`
+
+ Rename session
+
+**Required arguments**: New name
+
+```javascript
+    bind "a" { RenameSession "default"; }
+```
+
 ## `Resize`
 
  Resize the focused pane either in the specified direction or increase/decrease its size automatically
@@ -297,7 +421,18 @@ or:
 
 **Required arguments**: The command to run, followed by optional arguments
 
-**Possible arguments**: `cwd` - current working directory, `direction` - the direction to open the new command pane
+**Optional arguments**:
+- `cwd` (`String`): change the working directory of the new pane
+- `name` (`String`): name of the new pane
+- `direction` (`String`): direction to open the new pane in
+- `close_on_exit` (`true/false`): close the pane immediately when its command exits
+- `start_suspended` (`true/false`): Start the command suspended, only running after you first presses ENTER
+- `floating` (`true/false`): open the new pane in floating mode
+- `in_place` (`true/false`): open the new pane in place of the current pane, temporarily suspending it
+
+**Optional arguments for `floating=true`**:
+- `pinned` (`true/false`): whether to pin a floating pane so that it is always on top
+- `x`/`y`/`width`/`height`: either a fixed number (characters from screen edge) or a percentage (recommended in case where the terminal window size is not known)
 
 ```javascript
     // will run "tail -f /tmp/foo" in a pane opened below the focused one
@@ -308,6 +443,7 @@ or:
         }
     }
 ```
+
 ## `ScrollDown`
 
  Scroll the focused pane down 1 line
@@ -354,6 +490,16 @@ or:
     bind "a" { Search "up"; }
 ```
 
+## `SearchInput`
+
+ Search for string
+
+**Required arguments**: `0`
+
+```javascript
+    bind "a" { SearchInput 0; }
+```
+
 ## `SearchToggleOption`
 
  Toggle various search options on/off
@@ -364,6 +510,16 @@ or:
     bind "a" { SearchToggleOption "CaseSensitivity"; }
 ```
 
+## `SwitchFocus`
+
+ Switch focused pane
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { SwitchFocus; }
+```
+
 ## `SwitchToMode`
 
  Switch the current input mode
@@ -372,6 +528,16 @@ or:
 
 ```javascript
     bind "a" { SwitchToMode "locked"; }
+```
+
+## `TabNameInput`
+
+ Change tab name
+
+**Required arguments**: `0`
+
+```javascript
+    bind "a" { TabNameInput 0; }
 ```
 
 ## `ToggleActiveSyncTab`
@@ -432,6 +598,16 @@ or:
 
 ```javascript
     bind "a" { TogglePaneFrames; }
+```
+
+## `TogglePanePinned`
+
+ Pin/unpin the focused floating pane (pinned floating panes always remain on top)
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { TogglePanePinned; }
 ```
 
 ## `ToggleTab`
