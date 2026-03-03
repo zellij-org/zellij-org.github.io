@@ -2,9 +2,14 @@
   <div id="player-wrapper" class="{{ .Get 1 }}"></div>
 </div>
 
-<script 
-  type="text/javascript" 
-  src="https://cdn.jsdelivr.net/npm/@clappr/player@latest/dist/clappr.min.js"
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"
+>
+</script>
+<script
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/clappr-playback-rate-plugin@latest/dist/clappr-playback-rate-plugin.min.js"
 >
 </script>
 
@@ -17,8 +22,18 @@
     // height: 360,
     height: 540,
     // width: 640
-    width: 960
+    width: 960,
+    plugins: [PlaybackRatePlugin],
+    playbackRateConfig: {
+      defaultValue: 1,
+      options: [
+        {value: 0.5, label: '0.5x'},
+        {value: 1, label: '1x'},
+        {value: 1.5, label: '1.5x'},
+        {value: 2, label: '2x'},
+      ]
+    }
   });
 
-  player.attachTo(playerElement);  
+  player.attachTo(playerElement);
 </script>
