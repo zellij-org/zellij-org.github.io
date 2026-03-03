@@ -1,39 +1,14 @@
 <div class="container" style="display: flex; justify-content: left; align-items: left;">
-  <div id="player-wrapper" class="{{ .Get 1 }}"></div>
+  <video class="{{ .Get 1 }}" style="max-width: 960px; width: 100%;">
+    <source src={{ .Get 0 }} type="video/mp4">
+  </video>
 </div>
 
-<script
-  type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"
->
-</script>
-<script
-  type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/clappr-playback-rate-plugin@latest/dist/clappr-playback-rate-plugin.min.js"
->
-</script>
-
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script>
-  var playerElement = document.getElementById("player-wrapper");
-
-  var player = new Clappr.Player({
-    source: {{ .Get 0 }},
-    mute: false,
-    // height: 360,
-    height: 540,
-    // width: 640
-    width: 960,
-    plugins: [PlaybackRatePlugin],
-    playbackRateConfig: {
-      defaultValue: 1,
-      options: [
-        {value: 0.5, label: '0.5x'},
-        {value: 1, label: '1x'},
-        {value: 1.5, label: '1.5x'},
-        {value: 2, label: '2x'},
-      ]
-    }
+  document.querySelectorAll('video:not(.plyr--setup)').forEach(function(el) {
+    var p = new Plyr(el, { speed: { selected: 1, options: [0.5, 1, 1.5, 2] } });
+    el.classList.add('plyr--setup');
   });
-
-  player.attachTo(playerElement);
 </script>
