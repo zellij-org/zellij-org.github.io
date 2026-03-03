@@ -297,7 +297,13 @@ or:
 
 **Required arguments**: The command to run, followed by optional arguments
 
-**Possible arguments**: `cwd` - current working directory, `direction` - the direction to open the new command pane
+**Possible arguments**: 
+
+- `cwd` - current working directory
+- `direction` - the direction to open the new command pane
+- `floating` - will the pane be a floating window
+- `close_on_exit` - will the pane close after the command finishes
+
 
 ```javascript
     // will run "tail -f /tmp/foo" in a pane opened below the focused one
@@ -307,7 +313,20 @@ or:
             direction "Down"
         }
     }
+    // open floating "session close" picker using `sk`
+    // (cargo install skim)
+    bind "b" {
+        Run "bash" "-c" r"zellij ac switch-mode normal \
+                        && zellij list-sessions \
+                        | sk --header 'Kill selected session. Ctrl-C or Esc to cancel' \
+                        | xargs zellij kill-session" {
+            floating true // default: false
+            close_on_exit true // default: false
+        }
+    }
 ```
+
+
 ## `ScrollDown`
 
  Scroll the focused pane down 1 line
