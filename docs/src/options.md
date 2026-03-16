@@ -372,3 +372,106 @@ Whether to enable mouse hover effects and multiple select functionality (pane gr
 Options:
     - true (default)
     - false
+
+### default_cwd
+Set the default current working directory for new panes. When set, new panes will open in this directory unless otherwise specified.
+
+```javascript
+default_cwd "/home/user/projects"
+```
+
+### osc8_hyperlinks
+Enable clickable OSC8 hyperlink output in terminal panes. When enabled, programs that emit OSC8 escape sequences will produce clickable hyperlinks.
+
+Options:
+  - true
+  - false (default)
+
+```javascript
+osc8_hyperlinks true
+```
+
+### session_name
+Set the name of the session to create when starting Zellij. If not set, a random name will be generated.
+
+```javascript
+session_name "my-session"
+```
+
+### attach_to_session
+If a session with the name specified in `session_name` already exists, attach to it instead of creating a new one.
+
+Options:
+  - true
+  - false (default)
+
+```javascript
+attach_to_session true
+```
+
+### support_kitty_keyboard_protocol
+Enable support for the Kitty keyboard protocol. This allows for more detailed key reporting from the terminal. Defaults to true if the terminal supports it.
+
+Options:
+  - true (default if terminal supports it)
+  - false
+
+```javascript
+support_kitty_keyboard_protocol true
+```
+
+### web_sharing
+Whether new sessions are shared through the local web server. This is separate from `web_server` which controls whether the server starts at all.
+
+Options:
+  - "on" - new sessions are shared by default
+  - "off" - new sessions are not shared by default (Default)
+  - "disabled" - sharing is completely disabled
+
+```javascript
+web_sharing "on"
+```
+
+### mouse_hover_effects
+Enable mouse hover visual effects, such as pane frame highlight and help text when hovering over panes.
+
+Options:
+  - true (default)
+  - false
+
+```javascript
+mouse_hover_effects false
+```
+
+### visual_bell
+Show visual bell indicators when a pane sends a bell character. This manifests as a brief pane/tab frame flash and a [!] suffix on the tab name.
+
+Options:
+  - true (default)
+  - false
+
+```javascript
+visual_bell false
+```
+
+### focus_follows_mouse
+Whether to automatically focus panes when hovering over them with the mouse.
+
+Options:
+  - true
+  - false (default)
+
+```javascript
+focus_follows_mouse true
+```
+
+### mouse_click_through
+Whether clicking a pane to focus it also sends the click event into the pane (to the running program). When false, the first click only focuses the pane and is consumed by Zellij.
+
+Options:
+  - true
+  - false (default)
+
+```javascript
+mouse_click_through true
+```
