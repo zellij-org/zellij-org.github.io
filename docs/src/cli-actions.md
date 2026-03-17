@@ -2,6 +2,81 @@
 
 *A note about pane ids:* Since terminal panes and plugin panes can have overlapping IDs, they are differentiated by prefixing the pane type, eg. `terminal_1` is a different pane than `plugin_1`. The ID of terminal panes is the same one that can be discovered through the `ZELLIJ_PANE_ID` environment variable. When a `--pane-id` flag accepts a pane id, it can be specified as `terminal_1`, `plugin_2`, or just `3` (equivalent to `terminal_3`).
 
+---
+
+- [change-floating-pane-coordinates](#change-floating-pane-coordinates)
+- [clear](#clear)
+- [close-pane](#close-pane)
+- [close-tab](#close-tab)
+- [close-tab-by-id](#close-tab-by-id)
+- [current-tab-info](#current-tab-info)
+- [detach](#detach)
+- [dump-layout](#dump-layout)
+- [dump-screen](#dump-screen)
+- [edit](#edit)
+- [edit-scrollback](#edit-scrollback)
+- [focus-next-pane](#focus-next-pane)
+- [focus-previous-pane](#focus-previous-pane)
+- [go-to-next-tab](#go-to-next-tab)
+- [go-to-previous-tab](#go-to-previous-tab)
+- [go-to-tab](#go-to-tab)
+- [go-to-tab-by-id](#go-to-tab-by-id)
+- [go-to-tab-name](#go-to-tab-name)
+- [half-page-scroll-down](#half-page-scroll-down)
+- [half-page-scroll-up](#half-page-scroll-up)
+- [hide-floating-panes](#hide-floating-panes)
+- [launch-or-focus-plugin](#launch-or-focus-plugin)
+- [launch-plugin](#launch-plugin)
+- [list-clients](#list-clients)
+- [list-panes](#list-panes)
+- [list-tabs](#list-tabs)
+- [move-focus](#move-focus)
+- [move-focus-or-tab](#move-focus-or-tab)
+- [move-pane](#move-pane)
+- [move-pane-backwards](#move-pane-backwards)
+- [move-tab](#move-tab)
+- [new-pane](#new-pane)
+- [new-tab](#new-tab)
+- [next-swap-layout](#next-swap-layout)
+- [override-layout](#override-layout)
+- [page-scroll-down](#page-scroll-down)
+- [page-scroll-up](#page-scroll-up)
+- [paste](#paste)
+- [pipe](#pipe)
+- [previous-swap-layout](#previous-swap-layout)
+- [query-tab-names](#query-tab-names)
+- [rename-pane](#rename-pane)
+- [rename-session](#rename-session)
+- [rename-tab](#rename-tab)
+- [rename-tab-by-id](#rename-tab-by-id)
+- [resize](#resize)
+- [save-session](#save-session)
+- [scroll-down](#scroll-down)
+- [scroll-to-bottom](#scroll-to-bottom)
+- [scroll-to-top](#scroll-to-top)
+- [scroll-up](#scroll-up)
+- [send-keys](#send-keys)
+- [set-pane-borderless](#set-pane-borderless)
+- [set-pane-color](#set-pane-color)
+- [show-floating-panes](#show-floating-panes)
+- [start-or-reload-plugin](#start-or-reload-plugin)
+- [stack-panes](#stack-panes)
+- [switch-mode](#switch-mode)
+- [switch-session](#switch-session)
+- [toggle-active-sync-tab](#toggle-active-sync-tab)
+- [toggle-floating-panes](#toggle-floating-panes)
+- [toggle-fullscreen](#toggle-fullscreen)
+- [toggle-pane-borderless](#toggle-pane-borderless)
+- [toggle-pane-embed-or-floating](#toggle-pane-embed-or-floating)
+- [toggle-pane-frames](#toggle-pane-frames)
+- [toggle-pane-pinned](#toggle-pane-pinned)
+- [undo-rename-pane](#undo-rename-pane)
+- [undo-rename-tab](#undo-rename-tab)
+- [write](#write)
+- [write-chars](#write-chars)
+
+---
+
 #### change-floating-pane-coordinates
 Given a pane id, and coordinates, will change the coordinates of this pane.
 
@@ -92,7 +167,43 @@ Get information about the currently active tab. Returns the tab name and ID by d
 eg.
 ```
 $ zellij action current-tab-info
+```
+
+**Sample output:**
+```
+name: Tab #1
+id: 0
+position: 0
+```
+
+With `--json`:
+```
 $ zellij action current-tab-info --json
+```
+
+**Sample output:**
+```json
+{
+  "position": 0,
+  "name": "Tab #1",
+  "active": true,
+  "panes_to_hide": 0,
+  "is_fullscreen_active": false,
+  "is_sync_panes_active": false,
+  "are_floating_panes_visible": false,
+  "other_focused_clients": [],
+  "active_swap_layout_name": "default",
+  "is_swap_layout_dirty": false,
+  "viewport_rows": 24,
+  "viewport_columns": 80,
+  "display_area_rows": 26,
+  "display_area_columns": 80,
+  "selectable_tiled_panes_count": 2,
+  "selectable_floating_panes_count": 0,
+  "tab_id": 0,
+  "has_bell_notification": false,
+  "is_flashing_bell": false
+}
 ```
 
 #### detach
@@ -353,9 +464,95 @@ List all panes in the current session with optional detail fields.
 
 eg.
 ```
+$ zellij action list-panes
+```
+
+**Sample output (default):**
+```
+PANE_ID      TYPE      TITLE
+terminal_1   terminal  /bin/bash
+plugin_0     plugin    tab-bar
+terminal_2   terminal  vim main.rs
+```
+
+With `--all`:
+```
 $ zellij action list-panes --all
+```
+
+**Sample output:**
+```
+TAB_ID  TAB_POS  TAB_NAME  PANE_ID      TYPE      TITLE          COMMAND        CWD                      FOCUSED  FLOATING  EXITED  X  Y   ROWS  COLS
+0       0        Tab #1    terminal_1   terminal  /bin/bash      bash           /home/user/project       true     false     false   0  1   24    80
+0       0        Tab #1    plugin_0     plugin    tab-bar        zellij:tab-bar -                        false    false     false   0  0   1     80
+1       1        Tab #2    terminal_2   terminal  vim main.rs    vim main.rs    /home/user/project/src   true     false     false   0  1   24    80
+```
+
+With `--json`:
+```
 $ zellij action list-panes --json
-$ zellij action list-panes --tab --state --command
+```
+
+**Sample output:**
+```json
+[
+  {
+    "id": 1,
+    "is_plugin": false,
+    "is_focused": true,
+    "is_fullscreen": false,
+    "is_floating": false,
+    "is_suppressed": false,
+    "title": "/bin/bash",
+    "exited": false,
+    "exit_status": null,
+    "is_held": false,
+    "pane_x": 0,
+    "pane_content_x": 1,
+    "pane_y": 1,
+    "pane_content_y": 2,
+    "pane_rows": 24,
+    "pane_content_rows": 22,
+    "pane_columns": 80,
+    "pane_content_columns": 78,
+    "cursor_coordinates_in_pane": [0, 5],
+    "terminal_command": null,
+    "plugin_url": null,
+    "is_selectable": true,
+    "tab_id": 0,
+    "tab_position": 0,
+    "tab_name": "Tab #1",
+    "pane_command": "bash",
+    "pane_cwd": "/home/user/project"
+  },
+  {
+    "id": 0,
+    "is_plugin": true,
+    "is_focused": false,
+    "is_fullscreen": false,
+    "is_floating": false,
+    "is_suppressed": false,
+    "title": "tab-bar",
+    "exited": false,
+    "exit_status": null,
+    "is_held": false,
+    "pane_x": 0,
+    "pane_content_x": 0,
+    "pane_y": 0,
+    "pane_content_y": 0,
+    "pane_rows": 1,
+    "pane_content_rows": 1,
+    "pane_columns": 80,
+    "pane_content_columns": 80,
+    "cursor_coordinates_in_pane": null,
+    "terminal_command": null,
+    "plugin_url": "zellij:tab-bar",
+    "is_selectable": false,
+    "tab_id": 0,
+    "tab_position": 0,
+    "tab_name": "Tab #1"
+  }
+]
 ```
 
 #### list-tabs
@@ -373,9 +570,81 @@ List all tabs with their information.
 
 eg.
 ```
+$ zellij action list-tabs
+```
+
+**Sample output (default):**
+```
+TAB_ID  POSITION  NAME
+0       0         Tab #1
+1       1         editor
+2       2         logs
+```
+
+With `--all`:
+```
 $ zellij action list-tabs --all
+```
+
+**Sample output:**
+```
+TAB_ID  POSITION  NAME    ACTIVE  FULLSCREEN  SYNC_PANES  FLOATING_VIS  VP_ROWS  VP_COLS  DA_ROWS  DA_COLS  TILED_PANES  FLOAT_PANES  HIDDEN_PANES  SWAP_LAYOUT  LAYOUT_DIRTY
+0       0         Tab #1  true    false       false       false         24       80       26       80       2            0            0             default      false
+1       1         editor  false   false       false       false         24       80       26       80       1            0            0             -            false
+2       2         logs    false   false       false       true          24       80       26       80       1            1            0             default      true
+```
+
+With `--json`:
+```
 $ zellij action list-tabs --json
-$ zellij action list-tabs --state --panes
+```
+
+**Sample output:**
+```json
+[
+  {
+    "position": 0,
+    "name": "Tab #1",
+    "active": true,
+    "panes_to_hide": 0,
+    "is_fullscreen_active": false,
+    "is_sync_panes_active": false,
+    "are_floating_panes_visible": false,
+    "other_focused_clients": [],
+    "active_swap_layout_name": "default",
+    "is_swap_layout_dirty": false,
+    "viewport_rows": 24,
+    "viewport_columns": 80,
+    "display_area_rows": 26,
+    "display_area_columns": 80,
+    "selectable_tiled_panes_count": 2,
+    "selectable_floating_panes_count": 0,
+    "tab_id": 0,
+    "has_bell_notification": false,
+    "is_flashing_bell": false
+  },
+  {
+    "position": 1,
+    "name": "editor",
+    "active": false,
+    "panes_to_hide": 0,
+    "is_fullscreen_active": false,
+    "is_sync_panes_active": false,
+    "are_floating_panes_visible": false,
+    "other_focused_clients": [],
+    "active_swap_layout_name": null,
+    "is_swap_layout_dirty": false,
+    "viewport_rows": 24,
+    "viewport_columns": 80,
+    "display_area_rows": 26,
+    "display_area_columns": 80,
+    "selectable_tiled_panes_count": 1,
+    "selectable_floating_panes_count": 0,
+    "tab_id": 1,
+    "has_bell_notification": false,
+    "is_flashing_bell": false
+  }
+]
 ```
 
 #### move-focus

@@ -4,6 +4,59 @@ Configuration options can be set directly at the root of the [configuration file
 
  These include:
 
+---
+
+- [on_force_close](#on_force_close)
+- [simplified_ui](#simplified_ui)
+- [default_shell](#default_shell)
+- [pane_frames](#pane_frames)
+- [theme](#theme)
+- [default_layout](#default_layout)
+- [default_mode](#default_mode-locked)
+- [mouse_mode](#mouse_mode)
+- [scroll_buffer_size](#scroll_buffer_size)
+- [copy_command](#copy_command)
+- [copy_clipboard](#copy_clipboard)
+- [copy_on_select](#copy_on_select)
+- [scrollback_editor](#scrollback_editor)
+- [mirror_session](#mirror_session)
+- [layout_dir](#layout_dir)
+- [theme_dir](#theme_dir)
+- [env](#env)
+- [rounded_corners](#rounded_corners)
+- [hide_session_name](#hide_session_name)
+- [auto_layout](#auto_layout)
+- [styled_underlines](#styled_underlines)
+- [session_serialization](#session_serialization)
+- [pane_viewport_serialization](#pane_viewport_serialization)
+- [scrollback_lines_to_serialize](#scrollback_lines_to_serialize)
+- [serialization_interval](#serialization_interval)
+- [disable_session_metadata](#disable_session_metadata)
+- [stacked_resize](#stacked_resize)
+- [show_startup_tips](#show_startup_tips)
+- [show_release_notes](#show_release_notes)
+- [post_command_discovery_hook](#post_command_discovery_hook)
+- [web_server](#web_server)
+- [web_server_ip](#web_server_ip)
+- [web_server_port](#web_server_port)
+- [web_server_cert](#web_server_cert)
+- [web_server_key](#web_server_key)
+- [enforce_https_on_localhost](#enforce_https_on_localhost)
+- [web_client](#web_client)
+- [advanced_mouse_actions](#advanced_mouse_actions)
+- [default_cwd](#default_cwd)
+- [osc8_hyperlinks](#osc8_hyperlinks)
+- [session_name](#session_name)
+- [attach_to_session](#attach_to_session)
+- [support_kitty_keyboard_protocol](#support_kitty_keyboard_protocol)
+- [web_sharing](#web_sharing)
+- [mouse_hover_effects](#mouse_hover_effects)
+- [visual_bell](#visual_bell)
+- [focus_follows_mouse](#focus_follows_mouse)
+- [mouse_click_through](#mouse_click_through)
+
+---
+
 ### on_force_close
 
 Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP

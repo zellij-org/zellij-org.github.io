@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Zellij Pipe - Zellij User Guide</title>
+        <title>Zellij Plugin &amp; Pipe - Zellij User Guide</title>
 
 
         <!-- Custom HTML head -->
@@ -152,7 +152,53 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="zellij-pipe"><a class="header" href="#zellij-pipe">Zellij Pipe</a></h1>
+                        <h1 id="zellij-plugin--pipe"><a class="header" href="#zellij-plugin--pipe">Zellij Plugin &amp; Pipe</a></h1>
+<hr />
+<ul>
+<li><a href="#zellij-plugin">Zellij Plugin</a> — Load a plugin from a local or remote wasm file into a new pane</li>
+<li><a href="#zellij-pipe">Zellij Pipe</a> — Send messages and data to one or more plugins, launching them if needed</li>
+</ul>
+<hr />
+<h2 id="zellij-plugin"><a class="header" href="#zellij-plugin">Zellij Plugin</a></h2>
+<p>Zellij includes a top-level <code>plugin</code> cli command that can be used to launch a new Zellij plugin instance from a local or remote wasm file</p>
+<p>eg.</p>
+<pre><code>$ zellij plugin -- https://path/to/my/plugin.wasm
+</code></pre>
+<p><strong>USAGE</strong>:</p>
+<pre><code>    zellij plugin [OPTIONS] [--] &lt;URL&gt;
+</code></pre>
+<p><strong>ARGS</strong>:</p>
+<pre><code>    &lt;URL&gt;    Plugin URL, can either start with http(s), file: or zellij:
+</code></pre>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -c, --configuration &lt;CONFIGURATION&gt;
+            Plugin configuration
+
+    -f, --floating
+            Open the new pane in floating mode
+
+    -h, --help
+            Print help information
+
+        --height &lt;HEIGHT&gt;
+            The height if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
+
+    -i, --in-place
+            Open the new pane in place of the current pane, temporarily suspending it
+
+    -s, --skip-plugin-cache
+            Skip the memory and HD cache and force recompile of the plugin (good for development)
+
+        --width &lt;WIDTH&gt;
+            The width if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
+
+    -x, --x &lt;X&gt;
+            The x coordinates if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
+
+    -y, --y &lt;Y&gt;
+            The y coordinates if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
+</code></pre>
+<h2 id="zellij-pipe"><a class="header" href="#zellij-pipe">Zellij Pipe</a></h2>
 <p>Zellij <a href="./plugin-pipes.html">pipes</a> provide a way to send messages to one or more plugins, launching them on first-message if they are not running.</p>
 <p>eg.</p>
 <pre><code>$ zellij plugin -- https://path/to/my/plugin.wasm
@@ -200,11 +246,11 @@ tail -f /tmp/my-live-logfile | zellij pipe --name logs --plugin https://example.
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="zellij-plugin.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="cli-actions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="layouts.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="zellij-subscribe.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -214,11 +260,11 @@ tail -f /tmp/my-live-logfile | zellij pipe --name logs --plugin https://example.
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="zellij-plugin.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="cli-actions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="layouts.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="zellij-subscribe.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

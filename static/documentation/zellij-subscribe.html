@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Zellij Edit - Zellij User Guide</title>
+        <title>Zellij Subscribe - Zellij User Guide</title>
 
 
         <!-- Custom HTML head -->
@@ -152,43 +152,94 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="zellij-edit"><a class="header" href="#zellij-edit">Zellij Edit</a></h1>
-<p>It's possible to open your default editor pointed at a file in a new Zellij pane.</p>
-<p>This can be useful to save time instead of opening a new pane and starting your default editor inside it manually.</p>
-<p>eg.</p>
-<pre><code class="language-bash">$ zellij edit ./main.rs # open main.rs in a new pane
-$ zellij edit --floating ./main.rs # open main.rs in a new floating pane
-$ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 10
+                        <h1 id="zellij-subscribe"><a class="header" href="#zellij-subscribe">Zellij Subscribe</a></h1>
+<p>Zellij provides a top-level <code>subscribe</code> command that streams the rendered output of one or more panes to stdout in real time. This is useful for monitoring, scripting, and building external tooling around Zellij sessions.</p>
+<hr />
+<ul>
+<li><a href="#usage">Usage</a> — Command syntax</li>
+<li><a href="#options">Options</a> — Available flags and parameters</li>
+<li><a href="#output-formats">Output Formats</a> — Raw text and JSON (NDJSON) output modes</li>
+<li><a href="#behavior">Behavior</a> — How initial delivery, change detection, and exit work</li>
+<li><a href="#subscribing-to-a-different-session">Subscribing to a Different Session</a> — Monitoring panes in background or remote sessions</li>
+<li><a href="#examples">Examples</a> — Common usage patterns including <code>jq</code> and <code>awk</code> filtering</li>
+</ul>
+<hr />
+<h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
+<pre><code>zellij [--session &lt;SESSION_NAME&gt;] subscribe [OPTIONS] --pane-id &lt;PANE_ID&gt;...
 </code></pre>
-<p><strong>Possible Options</strong>:</p>
-<pre><code>        --cwd &lt;CWD&gt;                    Change the working directory of the editor
-    -d, --direction &lt;DIRECTION&gt;        Direction to open the new pane in
-    -f, --floating                     Open the new pane in floating mode
-    -h, --help                         Print help information
-        --height &lt;HEIGHT&gt;              The height if the pane is floating as a bare integer (eg. 1)
-                                       or percent (eg. 10%)
-    -i, --in-place                     Open the new pane in place of the current pane, temporarily
-                                       suspending it
-    -l, --line-number &lt;LINE_NUMBER&gt;    Open the file in the specified line number
-        --width &lt;WIDTH&gt;                The width if the pane is floating as a bare integer (eg. 1)
-                                       or percent (eg. 10%)
-    -x, --x &lt;X&gt;                        The x coordinates if the pane is floating as a bare integer
-                                       (eg. 1) or percent (eg. 10%)
-    -y, --y &lt;Y&gt;                        The y coordinates if the pane is floating as a bare integer
-                                       (eg. 1) or percent (eg. 10%)
+<h2 id="options"><a class="header" href="#options">Options</a></h2>
+<pre><code>-p, --pane-id &lt;PANE_ID&gt;    One or more pane IDs to subscribe to (required, repeatable).
+                           Accepts terminal_N, plugin_N, or bare integer N
+                           (equivalent to terminal_N).
+-s, --scrollback [&lt;LINES&gt;] Include scrollback in the initial delivery. If specified
+                           without a value, all scrollback is included. If a number
+                           is provided, that many lines of scrollback are included.
+-f, --format &lt;FORMAT&gt;      Output format: "raw" (default) or "json"
+    --ansi                 Preserve ANSI styling escape sequences in the output
 </code></pre>
-<p><strong>Note</strong>: The default editor is anything set in <code>$EDITOR</code> or <code>$VISUAL</code> - alternatively, it can be set explicitly with the <a href="./options.html#scrollback_editor"><code>scrollback_editor</code> configuration option</a>.</p>
-<p><strong>Another Note</strong>: To shorten this command, see <a href="./controlling-zellij-through-cli.html#completions">Cli Completions</a></p>
+<h2 id="output-formats"><a class="header" href="#output-formats">Output Formats</a></h2>
+<h3 id="raw-default"><a class="header" href="#raw-default">Raw (default)</a></h3>
+<p>Viewport lines are printed to stdout each time the pane content changes, followed by a flush. On the initial delivery, scrollback lines (if requested) precede the viewport lines.</p>
+<h3 id="json"><a class="header" href="#json">JSON</a></h3>
+<p>Output is delivered as NDJSON (one JSON object per line). Two event types are emitted:</p>
+<p><strong>Pane update:</strong></p>
+<pre><code class="language-json">{"event":"pane_update","pane_id":"terminal_1","viewport":["line1","line2"],"scrollback":null,"is_initial":true}
+</code></pre>
+<p><strong>Pane closed:</strong></p>
+<pre><code class="language-json">{"event":"pane_closed","pane_id":"terminal_1"}
+</code></pre>
+<p>This format is well suited for piping into <code>jq</code> for structured processing:</p>
+<pre><code>$ zellij subscribe --pane-id terminal_1 --format json | jq 'select(.event == "pane_update") | .viewport[]'
+</code></pre>
+<h2 id="behavior"><a class="header" href="#behavior">Behavior</a></h2>
+<ul>
+<li>On subscription, the full current viewport (and scrollback if requested) is delivered immediately with <code>is_initial: true</code>.</li>
+<li>Subsequent deliveries occur only when the viewport content changes. Only changed viewports are sent (no scrollback on subsequent deliveries).</li>
+<li>The client exits automatically when all subscribed panes have been closed or the session ends.</li>
+</ul>
+<h2 id="subscribing-to-a-different-session"><a class="header" href="#subscribing-to-a-different-session">Subscribing to a Different Session</a></h2>
+<p>To subscribe to panes in a session other than the current one, use the global <code>--session</code> flag:</p>
+<pre><code>$ zellij --session my-background-session subscribe --pane-id terminal_1
+</code></pre>
+<p>This is especially useful when combined with <a href="./cli-recipes.html#starting-and-controlling-background-sessions">background sessions</a>.</p>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<p>Subscribe to a single pane:</p>
+<pre><code>$ zellij subscribe --pane-id terminal_1
+</code></pre>
+<p>Subscribe to multiple panes with ANSI styling preserved:</p>
+<pre><code>$ zellij subscribe --pane-id terminal_1 --pane-id plugin_2 --ansi
+</code></pre>
+<p>Include the last 100 lines of scrollback on initial delivery:</p>
+<pre><code>$ zellij subscribe --pane-id terminal_1 --scrollback 100
+</code></pre>
+<p>Include all scrollback:</p>
+<pre><code>$ zellij subscribe --pane-id terminal_1 --scrollback
+</code></pre>
+<p>Use JSON format and pipe into <code>jq</code> to extract viewport lines:</p>
+<pre><code>$ zellij subscribe --pane-id terminal_1 --format json | jq 'select(.event == "pane_update") | .viewport[]'
+</code></pre>
+<p>Use JSON format and pipe into <code>jq</code> to detect when a pane closes:</p>
+<pre><code>$ zellij subscribe --pane-id terminal_1 --format json | jq 'select(.event == "pane_closed") | .pane_id'
+</code></pre>
+<p>Filter live output for lines containing a pattern:</p>
+<pre><code>$ zellij subscribe --pane-id terminal_1 | awk '/ERROR/'
+</code></pre>
+<p>Or use JSON mode with <code>jq</code> for more structured filtering:</p>
+<pre><code>$ zellij subscribe --pane-id terminal_1 --format json | jq --unbuffered 'select(.event == "pane_update") | .viewport[] | select(test("ERROR"))'
+</code></pre>
+<p>Monitor a pane in a background session:</p>
+<pre><code>$ zellij --session build-server subscribe --pane-id terminal_1 --format json
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="zellij-run.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="zellij-plugin-and-pipe.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="cli-actions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="cli-recipes.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -198,11 +249,11 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="zellij-run.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="zellij-plugin-and-pipe.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="cli-actions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="cli-recipes.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

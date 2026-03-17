@@ -155,6 +155,58 @@
                         <h1 id="options"><a class="header" href="#options">Options</a></h1>
 <p>Configuration options can be set directly at the root of the <a href="./configuration.html">configuration file</a></p>
 <p>These include:</p>
+<hr />
+<ul>
+<li><a href="#on_force_close">on_force_close</a></li>
+<li><a href="#simplified_ui">simplified_ui</a></li>
+<li><a href="#default_shell">default_shell</a></li>
+<li><a href="#pane_frames">pane_frames</a></li>
+<li><a href="#theme">theme</a></li>
+<li><a href="#default_layout">default_layout</a></li>
+<li><a href="#default_mode-locked">default_mode</a></li>
+<li><a href="#mouse_mode">mouse_mode</a></li>
+<li><a href="#scroll_buffer_size">scroll_buffer_size</a></li>
+<li><a href="#copy_command">copy_command</a></li>
+<li><a href="#copy_clipboard">copy_clipboard</a></li>
+<li><a href="#copy_on_select">copy_on_select</a></li>
+<li><a href="#scrollback_editor">scrollback_editor</a></li>
+<li><a href="#mirror_session">mirror_session</a></li>
+<li><a href="#layout_dir">layout_dir</a></li>
+<li><a href="#theme_dir">theme_dir</a></li>
+<li><a href="#env">env</a></li>
+<li><a href="#rounded_corners">rounded_corners</a></li>
+<li><a href="#hide_session_name">hide_session_name</a></li>
+<li><a href="#auto_layout">auto_layout</a></li>
+<li><a href="#styled_underlines">styled_underlines</a></li>
+<li><a href="#session_serialization">session_serialization</a></li>
+<li><a href="#pane_viewport_serialization">pane_viewport_serialization</a></li>
+<li><a href="#scrollback_lines_to_serialize">scrollback_lines_to_serialize</a></li>
+<li><a href="#serialization_interval">serialization_interval</a></li>
+<li><a href="#disable_session_metadata">disable_session_metadata</a></li>
+<li><a href="#stacked_resize">stacked_resize</a></li>
+<li><a href="#show_startup_tips">show_startup_tips</a></li>
+<li><a href="#show_release_notes">show_release_notes</a></li>
+<li><a href="#post_command_discovery_hook">post_command_discovery_hook</a></li>
+<li><a href="#web_server">web_server</a></li>
+<li><a href="#web_server_ip">web_server_ip</a></li>
+<li><a href="#web_server_port">web_server_port</a></li>
+<li><a href="#web_server_cert">web_server_cert</a></li>
+<li><a href="#web_server_key">web_server_key</a></li>
+<li><a href="#enforce_https_on_localhost">enforce_https_on_localhost</a></li>
+<li><a href="#web_client">web_client</a></li>
+<li><a href="#advanced_mouse_actions">advanced_mouse_actions</a></li>
+<li><a href="#default_cwd">default_cwd</a></li>
+<li><a href="#osc8_hyperlinks">osc8_hyperlinks</a></li>
+<li><a href="#session_name">session_name</a></li>
+<li><a href="#attach_to_session">attach_to_session</a></li>
+<li><a href="#support_kitty_keyboard_protocol">support_kitty_keyboard_protocol</a></li>
+<li><a href="#web_sharing">web_sharing</a></li>
+<li><a href="#mouse_hover_effects">mouse_hover_effects</a></li>
+<li><a href="#visual_bell">visual_bell</a></li>
+<li><a href="#focus_follows_mouse">focus_follows_mouse</a></li>
+<li><a href="#mouse_click_through">mouse_click_through</a></li>
+</ul>
+<hr />
 <h3 id="on_force_close"><a class="header" href="#on_force_close">on_force_close</a></h3>
 <p>Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
 eg. when terminal window with an active zellij session is closed</p>
@@ -416,6 +468,87 @@ Options:</p>
 <p>Options:
 - true (default)
 - false</p>
+<h3 id="default_cwd"><a class="header" href="#default_cwd">default_cwd</a></h3>
+<p>Set the default current working directory for new panes. When set, new panes will open in this directory unless otherwise specified.</p>
+<pre><code class="language-javascript">default_cwd "/home/user/projects"
+</code></pre>
+<h3 id="osc8_hyperlinks"><a class="header" href="#osc8_hyperlinks">osc8_hyperlinks</a></h3>
+<p>Enable clickable OSC8 hyperlink output in terminal panes. When enabled, programs that emit OSC8 escape sequences will produce clickable hyperlinks.</p>
+<p>Options:</p>
+<ul>
+<li>true</li>
+<li>false (default)</li>
+</ul>
+<pre><code class="language-javascript">osc8_hyperlinks true
+</code></pre>
+<h3 id="session_name"><a class="header" href="#session_name">session_name</a></h3>
+<p>Set the name of the session to create when starting Zellij. If not set, a random name will be generated.</p>
+<pre><code class="language-javascript">session_name "my-session"
+</code></pre>
+<h3 id="attach_to_session"><a class="header" href="#attach_to_session">attach_to_session</a></h3>
+<p>If a session with the name specified in <code>session_name</code> already exists, attach to it instead of creating a new one.</p>
+<p>Options:</p>
+<ul>
+<li>true</li>
+<li>false (default)</li>
+</ul>
+<pre><code class="language-javascript">attach_to_session true
+</code></pre>
+<h3 id="support_kitty_keyboard_protocol"><a class="header" href="#support_kitty_keyboard_protocol">support_kitty_keyboard_protocol</a></h3>
+<p>Enable support for the Kitty keyboard protocol. This allows for more detailed key reporting from the terminal. Defaults to true if the terminal supports it.</p>
+<p>Options:</p>
+<ul>
+<li>true (default if terminal supports it)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">support_kitty_keyboard_protocol true
+</code></pre>
+<h3 id="web_sharing"><a class="header" href="#web_sharing">web_sharing</a></h3>
+<p>Whether new sessions are shared through the local web server. This is separate from <code>web_server</code> which controls whether the server starts at all.</p>
+<p>Options:</p>
+<ul>
+<li>"on" - new sessions are shared by default</li>
+<li>"off" - new sessions are not shared by default (Default)</li>
+<li>"disabled" - sharing is completely disabled</li>
+</ul>
+<pre><code class="language-javascript">web_sharing "on"
+</code></pre>
+<h3 id="mouse_hover_effects"><a class="header" href="#mouse_hover_effects">mouse_hover_effects</a></h3>
+<p>Enable mouse hover visual effects, such as pane frame highlight and help text when hovering over panes.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">mouse_hover_effects false
+</code></pre>
+<h3 id="visual_bell"><a class="header" href="#visual_bell">visual_bell</a></h3>
+<p>Show visual bell indicators when a pane sends a bell character. This manifests as a brief pane/tab frame flash and a [!] suffix on the tab name.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">visual_bell false
+</code></pre>
+<h3 id="focus_follows_mouse"><a class="header" href="#focus_follows_mouse">focus_follows_mouse</a></h3>
+<p>Whether to automatically focus panes when hovering over them with the mouse.</p>
+<p>Options:</p>
+<ul>
+<li>true</li>
+<li>false (default)</li>
+</ul>
+<pre><code class="language-javascript">focus_follows_mouse true
+</code></pre>
+<h3 id="mouse_click_through"><a class="header" href="#mouse_click_through">mouse_click_through</a></h3>
+<p>Whether clicking a pane to focus it also sends the click event into the pane (to the running program). When false, the first click only focuses the pane and is consumed by Zellij.</p>
+<p>Options:</p>
+<ul>
+<li>true</li>
+<li>false (default)</li>
+</ul>
+<pre><code class="language-javascript">mouse_click_through true
+</code></pre>
 
                     </main>
 

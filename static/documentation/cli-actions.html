@@ -153,46 +153,231 @@
                 <div id="content" class="content">
                     <main>
                         <h2 id="cli-actions"><a class="header" href="#cli-actions">CLI Actions</a></h2>
+<p><em>A note about pane ids:</em> Since terminal panes and plugin panes can have overlapping IDs, they are differentiated by prefixing the pane type, eg. <code>terminal_1</code> is a different pane than <code>plugin_1</code>. The ID of terminal panes is the same one that can be discovered through the <code>ZELLIJ_PANE_ID</code> environment variable. When a <code>--pane-id</code> flag accepts a pane id, it can be specified as <code>terminal_1</code>, <code>plugin_2</code>, or just <code>3</code> (equivalent to <code>terminal_3</code>).</p>
+<hr />
+<ul>
+<li><a href="#change-floating-pane-coordinates">change-floating-pane-coordinates</a></li>
+<li><a href="#clear">clear</a></li>
+<li><a href="#close-pane">close-pane</a></li>
+<li><a href="#close-tab">close-tab</a></li>
+<li><a href="#close-tab-by-id">close-tab-by-id</a></li>
+<li><a href="#current-tab-info">current-tab-info</a></li>
+<li><a href="#detach">detach</a></li>
+<li><a href="#dump-layout">dump-layout</a></li>
+<li><a href="#dump-screen">dump-screen</a></li>
+<li><a href="#edit">edit</a></li>
+<li><a href="#edit-scrollback">edit-scrollback</a></li>
+<li><a href="#focus-next-pane">focus-next-pane</a></li>
+<li><a href="#focus-previous-pane">focus-previous-pane</a></li>
+<li><a href="#go-to-next-tab">go-to-next-tab</a></li>
+<li><a href="#go-to-previous-tab">go-to-previous-tab</a></li>
+<li><a href="#go-to-tab">go-to-tab</a></li>
+<li><a href="#go-to-tab-by-id">go-to-tab-by-id</a></li>
+<li><a href="#go-to-tab-name">go-to-tab-name</a></li>
+<li><a href="#half-page-scroll-down">half-page-scroll-down</a></li>
+<li><a href="#half-page-scroll-up">half-page-scroll-up</a></li>
+<li><a href="#hide-floating-panes">hide-floating-panes</a></li>
+<li><a href="#launch-or-focus-plugin">launch-or-focus-plugin</a></li>
+<li><a href="#launch-plugin">launch-plugin</a></li>
+<li><a href="#list-clients">list-clients</a></li>
+<li><a href="#list-panes">list-panes</a></li>
+<li><a href="#list-tabs">list-tabs</a></li>
+<li><a href="#move-focus">move-focus</a></li>
+<li><a href="#move-focus-or-tab">move-focus-or-tab</a></li>
+<li><a href="#move-pane">move-pane</a></li>
+<li><a href="#move-pane-backwards">move-pane-backwards</a></li>
+<li><a href="#move-tab">move-tab</a></li>
+<li><a href="#new-pane">new-pane</a></li>
+<li><a href="#new-tab">new-tab</a></li>
+<li><a href="#next-swap-layout">next-swap-layout</a></li>
+<li><a href="#override-layout">override-layout</a></li>
+<li><a href="#page-scroll-down">page-scroll-down</a></li>
+<li><a href="#page-scroll-up">page-scroll-up</a></li>
+<li><a href="#paste">paste</a></li>
+<li><a href="#pipe">pipe</a></li>
+<li><a href="#previous-swap-layout">previous-swap-layout</a></li>
+<li><a href="#query-tab-names">query-tab-names</a></li>
+<li><a href="#rename-pane">rename-pane</a></li>
+<li><a href="#rename-session">rename-session</a></li>
+<li><a href="#rename-tab">rename-tab</a></li>
+<li><a href="#rename-tab-by-id">rename-tab-by-id</a></li>
+<li><a href="#resize">resize</a></li>
+<li><a href="#save-session">save-session</a></li>
+<li><a href="#scroll-down">scroll-down</a></li>
+<li><a href="#scroll-to-bottom">scroll-to-bottom</a></li>
+<li><a href="#scroll-to-top">scroll-to-top</a></li>
+<li><a href="#scroll-up">scroll-up</a></li>
+<li><a href="#send-keys">send-keys</a></li>
+<li><a href="#set-pane-borderless">set-pane-borderless</a></li>
+<li><a href="#set-pane-color">set-pane-color</a></li>
+<li><a href="#show-floating-panes">show-floating-panes</a></li>
+<li><a href="#start-or-reload-plugin">start-or-reload-plugin</a></li>
+<li><a href="#stack-panes">stack-panes</a></li>
+<li><a href="#switch-mode">switch-mode</a></li>
+<li><a href="#switch-session">switch-session</a></li>
+<li><a href="#toggle-active-sync-tab">toggle-active-sync-tab</a></li>
+<li><a href="#toggle-floating-panes">toggle-floating-panes</a></li>
+<li><a href="#toggle-fullscreen">toggle-fullscreen</a></li>
+<li><a href="#toggle-pane-borderless">toggle-pane-borderless</a></li>
+<li><a href="#toggle-pane-embed-or-floating">toggle-pane-embed-or-floating</a></li>
+<li><a href="#toggle-pane-frames">toggle-pane-frames</a></li>
+<li><a href="#toggle-pane-pinned">toggle-pane-pinned</a></li>
+<li><a href="#undo-rename-pane">undo-rename-pane</a></li>
+<li><a href="#undo-rename-tab">undo-rename-tab</a></li>
+<li><a href="#write">write</a></li>
+<li><a href="#write-chars">write-chars</a></li>
+</ul>
+<hr />
+<h4 id="change-floating-pane-coordinates"><a class="header" href="#change-floating-pane-coordinates">change-floating-pane-coordinates</a></h4>
+<p>Given a pane id, and coordinates, will change the coordinates of this pane.</p>
+<p><strong>ARGS</strong>: The pane id (see example below - these can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var)
+<strong>OPTIONS:</strong></p>
+<pre><code>    -b, --borderless &lt;BORDERLESS&gt;  Change the border state of the pane
+        --height &lt;HEIGHT&gt;          The height if the pane is floating as a bare integer (eg. 1) or
+                                   percent (eg. 10%)
+    -p, --pane-id &lt;PANE_ID&gt;        The pane_id of the floating pane, eg.  terminal_1, plugin_2 or 3
+                                   (equivalent to terminal_3)
+        --pinned &lt;PINNED&gt;          Whether to pin a floating pane so that it is always on top
+        --width &lt;WIDTH&gt;            The width if the pane is floating as a bare integer (eg. 1) or
+                                   percent (eg. 10%)
+    -x, --x &lt;X&gt;                    The x coordinates if the pane is floating as a bare integer (eg. 1)
+                                   or percent (eg. 10%)
+    -y, --y &lt;Y&gt;                    The y coordinates if the pane is floating as a bare integer (eg. 1)
+                                   or percent (eg. 10%)
+</code></pre>
+<p>eg.</p>
+<pre><code>zellij action change-floating-pane-coordinates --pane-id terminal_15 --height 10 --width 10 -x 10 -y 10
+</code></pre>
+<h4 id="clear"><a class="header" href="#clear">clear</a></h4>
+<p>Clear all buffers for a focused pane</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID (eg. terminal_1, plugin_2 or 3)
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action clear
+$ zellij action clear --pane-id terminal_3
+</code></pre>
 <h4 id="close-pane"><a class="header" href="#close-pane">close-pane</a></h4>
 <p>Close the focused pane</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID (eg. terminal_1, plugin_2 or 3)
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action close-pane
+$ zellij action close-pane --pane-id terminal_3
 </code></pre>
 <h4 id="close-tab"><a class="header" href="#close-tab">close-tab</a></h4>
 <p>Close the current tab</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by stable ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action close-tab
+$ zellij action close-tab --tab-id 5
 </code></pre>
-<h4 id="dump-screen"><a class="header" href="#dump-screen">dump-screen</a></h4>
-<p>Dumps the pane scrollback to a file</p>
-<p><strong>ARGS</strong>: The path to the file on the hard-drive (eg. <code>/tmp/screen-dump.txt</code>)</p>
+<h4 id="close-tab-by-id"><a class="header" href="#close-tab-by-id">close-tab-by-id</a></h4>
+<p>Close a tab by its stable ID</p>
+<p><strong>ARGS</strong>: The tab ID (integer)</p>
 <p>eg.</p>
-<pre><code>$ zellij action dump-screen /tmp/screen-dump.txt
+<pre><code>$ zellij action close-tab-by-id 5
 </code></pre>
-<h4 id="edit"><a class="header" href="#edit">edit</a></h4>
-<p>Open the specified file in a new zellij pane with your default EDITOR</p>
-<p><strong>ARGS</strong>: The path to the file to open (eg. <code>/tmp/my-file.rs</code>)</p>
+<h4 id="current-tab-info"><a class="header" href="#current-tab-info">current-tab-info</a></h4>
+<p>Get information about the currently active tab. Returns the tab name and ID by default.</p>
 <p><strong>OPTIONS</strong>:</p>
-<pre><code>-d, --direction &lt;DIRECTION&gt; [right|down]
--f, --floating
--l, --line-number &lt;LINE_NUMBER&gt;
+<pre><code>    -j, --json    Output as JSON with full TabInfo
 </code></pre>
 <p>eg.</p>
-<pre><code>$ zellij action edit ./my-file.rs -f
+<pre><code>$ zellij action current-tab-info
 </code></pre>
-<p><strong>Note</strong>: it is also possible to issue this action without the <code>action</code> prefix:</p>
+<p><strong>Sample output:</strong></p>
+<pre><code>name: Tab #1
+id: 0
+position: 0
+</code></pre>
+<p>With <code>--json</code>:</p>
+<pre><code>$ zellij action current-tab-info --json
+</code></pre>
+<p><strong>Sample output:</strong></p>
+<pre><code class="language-json">{
+  "position": 0,
+  "name": "Tab #1",
+  "active": true,
+  "panes_to_hide": 0,
+  "is_fullscreen_active": false,
+  "is_sync_panes_active": false,
+  "are_floating_panes_visible": false,
+  "other_focused_clients": [],
+  "active_swap_layout_name": "default",
+  "is_swap_layout_dirty": false,
+  "viewport_rows": 24,
+  "viewport_columns": 80,
+  "display_area_rows": 26,
+  "display_area_columns": 80,
+  "selectable_tiled_panes_count": 2,
+  "selectable_floating_panes_count": 0,
+  "tab_id": 0,
+  "has_bell_notification": false,
+  "is_flashing_bell": false
+}
+</code></pre>
+<h4 id="detach"><a class="header" href="#detach">detach</a></h4>
+<p>Detach from the current session, leaving it running in the background</p>
 <p>eg.</p>
-<pre><code>$ zellij edit ./my-file.rs -f
+<pre><code>$ zellij action detach
 </code></pre>
 <h4 id="dump-layout"><a class="header" href="#dump-layout">dump-layout</a></h4>
 <p>Dumps the current <a href="./creating-a-layout.html">Layout</a> of the session to STDOUT</p>
 <p>eg.</p>
 <pre><code>$ zellij action dump-layout
 </code></pre>
+<h4 id="dump-screen"><a class="header" href="#dump-screen">dump-screen</a></h4>
+<p>Dumps the viewport of a pane to a file or to STDOUT. Optionally includes the full scrollback.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>        --path &lt;PATH&gt;          File path to dump content to (if omitted, prints to STDOUT)
+    -f, --full                 Dump the pane with full scrollback
+    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID (if not specified, dumps the focused pane)
+    -a, --ansi                 Preserve ANSI styling in the dump output
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action dump-screen --path /tmp/screen-dump.txt
+$ zellij action dump-screen --full --ansi
+$ zellij action dump-screen --pane-id terminal_3 --full
+</code></pre>
+<h4 id="edit"><a class="header" href="#edit">edit</a></h4>
+<p>Open the specified file in a new zellij pane with your default EDITOR. Returns the created pane ID.</p>
+<p><strong>ARGS</strong>: The path to the file to open (eg. <code>/tmp/my-file.rs</code>)</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -d, --direction &lt;DIRECTION&gt;    Direction to open [right|down] (conflicts with --floating)
+    -f, --floating                 Open in floating mode
+    -i, --in-place                 Open in place of the focused pane
+        --close-replaced-pane      Close the replaced pane instead of suspending (requires --in-place)
+    -l, --line-number &lt;LINE_NUMBER&gt;
+        --cwd &lt;CWD&gt;               Working directory for the editor pane
+    -x, --x &lt;X&gt;                    X coordinate for floating pane (requires --floating)
+    -y, --y &lt;Y&gt;                    Y coordinate for floating pane (requires --floating)
+        --width &lt;WIDTH&gt;            Width for floating pane (requires --floating)
+        --height &lt;HEIGHT&gt;          Height for floating pane (requires --floating)
+        --pinned &lt;PINNED&gt;          Pin the floating pane (requires --floating)
+        --near-current-pane        Open near the current pane rather than following focus
+    -b, --borderless &lt;BORDERLESS&gt;  Start without a border
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action edit ./my-file.rs -f
+$ zellij action edit ./my-file.rs --in-place
+</code></pre>
+<p><strong>Note</strong>: it is also possible to issue this action without the <code>action</code> prefix:</p>
+<p>eg.</p>
+<pre><code>$ zellij edit ./my-file.rs -f
+</code></pre>
 <h4 id="edit-scrollback"><a class="header" href="#edit-scrollback">edit-scrollback</a></h4>
 <p>Open the pane scrollback in your default editor</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+    -a, --ansi                 Preserve ANSI styling in the scrollback dump
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action edit-scrollback
+$ zellij action edit-scrollback --pane-id terminal_3 --ansi
 </code></pre>
 <h4 id="focus-next-pane"><a class="header" href="#focus-next-pane">focus-next-pane</a></h4>
 <p>Change focus to the next pane</p>
@@ -220,8 +405,14 @@
 <p>eg.</p>
 <pre><code>$ zellij action go-to-tab 1
 </code></pre>
+<h4 id="go-to-tab-by-id"><a class="header" href="#go-to-tab-by-id">go-to-tab-by-id</a></h4>
+<p>Go to a tab by its stable ID</p>
+<p><strong>ARGS</strong>: The tab ID (integer)</p>
+<p>eg.</p>
+<pre><code>$ zellij action go-to-tab-by-id 5
+</code></pre>
 <h4 id="go-to-tab-name"><a class="header" href="#go-to-tab-name">go-to-tab-name</a></h4>
-<p>Go to tab with name [name]</p>
+<p>Go to tab with name [name]. When <code>--create</code> is used and a tab is created, outputs the new tab ID.</p>
 <p><strong>ARGS</strong>: The tab name (eg. "Tab #1")</p>
 <p><strong>OPTIONS</strong>:</p>
 <pre><code>    -c, --create        Create a tab if one does not exist
@@ -231,32 +422,233 @@
 </code></pre>
 <h4 id="half-page-scroll-down"><a class="header" href="#half-page-scroll-down">half-page-scroll-down</a></h4>
 <p>Scroll down half page in focus pane</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action half-page-scroll-down
 </code></pre>
 <h4 id="half-page-scroll-up"><a class="header" href="#half-page-scroll-up">half-page-scroll-up</a></h4>
 <p>Scroll up half page in focus pane</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action half-page-scroll-up
 </code></pre>
+<h4 id="hide-floating-panes"><a class="header" href="#hide-floating-panes">hide-floating-panes</a></h4>
+<p>Hide all floating panes in the specified tab (or active tab). Returns exit code 0 if changed, 2 if already hidden, 1 if the tab was not found.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action hide-floating-panes
+$ zellij action hide-floating-panes --tab-id 3
+</code></pre>
 <h4 id="launch-or-focus-plugin"><a class="header" href="#launch-or-focus-plugin">launch-or-focus-plugin</a></h4>
-<p>Launch a plugin if it is not loaded somewhere in the session, focus it if it is.</p>
+<p>Launch a plugin if it is not loaded somewhere in the session, focus it if it is. Returns the plugin pane ID.</p>
 <p><strong>ARGS</strong>: The <a href="./plugin-loading.html#plugin-url-schema">plugin URL</a> (eg. <code>file:/path/to/my/plugin.wasm</code>)</p>
 <p><strong>OPTIONS</strong>:</p>
-<pre><code>-f, --floating      Will be used when launching the plugin if it is not already running
+<pre><code>    -f, --floating                 Open in floating mode when launching
+    -i, --in-place                 Open in place of the focused pane when launching
+        --close-replaced-pane      Close the replaced pane (requires --in-place)
+    -m, --move-to-focused-tab      Move the plugin to the focused tab if already running
+    -c, --configuration &lt;CONFIG&gt;   Plugin configuration (key=value pairs)
+    -s, --skip-plugin-cache        Skip the plugin cache and force re-compilation
 </code></pre>
 <p>eg.</p>
 <pre><code>zellij action launch-or-focus-plugin zellij:strider --floating
+zellij action launch-or-focus-plugin zellij:strider --in-place --move-to-focused-tab
+</code></pre>
+<h4 id="launch-plugin"><a class="header" href="#launch-plugin">launch-plugin</a></h4>
+<p>Launch a new plugin instance. Unlike <code>launch-or-focus-plugin</code>, this always launches a new instance. Returns the plugin pane ID.</p>
+<p><strong>ARGS</strong>: The <a href="./plugin-loading.html#plugin-url-schema">plugin URL</a> (eg. <code>file:/path/to/my/plugin.wasm</code>)</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -f, --floating                 Open in floating mode
+    -i, --in-place                 Open in place of the focused pane
+        --close-replaced-pane      Close the replaced pane (requires --in-place)
+    -c, --configuration &lt;CONFIG&gt;   Plugin configuration (key=value pairs)
+    -s, --skip-plugin-cache        Skip the plugin cache and force re-compilation
+</code></pre>
+<p>eg.</p>
+<pre><code>zellij action launch-plugin file:/path/to/plugin.wasm --floating
 </code></pre>
 <h4 id="list-clients"><a class="header" href="#list-clients">list-clients</a></h4>
 <p>List all clients connected to the current session, their focused pane id and their running program (if it's not the default shell and if Zellij can detect it).</p>
-<p><em>A note about pane ids:</em> Since terminal panes and plugin panes can have overlapping IDs, they are differentiated by prefixing the pane type, eg. <code>terminal_1</code> is a different pane than <code>plugin_1</code>. The ID of terminal panes is the same one that can be discovered through the <code>ZELLIJ_PANE_ID</code> environment variable.</p>
 <p>eg.</p>
 <pre><code>$ zellij action list-clients
 
 CLIENT_ID ZELLIJ_PANE_ID RUNNING_COMMAND
 1         plugin_2       zellij:session-manager
 2         terminal_3     vim /tmp/my-file.txt
+</code></pre>
+<h4 id="list-panes"><a class="header" href="#list-panes">list-panes</a></h4>
+<p>List all panes in the current session with optional detail fields.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab          Include tab information
+    -c, --command      Include running command information
+    -s, --state        Include pane state (focused, floating, exited, etc.)
+    -g, --geometry     Include geometry (position, size)
+    -a, --all          Include all available fields
+    -j, --json         Output as JSON
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action list-panes
+</code></pre>
+<p><strong>Sample output (default):</strong></p>
+<pre><code>PANE_ID      TYPE      TITLE
+terminal_1   terminal  /bin/bash
+plugin_0     plugin    tab-bar
+terminal_2   terminal  vim main.rs
+</code></pre>
+<p>With <code>--all</code>:</p>
+<pre><code>$ zellij action list-panes --all
+</code></pre>
+<p><strong>Sample output:</strong></p>
+<pre><code>TAB_ID  TAB_POS  TAB_NAME  PANE_ID      TYPE      TITLE          COMMAND        CWD                      FOCUSED  FLOATING  EXITED  X  Y   ROWS  COLS
+0       0        Tab #1    terminal_1   terminal  /bin/bash      bash           /home/user/project       true     false     false   0  1   24    80
+0       0        Tab #1    plugin_0     plugin    tab-bar        zellij:tab-bar -                        false    false     false   0  0   1     80
+1       1        Tab #2    terminal_2   terminal  vim main.rs    vim main.rs    /home/user/project/src   true     false     false   0  1   24    80
+</code></pre>
+<p>With <code>--json</code>:</p>
+<pre><code>$ zellij action list-panes --json
+</code></pre>
+<p><strong>Sample output:</strong></p>
+<pre><code class="language-json">[
+  {
+    "id": 1,
+    "is_plugin": false,
+    "is_focused": true,
+    "is_fullscreen": false,
+    "is_floating": false,
+    "is_suppressed": false,
+    "title": "/bin/bash",
+    "exited": false,
+    "exit_status": null,
+    "is_held": false,
+    "pane_x": 0,
+    "pane_content_x": 1,
+    "pane_y": 1,
+    "pane_content_y": 2,
+    "pane_rows": 24,
+    "pane_content_rows": 22,
+    "pane_columns": 80,
+    "pane_content_columns": 78,
+    "cursor_coordinates_in_pane": [0, 5],
+    "terminal_command": null,
+    "plugin_url": null,
+    "is_selectable": true,
+    "tab_id": 0,
+    "tab_position": 0,
+    "tab_name": "Tab #1",
+    "pane_command": "bash",
+    "pane_cwd": "/home/user/project"
+  },
+  {
+    "id": 0,
+    "is_plugin": true,
+    "is_focused": false,
+    "is_fullscreen": false,
+    "is_floating": false,
+    "is_suppressed": false,
+    "title": "tab-bar",
+    "exited": false,
+    "exit_status": null,
+    "is_held": false,
+    "pane_x": 0,
+    "pane_content_x": 0,
+    "pane_y": 0,
+    "pane_content_y": 0,
+    "pane_rows": 1,
+    "pane_content_rows": 1,
+    "pane_columns": 80,
+    "pane_content_columns": 80,
+    "cursor_coordinates_in_pane": null,
+    "terminal_command": null,
+    "plugin_url": "zellij:tab-bar",
+    "is_selectable": false,
+    "tab_id": 0,
+    "tab_position": 0,
+    "tab_name": "Tab #1"
+  }
+]
+</code></pre>
+<h4 id="list-tabs"><a class="header" href="#list-tabs">list-tabs</a></h4>
+<p>List all tabs with their information.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -s, --state         Include state information (active, fullscreen, sync, floating visibility)
+    -d, --dimensions    Include dimension information
+    -p, --panes         Include pane counts
+    -l, --layout        Include layout information (swap layout name and dirty state)
+    -a, --all           Include all available fields
+    -j, --json          Output as JSON
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action list-tabs
+</code></pre>
+<p><strong>Sample output (default):</strong></p>
+<pre><code>TAB_ID  POSITION  NAME
+0       0         Tab #1
+1       1         editor
+2       2         logs
+</code></pre>
+<p>With <code>--all</code>:</p>
+<pre><code>$ zellij action list-tabs --all
+</code></pre>
+<p><strong>Sample output:</strong></p>
+<pre><code>TAB_ID  POSITION  NAME    ACTIVE  FULLSCREEN  SYNC_PANES  FLOATING_VIS  VP_ROWS  VP_COLS  DA_ROWS  DA_COLS  TILED_PANES  FLOAT_PANES  HIDDEN_PANES  SWAP_LAYOUT  LAYOUT_DIRTY
+0       0         Tab #1  true    false       false       false         24       80       26       80       2            0            0             default      false
+1       1         editor  false   false       false       false         24       80       26       80       1            0            0             -            false
+2       2         logs    false   false       false       true          24       80       26       80       1            1            0             default      true
+</code></pre>
+<p>With <code>--json</code>:</p>
+<pre><code>$ zellij action list-tabs --json
+</code></pre>
+<p><strong>Sample output:</strong></p>
+<pre><code class="language-json">[
+  {
+    "position": 0,
+    "name": "Tab #1",
+    "active": true,
+    "panes_to_hide": 0,
+    "is_fullscreen_active": false,
+    "is_sync_panes_active": false,
+    "are_floating_panes_visible": false,
+    "other_focused_clients": [],
+    "active_swap_layout_name": "default",
+    "is_swap_layout_dirty": false,
+    "viewport_rows": 24,
+    "viewport_columns": 80,
+    "display_area_rows": 26,
+    "display_area_columns": 80,
+    "selectable_tiled_panes_count": 2,
+    "selectable_floating_panes_count": 0,
+    "tab_id": 0,
+    "has_bell_notification": false,
+    "is_flashing_bell": false
+  },
+  {
+    "position": 1,
+    "name": "editor",
+    "active": false,
+    "panes_to_hide": 0,
+    "is_fullscreen_active": false,
+    "is_sync_panes_active": false,
+    "are_floating_panes_visible": false,
+    "other_focused_clients": [],
+    "active_swap_layout_name": null,
+    "is_swap_layout_dirty": false,
+    "viewport_rows": 24,
+    "viewport_columns": 80,
+    "display_area_rows": 26,
+    "display_area_columns": 80,
+    "selectable_tiled_panes_count": 1,
+    "selectable_floating_panes_count": 0,
+    "tab_id": 1,
+    "has_bell_notification": false,
+    "is_flashing_bell": false
+  }
+]
 </code></pre>
 <h4 id="move-focus"><a class="header" href="#move-focus">move-focus</a></h4>
 <p>Move the focused pane in the specified direction.</p>
@@ -272,88 +664,303 @@ CLIENT_ID ZELLIJ_PANE_ID RUNNING_COMMAND
 </code></pre>
 <h4 id="move-pane"><a class="header" href="#move-pane">move-pane</a></h4>
 <p>Change the location of the focused pane in the specified direction</p>
-<p><strong>ARGS</strong>: The direction to move [right|left|up|down]</p>
+<p><strong>ARGS (optional)</strong>: The direction to move [right|left|up|down]</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action move-pane left
+$ zellij action move-pane --pane-id terminal_3 right
+</code></pre>
+<h4 id="move-pane-backwards"><a class="header" href="#move-pane-backwards">move-pane-backwards</a></h4>
+<p>Rotate the location of the focused pane backwards in the layout order</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action move-pane-backwards
+</code></pre>
+<h4 id="move-tab"><a class="header" href="#move-tab">move-tab</a></h4>
+<p>Move the focused tab in the specified direction.</p>
+<p><strong>ARGS</strong>: The direction to move [right|left]</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action move-tab right
+$ zellij action move-tab left --tab-id 3
 </code></pre>
 <h4 id="new-pane"><a class="header" href="#new-pane">new-pane</a></h4>
-<p>Open a new pane in the specified direction or as a floating pane. If no is specified, will try to use the biggest available space.</p>
-<p><strong>ARGS (optional)</strong>: the command to run inside the pane in place of the default shell (must be preceeded by a double-dash <code>--</code>)</p>
+<p>Open a new pane in the specified direction or as a floating pane. If no direction is specified, will try to use the biggest available space. Returns the created pane ID.</p>
+<p><strong>ARGS (optional)</strong>: the command to run inside the pane in place of the default shell (must be preceded by a double-dash <code>--</code>)</p>
 <p><strong>OPTIONS</strong>:</p>
-<pre><code>    -c, --close-on-exit            Close the pane immediately when its command exits
-        --cwd &lt;CWD&gt;                Change the working directory of the new pane
-    -d, --direction &lt;DIRECTION&gt;    Direction to open the new pane in
-    -f, --floating                 Open the new pane in floating mode
-    -h, --help                     Print help information
-    -n, --name &lt;NAME&gt;              Name of the new pane
-    -s, --start-suspended          Start the command suspended, only running after you first presses
+<pre><code>    -c, --close-on-exit                Close the pane immediately when its command exits
+        --cwd &lt;CWD&gt;                    Change the working directory of the new pane
+    -d, --direction &lt;DIRECTION&gt;        Direction to open the new pane in (conflicts with --floating)
+    -f, --floating                     Open the new pane in floating mode
+    -i, --in-place                     Open in place of the focused pane (conflicts with --floating/--direction)
+        --close-replaced-pane          Close the replaced pane instead of suspending (requires --in-place)
+    -n, --name &lt;NAME&gt;                  Name of the new pane
+    -p, --plugin &lt;PLUGIN&gt;              Plugin URL to load (conflicts with command and --direction)
+        --configuration &lt;CONFIG&gt;       Plugin configuration (requires --plugin)
+        --skip-plugin-cache            Skip the plugin cache (requires --plugin)
+    -s, --start-suspended              Start the command suspended
+    -x, --x &lt;X&gt;                        X coordinate for floating pane (requires --floating)
+    -y, --y &lt;Y&gt;                        Y coordinate for floating pane (requires --floating)
+        --width &lt;WIDTH&gt;                Width for floating pane (requires --floating)
+        --height &lt;HEIGHT&gt;              Height for floating pane (requires --floating)
+        --pinned &lt;PINNED&gt;              Pin the floating pane (requires --floating)
+        --stacked                      Open in stacked mode (conflicts with --floating/--direction)
+    -b, --blocking                     Block until the pane exits
+        --near-current-pane            Open near the current pane rather than following focus
+        --borderless &lt;BORDERLESS&gt;      Start without a border
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action new-pane -f # open a new floating pane with the default shell
-$ zellij action new-pane --name "follow this log!" -- tail -f /tmp/my-log-file # open a new floating pane with the default shell
+$ zellij action new-pane --name "follow this log!" -- tail -f /tmp/my-log-file
+$ zellij action new-pane --stacked
+$ zellij action new-pane --in-place -- htop
+$ zellij action new-pane --plugin zellij:strider --floating
 </code></pre>
 <p><strong>Note:</strong> This can also be shortened to <code>zellij run</code></p>
 <p>eg.</p>
 <pre><code>$ zellij run -- tail -f /tmp/my-log-file
 </code></pre>
 <h4 id="new-tab"><a class="header" href="#new-tab">new-tab</a></h4>
-<p>Create a new tab, optionally with a specified tab layout and name</p>
+<p>Create a new tab, optionally with a specified tab layout and name. Returns the created tab's ID.</p>
 <p>Specifying a path to a layout file with <code>--layout</code> will start that tab with the specified layout.</p>
-<p>If the <code>--cwd</code> flag if included with the <code>--layout</code> flag, all relative paths in that layout will start from this <code>cwd</code>. Replacing the global <code>cwd</code> in the layout if it exists.
+<p>If the <code>--cwd</code> flag is included with the <code>--layout</code> flag, all relative paths in that layout will start from this <code>cwd</code>. Replacing the global <code>cwd</code> in the layout if it exists.
 See <a href="./creating-a-layout.html#cwd-composition">layout CWD composition</a> for more info.</p>
+<p><strong>ARGS (optional)</strong>: A command to run in the initial pane (must be preceded by a double-dash <code>--</code>, conflicts with <code>--initial-plugin</code>)</p>
 <p><strong>OPTIONS</strong>:</p>
-<pre><code>    -c, --cwd &lt;CWD&gt;
-    -l, --layout &lt;LAYOUT&gt;
-    -n, --name &lt;NAME&gt;
+<pre><code>    -c, --cwd &lt;CWD&gt;                    Working directory for the new tab
+    -l, --layout &lt;LAYOUT&gt;              Layout to use
+        --layout-dir &lt;LAYOUT_DIR&gt;      Default folder for layouts (requires --layout)
+    -n, --name &lt;NAME&gt;                  Name of the new tab
+        --initial-plugin &lt;PLUGIN&gt;      Plugin to load in the initial pane (conflicts with command)
+        --close-on-exit                Close the initial pane when its command exits (requires command)
+        --start-suspended              Start the command suspended (requires command)
+        --block-until-exit-success     Block until the command exits with status 0
+        --block-until-exit-failure     Block until the command exits with non-zero status
+        --block-until-exit             Block until the command exits regardless of status
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action new-tab --layout /path/to/layout.kdl --name "my tab"
+$ zellij action new-tab -- htop
+</code></pre>
+<h4 id="next-swap-layout"><a class="header" href="#next-swap-layout">next-swap-layout</a></h4>
+<p>Switch to the next swap layout for the current tab</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action next-swap-layout
+</code></pre>
+<h4 id="override-layout"><a class="header" href="#override-layout">override-layout</a></h4>
+<p>Override the layout of the active tab with the specified layout file.</p>
+<p><strong>ARGS</strong>: Path to the layout file</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>        --layout-dir &lt;LAYOUT_DIR&gt;              Default folder for layouts
+        --retain-existing-terminal-panes       Retain existing terminal panes that do not fit the new layout
+        --retain-existing-plugin-panes         Retain existing plugin panes that do not fit the new layout
+        --apply-only-to-active-tab             Only apply the layout to the active tab
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action override-layout /path/to/layout.kdl
+$ zellij action override-layout /path/to/layout.kdl --retain-existing-terminal-panes --apply-only-to-active-tab
 </code></pre>
 <h4 id="page-scroll-down"><a class="header" href="#page-scroll-down">page-scroll-down</a></h4>
 <p>Scroll down one page in focus pane</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action page-scroll-down
 </code></pre>
 <h4 id="page-scroll-up"><a class="header" href="#page-scroll-up">page-scroll-up</a></h4>
 <p>Scroll up one page in focus pane</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action page-scroll-up
+</code></pre>
+<h4 id="paste"><a class="header" href="#paste">paste</a></h4>
+<p>Paste text to the terminal using bracketed paste mode</p>
+<p><strong>ARGS</strong>: The text to paste</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action paste "Hello, World!"
+</code></pre>
+<h4 id="pipe"><a class="header" href="#pipe">pipe</a></h4>
+<p>Send data to one or more plugins via a pipe. Plugins will be launched if they are not already running.</p>
+<p><strong>ARGS (optional)</strong>: Payload data to send. If blank, listens on STDIN.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -n, --name &lt;NAME&gt;                        Name of the pipe
+    -a, --args &lt;ARGS&gt;                        Arguments for the pipe (key=value pairs)
+    -p, --plugin &lt;PLUGIN&gt;                    Plugin URL to direct the pipe to
+    -c, --plugin-configuration &lt;CONFIG&gt;      Plugin configuration (key=value pairs)
+    -l, --force-launch-plugin                Launch a new plugin even if one is already running
+    -s, --skip-plugin-cache                  Force re-compilation of the plugin
+    -f, --floating-plugin &lt;BOOL&gt;             Whether the launched plugin should be floating
+    -i, --in-place-plugin &lt;BOOL&gt;             Launch plugin in place (conflicts with --floating-plugin)
+    -w, --plugin-cwd &lt;CWD&gt;                   Working directory for the launched plugin
+    -t, --plugin-title &lt;TITLE&gt;               Pane title for the launched plugin
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action pipe --name "my-pipe" --plugin "file:/path/to/plugin.wasm" "some payload"
+$ echo "data from stdin" | zellij action pipe --name "my-pipe" --plugin "my-plugin-alias"
+</code></pre>
+<h4 id="previous-swap-layout"><a class="header" href="#previous-swap-layout">previous-swap-layout</a></h4>
+<p>Switch to the previous swap layout for the current tab</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action previous-swap-layout
+</code></pre>
+<h4 id="query-tab-names"><a class="header" href="#query-tab-names">query-tab-names</a></h4>
+<p>Query all tab names (receive a textual list on the command line)</p>
+<p>eg.</p>
+<pre><code>$ zellij action query-tab-names
 </code></pre>
 <h4 id="rename-pane"><a class="header" href="#rename-pane">rename-pane</a></h4>
 <p>Renames the focused pane (title will appear on the pane frame)</p>
 <p><strong>ARGS</strong>: the pane name</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action rename-pane "alice the cat"
+$ zellij action rename-pane --pane-id terminal_3 "my pane"
+</code></pre>
+<h4 id="rename-session"><a class="header" href="#rename-session">rename-session</a></h4>
+<p>Rename the current session</p>
+<p><strong>ARGS</strong>: The new session name</p>
+<p>eg.</p>
+<pre><code>$ zellij action rename-session "my-new-session-name"
 </code></pre>
 <h4 id="rename-tab"><a class="header" href="#rename-tab">rename-tab</a></h4>
 <p>Renames the focused tab</p>
 <p><strong>ARGS</strong>: the tab name</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action rename-tab "alice the cat"
+$ zellij action rename-tab --tab-id 3 "my tab"
+</code></pre>
+<h4 id="rename-tab-by-id"><a class="header" href="#rename-tab-by-id">rename-tab-by-id</a></h4>
+<p>Rename a tab by its stable ID</p>
+<p><strong>ARGS</strong>: The tab ID (integer) followed by the new name (string)</p>
+<p>eg.</p>
+<pre><code>$ zellij action rename-tab-by-id 5 "my new tab name"
 </code></pre>
 <h4 id="resize"><a class="header" href="#resize">resize</a></h4>
 <p>Resize the focused pane in the specified direction.</p>
 <p><strong>ARGS</strong>: The resize direction [right|left|up|down|+|-]</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action resize left
+$ zellij action resize --pane-id terminal_3 +
+</code></pre>
+<h4 id="save-session"><a class="header" href="#save-session">save-session</a></h4>
+<p>Save the current session state to disk immediately. Useful for triggering a manual serialization outside the automatic interval.</p>
+<p>eg.</p>
+<pre><code>$ zellij action save-session
 </code></pre>
 <h4 id="scroll-down"><a class="header" href="#scroll-down">scroll-down</a></h4>
 <p>Scroll down 1 line in the focused pane</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action scroll-down
 </code></pre>
 <h4 id="scroll-to-bottom"><a class="header" href="#scroll-to-bottom">scroll-to-bottom</a></h4>
 <p>Scroll down to bottom in the focused pane</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action scroll-to-bottom
 </code></pre>
+<h4 id="scroll-to-top"><a class="header" href="#scroll-to-top">scroll-to-top</a></h4>
+<p>Scroll up to top in the focused pane</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action scroll-to-top
+</code></pre>
 <h4 id="scroll-up"><a class="header" href="#scroll-up">scroll-up</a></h4>
 <p>Scroll up 1 line in the focused pane</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action scroll-up
+</code></pre>
+<h4 id="send-keys"><a class="header" href="#send-keys">send-keys</a></h4>
+<p>Send one or more keys to the terminal. Keys are specified as space-separated names (eg. "Ctrl a", "F1", "Alt Shift b").</p>
+<p><strong>ARGS</strong>: One or more key names (space-separated)</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action send-keys "Ctrl a"
+$ zellij action send-keys --pane-id terminal_3 "Alt b" "Enter"
+</code></pre>
+<h4 id="set-pane-borderless"><a class="header" href="#set-pane-borderless">set-pane-borderless</a></h4>
+<p>Set the borderless state of a specific pane</p>
+<p><strong>OPTIONS (required)</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;        Target pane by ID (required)
+    -b, --borderless &lt;BORDERLESS&gt;  Whether the pane should be borderless (required)
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action set-pane-borderless --pane-id terminal_3 --borderless true
+</code></pre>
+<h4 id="set-pane-color"><a class="header" href="#set-pane-color">set-pane-color</a></h4>
+<p>Set the default foreground and/or background color of a pane. Colors can be specified as hex (eg. "#00e000") or rgb notation (eg. "rgb:00/e0/00").</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target pane by ID (defaults to $ZELLIJ_PANE_ID)
+        --fg &lt;FG&gt;              Foreground color (eg. "#00e000", "rgb:00/e0/00")
+        --bg &lt;BG&gt;              Background color (eg. "#001a3a", "rgb:00/1a/3a")
+        --reset                Reset pane colors to terminal defaults (conflicts with --fg, --bg)
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action set-pane-color --fg "#00e000" --bg "#001a3a"
+$ zellij action set-pane-color --pane-id terminal_3 --reset
+</code></pre>
+<h4 id="show-floating-panes"><a class="header" href="#show-floating-panes">show-floating-panes</a></h4>
+<p>Show all floating panes in the specified tab (or active tab). Returns exit code 0 if changed, 2 if already visible, 1 if the tab was not found.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action show-floating-panes
+$ zellij action show-floating-panes --tab-id 3
 </code></pre>
 <h4 id="start-or-reload-plugin"><a class="header" href="#start-or-reload-plugin">start-or-reload-plugin</a></h4>
 <p>Launch a plugin if it is not loaded or reload it (skipping cache) if it is. Mostly useful for plugin development.</p>
 <p><strong>ARGS</strong>: The <a href="./plugin-loading.html#plugin-url-schema">plugin URL</a> (eg. <code>file:/path/to/my/plugin.wasm</code>)</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -c, --configuration &lt;CONFIG&gt;    Plugin configuration (key=value pairs)
+</code></pre>
 <p>eg.</p>
 <pre><code>zellij action start-or-reload-plugin zellij:strider
+zellij action start-or-reload-plugin file:/path/to/plugin.wasm -c "key=value"
+</code></pre>
+<h4 id="stack-panes"><a class="header" href="#stack-panes">stack-panes</a></h4>
+<p>Given a list of pane ids, turns them into a stack. (pane ids can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var).</p>
+<p><strong>ARGS</strong>: A list of panes (see example below)</p>
+<p>eg.</p>
+<pre><code># This will create a stack of 3 panes (terminal with ID 1, plugin with ID 1 and terminal with ID 2)
+$ zellij action stack-panes -- terminal_1 plugin_1 terminal_2
 </code></pre>
 <h4 id="switch-mode"><a class="header" href="#switch-mode">switch-mode</a></h4>
 <p>Switch input mode of all connected clients</p>
@@ -361,23 +968,57 @@ See <a href="./creating-a-layout.html#cwd-composition">layout CWD composition</a
 <p>eg.</p>
 <pre><code>$ zellij action switch-mode locked
 </code></pre>
+<h4 id="switch-session"><a class="header" href="#switch-session">switch-session</a></h4>
+<p>Switch to a different session</p>
+<p><strong>ARGS</strong>: The session name to switch to</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>        --tab-position &lt;TAB_POSITION&gt;    Tab position to focus after switching
+        --pane-id &lt;PANE_ID&gt;              Pane ID to focus after switching
+    -l, --layout &lt;LAYOUT&gt;                Layout to apply when switching
+        --layout-dir &lt;LAYOUT_DIR&gt;        Default folder for layouts (requires --layout)
+    -c, --cwd &lt;CWD&gt;                      Working directory when switching
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action switch-session my-other-session
+$ zellij action switch-session my-session --tab-position 2 --layout /path/to/layout.kdl
+</code></pre>
 <h4 id="toggle-active-sync-tab"><a class="header" href="#toggle-active-sync-tab">toggle-active-sync-tab</a></h4>
 <p>Toggle between sending text input to all panes in the current tab and just to the focused pane (the default)</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action toggle-active-sync-tab
 </code></pre>
 <h4 id="toggle-floating-panes"><a class="header" href="#toggle-floating-panes">toggle-floating-panes</a></h4>
 <p>Toggle the visibility of all floating panes in the current Tab, open one if none exist</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action toggle-floating-panes
 </code></pre>
 <h4 id="toggle-fullscreen"><a class="header" href="#toggle-fullscreen">toggle-fullscreen</a></h4>
 <p>Toggle between fullscreen focus pane and normal layout</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action toggle-fullscreen
 </code></pre>
+<h4 id="toggle-pane-borderless"><a class="header" href="#toggle-pane-borderless">toggle-pane-borderless</a></h4>
+<p>Toggle the borderless state of a specific pane</p>
+<p><strong>OPTIONS (required)</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target pane by ID (required)
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-pane-borderless --pane-id terminal_3
+</code></pre>
 <h4 id="toggle-pane-embed-or-floating"><a class="header" href="#toggle-pane-embed-or-floating">toggle-pane-embed-or-floating</a></h4>
 <p>Embed focused pane if floating or float focused pane if embedded</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action toggle-pane-embed-or-floating
 </code></pre>
@@ -387,74 +1028,58 @@ See <a href="./creating-a-layout.html#cwd-composition">layout CWD composition</a
 <p>eg.</p>
 <pre><code>$ zellij action toggle-pane-frames
 </code></pre>
+<h4 id="toggle-pane-pinned"><a class="header" href="#toggle-pane-pinned">toggle-pane-pinned</a></h4>
+<p>If the current pane is a floating pane, toggle its pinned state (always on top).</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-pane-pinned
+</code></pre>
 <h4 id="undo-rename-pane"><a class="header" href="#undo-rename-pane">undo-rename-pane</a></h4>
 <p>Remove a previously set pane name</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action undo-rename-pane
 </code></pre>
 <h4 id="undo-rename-tab"><a class="header" href="#undo-rename-tab">undo-rename-tab</a></h4>
 <p>Remove a previously set tab name</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action undo-rename-tab
-</code></pre>
-<h4 id="query-tab-names"><a class="header" href="#query-tab-names">query-tab-names</a></h4>
-<p>Query all tab names (receive a textual list on the command line)</p>
-<p>eg.</p>
-<pre><code>$ zellij action query-tab-names
 </code></pre>
 <h4 id="write"><a class="header" href="#write">write</a></h4>
 <p>Write bytes to the focused pane</p>
 <p><strong>ARGS</strong>: An array of bytes to write</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action write 102 111 111
 </code></pre>
 <h4 id="write-chars"><a class="header" href="#write-chars">write-chars</a></h4>
 <p>Write characters to the focused pane</p>
 <p><strong>ARGS</strong>: A string of characters to write</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID
+</code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action write-chars "Hi there!"
-</code></pre>
-<h4 id="toggle-pane-pinned"><a class="header" href="#toggle-pane-pinned">toggle-pane-pinned</a></h4>
-<p>If the current pane is a floating pane, toggle its pinned state (always on top).</p>
-<p>eg.</p>
-<pre><code>$ zellij action toggle-pane-pinned
-</code></pre>
-<h4 id="stack-panes"><a class="header" href="#stack-panes">stack-panes</a></h4>
-<p>Given a list of pane ids, turns them into a stack. (pane ids can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var).</p>
-<p><strong>ARGS</strong>: A list of panes (see example below)</p>
-<p>eg.</p>
-<pre><code># This will create a stack of 3 panes (terminal with ID 1, plugin with ID 1 and terminal with ID 2)
-$ zellij action stack-panes -- terminal_1 plugin_1 terminal_2
-</code></pre>
-<h4 id="change-floating-pane-coordinates"><a class="header" href="#change-floating-pane-coordinates">change-floating-pane-coordinates</a></h4>
-<p>Given a pane id, and coordinates, will change the coordinates of this pane.</p>
-<p><strong>ARGS</strong>: The pane id (see example below - these can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var)
-<strong>OPTIONS:</strong></p>
-<pre><code>        --height &lt;HEIGHT&gt;      The height if the pane is floating as a bare integer (eg. 1) or
-                               percent (eg. 10%)
-    -p, --pane-id &lt;PANE_ID&gt;    The pane_id of the floating pane, eg.  terminal_1, plugin_2 or 3
-                               (equivalent to terminal_3)
-        --pinned &lt;PINNED&gt;      Whether to pin a floating pane so that it is always on top
-        --width &lt;WIDTH&gt;        The width if the pane is floating as a bare integer (eg. 1) or
-                               percent (eg. 10%)
-    -x, --x &lt;X&gt;                The x coordinates if the pane is floating as a bare integer (eg. 1)
-                               or percent (eg. 10%)
-    -y, --y &lt;Y&gt;                The y coordinates if the pane is floating as a bare integer (eg. 1)
-                               or percent (eg. 10%)
-</code></pre>
-<p>eg.</p>
-<pre><code>zellij action change-floating-pane-coordinates --pane-id terminal_15 --height 10 --width 10 -x 10 -y 10
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="zellij-edit.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="zellij-run-and-edit.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="zellij-plugin.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="zellij-plugin-and-pipe.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -464,11 +1089,11 @@ $ zellij action stack-panes -- terminal_1 plugin_1 terminal_2
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="zellij-edit.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="zellij-run-and-edit.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="zellij-plugin.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="zellij-plugin-and-pipe.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
