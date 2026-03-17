@@ -34,7 +34,6 @@
     - [Examples](./layout-examples.md)
     - [Migrating from old YAML layouts](./migrating-yaml-layouts.md)
 - [Plugins](./plugins.md) 
-  - [Status of the Plugin System](./plugin-system-status.md)
   - [Loading Plugins](./plugin-loading.md)
   - [Plugin API](./plugin-api.md)
     - [Events](./plugin-api-events.md)
@@ -61,7 +60,7 @@
     - [The filepicker alias](./filepicker-alias.md)
   - [Example Plugins](./plugin-examples.md)
   - [Developing a Plugin in Other Languages](./plugin-other-languages.md)
-  - [Plugin Upgrade Guide for version 0.38.0](./plugin-upgrade-0.38.0.md)
+
 - [Session Resurrection](./session-resurrection.md)
 - [Web Client](./web-client.md)
 - [Compatibility](./compatibility.md)

@@ -4,8 +4,6 @@ Layouts are text files that define an arrangement of Zellij panes and tabs.
 
 You can read more about [creating a layout](./creating-a-layout.md)
 
-**Looking for the YAML configuration docs for versions `<0.32.0`? [Look no further!](/old-documentation)**
-
 ### Example
 
 A basic layout can look like this:

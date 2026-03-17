@@ -2,7 +2,7 @@
 
 Starting from Zellij `0.32.0`, Zellij uses [KDL](https://kdl.dev) layouts as described in these documents.
 
-Up until this version, Zellij used `YAML` configuration files as described in the old documents kept [here](/old-documentation) for posterity.
+Up until this version, Zellij used `YAML` configuration files.
 
 As a matter of convenience, when Zellij is run with an old configuration / layout / theme file (either explicitly with a cli flag or if it found the file in the default locations) it will prompt the user and convert that file to the new format.
 

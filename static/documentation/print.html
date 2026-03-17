@@ -163,7 +163,6 @@
 <li>For developing plugins: <a href="./plugins.html">Plugins</a></li>
 </ul>
 <p>You can also check out some <a href="/screencasts">Screencasts &amp; Tutorials</a> about using Zellij.</p>
-<p><strong>Looking for the docs for versions <code>&lt;0.32.0</code>? <a href="/old-documentation">Look no further!</a></strong></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="installation"><a class="header" href="#installation">Installation</a></h1>
 <p>The easiest way to install Zellij is through <a href="installation.html#third-party-repositories">a package for your OS</a>.</p>
 <p>If one is not available for your OS, you can <a href="installation.html#binary-download">download a prebuilt binary</a> or even <a href="https://zellij.dev">try Zellij without installing</a>.</p>
@@ -1749,7 +1748,7 @@ OPTIONS:
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="migrating-from-old-yaml-layouts--configs"><a class="header" href="#migrating-from-old-yaml-layouts--configs">Migrating from old YAML layouts / configs</a></h1>
 <p>Starting from Zellij <code>0.32.0</code>, Zellij uses <a href="https://kdl.dev">KDL</a> layouts as described in these documents.</p>
-<p>Up until this version, Zellij used <code>YAML</code> configuration files as described in the old documents kept <a href="/old-documentation">here</a> for posterity.</p>
+<p>Up until this version, Zellij used <code>YAML</code> configuration files.</p>
 <p>As a matter of convenience, when Zellij is run with an old configuration / layout / theme file (either explicitly with a cli flag or if it found the file in the default locations) it will prompt the user and convert that file to the new format.</p>
 <p>This can also be done manually:</p>
 <pre><code>$ zellij convert-config /path/to/my/config.yaml &gt; /path/to/my/config.kdl
@@ -3446,7 +3445,6 @@ echo "Pipeline complete."
 <div style="break-before: page; page-break-before: always;"></div><h1 id="layouts"><a class="header" href="#layouts">Layouts</a></h1>
 <p>Layouts are text files that define an arrangement of Zellij panes and tabs.</p>
 <p>You can read more about <a href="./creating-a-layout.html">creating a layout</a></p>
-<p><strong>Looking for the YAML configuration docs for versions <code>&lt;0.32.0</code>? <a href="/old-documentation">Look no further!</a></strong></p>
 <h3 id="example"><a class="header" href="#example">Example</a></h3>
 <p>A basic layout can look like this:</p>
 <pre><code class="language-javascript">// layout_file.kdl
@@ -4277,7 +4275,7 @@ keybinds {
 <p>Please make PRs with cool layouts (and screenshots!) to <a href="https://github.com/zellij-org/zellij-org.github.io">our website repo</a> and we'd be happy to include your name and a link to your profile.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="migrating-from-old-yaml-layouts--configs-1"><a class="header" href="#migrating-from-old-yaml-layouts--configs-1">Migrating from old YAML layouts / configs</a></h1>
 <p>Starting from Zellij <code>0.32.0</code>, Zellij uses <a href="https://kdl.dev">KDL</a> layouts as described in these documents.</p>
-<p>Up until this version, Zellij used <code>YAML</code> configuration files as described in the old documents kept <a href="/old-documentation">here</a> for posterity.</p>
+<p>Up until this version, Zellij used <code>YAML</code> configuration files.</p>
 <p>As a matter of convenience, when Zellij is run with an old configuration / layout / theme file (either explicitly with a cli flag or if it found the file in the default locations) it will prompt the user and convert that file to the new format.</p>
 <p>This can also be done manually:</p>
 <pre><code>$ zellij convert-config /path/to/my/config.yaml &gt; /path/to/my/config.kdl
@@ -4285,23 +4283,13 @@ $ zellij convert-layout /path/to/my/layout.yaml &gt; /path/to/my/layout.kdl
 $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugins"><a class="header" href="#plugins">Plugins</a></h1>
-<p>Zellij offers a Webassembly / WASI plugin system, allowing plugin developers to develop plugins in many different languages. The plugin system is currently in its early stages, offering pioneering plugin developers a chance to shape the ecosystem in its infancy if they are willing to tolerate <a href="./plugin-system-status.html">a few sharp edges</a>.</p>
+<p>Zellij offers a Webassembly / WASI plugin system, allowing plugin developers to develop plugins in many different languages.</p>
 <p>Zellij itself builds its UI from plugins, you can <a href="https://github.com/zellij-org/zellij/tree/main/default-plugins">browse their code</a> for inspiration.</p>
 <h2 id="what-is-a-zellij-plugin"><a class="header" href="#what-is-a-zellij-plugin">What is a Zellij Plugin?</a></h2>
 <p>A Zellij plugin is a first class citizen in the workspace, just like a terminal pane. It can <a href="./plugin-ui-rendering.html">render a UI</a>, <a href="./plugin-api-events.html">react to application state changes</a> as well as <a href="./plugin-api-commands.html">control Zellij and change its behavior</a>.</p>
 <p>Our intention with the plugin system is to give users and developers the power to easily take full advantage of their terminal. Creating composable components that can be shared easily, turning everyday terminal tasks into a personalized multiplayer dashboard experience. We like to think of them as visual cross-platform scripts that do not need to be installed or compiled.</p>
 <p>More importantly though, we feel that the best terminal workspace experience happens through collaboration. So - what do you think is a Zellij plugin?</p>
-<h2 id="status-of-the-plugin-system"><a class="header" href="#status-of-the-plugin-system">Status of the Plugin System</a></h2>
-<p>As mentioned above, the plugin system is in its early stages. While it has been a piece of the Zellij infrastructure for a while, we have only recently started devoting proper attention to it. We believe strongly in developing in the open, and so decided to release the early iterations as they come. We invite pioneering developers to develop plugins, find the rough edges as well as workarounds for them. The Zellij maintainers will be doing this along side them.</p>
-<p>Here's <a href="./plugin-system-status.html">a list of known issues and things that are missing</a>, these are all issues that are being worked on and should be addressed in the near future.</p>
-<p>Currently, Rust is the only language officially supported for plugins, but there are <a href="./plugin-other-languages.html">community efforts</a> we are enthusiastic about to support other languages. We plan on supporting as many languages as possible.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="status-of-the-plugin-system-1"><a class="header" href="#status-of-the-plugin-system-1">Status of the Plugin System</a></h1>
-<p>While even at this early stage, the Zellij plugin system offers powerful capabilities to plugin developers and users alike, there are a few key missing features that are all currently being addressed. This page lists the major ones:</p>
-<ol>
-<li><a href="https://github.com/zellij-org/zellij/issues/2556">Filesystem access is not very fast</a></li>
-<li><a href="https://github.com/zellij-org/zellij/issues/2558">Plugin commands are asynchronous and provide no success/failure indication</a></li>
-<li><a href="https://github.com/zellij-org/zellij/issues/2559">More plugin APIs</a></li>
-</ol>
+<p>Currently, Rust is the only language officially supported for plugins, but there are <a href="./plugin-other-languages.html">community efforts</a> to support other languages as well.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="loading-plugins"><a class="header" href="#loading-plugins">Loading Plugins</a></h1>
 <p>Plugins can either be loaded through a <a href="./creating-a-layout.html#plugin">Layout</a>, through the <a href="./zellij-plugin-and-pipe.html#zellij-plugin">command line</a>, or from a <a href="keybindings-possible-actions.html#launchorfocusplugin">keybinding</a>.</p>
 <h2 id="on-startup"><a class="header" href="#on-startup">On startup</a></h2>
@@ -9548,16 +9536,6 @@ to the selected tab. You can start typing to filter the tab list and you use <co
 <li><a href="https://gitlab.com/scabala/zelligo">Go</a></li>
 <li>Your SDK?</li>
 </ol>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-upgrade-guide-for-version-0380"><a class="header" href="#plugin-upgrade-guide-for-version-0380">Plugin Upgrade Guide for version 0.38.0</a></h1>
-<p>Version 0.38.0 includes some breaking changes for plugins. This guide aims to provide a check list for plugin authors to quickly update their plugins:</p>
-<h2 id="configuration-1"><a class="header" href="#configuration-1">configuration</a></h2>
-<p>Plugins are now configurable. This means that the <code>load</code> lifecycle-method now includes an additional <code>configuration</code> parameter which is an arbitrary list of key/value strings. For more info, please see <a href="./plugin-api-configuration.html">configuration</a>.</p>
-<p>If you don't want to use the configuration, you can include a second <code>configuration</code> parameter in the load function and not use it. For a rust example, see: https://github.com/zellij-org/rust-plugin-example/blob/main/src/main.rs#L17</p>
-<h2 id="permission-system"><a class="header" href="#permission-system">permission-system</a></h2>
-<p>Starting from this version, Zellij includes a permission system to give more power to users over the plugins they load. Many <a href="./plugin-api-events.html">Events</a> and <a href="./plugin-api-commands.html">Commands</a> now require certain permissions. If your plugin relies on these commands, you'll need to include a <code>request_permission</code> command in your <code>load</code> method to prompt the user to give your plugin these permissions. For a rust example, please see: https://github.com/zellij-org/rust-plugin-example/blob/main/src/main.rs#L22</p>
-<h2 id="protocol-buffers"><a class="header" href="#protocol-buffers">protocol buffers</a></h2>
-<p>Starting this version, plugins use protocol buffers to communicate across the wasm boundary. If you're using the official sdk (zellij-tile) this should be transparent to you, and you can remedy any issues by compiling against the latest zellij-tile version (0.38.0 as well).</p>
-<p>The upshot of this is that this change should make plugins forwards compatible (barring API behavior change of course).</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="session-resurrection"><a class="header" href="#session-resurrection">Session Resurrection</a></h1>
 <p><img src="img/zellij-session-manager-resurrection.png" alt="zellij-session-manager-resurrection" />
 Zellij includes built-in session resurrection capabilities. This means that by default, each Zellij session is serialized and kept in the user's cache folder waiting to be recreated after an intentional quit or an unintentional crash.</p>
@@ -9616,7 +9594,7 @@ web_server_key "/path/to/my/certs/localhost+3-key.pem" // private key
 <li><a href="./session-resurrection.html">Resurrect</a> this session if it has exited</li>
 </ol>
 <p>This means that if we bookmark this URL, we will be able to drop back in to exactly where we left off with this particular session - even if we've since shut down our machine completely.</p>
-<h2 id="configuration-2"><a class="header" href="#configuration-2">Configuration</a></h2>
+<h2 id="configuration-1"><a class="header" href="#configuration-1">Configuration</a></h2>
 <p>To configure the webserver, in the Zellij <a href="./configuration.html">configuration</a>:</p>
 <pre><code class="language-javascript">web_server true // always start the web server on Zellij startup (default: false)
 web_server_ip "0.0.0.0" // the IP to listen on, 0.0.0.0 is all (default: 127.0.0.1)
