@@ -199,7 +199,7 @@ fn get_plugin_ids() -> PluginIds
 
 Returns the unique Zellij pane ID for the plugin as well as the Zellij process ID.
 
-**Returns:** [`PluginIds`](./plugin-api-types.md#pluginids) — containing `plugin_id`, `zellij_pid`, `initial_cwd`, and `client_id`
+**Returns:** [`PluginIds`](./plugin-api-types.md#pluginids) - containing `plugin_id`, `zellij_pid`, `initial_cwd`, and `client_id`
 
 **Example:**
 
@@ -218,7 +218,7 @@ fn get_zellij_version() -> String
 
 Returns the version string of the running Zellij instance. Useful for checking plugin compatibility.
 
-**Returns:** `String` — the Zellij version (e.g., `"0.42.0"`)
+**Returns:** `String` - the Zellij version (e.g., `"0.42.0"`)
 
 **Example:**
 
@@ -239,7 +239,7 @@ fn generate_random_name() -> String
 
 Generate a random human-readable name using Zellij's curated word lists. Returns a name in the format `AdjectiveNoun` (e.g., `"BraveRustacean"`, `"ZippyWeasel"`). This uses the same word lists as session name generation, providing approximately 4,096 unique combinations.
 
-**Returns:** `String` — a random name
+**Returns:** `String` - a random name
 
 ---
 
@@ -257,7 +257,7 @@ Returns the absolute path to the layout directory. This is where Zellij looks fo
 - The directory specified via `ZELLIJ_LAYOUT_DIR` environment variable
 - The default: `~/.config/zellij/layouts`
 
-**Returns:** `String` — absolute path to the layout directory (empty string if it cannot be determined)
+**Returns:** `String` - absolute path to the layout directory (empty string if it cannot be determined)
 
 ---
 
@@ -271,7 +271,7 @@ fn get_session_environment_variables() -> BTreeMap<String, String>
 
 Returns the environment variables that were present when the Zellij session was created.
 
-**Returns:** `BTreeMap<String, String>` — environment variable name-value pairs
+**Returns:** `BTreeMap<String, String>` - environment variable name-value pairs
 
 ---
 
@@ -285,7 +285,7 @@ fn get_focused_pane_info() -> Result<(usize, PaneId), String>
 
 Returns the focused pane ID and its tab index for the client associated with this plugin.
 
-**Returns:** `Result<(usize, PaneId), String>` — `Ok((tab_index, pane_id))` on success
+**Returns:** `Result<(usize, PaneId), String>` - `Ok((tab_index, pane_id))` on success
 
 **Example:**
 
@@ -316,7 +316,7 @@ Query detailed information about a specific pane by its [`PaneId`](./plugin-api-
 |-----------|------|-------------|
 | `pane_id` | [`PaneId`](./plugin-api-types.md#paneid) | The pane to query |
 
-**Returns:** `Option<`[`PaneInfo`](./plugin-api-types.md#paneinfo)`>` — pane information, or `None` if the pane does not exist
+**Returns:** `Option<`[`PaneInfo`](./plugin-api-types.md#paneinfo)`>` - pane information, or `None` if the pane does not exist
 
 **Example:**
 
@@ -344,7 +344,7 @@ Query detailed information about a specific tab by its stable ID.
 |-----------|------|-------------|
 | `tab_id` | `usize` | The stable tab identifier |
 
-**Returns:** `Option<`[`TabInfo`](./plugin-api-types.md#tabinfo)`>` — tab information, or `None` if the tab does not exist
+**Returns:** `Option<`[`TabInfo`](./plugin-api-types.md#tabinfo)`>` - tab information, or `None` if the tab does not exist
 
 ---
 
@@ -364,7 +364,7 @@ Get the PID of the process running inside a terminal pane.
 |-----------|------|-------------|
 | `pane_id` | [`PaneId`](./plugin-api-types.md#paneid) | The pane to query (must be a terminal pane) |
 
-**Returns:** `Result<i32, String>` — the process ID on success
+**Returns:** `Result<i32, String>` - the process ID on success
 
 ---
 
@@ -384,7 +384,7 @@ Get the current running command (argv) in a terminal pane.
 |-----------|------|-------------|
 | `pane_id` | [`PaneId`](./plugin-api-types.md#paneid) | The pane to query |
 
-**Returns:** `Result<Vec<String>, String>` — the command and its arguments
+**Returns:** `Result<Vec<String>, String>` - the command and its arguments
 
 ---
 
@@ -404,7 +404,7 @@ Get the current working directory of a pane's process.
 |-----------|------|-------------|
 | `pane_id` | [`PaneId`](./plugin-api-types.md#paneid) | The pane to query |
 
-**Returns:** `Result<PathBuf, String>` — the working directory path
+**Returns:** `Result<PathBuf, String>` - the working directory path
 
 ---
 
@@ -425,7 +425,7 @@ Retrieve the scrollback buffer contents of a pane.
 | `pane_id` | [`PaneId`](./plugin-api-types.md#paneid) | The pane to read |
 | `get_full_scrollback` | `bool` | If `true`, includes lines above and below the viewport |
 
-**Returns:** `Result<`[`PaneContents`](./plugin-api-types.md#panecontents)`, String>` — the pane contents
+**Returns:** `Result<`[`PaneContents`](./plugin-api-types.md#panecontents)`, String>` - the pane contents
 
 **Example:**
 
@@ -475,7 +475,7 @@ fn save_session() -> Result<(), String>
 
 Save the current session state to disk immediately.
 
-**Returns:** `Result<(), String>` — `Ok(())` on success
+**Returns:** `Result<(), String>` - `Ok(())` on success
 
 ---
 
@@ -489,7 +489,7 @@ fn current_session_last_saved_time() -> Option<u64>
 
 Get the number of milliseconds elapsed since the last session save.
 
-**Returns:** `Option<u64>` — milliseconds since last save, or `None` if never saved
+**Returns:** `Option<u64>` - milliseconds since last save, or `None` if never saved
 
 ---
 
@@ -722,7 +722,7 @@ Open a file in the user's default `$EDITOR` in a new tiled pane.
 | `file_to_open` | [`FileToOpen`](./plugin-api-types.md#filetoopen) | File path, optional line number, and optional cwd |
 | `context` | `BTreeMap<String, String>` | Arbitrary context returned in `EditPaneOpened`/`EditPaneExited` events |
 
-**Returns:** `Option<`[`PaneId`](./plugin-api-types.md#paneid)`>` — the ID of the opened pane, if available
+**Returns:** `Option<`[`PaneId`](./plugin-api-types.md#paneid)`>` - the ID of the opened pane, if available
 
 **Example:**
 
@@ -759,7 +759,7 @@ Open a file in the user's default `$EDITOR` in a new floating pane.
 | `coordinates` | `Option<`[`FloatingPaneCoordinates`](./plugin-api-types.md#floatingpanecoordinates)`>` | Optional position and size |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -783,7 +783,7 @@ Open a file in the user's default `$EDITOR`, temporarily replacing the focused p
 | `file_to_open` | [`FileToOpen`](./plugin-api-types.md#filetoopen) | File to open |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -807,7 +807,7 @@ Open a file in the user's default `$EDITOR` in the same tab as the plugin as a t
 | `file_to_open` | [`FileToOpen`](./plugin-api-types.md#filetoopen) | File to open |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -833,7 +833,7 @@ Open a file in the user's default `$EDITOR` in the same tab as the plugin as a f
 | `coordinates` | `Option<FloatingPaneCoordinates>` | Optional position and size |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -859,7 +859,7 @@ Open a file in the user's default `$EDITOR`, replacing the plugin pane itself, r
 | `close_plugin_after_replace` | `bool` | If `true`, close the plugin pane after replacement |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -887,7 +887,7 @@ Open a file in the user's default `$EDITOR`, replacing an arbitrary pane by its 
 | `close_replaced_pane` | `bool` | If `true`, close the replaced pane; if `false`, suppress it |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -911,7 +911,7 @@ Open a new terminal pane at the specified working directory.
 |-----------|------|-------------|
 | `path` | `impl AsRef<Path>` | Working directory for the new terminal |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 **Example:**
 
@@ -937,7 +937,7 @@ Open a new tiled terminal in the tab where the plugin resides, regardless of the
 |-----------|------|-------------|
 | `path` | `impl AsRef<Path>` | Working directory for the new terminal |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -961,7 +961,7 @@ Open a new floating terminal pane at the specified working directory.
 | `path` | `impl AsRef<Path>` | Working directory for the new terminal |
 | `coordinates` | `Option<FloatingPaneCoordinates>` | Optional position and size |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -985,7 +985,7 @@ Open a new floating terminal in the tab where the plugin resides, regardless of 
 | `path` | `impl AsRef<Path>` | Working directory for the new terminal |
 | `coordinates` | `Option<FloatingPaneCoordinates>` | Optional position and size |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -1005,7 +1005,7 @@ Open a new terminal pane, temporarily replacing the focused pane.
 |-----------|------|-------------|
 | `path` | `impl AsRef<Path>` | Working directory for the new terminal |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -1029,7 +1029,7 @@ Open a new terminal pane, replacing the plugin pane, regardless of the user's fo
 | `path` | `impl AsRef<Path>` | Working directory for the new terminal |
 | `close_plugin_after_replace` | `bool` | If `true`, close the plugin; if `false`, suppress it |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -1055,7 +1055,7 @@ Open a new terminal pane, replacing an arbitrary pane by its ID.
 | `cwd` | `impl AsRef<Path>` | Working directory for the new terminal |
 | `close_replaced_pane` | `bool` | If `true`, close the replaced pane; if `false`, suppress it |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -1085,7 +1085,7 @@ Open a new command pane with the specified command and arguments.
 | `command_to_run` | [`CommandToRun`](./plugin-api-types.md#commandtorun) | Command path, args, and optional cwd |
 | `context` | `BTreeMap<String, String>` | Arbitrary context returned in `CommandPaneOpened`/`CommandPaneExited` events |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 **Example:**
 
@@ -1120,7 +1120,7 @@ Open a new command pane in the same tab as the plugin, regardless of the user's 
 | `command_to_run` | [`CommandToRun`](./plugin-api-types.md#commandtorun) | Command to execute |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -1146,7 +1146,7 @@ Open a new floating command pane.
 | `coordinates` | `Option<FloatingPaneCoordinates>` | Optional position and size |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -1172,7 +1172,7 @@ Open a new floating command pane in the same tab as the plugin, regardless of th
 | `coordinates` | `Option<FloatingPaneCoordinates>` | Optional position and size |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -1196,7 +1196,7 @@ Open a new command pane, temporarily replacing the focused pane.
 | `command_to_run` | [`CommandToRun`](./plugin-api-types.md#commandtorun) | Command to execute |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -1222,7 +1222,7 @@ Open a new command pane, replacing the plugin pane, regardless of the user's foc
 | `close_plugin_after_replace` | `bool` | If `true`, close the plugin; if `false`, suppress it |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -1250,7 +1250,7 @@ Open a new command pane, replacing an arbitrary pane by its ID.
 | `close_replaced_pane` | `bool` | If `true`, close the replaced pane; if `false`, suppress it |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -1274,7 +1274,7 @@ Open a new hidden (background/suppressed) command pane. The pane runs but is not
 | `command_to_run` | [`CommandToRun`](./plugin-api-types.md#commandtorun) | Command to execute |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Option<PaneId>` — the ID of the opened pane
+**Returns:** `Option<PaneId>` - the ID of the opened pane
 
 ---
 
@@ -1317,7 +1317,7 @@ Open a new tab with the default layout.
 | `name` | `Option<impl AsRef<str>>` | Optional name for the new tab |
 | `cwd` | `Option<impl AsRef<str>>` | Optional working directory |
 
-**Returns:** `Option<usize>` — the tab ID of the new tab
+**Returns:** `Option<usize>` - the tab ID of the new tab
 
 **Example:**
 
@@ -1343,7 +1343,7 @@ Apply a stringified KDL [`layout`](./layouts.md) to the current session. If the 
 |-----------|------|-------------|
 | `layout` | `&str` | KDL layout string |
 
-**Returns:** `Vec<usize>` — the tab IDs of all created tabs
+**Returns:** `Vec<usize>` - the tab IDs of all created tabs
 
 **Example:**
 
@@ -1378,7 +1378,7 @@ Apply a [`LayoutInfo`](./plugin-api-types.md#layoutinfo) to the current session 
 |-----------|------|-------------|
 | `layout_info` | `impl AsRef<LayoutInfo>` | Layout specification |
 
-**Returns:** `Vec<usize>` — the tab IDs of all created tabs
+**Returns:** `Vec<usize>` - the tab IDs of all created tabs
 
 ---
 
@@ -1402,7 +1402,7 @@ Open a new tab with a command pane running the specified command.
 | `command_to_run` | [`CommandToRun`](./plugin-api-types.md#commandtorun) | Command to execute |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `(Option<usize>, Option<PaneId>)` — the tab ID and pane ID of the created tab and pane
+**Returns:** `(Option<usize>, Option<PaneId>)` - the tab ID and pane ID of the created tab and pane
 
 ---
 
@@ -1428,7 +1428,7 @@ Open a new tab with a plugin pane loaded from the specified URL.
 | `configuration` | `BTreeMap<String, String>` | Plugin configuration key-value pairs |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `(Option<usize>, Option<PaneId>)` — the tab ID and pane ID
+**Returns:** `(Option<usize>, Option<PaneId>)` - the tab ID and pane ID
 
 ---
 
@@ -1452,7 +1452,7 @@ Open a new tab with an editor pane for the specified file.
 | `file_to_open` | [`FileToOpen`](./plugin-api-types.md#filetoopen) | File to open |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `(Option<usize>, Option<PaneId>)` — the tab ID and pane ID
+**Returns:** `(Option<usize>, Option<PaneId>)` - the tab ID and pane ID
 
 ---
 
@@ -1536,7 +1536,7 @@ Focus the tab with the specified name, or create it if it does not exist.
 |-----------|------|-------------|
 | `tab_name` | `&str` | Name of the tab to focus or create |
 
-**Returns:** `Option<usize>` — the tab ID
+**Returns:** `Option<usize>` - the tab ID
 
 ---
 
@@ -1702,7 +1702,7 @@ Move the specified panes to a new tab.
 | `new_tab_name` | `Option<String>` | Optional name for the new tab |
 | `should_change_focus_to_new_tab` | `bool` | Whether to switch focus to the new tab |
 
-**Returns:** `Option<usize>` — the tab ID of the new tab
+**Returns:** `Option<usize>` - the tab ID of the new tab
 
 ---
 
@@ -1728,7 +1728,7 @@ Move the specified panes to an existing tab by index.
 | `tab_index` | `usize` | Target tab position index |
 | `should_change_focus_to_new_tab` | `bool` | Whether to switch focus to the target tab |
 
-**Returns:** `Option<usize>` — the tab ID
+**Returns:** `Option<usize>` - the tab ID
 
 ---
 
@@ -1754,7 +1754,7 @@ Move the specified panes to an existing tab by its stable ID.
 | `tab_id` | `usize` | Target tab stable ID |
 | `should_change_focus_to_target_tab` | `bool` | Whether to switch focus to the target tab |
 
-**Returns:** `Option<usize>` — the tab ID
+**Returns:** `Option<usize>` - the tab ID
 
 ---
 
@@ -1988,7 +1988,7 @@ Show all floating panes in the specified tab, or the active tab if `None`.
 |-----------|------|-------------|
 | `tab_id` | `Option<usize>` | Tab ID, or `None` for the active tab |
 
-**Returns:** `Result<bool, String>` — whether floating panes are now visible
+**Returns:** `Result<bool, String>` - whether floating panes are now visible
 
 ---
 
@@ -2008,7 +2008,7 @@ Hide all floating panes in the specified tab, or the active tab if `None`.
 |-----------|------|-------------|
 | `tab_id` | `Option<usize>` | Tab ID, or `None` for the active tab |
 
-**Returns:** `Result<bool, String>` — whether floating panes are now hidden
+**Returns:** `Result<bool, String>` - whether floating panes are now hidden
 
 ---
 
@@ -3062,7 +3062,7 @@ Get a layout's KDL content by name. Supports both built-in layouts (e.g., `"defa
 |-----------|------|-------------|
 | `layout_name` | `&str` | Name of the layout |
 
-**Returns:** `Result<String, String>` — the KDL layout string on success
+**Returns:** `Result<String, String>` - the KDL layout string on success
 
 ---
 
@@ -3144,7 +3144,7 @@ Save a KDL layout to the user's layout directory.
 | `layout_kdl` | `impl AsRef<str>` | KDL layout content |
 | `overwrite` | `bool` | If `true`, overwrite existing file; if `false`, fail if file exists |
 
-**Returns:** `Result<(), String>` — `Ok(())` on success
+**Returns:** `Result<(), String>` - `Ok(())` on success
 
 ---
 
@@ -3164,7 +3164,7 @@ Delete a layout file from the user's layout directory.
 |-----------|------|-------------|
 | `layout_name` | `impl AsRef<str>` | Name of the layout to delete |
 
-**Returns:** `Result<(), String>` — `Ok(())` on success
+**Returns:** `Result<(), String>` - `Ok(())` on success
 
 ---
 
@@ -3188,7 +3188,7 @@ Rename a layout file in the user's layout directory.
 | `old_layout_name` | `impl Into<String>` | Current layout name |
 | `new_layout_name` | `impl Into<String>` | New layout name |
 
-**Returns:** `Result<(), String>` — `Ok(())` on success
+**Returns:** `Result<(), String>` - `Ok(())` on success
 
 ---
 
@@ -3212,7 +3212,7 @@ Open a layout file in the user's default `$EDITOR`.
 | `layout_name` | `impl AsRef<str>` | Name of the layout to edit |
 | `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
 
-**Returns:** `Result<(), String>` — `Ok(())` on success
+**Returns:** `Result<(), String>` - `Ok(())` on success
 
 ---
 
@@ -3784,7 +3784,7 @@ Generate a web login token for authenticating web clients.
 | `token_label` | `Option<String>` | Optional label for the token |
 | `read_only` | `bool` | If `true`, the token grants read-only access |
 
-**Returns:** `Result<String, String>` — the generated token string
+**Returns:** `Result<String, String>` - the generated token string
 
 ---
 
@@ -3804,7 +3804,7 @@ Revoke a web login token by its label.
 |-----------|------|-------------|
 | `token_label` | `&str` | Label of the token to revoke |
 
-**Returns:** `Result<(), String>` — `Ok(())` on success
+**Returns:** `Result<(), String>` - `Ok(())` on success
 
 ---
 
@@ -3818,7 +3818,7 @@ fn list_web_login_tokens() -> Result<Vec<(String, String, bool)>, String>
 
 List all web login tokens.
 
-**Returns:** `Result<Vec<(String, String, bool)>, String>` — list of `(label, created_at, read_only)` tuples
+**Returns:** `Result<Vec<(String, String, bool)>, String>` - list of `(label, created_at, read_only)` tuples
 
 ---
 
@@ -3832,7 +3832,7 @@ fn revoke_all_web_tokens() -> Result<(), String>
 
 Revoke all web login tokens.
 
-**Returns:** `Result<(), String>` — `Ok(())` on success
+**Returns:** `Result<(), String>` - `Ok(())` on success
 
 ---
 
@@ -3853,7 +3853,7 @@ Rename a web login token.
 | `old_name` | `&str` | Current token label |
 | `new_name` | `&str` | New token label |
 
-**Returns:** `Result<(), String>` — `Ok(())` on success
+**Returns:** `Result<(), String>` - `Ok(())` on success
 
 ---
 
@@ -3974,7 +3974,7 @@ Extract the active (focused) tab from a list of tab information. This is a local
 |-----------|------|-------------|
 | `tab_infos` | `&Vec<TabInfo>` | List of tab information (from a `TabUpdate` event) |
 
-**Returns:** `Option<`[`TabInfo`](./plugin-api-types.md#tabinfo)`>` — the focused tab, or `None` if none is focused
+**Returns:** `Option<`[`TabInfo`](./plugin-api-types.md#tabinfo)`>` - the focused tab, or `None` if none is focused
 
 **Example:**
 
@@ -4009,4 +4009,4 @@ Extract the focused non-plugin pane from a pane manifest for a given tab. This i
 | `tab_position` | `usize` | Tab position (0-indexed) |
 | `pane_manifest` | `&PaneManifest` | Pane manifest (from a `PaneUpdate` event) |
 
-**Returns:** `Option<`[`PaneInfo`](./plugin-api-types.md#paneinfo)`>` — the focused pane, or `None`
+**Returns:** `Option<`[`PaneInfo`](./plugin-api-types.md#paneinfo)`>` - the focused pane, or `None`

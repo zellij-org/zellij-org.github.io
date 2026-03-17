@@ -1,24 +1,24 @@
 # Programmatic Control
 
-This page describes patterns for controlling Zellij from external processes — scripts, daemons, orchestration tools, or any program that needs to create terminal sessions, run commands, observe their output, and react to results without human interaction.
+This page describes patterns for controlling Zellij from external processes - scripts, daemons, orchestration tools, or any program that needs to create terminal sessions, run commands, observe their output, and react to results without human interaction.
 
 All of the primitives described here are documented individually elsewhere. This page consolidates them into a single reference oriented toward non-interactive, machine-driven use.
 
 ---
 
-- [The Control Surface at a Glance](#the-control-surface-at-a-glance) — What can be queried, mutated, and observed
-- [The Control Loop](#the-control-loop) — Create, command, observe, react
-- [Waiting for Output Conditions](#waiting-for-output-conditions) — Block until a command finishes or output matches a pattern
-- [Point-in-Time vs. Streaming Observation](#point-in-time-vs-streaming-observation) — When to snapshot, when to stream
-- [Handling ANSI Escape Codes](#handling-ansi-escape-codes) — Preserving or excluding terminal styling for machine consumers
-- [Structured Output Reference](#structured-output-reference) — Which commands produce JSON
-- [Concurrency and Ordering](#concurrency-and-ordering) — Multiple processes controlling the same session
+- [The Control Surface at a Glance](#the-control-surface-at-a-glance) - What can be queried, mutated, and observed
+- [The Control Loop](#the-control-loop) - Create, command, observe, react
+- [Waiting for Output Conditions](#waiting-for-output-conditions) - Block until a command finishes or output matches a pattern
+- [Point-in-Time vs. Streaming Observation](#point-in-time-vs-streaming-observation) - When to snapshot, when to stream
+- [Handling ANSI Escape Codes](#handling-ansi-escape-codes) - Preserving or excluding terminal styling for machine consumers
+- [Structured Output Reference](#structured-output-reference) - Which commands produce JSON
+- [Concurrency and Ordering](#concurrency-and-ordering) - Multiple processes controlling the same session
 
 ---
 
 ## The Control Surface at a Glance
 
-Zellij exposes its entire control surface through `zellij action` subcommands and the `zellij subscribe` command. No socket, HTTP API, or library binding is required — all interaction occurs through subprocess invocation, and structured data is available as JSON on stdout.
+Zellij exposes its entire control surface through `zellij action` subcommands and the `zellij subscribe` command. No socket, HTTP API, or library binding is required - all interaction occurs through subprocess invocation, and structured data is available as JSON on stdout.
 
 The surface divides into four categories:
 
@@ -38,9 +38,9 @@ The surface divides into four categories:
 
 | Category | Key Commands |
 |----------|-------------|
-| Create | [`new-pane`](./cli-actions.md#new-pane), [`new-tab`](./cli-actions.md#new-tab), [`edit`](./cli-actions.md#edit), [`launch-plugin`](./cli-actions.md#launch-plugin) — all return the created ID |
+| Create | [`new-pane`](./cli-actions.md#new-pane), [`new-tab`](./cli-actions.md#new-tab), [`edit`](./cli-actions.md#edit), [`launch-plugin`](./cli-actions.md#launch-plugin) - all return the created ID |
 | Close | [`close-pane`](./cli-actions.md#close-pane), [`close-tab`](./cli-actions.md#close-tab) |
-| Input | [`write-chars`](./cli-actions.md#write-chars), [`write`](./cli-actions.md#write), [`paste`](./cli-actions.md#paste), [`send-keys`](./cli-actions.md#send-keys) — all accept `--pane-id` |
+| Input | [`write-chars`](./cli-actions.md#write-chars), [`write`](./cli-actions.md#write), [`paste`](./cli-actions.md#paste), [`send-keys`](./cli-actions.md#send-keys) - all accept `--pane-id` |
 | Layout | [`override-layout`](./cli-actions.md#override-layout), [`next-swap-layout`](./cli-actions.md#next-swap-layout) |
 | Appearance | [`rename-pane`](./cli-actions.md#rename-pane), [`rename-tab`](./cli-actions.md#rename-tab), [`set-pane-color`](./cli-actions.md#set-pane-color), [`set-pane-borderless`](./cli-actions.md#set-pane-borderless) |
 | Positioning | [`change-floating-pane-coordinates`](./cli-actions.md#change-floating-pane-coordinates), [`toggle-pane-embed-or-floating`](./cli-actions.md#toggle-pane-embed-or-floating), [`toggle-pane-pinned`](./cli-actions.md#toggle-pane-pinned) |
@@ -103,7 +103,7 @@ zellij --session my-session action paste --pane-id $PANE_ID "cargo build" &&
 zellij --session my-session action send-keys --pane-id $PANE_ID "Enter"
 ```
 
-Note: the text passed to `paste` and `write-chars` is sent to whatever shell is running inside the pane. To avoid shell compatibility issues, panes can be opened with a command directly — the command is then executed as the pane's process, bypassing the shell entirely:
+Note: the text passed to `paste` and `write-chars` is sent to whatever shell is running inside the pane. To avoid shell compatibility issues, panes can be opened with a command directly - the command is then executed as the pane's process, bypassing the shell entirely:
 
 ```bash
 PANE_ID=$(zellij --session my-session action new-pane -- cargo build --release)
@@ -125,7 +125,7 @@ zellij --session my-session action dump-screen --pane-id $PANE_ID --full
 
 ### 5. React and repeat
 
-Based on observed output, subsequent actions can be issued — closing panes, opening new ones, sending further input, or tearing down the session.
+Based on observed output, subsequent actions can be issued - closing panes, opening new ones, sending further input, or tearing down the session.
 
 ### Complete example
 
@@ -174,7 +174,7 @@ A common need in programmatic control is to wait until a command finishes or unt
 
 ### Blocking panes
 
-The simplest approach — block the calling process until the command in the pane exits:
+The simplest approach is to block the calling process until the command in the pane exits:
 
 ```bash
 # Block until the command exits with status 0 (retry on failure by pressing Enter)
@@ -231,7 +231,7 @@ This is useful for live monitoring and logging. See [Zellij Subscribe](./zellij-
 
 Two mechanisms exist for reading pane output. The right choice depends on the use case:
 
-### `dump-screen` — Snapshot
+### `dump-screen` - Snapshot
 
 ```bash
 zellij action dump-screen --pane-id terminal_1 --full
@@ -242,7 +242,7 @@ zellij action dump-screen --pane-id terminal_1 --full
 - Suitable for: polling at intervals, capturing final output after a command is known to have finished, debugging.
 - ANSI styling can be included with `--ansi`, or omitted (default) for plain text.
 
-### `subscribe` — Stream
+### `subscribe` - Stream
 
 ```bash
 zellij subscribe --pane-id terminal_1 --format json
@@ -267,14 +267,14 @@ zellij subscribe --pane-id terminal_1 --format json
 
 ## Handling ANSI Escape Codes
 
-Both `dump-screen` and `subscribe` strip ANSI escape sequences by default, returning plain text. The `--ansi` flag preserves color and styling sequences (but not cursor movement — the output is already rendered into lines).
+Both `dump-screen` and `subscribe` strip ANSI escape sequences by default, returning plain text. The `--ansi` flag preserves color and styling sequences (but not cursor movement - the output is already rendered into lines).
 
 ### Excluding ANSI (default)
 
 By default, both commands return plain text with no escape codes. This is generally what machine consumers want:
 
 ```bash
-# Plain text — no escape codes
+# Plain text - no escape codes
 zellij action dump-screen --pane-id terminal_1
 zellij subscribe --pane-id terminal_1
 ```
@@ -332,7 +332,7 @@ When multiple processes issue CLI actions against the same session concurrently,
 
 ### Ordering
 
-Each `zellij action` invocation is a separate subprocess that connects to the Zellij server, sends a message, and disconnects. Actions are processed by the server in the order they are received. When actions are issued sequentially from a single process (e.g., chained with `&&`), ordering is preserved. When issued concurrently from multiple processes, no ordering guarantee exists between them.
+Each `zellij action` invocation is a separate process that connects to the Zellij server, sends a message, and disconnects. Actions are processed by the server in the order they are received, and the CLI is blocked until the action logically completes. This means that when actions are chained (e.g. with `&&`), ordering is preserved. When issued concurrently from multiple processes, no ordering guarantee exists between them.
 
 ### Practical guidance
 
@@ -359,10 +359,10 @@ Each `zellij action` invocation is a separate subprocess that connects to the Ze
 ## Going Further
 
 For individual command references and task-oriented scripting examples, see:
-- [CLI Actions](./cli-actions.md) — Full reference of all `zellij action` subcommands
-- [CLI Recipes & Scripting](./cli-recipes.md) — Task-oriented examples and common workflows
-- [Zellij Subscribe](./zellij-subscribe.md) — Real-time pane output streaming
-- [Zellij Run & Edit](./zellij-run-and-edit.md) — Launching commands and opening files in panes
-- [Zellij Plugin & Pipe](./zellij-plugin-and-pipe.md) — Plugin communication from the CLI
+- [CLI Actions](./cli-actions.md) - Full reference of all `zellij action` subcommands
+- [CLI Recipes & Scripting](./cli-recipes.md) - Task-oriented examples and common workflows
+- [Zellij Subscribe](./zellij-subscribe.md) - Real-time pane output streaming
+- [Zellij Run & Edit](./zellij-run-and-edit.md) - Launching commands and opening files in panes
+- [Zellij Plugin & Pipe](./zellij-plugin-and-pipe.md) - Plugin communication from the CLI
 
 For deeper integration, the [Plugin API](./plugin-api.md) provides access to 120+ commands and 52 event types from compiled WASM plugins, including structured lifecycle events (`CommandPaneExited`, `PaneUpdate`, `TabUpdate`) that are not available through the CLI.

@@ -64,7 +64,7 @@ zellij action list-panes --json
   }
 ]
 ```
-*(JSON output includes many additional fields — see [Inspecting Session State](#inspecting-session-state) for full details)*
+*(JSON output includes many additional fields - see [Inspecting Session State](#inspecting-session-state) for full details)*
 
 ### Tab IDs
 
@@ -97,7 +97,7 @@ zellij action list-tabs --json
   }
 ]
 ```
-*(JSON output includes many additional fields — see [Inspecting Session State](#inspecting-session-state) for full details)*
+*(JSON output includes many additional fields - see [Inspecting Session State](#inspecting-session-state) for full details)*
 
 Or get the current tab info:
 ```
@@ -455,7 +455,7 @@ zellij action change-floating-pane-coordinates --pane-id terminal_5 --x 20 --y 1
 
 ## Borderless Panes
 
-A pane can be created without a border using the `--borderless` flag. Combined with `--pinned`, this creates a persistent overlay that appears as part of the terminal UI itself — with no visible frame separating it from the rest of the screen.
+A pane can be created without a border using the `--borderless` flag. Combined with `--pinned`, this creates a persistent overlay that appears as part of the terminal UI itself - with no visible frame separating it from the rest of the screen.
 
 For example, a small pane pinned to the top-right corner that continuously displays the current git branch and status:
 
@@ -464,9 +464,9 @@ zellij action new-pane --floating --borderless true --pinned true \
 --width "20%" --height 1 --x "75%" --y 2 \
 -- bash -c 'while true; do printf "\r%-40s" "$(git -C /home/user/project branch --show-current) $(git -C /home/user/project status --short | wc -l) changed"; sleep 5; done'
 ```
-This creates a single-line overlay that stays on top of all other panes, has no border, and continuously refreshes — functioning like a custom status bar element.
+This creates a single-line overlay that stays on top of all other panes, has no border, and continuously refreshes - functioning like a custom status bar element.
 
-Another example — a persistent resource monitor pinned to a corner:
+Another example - a persistent resource monitor pinned to a corner:
 ```
 zellij action new-pane --floating --borderless true --pinned true \
     --width 30 --height 5 --x "100%" --y "100%" \
@@ -485,7 +485,7 @@ zellij action set-pane-borderless --pane-id terminal_5 --borderless true
 
 ## Toggling Pane Visibility
 
-A tiled pane can be floated and a floating pane can be embedded. This is useful for background tasks — a long-running process can be kept in a floating pane whose visibility is toggled as needed, keeping the main workspace uncluttered.
+A tiled pane can be floated and a floating pane can be embedded. This is useful for background tasks - a long-running process can be kept in a floating pane whose visibility is toggled as needed, keeping the main workspace uncluttered.
 
 Float a tiled pane or embed a floating pane:
 ```
@@ -562,7 +562,7 @@ The calling shell will not continue until the pane has been closed. The user can
 
 ### Waiting for Success or Failure
 
-The `--block-until-exit-success` flag unblocks only when the command exits with status 0. If it fails, the pane stays open and the user can press `Enter` to retry — the calling process remains blocked until the command succeeds (or the pane is closed manually):
+The `--block-until-exit-success` flag unblocks only when the command exits with status 0. If it fails, the pane stays open and the user can press `Enter` to retry - the calling process remains blocked until the command succeeds (or the pane is closed manually):
 
 ```
 zellij action new-pane --block-until-exit-success -- cargo build
@@ -595,13 +595,13 @@ These flags are especially useful for workflows that may require human intervent
 ```bash
 #!/bin/bash
 
-# Step 1: run tests — retry until they pass
+# Step 1: run tests - retry until they pass
 zellij action new-pane --block-until-exit-success --name "tests" -- cargo test
 
-# Step 2: build release — retry until it succeeds
+# Step 2: build release - retry until it succeeds
 zellij action new-pane --block-until-exit-success --name "release build" -- cargo build --release
 
-# Step 3: deploy — wait for it to finish regardless of outcome
+# Step 3: deploy - wait for it to finish regardless of outcome
 zellij action new-pane --block-until-exit --name "deploy" -- ./deploy.sh
 
 echo "Pipeline complete."

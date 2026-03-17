@@ -312,7 +312,7 @@ show_cursor(None);
 </span>fn get_plugin_ids() -&gt; PluginIds
 <span class="boring">}</span></code></pre></pre>
 <p>Returns the unique Zellij pane ID for the plugin as well as the Zellij process ID.</p>
-<p><strong>Returns:</strong> <a href="./plugin-api-types.html#pluginids"><code>PluginIds</code></a> — containing <code>plugin_id</code>, <code>zellij_pid</code>, <code>initial_cwd</code>, and <code>client_id</code></p>
+<p><strong>Returns:</strong> <a href="./plugin-api-types.html#pluginids"><code>PluginIds</code></a> - containing <code>plugin_id</code>, <code>zellij_pid</code>, <code>initial_cwd</code>, and <code>client_id</code></p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -326,7 +326,7 @@ eprintln!("Plugin ID: {}, Zellij PID: {}", ids.plugin_id, ids.zellij_pid);
 </span>fn get_zellij_version() -&gt; String
 <span class="boring">}</span></code></pre></pre>
 <p>Returns the version string of the running Zellij instance. Useful for checking plugin compatibility.</p>
-<p><strong>Returns:</strong> <code>String</code> — the Zellij version (e.g., <code>"0.42.0"</code>)</p>
+<p><strong>Returns:</strong> <code>String</code> - the Zellij version (e.g., <code>"0.42.0"</code>)</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -341,7 +341,7 @@ eprintln!("Running on Zellij {}", version);
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p>Generate a random human-readable name using Zellij's curated word lists. Returns a name in the format <code>AdjectiveNoun</code> (e.g., <code>"BraveRustacean"</code>, <code>"ZippyWeasel"</code>). This uses the same word lists as session name generation, providing approximately 4,096 unique combinations.</p>
-<p><strong>Returns:</strong> <code>String</code> — a random name</p>
+<p><strong>Returns:</strong> <code>String</code> - a random name</p>
 <hr />
 <h3 id="get_layout_dir"><a class="header" href="#get_layout_dir"><code>get_layout_dir</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -356,7 +356,7 @@ eprintln!("Running on Zellij {}", version);
 <li>The directory specified via <code>ZELLIJ_LAYOUT_DIR</code> environment variable</li>
 <li>The default: <code>~/.config/zellij/layouts</code></li>
 </ul>
-<p><strong>Returns:</strong> <code>String</code> — absolute path to the layout directory (empty string if it cannot be determined)</p>
+<p><strong>Returns:</strong> <code>String</code> - absolute path to the layout directory (empty string if it cannot be determined)</p>
 <hr />
 <h3 id="get_session_environment_variables"><a class="header" href="#get_session_environment_variables"><code>get_session_environment_variables</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -365,7 +365,7 @@ eprintln!("Running on Zellij {}", version);
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadSessionEnvironmentVariables</code></a></p>
 <p>Returns the environment variables that were present when the Zellij session was created.</p>
-<p><strong>Returns:</strong> <code>BTreeMap&lt;String, String&gt;</code> — environment variable name-value pairs</p>
+<p><strong>Returns:</strong> <code>BTreeMap&lt;String, String&gt;</code> - environment variable name-value pairs</p>
 <hr />
 <h3 id="get_focused_pane_info"><a class="header" href="#get_focused_pane_info"><code>get_focused_pane_info</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -374,7 +374,7 @@ eprintln!("Running on Zellij {}", version);
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p>Returns the focused pane ID and its tab index for the client associated with this plugin.</p>
-<p><strong>Returns:</strong> <code>Result&lt;(usize, PaneId), String&gt;</code> — <code>Ok((tab_index, pane_id))</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(usize, PaneId), String&gt;</code> - <code>Ok((tab_index, pane_id))</code> on success</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -398,7 +398,7 @@ eprintln!("Running on Zellij {}", version);
 <tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane to query</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#paneinfo"><code>PaneInfo</code></a><code>&gt;</code> — pane information, or <code>None</code> if the pane does not exist</p>
+<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#paneinfo"><code>PaneInfo</code></a><code>&gt;</code> - pane information, or <code>None</code> if the pane does not exist</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -419,7 +419,7 @@ eprintln!("Running on Zellij {}", version);
 <tr><td><code>tab_id</code></td><td><code>usize</code></td><td>The stable tab identifier</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#tabinfo"><code>TabInfo</code></a><code>&gt;</code> — tab information, or <code>None</code> if the tab does not exist</p>
+<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#tabinfo"><code>TabInfo</code></a><code>&gt;</code> - tab information, or <code>None</code> if the tab does not exist</p>
 <hr />
 <h3 id="get_pane_pid"><a class="header" href="#get_pane_pid"><code>get_pane_pid</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -433,7 +433,7 @@ eprintln!("Running on Zellij {}", version);
 <tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane to query (must be a terminal pane)</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;i32, String&gt;</code> — the process ID on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;i32, String&gt;</code> - the process ID on success</p>
 <hr />
 <h3 id="get_pane_running_command"><a class="header" href="#get_pane_running_command"><code>get_pane_running_command</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -447,7 +447,7 @@ eprintln!("Running on Zellij {}", version);
 <tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane to query</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;Vec&lt;String&gt;, String&gt;</code> — the command and its arguments</p>
+<p><strong>Returns:</strong> <code>Result&lt;Vec&lt;String&gt;, String&gt;</code> - the command and its arguments</p>
 <hr />
 <h3 id="get_pane_cwd"><a class="header" href="#get_pane_cwd"><code>get_pane_cwd</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -461,7 +461,7 @@ eprintln!("Running on Zellij {}", version);
 <tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane to query</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;PathBuf, String&gt;</code> — the working directory path</p>
+<p><strong>Returns:</strong> <code>Result&lt;PathBuf, String&gt;</code> - the working directory path</p>
 <hr />
 <h3 id="get_pane_scrollback"><a class="header" href="#get_pane_scrollback"><code>get_pane_scrollback</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -476,7 +476,7 @@ eprintln!("Running on Zellij {}", version);
 <tr><td><code>get_full_scrollback</code></td><td><code>bool</code></td><td>If <code>true</code>, includes lines above and below the viewport</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;</code><a href="./plugin-api-types.html#panecontents"><code>PaneContents</code></a><code>, String&gt;</code> — the pane contents</p>
+<p><strong>Returns:</strong> <code>Result&lt;</code><a href="./plugin-api-types.html#panecontents"><code>PaneContents</code></a><code>, String&gt;</code> - the pane contents</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -513,7 +513,7 @@ list_clients();
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p>Save the current session state to disk immediately.</p>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="current_session_last_saved_time"><a class="header" href="#current_session_last_saved_time"><code>current_session_last_saved_time</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -522,7 +522,7 @@ list_clients();
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p>Get the number of milliseconds elapsed since the last session save.</p>
-<p><strong>Returns:</strong> <code>Option&lt;u64&gt;</code> — milliseconds since last save, or <code>None</code> if never saved</p>
+<p><strong>Returns:</strong> <code>Option&lt;u64&gt;</code> - milliseconds since last save, or <code>None</code> if never saved</p>
 <hr />
 <h3 id="switch_session"><a class="header" href="#switch_session"><code>switch_session</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -693,7 +693,7 @@ switch_session(None);
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context returned in <code>EditPaneOpened</code>/<code>EditPaneExited</code> events</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a><code>&gt;</code> — the ID of the opened pane, if available</p>
+<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a><code>&gt;</code> - the ID of the opened pane, if available</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -723,7 +723,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_file_in_place"><a class="header" href="#open_file_in_place"><code>open_file_in_place</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -741,7 +741,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_file_near_plugin"><a class="header" href="#open_file_near_plugin"><code>open_file_near_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -759,7 +759,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_file_floating_near_plugin"><a class="header" href="#open_file_floating_near_plugin"><code>open_file_floating_near_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -779,7 +779,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_file_in_place_of_plugin"><a class="header" href="#open_file_in_place_of_plugin"><code>open_file_in_place_of_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -799,7 +799,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_edit_pane_in_place_of_pane_id"><a class="header" href="#open_edit_pane_in_place_of_pane_id"><code>open_edit_pane_in_place_of_pane_id</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -821,7 +821,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h2 id="terminal-pane-opening"><a class="header" href="#terminal-pane-opening">Terminal Pane Opening</a></h2>
 <hr />
@@ -837,7 +837,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>path</code></td><td><code>impl AsRef&lt;Path&gt;</code></td><td>Working directory for the new terminal</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -856,7 +856,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>path</code></td><td><code>impl AsRef&lt;Path&gt;</code></td><td>Working directory for the new terminal</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_terminal_floating"><a class="header" href="#open_terminal_floating"><code>open_terminal_floating</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -874,7 +874,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>coordinates</code></td><td><code>Option&lt;FloatingPaneCoordinates&gt;</code></td><td>Optional position and size</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_terminal_floating_near_plugin"><a class="header" href="#open_terminal_floating_near_plugin"><code>open_terminal_floating_near_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -892,7 +892,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>coordinates</code></td><td><code>Option&lt;FloatingPaneCoordinates&gt;</code></td><td>Optional position and size</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_terminal_in_place"><a class="header" href="#open_terminal_in_place"><code>open_terminal_in_place</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -906,7 +906,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>path</code></td><td><code>impl AsRef&lt;Path&gt;</code></td><td>Working directory for the new terminal</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_terminal_in_place_of_plugin"><a class="header" href="#open_terminal_in_place_of_plugin"><code>open_terminal_in_place_of_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -924,7 +924,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>close_plugin_after_replace</code></td><td><code>bool</code></td><td>If <code>true</code>, close the plugin; if <code>false</code>, suppress it</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_terminal_pane_in_place_of_pane_id"><a class="header" href="#open_terminal_pane_in_place_of_pane_id"><code>open_terminal_pane_in_place_of_pane_id</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -944,7 +944,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>close_replaced_pane</code></td><td><code>bool</code></td><td>If <code>true</code>, close the replaced pane; if <code>false</code>, suppress it</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h2 id="command-pane-opening"><a class="header" href="#command-pane-opening">Command Pane Opening</a></h2>
 <p>Command panes allow the user to control the command, re-run it, and see its exit status through the Zellij UI.</p>
@@ -965,7 +965,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context returned in <code>CommandPaneOpened</code>/<code>CommandPaneExited</code> events</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -993,7 +993,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_command_pane_floating"><a class="header" href="#open_command_pane_floating"><code>open_command_pane_floating</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1013,7 +1013,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_command_pane_floating_near_plugin"><a class="header" href="#open_command_pane_floating_near_plugin"><code>open_command_pane_floating_near_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1033,7 +1033,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_command_pane_in_place"><a class="header" href="#open_command_pane_in_place"><code>open_command_pane_in_place</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1051,7 +1051,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_command_pane_in_place_of_plugin"><a class="header" href="#open_command_pane_in_place_of_plugin"><code>open_command_pane_in_place_of_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1071,7 +1071,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_command_pane_in_place_of_pane_id"><a class="header" href="#open_command_pane_in_place_of_pane_id"><code>open_command_pane_in_place_of_pane_id</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1093,7 +1093,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_command_pane_background"><a class="header" href="#open_command_pane_background"><code>open_command_pane_background</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1111,7 +1111,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="rerun_command_pane"><a class="header" href="#rerun_command_pane"><code>rerun_command_pane</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1141,7 +1141,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>cwd</code></td><td><code>Option&lt;impl AsRef&lt;str&gt;&gt;</code></td><td>Optional working directory</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> — the tab ID of the new tab</p>
+<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> - the tab ID of the new tab</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1160,7 +1160,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>layout</code></td><td><code>&amp;str</code></td><td>KDL layout string</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Vec&lt;usize&gt;</code> — the tab IDs of all created tabs</p>
+<p><strong>Returns:</strong> <code>Vec&lt;usize&gt;</code> - the tab IDs of all created tabs</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1188,7 +1188,7 @@ layout {
 <tr><td><code>layout_info</code></td><td><code>impl AsRef&lt;LayoutInfo&gt;</code></td><td>Layout specification</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Vec&lt;usize&gt;</code> — the tab IDs of all created tabs</p>
+<p><strong>Returns:</strong> <code>Vec&lt;usize&gt;</code> - the tab IDs of all created tabs</p>
 <hr />
 <h3 id="open_command_pane_in_new_tab"><a class="header" href="#open_command_pane_in_new_tab"><code>open_command_pane_in_new_tab</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1206,7 +1206,7 @@ layout {
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>(Option&lt;usize&gt;, Option&lt;PaneId&gt;)</code> — the tab ID and pane ID of the created tab and pane</p>
+<p><strong>Returns:</strong> <code>(Option&lt;usize&gt;, Option&lt;PaneId&gt;)</code> - the tab ID and pane ID of the created tab and pane</p>
 <hr />
 <h3 id="open_plugin_pane_in_new_tab"><a class="header" href="#open_plugin_pane_in_new_tab"><code>open_plugin_pane_in_new_tab</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1226,7 +1226,7 @@ layout {
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>(Option&lt;usize&gt;, Option&lt;PaneId&gt;)</code> — the tab ID and pane ID</p>
+<p><strong>Returns:</strong> <code>(Option&lt;usize&gt;, Option&lt;PaneId&gt;)</code> - the tab ID and pane ID</p>
 <hr />
 <h3 id="open_editor_pane_in_new_tab"><a class="header" href="#open_editor_pane_in_new_tab"><code>open_editor_pane_in_new_tab</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1244,7 +1244,7 @@ layout {
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>(Option&lt;usize&gt;, Option&lt;PaneId&gt;)</code> — the tab ID and pane ID</p>
+<p><strong>Returns:</strong> <code>(Option&lt;usize&gt;, Option&lt;PaneId&gt;)</code> - the tab ID and pane ID</p>
 <hr />
 <h2 id="tab-navigation--management"><a class="header" href="#tab-navigation--management">Tab Navigation &amp; Management</a></h2>
 <hr />
@@ -1302,7 +1302,7 @@ layout {
 <tr><td><code>tab_name</code></td><td><code>&amp;str</code></td><td>Name of the tab to focus or create</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> — the tab ID</p>
+<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> - the tab ID</p>
 <hr />
 <h3 id="go_to_tab"><a class="header" href="#go_to_tab"><code>go_to_tab</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1421,7 +1421,7 @@ layout {
 <tr><td><code>should_change_focus_to_new_tab</code></td><td><code>bool</code></td><td>Whether to switch focus to the new tab</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> — the tab ID of the new tab</p>
+<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> - the tab ID of the new tab</p>
 <hr />
 <h3 id="break_panes_to_tab_with_index"><a class="header" href="#break_panes_to_tab_with_index"><code>break_panes_to_tab_with_index</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1441,7 +1441,7 @@ layout {
 <tr><td><code>should_change_focus_to_new_tab</code></td><td><code>bool</code></td><td>Whether to switch focus to the target tab</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> — the tab ID</p>
+<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> - the tab ID</p>
 <hr />
 <h3 id="break_panes_to_tab_with_id"><a class="header" href="#break_panes_to_tab_with_id"><code>break_panes_to_tab_with_id</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1461,7 +1461,7 @@ layout {
 <tr><td><code>should_change_focus_to_target_tab</code></td><td><code>bool</code></td><td>Whether to switch focus to the target tab</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> — the tab ID</p>
+<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> - the tab ID</p>
 <hr />
 <h2 id="pane-focus--visibility"><a class="header" href="#pane-focus--visibility">Pane Focus &amp; Visibility</a></h2>
 <hr />
@@ -1634,7 +1634,7 @@ layout {
 <tr><td><code>tab_id</code></td><td><code>Option&lt;usize&gt;</code></td><td>Tab ID, or <code>None</code> for the active tab</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;bool, String&gt;</code> — whether floating panes are now visible</p>
+<p><strong>Returns:</strong> <code>Result&lt;bool, String&gt;</code> - whether floating panes are now visible</p>
 <hr />
 <h3 id="hide_floating_panes"><a class="header" href="#hide_floating_panes"><code>hide_floating_panes</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1648,7 +1648,7 @@ layout {
 <tr><td><code>tab_id</code></td><td><code>Option&lt;usize&gt;</code></td><td>Tab ID, or <code>None</code> for the active tab</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;bool, String&gt;</code> — whether floating panes are now hidden</p>
+<p><strong>Returns:</strong> <code>Result&lt;bool, String&gt;</code> - whether floating panes are now hidden</p>
 <hr />
 <h2 id="pane-manipulation"><a class="header" href="#pane-manipulation">Pane Manipulation</a></h2>
 <hr />
@@ -2405,7 +2405,7 @@ layout {
 <tr><td><code>layout_name</code></td><td><code>&amp;str</code></td><td>Name of the layout</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;String, String&gt;</code> — the KDL layout string on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;String, String&gt;</code> - the KDL layout string on success</p>
 <hr />
 <h3 id="dump_session_layout"><a class="header" href="#dump_session_layout"><code>dump_session_layout</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2464,7 +2464,7 @@ layout {
 <tr><td><code>overwrite</code></td><td><code>bool</code></td><td>If <code>true</code>, overwrite existing file; if <code>false</code>, fail if file exists</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="delete_layout"><a class="header" href="#delete_layout"><code>delete_layout</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2478,7 +2478,7 @@ layout {
 <tr><td><code>layout_name</code></td><td><code>impl AsRef&lt;str&gt;</code></td><td>Name of the layout to delete</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="rename_layout"><a class="header" href="#rename_layout"><code>rename_layout</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2496,7 +2496,7 @@ layout {
 <tr><td><code>new_layout_name</code></td><td><code>impl Into&lt;String&gt;</code></td><td>New layout name</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="edit_layout"><a class="header" href="#edit_layout"><code>edit_layout</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2514,7 +2514,7 @@ layout {
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="override_layout"><a class="header" href="#override_layout"><code>override_layout</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2944,7 +2944,7 @@ set_timeout(2.0); // Fire after 2 seconds
 <tr><td><code>read_only</code></td><td><code>bool</code></td><td>If <code>true</code>, the token grants read-only access</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;String, String&gt;</code> — the generated token string</p>
+<p><strong>Returns:</strong> <code>Result&lt;String, String&gt;</code> - the generated token string</p>
 <hr />
 <h3 id="revoke_web_login_token"><a class="header" href="#revoke_web_login_token"><code>revoke_web_login_token</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2958,7 +2958,7 @@ set_timeout(2.0); // Fire after 2 seconds
 <tr><td><code>token_label</code></td><td><code>&amp;str</code></td><td>Label of the token to revoke</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="list_web_login_tokens"><a class="header" href="#list_web_login_tokens"><code>list_web_login_tokens</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2967,7 +2967,7 @@ set_timeout(2.0); // Fire after 2 seconds
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>StartWebServer</code></a></p>
 <p>List all web login tokens.</p>
-<p><strong>Returns:</strong> <code>Result&lt;Vec&lt;(String, String, bool)&gt;, String&gt;</code> — list of <code>(label, created_at, read_only)</code> tuples</p>
+<p><strong>Returns:</strong> <code>Result&lt;Vec&lt;(String, String, bool)&gt;, String&gt;</code> - list of <code>(label, created_at, read_only)</code> tuples</p>
 <hr />
 <h3 id="revoke_all_web_tokens"><a class="header" href="#revoke_all_web_tokens"><code>revoke_all_web_tokens</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2976,7 +2976,7 @@ set_timeout(2.0); // Fire after 2 seconds
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>StartWebServer</code></a></p>
 <p>Revoke all web login tokens.</p>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="rename_web_token"><a class="header" href="#rename_web_token"><code>rename_web_token</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2991,7 +2991,7 @@ set_timeout(2.0); // Fire after 2 seconds
 <tr><td><code>new_name</code></td><td><code>&amp;str</code></td><td>New token label</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h2 id="regex-highlights"><a class="header" href="#regex-highlights">Regex Highlights</a></h2>
 <hr />
@@ -3083,7 +3083,7 @@ run_action(
 <tr><td><code>tab_infos</code></td><td><code>&amp;Vec&lt;TabInfo&gt;</code></td><td>List of tab information (from a <code>TabUpdate</code> event)</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#tabinfo"><code>TabInfo</code></a><code>&gt;</code> — the focused tab, or <code>None</code> if none is focused</p>
+<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#tabinfo"><code>TabInfo</code></a><code>&gt;</code> - the focused tab, or <code>None</code> if none is focused</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -3112,7 +3112,7 @@ run_action(
 <tr><td><code>pane_manifest</code></td><td><code>&amp;PaneManifest</code></td><td>Pane manifest (from a <code>PaneUpdate</code> event)</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#paneinfo"><code>PaneInfo</code></a><code>&gt;</code> — the focused pane, or <code>None</code></p>
+<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#paneinfo"><code>PaneInfo</code></a><code>&gt;</code> - the focused pane, or <code>None</code></p>
 
                     </main>
 

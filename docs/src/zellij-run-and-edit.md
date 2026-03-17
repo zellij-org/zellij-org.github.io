@@ -2,8 +2,8 @@
 
 ---
 
-- [Zellij Run](#zellij-run) — Launch a command in a new pane with options for floating, blocking, and more
-- [Zellij Edit](#zellij-edit) — Open a file in your default editor in a new pane
+- [Zellij Run](#zellij-run) - Launch a command in a new pane with options for floating, blocking, and more
+- [Zellij Edit](#zellij-edit) - Open a file in your default editor in a new pane
 
 ---
 

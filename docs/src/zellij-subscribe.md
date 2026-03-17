@@ -4,12 +4,12 @@ Zellij provides a top-level `subscribe` command that streams the rendered output
 
 ---
 
-- [Usage](#usage) — Command syntax
-- [Options](#options) — Available flags and parameters
-- [Output Formats](#output-formats) — Raw text and JSON (NDJSON) output modes
-- [Behavior](#behavior) — How initial delivery, change detection, and exit work
-- [Subscribing to a Different Session](#subscribing-to-a-different-session) — Monitoring panes in background or remote sessions
-- [Examples](#examples) — Common usage patterns including `jq` and `awk` filtering
+- [Usage](#usage) - Command syntax
+- [Options](#options) - Available flags and parameters
+- [Output Formats](#output-formats) - Raw text and JSON (NDJSON) output modes
+- [Behavior](#behavior) - How initial delivery, change detection, and exit work
+- [Subscribing to a Different Session](#subscribing-to-a-different-session) - Monitoring panes in background or remote sessions
+- [Examples](#examples) - Common usage patterns including `jq` and `awk` filtering
 
 ---
 

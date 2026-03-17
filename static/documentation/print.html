@@ -1765,12 +1765,12 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 </code></pre>
 <hr />
 <ul>
-<li><a href="./zellij-run-and-edit.html">Zellij Run &amp; Edit</a> — Launch commands in new panes or open files in your default editor</li>
-<li><a href="./cli-actions.html">Zellij Action</a> — Full reference of all <code>zellij action</code> subcommands for controlling panes, tabs, layouts, and more</li>
-<li><a href="./zellij-plugin-and-pipe.html">Zellij Plugin &amp; Pipe</a> — Load plugins and send data to them from the command line</li>
-<li><a href="./zellij-subscribe.html">Zellij Subscribe</a> — Stream the rendered output of one or more panes to stdout in real time</li>
-<li><a href="./cli-recipes.html">CLI Recipes &amp; Scripting</a> — Task-oriented examples and common workflows for scripting with Zellij</li>
-<li><a href="./programmatic-control.html">Programmatic Control</a> — Patterns for non-interactive, machine-driven control of Zellij sessions</li>
+<li><a href="./zellij-run-and-edit.html">Zellij Run &amp; Edit</a> - Launch commands in new panes or open files in your default editor</li>
+<li><a href="./cli-actions.html">Zellij Action</a> - Full reference of all <code>zellij action</code> subcommands for controlling panes, tabs, layouts, and more</li>
+<li><a href="./zellij-plugin-and-pipe.html">Zellij Plugin &amp; Pipe</a> - Load plugins and send data to them from the command line</li>
+<li><a href="./zellij-subscribe.html">Zellij Subscribe</a> - Stream the rendered output of one or more panes to stdout in real time</li>
+<li><a href="./cli-recipes.html">CLI Recipes &amp; Scripting</a> - Task-oriented examples and common workflows for scripting with Zellij</li>
+<li><a href="./programmatic-control.html">Programmatic Control</a> - Patterns for non-interactive, machine-driven control of Zellij sessions</li>
 </ul>
 <hr />
 <h3 id="completions"><a class="header" href="#completions">Completions</a></h3>
@@ -1789,8 +1789,8 @@ $ ze ./main.rs # open a new pane with your editor (eg. vim) pointed at ./main.rs
 <div style="break-before: page; page-break-before: always;"></div><h1 id="zellij-run--edit"><a class="header" href="#zellij-run--edit">Zellij Run &amp; Edit</a></h1>
 <hr />
 <ul>
-<li><a href="zellij-run-and-edit.html#zellij-run">Zellij Run</a> — Launch a command in a new pane with options for floating, blocking, and more</li>
-<li><a href="zellij-run-and-edit.html#zellij-edit">Zellij Edit</a> — Open a file in your default editor in a new pane</li>
+<li><a href="zellij-run-and-edit.html#zellij-run">Zellij Run</a> - Launch a command in a new pane with options for floating, blocking, and more</li>
+<li><a href="zellij-run-and-edit.html#zellij-edit">Zellij Edit</a> - Open a file in your default editor in a new pane</li>
 </ul>
 <hr />
 <h2 id="zellij-run"><a class="header" href="#zellij-run">Zellij Run</a></h2>
@@ -2795,8 +2795,8 @@ $ zellij action switch-session my-session --tab-position 2 --layout /path/to/lay
 <div style="break-before: page; page-break-before: always;"></div><h1 id="zellij-plugin--pipe"><a class="header" href="#zellij-plugin--pipe">Zellij Plugin &amp; Pipe</a></h1>
 <hr />
 <ul>
-<li><a href="zellij-plugin-and-pipe.html#zellij-plugin">Zellij Plugin</a> — Load a plugin from a local or remote wasm file into a new pane</li>
-<li><a href="zellij-plugin-and-pipe.html#zellij-pipe">Zellij Pipe</a> — Send messages and data to one or more plugins, launching them if needed</li>
+<li><a href="zellij-plugin-and-pipe.html#zellij-plugin">Zellij Plugin</a> - Load a plugin from a local or remote wasm file into a new pane</li>
+<li><a href="zellij-plugin-and-pipe.html#zellij-pipe">Zellij Pipe</a> - Send messages and data to one or more plugins, launching them if needed</li>
 </ul>
 <hr />
 <h2 id="zellij-plugin"><a class="header" href="#zellij-plugin">Zellij Plugin</a></h2>
@@ -2885,12 +2885,12 @@ tail -f /tmp/my-live-logfile | zellij pipe --name logs --plugin https://example.
 <p>Zellij provides a top-level <code>subscribe</code> command that streams the rendered output of one or more panes to stdout in real time. This is useful for monitoring, scripting, and building external tooling around Zellij sessions.</p>
 <hr />
 <ul>
-<li><a href="zellij-subscribe.html#usage">Usage</a> — Command syntax</li>
-<li><a href="zellij-subscribe.html#options">Options</a> — Available flags and parameters</li>
-<li><a href="zellij-subscribe.html#output-formats">Output Formats</a> — Raw text and JSON (NDJSON) output modes</li>
-<li><a href="zellij-subscribe.html#behavior">Behavior</a> — How initial delivery, change detection, and exit work</li>
-<li><a href="zellij-subscribe.html#subscribing-to-a-different-session">Subscribing to a Different Session</a> — Monitoring panes in background or remote sessions</li>
-<li><a href="zellij-subscribe.html#examples">Examples</a> — Common usage patterns including <code>jq</code> and <code>awk</code> filtering</li>
+<li><a href="zellij-subscribe.html#usage">Usage</a> - Command syntax</li>
+<li><a href="zellij-subscribe.html#options">Options</a> - Available flags and parameters</li>
+<li><a href="zellij-subscribe.html#output-formats">Output Formats</a> - Raw text and JSON (NDJSON) output modes</li>
+<li><a href="zellij-subscribe.html#behavior">Behavior</a> - How initial delivery, change detection, and exit work</li>
+<li><a href="zellij-subscribe.html#subscribing-to-a-different-session">Subscribing to a Different Session</a> - Monitoring panes in background or remote sessions</li>
+<li><a href="zellij-subscribe.html#examples">Examples</a> - Common usage patterns including <code>jq</code> and <code>awk</code> filtering</li>
 </ul>
 <hr />
 <h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
@@ -3011,7 +3011,7 @@ terminal_2   terminal  vim main.rs
   }
 ]
 </code></pre>
-<p><em>(JSON output includes many additional fields — see <a href="cli-recipes.html#inspecting-session-state">Inspecting Session State</a> for full details)</em></p>
+<p><em>(JSON output includes many additional fields - see <a href="cli-recipes.html#inspecting-session-state">Inspecting Session State</a> for full details)</em></p>
 <h3 id="tab-ids"><a class="header" href="#tab-ids">Tab IDs</a></h3>
 <p>Tab IDs can be discovered with:</p>
 <pre><code>zellij action list-tabs
@@ -3035,7 +3035,7 @@ terminal_2   terminal  vim main.rs
   }
 ]
 </code></pre>
-<p><em>(JSON output includes many additional fields — see <a href="cli-recipes.html#inspecting-session-state">Inspecting Session State</a> for full details)</em></p>
+<p><em>(JSON output includes many additional fields - see <a href="cli-recipes.html#inspecting-session-state">Inspecting Session State</a> for full details)</em></p>
 <p>Or get the current tab info:</p>
 <pre><code>zellij action current-tab-info
 </code></pre>
@@ -3293,14 +3293,14 @@ zellij action hide-floating-panes
 <pre><code>zellij action change-floating-pane-coordinates --pane-id terminal_5 --x 20 --y 10 --width 50% --height 50%
 </code></pre>
 <h2 id="borderless-panes"><a class="header" href="#borderless-panes">Borderless Panes</a></h2>
-<p>A pane can be created without a border using the <code>--borderless</code> flag. Combined with <code>--pinned</code>, this creates a persistent overlay that appears as part of the terminal UI itself — with no visible frame separating it from the rest of the screen.</p>
+<p>A pane can be created without a border using the <code>--borderless</code> flag. Combined with <code>--pinned</code>, this creates a persistent overlay that appears as part of the terminal UI itself - with no visible frame separating it from the rest of the screen.</p>
 <p>For example, a small pane pinned to the top-right corner that continuously displays the current git branch and status:</p>
 <pre><code class="language-bash">zellij action new-pane --floating --borderless true --pinned true \
 --width "20%" --height 1 --x "75%" --y 2 \
 -- bash -c 'while true; do printf "\r%-40s" "$(git -C /home/user/project branch --show-current) $(git -C /home/user/project status --short | wc -l) changed"; sleep 5; done'
 </code></pre>
-<p>This creates a single-line overlay that stays on top of all other panes, has no border, and continuously refreshes — functioning like a custom status bar element.</p>
-<p>Another example — a persistent resource monitor pinned to a corner:</p>
+<p>This creates a single-line overlay that stays on top of all other panes, has no border, and continuously refreshes - functioning like a custom status bar element.</p>
+<p>Another example - a persistent resource monitor pinned to a corner:</p>
 <pre><code>zellij action new-pane --floating --borderless true --pinned true \
     --width 30 --height 5 --x "100%" --y "100%" \
     -- watch -n2 -t "free -h | head -3"
@@ -3312,7 +3312,7 @@ zellij action hide-floating-panes
 <pre><code>zellij action set-pane-borderless --pane-id terminal_5 --borderless true
 </code></pre>
 <h2 id="toggling-pane-visibility"><a class="header" href="#toggling-pane-visibility">Toggling Pane Visibility</a></h2>
-<p>A tiled pane can be floated and a floating pane can be embedded. This is useful for background tasks — a long-running process can be kept in a floating pane whose visibility is toggled as needed, keeping the main workspace uncluttered.</p>
+<p>A tiled pane can be floated and a floating pane can be embedded. This is useful for background tasks - a long-running process can be kept in a floating pane whose visibility is toggled as needed, keeping the main workspace uncluttered.</p>
 <p>Float a tiled pane or embed a floating pane:</p>
 <pre><code>zellij action toggle-pane-embed-or-floating --pane-id terminal_3
 </code></pre>
@@ -3361,7 +3361,7 @@ zellij action set-pane-color --pane-id terminal_3 --reset
 </code></pre>
 <p>The calling shell will not continue until the pane has been closed. The user can review the output, then press <code>Ctrl-c</code> to close the pane and unblock.</p>
 <h3 id="waiting-for-success-or-failure"><a class="header" href="#waiting-for-success-or-failure">Waiting for Success or Failure</a></h3>
-<p>The <code>--block-until-exit-success</code> flag unblocks only when the command exits with status 0. If it fails, the pane stays open and the user can press <code>Enter</code> to retry — the calling process remains blocked until the command succeeds (or the pane is closed manually):</p>
+<p>The <code>--block-until-exit-success</code> flag unblocks only when the command exits with status 0. If it fails, the pane stays open and the user can press <code>Enter</code> to retry - the calling process remains blocked until the command succeeds (or the pane is closed manually):</p>
 <pre><code>zellij action new-pane --block-until-exit-success -- cargo build
 echo "Build succeeded, continuing..."
 </code></pre>
@@ -3381,13 +3381,13 @@ echo "Task finished (exit status does not matter), moving on..."
 <p>These flags are especially useful for workflows that may require human intervention at certain steps. The script pauses at each blocking pane, and the user can inspect, fix, and retry as needed before the script continues:</p>
 <pre><code class="language-bash">#!/bin/bash
 
-# Step 1: run tests — retry until they pass
+# Step 1: run tests - retry until they pass
 zellij action new-pane --block-until-exit-success --name "tests" -- cargo test
 
-# Step 2: build release — retry until it succeeds
+# Step 2: build release - retry until it succeeds
 zellij action new-pane --block-until-exit-success --name "release build" -- cargo build --release
 
-# Step 3: deploy — wait for it to finish regardless of outcome
+# Step 3: deploy - wait for it to finish regardless of outcome
 zellij action new-pane --block-until-exit --name "deploy" -- ./deploy.sh
 
 echo "Pipeline complete."
@@ -3444,21 +3444,21 @@ echo "Pipeline complete."
 <pre><code>zellij action override-layout /path/to/layout.kdl --apply-only-to-active-tab
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="programmatic-control"><a class="header" href="#programmatic-control">Programmatic Control</a></h1>
-<p>This page describes patterns for controlling Zellij from external processes — scripts, daemons, orchestration tools, or any program that needs to create terminal sessions, run commands, observe their output, and react to results without human interaction.</p>
+<p>This page describes patterns for controlling Zellij from external processes - scripts, daemons, orchestration tools, or any program that needs to create terminal sessions, run commands, observe their output, and react to results without human interaction.</p>
 <p>All of the primitives described here are documented individually elsewhere. This page consolidates them into a single reference oriented toward non-interactive, machine-driven use.</p>
 <hr />
 <ul>
-<li><a href="programmatic-control.html#the-control-surface-at-a-glance">The Control Surface at a Glance</a> — What can be queried, mutated, and observed</li>
-<li><a href="programmatic-control.html#the-control-loop">The Control Loop</a> — Create, command, observe, react</li>
-<li><a href="programmatic-control.html#waiting-for-output-conditions">Waiting for Output Conditions</a> — Block until a command finishes or output matches a pattern</li>
-<li><a href="programmatic-control.html#point-in-time-vs-streaming-observation">Point-in-Time vs. Streaming Observation</a> — When to snapshot, when to stream</li>
-<li><a href="programmatic-control.html#handling-ansi-escape-codes">Handling ANSI Escape Codes</a> — Preserving or excluding terminal styling for machine consumers</li>
-<li><a href="programmatic-control.html#structured-output-reference">Structured Output Reference</a> — Which commands produce JSON</li>
-<li><a href="programmatic-control.html#concurrency-and-ordering">Concurrency and Ordering</a> — Multiple processes controlling the same session</li>
+<li><a href="programmatic-control.html#the-control-surface-at-a-glance">The Control Surface at a Glance</a> - What can be queried, mutated, and observed</li>
+<li><a href="programmatic-control.html#the-control-loop">The Control Loop</a> - Create, command, observe, react</li>
+<li><a href="programmatic-control.html#waiting-for-output-conditions">Waiting for Output Conditions</a> - Block until a command finishes or output matches a pattern</li>
+<li><a href="programmatic-control.html#point-in-time-vs-streaming-observation">Point-in-Time vs. Streaming Observation</a> - When to snapshot, when to stream</li>
+<li><a href="programmatic-control.html#handling-ansi-escape-codes">Handling ANSI Escape Codes</a> - Preserving or excluding terminal styling for machine consumers</li>
+<li><a href="programmatic-control.html#structured-output-reference">Structured Output Reference</a> - Which commands produce JSON</li>
+<li><a href="programmatic-control.html#concurrency-and-ordering">Concurrency and Ordering</a> - Multiple processes controlling the same session</li>
 </ul>
 <hr />
 <h2 id="the-control-surface-at-a-glance"><a class="header" href="#the-control-surface-at-a-glance">The Control Surface at a Glance</a></h2>
-<p>Zellij exposes its entire control surface through <code>zellij action</code> subcommands and the <code>zellij subscribe</code> command. No socket, HTTP API, or library binding is required — all interaction occurs through subprocess invocation, and structured data is available as JSON on stdout.</p>
+<p>Zellij exposes its entire control surface through <code>zellij action</code> subcommands and the <code>zellij subscribe</code> command. No socket, HTTP API, or library binding is required - all interaction occurs through subprocess invocation, and structured data is available as JSON on stdout.</p>
 <p>The surface divides into four categories:</p>
 <h3 id="query-read-state"><a class="header" href="#query-read-state">Query (read state)</a></h3>
 <div class="table-wrapper"><table><thead><tr><th>Command</th><th>Output</th></tr></thead><tbody>
@@ -3473,9 +3473,9 @@ echo "Pipeline complete."
 </div>
 <h3 id="mutate-change-state"><a class="header" href="#mutate-change-state">Mutate (change state)</a></h3>
 <div class="table-wrapper"><table><thead><tr><th>Category</th><th>Key Commands</th></tr></thead><tbody>
-<tr><td>Create</td><td><a href="./cli-actions.html#new-pane"><code>new-pane</code></a>, <a href="./cli-actions.html#new-tab"><code>new-tab</code></a>, <a href="./cli-actions.html#edit"><code>edit</code></a>, <a href="./cli-actions.html#launch-plugin"><code>launch-plugin</code></a> — all return the created ID</td></tr>
+<tr><td>Create</td><td><a href="./cli-actions.html#new-pane"><code>new-pane</code></a>, <a href="./cli-actions.html#new-tab"><code>new-tab</code></a>, <a href="./cli-actions.html#edit"><code>edit</code></a>, <a href="./cli-actions.html#launch-plugin"><code>launch-plugin</code></a> - all return the created ID</td></tr>
 <tr><td>Close</td><td><a href="./cli-actions.html#close-pane"><code>close-pane</code></a>, <a href="./cli-actions.html#close-tab"><code>close-tab</code></a></td></tr>
-<tr><td>Input</td><td><a href="./cli-actions.html#write-chars"><code>write-chars</code></a>, <a href="./cli-actions.html#write"><code>write</code></a>, <a href="./cli-actions.html#paste"><code>paste</code></a>, <a href="./cli-actions.html#send-keys"><code>send-keys</code></a> — all accept <code>--pane-id</code></td></tr>
+<tr><td>Input</td><td><a href="./cli-actions.html#write-chars"><code>write-chars</code></a>, <a href="./cli-actions.html#write"><code>write</code></a>, <a href="./cli-actions.html#paste"><code>paste</code></a>, <a href="./cli-actions.html#send-keys"><code>send-keys</code></a> - all accept <code>--pane-id</code></td></tr>
 <tr><td>Layout</td><td><a href="./cli-actions.html#override-layout"><code>override-layout</code></a>, <a href="./cli-actions.html#next-swap-layout"><code>next-swap-layout</code></a></td></tr>
 <tr><td>Appearance</td><td><a href="./cli-actions.html#rename-pane"><code>rename-pane</code></a>, <a href="./cli-actions.html#rename-tab"><code>rename-tab</code></a>, <a href="./cli-actions.html#set-pane-color"><code>set-pane-color</code></a>, <a href="./cli-actions.html#set-pane-borderless"><code>set-pane-borderless</code></a></td></tr>
 <tr><td>Positioning</td><td><a href="./cli-actions.html#change-floating-pane-coordinates"><code>change-floating-pane-coordinates</code></a>, <a href="./cli-actions.html#toggle-pane-embed-or-floating"><code>toggle-pane-embed-or-floating</code></a>, <a href="./cli-actions.html#toggle-pane-pinned"><code>toggle-pane-pinned</code></a></td></tr>
@@ -3519,7 +3519,7 @@ TAB_ID=$(zellij --session my-session action new-tab --name "tests")
 <pre><code class="language-bash">zellij --session my-session action paste --pane-id $PANE_ID "cargo build" &amp;&amp;
 zellij --session my-session action send-keys --pane-id $PANE_ID "Enter"
 </code></pre>
-<p>Note: the text passed to <code>paste</code> and <code>write-chars</code> is sent to whatever shell is running inside the pane. To avoid shell compatibility issues, panes can be opened with a command directly — the command is then executed as the pane's process, bypassing the shell entirely:</p>
+<p>Note: the text passed to <code>paste</code> and <code>write-chars</code> is sent to whatever shell is running inside the pane. To avoid shell compatibility issues, panes can be opened with a command directly - the command is then executed as the pane's process, bypassing the shell entirely:</p>
 <pre><code class="language-bash">PANE_ID=$(zellij --session my-session action new-pane -- cargo build --release)
 </code></pre>
 <h3 id="4-observe-output"><a class="header" href="#4-observe-output">4. Observe output</a></h3>
@@ -3530,7 +3530,7 @@ zellij --session my-session action send-keys --pane-id $PANE_ID "Enter"
 <pre><code class="language-bash">zellij --session my-session action dump-screen --pane-id $PANE_ID --full
 </code></pre>
 <h3 id="5-react-and-repeat"><a class="header" href="#5-react-and-repeat">5. React and repeat</a></h3>
-<p>Based on observed output, subsequent actions can be issued — closing panes, opening new ones, sending further input, or tearing down the session.</p>
+<p>Based on observed output, subsequent actions can be issued - closing panes, opening new ones, sending further input, or tearing down the session.</p>
 <h3 id="complete-example"><a class="header" href="#complete-example">Complete example</a></h3>
 <pre><code class="language-bash">#!/bin/bash
 
@@ -3571,7 +3571,7 @@ zellij --session "$SESSION" action close-pane --pane-id "$TEST_PANE"
 <h2 id="waiting-for-output-conditions"><a class="header" href="#waiting-for-output-conditions">Waiting for Output Conditions</a></h2>
 <p>A common need in programmatic control is to wait until a command finishes or until specific output appears before proceeding.</p>
 <h3 id="blocking-panes-1"><a class="header" href="#blocking-panes-1">Blocking panes</a></h3>
-<p>The simplest approach — block the calling process until the command in the pane exits:</p>
+<p>The simplest approach is to block the calling process until the command in the pane exits:</p>
 <pre><code class="language-bash"># Block until the command exits with status 0 (retry on failure by pressing Enter)
 zellij --session my-session action new-pane --block-until-exit-success -- cargo test
 
@@ -3608,7 +3608,7 @@ zellij action dump-screen --pane-id "$PANE_ID" --full
 <hr />
 <h2 id="point-in-time-vs-streaming-observation"><a class="header" href="#point-in-time-vs-streaming-observation">Point-in-Time vs. Streaming Observation</a></h2>
 <p>Two mechanisms exist for reading pane output. The right choice depends on the use case:</p>
-<h3 id="dump-screen--snapshot"><a class="header" href="#dump-screen--snapshot"><code>dump-screen</code> — Snapshot</a></h3>
+<h3 id="dump-screen---snapshot"><a class="header" href="#dump-screen---snapshot"><code>dump-screen</code> - Snapshot</a></h3>
 <pre><code class="language-bash">zellij action dump-screen --pane-id terminal_1 --full
 </code></pre>
 <ul>
@@ -3617,7 +3617,7 @@ zellij action dump-screen --pane-id "$PANE_ID" --full
 <li>Suitable for: polling at intervals, capturing final output after a command is known to have finished, debugging.</li>
 <li>ANSI styling can be included with <code>--ansi</code>, or omitted (default) for plain text.</li>
 </ul>
-<h3 id="subscribe--stream"><a class="header" href="#subscribe--stream"><code>subscribe</code> — Stream</a></h3>
+<h3 id="subscribe---stream"><a class="header" href="#subscribe---stream"><code>subscribe</code> - Stream</a></h3>
 <pre><code class="language-bash">zellij subscribe --pane-id terminal_1 --format json
 </code></pre>
 <ul>
@@ -3637,10 +3637,10 @@ zellij action dump-screen --pane-id "$PANE_ID" --full
 </div>
 <hr />
 <h2 id="handling-ansi-escape-codes"><a class="header" href="#handling-ansi-escape-codes">Handling ANSI Escape Codes</a></h2>
-<p>Both <code>dump-screen</code> and <code>subscribe</code> strip ANSI escape sequences by default, returning plain text. The <code>--ansi</code> flag preserves color and styling sequences (but not cursor movement — the output is already rendered into lines).</p>
+<p>Both <code>dump-screen</code> and <code>subscribe</code> strip ANSI escape sequences by default, returning plain text. The <code>--ansi</code> flag preserves color and styling sequences (but not cursor movement - the output is already rendered into lines).</p>
 <h3 id="excluding-ansi-default"><a class="header" href="#excluding-ansi-default">Excluding ANSI (default)</a></h3>
 <p>By default, both commands return plain text with no escape codes. This is generally what machine consumers want:</p>
-<pre><code class="language-bash"># Plain text — no escape codes
+<pre><code class="language-bash"># Plain text - no escape codes
 zellij action dump-screen --pane-id terminal_1
 zellij subscribe --pane-id terminal_1
 </code></pre>
@@ -3685,7 +3685,7 @@ zellij subscribe --pane-id terminal_1 --ansi
 <h2 id="concurrency-and-ordering"><a class="header" href="#concurrency-and-ordering">Concurrency and Ordering</a></h2>
 <p>When multiple processes issue CLI actions against the same session concurrently, the following considerations apply:</p>
 <h3 id="ordering"><a class="header" href="#ordering">Ordering</a></h3>
-<p>Each <code>zellij action</code> invocation is a separate subprocess that connects to the Zellij server, sends a message, and disconnects. Actions are processed by the server in the order they are received. When actions are issued sequentially from a single process (e.g., chained with <code>&amp;&amp;</code>), ordering is preserved. When issued concurrently from multiple processes, no ordering guarantee exists between them.</p>
+<p>Each <code>zellij action</code> invocation is a separate process that connects to the Zellij server, sends a message, and disconnects. Actions are processed by the server in the order they are received, and the CLI is blocked until the action logically completes. This means that when actions are chained (e.g. with <code>&amp;&amp;</code>), ordering is preserved. When issued concurrently from multiple processes, no ordering guarantee exists between them.</p>
 <h3 id="practical-guidance"><a class="header" href="#practical-guidance">Practical guidance</a></h3>
 <ul>
 <li>
@@ -3713,11 +3713,11 @@ wait
 <h2 id="going-further"><a class="header" href="#going-further">Going Further</a></h2>
 <p>For individual command references and task-oriented scripting examples, see:</p>
 <ul>
-<li><a href="./cli-actions.html">CLI Actions</a> — Full reference of all <code>zellij action</code> subcommands</li>
-<li><a href="./cli-recipes.html">CLI Recipes &amp; Scripting</a> — Task-oriented examples and common workflows</li>
-<li><a href="./zellij-subscribe.html">Zellij Subscribe</a> — Real-time pane output streaming</li>
-<li><a href="./zellij-run-and-edit.html">Zellij Run &amp; Edit</a> — Launching commands and opening files in panes</li>
-<li><a href="./zellij-plugin-and-pipe.html">Zellij Plugin &amp; Pipe</a> — Plugin communication from the CLI</li>
+<li><a href="./cli-actions.html">CLI Actions</a> - Full reference of all <code>zellij action</code> subcommands</li>
+<li><a href="./cli-recipes.html">CLI Recipes &amp; Scripting</a> - Task-oriented examples and common workflows</li>
+<li><a href="./zellij-subscribe.html">Zellij Subscribe</a> - Real-time pane output streaming</li>
+<li><a href="./zellij-run-and-edit.html">Zellij Run &amp; Edit</a> - Launching commands and opening files in panes</li>
+<li><a href="./zellij-plugin-and-pipe.html">Zellij Plugin &amp; Pipe</a> - Plugin communication from the CLI</li>
 </ul>
 <p>For deeper integration, the <a href="./plugin-api.html">Plugin API</a> provides access to 120+ commands and 52 event types from compiled WASM plugins, including structured lifecycle events (<code>CommandPaneExited</code>, <code>PaneUpdate</code>, <code>TabUpdate</code>) that are not available through the CLI.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="layouts"><a class="header" href="#layouts">Layouts</a></h1>
@@ -4726,7 +4726,7 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 </span>Event::Key(KeyWithModifier)
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong> <a href="./plugin-api-types.html#keywithmodifier"><code>KeyWithModifier</code></a></p>
-<p>Fired when the user presses a key while focused on this plugin's pane. No permission is required — this event is always available for the plugin's own pane.</p>
+<p>Fired when the user presses a key while focused on this plugin's pane. No permission is required - this event is always available for the plugin's own pane.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -4783,7 +4783,7 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 </span><span class="boring">fn main() {
 </span>Event::Timer(f64)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>f64</code> — the duration (in seconds) that was originally set</p>
+<p><strong>Payload:</strong> <code>f64</code> - the duration (in seconds) that was originally set</p>
 <p>Fired when a timer set by <a href="./plugin-api-commands.html#set_timeout"><code>set_timeout</code></a> expires. No permission is required.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -4836,7 +4836,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::Visible(bool)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>bool</code> — <code>true</code> if the plugin became visible, <code>false</code> if it became invisible</p>
+<p><strong>Payload:</strong> <code>bool</code> - <code>true</code> if the plugin became visible, <code>false</code> if it became invisible</p>
 <p>Fired when the plugin pane becomes visible or invisible (e.g., when switching tabs to or away from the plugin's tab). No permission is required.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -4861,7 +4861,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::CustomMessage(String, String)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>(String, String)</code> — <code>(message_name, payload)</code></p>
+<p><strong>Payload:</strong> <code>(String, String)</code> - <code>(message_name, payload)</code></p>
 <p>Fired when a message is received from one of the plugin's workers via <a href="./plugin-api-commands.html#post_message_to_plugin"><code>post_message_to_plugin</code></a>. No permission is required. See <a href="./plugin-api-workers.html">Workers for Async Tasks</a> for details.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -4886,7 +4886,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::FileSystemCreate(Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;</code><a href="./plugin-api-types.html#filemetadata"><code>FileMetadata</code></a><code>)&gt;)</code> — paths and optional metadata of created files</p>
+<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;</code><a href="./plugin-api-types.html#filemetadata"><code>FileMetadata</code></a><code>)&gt;)</code> - paths and optional metadata of created files</p>
 <p>Fired when files are created in the Zellij host folder. The plugin must call <a href="./plugin-api-commands.html#watch_filesystem"><code>watch_filesystem</code></a> to start receiving these events. No permission is required beyond subscribing.</p>
 <hr />
 <h2 id="filesystemread"><a class="header" href="#filesystemread"><code>FileSystemRead</code></a></h2>
@@ -4894,7 +4894,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::FileSystemRead(Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> — paths and optional metadata of accessed files</p>
+<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> - paths and optional metadata of accessed files</p>
 <p>Fired when files are read/accessed in the Zellij host folder.</p>
 <hr />
 <h2 id="filesystemupdate"><a class="header" href="#filesystemupdate"><code>FileSystemUpdate</code></a></h2>
@@ -4902,7 +4902,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::FileSystemUpdate(Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> — paths and optional metadata of modified files</p>
+<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> - paths and optional metadata of modified files</p>
 <p>Fired when files are modified in the Zellij host folder.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -4927,7 +4927,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::FileSystemDelete(Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> — paths and optional metadata of deleted files</p>
+<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> - paths and optional metadata of deleted files</p>
 <p>Fired when files are deleted from the Zellij host folder.</p>
 <hr />
 <h2 id="permissionrequestresult"><a class="header" href="#permissionrequestresult"><code>PermissionRequestResult</code></a></h2>
@@ -4935,7 +4935,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::PermissionRequestResult(PermissionStatus)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <a href="./plugin-api-types.html#permissionstatus"><code>PermissionStatus</code></a> — <code>Granted</code> or <code>Denied</code></p>
+<p><strong>Payload:</strong> <a href="./plugin-api-types.html#permissionstatus"><code>PermissionStatus</code></a> - <code>Granted</code> or <code>Denied</code></p>
 <p>Fired after <a href="./plugin-api-commands.html#request_permission"><code>request_permission</code></a> is called and the user responds. No permission is required.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -4948,7 +4948,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
             true
         },
         Event::PermissionRequestResult(PermissionStatus::Denied) =&gt; {
-            eprintln!("Permissions denied — plugin functionality limited");
+            eprintln!("Permissions denied - plugin functionality limited");
             true
         },
         _ =&gt; false,
@@ -4964,8 +4964,8 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>Vec&lt;</code><a href="./plugin-api-types.html#sessioninfo"><code>SessionInfo</code></a><code>&gt;</code> — list of active sessions</li>
-<li><code>Vec&lt;(String, Duration)&gt;</code> — list of resurrectable sessions <code>(name, time_since_death)</code></li>
+<li><code>Vec&lt;</code><a href="./plugin-api-types.html#sessioninfo"><code>SessionInfo</code></a><code>&gt;</code> - list of active sessions</li>
+<li><code>Vec&lt;(String, Duration)&gt;</code> - list of resurrectable sessions <code>(name, time_since_death)</code></li>
 </ul>
 <p>Fired when session state changes, providing information about all active sessions of the current Zellij version and all resurrectable (dead) sessions.</p>
 <p><strong>Example:</strong></p>
@@ -4990,10 +4990,10 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>Option&lt;i32&gt;</code> — exit code (if the command exited normally)</li>
-<li><code>Vec&lt;u8&gt;</code> — stdout</li>
-<li><code>Vec&lt;u8&gt;</code> — stderr</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — the context dictionary provided when running the command</li>
+<li><code>Option&lt;i32&gt;</code> - exit code (if the command exited normally)</li>
+<li><code>Vec&lt;u8&gt;</code> - stdout</li>
+<li><code>Vec&lt;u8&gt;</code> - stderr</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when running the command</li>
 </ul>
 <p>Fired after a command executed with <a href="./plugin-api-commands.html#run_command"><code>run_command</code></a> completes. No permission is required beyond the <code>RunCommands</code> permission used to initiate the command.</p>
 <p><strong>Example:</strong></p>
@@ -5020,10 +5020,10 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>u16</code> — HTTP status code</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — response headers</li>
-<li><code>Vec&lt;u8&gt;</code> — response body</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — the context dictionary provided when making the request</li>
+<li><code>u16</code> - HTTP status code</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - response headers</li>
+<li><code>Vec&lt;u8&gt;</code> - response body</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when making the request</li>
 </ul>
 <p>Fired after a web request made with <a href="./plugin-api-commands.html#web_request"><code>web_request</code></a> completes. No permission is required beyond the <code>WebAccess</code> permission used to initiate the request.</p>
 <p><strong>Example:</strong></p>
@@ -5051,8 +5051,8 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>u32</code> — terminal pane ID of the opened command pane</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — the context dictionary provided when opening the pane</li>
+<li><code>u32</code> - terminal pane ID of the opened command pane</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when opening the pane</li>
 </ul>
 <p>Fired when a command pane opened with one of the <code>open_command_pane*</code> <a href="./plugin-api-commands.html">plugin commands</a> has been created.</p>
 <hr />
@@ -5064,11 +5064,11 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>u32</code> — terminal pane ID</li>
-<li><code>Option&lt;i32&gt;</code> — exit code of the command (if available)</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — context dictionary</li>
+<li><code>u32</code> - terminal pane ID</li>
+<li><code>Option&lt;i32&gt;</code> - exit code of the command (if available)</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - context dictionary</li>
 </ul>
-<p>Fired when the command inside a command pane has exited. Note that this does not mean the pane is closed — the pane remains open in a "held" state, allowing the user to re-run the command. This event can fire multiple times if the user re-runs the command.</p>
+<p>Fired when the command inside a command pane has exited. Note that this does not mean the pane is closed - the pane remains open in a "held" state, allowing the user to re-run the command. This event can fire multiple times if the user re-runs the command.</p>
 <hr />
 <h2 id="paneclosed"><a class="header" href="#paneclosed"><code>PaneClosed</code></a></h2>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5076,7 +5076,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span>Event::PaneClosed(PaneId)
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
-<p><strong>Payload:</strong> <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> — the ID of the closed pane</p>
+<p><strong>Payload:</strong> <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the ID of the closed pane</p>
 <p>Fired when a pane in the current session is closed.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5100,8 +5100,8 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>u32</code> — terminal pane ID of the editor pane</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — context dictionary</li>
+<li><code>u32</code> - terminal pane ID of the editor pane</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - context dictionary</li>
 </ul>
 <p>Fired when an editor pane opened with one of the <code>open_file*</code> <a href="./plugin-api-commands.html">plugin commands</a> has been created.</p>
 <hr />
@@ -5113,9 +5113,9 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>u32</code> — terminal pane ID of the editor pane</li>
-<li><code>Option&lt;i32&gt;</code> — editor exit code (if available)</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — context dictionary</li>
+<li><code>u32</code> - terminal pane ID of the editor pane</li>
+<li><code>Option&lt;i32&gt;</code> - editor exit code (if available)</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - context dictionary</li>
 </ul>
 <p>Fired when the editor process inside an editor pane has exited.</p>
 <hr />
@@ -5127,8 +5127,8 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>u32</code> — terminal pane ID</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — context dictionary</li>
+<li><code>u32</code> - terminal pane ID</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - context dictionary</li>
 </ul>
 <p>Fired when a command pane's command has been re-run. This is often triggered by the user pressing <code>Enter</code> when focused on a held command pane, but can also be triggered programmatically via <a href="./plugin-api-commands.html#rerun_command_pane"><code>rerun_command_pane</code></a>.</p>
 <hr />
@@ -5138,7 +5138,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span>Event::FailedToWriteConfigToDisk(Option&lt;String&gt;)
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
-<p><strong>Payload:</strong> <code>Option&lt;String&gt;</code> — error message or file path (if available)</p>
+<p><strong>Payload:</strong> <code>Option&lt;String&gt;</code> - error message or file path (if available)</p>
 <p>Fired when the plugin attempted to write configuration to disk (via <a href="./plugin-api-commands.html#reconfigure"><code>reconfigure</code></a> with <code>save_configuration_file: true</code>) and there was an error (e.g., the file was read-only).</p>
 <hr />
 <h2 id="listclients"><a class="header" href="#listclients"><code>ListClients</code></a></h2>
@@ -5169,7 +5169,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::HostFolderChanged(PathBuf)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>PathBuf</code> — the new host folder path</p>
+<p><strong>Payload:</strong> <code>PathBuf</code> - the new host folder path</p>
 <p>Fired when the host folder (working directory) has been changed, either via <a href="./plugin-api-commands.html#change_host_folder"><code>change_host_folder</code></a> or by other means. No permission is required.</p>
 <hr />
 <h2 id="failedtochangehostfolder"><a class="header" href="#failedtochangehostfolder"><code>FailedToChangeHostFolder</code></a></h2>
@@ -5177,7 +5177,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::FailedToChangeHostFolder(Option&lt;String&gt;)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>Option&lt;String&gt;</code> — error message (if available)</p>
+<p><strong>Payload:</strong> <code>Option&lt;String&gt;</code> - error message (if available)</p>
 <p>Fired when an attempt to change the host folder failed. No permission is required.</p>
 <hr />
 <h2 id="pastedtext"><a class="header" href="#pastedtext"><code>PastedText</code></a></h2>
@@ -5185,7 +5185,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::PastedText(String)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>String</code> — the pasted text</p>
+<p><strong>Payload:</strong> <code>String</code> - the pasted text</p>
 <p>Fired when the user pastes text while focused on this plugin's pane. No permission is required.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5239,7 +5239,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::FailedToStartWebServer(String)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>String</code> — error message</p>
+<p><strong>Payload:</strong> <code>String</code> - error message</p>
 <p>Fired when Zellij failed to start the web server after a <a href="./plugin-api-commands.html#start_web_server"><code>start_web_server</code></a> command.</p>
 <hr />
 <h2 id="beforeclose"><a class="header" href="#beforeclose"><code>BeforeClose</code></a></h2>
@@ -5301,10 +5301,10 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>InterceptInput</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><a href="./plugin-api-types.html#action"><code>Action</code></a> — the action that was performed</li>
-<li><code>ClientId</code> — the client that performed the action</li>
-<li><code>Option&lt;u32&gt;</code> — terminal ID (if applicable)</li>
-<li><code>Option&lt;ClientId&gt;</code> — CLI client ID (if the action originated from the CLI)</li>
+<li><a href="./plugin-api-types.html#action"><code>Action</code></a> - the action that was performed</li>
+<li><code>ClientId</code> - the client that performed the action</li>
+<li><code>Option&lt;u32&gt;</code> - terminal ID (if applicable)</li>
+<li><code>Option&lt;ClientId&gt;</code> - CLI client ID (if the action originated from the CLI)</li>
 </ul>
 <p>Fired when any action is performed by a user. This is useful for observing all user activity in the session.</p>
 <hr />
@@ -5333,9 +5333,9 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><a href="./plugin-api-types.html#action"><code>Action</code></a> — the action that completed</li>
-<li><code>Option&lt;</code><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a><code>&gt;</code> — the resulting pane ID (if applicable)</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — the context dictionary provided when running the action</li>
+<li><a href="./plugin-api-types.html#action"><code>Action</code></a> - the action that completed</li>
+<li><code>Option&lt;</code><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a><code>&gt;</code> - the resulting pane ID (if applicable)</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when running the action</li>
 </ul>
 <p>Fired when an action executed via <a href="./plugin-api-commands.html#run_action"><code>run_action</code></a> has completed. No permission is required beyond the <code>RunActionsAsUser</code> permission used to initiate the action.</p>
 <p><strong>Example:</strong></p>
@@ -5363,9 +5363,9 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> — the pane whose working directory changed</li>
-<li><code>PathBuf</code> — the new working directory</li>
-<li><code>Vec&lt;ClientId&gt;</code> — client IDs that have this pane focused</li>
+<li><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane whose working directory changed</li>
+<li><code>PathBuf</code> - the new working directory</li>
+<li><code>Vec&lt;ClientId&gt;</code> - client IDs that have this pane focused</li>
 </ul>
 <p>Fired when the working directory changes in a terminal pane. No permission is required.</p>
 <p><strong>Example:</strong></p>
@@ -5389,8 +5389,8 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>Vec&lt;</code><a href="./plugin-api-types.html#layoutinfo"><code>LayoutInfo</code></a><code>&gt;</code> — available layouts</li>
-<li><code>Vec&lt;LayoutWithError&gt;</code> — layouts that had parse errors</li>
+<li><code>Vec&lt;</code><a href="./plugin-api-types.html#layoutinfo"><code>LayoutInfo</code></a><code>&gt;</code> - available layouts</li>
+<li><code>Vec&lt;LayoutWithError&gt;</code> - layouts that had parse errors</li>
 </ul>
 <p>Fired when the available layouts change (e.g., when a layout file is added, modified, or deleted in the layout directory). No permission is required.</p>
 <hr />
@@ -5399,7 +5399,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::PluginConfigurationChanged(BTreeMap&lt;String, String&gt;)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>BTreeMap&lt;String, String&gt;</code> — the updated configuration key-value pairs</p>
+<p><strong>Payload:</strong> <code>BTreeMap&lt;String, String&gt;</code> - the updated configuration key-value pairs</p>
 <p>Fired when the plugin's configuration is modified at runtime. No permission is required.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5427,10 +5427,10 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>pane_id</code> — <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> — the pane containing the clicked highlight</li>
-<li><code>pattern</code> — <code>String</code> — the regex pattern that matched</li>
-<li><code>matched_string</code> — <code>String</code> — the actual text that was matched</li>
-<li><code>context</code> — <code>BTreeMap&lt;String, String&gt;</code> — the context dictionary provided when setting up the highlight</li>
+<li><code>pane_id</code> - <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane containing the clicked highlight</li>
+<li><code>pattern</code> - <code>String</code> - the regex pattern that matched</li>
+<li><code>matched_string</code> - <code>String</code> - the actual text that was matched</li>
+<li><code>context</code> - <code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when setting up the highlight</li>
 </ul>
 <p>Fired when the user clicks on a regex highlight set by <a href="./plugin-api-commands.html#set_pane_regex_highlights"><code>set_pane_regex_highlights</code></a>.</p>
 <p><strong>Example:</strong></p>
@@ -5609,7 +5609,7 @@ show_cursor(None);
 </span>fn get_plugin_ids() -&gt; PluginIds
 <span class="boring">}</span></code></pre></pre>
 <p>Returns the unique Zellij pane ID for the plugin as well as the Zellij process ID.</p>
-<p><strong>Returns:</strong> <a href="./plugin-api-types.html#pluginids"><code>PluginIds</code></a> — containing <code>plugin_id</code>, <code>zellij_pid</code>, <code>initial_cwd</code>, and <code>client_id</code></p>
+<p><strong>Returns:</strong> <a href="./plugin-api-types.html#pluginids"><code>PluginIds</code></a> - containing <code>plugin_id</code>, <code>zellij_pid</code>, <code>initial_cwd</code>, and <code>client_id</code></p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -5623,7 +5623,7 @@ eprintln!("Plugin ID: {}, Zellij PID: {}", ids.plugin_id, ids.zellij_pid);
 </span>fn get_zellij_version() -&gt; String
 <span class="boring">}</span></code></pre></pre>
 <p>Returns the version string of the running Zellij instance. Useful for checking plugin compatibility.</p>
-<p><strong>Returns:</strong> <code>String</code> — the Zellij version (e.g., <code>"0.42.0"</code>)</p>
+<p><strong>Returns:</strong> <code>String</code> - the Zellij version (e.g., <code>"0.42.0"</code>)</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -5638,7 +5638,7 @@ eprintln!("Running on Zellij {}", version);
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p>Generate a random human-readable name using Zellij's curated word lists. Returns a name in the format <code>AdjectiveNoun</code> (e.g., <code>"BraveRustacean"</code>, <code>"ZippyWeasel"</code>). This uses the same word lists as session name generation, providing approximately 4,096 unique combinations.</p>
-<p><strong>Returns:</strong> <code>String</code> — a random name</p>
+<p><strong>Returns:</strong> <code>String</code> - a random name</p>
 <hr />
 <h3 id="get_layout_dir"><a class="header" href="#get_layout_dir"><code>get_layout_dir</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5653,7 +5653,7 @@ eprintln!("Running on Zellij {}", version);
 <li>The directory specified via <code>ZELLIJ_LAYOUT_DIR</code> environment variable</li>
 <li>The default: <code>~/.config/zellij/layouts</code></li>
 </ul>
-<p><strong>Returns:</strong> <code>String</code> — absolute path to the layout directory (empty string if it cannot be determined)</p>
+<p><strong>Returns:</strong> <code>String</code> - absolute path to the layout directory (empty string if it cannot be determined)</p>
 <hr />
 <h3 id="get_session_environment_variables"><a class="header" href="#get_session_environment_variables"><code>get_session_environment_variables</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5662,7 +5662,7 @@ eprintln!("Running on Zellij {}", version);
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadSessionEnvironmentVariables</code></a></p>
 <p>Returns the environment variables that were present when the Zellij session was created.</p>
-<p><strong>Returns:</strong> <code>BTreeMap&lt;String, String&gt;</code> — environment variable name-value pairs</p>
+<p><strong>Returns:</strong> <code>BTreeMap&lt;String, String&gt;</code> - environment variable name-value pairs</p>
 <hr />
 <h3 id="get_focused_pane_info"><a class="header" href="#get_focused_pane_info"><code>get_focused_pane_info</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5671,7 +5671,7 @@ eprintln!("Running on Zellij {}", version);
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p>Returns the focused pane ID and its tab index for the client associated with this plugin.</p>
-<p><strong>Returns:</strong> <code>Result&lt;(usize, PaneId), String&gt;</code> — <code>Ok((tab_index, pane_id))</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(usize, PaneId), String&gt;</code> - <code>Ok((tab_index, pane_id))</code> on success</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -5695,7 +5695,7 @@ eprintln!("Running on Zellij {}", version);
 <tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane to query</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#paneinfo"><code>PaneInfo</code></a><code>&gt;</code> — pane information, or <code>None</code> if the pane does not exist</p>
+<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#paneinfo"><code>PaneInfo</code></a><code>&gt;</code> - pane information, or <code>None</code> if the pane does not exist</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -5716,7 +5716,7 @@ eprintln!("Running on Zellij {}", version);
 <tr><td><code>tab_id</code></td><td><code>usize</code></td><td>The stable tab identifier</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#tabinfo"><code>TabInfo</code></a><code>&gt;</code> — tab information, or <code>None</code> if the tab does not exist</p>
+<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#tabinfo"><code>TabInfo</code></a><code>&gt;</code> - tab information, or <code>None</code> if the tab does not exist</p>
 <hr />
 <h3 id="get_pane_pid"><a class="header" href="#get_pane_pid"><code>get_pane_pid</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5730,7 +5730,7 @@ eprintln!("Running on Zellij {}", version);
 <tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane to query (must be a terminal pane)</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;i32, String&gt;</code> — the process ID on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;i32, String&gt;</code> - the process ID on success</p>
 <hr />
 <h3 id="get_pane_running_command"><a class="header" href="#get_pane_running_command"><code>get_pane_running_command</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5744,7 +5744,7 @@ eprintln!("Running on Zellij {}", version);
 <tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane to query</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;Vec&lt;String&gt;, String&gt;</code> — the command and its arguments</p>
+<p><strong>Returns:</strong> <code>Result&lt;Vec&lt;String&gt;, String&gt;</code> - the command and its arguments</p>
 <hr />
 <h3 id="get_pane_cwd"><a class="header" href="#get_pane_cwd"><code>get_pane_cwd</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5758,7 +5758,7 @@ eprintln!("Running on Zellij {}", version);
 <tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane to query</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;PathBuf, String&gt;</code> — the working directory path</p>
+<p><strong>Returns:</strong> <code>Result&lt;PathBuf, String&gt;</code> - the working directory path</p>
 <hr />
 <h3 id="get_pane_scrollback"><a class="header" href="#get_pane_scrollback"><code>get_pane_scrollback</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5773,7 +5773,7 @@ eprintln!("Running on Zellij {}", version);
 <tr><td><code>get_full_scrollback</code></td><td><code>bool</code></td><td>If <code>true</code>, includes lines above and below the viewport</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;</code><a href="./plugin-api-types.html#panecontents"><code>PaneContents</code></a><code>, String&gt;</code> — the pane contents</p>
+<p><strong>Returns:</strong> <code>Result&lt;</code><a href="./plugin-api-types.html#panecontents"><code>PaneContents</code></a><code>, String&gt;</code> - the pane contents</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -5810,7 +5810,7 @@ list_clients();
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p>Save the current session state to disk immediately.</p>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="current_session_last_saved_time"><a class="header" href="#current_session_last_saved_time"><code>current_session_last_saved_time</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5819,7 +5819,7 @@ list_clients();
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p>Get the number of milliseconds elapsed since the last session save.</p>
-<p><strong>Returns:</strong> <code>Option&lt;u64&gt;</code> — milliseconds since last save, or <code>None</code> if never saved</p>
+<p><strong>Returns:</strong> <code>Option&lt;u64&gt;</code> - milliseconds since last save, or <code>None</code> if never saved</p>
 <hr />
 <h3 id="switch_session"><a class="header" href="#switch_session"><code>switch_session</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -5990,7 +5990,7 @@ switch_session(None);
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context returned in <code>EditPaneOpened</code>/<code>EditPaneExited</code> events</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a><code>&gt;</code> — the ID of the opened pane, if available</p>
+<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a><code>&gt;</code> - the ID of the opened pane, if available</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6020,7 +6020,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_file_in_place"><a class="header" href="#open_file_in_place"><code>open_file_in_place</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6038,7 +6038,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_file_near_plugin"><a class="header" href="#open_file_near_plugin"><code>open_file_near_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6056,7 +6056,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_file_floating_near_plugin"><a class="header" href="#open_file_floating_near_plugin"><code>open_file_floating_near_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6076,7 +6076,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_file_in_place_of_plugin"><a class="header" href="#open_file_in_place_of_plugin"><code>open_file_in_place_of_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6096,7 +6096,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_edit_pane_in_place_of_pane_id"><a class="header" href="#open_edit_pane_in_place_of_pane_id"><code>open_edit_pane_in_place_of_pane_id</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6118,7 +6118,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h2 id="terminal-pane-opening"><a class="header" href="#terminal-pane-opening">Terminal Pane Opening</a></h2>
 <hr />
@@ -6134,7 +6134,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>path</code></td><td><code>impl AsRef&lt;Path&gt;</code></td><td>Working directory for the new terminal</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6153,7 +6153,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>path</code></td><td><code>impl AsRef&lt;Path&gt;</code></td><td>Working directory for the new terminal</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_terminal_floating"><a class="header" href="#open_terminal_floating"><code>open_terminal_floating</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6171,7 +6171,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>coordinates</code></td><td><code>Option&lt;FloatingPaneCoordinates&gt;</code></td><td>Optional position and size</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_terminal_floating_near_plugin"><a class="header" href="#open_terminal_floating_near_plugin"><code>open_terminal_floating_near_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6189,7 +6189,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>coordinates</code></td><td><code>Option&lt;FloatingPaneCoordinates&gt;</code></td><td>Optional position and size</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_terminal_in_place"><a class="header" href="#open_terminal_in_place"><code>open_terminal_in_place</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6203,7 +6203,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>path</code></td><td><code>impl AsRef&lt;Path&gt;</code></td><td>Working directory for the new terminal</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_terminal_in_place_of_plugin"><a class="header" href="#open_terminal_in_place_of_plugin"><code>open_terminal_in_place_of_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6221,7 +6221,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>close_plugin_after_replace</code></td><td><code>bool</code></td><td>If <code>true</code>, close the plugin; if <code>false</code>, suppress it</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_terminal_pane_in_place_of_pane_id"><a class="header" href="#open_terminal_pane_in_place_of_pane_id"><code>open_terminal_pane_in_place_of_pane_id</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6241,7 +6241,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>close_replaced_pane</code></td><td><code>bool</code></td><td>If <code>true</code>, close the replaced pane; if <code>false</code>, suppress it</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h2 id="command-pane-opening"><a class="header" href="#command-pane-opening">Command Pane Opening</a></h2>
 <p>Command panes allow the user to control the command, re-run it, and see its exit status through the Zellij UI.</p>
@@ -6262,7 +6262,7 @@ let pane_id = open_file(file, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context returned in <code>CommandPaneOpened</code>/<code>CommandPaneExited</code> events</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6290,7 +6290,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_command_pane_floating"><a class="header" href="#open_command_pane_floating"><code>open_command_pane_floating</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6310,7 +6310,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_command_pane_floating_near_plugin"><a class="header" href="#open_command_pane_floating_near_plugin"><code>open_command_pane_floating_near_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6330,7 +6330,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_command_pane_in_place"><a class="header" href="#open_command_pane_in_place"><code>open_command_pane_in_place</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6348,7 +6348,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_command_pane_in_place_of_plugin"><a class="header" href="#open_command_pane_in_place_of_plugin"><code>open_command_pane_in_place_of_plugin</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6368,7 +6368,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_command_pane_in_place_of_pane_id"><a class="header" href="#open_command_pane_in_place_of_pane_id"><code>open_command_pane_in_place_of_pane_id</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6390,7 +6390,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="open_command_pane_background"><a class="header" href="#open_command_pane_background"><code>open_command_pane_background</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6408,7 +6408,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> — the ID of the opened pane</p>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the ID of the opened pane</p>
 <hr />
 <h3 id="rerun_command_pane"><a class="header" href="#rerun_command_pane"><code>rerun_command_pane</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6438,7 +6438,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>cwd</code></td><td><code>Option&lt;impl AsRef&lt;str&gt;&gt;</code></td><td>Optional working directory</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> — the tab ID of the new tab</p>
+<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> - the tab ID of the new tab</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6457,7 +6457,7 @@ let pane_id = open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>layout</code></td><td><code>&amp;str</code></td><td>KDL layout string</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Vec&lt;usize&gt;</code> — the tab IDs of all created tabs</p>
+<p><strong>Returns:</strong> <code>Vec&lt;usize&gt;</code> - the tab IDs of all created tabs</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -6485,7 +6485,7 @@ layout {
 <tr><td><code>layout_info</code></td><td><code>impl AsRef&lt;LayoutInfo&gt;</code></td><td>Layout specification</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Vec&lt;usize&gt;</code> — the tab IDs of all created tabs</p>
+<p><strong>Returns:</strong> <code>Vec&lt;usize&gt;</code> - the tab IDs of all created tabs</p>
 <hr />
 <h3 id="open_command_pane_in_new_tab"><a class="header" href="#open_command_pane_in_new_tab"><code>open_command_pane_in_new_tab</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6503,7 +6503,7 @@ layout {
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>(Option&lt;usize&gt;, Option&lt;PaneId&gt;)</code> — the tab ID and pane ID of the created tab and pane</p>
+<p><strong>Returns:</strong> <code>(Option&lt;usize&gt;, Option&lt;PaneId&gt;)</code> - the tab ID and pane ID of the created tab and pane</p>
 <hr />
 <h3 id="open_plugin_pane_in_new_tab"><a class="header" href="#open_plugin_pane_in_new_tab"><code>open_plugin_pane_in_new_tab</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6523,7 +6523,7 @@ layout {
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>(Option&lt;usize&gt;, Option&lt;PaneId&gt;)</code> — the tab ID and pane ID</p>
+<p><strong>Returns:</strong> <code>(Option&lt;usize&gt;, Option&lt;PaneId&gt;)</code> - the tab ID and pane ID</p>
 <hr />
 <h3 id="open_editor_pane_in_new_tab"><a class="header" href="#open_editor_pane_in_new_tab"><code>open_editor_pane_in_new_tab</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6541,7 +6541,7 @@ layout {
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>(Option&lt;usize&gt;, Option&lt;PaneId&gt;)</code> — the tab ID and pane ID</p>
+<p><strong>Returns:</strong> <code>(Option&lt;usize&gt;, Option&lt;PaneId&gt;)</code> - the tab ID and pane ID</p>
 <hr />
 <h2 id="tab-navigation--management"><a class="header" href="#tab-navigation--management">Tab Navigation &amp; Management</a></h2>
 <hr />
@@ -6599,7 +6599,7 @@ layout {
 <tr><td><code>tab_name</code></td><td><code>&amp;str</code></td><td>Name of the tab to focus or create</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> — the tab ID</p>
+<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> - the tab ID</p>
 <hr />
 <h3 id="go_to_tab"><a class="header" href="#go_to_tab"><code>go_to_tab</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6718,7 +6718,7 @@ layout {
 <tr><td><code>should_change_focus_to_new_tab</code></td><td><code>bool</code></td><td>Whether to switch focus to the new tab</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> — the tab ID of the new tab</p>
+<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> - the tab ID of the new tab</p>
 <hr />
 <h3 id="break_panes_to_tab_with_index"><a class="header" href="#break_panes_to_tab_with_index"><code>break_panes_to_tab_with_index</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6738,7 +6738,7 @@ layout {
 <tr><td><code>should_change_focus_to_new_tab</code></td><td><code>bool</code></td><td>Whether to switch focus to the target tab</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> — the tab ID</p>
+<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> - the tab ID</p>
 <hr />
 <h3 id="break_panes_to_tab_with_id"><a class="header" href="#break_panes_to_tab_with_id"><code>break_panes_to_tab_with_id</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6758,7 +6758,7 @@ layout {
 <tr><td><code>should_change_focus_to_target_tab</code></td><td><code>bool</code></td><td>Whether to switch focus to the target tab</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> — the tab ID</p>
+<p><strong>Returns:</strong> <code>Option&lt;usize&gt;</code> - the tab ID</p>
 <hr />
 <h2 id="pane-focus--visibility"><a class="header" href="#pane-focus--visibility">Pane Focus &amp; Visibility</a></h2>
 <hr />
@@ -6931,7 +6931,7 @@ layout {
 <tr><td><code>tab_id</code></td><td><code>Option&lt;usize&gt;</code></td><td>Tab ID, or <code>None</code> for the active tab</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;bool, String&gt;</code> — whether floating panes are now visible</p>
+<p><strong>Returns:</strong> <code>Result&lt;bool, String&gt;</code> - whether floating panes are now visible</p>
 <hr />
 <h3 id="hide_floating_panes-1"><a class="header" href="#hide_floating_panes-1"><code>hide_floating_panes</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -6945,7 +6945,7 @@ layout {
 <tr><td><code>tab_id</code></td><td><code>Option&lt;usize&gt;</code></td><td>Tab ID, or <code>None</code> for the active tab</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;bool, String&gt;</code> — whether floating panes are now hidden</p>
+<p><strong>Returns:</strong> <code>Result&lt;bool, String&gt;</code> - whether floating panes are now hidden</p>
 <hr />
 <h2 id="pane-manipulation"><a class="header" href="#pane-manipulation">Pane Manipulation</a></h2>
 <hr />
@@ -7702,7 +7702,7 @@ layout {
 <tr><td><code>layout_name</code></td><td><code>&amp;str</code></td><td>Name of the layout</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;String, String&gt;</code> — the KDL layout string on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;String, String&gt;</code> - the KDL layout string on success</p>
 <hr />
 <h3 id="dump_session_layout"><a class="header" href="#dump_session_layout"><code>dump_session_layout</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -7761,7 +7761,7 @@ layout {
 <tr><td><code>overwrite</code></td><td><code>bool</code></td><td>If <code>true</code>, overwrite existing file; if <code>false</code>, fail if file exists</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="delete_layout"><a class="header" href="#delete_layout"><code>delete_layout</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -7775,7 +7775,7 @@ layout {
 <tr><td><code>layout_name</code></td><td><code>impl AsRef&lt;str&gt;</code></td><td>Name of the layout to delete</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="rename_layout"><a class="header" href="#rename_layout"><code>rename_layout</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -7793,7 +7793,7 @@ layout {
 <tr><td><code>new_layout_name</code></td><td><code>impl Into&lt;String&gt;</code></td><td>New layout name</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="edit_layout"><a class="header" href="#edit_layout"><code>edit_layout</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -7811,7 +7811,7 @@ layout {
 <tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="override_layout"><a class="header" href="#override_layout"><code>override_layout</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -8241,7 +8241,7 @@ set_timeout(2.0); // Fire after 2 seconds
 <tr><td><code>read_only</code></td><td><code>bool</code></td><td>If <code>true</code>, the token grants read-only access</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;String, String&gt;</code> — the generated token string</p>
+<p><strong>Returns:</strong> <code>Result&lt;String, String&gt;</code> - the generated token string</p>
 <hr />
 <h3 id="revoke_web_login_token"><a class="header" href="#revoke_web_login_token"><code>revoke_web_login_token</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -8255,7 +8255,7 @@ set_timeout(2.0); // Fire after 2 seconds
 <tr><td><code>token_label</code></td><td><code>&amp;str</code></td><td>Label of the token to revoke</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="list_web_login_tokens"><a class="header" href="#list_web_login_tokens"><code>list_web_login_tokens</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -8264,7 +8264,7 @@ set_timeout(2.0); // Fire after 2 seconds
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>StartWebServer</code></a></p>
 <p>List all web login tokens.</p>
-<p><strong>Returns:</strong> <code>Result&lt;Vec&lt;(String, String, bool)&gt;, String&gt;</code> — list of <code>(label, created_at, read_only)</code> tuples</p>
+<p><strong>Returns:</strong> <code>Result&lt;Vec&lt;(String, String, bool)&gt;, String&gt;</code> - list of <code>(label, created_at, read_only)</code> tuples</p>
 <hr />
 <h3 id="revoke_all_web_tokens"><a class="header" href="#revoke_all_web_tokens"><code>revoke_all_web_tokens</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -8273,7 +8273,7 @@ set_timeout(2.0); // Fire after 2 seconds
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>StartWebServer</code></a></p>
 <p>Revoke all web login tokens.</p>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h3 id="rename_web_token"><a class="header" href="#rename_web_token"><code>rename_web_token</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -8288,7 +8288,7 @@ set_timeout(2.0); // Fire after 2 seconds
 <tr><td><code>new_name</code></td><td><code>&amp;str</code></td><td>New token label</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> — <code>Ok(())</code> on success</p>
+<p><strong>Returns:</strong> <code>Result&lt;(), String&gt;</code> - <code>Ok(())</code> on success</p>
 <hr />
 <h2 id="regex-highlights"><a class="header" href="#regex-highlights">Regex Highlights</a></h2>
 <hr />
@@ -8380,7 +8380,7 @@ run_action(
 <tr><td><code>tab_infos</code></td><td><code>&amp;Vec&lt;TabInfo&gt;</code></td><td>List of tab information (from a <code>TabUpdate</code> event)</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#tabinfo"><code>TabInfo</code></a><code>&gt;</code> — the focused tab, or <code>None</code> if none is focused</p>
+<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#tabinfo"><code>TabInfo</code></a><code>&gt;</code> - the focused tab, or <code>None</code> if none is focused</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -8409,7 +8409,7 @@ run_action(
 <tr><td><code>pane_manifest</code></td><td><code>&amp;PaneManifest</code></td><td>Pane manifest (from a <code>PaneUpdate</code> event)</td></tr>
 </tbody></table>
 </div>
-<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#paneinfo"><code>PaneInfo</code></a><code>&gt;</code> — the focused pane, or <code>None</code></p>
+<p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#paneinfo"><code>PaneInfo</code></a><code>&gt;</code> - the focused pane, or <code>None</code></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api---type-reference"><a class="header" href="#plugin-api---type-reference">Plugin API - Type Reference</a></h1>
 <p>This page documents the key data types used throughout the Zellij plugin API. These types are used as parameters and return values in <a href="./plugin-api-commands.html">plugin commands</a> and as payloads in <a href="./plugin-api-events.html">plugin events</a>.</p>
 <p>For the complete type definitions, see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
@@ -8956,8 +8956,8 @@ open_command_pane(cmd, BTreeMap::new());
 <p>Information about a currently open pane.</p>
 <p>The coordinates and size fields come in two variants:</p>
 <ul>
-<li><strong>Pane coordinates</strong> (<code>pane_x</code>, <code>pane_columns</code>, etc.) — the entire space including frame and title</li>
-<li><strong>Content coordinates</strong> (<code>pane_content_x</code>, <code>pane_content_columns</code>, etc.) — the area taken by the pane's content only</li>
+<li><strong>Pane coordinates</strong> (<code>pane_x</code>, <code>pane_columns</code>, etc.) - the entire space including frame and title</li>
+<li><strong>Content coordinates</strong> (<code>pane_content_x</code>, <code>pane_content_columns</code>, etc.) - the area taken by the pane's content only</li>
 </ul>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -9142,13 +9142,13 @@ open_command_pane(cmd, BTreeMap::new());
 }
 <span class="boring">}</span></code></pre></pre>
 <div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Parameters</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>ScrollUp(n)</code></td><td><code>usize</code> — number of lines</td><td>Mouse wheel scrolled up</td></tr>
-<tr><td><code>ScrollDown(n)</code></td><td><code>usize</code> — number of lines</td><td>Mouse wheel scrolled down</td></tr>
-<tr><td><code>LeftClick(line, col)</code></td><td><code>isize, usize</code> — line and column</td><td>Left mouse button clicked</td></tr>
-<tr><td><code>RightClick(line, col)</code></td><td><code>isize, usize</code> — line and column</td><td>Right mouse button clicked</td></tr>
-<tr><td><code>Hold(line, col)</code></td><td><code>isize, usize</code> — line and column</td><td>Mouse button held (drag)</td></tr>
-<tr><td><code>Release(line, col)</code></td><td><code>isize, usize</code> — line and column</td><td>Mouse button released</td></tr>
-<tr><td><code>Hover(line, col)</code></td><td><code>isize, usize</code> — line and column</td><td>Mouse moved without button pressed</td></tr>
+<tr><td><code>ScrollUp(n)</code></td><td><code>usize</code> - number of lines</td><td>Mouse wheel scrolled up</td></tr>
+<tr><td><code>ScrollDown(n)</code></td><td><code>usize</code> - number of lines</td><td>Mouse wheel scrolled down</td></tr>
+<tr><td><code>LeftClick(line, col)</code></td><td><code>isize, usize</code> - line and column</td><td>Left mouse button clicked</td></tr>
+<tr><td><code>RightClick(line, col)</code></td><td><code>isize, usize</code> - line and column</td><td>Right mouse button clicked</td></tr>
+<tr><td><code>Hold(line, col)</code></td><td><code>isize, usize</code> - line and column</td><td>Mouse button held (drag)</td></tr>
+<tr><td><code>Release(line, col)</code></td><td><code>isize, usize</code> - line and column</td><td>Mouse button released</td></tr>
+<tr><td><code>Hover(line, col)</code></td><td><code>isize, usize</code> - line and column</td><td>Mouse moved without button pressed</td></tr>
 </tbody></table>
 </div>
 <hr />

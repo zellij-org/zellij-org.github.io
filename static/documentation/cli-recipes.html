@@ -204,7 +204,7 @@ terminal_2   terminal  vim main.rs
   }
 ]
 </code></pre>
-<p><em>(JSON output includes many additional fields — see <a href="#inspecting-session-state">Inspecting Session State</a> for full details)</em></p>
+<p><em>(JSON output includes many additional fields - see <a href="#inspecting-session-state">Inspecting Session State</a> for full details)</em></p>
 <h3 id="tab-ids"><a class="header" href="#tab-ids">Tab IDs</a></h3>
 <p>Tab IDs can be discovered with:</p>
 <pre><code>zellij action list-tabs
@@ -228,7 +228,7 @@ terminal_2   terminal  vim main.rs
   }
 ]
 </code></pre>
-<p><em>(JSON output includes many additional fields — see <a href="#inspecting-session-state">Inspecting Session State</a> for full details)</em></p>
+<p><em>(JSON output includes many additional fields - see <a href="#inspecting-session-state">Inspecting Session State</a> for full details)</em></p>
 <p>Or get the current tab info:</p>
 <pre><code>zellij action current-tab-info
 </code></pre>
@@ -486,14 +486,14 @@ zellij action hide-floating-panes
 <pre><code>zellij action change-floating-pane-coordinates --pane-id terminal_5 --x 20 --y 10 --width 50% --height 50%
 </code></pre>
 <h2 id="borderless-panes"><a class="header" href="#borderless-panes">Borderless Panes</a></h2>
-<p>A pane can be created without a border using the <code>--borderless</code> flag. Combined with <code>--pinned</code>, this creates a persistent overlay that appears as part of the terminal UI itself — with no visible frame separating it from the rest of the screen.</p>
+<p>A pane can be created without a border using the <code>--borderless</code> flag. Combined with <code>--pinned</code>, this creates a persistent overlay that appears as part of the terminal UI itself - with no visible frame separating it from the rest of the screen.</p>
 <p>For example, a small pane pinned to the top-right corner that continuously displays the current git branch and status:</p>
 <pre><code class="language-bash">zellij action new-pane --floating --borderless true --pinned true \
 --width "20%" --height 1 --x "75%" --y 2 \
 -- bash -c 'while true; do printf "\r%-40s" "$(git -C /home/user/project branch --show-current) $(git -C /home/user/project status --short | wc -l) changed"; sleep 5; done'
 </code></pre>
-<p>This creates a single-line overlay that stays on top of all other panes, has no border, and continuously refreshes — functioning like a custom status bar element.</p>
-<p>Another example — a persistent resource monitor pinned to a corner:</p>
+<p>This creates a single-line overlay that stays on top of all other panes, has no border, and continuously refreshes - functioning like a custom status bar element.</p>
+<p>Another example - a persistent resource monitor pinned to a corner:</p>
 <pre><code>zellij action new-pane --floating --borderless true --pinned true \
     --width 30 --height 5 --x "100%" --y "100%" \
     -- watch -n2 -t "free -h | head -3"
@@ -505,7 +505,7 @@ zellij action hide-floating-panes
 <pre><code>zellij action set-pane-borderless --pane-id terminal_5 --borderless true
 </code></pre>
 <h2 id="toggling-pane-visibility"><a class="header" href="#toggling-pane-visibility">Toggling Pane Visibility</a></h2>
-<p>A tiled pane can be floated and a floating pane can be embedded. This is useful for background tasks — a long-running process can be kept in a floating pane whose visibility is toggled as needed, keeping the main workspace uncluttered.</p>
+<p>A tiled pane can be floated and a floating pane can be embedded. This is useful for background tasks - a long-running process can be kept in a floating pane whose visibility is toggled as needed, keeping the main workspace uncluttered.</p>
 <p>Float a tiled pane or embed a floating pane:</p>
 <pre><code>zellij action toggle-pane-embed-or-floating --pane-id terminal_3
 </code></pre>
@@ -554,7 +554,7 @@ zellij action set-pane-color --pane-id terminal_3 --reset
 </code></pre>
 <p>The calling shell will not continue until the pane has been closed. The user can review the output, then press <code>Ctrl-c</code> to close the pane and unblock.</p>
 <h3 id="waiting-for-success-or-failure"><a class="header" href="#waiting-for-success-or-failure">Waiting for Success or Failure</a></h3>
-<p>The <code>--block-until-exit-success</code> flag unblocks only when the command exits with status 0. If it fails, the pane stays open and the user can press <code>Enter</code> to retry — the calling process remains blocked until the command succeeds (or the pane is closed manually):</p>
+<p>The <code>--block-until-exit-success</code> flag unblocks only when the command exits with status 0. If it fails, the pane stays open and the user can press <code>Enter</code> to retry - the calling process remains blocked until the command succeeds (or the pane is closed manually):</p>
 <pre><code>zellij action new-pane --block-until-exit-success -- cargo build
 echo "Build succeeded, continuing..."
 </code></pre>
@@ -574,13 +574,13 @@ echo "Task finished (exit status does not matter), moving on..."
 <p>These flags are especially useful for workflows that may require human intervention at certain steps. The script pauses at each blocking pane, and the user can inspect, fix, and retry as needed before the script continues:</p>
 <pre><code class="language-bash">#!/bin/bash
 
-# Step 1: run tests — retry until they pass
+# Step 1: run tests - retry until they pass
 zellij action new-pane --block-until-exit-success --name "tests" -- cargo test
 
-# Step 2: build release — retry until it succeeds
+# Step 2: build release - retry until it succeeds
 zellij action new-pane --block-until-exit-success --name "release build" -- cargo build --release
 
-# Step 3: deploy — wait for it to finish regardless of outcome
+# Step 3: deploy - wait for it to finish regardless of outcome
 zellij action new-pane --block-until-exit --name "deploy" -- ./deploy.sh
 
 echo "Pipeline complete."

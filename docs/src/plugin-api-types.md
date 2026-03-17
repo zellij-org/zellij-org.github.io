@@ -624,8 +624,8 @@ pub struct TabInfo {
 Information about a currently open pane.
 
 The coordinates and size fields come in two variants:
-- **Pane coordinates** (`pane_x`, `pane_columns`, etc.) — the entire space including frame and title
-- **Content coordinates** (`pane_content_x`, `pane_content_columns`, etc.) — the area taken by the pane's content only
+- **Pane coordinates** (`pane_x`, `pane_columns`, etc.) - the entire space including frame and title
+- **Content coordinates** (`pane_content_x`, `pane_content_columns`, etc.) - the area taken by the pane's content only
 
 ```rust
 pub struct PaneInfo {
@@ -827,13 +827,13 @@ pub enum Mouse {
 
 | Variant | Parameters | Description |
 |---------|-----------|-------------|
-| `ScrollUp(n)` | `usize` — number of lines | Mouse wheel scrolled up |
-| `ScrollDown(n)` | `usize` — number of lines | Mouse wheel scrolled down |
-| `LeftClick(line, col)` | `isize, usize` — line and column | Left mouse button clicked |
-| `RightClick(line, col)` | `isize, usize` — line and column | Right mouse button clicked |
-| `Hold(line, col)` | `isize, usize` — line and column | Mouse button held (drag) |
-| `Release(line, col)` | `isize, usize` — line and column | Mouse button released |
-| `Hover(line, col)` | `isize, usize` — line and column | Mouse moved without button pressed |
+| `ScrollUp(n)` | `usize` - number of lines | Mouse wheel scrolled up |
+| `ScrollDown(n)` | `usize` - number of lines | Mouse wheel scrolled down |
+| `LeftClick(line, col)` | `isize, usize` - line and column | Left mouse button clicked |
+| `RightClick(line, col)` | `isize, usize` - line and column | Right mouse button clicked |
+| `Hold(line, col)` | `isize, usize` - line and column | Mouse button held (drag) |
+| `Release(line, col)` | `isize, usize` - line and column | Mouse button released |
+| `Hover(line, col)` | `isize, usize` - line and column | Mouse moved without button pressed |
 
 ---
 

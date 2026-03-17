@@ -148,7 +148,7 @@ Event::Key(KeyWithModifier)
 
 **Payload:** [`KeyWithModifier`](./plugin-api-types.md#keywithmodifier)
 
-Fired when the user presses a key while focused on this plugin's pane. No permission is required — this event is always available for the plugin's own pane.
+Fired when the user presses a key while focused on this plugin's pane. No permission is required - this event is always available for the plugin's own pane.
 
 **Example:**
 
@@ -214,7 +214,7 @@ fn update(&mut self, event: Event) -> bool {
 Event::Timer(f64)
 ```
 
-**Payload:** `f64` — the duration (in seconds) that was originally set
+**Payload:** `f64` - the duration (in seconds) that was originally set
 
 Fired when a timer set by [`set_timeout`](./plugin-api-commands.md#set_timeout) expires. No permission is required.
 
@@ -286,7 +286,7 @@ Fired whenever any input is received anywhere in Zellij. Does not specify which 
 Event::Visible(bool)
 ```
 
-**Payload:** `bool` — `true` if the plugin became visible, `false` if it became invisible
+**Payload:** `bool` - `true` if the plugin became visible, `false` if it became invisible
 
 Fired when the plugin pane becomes visible or invisible (e.g., when switching tabs to or away from the plugin's tab). No permission is required.
 
@@ -316,7 +316,7 @@ fn update(&mut self, event: Event) -> bool {
 Event::CustomMessage(String, String)
 ```
 
-**Payload:** `(String, String)` — `(message_name, payload)`
+**Payload:** `(String, String)` - `(message_name, payload)`
 
 Fired when a message is received from one of the plugin's workers via [`post_message_to_plugin`](./plugin-api-commands.md#post_message_to_plugin). No permission is required. See [Workers for Async Tasks](./plugin-api-workers.md) for details.
 
@@ -346,7 +346,7 @@ fn update(&mut self, event: Event) -> bool {
 Event::FileSystemCreate(Vec<(PathBuf, Option<FileMetadata>)>)
 ```
 
-**Payload:** `Vec<(PathBuf, Option<`[`FileMetadata`](./plugin-api-types.md#filemetadata)`)>)` — paths and optional metadata of created files
+**Payload:** `Vec<(PathBuf, Option<`[`FileMetadata`](./plugin-api-types.md#filemetadata)`)>)` - paths and optional metadata of created files
 
 Fired when files are created in the Zellij host folder. The plugin must call [`watch_filesystem`](./plugin-api-commands.md#watch_filesystem) to start receiving these events. No permission is required beyond subscribing.
 
@@ -358,7 +358,7 @@ Fired when files are created in the Zellij host folder. The plugin must call [`w
 Event::FileSystemRead(Vec<(PathBuf, Option<FileMetadata>)>)
 ```
 
-**Payload:** `Vec<(PathBuf, Option<FileMetadata>)>` — paths and optional metadata of accessed files
+**Payload:** `Vec<(PathBuf, Option<FileMetadata>)>` - paths and optional metadata of accessed files
 
 Fired when files are read/accessed in the Zellij host folder.
 
@@ -370,7 +370,7 @@ Fired when files are read/accessed in the Zellij host folder.
 Event::FileSystemUpdate(Vec<(PathBuf, Option<FileMetadata>)>)
 ```
 
-**Payload:** `Vec<(PathBuf, Option<FileMetadata>)>` — paths and optional metadata of modified files
+**Payload:** `Vec<(PathBuf, Option<FileMetadata>)>` - paths and optional metadata of modified files
 
 Fired when files are modified in the Zellij host folder.
 
@@ -400,7 +400,7 @@ fn update(&mut self, event: Event) -> bool {
 Event::FileSystemDelete(Vec<(PathBuf, Option<FileMetadata>)>)
 ```
 
-**Payload:** `Vec<(PathBuf, Option<FileMetadata>)>` — paths and optional metadata of deleted files
+**Payload:** `Vec<(PathBuf, Option<FileMetadata>)>` - paths and optional metadata of deleted files
 
 Fired when files are deleted from the Zellij host folder.
 
@@ -412,7 +412,7 @@ Fired when files are deleted from the Zellij host folder.
 Event::PermissionRequestResult(PermissionStatus)
 ```
 
-**Payload:** [`PermissionStatus`](./plugin-api-types.md#permissionstatus) — `Granted` or `Denied`
+**Payload:** [`PermissionStatus`](./plugin-api-types.md#permissionstatus) - `Granted` or `Denied`
 
 Fired after [`request_permission`](./plugin-api-commands.md#request_permission) is called and the user responds. No permission is required.
 
@@ -427,7 +427,7 @@ fn update(&mut self, event: Event) -> bool {
             true
         },
         Event::PermissionRequestResult(PermissionStatus::Denied) => {
-            eprintln!("Permissions denied — plugin functionality limited");
+            eprintln!("Permissions denied - plugin functionality limited");
             true
         },
         _ => false,
@@ -446,8 +446,8 @@ Event::SessionUpdate(Vec<SessionInfo>, Vec<(String, Duration)>)
 **Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
 
 **Payload:**
-- `Vec<`[`SessionInfo`](./plugin-api-types.md#sessioninfo)`>` — list of active sessions
-- `Vec<(String, Duration)>` — list of resurrectable sessions `(name, time_since_death)`
+- `Vec<`[`SessionInfo`](./plugin-api-types.md#sessioninfo)`>` - list of active sessions
+- `Vec<(String, Duration)>` - list of resurrectable sessions `(name, time_since_death)`
 
 Fired when session state changes, providing information about all active sessions of the current Zellij version and all resurrectable (dead) sessions.
 
@@ -475,10 +475,10 @@ Event::RunCommandResult(Option<i32>, Vec<u8>, Vec<u8>, BTreeMap<String, String>)
 ```
 
 **Payload:**
-- `Option<i32>` — exit code (if the command exited normally)
-- `Vec<u8>` — stdout
-- `Vec<u8>` — stderr
-- `BTreeMap<String, String>` — the context dictionary provided when running the command
+- `Option<i32>` - exit code (if the command exited normally)
+- `Vec<u8>` - stdout
+- `Vec<u8>` - stderr
+- `BTreeMap<String, String>` - the context dictionary provided when running the command
 
 Fired after a command executed with [`run_command`](./plugin-api-commands.md#run_command) completes. No permission is required beyond the `RunCommands` permission used to initiate the command.
 
@@ -508,10 +508,10 @@ Event::WebRequestResult(u16, BTreeMap<String, String>, Vec<u8>, BTreeMap<String,
 ```
 
 **Payload:**
-- `u16` — HTTP status code
-- `BTreeMap<String, String>` — response headers
-- `Vec<u8>` — response body
-- `BTreeMap<String, String>` — the context dictionary provided when making the request
+- `u16` - HTTP status code
+- `BTreeMap<String, String>` - response headers
+- `Vec<u8>` - response body
+- `BTreeMap<String, String>` - the context dictionary provided when making the request
 
 Fired after a web request made with [`web_request`](./plugin-api-commands.md#web_request) completes. No permission is required beyond the `WebAccess` permission used to initiate the request.
 
@@ -543,8 +543,8 @@ Event::CommandPaneOpened(u32, BTreeMap<String, String>)
 **Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
 
 **Payload:**
-- `u32` — terminal pane ID of the opened command pane
-- `BTreeMap<String, String>` — the context dictionary provided when opening the pane
+- `u32` - terminal pane ID of the opened command pane
+- `BTreeMap<String, String>` - the context dictionary provided when opening the pane
 
 Fired when a command pane opened with one of the `open_command_pane*` [plugin commands](./plugin-api-commands.md) has been created.
 
@@ -559,11 +559,11 @@ Event::CommandPaneExited(u32, Option<i32>, BTreeMap<String, String>)
 **Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
 
 **Payload:**
-- `u32` — terminal pane ID
-- `Option<i32>` — exit code of the command (if available)
-- `BTreeMap<String, String>` — context dictionary
+- `u32` - terminal pane ID
+- `Option<i32>` - exit code of the command (if available)
+- `BTreeMap<String, String>` - context dictionary
 
-Fired when the command inside a command pane has exited. Note that this does not mean the pane is closed — the pane remains open in a "held" state, allowing the user to re-run the command. This event can fire multiple times if the user re-runs the command.
+Fired when the command inside a command pane has exited. Note that this does not mean the pane is closed - the pane remains open in a "held" state, allowing the user to re-run the command. This event can fire multiple times if the user re-runs the command.
 
 ---
 
@@ -575,7 +575,7 @@ Event::PaneClosed(PaneId)
 
 **Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
 
-**Payload:** [`PaneId`](./plugin-api-types.md#paneid) — the ID of the closed pane
+**Payload:** [`PaneId`](./plugin-api-types.md#paneid) - the ID of the closed pane
 
 Fired when a pane in the current session is closed.
 
@@ -604,8 +604,8 @@ Event::EditPaneOpened(u32, BTreeMap<String, String>)
 **Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
 
 **Payload:**
-- `u32` — terminal pane ID of the editor pane
-- `BTreeMap<String, String>` — context dictionary
+- `u32` - terminal pane ID of the editor pane
+- `BTreeMap<String, String>` - context dictionary
 
 Fired when an editor pane opened with one of the `open_file*` [plugin commands](./plugin-api-commands.md) has been created.
 
@@ -620,9 +620,9 @@ Event::EditPaneExited(u32, Option<i32>, BTreeMap<String, String>)
 **Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
 
 **Payload:**
-- `u32` — terminal pane ID of the editor pane
-- `Option<i32>` — editor exit code (if available)
-- `BTreeMap<String, String>` — context dictionary
+- `u32` - terminal pane ID of the editor pane
+- `Option<i32>` - editor exit code (if available)
+- `BTreeMap<String, String>` - context dictionary
 
 Fired when the editor process inside an editor pane has exited.
 
@@ -637,8 +637,8 @@ Event::CommandPaneReRun(u32, BTreeMap<String, String>)
 **Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
 
 **Payload:**
-- `u32` — terminal pane ID
-- `BTreeMap<String, String>` — context dictionary
+- `u32` - terminal pane ID
+- `BTreeMap<String, String>` - context dictionary
 
 Fired when a command pane's command has been re-run. This is often triggered by the user pressing `Enter` when focused on a held command pane, but can also be triggered programmatically via [`rerun_command_pane`](./plugin-api-commands.md#rerun_command_pane).
 
@@ -652,7 +652,7 @@ Event::FailedToWriteConfigToDisk(Option<String>)
 
 **Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
 
-**Payload:** `Option<String>` — error message or file path (if available)
+**Payload:** `Option<String>` - error message or file path (if available)
 
 Fired when the plugin attempted to write configuration to disk (via [`reconfigure`](./plugin-api-commands.md#reconfigure) with `save_configuration_file: true`) and there was an error (e.g., the file was read-only).
 
@@ -693,7 +693,7 @@ fn update(&mut self, event: Event) -> bool {
 Event::HostFolderChanged(PathBuf)
 ```
 
-**Payload:** `PathBuf` — the new host folder path
+**Payload:** `PathBuf` - the new host folder path
 
 Fired when the host folder (working directory) has been changed, either via [`change_host_folder`](./plugin-api-commands.md#change_host_folder) or by other means. No permission is required.
 
@@ -705,7 +705,7 @@ Fired when the host folder (working directory) has been changed, either via [`ch
 Event::FailedToChangeHostFolder(Option<String>)
 ```
 
-**Payload:** `Option<String>` — error message (if available)
+**Payload:** `Option<String>` - error message (if available)
 
 Fired when an attempt to change the host folder failed. No permission is required.
 
@@ -717,7 +717,7 @@ Fired when an attempt to change the host folder failed. No permission is require
 Event::PastedText(String)
 ```
 
-**Payload:** `String` — the pasted text
+**Payload:** `String` - the pasted text
 
 Fired when the user pastes text while focused on this plugin's pane. No permission is required.
 
@@ -785,7 +785,7 @@ fn update(&mut self, event: Event) -> bool {
 Event::FailedToStartWebServer(String)
 ```
 
-**Payload:** `String` — error message
+**Payload:** `String` - error message
 
 Fired when Zellij failed to start the web server after a [`start_web_server`](./plugin-api-commands.md#start_web_server) command.
 
@@ -862,10 +862,10 @@ Event::UserAction(Action, ClientId, Option<u32>, Option<ClientId>)
 **Required Permission:** [`InterceptInput`](./plugin-api-permissions.md)
 
 **Payload:**
-- [`Action`](./plugin-api-types.md#action) — the action that was performed
-- `ClientId` — the client that performed the action
-- `Option<u32>` — terminal ID (if applicable)
-- `Option<ClientId>` — CLI client ID (if the action originated from the CLI)
+- [`Action`](./plugin-api-types.md#action) - the action that was performed
+- `ClientId` - the client that performed the action
+- `Option<u32>` - terminal ID (if applicable)
+- `Option<ClientId>` - CLI client ID (if the action originated from the CLI)
 
 Fired when any action is performed by a user. This is useful for observing all user activity in the session.
 
@@ -906,9 +906,9 @@ Event::ActionComplete(Action, Option<PaneId>, BTreeMap<String, String>)
 ```
 
 **Payload:**
-- [`Action`](./plugin-api-types.md#action) — the action that completed
-- `Option<`[`PaneId`](./plugin-api-types.md#paneid)`>` — the resulting pane ID (if applicable)
-- `BTreeMap<String, String>` — the context dictionary provided when running the action
+- [`Action`](./plugin-api-types.md#action) - the action that completed
+- `Option<`[`PaneId`](./plugin-api-types.md#paneid)`>` - the resulting pane ID (if applicable)
+- `BTreeMap<String, String>` - the context dictionary provided when running the action
 
 Fired when an action executed via [`run_action`](./plugin-api-commands.md#run_action) has completed. No permission is required beyond the `RunActionsAsUser` permission used to initiate the action.
 
@@ -939,9 +939,9 @@ Event::CwdChanged(PaneId, PathBuf, Vec<ClientId>)
 ```
 
 **Payload:**
-- [`PaneId`](./plugin-api-types.md#paneid) — the pane whose working directory changed
-- `PathBuf` — the new working directory
-- `Vec<ClientId>` — client IDs that have this pane focused
+- [`PaneId`](./plugin-api-types.md#paneid) - the pane whose working directory changed
+- `PathBuf` - the new working directory
+- `Vec<ClientId>` - client IDs that have this pane focused
 
 Fired when the working directory changes in a terminal pane. No permission is required.
 
@@ -968,8 +968,8 @@ Event::AvailableLayoutInfo(Vec<LayoutInfo>, Vec<LayoutWithError>)
 ```
 
 **Payload:**
-- `Vec<`[`LayoutInfo`](./plugin-api-types.md#layoutinfo)`>` — available layouts
-- `Vec<LayoutWithError>` — layouts that had parse errors
+- `Vec<`[`LayoutInfo`](./plugin-api-types.md#layoutinfo)`>` - available layouts
+- `Vec<LayoutWithError>` - layouts that had parse errors
 
 Fired when the available layouts change (e.g., when a layout file is added, modified, or deleted in the layout directory). No permission is required.
 
@@ -981,7 +981,7 @@ Fired when the available layouts change (e.g., when a layout file is added, modi
 Event::PluginConfigurationChanged(BTreeMap<String, String>)
 ```
 
-**Payload:** `BTreeMap<String, String>` — the updated configuration key-value pairs
+**Payload:** `BTreeMap<String, String>` - the updated configuration key-value pairs
 
 Fired when the plugin's configuration is modified at runtime. No permission is required.
 
@@ -1013,10 +1013,10 @@ Event::HighlightClicked {
 ```
 
 **Payload:**
-- `pane_id` — [`PaneId`](./plugin-api-types.md#paneid) — the pane containing the clicked highlight
-- `pattern` — `String` — the regex pattern that matched
-- `matched_string` — `String` — the actual text that was matched
-- `context` — `BTreeMap<String, String>` — the context dictionary provided when setting up the highlight
+- `pane_id` - [`PaneId`](./plugin-api-types.md#paneid) - the pane containing the clicked highlight
+- `pattern` - `String` - the regex pattern that matched
+- `matched_string` - `String` - the actual text that was matched
+- `context` - `BTreeMap<String, String>` - the context dictionary provided when setting up the highlight
 
 Fired when the user clicks on a regex highlight set by [`set_pane_regex_highlights`](./plugin-api-commands.md#set_pane_regex_highlights).
 

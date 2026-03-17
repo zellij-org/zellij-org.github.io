@@ -278,7 +278,7 @@
 </span>Event::Key(KeyWithModifier)
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong> <a href="./plugin-api-types.html#keywithmodifier"><code>KeyWithModifier</code></a></p>
-<p>Fired when the user presses a key while focused on this plugin's pane. No permission is required — this event is always available for the plugin's own pane.</p>
+<p>Fired when the user presses a key while focused on this plugin's pane. No permission is required - this event is always available for the plugin's own pane.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -335,7 +335,7 @@
 </span><span class="boring">fn main() {
 </span>Event::Timer(f64)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>f64</code> — the duration (in seconds) that was originally set</p>
+<p><strong>Payload:</strong> <code>f64</code> - the duration (in seconds) that was originally set</p>
 <p>Fired when a timer set by <a href="./plugin-api-commands.html#set_timeout"><code>set_timeout</code></a> expires. No permission is required.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -388,7 +388,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::Visible(bool)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>bool</code> — <code>true</code> if the plugin became visible, <code>false</code> if it became invisible</p>
+<p><strong>Payload:</strong> <code>bool</code> - <code>true</code> if the plugin became visible, <code>false</code> if it became invisible</p>
 <p>Fired when the plugin pane becomes visible or invisible (e.g., when switching tabs to or away from the plugin's tab). No permission is required.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -413,7 +413,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::CustomMessage(String, String)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>(String, String)</code> — <code>(message_name, payload)</code></p>
+<p><strong>Payload:</strong> <code>(String, String)</code> - <code>(message_name, payload)</code></p>
 <p>Fired when a message is received from one of the plugin's workers via <a href="./plugin-api-commands.html#post_message_to_plugin"><code>post_message_to_plugin</code></a>. No permission is required. See <a href="./plugin-api-workers.html">Workers for Async Tasks</a> for details.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -438,7 +438,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::FileSystemCreate(Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;</code><a href="./plugin-api-types.html#filemetadata"><code>FileMetadata</code></a><code>)&gt;)</code> — paths and optional metadata of created files</p>
+<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;</code><a href="./plugin-api-types.html#filemetadata"><code>FileMetadata</code></a><code>)&gt;)</code> - paths and optional metadata of created files</p>
 <p>Fired when files are created in the Zellij host folder. The plugin must call <a href="./plugin-api-commands.html#watch_filesystem"><code>watch_filesystem</code></a> to start receiving these events. No permission is required beyond subscribing.</p>
 <hr />
 <h2 id="filesystemread"><a class="header" href="#filesystemread"><code>FileSystemRead</code></a></h2>
@@ -446,7 +446,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::FileSystemRead(Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> — paths and optional metadata of accessed files</p>
+<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> - paths and optional metadata of accessed files</p>
 <p>Fired when files are read/accessed in the Zellij host folder.</p>
 <hr />
 <h2 id="filesystemupdate"><a class="header" href="#filesystemupdate"><code>FileSystemUpdate</code></a></h2>
@@ -454,7 +454,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::FileSystemUpdate(Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> — paths and optional metadata of modified files</p>
+<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> - paths and optional metadata of modified files</p>
 <p>Fired when files are modified in the Zellij host folder.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -479,7 +479,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::FileSystemDelete(Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> — paths and optional metadata of deleted files</p>
+<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> - paths and optional metadata of deleted files</p>
 <p>Fired when files are deleted from the Zellij host folder.</p>
 <hr />
 <h2 id="permissionrequestresult"><a class="header" href="#permissionrequestresult"><code>PermissionRequestResult</code></a></h2>
@@ -487,7 +487,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::PermissionRequestResult(PermissionStatus)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <a href="./plugin-api-types.html#permissionstatus"><code>PermissionStatus</code></a> — <code>Granted</code> or <code>Denied</code></p>
+<p><strong>Payload:</strong> <a href="./plugin-api-types.html#permissionstatus"><code>PermissionStatus</code></a> - <code>Granted</code> or <code>Denied</code></p>
 <p>Fired after <a href="./plugin-api-commands.html#request_permission"><code>request_permission</code></a> is called and the user responds. No permission is required.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -500,7 +500,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
             true
         },
         Event::PermissionRequestResult(PermissionStatus::Denied) =&gt; {
-            eprintln!("Permissions denied — plugin functionality limited");
+            eprintln!("Permissions denied - plugin functionality limited");
             true
         },
         _ =&gt; false,
@@ -516,8 +516,8 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>Vec&lt;</code><a href="./plugin-api-types.html#sessioninfo"><code>SessionInfo</code></a><code>&gt;</code> — list of active sessions</li>
-<li><code>Vec&lt;(String, Duration)&gt;</code> — list of resurrectable sessions <code>(name, time_since_death)</code></li>
+<li><code>Vec&lt;</code><a href="./plugin-api-types.html#sessioninfo"><code>SessionInfo</code></a><code>&gt;</code> - list of active sessions</li>
+<li><code>Vec&lt;(String, Duration)&gt;</code> - list of resurrectable sessions <code>(name, time_since_death)</code></li>
 </ul>
 <p>Fired when session state changes, providing information about all active sessions of the current Zellij version and all resurrectable (dead) sessions.</p>
 <p><strong>Example:</strong></p>
@@ -542,10 +542,10 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>Option&lt;i32&gt;</code> — exit code (if the command exited normally)</li>
-<li><code>Vec&lt;u8&gt;</code> — stdout</li>
-<li><code>Vec&lt;u8&gt;</code> — stderr</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — the context dictionary provided when running the command</li>
+<li><code>Option&lt;i32&gt;</code> - exit code (if the command exited normally)</li>
+<li><code>Vec&lt;u8&gt;</code> - stdout</li>
+<li><code>Vec&lt;u8&gt;</code> - stderr</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when running the command</li>
 </ul>
 <p>Fired after a command executed with <a href="./plugin-api-commands.html#run_command"><code>run_command</code></a> completes. No permission is required beyond the <code>RunCommands</code> permission used to initiate the command.</p>
 <p><strong>Example:</strong></p>
@@ -572,10 +572,10 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>u16</code> — HTTP status code</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — response headers</li>
-<li><code>Vec&lt;u8&gt;</code> — response body</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — the context dictionary provided when making the request</li>
+<li><code>u16</code> - HTTP status code</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - response headers</li>
+<li><code>Vec&lt;u8&gt;</code> - response body</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when making the request</li>
 </ul>
 <p>Fired after a web request made with <a href="./plugin-api-commands.html#web_request"><code>web_request</code></a> completes. No permission is required beyond the <code>WebAccess</code> permission used to initiate the request.</p>
 <p><strong>Example:</strong></p>
@@ -603,8 +603,8 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>u32</code> — terminal pane ID of the opened command pane</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — the context dictionary provided when opening the pane</li>
+<li><code>u32</code> - terminal pane ID of the opened command pane</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when opening the pane</li>
 </ul>
 <p>Fired when a command pane opened with one of the <code>open_command_pane*</code> <a href="./plugin-api-commands.html">plugin commands</a> has been created.</p>
 <hr />
@@ -616,11 +616,11 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>u32</code> — terminal pane ID</li>
-<li><code>Option&lt;i32&gt;</code> — exit code of the command (if available)</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — context dictionary</li>
+<li><code>u32</code> - terminal pane ID</li>
+<li><code>Option&lt;i32&gt;</code> - exit code of the command (if available)</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - context dictionary</li>
 </ul>
-<p>Fired when the command inside a command pane has exited. Note that this does not mean the pane is closed — the pane remains open in a "held" state, allowing the user to re-run the command. This event can fire multiple times if the user re-runs the command.</p>
+<p>Fired when the command inside a command pane has exited. Note that this does not mean the pane is closed - the pane remains open in a "held" state, allowing the user to re-run the command. This event can fire multiple times if the user re-runs the command.</p>
 <hr />
 <h2 id="paneclosed"><a class="header" href="#paneclosed"><code>PaneClosed</code></a></h2>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -628,7 +628,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span>Event::PaneClosed(PaneId)
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
-<p><strong>Payload:</strong> <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> — the ID of the closed pane</p>
+<p><strong>Payload:</strong> <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the ID of the closed pane</p>
 <p>Fired when a pane in the current session is closed.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -652,8 +652,8 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>u32</code> — terminal pane ID of the editor pane</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — context dictionary</li>
+<li><code>u32</code> - terminal pane ID of the editor pane</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - context dictionary</li>
 </ul>
 <p>Fired when an editor pane opened with one of the <code>open_file*</code> <a href="./plugin-api-commands.html">plugin commands</a> has been created.</p>
 <hr />
@@ -665,9 +665,9 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>u32</code> — terminal pane ID of the editor pane</li>
-<li><code>Option&lt;i32&gt;</code> — editor exit code (if available)</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — context dictionary</li>
+<li><code>u32</code> - terminal pane ID of the editor pane</li>
+<li><code>Option&lt;i32&gt;</code> - editor exit code (if available)</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - context dictionary</li>
 </ul>
 <p>Fired when the editor process inside an editor pane has exited.</p>
 <hr />
@@ -679,8 +679,8 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>u32</code> — terminal pane ID</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — context dictionary</li>
+<li><code>u32</code> - terminal pane ID</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - context dictionary</li>
 </ul>
 <p>Fired when a command pane's command has been re-run. This is often triggered by the user pressing <code>Enter</code> when focused on a held command pane, but can also be triggered programmatically via <a href="./plugin-api-commands.html#rerun_command_pane"><code>rerun_command_pane</code></a>.</p>
 <hr />
@@ -690,7 +690,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span>Event::FailedToWriteConfigToDisk(Option&lt;String&gt;)
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
-<p><strong>Payload:</strong> <code>Option&lt;String&gt;</code> — error message or file path (if available)</p>
+<p><strong>Payload:</strong> <code>Option&lt;String&gt;</code> - error message or file path (if available)</p>
 <p>Fired when the plugin attempted to write configuration to disk (via <a href="./plugin-api-commands.html#reconfigure"><code>reconfigure</code></a> with <code>save_configuration_file: true</code>) and there was an error (e.g., the file was read-only).</p>
 <hr />
 <h2 id="listclients"><a class="header" href="#listclients"><code>ListClients</code></a></h2>
@@ -721,7 +721,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::HostFolderChanged(PathBuf)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>PathBuf</code> — the new host folder path</p>
+<p><strong>Payload:</strong> <code>PathBuf</code> - the new host folder path</p>
 <p>Fired when the host folder (working directory) has been changed, either via <a href="./plugin-api-commands.html#change_host_folder"><code>change_host_folder</code></a> or by other means. No permission is required.</p>
 <hr />
 <h2 id="failedtochangehostfolder"><a class="header" href="#failedtochangehostfolder"><code>FailedToChangeHostFolder</code></a></h2>
@@ -729,7 +729,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::FailedToChangeHostFolder(Option&lt;String&gt;)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>Option&lt;String&gt;</code> — error message (if available)</p>
+<p><strong>Payload:</strong> <code>Option&lt;String&gt;</code> - error message (if available)</p>
 <p>Fired when an attempt to change the host folder failed. No permission is required.</p>
 <hr />
 <h2 id="pastedtext"><a class="header" href="#pastedtext"><code>PastedText</code></a></h2>
@@ -737,7 +737,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::PastedText(String)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>String</code> — the pasted text</p>
+<p><strong>Payload:</strong> <code>String</code> - the pasted text</p>
 <p>Fired when the user pastes text while focused on this plugin's pane. No permission is required.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -791,7 +791,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::FailedToStartWebServer(String)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>String</code> — error message</p>
+<p><strong>Payload:</strong> <code>String</code> - error message</p>
 <p>Fired when Zellij failed to start the web server after a <a href="./plugin-api-commands.html#start_web_server"><code>start_web_server</code></a> command.</p>
 <hr />
 <h2 id="beforeclose"><a class="header" href="#beforeclose"><code>BeforeClose</code></a></h2>
@@ -853,10 +853,10 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>InterceptInput</code></a></p>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><a href="./plugin-api-types.html#action"><code>Action</code></a> — the action that was performed</li>
-<li><code>ClientId</code> — the client that performed the action</li>
-<li><code>Option&lt;u32&gt;</code> — terminal ID (if applicable)</li>
-<li><code>Option&lt;ClientId&gt;</code> — CLI client ID (if the action originated from the CLI)</li>
+<li><a href="./plugin-api-types.html#action"><code>Action</code></a> - the action that was performed</li>
+<li><code>ClientId</code> - the client that performed the action</li>
+<li><code>Option&lt;u32&gt;</code> - terminal ID (if applicable)</li>
+<li><code>Option&lt;ClientId&gt;</code> - CLI client ID (if the action originated from the CLI)</li>
 </ul>
 <p>Fired when any action is performed by a user. This is useful for observing all user activity in the session.</p>
 <hr />
@@ -885,9 +885,9 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><a href="./plugin-api-types.html#action"><code>Action</code></a> — the action that completed</li>
-<li><code>Option&lt;</code><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a><code>&gt;</code> — the resulting pane ID (if applicable)</li>
-<li><code>BTreeMap&lt;String, String&gt;</code> — the context dictionary provided when running the action</li>
+<li><a href="./plugin-api-types.html#action"><code>Action</code></a> - the action that completed</li>
+<li><code>Option&lt;</code><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a><code>&gt;</code> - the resulting pane ID (if applicable)</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when running the action</li>
 </ul>
 <p>Fired when an action executed via <a href="./plugin-api-commands.html#run_action"><code>run_action</code></a> has completed. No permission is required beyond the <code>RunActionsAsUser</code> permission used to initiate the action.</p>
 <p><strong>Example:</strong></p>
@@ -915,9 +915,9 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> — the pane whose working directory changed</li>
-<li><code>PathBuf</code> — the new working directory</li>
-<li><code>Vec&lt;ClientId&gt;</code> — client IDs that have this pane focused</li>
+<li><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane whose working directory changed</li>
+<li><code>PathBuf</code> - the new working directory</li>
+<li><code>Vec&lt;ClientId&gt;</code> - client IDs that have this pane focused</li>
 </ul>
 <p>Fired when the working directory changes in a terminal pane. No permission is required.</p>
 <p><strong>Example:</strong></p>
@@ -941,8 +941,8 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>Vec&lt;</code><a href="./plugin-api-types.html#layoutinfo"><code>LayoutInfo</code></a><code>&gt;</code> — available layouts</li>
-<li><code>Vec&lt;LayoutWithError&gt;</code> — layouts that had parse errors</li>
+<li><code>Vec&lt;</code><a href="./plugin-api-types.html#layoutinfo"><code>LayoutInfo</code></a><code>&gt;</code> - available layouts</li>
+<li><code>Vec&lt;LayoutWithError&gt;</code> - layouts that had parse errors</li>
 </ul>
 <p>Fired when the available layouts change (e.g., when a layout file is added, modified, or deleted in the layout directory). No permission is required.</p>
 <hr />
@@ -951,7 +951,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span><span class="boring">fn main() {
 </span>Event::PluginConfigurationChanged(BTreeMap&lt;String, String&gt;)
 <span class="boring">}</span></code></pre></pre>
-<p><strong>Payload:</strong> <code>BTreeMap&lt;String, String&gt;</code> — the updated configuration key-value pairs</p>
+<p><strong>Payload:</strong> <code>BTreeMap&lt;String, String&gt;</code> - the updated configuration key-value pairs</p>
 <p>Fired when the plugin's configuration is modified at runtime. No permission is required.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -979,10 +979,10 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong></p>
 <ul>
-<li><code>pane_id</code> — <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> — the pane containing the clicked highlight</li>
-<li><code>pattern</code> — <code>String</code> — the regex pattern that matched</li>
-<li><code>matched_string</code> — <code>String</code> — the actual text that was matched</li>
-<li><code>context</code> — <code>BTreeMap&lt;String, String&gt;</code> — the context dictionary provided when setting up the highlight</li>
+<li><code>pane_id</code> - <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane containing the clicked highlight</li>
+<li><code>pattern</code> - <code>String</code> - the regex pattern that matched</li>
+<li><code>matched_string</code> - <code>String</code> - the actual text that was matched</li>
+<li><code>context</code> - <code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when setting up the highlight</li>
 </ul>
 <p>Fired when the user clicks on a regex highlight set by <a href="./plugin-api-commands.html#set_pane_regex_highlights"><code>set_pane_regex_highlights</code></a>.</p>
 <p><strong>Example:</strong></p>

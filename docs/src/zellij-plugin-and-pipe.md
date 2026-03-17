@@ -2,8 +2,8 @@
 
 ---
 
-- [Zellij Plugin](#zellij-plugin) — Load a plugin from a local or remote wasm file into a new pane
-- [Zellij Pipe](#zellij-pipe) — Send messages and data to one or more plugins, launching them if needed
+- [Zellij Plugin](#zellij-plugin) - Load a plugin from a local or remote wasm file into a new pane
+- [Zellij Pipe](#zellij-pipe) - Send messages and data to one or more plugins, launching them if needed
 
 ---
 
