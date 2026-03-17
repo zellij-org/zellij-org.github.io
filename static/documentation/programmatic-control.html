@@ -1,0 +1,483 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Programmatic Control - Zellij User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="programmatic-control"><a class="header" href="#programmatic-control">Programmatic Control</a></h1>
+<p>This page describes patterns for controlling Zellij from external processes — scripts, daemons, orchestration tools, or any program that needs to create terminal sessions, run commands, observe their output, and react to results without human interaction.</p>
+<p>All of the primitives described here are documented individually elsewhere. This page consolidates them into a single reference oriented toward non-interactive, machine-driven use.</p>
+<hr />
+<ul>
+<li><a href="#the-control-surface-at-a-glance">The Control Surface at a Glance</a> — What can be queried, mutated, and observed</li>
+<li><a href="#the-control-loop">The Control Loop</a> — Create, command, observe, react</li>
+<li><a href="#waiting-for-output-conditions">Waiting for Output Conditions</a> — Block until a command finishes or output matches a pattern</li>
+<li><a href="#point-in-time-vs-streaming-observation">Point-in-Time vs. Streaming Observation</a> — When to snapshot, when to stream</li>
+<li><a href="#handling-ansi-escape-codes">Handling ANSI Escape Codes</a> — Preserving or excluding terminal styling for machine consumers</li>
+<li><a href="#structured-output-reference">Structured Output Reference</a> — Which commands produce JSON</li>
+<li><a href="#concurrency-and-ordering">Concurrency and Ordering</a> — Multiple processes controlling the same session</li>
+</ul>
+<hr />
+<h2 id="the-control-surface-at-a-glance"><a class="header" href="#the-control-surface-at-a-glance">The Control Surface at a Glance</a></h2>
+<p>Zellij exposes its entire control surface through <code>zellij action</code> subcommands and the <code>zellij subscribe</code> command. No socket, HTTP API, or library binding is required — all interaction occurs through subprocess invocation, and structured data is available as JSON on stdout.</p>
+<p>The surface divides into four categories:</p>
+<h3 id="query-read-state"><a class="header" href="#query-read-state">Query (read state)</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Command</th><th>Output</th></tr></thead><tbody>
+<tr><td><a href="./cli-actions.html#list-panes"><code>list-panes --json</code></a></td><td>All panes: ID, type, title, command, cwd, focus, geometry, tab, exit status</td></tr>
+<tr><td><a href="./cli-actions.html#list-tabs"><code>list-tabs --json</code></a></td><td>All tabs: ID, position, name, active state, layout, viewport dimensions</td></tr>
+<tr><td><a href="./cli-actions.html#current-tab-info"><code>current-tab-info --json</code></a></td><td>Active tab details</td></tr>
+<tr><td><a href="./cli-actions.html#list-clients"><code>list-clients</code></a></td><td>Connected clients and their focused panes</td></tr>
+<tr><td><a href="./cli-actions.html#query-tab-names"><code>query-tab-names</code></a></td><td>All tab names (plain text)</td></tr>
+<tr><td><a href="./cli-actions.html#dump-screen"><code>dump-screen</code></a></td><td>Point-in-time viewport/scrollback content</td></tr>
+<tr><td><a href="./cli-actions.html#dump-layout"><code>dump-layout</code></a></td><td>Current session layout as KDL</td></tr>
+</tbody></table>
+</div>
+<h3 id="mutate-change-state"><a class="header" href="#mutate-change-state">Mutate (change state)</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Category</th><th>Key Commands</th></tr></thead><tbody>
+<tr><td>Create</td><td><a href="./cli-actions.html#new-pane"><code>new-pane</code></a>, <a href="./cli-actions.html#new-tab"><code>new-tab</code></a>, <a href="./cli-actions.html#edit"><code>edit</code></a>, <a href="./cli-actions.html#launch-plugin"><code>launch-plugin</code></a> — all return the created ID</td></tr>
+<tr><td>Close</td><td><a href="./cli-actions.html#close-pane"><code>close-pane</code></a>, <a href="./cli-actions.html#close-tab"><code>close-tab</code></a></td></tr>
+<tr><td>Input</td><td><a href="./cli-actions.html#write-chars"><code>write-chars</code></a>, <a href="./cli-actions.html#write"><code>write</code></a>, <a href="./cli-actions.html#paste"><code>paste</code></a>, <a href="./cli-actions.html#send-keys"><code>send-keys</code></a> — all accept <code>--pane-id</code></td></tr>
+<tr><td>Layout</td><td><a href="./cli-actions.html#override-layout"><code>override-layout</code></a>, <a href="./cli-actions.html#next-swap-layout"><code>next-swap-layout</code></a></td></tr>
+<tr><td>Appearance</td><td><a href="./cli-actions.html#rename-pane"><code>rename-pane</code></a>, <a href="./cli-actions.html#rename-tab"><code>rename-tab</code></a>, <a href="./cli-actions.html#set-pane-color"><code>set-pane-color</code></a>, <a href="./cli-actions.html#set-pane-borderless"><code>set-pane-borderless</code></a></td></tr>
+<tr><td>Positioning</td><td><a href="./cli-actions.html#change-floating-pane-coordinates"><code>change-floating-pane-coordinates</code></a>, <a href="./cli-actions.html#toggle-pane-embed-or-floating"><code>toggle-pane-embed-or-floating</code></a>, <a href="./cli-actions.html#toggle-pane-pinned"><code>toggle-pane-pinned</code></a></td></tr>
+<tr><td>Visibility</td><td><a href="./cli-actions.html#show-floating-panes"><code>show-floating-panes</code></a>, <a href="./cli-actions.html#hide-floating-panes"><code>hide-floating-panes</code></a></td></tr>
+<tr><td>Session</td><td><a href="./cli-actions.html#rename-session"><code>rename-session</code></a>, <a href="./cli-actions.html#switch-session"><code>switch-session</code></a>, <a href="./cli-actions.html#save-session"><code>save-session</code></a>, <a href="./cli-actions.html#detach"><code>detach</code></a></td></tr>
+</tbody></table>
+</div>
+<h3 id="observe-watch-output"><a class="header" href="#observe-watch-output">Observe (watch output)</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Command</th><th>Description</th></tr></thead><tbody>
+<tr><td><a href="./zellij-subscribe.html"><code>subscribe --format json</code></a></td><td>Real-time NDJSON stream of rendered pane viewport content</td></tr>
+<tr><td><a href="./zellij-subscribe.html"><code>subscribe</code></a></td><td>Real-time raw text stream of rendered pane viewport content</td></tr>
+<tr><td><a href="./cli-actions.html#dump-screen"><code>dump-screen</code></a></td><td>One-shot viewport/scrollback snapshot</td></tr>
+</tbody></table>
+</div>
+<h3 id="block-synchronize"><a class="header" href="#block-synchronize">Block (synchronize)</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Flag</th><th>Behavior</th></tr></thead><tbody>
+<tr><td><code>new-pane --blocking</code></td><td>Block caller until pane is closed</td></tr>
+<tr><td><code>new-pane --block-until-exit</code></td><td>Block until command exits (any status)</td></tr>
+<tr><td><code>new-pane --block-until-exit-success</code></td><td>Block until command exits with status 0</td></tr>
+<tr><td><code>new-pane --block-until-exit-failure</code></td><td>Block until command exits with non-zero status</td></tr>
+</tbody></table>
+</div>
+<p>For the full reference of all 70+ actions, see the <a href="./cli-actions.html">CLI Actions</a> page.</p>
+<hr />
+<h2 id="the-control-loop"><a class="header" href="#the-control-loop">The Control Loop</a></h2>
+<p>A typical programmatic workflow follows a create-command-observe-react loop:</p>
+<h3 id="1-create-a-session"><a class="header" href="#1-create-a-session">1. Create a session</a></h3>
+<p>A headless session is created with <code>attach --create-background</code>, which starts a Zellij session without attaching a terminal to it:</p>
+<pre><code class="language-bash">zellij attach --create-background my-session
+</code></pre>
+<p>A custom <a href="./creating-a-layout.html">layout</a> can be specified:</p>
+<pre><code class="language-bash">zellij attach --create-background my-session options --default-layout /path/to/layout.kdl
+</code></pre>
+<h3 id="2-open-panes-and-capture-their-ids"><a class="header" href="#2-open-panes-and-capture-their-ids">2. Open panes and capture their IDs</a></h3>
+<p>Pane and tab creation commands return the ID of the created resource on stdout:</p>
+<pre><code class="language-bash">PANE_ID=$(zellij --session my-session action new-pane --name "worker")
+TAB_ID=$(zellij --session my-session action new-tab --name "tests")
+</code></pre>
+<h3 id="3-send-commands-to-panes"><a class="header" href="#3-send-commands-to-panes">3. Send commands to panes</a></h3>
+<p>Input is injected into specific panes by ID. The <code>paste</code> command uses bracketed paste mode, which is faster and handles multi-line input correctly:</p>
+<pre><code class="language-bash">zellij --session my-session action paste --pane-id $PANE_ID "cargo build" &amp;&amp;
+zellij --session my-session action send-keys --pane-id $PANE_ID "Enter"
+</code></pre>
+<p>Note: the text passed to <code>paste</code> and <code>write-chars</code> is sent to whatever shell is running inside the pane. To avoid shell compatibility issues, panes can be opened with a command directly — the command is then executed as the pane's process, bypassing the shell entirely:</p>
+<pre><code class="language-bash">PANE_ID=$(zellij --session my-session action new-pane -- cargo build --release)
+</code></pre>
+<h3 id="4-observe-output"><a class="header" href="#4-observe-output">4. Observe output</a></h3>
+<p>The rendered viewport of any pane can be streamed in real time as NDJSON:</p>
+<pre><code class="language-bash">zellij --session my-session subscribe --pane-id $PANE_ID --format json
+</code></pre>
+<p>Or captured as a point-in-time snapshot:</p>
+<pre><code class="language-bash">zellij --session my-session action dump-screen --pane-id $PANE_ID --full
+</code></pre>
+<h3 id="5-react-and-repeat"><a class="header" href="#5-react-and-repeat">5. React and repeat</a></h3>
+<p>Based on observed output, subsequent actions can be issued — closing panes, opening new ones, sending further input, or tearing down the session.</p>
+<h3 id="complete-example"><a class="header" href="#complete-example">Complete example</a></h3>
+<pre><code class="language-bash">#!/bin/bash
+
+# --- Configuration (adjust these to your needs) ---
+SESSION="build-pipeline"
+LAYOUT="compact"
+BUILD_CMD="cargo build --release"
+TEST_CMD="cargo test"
+
+# --- 1. Create headless session ---
+zellij attach --create-background "$SESSION" options --default-layout "$LAYOUT"
+
+# --- 2. Run the build (blocks until the command exits successfully) ---
+zellij --session "$SESSION" action new-pane \
+  --block-until-exit-success --name "build" \
+  -- $BUILD_CMD
+
+# --- 3. Run the tests and capture the output ---
+TEST_PANE=$(zellij --session "$SESSION" action new-pane --name "tests" -- $TEST_CMD)
+
+# Poll until the command finishes (pane will show "exited" status)
+while true; do
+  EXITED=$(zellij --session "$SESSION" action list-panes --json \
+    | jq -r ".[] | select(.id == ${TEST_PANE#terminal_}) | .exited")
+  if [ "$EXITED" = "true" ]; then
+    break
+  fi
+  sleep 1
+done
+
+# Read the final output
+zellij --session "$SESSION" action dump-screen --pane-id "$TEST_PANE" --full
+
+# --- 4. Clean up ---
+zellij --session "$SESSION" action close-pane --pane-id "$TEST_PANE"
+</code></pre>
+<hr />
+<h2 id="waiting-for-output-conditions"><a class="header" href="#waiting-for-output-conditions">Waiting for Output Conditions</a></h2>
+<p>A common need in programmatic control is to wait until a command finishes or until specific output appears before proceeding.</p>
+<h3 id="blocking-panes"><a class="header" href="#blocking-panes">Blocking panes</a></h3>
+<p>The simplest approach — block the calling process until the command in the pane exits:</p>
+<pre><code class="language-bash"># Block until the command exits with status 0 (retry on failure by pressing Enter)
+zellij --session my-session action new-pane --block-until-exit-success -- cargo test
+
+# Block until the command exits regardless of status
+zellij --session my-session action new-pane --block-until-exit -- cargo test
+</code></pre>
+<p>See <a href="./cli-recipes.html#blocking-panes">Blocking Panes</a> in CLI Recipes for more details.</p>
+<h3 id="polling-with-dump-screen"><a class="header" href="#polling-with-dump-screen">Polling with dump-screen</a></h3>
+<p>When the pane must stay alive after the command finishes (e.g., it runs inside an interactive shell), poll the viewport for a pattern:</p>
+<pre><code class="language-bash"># Poll until "Finished" appears in the pane's viewport
+while ! zellij action dump-screen --pane-id terminal_1 | grep -q "Finished"; do
+  sleep 1
+done
+</code></pre>
+<h3 id="polling-pane-exit-status"><a class="header" href="#polling-pane-exit-status">Polling pane exit status</a></h3>
+<p>When a command was launched directly with <code>new-pane -- &lt;command&gt;</code>, its exit status is reflected in the pane metadata:</p>
+<pre><code class="language-bash">while true; do
+  EXITED=$(zellij action list-panes --json \
+    | jq -r ".[] | select(.id == ${PANE_ID#terminal_}) | .exited")
+  if [ "$EXITED" = "true" ]; then
+    break
+  fi
+  sleep 1
+done
+
+# Read the final output
+zellij action dump-screen --pane-id "$PANE_ID" --full
+</code></pre>
+<h3 id="streaming-with-subscribe"><a class="header" href="#streaming-with-subscribe">Streaming with subscribe</a></h3>
+<p>For real-time observation without polling, <a href="./zellij-subscribe.html"><code>subscribe</code></a> streams viewport changes as they happen:</p>
+<pre><code class="language-bash">zellij subscribe --pane-id terminal_1 --format json
+</code></pre>
+<p>This is useful for live monitoring and logging. See <a href="./zellij-subscribe.html">Zellij Subscribe</a> for details and filtering examples.</p>
+<hr />
+<h2 id="point-in-time-vs-streaming-observation"><a class="header" href="#point-in-time-vs-streaming-observation">Point-in-Time vs. Streaming Observation</a></h2>
+<p>Two mechanisms exist for reading pane output. The right choice depends on the use case:</p>
+<h3 id="dump-screen--snapshot"><a class="header" href="#dump-screen--snapshot"><code>dump-screen</code> — Snapshot</a></h3>
+<pre><code class="language-bash">zellij action dump-screen --pane-id terminal_1 --full
+</code></pre>
+<ul>
+<li>Returns the current viewport (and optionally full scrollback with <code>--full</code>).</li>
+<li>One-shot: returns immediately with the current content and exits.</li>
+<li>Suitable for: polling at intervals, capturing final output after a command is known to have finished, debugging.</li>
+<li>ANSI styling can be included with <code>--ansi</code>, or omitted (default) for plain text.</li>
+</ul>
+<h3 id="subscribe--stream"><a class="header" href="#subscribe--stream"><code>subscribe</code> — Stream</a></h3>
+<pre><code class="language-bash">zellij subscribe --pane-id terminal_1 --format json
+</code></pre>
+<ul>
+<li>Delivers the current viewport immediately, then streams subsequent changes as they occur.</li>
+<li>Long-running: stays connected until the pane closes or the process is killed.</li>
+<li>Suitable for: real-time monitoring, waiting for specific output patterns, event-driven workflows.</li>
+<li>ANSI styling can be included with <code>--ansi</code>.</li>
+</ul>
+<h3 id="choosing-between-them"><a class="header" href="#choosing-between-them">Choosing between them</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Need</th><th>Use</th></tr></thead><tbody>
+<tr><td>"What is on the screen right now?"</td><td><code>dump-screen</code></td></tr>
+<tr><td>"Tell me when X appears"</td><td><code>subscribe</code> + filtering</td></tr>
+<tr><td>"Give me all output as it happens"</td><td><code>subscribe</code></td></tr>
+<tr><td>"Capture the final result after completion"</td><td><code>dump-screen --full</code> (after blocking pane unblocks)</td></tr>
+<tr><td>Periodic polling (e.g., every 5 seconds)</td><td><code>dump-screen</code> in a loop</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="handling-ansi-escape-codes"><a class="header" href="#handling-ansi-escape-codes">Handling ANSI Escape Codes</a></h2>
+<p>Both <code>dump-screen</code> and <code>subscribe</code> strip ANSI escape sequences by default, returning plain text. The <code>--ansi</code> flag preserves color and styling sequences (but not cursor movement — the output is already rendered into lines).</p>
+<h3 id="excluding-ansi-default"><a class="header" href="#excluding-ansi-default">Excluding ANSI (default)</a></h3>
+<p>By default, both commands return plain text with no escape codes. This is generally what machine consumers want:</p>
+<pre><code class="language-bash"># Plain text — no escape codes
+zellij action dump-screen --pane-id terminal_1
+zellij subscribe --pane-id terminal_1
+</code></pre>
+<h3 id="including-ansi"><a class="header" href="#including-ansi">Including ANSI</a></h3>
+<p>The <code>--ansi</code> flag preserves color and styling escape sequences in the output:</p>
+<pre><code class="language-bash"># Includes color and styling codes
+zellij action dump-screen --pane-id terminal_1 --ansi
+zellij subscribe --pane-id terminal_1 --ansi
+</code></pre>
+<p>This is useful when:</p>
+<ul>
+<li>The output needs to be displayed in another terminal with styling preserved.</li>
+<li>Color information carries semantic meaning (e.g., red text indicating errors in test output).</li>
+</ul>
+<hr />
+<h2 id="structured-output-reference"><a class="header" href="#structured-output-reference">Structured Output Reference</a></h2>
+<p>The following commands support <code>--json</code> output for machine consumption:</p>
+<div class="table-wrapper"><table><thead><tr><th>Command</th><th>JSON Output Contains</th></tr></thead><tbody>
+<tr><td><a href="./cli-actions.html#list-panes"><code>list-panes --json</code></a></td><td>Array of pane objects: <code>id</code>, <code>is_plugin</code>, <code>is_focused</code>, <code>is_floating</code>, <code>title</code>, <code>pane_command</code>, <code>pane_cwd</code>, <code>exited</code>, <code>exit_status</code>, <code>pane_x</code>, <code>pane_y</code>, <code>pane_rows</code>, <code>pane_columns</code>, <code>tab_id</code>, <code>tab_name</code>, and more</td></tr>
+<tr><td><a href="./cli-actions.html#list-tabs"><code>list-tabs --json</code></a></td><td>Array of tab objects: <code>tab_id</code>, <code>position</code>, <code>name</code>, <code>active</code>, <code>is_fullscreen_active</code>, <code>is_sync_panes_active</code>, <code>are_floating_panes_visible</code>, <code>active_swap_layout_name</code>, viewport dimensions, pane counts</td></tr>
+<tr><td><a href="./cli-actions.html#current-tab-info"><code>current-tab-info --json</code></a></td><td>Single tab object (same fields as <code>list-tabs</code>)</td></tr>
+<tr><td><a href="./zellij-subscribe.html"><code>subscribe --format json</code></a></td><td>NDJSON stream: <code>pane_update</code> events with <code>viewport[]</code> and <code>scrollback[]</code> arrays, <code>pane_closed</code> events</td></tr>
+</tbody></table>
+</div>
+<p>Commands that return created resource IDs (plain text on stdout):</p>
+<div class="table-wrapper"><table><thead><tr><th>Command</th><th>Returns</th></tr></thead><tbody>
+<tr><td><code>new-pane</code></td><td>Pane ID (e.g., <code>terminal_5</code>)</td></tr>
+<tr><td><code>new-tab</code></td><td>Tab ID (e.g., <code>2</code>)</td></tr>
+<tr><td><code>edit</code></td><td>Pane ID</td></tr>
+<tr><td><code>launch-plugin</code></td><td>Pane ID</td></tr>
+<tr><td><code>launch-or-focus-plugin</code></td><td>Pane ID</td></tr>
+<tr><td><code>go-to-tab-name --create</code></td><td>Tab ID (when a new tab is created)</td></tr>
+</tbody></table>
+</div>
+<p>Commands that use exit codes to communicate state:</p>
+<div class="table-wrapper"><table><thead><tr><th>Command</th><th>Exit Codes</th></tr></thead><tbody>
+<tr><td><code>hide-floating-panes</code></td><td><code>0</code> = panes were hidden, <code>1</code> = no floating panes existed, <code>2</code> = panes were already hidden</td></tr>
+<tr><td><code>show-floating-panes</code></td><td><code>0</code> = panes were shown, <code>1</code> = no floating panes existed, <code>2</code> = panes were already visible</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="concurrency-and-ordering"><a class="header" href="#concurrency-and-ordering">Concurrency and Ordering</a></h2>
+<p>When multiple processes issue CLI actions against the same session concurrently, the following considerations apply:</p>
+<h3 id="ordering"><a class="header" href="#ordering">Ordering</a></h3>
+<p>Each <code>zellij action</code> invocation is a separate subprocess that connects to the Zellij server, sends a message, and disconnects. Actions are processed by the server in the order they are received. When actions are issued sequentially from a single process (e.g., chained with <code>&amp;&amp;</code>), ordering is preserved. When issued concurrently from multiple processes, no ordering guarantee exists between them.</p>
+<h3 id="practical-guidance"><a class="header" href="#practical-guidance">Practical guidance</a></h3>
+<ul>
+<li>
+<p><strong>Chain dependent actions sequentially.</strong> If action B depends on the result of action A, use <code>&amp;&amp;</code> or capture the output of A before issuing B:</p>
+<pre><code class="language-bash">PANE_ID=$(zellij action new-pane) &amp;&amp;
+zellij action paste --pane-id "$PANE_ID" "echo hello" &amp;&amp;
+zellij action send-keys --pane-id "$PANE_ID" "Enter"
+</code></pre>
+</li>
+<li>
+<p><strong>Independent actions can be parallelized safely.</strong> Actions targeting different panes or tabs can be issued concurrently without conflict:</p>
+<pre><code class="language-bash">zellij action paste --pane-id terminal_1 "make build" &amp;
+zellij action paste --pane-id terminal_2 "make test" &amp;
+wait
+</code></pre>
+</li>
+<li>
+<p><strong>Avoid concurrent mutations to the same pane.</strong> Two processes simultaneously writing to the same pane will interleave unpredictably. If multiple processes need to send input to the same pane, they should be serialized through a single control process.</p>
+</li>
+<li>
+<p><strong>Querying during mutations is safe.</strong> <code>list-panes</code>, <code>list-tabs</code>, <code>dump-screen</code>, and other read operations can be issued at any time without interfering with concurrent mutations. The returned state reflects a consistent snapshot at the time of the query.</p>
+</li>
+</ul>
+<hr />
+<h2 id="going-further"><a class="header" href="#going-further">Going Further</a></h2>
+<p>For individual command references and task-oriented scripting examples, see:</p>
+<ul>
+<li><a href="./cli-actions.html">CLI Actions</a> — Full reference of all <code>zellij action</code> subcommands</li>
+<li><a href="./cli-recipes.html">CLI Recipes &amp; Scripting</a> — Task-oriented examples and common workflows</li>
+<li><a href="./zellij-subscribe.html">Zellij Subscribe</a> — Real-time pane output streaming</li>
+<li><a href="./zellij-run-and-edit.html">Zellij Run &amp; Edit</a> — Launching commands and opening files in panes</li>
+<li><a href="./zellij-plugin-and-pipe.html">Zellij Plugin &amp; Pipe</a> — Plugin communication from the CLI</li>
+</ul>
+<p>For deeper integration, the <a href="./plugin-api.html">Plugin API</a> provides access to 120+ commands and 52 event types from compiled WASM plugins, including structured lifecycle events (<code>CommandPaneExited</code>, <code>PaneUpdate</code>, <code>TabUpdate</code>) that are not available through the CLI.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="cli-recipes.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="layouts.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="cli-recipes.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="layouts.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

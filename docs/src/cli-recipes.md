@@ -1,6 +1,6 @@
 # CLI Recipes & Scripting
 
-This page provides task-oriented examples for controlling Zellij from the command line and shell scripts. For a full reference of all available actions, see [CLI Actions](./cli-actions.md).
+This page provides task-oriented examples for controlling Zellij from the command line and shell scripts. For a full reference of all available actions, see [CLI Actions](./cli-actions.md). For patterns oriented toward non-interactive, machine-driven control (output polling, event loops, concurrency), see [Programmatic Control](./programmatic-control.md).
 
 ---
 

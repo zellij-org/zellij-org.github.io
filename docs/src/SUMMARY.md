@@ -27,6 +27,7 @@
   - [Zellij Plugin & Pipe](./zellij-plugin-and-pipe.md)
   - [Zellij Subscribe](./zellij-subscribe.md)
   - [CLI Recipes & Scripting](./cli-recipes.md)
+  - [Programmatic Control](./programmatic-control.md)
 - [Layouts](./layouts.md)
     - [Creating a Layout](./creating-a-layout.md)
         - [Swap Layouts](./swap-layouts.md)
