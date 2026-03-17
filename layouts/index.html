@@ -13,12 +13,15 @@
             {{- with .Site.Params.homeSubtitle }}
                 <p style="font-size: 1.5rem; margin-bottom: 45px">{{.}}</p>
             {{- end }}
-            <div class="container" style="display: flex; align-items: center; justify-content: center; flex-direction: row; justify-content: space-between; width: 80%; margin: auto; margin-bottom: 50px;">
+            <div class="download-buttons">
               <button type="button" class="download-hover" onclick="location.href='https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz'">
                 linux download
               </button>
               <button type="button" class="download-hover" onclick="location.href='https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-apple-darwin.tar.gz'">
                 macOS download
+              </button>
+              <button type="button" class="download-hover" onclick="location.href='https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-pc-windows-msvc.zip'">
+                Windows download
               </button>
             </div>
 

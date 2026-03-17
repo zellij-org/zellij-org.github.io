@@ -432,6 +432,22 @@ hr {
   margin: 30px auto;
 }
 
+.download-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 40px;
+  margin: auto;
+  margin-bottom: 50px;
+
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+}
+
 .download-hover {
   position: relative;
   display: inline-block;
