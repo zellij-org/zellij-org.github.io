@@ -1,0 +1,1156 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Type Reference - Zellij User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="plugin-api---type-reference"><a class="header" href="#plugin-api---type-reference">Plugin API - Type Reference</a></h1>
+<p>This page documents the key data types used throughout the Zellij plugin API. These types are used as parameters and return values in <a href="./plugin-api-commands.html">plugin commands</a> and as payloads in <a href="./plugin-api-events.html">plugin events</a>.</p>
+<p>For the complete type definitions, see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
+<p>All types listed here are available via <code>use zellij_tile::prelude::*;</code>.</p>
+<hr />
+<h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
+<ul>
+<li><a href="#paneid">PaneId</a></li>
+<li><a href="#filetoopen">FileToOpen</a></li>
+<li><a href="#commandtorun">CommandToRun</a></li>
+<li><a href="#floatingpanecoordinates">FloatingPaneCoordinates</a></li>
+<li><a href="#percentorfixed">PercentOrFixed</a></li>
+<li><a href="#pluginids">PluginIds</a></li>
+<li><a href="#pluginmessage">PluginMessage</a></li>
+<li><a href="#messagetoplugin">MessageToPlugin</a></li>
+<li><a href="#newpluginargs">NewPluginArgs</a></li>
+<li><a href="#resizestrategy">ResizeStrategy</a></li>
+<li><a href="#resize">Resize</a></li>
+<li><a href="#direction">Direction</a></li>
+<li><a href="#inputmode">InputMode</a></li>
+<li><a href="#httpverb">HttpVerb</a></li>
+<li><a href="#regexhighlight">RegexHighlight</a></li>
+<li><a href="#highlightstyle">HighlightStyle</a></li>
+<li><a href="#highlightlayer">HighlightLayer</a></li>
+<li><a href="#panecontents">PaneContents</a></li>
+<li><a href="#layoutinfo">LayoutInfo</a></li>
+<li><a href="#layoutmetadata">LayoutMetadata</a></li>
+<li><a href="#keywithmodifier">KeyWithModifier</a></li>
+<li><a href="#tabinfo">TabInfo</a></li>
+<li><a href="#paneinfo">PaneInfo</a></li>
+<li><a href="#panemanifest">PaneManifest</a></li>
+<li><a href="#sessioninfo">SessionInfo</a></li>
+<li><a href="#clientinfo">ClientInfo</a></li>
+<li><a href="#modeinfo">ModeInfo</a></li>
+<li><a href="#mouse">Mouse</a></li>
+<li><a href="#copydestination">CopyDestination</a></li>
+<li><a href="#permissiontype">PermissionType</a></li>
+<li><a href="#permissionstatus">PermissionStatus</a></li>
+<li><a href="#webserverstatus">WebServerStatus</a></li>
+<li><a href="#filemetadata">FileMetadata</a></li>
+<li><a href="#connecttosession">ConnectToSession</a></li>
+<li><a href="#action">Action</a></li>
+<li><a href="#eventtype">EventType</a></li>
+</ul>
+<hr />
+<h2 id="paneid"><a class="header" href="#paneid"><code>PaneId</code></a></h2>
+<p>Uniquely identifies a pane across the session. A pane is either a terminal or a plugin.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum PaneId {
+    Terminal(u32),
+    Plugin(u32),
+}
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let terminal_pane = PaneId::Terminal(1);
+let plugin_pane = PaneId::Plugin(0);
+
+match pane_id {
+    PaneId::Terminal(id) =&gt; { /* terminal pane */ },
+    PaneId::Plugin(id) =&gt; { /* plugin pane */ },
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="filetoopen"><a class="header" href="#filetoopen"><code>FileToOpen</code></a></h2>
+<p>Specifies a file to open in the user's <code>$EDITOR</code>, with optional line number and working directory.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct FileToOpen {
+    pub path: PathBuf,
+    pub line_number: Option&lt;usize&gt;,
+    pub cwd: Option&lt;PathBuf&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>path</code></td><td><code>PathBuf</code></td><td>Path to the file to open</td></tr>
+<tr><td><code>line_number</code></td><td><code>Option&lt;usize&gt;</code></td><td>Optional line number to jump to (if the editor supports it)</td></tr>
+<tr><td><code>cwd</code></td><td><code>Option&lt;PathBuf&gt;</code></td><td>Optional working directory for the editor process</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let file = FileToOpen {
+    path: PathBuf::from("/home/user/project/src/main.rs"),
+    line_number: Some(42),
+    cwd: None,
+};
+open_file(file, BTreeMap::new());
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="commandtorun"><a class="header" href="#commandtorun"><code>CommandToRun</code></a></h2>
+<p>Specifies a command to execute in a command pane.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct CommandToRun {
+    pub path: PathBuf,
+    pub args: Vec&lt;String&gt;,
+    pub cwd: Option&lt;PathBuf&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>path</code></td><td><code>PathBuf</code></td><td>Path to the executable</td></tr>
+<tr><td><code>args</code></td><td><code>Vec&lt;String&gt;</code></td><td>Command-line arguments</td></tr>
+<tr><td><code>cwd</code></td><td><code>Option&lt;PathBuf&gt;</code></td><td>Optional working directory</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let cmd = CommandToRun {
+    path: PathBuf::from("cargo"),
+    args: vec!["build".to_string(), "--release".to_string()],
+    cwd: Some(PathBuf::from("/home/user/project")),
+};
+open_command_pane(cmd, BTreeMap::new());
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="floatingpanecoordinates"><a class="header" href="#floatingpanecoordinates"><code>FloatingPaneCoordinates</code></a></h2>
+<p>Specifies the position and size of a floating pane.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct FloatingPaneCoordinates {
+    pub x: Option&lt;PercentOrFixed&gt;,
+    pub y: Option&lt;PercentOrFixed&gt;,
+    pub width: Option&lt;PercentOrFixed&gt;,
+    pub height: Option&lt;PercentOrFixed&gt;,
+    pub pinned: Option&lt;bool&gt;,
+    pub borderless: Option&lt;bool&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>x</code></td><td><code>Option&lt;PercentOrFixed&gt;</code></td><td>Horizontal position (columns from left)</td></tr>
+<tr><td><code>y</code></td><td><code>Option&lt;PercentOrFixed&gt;</code></td><td>Vertical position (rows from top)</td></tr>
+<tr><td><code>width</code></td><td><code>Option&lt;PercentOrFixed&gt;</code></td><td>Width of the pane</td></tr>
+<tr><td><code>height</code></td><td><code>Option&lt;PercentOrFixed&gt;</code></td><td>Height of the pane</td></tr>
+<tr><td><code>pinned</code></td><td><code>Option&lt;bool&gt;</code></td><td>Whether the floating pane is pinned (stays visible when toggling floating panes)</td></tr>
+<tr><td><code>borderless</code></td><td><code>Option&lt;bool&gt;</code></td><td>Whether the pane border is hidden</td></tr>
+</tbody></table>
+</div>
+<p>All fields are optional. When <code>None</code>, Zellij uses its default placement logic.</p>
+<hr />
+<h2 id="percentorfixed"><a class="header" href="#percentorfixed"><code>PercentOrFixed</code></a></h2>
+<p>Specifies a dimension as either a percentage or a fixed number of rows/columns.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum PercentOrFixed {
+    Percent(usize),  // 1 to 100
+    Fixed(usize),    // absolute number of columns or rows
+}
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let coords = FloatingPaneCoordinates {
+    x: Some(PercentOrFixed::Percent(10)),
+    y: Some(PercentOrFixed::Fixed(5)),
+    width: Some(PercentOrFixed::Percent(80)),
+    height: Some(PercentOrFixed::Fixed(20)),
+    pinned: Some(true),
+    borderless: None,
+};
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="pluginids"><a class="header" href="#pluginids"><code>PluginIds</code></a></h2>
+<p>Contains identifying information for the current plugin instance.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct PluginIds {
+    pub plugin_id: u32,
+    pub zellij_pid: u32,
+    pub initial_cwd: PathBuf,
+    pub client_id: ClientId,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>plugin_id</code></td><td><code>u32</code></td><td>Unique identifier for this plugin pane</td></tr>
+<tr><td><code>zellij_pid</code></td><td><code>u32</code></td><td>Process ID of the Zellij server</td></tr>
+<tr><td><code>initial_cwd</code></td><td><code>PathBuf</code></td><td>Working directory when the plugin was loaded</td></tr>
+<tr><td><code>client_id</code></td><td><code>ClientId</code></td><td>The client that loaded this plugin (<code>u16</code>)</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="pluginmessage"><a class="header" href="#pluginmessage"><code>PluginMessage</code></a></h2>
+<p>A message for communication between a plugin and its workers.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct PluginMessage {
+    pub name: String,
+    pub payload: String,
+    pub worker_name: Option&lt;String&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>name</code></td><td><code>String</code></td><td>Message identifier/type</td></tr>
+<tr><td><code>payload</code></td><td><code>String</code></td><td>Message content</td></tr>
+<tr><td><code>worker_name</code></td><td><code>Option&lt;String&gt;</code></td><td>Target worker name (used with <code>post_message_to</code>)</td></tr>
+</tbody></table>
+</div>
+<p>See <a href="./plugin-api-workers.html">Workers for Async Tasks</a> for usage details.</p>
+<hr />
+<h2 id="messagetoplugin"><a class="header" href="#messagetoplugin"><code>MessageToPlugin</code></a></h2>
+<p>A message destined for another plugin instance (potentially launching it).</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct MessageToPlugin {
+    pub plugin_url: Option&lt;String&gt;,
+    pub destination_plugin_id: Option&lt;u32&gt;,
+    pub plugin_config: BTreeMap&lt;String, String&gt;,
+    pub message_name: String,
+    pub message_payload: Option&lt;String&gt;,
+    pub message_args: BTreeMap&lt;String, String&gt;,
+    pub new_plugin_args: Option&lt;NewPluginArgs&gt;,
+    pub floating_pane_coordinates: Option&lt;FloatingPaneCoordinates&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>plugin_url</code></td><td><code>Option&lt;String&gt;</code></td><td>URL of the target plugin (e.g., <code>"file:/path/to/plugin.wasm"</code>)</td></tr>
+<tr><td><code>destination_plugin_id</code></td><td><code>Option&lt;u32&gt;</code></td><td>ID of a specific running plugin instance</td></tr>
+<tr><td><code>plugin_config</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Configuration to match or provide to the target plugin</td></tr>
+<tr><td><code>message_name</code></td><td><code>String</code></td><td>Message identifier</td></tr>
+<tr><td><code>message_payload</code></td><td><code>Option&lt;String&gt;</code></td><td>Optional message content</td></tr>
+<tr><td><code>message_args</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Additional key-value arguments</td></tr>
+<tr><td><code>new_plugin_args</code></td><td><code>Option&lt;NewPluginArgs&gt;</code></td><td>Configuration for launching a new plugin if none is running</td></tr>
+<tr><td><code>floating_pane_coordinates</code></td><td><code>Option&lt;FloatingPaneCoordinates&gt;</code></td><td>Position for newly launched plugin pane</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="newpluginargs"><a class="header" href="#newpluginargs"><code>NewPluginArgs</code></a></h2>
+<p>Configuration for launching a new plugin instance when the target of a message is not already running.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct NewPluginArgs {
+    pub should_float: Option&lt;bool&gt;,
+    pub pane_id_to_replace: Option&lt;PaneId&gt;,
+    pub pane_title: Option&lt;String&gt;,
+    pub cwd: Option&lt;PathBuf&gt;,
+    pub skip_cache: bool,
+    pub should_focus: Option&lt;bool&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>should_float</code></td><td><code>Option&lt;bool&gt;</code></td><td>Whether the new pane should float</td></tr>
+<tr><td><code>pane_id_to_replace</code></td><td><code>Option&lt;PaneId&gt;</code></td><td>Pane to replace with the new plugin</td></tr>
+<tr><td><code>pane_title</code></td><td><code>Option&lt;String&gt;</code></td><td>Title for the new pane</td></tr>
+<tr><td><code>cwd</code></td><td><code>Option&lt;PathBuf&gt;</code></td><td>Working directory for the new plugin</td></tr>
+<tr><td><code>skip_cache</code></td><td><code>bool</code></td><td>Whether to skip the plugin cache (force reload)</td></tr>
+<tr><td><code>should_focus</code></td><td><code>Option&lt;bool&gt;</code></td><td>Whether the new pane should receive focus</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="resizestrategy"><a class="header" href="#resizestrategy"><code>ResizeStrategy</code></a></h2>
+<p>Describes how a pane should be resized, including direction and boundary behavior.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct ResizeStrategy {
+    pub resize: Resize,
+    pub direction: Option&lt;Direction&gt;,
+    pub invert_on_boundaries: bool,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>resize</code></td><td><a href="#resize"><code>Resize</code></a></td><td>Whether to increase or decrease the pane area</td></tr>
+<tr><td><code>direction</code></td><td><code>Option&lt;</code><a href="#direction"><code>Direction</code></a><code>&gt;</code></td><td>Which border to move (<code>None</code> = all borders equally)</td></tr>
+<tr><td><code>invert_on_boundaries</code></td><td><code>bool</code></td><td>If <code>true</code> (default), resize inverts when hitting viewport boundaries</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="resize"><a class="header" href="#resize"><code>Resize</code></a></h2>
+<p>The direction of a resize operation.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum Resize {
+    Increase,
+    Decrease,
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="direction"><a class="header" href="#direction"><code>Direction</code></a></h2>
+<p>A cardinal direction used for focus movement, pane movement, and resizing.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum Direction {
+    Left,
+    Right,
+    Up,
+    Down,
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="inputmode"><a class="header" href="#inputmode"><code>InputMode</code></a></h2>
+<p>Describes the different input modes, which change the way keystrokes are interpreted.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum InputMode {
+    Normal,
+    Locked,
+    Resize,
+    Pane,
+    Tab,
+    Scroll,
+    EnterSearch,
+    Search,
+    RenameTab,
+    RenamePane,
+    Session,
+    Move,
+    Prompt,
+    Tmux,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>Normal</code></td><td>Input is written to the terminal, except for mode-switching shortcuts</td></tr>
+<tr><td><code>Locked</code></td><td>All input goes to the terminal; all shortcuts disabled except the one to return to Normal</td></tr>
+<tr><td><code>Resize</code></td><td>Allows resizing panes</td></tr>
+<tr><td><code>Pane</code></td><td>Allows creating, closing, and navigating between panes</td></tr>
+<tr><td><code>Tab</code></td><td>Allows creating, closing, and navigating between tabs</td></tr>
+<tr><td><code>Scroll</code></td><td>Allows scrolling up and down within a pane</td></tr>
+<tr><td><code>EnterSearch</code></td><td>Allows typing a search needle for the scroll buffer</td></tr>
+<tr><td><code>Search</code></td><td>Allows searching within a pane (superset of Scroll)</td></tr>
+<tr><td><code>RenameTab</code></td><td>Allows assigning a new name to a tab</td></tr>
+<tr><td><code>RenamePane</code></td><td>Allows assigning a new name to a pane</td></tr>
+<tr><td><code>Session</code></td><td>Allows detaching and session management</td></tr>
+<tr><td><code>Move</code></td><td>Allows moving panes within a tab</td></tr>
+<tr><td><code>Prompt</code></td><td>Allows interacting with active prompts</td></tr>
+<tr><td><code>Tmux</code></td><td>Provides basic tmux keybinding compatibility</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="httpverb"><a class="header" href="#httpverb"><code>HttpVerb</code></a></h2>
+<p>HTTP method for web requests.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum HttpVerb {
+    Get,
+    Post,
+    Put,
+    Delete,
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="regexhighlight"><a class="header" href="#regexhighlight"><code>RegexHighlight</code></a></h2>
+<p>Defines a regex-based content highlight that a plugin can apply to a terminal pane.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct RegexHighlight {
+    pub pattern: String,
+    pub style: HighlightStyle,
+    pub layer: HighlightLayer,
+    pub context: BTreeMap&lt;String, String&gt;,
+    pub on_hover: bool,
+    pub bold: bool,
+    pub italic: bool,
+    pub underline: bool,
+    pub tooltip_text: Option&lt;String&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>pattern</code></td><td><code>String</code></td><td>Regex pattern to match against pane content</td></tr>
+<tr><td><code>style</code></td><td><a href="#highlightstyle"><code>HighlightStyle</code></a></td><td>Color scheme for matched text</td></tr>
+<tr><td><code>layer</code></td><td><a href="#highlightlayer"><code>HighlightLayer</code></a></td><td>Priority layer for overlapping highlights</td></tr>
+<tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary data echoed back on click via <code>HighlightClicked</code> event</td></tr>
+<tr><td><code>on_hover</code></td><td><code>bool</code></td><td>If <code>true</code>, highlight only renders when the cursor overlaps the match</td></tr>
+<tr><td><code>bold</code></td><td><code>bool</code></td><td>Render matched text in bold</td></tr>
+<tr><td><code>italic</code></td><td><code>bool</code></td><td>Render matched text in italic</td></tr>
+<tr><td><code>underline</code></td><td><code>bool</code></td><td>Render matched text with underline</td></tr>
+<tr><td><code>tooltip_text</code></td><td><code>Option&lt;String&gt;</code></td><td>Text shown at the bottom of the pane frame when hovering over the match</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="highlightstyle"><a class="header" href="#highlightstyle"><code>HighlightStyle</code></a></h2>
+<p>Color scheme for a regex highlight. Theme-based variants reference colors from the active theme.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum HighlightStyle {
+    None,
+    Emphasis0,
+    Emphasis1,
+    Emphasis2,
+    Emphasis3,
+    BackgroundEmphasis0,
+    BackgroundEmphasis1,
+    BackgroundEmphasis2,
+    BackgroundEmphasis3,
+    CustomRgb {
+        fg: Option&lt;(u8, u8, u8)&gt;,
+        bg: Option&lt;(u8, u8, u8)&gt;,
+    },
+    CustomIndex {
+        fg: Option&lt;u8&gt;,
+        bg: Option&lt;u8&gt;,
+    },
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>None</code></td><td>No color override (use with bold/italic/underline for style-only highlights)</td></tr>
+<tr><td><code>Emphasis0</code>..<code>Emphasis3</code></td><td>Foreground set to theme emphasis color 0-3, no background override</td></tr>
+<tr><td><code>BackgroundEmphasis0</code>..<code>BackgroundEmphasis3</code></td><td>Background set to theme emphasis color 0-3, foreground set to background color</td></tr>
+<tr><td><code>CustomRgb</code></td><td>Custom foreground and/or background as RGB tuples</td></tr>
+<tr><td><code>CustomIndex</code></td><td>Custom foreground and/or background as terminal color indices (0-255)</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="highlightlayer"><a class="header" href="#highlightlayer"><code>HighlightLayer</code></a></h2>
+<p>Priority layer for plugin-supplied regex highlights. Higher-priority layers take visual precedence over lower ones when highlights overlap. Built-in highlights (mouse selection, search results) always take precedence over all plugin layers.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum HighlightLayer {
+    Hint,
+    Tool,
+    ActionFeedback,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Priority</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>Hint</code></td><td>Lowest</td><td>Pure pattern matching (paths, URLs, IPs)</td></tr>
+<tr><td><code>Tool</code></td><td>Middle</td><td>Backed by runtime domain knowledge (git, docker, k8s)</td></tr>
+<tr><td><code>ActionFeedback</code></td><td>Highest</td><td>Result of an explicit user action (search, bookmarks)</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="panecontents"><a class="header" href="#panecontents"><code>PaneContents</code></a></h2>
+<p>The text contents of a pane, including viewport and scrollback.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct PaneContents {
+    pub lines_above_viewport: Vec&lt;String&gt;,
+    pub lines_below_viewport: Vec&lt;String&gt;,
+    pub viewport: Vec&lt;String&gt;,
+    pub selected_text: Option&lt;SelectedText&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>lines_above_viewport</code></td><td><code>Vec&lt;String&gt;</code></td><td>Lines above the current viewport (only populated if full scrollback is requested)</td></tr>
+<tr><td><code>lines_below_viewport</code></td><td><code>Vec&lt;String&gt;</code></td><td>Lines below the current viewport (only populated if full scrollback is requested)</td></tr>
+<tr><td><code>viewport</code></td><td><code>Vec&lt;String&gt;</code></td><td>Currently visible lines</td></tr>
+<tr><td><code>selected_text</code></td><td><code>Option&lt;SelectedText&gt;</code></td><td>Currently selected text range, if any</td></tr>
+</tbody></table>
+</div>
+<p><strong>Note:</strong> <code>lines_above_viewport</code> and <code>lines_below_viewport</code> are only populated when explicitly requested (e.g., with <code>get_full_scrollback: true</code> in <code>get_pane_scrollback</code>). This is for performance reasons.</p>
+<hr />
+<h2 id="layoutinfo"><a class="header" href="#layoutinfo"><code>LayoutInfo</code></a></h2>
+<p>Identifies a layout by its source.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum LayoutInfo {
+    BuiltIn(String),
+    File(String, LayoutMetadata),
+    Url(String),
+    Stringified(String),
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>BuiltIn(name)</code></td><td>A built-in layout (e.g., <code>"default"</code>, <code>"compact"</code>, <code>"welcome"</code>)</td></tr>
+<tr><td><code>File(name, metadata)</code></td><td>A layout file from the layout directory, with parsed metadata</td></tr>
+<tr><td><code>Url(url)</code></td><td>A layout loaded from a URL</td></tr>
+<tr><td><code>Stringified(kdl)</code></td><td>A raw KDL layout string</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="layoutmetadata"><a class="header" href="#layoutmetadata"><code>LayoutMetadata</code></a></h2>
+<p>Parsed metadata about a layout's structure.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct LayoutMetadata {
+    pub tabs: Vec&lt;TabMetadata&gt;,
+    pub creation_time: String,
+    pub update_time: String,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>tabs</code></td><td><code>Vec&lt;TabMetadata&gt;</code></td><td>Metadata for each tab defined in the layout</td></tr>
+<tr><td><code>creation_time</code></td><td><code>String</code></td><td>When the layout was created</td></tr>
+<tr><td><code>update_time</code></td><td><code>String</code></td><td>When the layout was last updated</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="keywithmodifier"><a class="header" href="#keywithmodifier"><code>KeyWithModifier</code></a></h2>
+<p>A keyboard key combined with zero or more modifier keys.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct KeyWithModifier {
+    pub bare_key: BareKey,
+    pub key_modifiers: BTreeSet&lt;KeyModifier&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>bare_key</code></td><td><code>BareKey</code></td><td>The base key (e.g., <code>BareKey::Char('a')</code>, <code>BareKey::Enter</code>, <code>BareKey::F(1)</code>)</td></tr>
+<tr><td><code>key_modifiers</code></td><td><code>BTreeSet&lt;KeyModifier&gt;</code></td><td>Set of active modifiers (<code>Ctrl</code>, <code>Alt</code>, <code>Shift</code>, <code>Super</code>)</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="tabinfo"><a class="header" href="#tabinfo"><code>TabInfo</code></a></h2>
+<p>Information about a currently opened tab.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct TabInfo {
+    pub position: usize,
+    pub name: String,
+    pub active: bool,
+    pub panes_to_hide: usize,
+    pub is_fullscreen_active: bool,
+    pub is_sync_panes_active: bool,
+    pub are_floating_panes_visible: bool,
+    pub other_focused_clients: Vec&lt;ClientId&gt;,
+    pub active_swap_layout_name: Option&lt;String&gt;,
+    pub is_swap_layout_dirty: bool,
+    pub viewport_rows: usize,
+    pub viewport_columns: usize,
+    pub display_area_rows: usize,
+    pub display_area_columns: usize,
+    pub selectable_tiled_panes_count: usize,
+    pub selectable_floating_panes_count: usize,
+    pub tab_id: usize,
+    pub has_bell_notification: bool,
+    pub is_flashing_bell: bool,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>position</code></td><td><code>usize</code></td><td>The tab's 0-indexed position</td></tr>
+<tr><td><code>name</code></td><td><code>String</code></td><td>Display name of the tab</td></tr>
+<tr><td><code>active</code></td><td><code>bool</code></td><td>Whether this tab is currently focused</td></tr>
+<tr><td><code>panes_to_hide</code></td><td><code>usize</code></td><td>Number of suppressed panes in this tab</td></tr>
+<tr><td><code>is_fullscreen_active</code></td><td><code>bool</code></td><td>Whether a pane is taking up the full display area</td></tr>
+<tr><td><code>is_sync_panes_active</code></td><td><code>bool</code></td><td>Whether STDIN sync is active for this tab</td></tr>
+<tr><td><code>are_floating_panes_visible</code></td><td><code>bool</code></td><td>Whether floating panes are visible</td></tr>
+<tr><td><code>other_focused_clients</code></td><td><code>Vec&lt;ClientId&gt;</code></td><td>Other clients focused on this tab</td></tr>
+<tr><td><code>active_swap_layout_name</code></td><td><code>Option&lt;String&gt;</code></td><td>Name of the active swap layout, if any</td></tr>
+<tr><td><code>is_swap_layout_dirty</code></td><td><code>bool</code></td><td>Whether the user manually changed the layout</td></tr>
+<tr><td><code>viewport_rows</code></td><td><code>usize</code></td><td>Row count in the viewport (excluding UI panes)</td></tr>
+<tr><td><code>viewport_columns</code></td><td><code>usize</code></td><td>Column count in the viewport (excluding UI panes)</td></tr>
+<tr><td><code>display_area_rows</code></td><td><code>usize</code></td><td>Total row count (including UI panes)</td></tr>
+<tr><td><code>display_area_columns</code></td><td><code>usize</code></td><td>Total column count (including UI panes)</td></tr>
+<tr><td><code>selectable_tiled_panes_count</code></td><td><code>usize</code></td><td>Number of selectable tiled panes</td></tr>
+<tr><td><code>selectable_floating_panes_count</code></td><td><code>usize</code></td><td>Number of selectable floating panes</td></tr>
+<tr><td><code>tab_id</code></td><td><code>usize</code></td><td>Stable identifier for this tab</td></tr>
+<tr><td><code>has_bell_notification</code></td><td><code>bool</code></td><td>Whether this tab has an active bell notification</td></tr>
+<tr><td><code>is_flashing_bell</code></td><td><code>bool</code></td><td>Whether this tab is currently flashing its bell</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="paneinfo"><a class="header" href="#paneinfo"><code>PaneInfo</code></a></h2>
+<p>Information about a currently open pane.</p>
+<p>The coordinates and size fields come in two variants:</p>
+<ul>
+<li><strong>Pane coordinates</strong> (<code>pane_x</code>, <code>pane_columns</code>, etc.) — the entire space including frame and title</li>
+<li><strong>Content coordinates</strong> (<code>pane_content_x</code>, <code>pane_content_columns</code>, etc.) — the area taken by the pane's content only</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct PaneInfo {
+    pub id: u32,
+    pub is_plugin: bool,
+    pub is_focused: bool,
+    pub is_fullscreen: bool,
+    pub is_floating: bool,
+    pub is_suppressed: bool,
+    pub title: String,
+    pub exited: bool,
+    pub exit_status: Option&lt;i32&gt;,
+    pub is_held: bool,
+    pub pane_x: usize,
+    pub pane_content_x: usize,
+    pub pane_y: usize,
+    pub pane_content_y: usize,
+    pub pane_rows: usize,
+    pub pane_content_rows: usize,
+    pub pane_columns: usize,
+    pub pane_content_columns: usize,
+    pub cursor_coordinates_in_pane: Option&lt;(usize, usize)&gt;,
+    pub terminal_command: Option&lt;String&gt;,
+    pub plugin_url: Option&lt;String&gt;,
+    pub is_selectable: bool,
+    pub index_in_pane_group: BTreeMap&lt;ClientId, usize&gt;,
+    pub default_fg: Option&lt;String&gt;,
+    pub default_bg: Option&lt;String&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>id</code></td><td><code>u32</code></td><td>Pane identifier (unique within its type: terminal or plugin)</td></tr>
+<tr><td><code>is_plugin</code></td><td><code>bool</code></td><td><code>true</code> if plugin pane, <code>false</code> if terminal pane</td></tr>
+<tr><td><code>is_focused</code></td><td><code>bool</code></td><td>Whether this pane is focused in its layer</td></tr>
+<tr><td><code>is_fullscreen</code></td><td><code>bool</code></td><td>Whether this pane is in fullscreen mode</td></tr>
+<tr><td><code>is_floating</code></td><td><code>bool</code></td><td>Whether this pane is floating</td></tr>
+<tr><td><code>is_suppressed</code></td><td><code>bool</code></td><td>Whether this pane is suppressed (hidden but still running)</td></tr>
+<tr><td><code>title</code></td><td><code>String</code></td><td>Display title of the pane</td></tr>
+<tr><td><code>exited</code></td><td><code>bool</code></td><td>Whether the pane's process has exited</td></tr>
+<tr><td><code>exit_status</code></td><td><code>Option&lt;i32&gt;</code></td><td>Exit code if the process exited</td></tr>
+<tr><td><code>is_held</code></td><td><code>bool</code></td><td>Whether the pane is paused waiting for user input</td></tr>
+<tr><td><code>pane_x</code></td><td><code>usize</code></td><td>X position including frame</td></tr>
+<tr><td><code>pane_content_x</code></td><td><code>usize</code></td><td>X position of content area</td></tr>
+<tr><td><code>pane_y</code></td><td><code>usize</code></td><td>Y position including frame</td></tr>
+<tr><td><code>pane_content_y</code></td><td><code>usize</code></td><td>Y position of content area</td></tr>
+<tr><td><code>pane_rows</code></td><td><code>usize</code></td><td>Height including frame</td></tr>
+<tr><td><code>pane_content_rows</code></td><td><code>usize</code></td><td>Height of content area</td></tr>
+<tr><td><code>pane_columns</code></td><td><code>usize</code></td><td>Width including frame</td></tr>
+<tr><td><code>pane_content_columns</code></td><td><code>usize</code></td><td>Width of content area</td></tr>
+<tr><td><code>cursor_coordinates_in_pane</code></td><td><code>Option&lt;(usize, usize)&gt;</code></td><td>Cursor position (x, y) relative to pane, if visible</td></tr>
+<tr><td><code>terminal_command</code></td><td><code>Option&lt;String&gt;</code></td><td>Stringified command and args (for command panes)</td></tr>
+<tr><td><code>plugin_url</code></td><td><code>Option&lt;String&gt;</code></td><td>Plugin URL (for plugin panes)</td></tr>
+<tr><td><code>is_selectable</code></td><td><code>bool</code></td><td>Whether the user can select this pane</td></tr>
+<tr><td><code>index_in_pane_group</code></td><td><code>BTreeMap&lt;ClientId, usize&gt;</code></td><td>Pane group membership indices per client</td></tr>
+<tr><td><code>default_fg</code></td><td><code>Option&lt;String&gt;</code></td><td>Default foreground color (e.g., <code>"#00e000"</code>)</td></tr>
+<tr><td><code>default_bg</code></td><td><code>Option&lt;String&gt;</code></td><td>Default background color (e.g., <code>"#001a3a"</code>)</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="panemanifest"><a class="header" href="#panemanifest"><code>PaneManifest</code></a></h2>
+<p>A dictionary of all panes in the session, indexed by tab position.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct PaneManifest {
+    pub panes: HashMap&lt;usize, Vec&lt;PaneInfo&gt;&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>panes</code></td><td><code>HashMap&lt;usize, Vec&lt;PaneInfo&gt;&gt;</code></td><td>Map from tab position (0-indexed) to panes in that tab</td></tr>
+</tbody></table>
+</div>
+<p>Panes include tiled, floating, and suppressed panes.</p>
+<hr />
+<h2 id="sessioninfo"><a class="header" href="#sessioninfo"><code>SessionInfo</code></a></h2>
+<p>Information about a running Zellij session.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct SessionInfo {
+    pub name: String,
+    pub tabs: Vec&lt;TabInfo&gt;,
+    pub panes: PaneManifest,
+    pub connected_clients: usize,
+    pub is_current_session: bool,
+    pub available_layouts: Vec&lt;LayoutInfo&gt;,
+    pub plugins: BTreeMap&lt;u32, PluginInfo&gt;,
+    pub web_clients_allowed: bool,
+    pub web_client_count: usize,
+    pub tab_history: BTreeMap&lt;ClientId, Vec&lt;usize&gt;&gt;,
+    pub pane_history: BTreeMap&lt;ClientId, Vec&lt;PaneId&gt;&gt;,
+    pub creation_time: Duration,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>name</code></td><td><code>String</code></td><td>Session name</td></tr>
+<tr><td><code>tabs</code></td><td><code>Vec&lt;TabInfo&gt;</code></td><td>All tabs in this session</td></tr>
+<tr><td><code>panes</code></td><td><code>PaneManifest</code></td><td>All panes in this session</td></tr>
+<tr><td><code>connected_clients</code></td><td><code>usize</code></td><td>Number of connected clients</td></tr>
+<tr><td><code>is_current_session</code></td><td><code>bool</code></td><td>Whether this is the session the plugin is running in</td></tr>
+<tr><td><code>available_layouts</code></td><td><code>Vec&lt;LayoutInfo&gt;</code></td><td>Layouts available in this session</td></tr>
+<tr><td><code>plugins</code></td><td><code>BTreeMap&lt;u32, PluginInfo&gt;</code></td><td>Running plugins indexed by ID</td></tr>
+<tr><td><code>web_clients_allowed</code></td><td><code>bool</code></td><td>Whether web clients are allowed</td></tr>
+<tr><td><code>web_client_count</code></td><td><code>usize</code></td><td>Number of connected web clients</td></tr>
+<tr><td><code>tab_history</code></td><td><code>BTreeMap&lt;ClientId, Vec&lt;usize&gt;&gt;</code></td><td>Tab focus history per client</td></tr>
+<tr><td><code>pane_history</code></td><td><code>BTreeMap&lt;ClientId, Vec&lt;PaneId&gt;&gt;</code></td><td>Pane focus history per client</td></tr>
+<tr><td><code>creation_time</code></td><td><code>Duration</code></td><td>When the session was created</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="clientinfo"><a class="header" href="#clientinfo"><code>ClientInfo</code></a></h2>
+<p>Information about a connected client.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct ClientInfo {
+    pub client_id: ClientId,
+    pub pane_id: PaneId,
+    pub running_command: String,
+    pub is_current_client: bool,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>client_id</code></td><td><code>ClientId</code></td><td>Unique client identifier (<code>u16</code>)</td></tr>
+<tr><td><code>pane_id</code></td><td><code>PaneId</code></td><td>The pane this client is focused on</td></tr>
+<tr><td><code>running_command</code></td><td><code>String</code></td><td>Stringified command or plugin name in the focused pane</td></tr>
+<tr><td><code>is_current_client</code></td><td><code>bool</code></td><td>Whether this is the client associated with the requesting plugin</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="modeinfo"><a class="header" href="#modeinfo"><code>ModeInfo</code></a></h2>
+<p>Information about the current input mode, keybindings, and session metadata. Delivered via the <code>ModeUpdate</code> event.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct ModeInfo {
+    pub mode: InputMode,
+    pub base_mode: Option&lt;InputMode&gt;,
+    pub keybinds: Vec&lt;(InputMode, Vec&lt;(KeyWithModifier, Vec&lt;Action&gt;)&gt;)&gt;,
+    pub style: Style,
+    pub capabilities: PluginCapabilities,
+    pub session_name: Option&lt;String&gt;,
+    pub editor: Option&lt;PathBuf&gt;,
+    pub shell: Option&lt;PathBuf&gt;,
+    pub web_clients_allowed: Option&lt;bool&gt;,
+    pub web_sharing: Option&lt;WebSharing&gt;,
+    pub currently_marking_pane_group: Option&lt;bool&gt;,
+    pub is_web_client: Option&lt;bool&gt;,
+    pub web_server_ip: Option&lt;IpAddr&gt;,
+    pub web_server_port: Option&lt;u16&gt;,
+    pub web_server_capability: Option&lt;bool&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>mode</code></td><td><code>InputMode</code></td><td>Currently active input mode</td></tr>
+<tr><td><code>base_mode</code></td><td><code>Option&lt;InputMode&gt;</code></td><td>Base mode (when in a transient mode)</td></tr>
+<tr><td><code>keybinds</code></td><td><code>Vec&lt;(InputMode, Vec&lt;(KeyWithModifier, Vec&lt;Action&gt;)&gt;)&gt;</code></td><td>All keybindings organized by mode</td></tr>
+<tr><td><code>style</code></td><td><code>Style</code></td><td>Active theme colors and styling</td></tr>
+<tr><td><code>capabilities</code></td><td><code>PluginCapabilities</code></td><td>Terminal capabilities</td></tr>
+<tr><td><code>session_name</code></td><td><code>Option&lt;String&gt;</code></td><td>Name of the current session</td></tr>
+<tr><td><code>editor</code></td><td><code>Option&lt;PathBuf&gt;</code></td><td>Configured <code>$EDITOR</code></td></tr>
+<tr><td><code>shell</code></td><td><code>Option&lt;PathBuf&gt;</code></td><td>Configured shell</td></tr>
+<tr><td><code>web_clients_allowed</code></td><td><code>Option&lt;bool&gt;</code></td><td>Whether web clients are permitted</td></tr>
+<tr><td><code>web_sharing</code></td><td><code>Option&lt;WebSharing&gt;</code></td><td>Web sharing status</td></tr>
+<tr><td><code>currently_marking_pane_group</code></td><td><code>Option&lt;bool&gt;</code></td><td>Whether pane group marking mode is active</td></tr>
+<tr><td><code>is_web_client</code></td><td><code>Option&lt;bool&gt;</code></td><td>Whether the current client is a web client</td></tr>
+<tr><td><code>web_server_ip</code></td><td><code>Option&lt;IpAddr&gt;</code></td><td>Configured web server IP</td></tr>
+<tr><td><code>web_server_port</code></td><td><code>Option&lt;u16&gt;</code></td><td>Configured web server port</td></tr>
+<tr><td><code>web_server_capability</code></td><td><code>Option&lt;bool&gt;</code></td><td>Whether web server functionality is available</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="mouse"><a class="header" href="#mouse"><code>Mouse</code></a></h2>
+<p>A mouse event that occurred while the user is focused on the plugin pane.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum Mouse {
+    ScrollUp(usize),
+    ScrollDown(usize),
+    LeftClick(isize, usize),
+    RightClick(isize, usize),
+    Hold(isize, usize),
+    Release(isize, usize),
+    Hover(isize, usize),
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Parameters</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>ScrollUp(n)</code></td><td><code>usize</code> — number of lines</td><td>Mouse wheel scrolled up</td></tr>
+<tr><td><code>ScrollDown(n)</code></td><td><code>usize</code> — number of lines</td><td>Mouse wheel scrolled down</td></tr>
+<tr><td><code>LeftClick(line, col)</code></td><td><code>isize, usize</code> — line and column</td><td>Left mouse button clicked</td></tr>
+<tr><td><code>RightClick(line, col)</code></td><td><code>isize, usize</code> — line and column</td><td>Right mouse button clicked</td></tr>
+<tr><td><code>Hold(line, col)</code></td><td><code>isize, usize</code> — line and column</td><td>Mouse button held (drag)</td></tr>
+<tr><td><code>Release(line, col)</code></td><td><code>isize, usize</code> — line and column</td><td>Mouse button released</td></tr>
+<tr><td><code>Hover(line, col)</code></td><td><code>isize, usize</code> — line and column</td><td>Mouse moved without button pressed</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="copydestination"><a class="header" href="#copydestination"><code>CopyDestination</code></a></h2>
+<p>Specifies where text was copied to.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum CopyDestination {
+    Command,
+    Primary,
+    System,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>Command</code></td><td>Copied via a configured command</td></tr>
+<tr><td><code>Primary</code></td><td>Copied to the primary selection (X11)</td></tr>
+<tr><td><code>System</code></td><td>Copied to the system clipboard</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="permissiontype"><a class="header" href="#permissiontype"><code>PermissionType</code></a></h2>
+<p>Permission types that plugins can request. See <a href="./plugin-api-permissions.html">Permissions</a> for details.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum PermissionType {
+    ReadApplicationState,
+    ChangeApplicationState,
+    OpenFiles,
+    RunCommands,
+    OpenTerminalsOrPlugins,
+    WriteToStdin,
+    WebAccess,
+    ReadCliPipes,
+    MessageAndLaunchOtherPlugins,
+    Reconfigure,
+    FullHdAccess,
+    StartWebServer,
+    InterceptInput,
+    ReadPaneContents,
+    RunActionsAsUser,
+    WriteToClipboard,
+    ReadSessionEnvironmentVariables,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>ReadApplicationState</code></td><td>Read Zellij state (panes, tabs, UI)</td></tr>
+<tr><td><code>ChangeApplicationState</code></td><td>Change Zellij state and run commands</td></tr>
+<tr><td><code>OpenFiles</code></td><td>Open files for editing</td></tr>
+<tr><td><code>RunCommands</code></td><td>Run host commands</td></tr>
+<tr><td><code>OpenTerminalsOrPlugins</code></td><td>Start new terminals and plugins</td></tr>
+<tr><td><code>WriteToStdin</code></td><td>Write to pane STDIN</td></tr>
+<tr><td><code>WebAccess</code></td><td>Make HTTP requests</td></tr>
+<tr><td><code>ReadCliPipes</code></td><td>Control CLI pipe input/output</td></tr>
+<tr><td><code>MessageAndLaunchOtherPlugins</code></td><td>Send messages to and launch other plugins</td></tr>
+<tr><td><code>Reconfigure</code></td><td>Change Zellij runtime configuration</td></tr>
+<tr><td><code>FullHdAccess</code></td><td>Full access to the host filesystem</td></tr>
+<tr><td><code>StartWebServer</code></td><td>Start a local web server</td></tr>
+<tr><td><code>InterceptInput</code></td><td>Intercept keyboard and mouse input</td></tr>
+<tr><td><code>ReadPaneContents</code></td><td>Read pane viewport and scrollback contents</td></tr>
+<tr><td><code>RunActionsAsUser</code></td><td>Execute actions as the user</td></tr>
+<tr><td><code>WriteToClipboard</code></td><td>Write to the user's clipboard</td></tr>
+<tr><td><code>ReadSessionEnvironmentVariables</code></td><td>Read environment variables from session creation</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="permissionstatus"><a class="header" href="#permissionstatus"><code>PermissionStatus</code></a></h2>
+<p>Result of a permission request.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum PermissionStatus {
+    Granted,
+    Denied,
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="webserverstatus"><a class="header" href="#webserverstatus"><code>WebServerStatus</code></a></h2>
+<p>Status of the Zellij web server.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum WebServerStatus {
+    Online(String),
+    Offline,
+    DifferentVersion(String),
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>Online(base_url)</code></td><td>Web server is online at the given base URL</td></tr>
+<tr><td><code>Offline</code></td><td>Web server is not running</td></tr>
+<tr><td><code>DifferentVersion(version)</code></td><td>Web server is running a different Zellij version</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="filemetadata"><a class="header" href="#filemetadata"><code>FileMetadata</code></a></h2>
+<p>Metadata about a file from filesystem events.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct FileMetadata {
+    pub is_dir: bool,
+    pub is_file: bool,
+    pub is_symlink: bool,
+    pub len: u64,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>is_dir</code></td><td><code>bool</code></td><td>Whether the path is a directory</td></tr>
+<tr><td><code>is_file</code></td><td><code>bool</code></td><td>Whether the path is a regular file</td></tr>
+<tr><td><code>is_symlink</code></td><td><code>bool</code></td><td>Whether the path is a symbolic link</td></tr>
+<tr><td><code>len</code></td><td><code>u64</code></td><td>File size in bytes</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="connecttosession"><a class="header" href="#connecttosession"><code>ConnectToSession</code></a></h2>
+<p>Configuration for switching to or creating a session.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct ConnectToSession {
+    pub name: Option&lt;String&gt;,
+    pub tab_position: Option&lt;usize&gt;,
+    pub pane_id: Option&lt;(u32, bool)&gt;,
+    pub layout: Option&lt;LayoutInfo&gt;,
+    pub cwd: Option&lt;PathBuf&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>name</code></td><td><code>Option&lt;String&gt;</code></td><td>Session name (if <code>None</code>, a new session with a random name is created)</td></tr>
+<tr><td><code>tab_position</code></td><td><code>Option&lt;usize&gt;</code></td><td>Tab to focus after switching</td></tr>
+<tr><td><code>pane_id</code></td><td><code>Option&lt;(u32, bool)&gt;</code></td><td>Pane to focus: <code>(id, is_plugin)</code></td></tr>
+<tr><td><code>layout</code></td><td><code>Option&lt;LayoutInfo&gt;</code></td><td>Layout to apply when creating a new session</td></tr>
+<tr><td><code>cwd</code></td><td><code>Option&lt;PathBuf&gt;</code></td><td>Working directory for the new session</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="action"><a class="header" href="#action"><code>Action</code></a></h2>
+<p>The <code>Action</code> enum represents all possible Zellij actions that can be triggered programmatically via <code>run_action</code>. The full enum has many variants; the most commonly used ones are listed below:</p>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>Quit</code></td><td>Quit Zellij</td></tr>
+<tr><td><code>Write { bytes, .. }</code></td><td>Write bytes to the focused pane</td></tr>
+<tr><td><code>WriteChars { chars }</code></td><td>Write characters to the focused pane</td></tr>
+<tr><td><code>SwitchToMode { input_mode }</code></td><td>Switch input mode</td></tr>
+<tr><td><code>Resize { resize, direction }</code></td><td>Resize the focused pane</td></tr>
+<tr><td><code>MoveFocus { direction }</code></td><td>Move focus in a direction</td></tr>
+<tr><td><code>NewPane { direction, .. }</code></td><td>Open a new pane</td></tr>
+<tr><td><code>NewTab { .. }</code></td><td>Open a new tab</td></tr>
+<tr><td><code>GoToNextTab</code></td><td>Switch to the next tab</td></tr>
+<tr><td><code>GoToPreviousTab</code></td><td>Switch to the previous tab</td></tr>
+<tr><td><code>GoToTab { index }</code></td><td>Switch to a tab by index</td></tr>
+<tr><td><code>CloseTab</code></td><td>Close the focused tab</td></tr>
+<tr><td><code>CloseFocus</code></td><td>Close the focused pane</td></tr>
+<tr><td><code>ToggleFocusFullscreen</code></td><td>Toggle focused pane fullscreen</td></tr>
+<tr><td><code>ToggleFloatingPanes</code></td><td>Toggle floating panes visibility</td></tr>
+<tr><td><code>Detach</code></td><td>Detach from the session</td></tr>
+<tr><td><code>Copy</code></td><td>Copy selected text</td></tr>
+<tr><td><code>PreviousSwapLayout</code></td><td>Switch to previous swap layout</td></tr>
+<tr><td><code>NextSwapLayout</code></td><td>Switch to next swap layout</td></tr>
+<tr><td><code>LaunchOrFocusPlugin { plugin, .. }</code></td><td>Launch or focus a plugin</td></tr>
+<tr><td><code>RenameSession { name }</code></td><td>Rename the current session</td></tr>
+</tbody></table>
+</div>
+<p>For the complete list, see the <a href="https://github.com/zellij-org/zellij/blob/main/zellij-utils/src/input/actions.rs">source code</a>.</p>
+<hr />
+<h2 id="eventtype"><a class="header" href="#eventtype"><code>EventType</code></a></h2>
+<p>Discriminant enum used with <code>subscribe</code> and <code>unsubscribe</code>. Each variant corresponds to an <code>Event</code> variant of the same name.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum EventType {
+    ModeUpdate,
+    TabUpdate,
+    PaneUpdate,
+    Key,
+    Mouse,
+    Timer,
+    CopyToClipboard,
+    SystemClipboardFailure,
+    InputReceived,
+    Visible,
+    CustomMessage,
+    FileSystemCreate,
+    FileSystemRead,
+    FileSystemUpdate,
+    FileSystemDelete,
+    PermissionRequestResult,
+    SessionUpdate,
+    RunCommandResult,
+    WebRequestResult,
+    CommandPaneOpened,
+    CommandPaneExited,
+    PaneClosed,
+    EditPaneOpened,
+    EditPaneExited,
+    CommandPaneReRun,
+    FailedToWriteConfigToDisk,
+    ListClients,
+    HostFolderChanged,
+    FailedToChangeHostFolder,
+    PastedText,
+    ConfigWasWrittenToDisk,
+    WebServerStatus,
+    FailedToStartWebServer,
+    BeforeClose,
+    InterceptedKeyPress,
+    UserAction,
+    PaneRenderReport,
+    PaneRenderReportWithAnsi,
+    ActionComplete,
+    CwdChanged,
+    AvailableLayoutInfo,
+    PluginConfigurationChanged,
+    HighlightClicked,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>See <a href="./plugin-api-events.html">Events</a> for details on each event and its payload.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="plugin-api-commands.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="plugin-api-permissions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="plugin-api-commands.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="plugin-api-permissions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

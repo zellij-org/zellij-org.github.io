@@ -39,6 +39,7 @@
   - [Plugin API](./plugin-api.md)
     - [Events](./plugin-api-events.md)
     - [Commands](./plugin-api-commands.md)
+    - [Type Reference](./plugin-api-types.md)
     - [Permissions](./plugin-api-permissions.md)
     - [Configuration](./plugin-api-configuration.md)
     - [Reading from the Filesystem](./plugin-api-file-system.md)
