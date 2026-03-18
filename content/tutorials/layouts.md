@@ -1,7 +1,7 @@
 ---
 title: "Using Layouts for Personal Automation"
 date: 2022-12-08T19:54:34+01:00
-images: ["/img/tutorial-2-preview.png"]
+images: ["/img/layout-manager-tutorial.png"]
 description: "Learn how to create Zellij layouts to automate tasks and workflows. Video and tutorial covering workspace structuring and automation."
 linktitle: "How to create and use Zellij layouts to automate tasks and workflows"
 ---
@@ -11,6 +11,8 @@ This tutorial walks you through creating Zellij [layouts](/documentation/creatin
 Layouts describe a pre-defined set of panes and tabs with different terminals, commands and plugins. They can be great to automate and formalize workflows and tasks.
 
 If you prefer a [*written tutorial*](#the-goal), or would like to copy/paste the examples, scroll down past this video.
+
+**Note:** Recent Zellij versions added a dedicated [Layout Manager](#automating-this-process-with-the-layout-manager) UI to help us more easily manage layouts. See below for more details.
 
 {{<video-left-aligned "/video/layouts-screencast.mp4">}}
 
@@ -26,6 +28,7 @@ The layout we're creating is for a default Rust project. Rust is used as an exam
 - [Edit and Command Panes](#edit-and-command-panes)
 - [Changing Pane Orientation](#changing-pane-orientation)
 - [Avoiding Repetition with Pane Templates](#avoiding-repetition-with-pane-templates)
+- [Automating this process with the Layout Manager](#automating-this-process-with-the-layout-manager)
 - [Do you like Zellij?](#do-you-like-zellij-)
 
 ## Getting Started
@@ -54,6 +57,9 @@ zellij action new-tab -l /path/to/basic-rust-layout.kdl
 {{<figure src="/img/tutorial-2-layout-1.png" class="center" style="max-width 995px;" alt="Zellij with a single empty terminal pane from an empty layout file">}}
 
 Here we are greeted with one terminal window, which is the default single-pane for an empty layout file.
+
+### Layout Manager
+If we desire a friendly UI, we can also use the [Layout Manager](#automating-this-process-with-the-layout-manager), see below for more info.
 
 ## Edit and Command Panes
 Let's add some content to our layout. First, let's add an `edit` pane:
@@ -220,6 +226,17 @@ layout {
     }
 }
 ```
+
+## Automating this Process with the Layout Manager
+{{<figure src="/img/layout-manager-tutorial.png" class="center" style="max-width 995px;" alt="An image of the Zellij Layout Manager UI">}}
+In recent Zellij versions, a dedicated UI is provided for managing layouts. It can be opened with `Ctrl o` + `l`.
+
+The Layout Manager allows us to:
+1. Save the current session or tab as a new layout (through the `Esc` more options menu)
+2. Open existing layouts as new tabs (by choosing a layout and pressing `Enter`)
+3. Override the current session or tab with one of our saved layouts (through the `Esc` more options menu by choosing a layout and pressing `Alt w`).
+
+When overriding the current session, we can reach situations where we have panes opened that do not fit our layout. We can choose what to do with those panes with the advanced `?` options. We can choose to retain only the extra terminal panes (useful if we have running processes that we'd like to keep), only the extra plugin panes (useful if our layout does not include a UI and we'd like to keep the one we have open), or both.
 
 ## Conclusion and Further Reading
 Here we learned how to create a basic layout to facilitate working with a Rust project through the terminal. There are plenty additional layout features to explore, such as tabs, tab_templates and cwd composition. Check out more in the [official docs](/documentation/creating-a-layout.html).

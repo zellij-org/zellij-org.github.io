@@ -16,6 +16,8 @@ This tutorial will demonstrate how to set up and use the web client locally.
 ## What we'll cover
 - [What is the Zellij Web Client?](#practical-workflow-example)
 - [How to set it up?](#how-stacked-resize-works)
+- [Setting up HTTPS](#setting-up-https-recommended)
+- [Read-only Tokens](#read-only-tokens)
 - [Do you like Zellij? ❤️](#do-you-like-zellij-)
 
 ## What is the Zellij Web Client?
@@ -60,6 +62,10 @@ To setup an SSL certificate, you can use a free tool such as [`mkcert`](https://
 web_server_cert "/home/aram/.certs/localhost+3.pem"
 web_server_key "/home/aram/.certs/localhost+3-key.pem"
 ```
+
+## Read-only Tokens
+It's possible to create special "read-only" authentication tokens. When a user logs in with these tokens, they are not able to affect the session in any way - only to observe it. This can be useful for demonstrations, screencasts or teaching. We can create read-only tokens through the `share` plugin's token screen or from the CLI with: `zellij web --create-read-only-token`.
+
 
 ## Do you like Zellij? ❤️
 Me too. So much so that I spend 100% of my time developing and maintaining it and have no other income.
