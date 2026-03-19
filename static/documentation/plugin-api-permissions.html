@@ -177,6 +177,14 @@ Plugins who want to listen to these events or use these commands should prompt t
 <p>Control (start, stop, get status, manage login tokens) the Zellij <a href="./web-client.html">web-server</a></p>
 <h3 id="interceptinput"><a class="header" href="#interceptinput">InterceptInput</a></h3>
 <p>Intercept user input (eg. keypresses), having all of this input sent to the plugin instead.</p>
+<h3 id="readpanecontents"><a class="header" href="#readpanecontents">ReadPaneContents</a></h3>
+<p>Read the rendered contents of terminal panes. Required for subscribing to <code>PaneRenderReport</code> and <code>PaneRenderReportWithAnsi</code> events.</p>
+<h3 id="runactionsasuser"><a class="header" href="#runactionsasuser">RunActionsAsUser</a></h3>
+<p>Execute Zellij actions as if they were performed by the user. Required for the <code>run_action</code> plugin API command.</p>
+<h3 id="writetoclipboard"><a class="header" href="#writetoclipboard">WriteToClipboard</a></h3>
+<p>Write text directly to the user's clipboard.</p>
+<h3 id="readsessionenvironmentvariables"><a class="header" href="#readsessionenvironmentvariables">ReadSessionEnvironmentVariables</a></h3>
+<p>Read environment variables from the session context.</p>
 
                     </main>
 

@@ -6,7 +6,11 @@ function _exists {
 }
 
 if $(_exists mdbook) && $(_exists hugo); then
-    { mdbook watch docs/ -d ../static/documentation & hugo server; }
+    mdbook build docs/ -d ../static/documentation
+    mdbook watch docs/ -d ../static/documentation &
+    MDBOOK_PID=$!
+    trap "kill $MDBOOK_PID 2>/dev/null" EXIT INT TERM
+    hugo server
     exit 0
 fi
 

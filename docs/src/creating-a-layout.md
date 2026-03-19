@@ -259,6 +259,39 @@ layout {
 }
 ```
 
+#### default_fg
+`default_fg` is a pane argument that sets the default foreground color for the pane. The color is specified as a quoted string in hex (eg. `"#00e000"`) or rgb notation (eg. `"rgb:00/e0/00"`).
+
+**Possible values:** `"#rrggbb"` | `"rgb:rr/gg/bb"`
+
+eg.
+```javascript
+layout {
+    pane default_fg="#00e000"
+    pane {
+        default_fg "#ff5500"
+    }
+}
+```
+
+#### default_bg
+`default_bg` is a pane argument that sets the default background color for the pane. The color is specified as a quoted string in hex (eg. `"#001a3a"`) or rgb notation (eg. `"rgb:00/1a/3a"`).
+
+**Possible values:** `"#rrggbb"` | `"rgb:rr/gg/bb"`
+
+eg.
+```javascript
+layout {
+    pane default_bg="#001a3a"
+    pane {
+        default_bg "rgb:00/1a/3a"
+        default_fg "#ffffff"
+    }
+}
+```
+
+These properties can be used together to create visually distinct panes (e.g., to highlight a specific command pane or to differentiate between environments). They can also be set at runtime via the `SetPaneColor` keybinding action or `zellij action set-pane-color` CLI command.
+
 #### stacked
 If `true`, this pane property dictates that the children panes of this pane will be arranged in a stack.
 

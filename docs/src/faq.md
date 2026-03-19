@@ -61,6 +61,22 @@ You can also embed a floating pane with `Ctrl + <p> + <e>`, and float an embedde
 ## How can I switch between sessions or launch a new session from within Zellij?
 You can use the built-in `session-manager`. By default, launch it with `Ctrl o` + `w`.
 
+## Does Zellij run on Windows?
+Yes. Zellij runs natively on Windows. The following differences apply compared to Linux/macOS:
+
+- **IPC**: Named pipes (`\\.\pipe\...`) are used instead of Unix domain sockets. The maximum socket path length is 256 characters (vs 108 on Unix).
+- **PTY**: Windows pseudo-terminals (ConPTY) are used instead of Unix PTYs.
+- **Web Server**: The built-in web server is fully functional on Windows, including the `--daemonize` flag which uses a `--server-startup-timeout` option (default: 10 seconds) for background server startup.
+
+## Can I upgrade Zellij without losing my running sessions?
+Yes. Sessions persist across Zellij version upgrades. The IPC contract uses protocol buffers and the socket directory uses a versioned path (`contract_version_1`) rather than per-Zellij-version directories. Sessions created by one Zellij version can be attached to by another version, as long as the contract version remains the same.
+
+The socket directory is located at:
+- **Linux/macOS**: `$XDG_RUNTIME_DIR/zellij/contract_version_1/` (or equivalent)
+- **Windows**: Named pipes under the `contract_version_1` namespace
+
+**Note for script authors:** If existing scripts reference the old per-version socket paths, they should be updated to use the new `contract_version_1` path structure.
+
 ## Editing the pane scrollbuffer with `ctrl + <s> + <e>` doesn't work, what's wrong?
 
 By default, Zellij looks for an editor defined in the `EDITOR` or `VISUAL` environment variables (in this order).

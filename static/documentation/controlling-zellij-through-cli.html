@@ -166,9 +166,16 @@
 <li><a href="./cli-actions.html">Zellij Action</a> - Full reference of all <code>zellij action</code> subcommands for controlling panes, tabs, layouts, and more</li>
 <li><a href="./zellij-plugin-and-pipe.html">Zellij Plugin &amp; Pipe</a> - Load plugins and send data to them from the command line</li>
 <li><a href="./zellij-subscribe.html">Zellij Subscribe</a> - Stream the rendered output of one or more panes to stdout in real time</li>
+<li><a href="#zellij-watch">Zellij Watch</a> - Watch a session in read-only mode</li>
 <li><a href="./cli-recipes.html">CLI Recipes &amp; Scripting</a> - Task-oriented examples and common workflows for scripting with Zellij</li>
 <li><a href="./programmatic-control.html">Programmatic Control</a> - Patterns for non-interactive, machine-driven control of Zellij sessions</li>
 </ul>
+<hr />
+<h3 id="zellij-watch"><a class="header" href="#zellij-watch">Zellij Watch</a></h3>
+<p>The <code>zellij watch</code> command provides a read-only view of a session:</p>
+<pre><code>$ zellij watch my-session-name
+</code></pre>
+<p>This attaches to the specified session in read-only mode - the terminal output is visible but no input can be sent.</p>
 <hr />
 <h3 id="completions"><a class="header" href="#completions">Completions</a></h3>
 <p>For convenience, zellij provides cli completions for popular shells.</p>

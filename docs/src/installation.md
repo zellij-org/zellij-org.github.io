@@ -40,9 +40,9 @@ cargo binstall zellij
 
 ## Binary Download
 
-Binaries are made available each release for the Linux and MacOS operating systems.
+Pre-built binaries are available each release for Linux, macOS, and Windows on the [release page](https://github.com/zellij-org/zellij/releases).
 
-It is possible to download the binaries for these on the [release](https://github.com/zellij-org/zellij/releases) page.
+### Linux / macOS
 
 Once downloaded, untar the file:
 ```
@@ -66,6 +66,10 @@ Include the directory Zellij is in, in your [PATH Variable](https://www.baeldung
 'Or'
 
 move Zellij to a directory already included in your [$PATH] Variable.
+
+### Windows
+
+Download the Windows binary from the [release page](https://github.com/zellij-org/zellij/releases), extract it, and run `zellij.exe` from a terminal (e.g., PowerShell or Windows Terminal).
 
 -------------------------------
 

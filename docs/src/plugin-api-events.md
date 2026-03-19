@@ -985,6 +985,8 @@ Event::PluginConfigurationChanged(BTreeMap<String, String>)
 
 Fired when the plugin's configuration is modified at runtime. No permission is required.
 
+**Important caveat:** When plugin configuration changes at runtime, the plugin's identity (used for pipe messages and self-referencing) remains tied to the original configuration at load time. This means that if another plugin or CLI pipe targets this plugin by its configuration, the original configuration values must be used, not the updated ones. Plugin developers should account for this when designing configuration-dependent communication patterns.
+
 **Example:**
 
 ```rust

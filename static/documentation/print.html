@@ -185,8 +185,8 @@
 </code></pre>
 <hr />
 <h2 id="binary-download"><a class="header" href="#binary-download">Binary Download</a></h2>
-<p>Binaries are made available each release for the Linux and MacOS operating systems.</p>
-<p>It is possible to download the binaries for these on the <a href="https://github.com/zellij-org/zellij/releases">release</a> page.</p>
+<p>Pre-built binaries are available each release for Linux, macOS, and Windows on the <a href="https://github.com/zellij-org/zellij/releases">release page</a>.</p>
+<h3 id="linux--macos"><a class="header" href="#linux--macos">Linux / macOS</a></h3>
 <p>Once downloaded, untar the file:</p>
 <pre><code>tar -xvf zellij*.tar.gz
 </code></pre>
@@ -199,6 +199,8 @@
 <p>Include the directory Zellij is in, in your <a href="https://www.baeldung.com/linux/path-variable">PATH Variable</a> if you wish to be able to execute it anywhere.</p>
 <p>'Or'</p>
 <p>move Zellij to a directory already included in your [$PATH] Variable.</p>
+<h3 id="windows"><a class="header" href="#windows">Windows</a></h3>
+<p>Download the Windows binary from the <a href="https://github.com/zellij-org/zellij/releases">release page</a>, extract it, and run <code>zellij.exe</code> from a terminal (e.g., PowerShell or Windows Terminal).</p>
 <hr />
 <h2 id="compiling-zellij-from-source"><a class="header" href="#compiling-zellij-from-source">Compiling Zellij From Source</a></h2>
 <p>Instructions on how to compile Zellij from source can be found <a href="https://github.com/zellij-org/zellij/blob/main/CONTRIBUTING.md">here</a>.</p>
@@ -324,6 +326,21 @@ copy_command: "pbcopy"                     # osx
 <p>You can also embed a floating pane with <code>Ctrl + &lt;p&gt; + &lt;e&gt;</code>, and float an embedded pane in the same way.</p>
 <h2 id="how-can-i-switch-between-sessions-or-launch-a-new-session-from-within-zellij"><a class="header" href="#how-can-i-switch-between-sessions-or-launch-a-new-session-from-within-zellij">How can I switch between sessions or launch a new session from within Zellij?</a></h2>
 <p>You can use the built-in <code>session-manager</code>. By default, launch it with <code>Ctrl o</code> + <code>w</code>.</p>
+<h2 id="does-zellij-run-on-windows"><a class="header" href="#does-zellij-run-on-windows">Does Zellij run on Windows?</a></h2>
+<p>Yes. Zellij runs natively on Windows. The following differences apply compared to Linux/macOS:</p>
+<ul>
+<li><strong>IPC</strong>: Named pipes (<code>\\.\pipe\...</code>) are used instead of Unix domain sockets. The maximum socket path length is 256 characters (vs 108 on Unix).</li>
+<li><strong>PTY</strong>: Windows pseudo-terminals (ConPTY) are used instead of Unix PTYs.</li>
+<li><strong>Web Server</strong>: The built-in web server is fully functional on Windows, including the <code>--daemonize</code> flag which uses a <code>--server-startup-timeout</code> option (default: 10 seconds) for background server startup.</li>
+</ul>
+<h2 id="can-i-upgrade-zellij-without-losing-my-running-sessions"><a class="header" href="#can-i-upgrade-zellij-without-losing-my-running-sessions">Can I upgrade Zellij without losing my running sessions?</a></h2>
+<p>Yes. Sessions persist across Zellij version upgrades. The IPC contract uses protocol buffers and the socket directory uses a versioned path (<code>contract_version_1</code>) rather than per-Zellij-version directories. Sessions created by one Zellij version can be attached to by another version, as long as the contract version remains the same.</p>
+<p>The socket directory is located at:</p>
+<ul>
+<li><strong>Linux/macOS</strong>: <code>$XDG_RUNTIME_DIR/zellij/contract_version_1/</code> (or equivalent)</li>
+<li><strong>Windows</strong>: Named pipes under the <code>contract_version_1</code> namespace</li>
+</ul>
+<p><strong>Note for script authors:</strong> If existing scripts reference the old per-version socket paths, they should be updated to use the new <code>contract_version_1</code> path structure.</p>
 <h2 id="editing-the-pane-scrollbuffer-with-ctrl--s--e-doesnt-work-whats-wrong"><a class="header" href="#editing-the-pane-scrollbuffer-with-ctrl--s--e-doesnt-work-whats-wrong">Editing the pane scrollbuffer with <code>ctrl + &lt;s&gt; + &lt;e&gt;</code> doesn't work, what's wrong?</a></h2>
 <p>By default, Zellij looks for an editor defined in the <code>EDITOR</code> or <code>VISUAL</code> environment variables (in this order).
 Make sure one is set (eg. <code>export EDITOR=/usr/bin/vim</code>) before Zellij starts.
@@ -493,6 +510,7 @@ zellij setup --dump-config &gt; ~/.config/zellij/config.kdl
 <li><a href="options.html#web_server_cert">web_server_cert</a></li>
 <li><a href="options.html#web_server_key">web_server_key</a></li>
 <li><a href="options.html#enforce_https_on_localhost">enforce_https_on_localhost</a></li>
+<li><a href="options.html#base_url">base_url</a></li>
 <li><a href="options.html#web_client">web_client</a></li>
 <li><a href="options.html#advanced_mouse_actions">advanced_mouse_actions</a></li>
 <li><a href="options.html#default_cwd">default_cwd</a></li>
@@ -758,13 +776,27 @@ Options:</p>
 <p>The path to the private_key of te SSL certificate for the Zellij <a href="./web-client.html">web-server</a>. Note: the <code>web_server_cert</code> must also be present for the server to serve itself as HTTPS.</p>
 <h3 id="enforce_https_on_localhost"><a class="header" href="#enforce_https_on_localhost">enforce_https_on_localhost</a></h3>
 <p>Whether to enforce https on localhost for the Zellij <a href="./web-client.html">web-server</a>. This is always enforced when listening on non-localhost addresses.</p>
+<h3 id="base_url"><a class="header" href="#base_url">base_url</a></h3>
+<p>Set the base URL path for the Zellij <a href="./web-client.html">web-server</a>. When set, the web server serves all content under this path prefix. This is useful when running behind a reverse proxy that serves Zellij under a subpath.</p>
+<p>Default: none (served at root "/")</p>
+<pre><code class="language-javascript">web_client {
+    base_url "/zellij"
+}
+</code></pre>
 <h3 id="web_client"><a class="header" href="#web_client">web_client</a></h3>
 <p>Configuration having to do with the in-browser terminal of the Zellij web client (eg. colors, font). For more info, please see: <a href="./web-client.html">web-server</a>.</p>
 <p>Options:
 - true
 - false (default)</p>
 <h3 id="advanced_mouse_actions"><a class="header" href="#advanced_mouse_actions">advanced_mouse_actions</a></h3>
-<p>Whether to enable mouse hover effects and multiple select functionality (pane grouping).</p>
+<p>Whether to enable mouse hover effects, multiple select functionality (pane grouping), and mouse-based pane resizing.</p>
+<p>When enabled, the following mouse interactions are available:</p>
+<ul>
+<li><strong>Drag tiled pane borders</strong>: Click and drag the border between tiled panes to resize them</li>
+<li><strong>Ctrl+Drag floating pane borders</strong>: Hold Ctrl and drag the border of a floating pane to resize it</li>
+<li><strong>Ctrl+ScrollWheel</strong>: Hold Ctrl and scroll the mouse wheel up or down to resize the focused pane (increases/decreases size by approximately 5 cells)</li>
+</ul>
+<p>These interactions are shown as help text in the pane frame when hovering near resizable borders.</p>
 <p>Options:
 - true (default)
 - false</p>
@@ -1040,8 +1072,14 @@ bind "Left" // bind the left arrow key
 </code></pre>
 <h2 id="editscrollback"><a class="header" href="#editscrollback"><code>EditScrollback</code></a></h2>
 <p>Edit the scrollback of the currently focused pane with the user's default editor.</p>
-<p><strong>Possible arguments</strong>: None</p>
+<p><strong>Optional arguments</strong> (in child block):</p>
+<ul>
+<li><code>ansi</code> - <code>true</code> or <code>false</code> (preserve ANSI styling in the scrollback dump, default is <code>false</code>)</li>
+</ul>
 <pre><code class="language-javascript">    bind "a" { EditScrollback; }
+</code></pre>
+<p>or with ANSI styling preserved:</p>
+<pre><code class="language-javascript">    bind "a" { EditScrollback { ansi true; } }
 </code></pre>
 <h2 id="focusnextpane"><a class="header" href="#focusnextpane"><code>FocusNextPane</code></a></h2>
 <p>Change focus to the next pane (order not guaranteed)</p>
@@ -1095,7 +1133,7 @@ bind "Left" // bind the left arrow key
 <li><code>in_place</code> - <code>true</code> or <code>false</code> (open in place of the focused pane, default is <code>false</code>)</li>
 <li><code>close_replaced_pane</code> - <code>true</code> or <code>false</code> (when using <code>in_place</code>, close the replaced pane instead of suspending it, default is <code>false</code>)</li>
 <li><code>move_to_focused_tab</code> - <code>true</code> or <code>false</code> (if the plugin is already running, move it to the focused tab, default is <code>false</code>)</li>
-<li><code>skip_plugin_cache</code> - <code>true</code> or <code>false</code> (force re-compilation of the plugin, default is <code>false</code>)</li>
+<li><code>skip_plugin_cache</code> - <code>true</code> or <code>false</code> (skip the plugin cache and force reloading, default is <code>false</code>)</li>
 </ul>
 <pre><code class="language-javascript">    bind "a" {
         LaunchOrFocusPlugin "zellij:strider" {
@@ -1119,7 +1157,7 @@ bind "Left" // bind the left arrow key
 <li><code>floating</code> - <code>true</code> or <code>false</code> (default is <code>false</code>)</li>
 <li><code>in_place</code> - <code>true</code> or <code>false</code> (open in place of the focused pane, default is <code>false</code>)</li>
 <li><code>close_replaced_pane</code> - <code>true</code> or <code>false</code> (when using <code>in_place</code>, close the replaced pane instead of suspending it, default is <code>false</code>)</li>
-<li><code>skip_plugin_cache</code> - <code>true</code> or <code>false</code> (force re-compilation of the plugin, default is <code>false</code>)</li>
+<li><code>skip_plugin_cache</code> - <code>true</code> or <code>false</code> (skip the plugin cache and force reloading, default is <code>false</code>)</li>
 <li>Additional key-value pairs are passed as plugin user configuration</li>
 </ul>
 <pre><code class="language-javascript">    bind "a" {
@@ -1135,7 +1173,7 @@ bind "Left" // bind the left arrow key
 <p><strong>Required arguments</strong>: None (with no options specified, this keybind will send an empty message to all plugins)</p>
 <p><strong>Optional arguments:</strong>:
 - <code>launch_new</code> (<code>true/false</code>): force a new plugin to launch even if one is already running
-- <code>skip_cache</code> (<code>true/false</code>): force re-compilation (and re-download if the plugin is http), even if the plugin is already running or cached
+- <code>skip_cache</code> (<code>true/false</code>): skip the plugin cache and force reloading (and re-download if the plugin is http), even if the plugin is already running or cached
 - <code>floating</code> (<code>true/false</code>): if launching a new plugin, should it be floating or tiled
 - <code>in_place</code> (<code>true/false</code>): if launching a new plugin, open it in place of the focused pane
 - <code>name</code> (<code>String</code>): The name of the message
@@ -1216,6 +1254,7 @@ bind "Left" // bind the left arrow key
 <p>or open a stacked pane:</p>
 <pre><code class="language-javascript">    bind "a" { NewPane "Stacked"; }
 </code></pre>
+<p><strong>Note</strong>: For more advanced pane creation options (floating coordinates, borderless, close-on-exit, cwd, etc.), use the <a href="keybindings-possible-actions.html#run"><code>Run</code></a> keybinding action instead.</p>
 <h2 id="newtab"><a class="header" href="#newtab"><code>NewTab</code></a></h2>
 <p>Open a new tab</p>
 <p><strong>Possible arguments</strong>: <code>cwd</code></p>
@@ -1283,7 +1322,6 @@ bind "Left" // bind the left arrow key
 <li><code>x</code>, <code>y</code>, <code>width</code>, <code>height</code> - floating pane coordinates (when <code>floating</code> is <code>true</code>)</li>
 <li><code>pinned</code> - <code>true</code> or <code>false</code> (pin the floating pane, when <code>floating</code> is <code>true</code>)</li>
 <li><code>borderless</code> - <code>true</code> or <code>false</code> (hide the pane border)</li>
-<li><code>near_current_pane</code> - <code>true</code> or <code>false</code> (open near the current pane rather than following focus)</li>
 </ul>
 <pre><code class="language-javascript">    // will run "tail -f /tmp/foo" in a pane opened below the focused one
     bind "a" {
@@ -1676,6 +1714,9 @@ bind "Left" // bind the left arrow key
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="command-line-configuration-options"><a class="header" href="#command-line-configuration-options">Command Line Configuration Options</a></h1>
 <p>In addition to the <a href="./configuration.html">configuration file</a>, zellij can also be configured through the command line when running it. These options will override options in the configuration file.</p>
+<blockquote>
+<p><strong>Migration Note:</strong> The <code>--disable-mouse-mode</code> and <code>--no-pane-frames</code> flags have been removed. Use <code>--mouse-mode false</code> (equivalent of <code>--disable-mouse-mode</code>) and <code>--pane-frames false</code> (equivalent of <code>--no-pane-frames</code>) instead.</p>
+</blockquote>
 <pre><code>USAGE:
     zellij options [OPTIONS]
 
@@ -1703,7 +1744,7 @@ OPTIONS:
             Set the default shell
 
         --disable-mouse-mode
-            Disable handling of mouse events
+            Disable handling of mouse events (REMOVED - use --mouse-mode false instead)
 
             Print help information
 
@@ -1719,7 +1760,7 @@ OPTIONS:
             [SHIFT] key [possible values: true, false]
 
         --no-pane-frames
-            Disable display of pane frames
+            Disable display of pane frames (REMOVED - use --pane-frames false instead)
 
         --on-force-close &lt;ON_FORCE_CLOSE&gt;
             Set behaviour on force close (quit or detach)
@@ -1769,9 +1810,16 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 <li><a href="./cli-actions.html">Zellij Action</a> - Full reference of all <code>zellij action</code> subcommands for controlling panes, tabs, layouts, and more</li>
 <li><a href="./zellij-plugin-and-pipe.html">Zellij Plugin &amp; Pipe</a> - Load plugins and send data to them from the command line</li>
 <li><a href="./zellij-subscribe.html">Zellij Subscribe</a> - Stream the rendered output of one or more panes to stdout in real time</li>
+<li><a href="controlling-zellij-through-cli.html#zellij-watch">Zellij Watch</a> - Watch a session in read-only mode</li>
 <li><a href="./cli-recipes.html">CLI Recipes &amp; Scripting</a> - Task-oriented examples and common workflows for scripting with Zellij</li>
 <li><a href="./programmatic-control.html">Programmatic Control</a> - Patterns for non-interactive, machine-driven control of Zellij sessions</li>
 </ul>
+<hr />
+<h3 id="zellij-watch"><a class="header" href="#zellij-watch">Zellij Watch</a></h3>
+<p>The <code>zellij watch</code> command provides a read-only view of a session:</p>
+<pre><code>$ zellij watch my-session-name
+</code></pre>
+<p>This attaches to the specified session in read-only mode - the terminal output is visible but no input can be sent.</p>
 <hr />
 <h3 id="completions"><a class="header" href="#completions">Completions</a></h3>
 <p>For convenience, zellij provides cli completions for popular shells.</p>
@@ -2176,7 +2224,7 @@ $ zellij action hide-floating-panes --tab-id 3
         --close-replaced-pane      Close the replaced pane (requires --in-place)
     -m, --move-to-focused-tab      Move the plugin to the focused tab if already running
     -c, --configuration &lt;CONFIG&gt;   Plugin configuration (key=value pairs)
-    -s, --skip-plugin-cache        Skip the plugin cache and force re-compilation
+    -s, --skip-plugin-cache        Skip the plugin cache and force reloading
 </code></pre>
 <p>eg.</p>
 <pre><code>zellij action launch-or-focus-plugin zellij:strider --floating
@@ -2190,7 +2238,7 @@ zellij action launch-or-focus-plugin zellij:strider --in-place --move-to-focused
     -i, --in-place                 Open in place of the focused pane
         --close-replaced-pane      Close the replaced pane (requires --in-place)
     -c, --configuration &lt;CONFIG&gt;   Plugin configuration (key=value pairs)
-    -s, --skip-plugin-cache        Skip the plugin cache and force re-compilation
+    -s, --skip-plugin-cache        Skip the plugin cache and force reloading
 </code></pre>
 <p>eg.</p>
 <pre><code>zellij action launch-plugin file:/path/to/plugin.wasm --floating
@@ -2434,6 +2482,9 @@ $ zellij action move-tab left --tab-id 3
         --pinned &lt;PINNED&gt;              Pin the floating pane (requires --floating)
         --stacked                      Open in stacked mode (conflicts with --floating/--direction)
     -b, --blocking                     Block until the pane exits
+        --block-until-exit-success     Block until the command exits with status 0
+        --block-until-exit-failure     Block until the command exits with non-zero status
+        --block-until-exit             Block until the command exits regardless of status
         --near-current-pane            Open near the current pane rather than following focus
         --borderless &lt;BORDERLESS&gt;      Start without a border
 </code></pre>
@@ -2525,7 +2576,7 @@ $ zellij action override-layout /path/to/layout.kdl --retain-existing-terminal-p
     -p, --plugin &lt;PLUGIN&gt;                    Plugin URL to direct the pipe to
     -c, --plugin-configuration &lt;CONFIG&gt;      Plugin configuration (key=value pairs)
     -l, --force-launch-plugin                Launch a new plugin even if one is already running
-    -s, --skip-plugin-cache                  Force re-compilation of the plugin
+    -s, --skip-plugin-cache                  Skip the plugin cache and force reloading
     -f, --floating-plugin &lt;BOOL&gt;             Whether the launched plugin should be floating
     -i, --in-place-plugin &lt;BOOL&gt;             Launch plugin in place (conflicts with --floating-plugin)
     -w, --plugin-cwd &lt;CWD&gt;                   Working directory for the launched plugin
@@ -2827,7 +2878,7 @@ $ zellij action switch-session my-session --tab-position 2 --layout /path/to/lay
             Open the new pane in place of the current pane, temporarily suspending it
 
     -s, --skip-plugin-cache
-            Skip the memory and HD cache and force recompile of the plugin (good for development)
+            Skip the plugin cache and force reloading of the plugin (good for development)
 
         --width &lt;WIDTH&gt;
             The width if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
@@ -3756,6 +3807,14 @@ layout {
 <p>Layouts residing in the default directory can be accessed by their bare name:</p>
 <pre><code>zellij --layout [layout_name]
 </code></pre>
+<h3 id="runtime-layout-override"><a class="header" href="#runtime-layout-override">Runtime Layout Override</a></h3>
+<p>The layout of a running tab can be overridden without restarting the session. This is done via the <code>override-layout</code> CLI action or the <code>OverrideLayout</code> keybinding action:</p>
+<pre><code>$ zellij action override-layout /path/to/new-layout.kdl
+</code></pre>
+<p>Options allow retaining existing panes that do not fit the new layout:</p>
+<pre><code>$ zellij action override-layout /path/to/layout.kdl --retain-existing-terminal-panes --apply-only-to-active-tab
+</code></pre>
+<p>This enables dynamic workspace reorganization. For the full reference, see <a href="./cli-actions.html#override-layout">override-layout in CLI actions</a> and <a href="./keybindings-possible-actions.html#overridelayout">OverrideLayout in keybinding actions</a>.</p>
 <h3 id="layout-configuration-language"><a class="header" href="#layout-configuration-language">Layout Configuration Language</a></h3>
 <p>Zellij uses <a href="https://kdl.dev">KDL</a> as its configuration language.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="creating-a-layout"><a class="header" href="#creating-a-layout">Creating a Layout</a></h1>
@@ -3950,6 +4009,30 @@ layout {
     }
 }
 </code></pre>
+<h4 id="default_fg"><a class="header" href="#default_fg">default_fg</a></h4>
+<p><code>default_fg</code> is a pane argument that sets the default foreground color for the pane. The color is specified as a quoted string in hex (eg. <code>"#00e000"</code>) or rgb notation (eg. <code>"rgb:00/e0/00"</code>).</p>
+<p><strong>Possible values:</strong> <code>"#rrggbb"</code> | <code>"rgb:rr/gg/bb"</code></p>
+<p>eg.</p>
+<pre><code class="language-javascript">layout {
+    pane default_fg="#00e000"
+    pane {
+        default_fg "#ff5500"
+    }
+}
+</code></pre>
+<h4 id="default_bg"><a class="header" href="#default_bg">default_bg</a></h4>
+<p><code>default_bg</code> is a pane argument that sets the default background color for the pane. The color is specified as a quoted string in hex (eg. <code>"#001a3a"</code>) or rgb notation (eg. <code>"rgb:00/1a/3a"</code>).</p>
+<p><strong>Possible values:</strong> <code>"#rrggbb"</code> | <code>"rgb:rr/gg/bb"</code></p>
+<p>eg.</p>
+<pre><code class="language-javascript">layout {
+    pane default_bg="#001a3a"
+    pane {
+        default_bg "rgb:00/1a/3a"
+        default_fg "#ffffff"
+    }
+}
+</code></pre>
+<p>These properties can be used together to create visually distinct panes (e.g., to highlight a specific command pane or to differentiate between environments). They can also be set at runtime via the <code>SetPaneColor</code> keybinding action or <code>zellij action set-pane-color</code> CLI command.</p>
 <h4 id="stacked"><a class="header" href="#stacked">stacked</a></h4>
 <p>If <code>true</code>, this pane property dictates that the children panes of this pane will be arranged in a stack.</p>
 <p>In a stack of panes, all panes except one have just one line - showing their title (and their scroll and exit code when relevant). The focused pane among these is displayed normally as any other pane.</p>
@@ -5401,6 +5484,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong> <code>BTreeMap&lt;String, String&gt;</code> - the updated configuration key-value pairs</p>
 <p>Fired when the plugin's configuration is modified at runtime. No permission is required.</p>
+<p><strong>Important caveat:</strong> When plugin configuration changes at runtime, the plugin's identity (used for pipe messages and self-referencing) remains tied to the original configuration at load time. This means that if another plugin or CLI pipe targets this plugin by its configuration, the original configuration values must be used, not the updated ones. Plugin developers should account for this when designing configuration-dependent communication patterns.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -9385,6 +9469,14 @@ Plugins who want to listen to these events or use these commands should prompt t
 <p>Control (start, stop, get status, manage login tokens) the Zellij <a href="./web-client.html">web-server</a></p>
 <h3 id="interceptinput"><a class="header" href="#interceptinput">InterceptInput</a></h3>
 <p>Intercept user input (eg. keypresses), having all of this input sent to the plugin instead.</p>
+<h3 id="readpanecontents"><a class="header" href="#readpanecontents">ReadPaneContents</a></h3>
+<p>Read the rendered contents of terminal panes. Required for subscribing to <code>PaneRenderReport</code> and <code>PaneRenderReportWithAnsi</code> events.</p>
+<h3 id="runactionsasuser"><a class="header" href="#runactionsasuser">RunActionsAsUser</a></h3>
+<p>Execute Zellij actions as if they were performed by the user. Required for the <code>run_action</code> plugin API command.</p>
+<h3 id="writetoclipboard"><a class="header" href="#writetoclipboard">WriteToClipboard</a></h3>
+<p>Write text directly to the user's clipboard.</p>
+<h3 id="readsessionenvironmentvariables"><a class="header" href="#readsessionenvironmentvariables">ReadSessionEnvironmentVariables</a></h3>
+<p>Read environment variables from the session context.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api---configuration"><a class="header" href="#plugin-api---configuration">Plugin API - Configuration</a></h1>
 <p>Plugins can be configured (have their behavior changed when instantiated) with an arbitrary key/value list.
 This configuration is available to plugins in their <code>load</code> method. It can be provided through layouts:</p>
@@ -9726,23 +9818,28 @@ Example:</p>
 <p>Zellij loads this compact bar with a height of <code>1</code> and a width the size of the user's full screen. Zellij has no other expectations from this plugin, even though users will probably expect at least the input mode and the tabs be shown.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-session-manager-alias"><a class="header" href="#the-session-manager-alias">The session-manager alias</a></h1>
 <p>This alias, by default translated to the internal <code>zellij:session-manager</code> plugin url, represents the session-manager loaded by default with <code>Ctrl o</code> + <code>w</code>.</p>
-<h2 id="contract-4"><a class="header" href="#contract-4">Contract</a></h2>
-<p>Zellij loads the session-manager as a floating pane as part of the default keybindings.</p>
-<h2 id="user-expectations"><a class="header" href="#user-expectations">User expectations</a></h2>
-<p>Users will likely expect the session-manager to:</p>
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>The session manager provides a centralized interface for managing all Zellij sessions. It is loaded as a floating pane as part of the default keybindings.</p>
+<h2 id="features"><a class="header" href="#features">Features</a></h2>
+<p>The session manager allows the user to:</p>
 <ol>
-<li>Allow them to switch between active sessions</li>
-<li>Allow them to resurrect exited sessions</li>
-<li>Allow them to start a new session</li>
-<li>Allow them to rename the current session</li>
-<li>Allow them to disconnect other users (clients) in the current session</li>
-<li>Allow them to kill active sessions and permanently delete exited sessions</li>
+<li><strong>Switch between active sessions</strong> - Browse and switch to any running session</li>
+<li><strong>Resurrect exited sessions</strong> - Bring back previously closed sessions with their full layout and commands</li>
+<li><strong>Start new sessions</strong> - Create new sessions with optional names and layouts</li>
+<li><strong>Rename the current session</strong> - Change the name of the active session</li>
+<li><strong>Disconnect other clients</strong> - Disconnect other users connected to the current session</li>
+<li><strong>Kill and delete sessions</strong> - Kill active sessions or permanently delete exited sessions</li>
+<li><strong>View session metadata</strong> - See tab counts, connected clients, and other session information</li>
+<li><strong>Web sharing controls</strong> - Start/stop the web server and manage sharing settings from within the session manager</li>
 </ol>
+<h2 id="contract-4"><a class="header" href="#contract-4">Contract</a></h2>
+<p>Zellij loads the session-manager as a floating pane. Plugins implementing this alias should expect to be loaded in floating mode and should provide a navigable interface for the features listed above.</p>
+<p>The session-manager is a built-in plugin and can be replaced by specifying a different plugin URL for the <code>session-manager</code> alias in the <a href="./configuration.html">configuration</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-welcome-screen-alias"><a class="header" href="#the-welcome-screen-alias">The welcome-screen alias</a></h1>
 <p>This alias, by default translated to the internal <code>zellij:session-manager</code> plugin url with the <code>welcome_screen true</code> configuration, is loaded on startup when the built-in <code>welcome</code> <a href="./layouts.html">layout</a> is loaded with <code>zellij -l welcome</code>.</p>
 <h2 id="contract-5"><a class="header" href="#contract-5">Contract</a></h2>
 <p>Zellij loads the welcome-screen fullscreened without any other UI. It expects the plugin to close itself (and thus the session) once the user starts a new session, switches to a new session or resurrects an exited session.</p>
-<h2 id="user-expectations-1"><a class="header" href="#user-expectations-1">User expectations</a></h2>
+<h2 id="user-expectations"><a class="header" href="#user-expectations">User expectations</a></h2>
 <p>Users will likely expect the welcome-screen to:</p>
 <ol>
 <li>Allow them to attach to an existing session</li>
@@ -9769,7 +9866,7 @@ Example:</p>
 <li>Output the the path the user chose as clear text with the <a href="./plugin-api-commands.html#cli_pipe_output"><code>cli_pipe_output</code></a> command.</li>
 <li>Unblock the CLI pipe input once the user chose a path with <a href="./plugin-api-commands.html#unblock_cli_pipe_input"><code>unblock_cli_pipe_input</code></a>.</li>
 </ol>
-<h2 id="user-expectations-2"><a class="header" href="#user-expectations-2">User expectations</a></h2>
+<h2 id="user-expectations-1"><a class="header" href="#user-expectations-1">User expectations</a></h2>
 <p>The user will likely expect the plugin to either close itself or hide itself once the file has been chosen, so their focus will return the pane which originated this request (be it another plugin or a terminal if this request was made through a CLI pipe).</p>
 <h2 id="example-2"><a class="header" href="#example-2">Example</a></h2>
 <p>See <a href="https://github.com/zellij-org/zellij/blob/main/default-plugins/strider/src/main.rs#L129">the strider plugin's implementation</a>.</p>
@@ -9881,6 +9978,13 @@ web_server_cert "/path/to/my/certs/localhost+3.pem" // SSL certificate
 web_server_key "/path/to/my/certs/localhost+3-key.pem" // SSL private key
 enforce_https_on_localhost true // whether to enforce an https certificate being present also when listening on localhost (default: false)
 </code></pre>
+<h3 id="base_url-1"><a class="header" href="#base_url-1"><code>base_url</code></a></h3>
+<p>The <code>base_url</code> option configures the base URL path for the web server. This is useful when running Zellij behind a reverse proxy that serves it under a subpath.</p>
+<pre><code class="language-javascript">web_client {
+    base_url "/zellij" // default: none (served at root "/")
+}
+</code></pre>
+<p>When set, the web server will serve all content under this path prefix (e.g., <code>https://my-server/zellij/my-session</code>). See also <a href="./options.html#base_url">options</a>.</p>
 <p>It's also possible to configure the browser terminal itself:</p>
 <pre><code class="language-javascript">web_client {
   font "Iosevka Term" // default is "monospace" - deferring this decision to the browser/os
@@ -9922,6 +10026,55 @@ enforce_https_on_localhost true // whether to enforce an https certificate being
 <p>The Zellij web server is security and privacy conscious, enforcing HTTPS if accessed over the network and authentication at all times. It is however recommended to place the server behind a reverse proxy (such as <code>nginx</code>) if exposing it to an untrusted network (eg. the Internet). This is because the web server does not provide its own rate-limiting to mitigate denial of service and similar attacks.</p>
 <p>In its security model, the web-server assumes that <strong>authenticated users are trusted</strong>. This is because the server can only serve terminal sessions of a single particular user on a single particular machine. This user by-definition has access to start/stop the web server itself, as well as access sensitive information on the machine by nature of this being a terminal session.</p>
 <p>The web server only saves session-tokens (not the actual log-in tokens) in the browser as cookies, preventing javascript access to them and instead relying on http headers to authenticate them on the server side. Whenever an authentication token is revoked, all of its associated session tokens are revoked as well.</p>
+<h2 id="remote-terminal-attach"><a class="header" href="#remote-terminal-attach">Remote Terminal Attach</a></h2>
+<p>In addition to browser-based access, Zellij sessions can be attached remotely from another terminal using <code>zellij attach</code> with an HTTPS URL:</p>
+<pre><code>$ zellij attach https://my-server:8082/my-session
+</code></pre>
+<p>This connects to the remote Zellij web server and attaches to the specified session directly in the local terminal, without requiring a browser. Authentication is required via the <code>--token</code> flag:</p>
+<pre><code>$ zellij attach https://my-server:8082/my-session --token &lt;login-token&gt;
+</code></pre>
+<p>Use <code>--remember</code> to save the credentials locally for 4 weeks (avoiding repeated token entry):</p>
+<pre><code>$ zellij attach https://my-server:8082/my-session --token &lt;login-token&gt; --remember
+</code></pre>
+<p>Use <code>--forget</code> to clear previously saved credentials for a remote server:</p>
+<pre><code>$ zellij attach https://my-server:8082 --forget
+</code></pre>
+<p>A custom CA certificate can be specified with <code>--ca-cert</code>:</p>
+<pre><code>$ zellij attach https://my-server:8082/my-session --ca-cert /path/to/ca.pem
+</code></pre>
+<h3 id="self-signed-certificates"><a class="header" href="#self-signed-certificates">Self-Signed Certificates</a></h3>
+<p>Self-signed certificates are rejected by default. To connect to a server using a self-signed certificate, the <code>--insecure</code> flag must be passed:</p>
+<pre><code>$ zellij attach https://my-server:8082/my-session --insecure
+</code></pre>
+<p><strong>WARNING:</strong> The <code>--insecure</code> flag skips TLS certificate validation entirely. It should only be used for development or in trusted network environments.</p>
+<h2 id="read-only-tokens"><a class="header" href="#read-only-tokens">Read-Only Tokens</a></h2>
+<p>In addition to regular login tokens, read-only tokens can be created. Users authenticating with a read-only token can view sessions but cannot send input or interact with them.</p>
+<p>Read-only tokens can be created from the CLI:</p>
+<pre><code>$ zellij web --create-read-only-token
+</code></pre>
+<p>Or with an optional name:</p>
+<pre><code>$ zellij web --create-read-only-token --token-name "observer-token"
+</code></pre>
+<p>Read-only tokens are managed in the same way as regular tokens - they can be listed with <code>--list-tokens</code> and revoked with <code>--revoke-token</code>.</p>
+<h2 id="server-status"><a class="header" href="#server-status">Server Status</a></h2>
+<p>The status of the Zellij web server can be queried from the CLI:</p>
+<pre><code>$ zellij web --status
+</code></pre>
+<p>This reports whether the server is online or offline, and if online, the base URL it is listening on.</p>
+<p>Optional flags:</p>
+<ul>
+<li><code>--timeout &lt;seconds&gt;</code> - Timeout in seconds for the status check (default: 30)</li>
+<li><code>--ip &lt;IP&gt;</code> - IP address to check (defaults to the configured address)</li>
+<li><code>--port &lt;PORT&gt;</code> - Port to check (defaults to the configured port)</li>
+</ul>
+<pre><code>$ zellij web --status --timeout 5 --ip 0.0.0.0 --port 443
+</code></pre>
+<h2 id="mobile-support"><a class="header" href="#mobile-support">Mobile Support</a></h2>
+<p>The web client supports mobile browsers. Two behaviors are specifically adapted for mobile devices:</p>
+<ol>
+<li><strong>Viewport Resizing</strong>: The terminal automatically resizes to match the real mobile viewport, accounting for dynamic changes such as the address bar showing/hiding and the on-screen keyboard appearing/disappearing.</li>
+<li><strong>Touch Scroll</strong>: Vertical touch swipes are converted to terminal scroll events, allowing natural scrolling through terminal output.</li>
+</ol>
 <h2 id="this-feature-can-optionally-be-disabled-at-compile-time"><a class="header" href="#this-feature-can-optionally-be-disabled-at-compile-time">This feature can optionally be disabled at compile-time</a></h2>
 <p>For those who are averse to this feature (even when it's disabled - which is the default), Zellij can be compiled completely without this feature or its dependencies by removing the <code>web-server-capability</code> compile-time flag. For convenience, Zellij also provides an additional pre-built binary compiled without this flag called <code>zellij-no-web</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="compatibility"><a class="header" href="#compatibility">Compatibility</a></h1>

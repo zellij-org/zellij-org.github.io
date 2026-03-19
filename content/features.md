@@ -47,7 +47,7 @@ Layouts can be version-controlled and shared with your team, making onboarding a
 
 ## Session Management
 
-{{<figure src="/img/tutorial-3-preview.png" alt="Zellij welcome screen showing session management">}}
+{{<figure src="/img/welcome-screen-single.png" style="max-width 995px;" alt="An image of Zellij welcome screen.">}}
 
 Tired of searching through terminal windows trying to find the right context? Zellij's session management features solve this problem:
 
@@ -133,6 +133,39 @@ Zellij allows you to open any pane's scrollback buffer directly in your `$EDITOR
 
 This feature transforms terminal output from ephemeral text into something you can work with using your full editor toolkit.
 
+## Remote Session Access
+
+Zellij sessions can be accessed remotely over HTTPS, both through a web browser and from another terminal:
+
+- **Browser Access**: Connect to sessions through the built-in [web client](/documentation/web-client.html)
+- **Terminal Attach**: Attach to a remote session from another terminal with `zellij attach https://my-server:8082/my-session`
+- **Read-Only Sharing**: Create read-only tokens for observers who can view but not interact with the session
+
+This makes pair programming, remote debugging, and terminal sharing seamless — no SSH tunnels or third-party tools required.
+
+
+## Advanced Scriptability
+
+Zellij exposes its full control surface through CLI commands, making it possible to build sophisticated terminal workflows from shell scripts or external tools:
+
+- **Conditionally blocking panes**: Open a pane that blocks the calling script until the command succeeds (`--block-until-exit-success`), fails (`--block-until-exit-failure`), or simply finishes (`--block-until-exit`). Failed commands can be retried interactively without the script losing its place.
+- **Live pane output streaming**: `zellij subscribe` streams the rendered output of any pane to stdout in real time, with optional JSON formatting for structured processing.
+- **Structured state queries**: `list-panes --json`, `list-tabs --json`, and `current-tab-info --json` return full session state as JSON, enabling scripts to discover panes, check exit statuses, and make decisions based on session state.
+- **Background sessions**: Create headless sessions with `zellij attach --create-background`, then control them entirely from external scripts — opening panes, sending input, reading output, and tearing down when done.
+- **ID capture**: Pane and tab creation commands return the created resource's ID on stdout, enabling scripts to target specific panes by ID for subsequent operations.
+
+These primitives compose naturally. For example, a CI-like pipeline that retries failed steps with human intervention:
+
+```bash
+# Each step blocks until it succeeds — the user can retry failures interactively
+zellij action new-pane --block-until-exit-success --name "tests" -- make test
+zellij action new-pane --block-until-exit-success --name "build" -- make build
+zellij action new-pane --block-until-exit --name "deploy" -- ./deploy.sh
+```
+
+For full details, see [Programmatic Control](/documentation/programmatic-control.html), [CLI Recipes](/documentation/cli-recipes.html), and [Zellij Subscribe](/documentation/zellij-subscribe.html).
+
+
 ## Multiple Pane Select
 
 {{<figure src="/img/multiple-select-demo.gif" alt="Selecting three panes with the mouse and stacking them with the multiple select tool">}}
@@ -147,11 +180,33 @@ Perform bulk operations on multiple panes at once:
 
 The multiple pane select dialog appears automatically when panes are selected, showing available actions. This is perfect for reorganizing your workspace or cleaning up many panes quickly.
 
+## Mouse-Based Pane Resizing
+
+Zellij supports intuitive mouse-based pane resizing:
+
+- **Drag Tiled Pane Borders**: Click and drag the border between tiled panes to resize them
+- **Ctrl+Drag Floating Pane Borders**: Hold Ctrl and drag the border of a floating pane to resize it
+- **Ctrl+ScrollWheel**: Hold Ctrl and scroll the mouse wheel up or down to resize the focused pane
+
+These interactions complement the keyboard-based resize mode, providing a natural way to adjust pane sizes.
+
+## Click-to-Open File Paths
+
+Zellij detects file paths appearing in terminal output and makes them clickable. Clicking a path opens it in your `$EDITOR` in a new floating pane. For example:
+
+- Click a file path in compiler errors to jump straight to the source
+- Click `src/main.rs:42` in log output to open the file at line 42
+- Click a directory path to browse it in the built-in filepicker
+
+## Native Windows Support
+
+Zellij runs natively on Windows. Windows binaries are available on the [releases page](https://github.com/zellij-org/zellij/releases).
+
 ## Getting Started
 
 Ready to try these features?
 
-- [Try Zellij without installing](/documentation/installation.html#try-zellij-without-installing) using the web client
+- [Try Zellij without installing](/documentation/installation.html#try-zellij-without-installing)
 - [Watch screencasts and tutorials](/screencasts) to see features in action
 - [Read the documentation](/documentation) for comprehensive guides
 - [Check out the roadmap](/roadmap) to see what's coming next

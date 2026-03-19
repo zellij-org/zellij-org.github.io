@@ -454,7 +454,7 @@ $ zellij action hide-floating-panes --tab-id 3
         --close-replaced-pane      Close the replaced pane (requires --in-place)
     -m, --move-to-focused-tab      Move the plugin to the focused tab if already running
     -c, --configuration &lt;CONFIG&gt;   Plugin configuration (key=value pairs)
-    -s, --skip-plugin-cache        Skip the plugin cache and force re-compilation
+    -s, --skip-plugin-cache        Skip the plugin cache and force reloading
 </code></pre>
 <p>eg.</p>
 <pre><code>zellij action launch-or-focus-plugin zellij:strider --floating
@@ -468,7 +468,7 @@ zellij action launch-or-focus-plugin zellij:strider --in-place --move-to-focused
     -i, --in-place                 Open in place of the focused pane
         --close-replaced-pane      Close the replaced pane (requires --in-place)
     -c, --configuration &lt;CONFIG&gt;   Plugin configuration (key=value pairs)
-    -s, --skip-plugin-cache        Skip the plugin cache and force re-compilation
+    -s, --skip-plugin-cache        Skip the plugin cache and force reloading
 </code></pre>
 <p>eg.</p>
 <pre><code>zellij action launch-plugin file:/path/to/plugin.wasm --floating
@@ -712,6 +712,9 @@ $ zellij action move-tab left --tab-id 3
         --pinned &lt;PINNED&gt;              Pin the floating pane (requires --floating)
         --stacked                      Open in stacked mode (conflicts with --floating/--direction)
     -b, --blocking                     Block until the pane exits
+        --block-until-exit-success     Block until the command exits with status 0
+        --block-until-exit-failure     Block until the command exits with non-zero status
+        --block-until-exit             Block until the command exits regardless of status
         --near-current-pane            Open near the current pane rather than following focus
         --borderless &lt;BORDERLESS&gt;      Start without a border
 </code></pre>
@@ -803,7 +806,7 @@ $ zellij action override-layout /path/to/layout.kdl --retain-existing-terminal-p
     -p, --plugin &lt;PLUGIN&gt;                    Plugin URL to direct the pipe to
     -c, --plugin-configuration &lt;CONFIG&gt;      Plugin configuration (key=value pairs)
     -l, --force-launch-plugin                Launch a new plugin even if one is already running
-    -s, --skip-plugin-cache                  Force re-compilation of the plugin
+    -s, --skip-plugin-cache                  Skip the plugin cache and force reloading
     -f, --floating-plugin &lt;BOOL&gt;             Whether the launched plugin should be floating
     -i, --in-place-plugin &lt;BOOL&gt;             Launch plugin in place (conflicts with --floating-plugin)
     -w, --plugin-cwd &lt;CWD&gt;                   Working directory for the launched plugin

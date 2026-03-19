@@ -35,7 +35,7 @@ $ zellij plugin -- https://path/to/my/plugin.wasm
             Open the new pane in place of the current pane, temporarily suspending it
 
     -s, --skip-plugin-cache
-            Skip the memory and HD cache and force recompile of the plugin (good for development)
+            Skip the plugin cache and force reloading of the plugin (good for development)
 
         --width <WIDTH>
             The width if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)

@@ -193,6 +193,7 @@
 <li><a href="#web_server_cert">web_server_cert</a></li>
 <li><a href="#web_server_key">web_server_key</a></li>
 <li><a href="#enforce_https_on_localhost">enforce_https_on_localhost</a></li>
+<li><a href="#base_url">base_url</a></li>
 <li><a href="#web_client">web_client</a></li>
 <li><a href="#advanced_mouse_actions">advanced_mouse_actions</a></li>
 <li><a href="#default_cwd">default_cwd</a></li>
@@ -458,13 +459,27 @@ Options:</p>
 <p>The path to the private_key of te SSL certificate for the Zellij <a href="./web-client.html">web-server</a>. Note: the <code>web_server_cert</code> must also be present for the server to serve itself as HTTPS.</p>
 <h3 id="enforce_https_on_localhost"><a class="header" href="#enforce_https_on_localhost">enforce_https_on_localhost</a></h3>
 <p>Whether to enforce https on localhost for the Zellij <a href="./web-client.html">web-server</a>. This is always enforced when listening on non-localhost addresses.</p>
+<h3 id="base_url"><a class="header" href="#base_url">base_url</a></h3>
+<p>Set the base URL path for the Zellij <a href="./web-client.html">web-server</a>. When set, the web server serves all content under this path prefix. This is useful when running behind a reverse proxy that serves Zellij under a subpath.</p>
+<p>Default: none (served at root "/")</p>
+<pre><code class="language-javascript">web_client {
+    base_url "/zellij"
+}
+</code></pre>
 <h3 id="web_client"><a class="header" href="#web_client">web_client</a></h3>
 <p>Configuration having to do with the in-browser terminal of the Zellij web client (eg. colors, font). For more info, please see: <a href="./web-client.html">web-server</a>.</p>
 <p>Options:
 - true
 - false (default)</p>
 <h3 id="advanced_mouse_actions"><a class="header" href="#advanced_mouse_actions">advanced_mouse_actions</a></h3>
-<p>Whether to enable mouse hover effects and multiple select functionality (pane grouping).</p>
+<p>Whether to enable mouse hover effects, multiple select functionality (pane grouping), and mouse-based pane resizing.</p>
+<p>When enabled, the following mouse interactions are available:</p>
+<ul>
+<li><strong>Drag tiled pane borders</strong>: Click and drag the border between tiled panes to resize them</li>
+<li><strong>Ctrl+Drag floating pane borders</strong>: Hold Ctrl and drag the border of a floating pane to resize it</li>
+<li><strong>Ctrl+ScrollWheel</strong>: Hold Ctrl and scroll the mouse wheel up or down to resize the focused pane (increases/decreases size by approximately 5 cells)</li>
+</ul>
+<p>These interactions are shown as help text in the pane frame when hovering near resizable borders.</p>
 <p>Options:
 - true (default)
 - false</p>

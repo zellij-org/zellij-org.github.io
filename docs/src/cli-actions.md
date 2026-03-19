@@ -409,7 +409,7 @@ Launch a plugin if it is not loaded somewhere in the session, focus it if it is.
         --close-replaced-pane      Close the replaced pane (requires --in-place)
     -m, --move-to-focused-tab      Move the plugin to the focused tab if already running
     -c, --configuration <CONFIG>   Plugin configuration (key=value pairs)
-    -s, --skip-plugin-cache        Skip the plugin cache and force re-compilation
+    -s, --skip-plugin-cache        Skip the plugin cache and force reloading
 ```
 
 eg.
@@ -429,7 +429,7 @@ Launch a new plugin instance. Unlike `launch-or-focus-plugin`, this always launc
     -i, --in-place                 Open in place of the focused pane
         --close-replaced-pane      Close the replaced pane (requires --in-place)
     -c, --configuration <CONFIG>   Plugin configuration (key=value pairs)
-    -s, --skip-plugin-cache        Skip the plugin cache and force re-compilation
+    -s, --skip-plugin-cache        Skip the plugin cache and force reloading
 ```
 
 eg.
@@ -737,6 +737,9 @@ Open a new pane in the specified direction or as a floating pane. If no directio
         --pinned <PINNED>              Pin the floating pane (requires --floating)
         --stacked                      Open in stacked mode (conflicts with --floating/--direction)
     -b, --blocking                     Block until the pane exits
+        --block-until-exit-success     Block until the command exits with status 0
+        --block-until-exit-failure     Block until the command exits with non-zero status
+        --block-until-exit             Block until the command exits regardless of status
         --near-current-pane            Open near the current pane rather than following focus
         --borderless <BORDERLESS>      Start without a border
 ```
@@ -872,7 +875,7 @@ Send data to one or more plugins via a pipe. Plugins will be launched if they ar
     -p, --plugin <PLUGIN>                    Plugin URL to direct the pipe to
     -c, --plugin-configuration <CONFIG>      Plugin configuration (key=value pairs)
     -l, --force-launch-plugin                Launch a new plugin even if one is already running
-    -s, --skip-plugin-cache                  Force re-compilation of the plugin
+    -s, --skip-plugin-cache                  Skip the plugin cache and force reloading
     -f, --floating-plugin <BOOL>             Whether the launched plugin should be floating
     -i, --in-place-plugin <BOOL>             Launch plugin in place (conflicts with --floating-plugin)
     -w, --plugin-cwd <CWD>                   Working directory for the launched plugin

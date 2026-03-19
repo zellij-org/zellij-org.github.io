@@ -2,6 +2,8 @@
 
 In addition to the [configuration file](./configuration.md), zellij can also be configured through the command line when running it. These options will override options in the configuration file.
 
+> **Migration Note:** The `--disable-mouse-mode` and `--no-pane-frames` flags have been removed. Use `--mouse-mode false` (equivalent of `--disable-mouse-mode`) and `--pane-frames false` (equivalent of `--no-pane-frames`) instead.
+
 ```
 USAGE:
     zellij options [OPTIONS]
@@ -30,7 +32,7 @@ OPTIONS:
             Set the default shell
 
         --disable-mouse-mode
-            Disable handling of mouse events
+            Disable handling of mouse events (REMOVED - use --mouse-mode false instead)
 
             Print help information
 
@@ -46,7 +48,7 @@ OPTIONS:
             [SHIFT] key [possible values: true, false]
 
         --no-pane-frames
-            Disable display of pane frames
+            Disable display of pane frames (REMOVED - use --pane-frames false instead)
 
         --on-force-close <ON_FORCE_CLOSE>
             Set behaviour on force close (quit or detach)

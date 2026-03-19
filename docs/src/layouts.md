@@ -55,6 +55,21 @@ Layouts residing in the default directory can be accessed by their bare name:
 zellij --layout [layout_name]
 ```
 
+### Runtime Layout Override
+
+The layout of a running tab can be overridden without restarting the session. This is done via the `override-layout` CLI action or the `OverrideLayout` keybinding action:
+
+```
+$ zellij action override-layout /path/to/new-layout.kdl
+```
+
+Options allow retaining existing panes that do not fit the new layout:
+```
+$ zellij action override-layout /path/to/layout.kdl --retain-existing-terminal-panes --apply-only-to-active-tab
+```
+
+This enables dynamic workspace reorganization. For the full reference, see [override-layout in CLI actions](./cli-actions.md#override-layout) and [OverrideLayout in keybinding actions](./keybindings-possible-actions.md#overridelayout).
+
 ### Layout Configuration Language
 
 Zellij uses [KDL](https://kdl.dev) as its configuration language.

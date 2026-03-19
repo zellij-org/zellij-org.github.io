@@ -100,10 +100,15 @@ eg.
 
  Edit the scrollback of the currently focused pane with the user's default editor.
 
-**Possible arguments**: None
+**Optional arguments** (in child block):
+  - `ansi` - `true` or `false` (preserve ANSI styling in the scrollback dump, default is `false`)
 
 ```javascript
     bind "a" { EditScrollback; }
+```
+or with ANSI styling preserved:
+```javascript
+    bind "a" { EditScrollback { ansi true; } }
 ```
 ## `FocusNextPane`
 
@@ -194,7 +199,7 @@ or:
   - `in_place` - `true` or `false` (open in place of the focused pane, default is `false`)
   - `close_replaced_pane` - `true` or `false` (when using `in_place`, close the replaced pane instead of suspending it, default is `false`)
   - `move_to_focused_tab` - `true` or `false` (if the plugin is already running, move it to the focused tab, default is `false`)
-  - `skip_plugin_cache` - `true` or `false` (force re-compilation of the plugin, default is `false`)
+  - `skip_plugin_cache` - `true` or `false` (skip the plugin cache and force reloading, default is `false`)
 
 ```javascript
     bind "a" {
@@ -223,7 +228,7 @@ or:
   - `floating` - `true` or `false` (default is `false`)
   - `in_place` - `true` or `false` (open in place of the focused pane, default is `false`)
   - `close_replaced_pane` - `true` or `false` (when using `in_place`, close the replaced pane instead of suspending it, default is `false`)
-  - `skip_plugin_cache` - `true` or `false` (force re-compilation of the plugin, default is `false`)
+  - `skip_plugin_cache` - `true` or `false` (skip the plugin cache and force reloading, default is `false`)
   - Additional key-value pairs are passed as plugin user configuration
 
 ```javascript
@@ -244,7 +249,7 @@ Send a message to one or more plugins, using a [pipe](./plugin-pipes.md) - meani
 
 **Optional arguments:**:
     - `launch_new` (`true/false`): force a new plugin to launch even if one is already running
-    - `skip_cache` (`true/false`): force re-compilation (and re-download if the plugin is http), even if the plugin is already running or cached
+    - `skip_cache` (`true/false`): skip the plugin cache and force reloading (and re-download if the plugin is http), even if the plugin is already running or cached
     - `floating` (`true/false`): if launching a new plugin, should it be floating or tiled
     - `in_place` (`true/false`): if launching a new plugin, open it in place of the focused pane
     - `name` (`String`): The name of the message
@@ -369,6 +374,8 @@ or open a stacked pane:
 ```javascript
     bind "a" { NewPane "Stacked"; }
 ```
+
+**Note**: For more advanced pane creation options (floating coordinates, borderless, close-on-exit, cwd, etc.), use the [`Run`](#run) keybinding action instead.
 ## `NewTab`
 
  Open a new tab
@@ -477,7 +484,6 @@ or:
   - `x`, `y`, `width`, `height` - floating pane coordinates (when `floating` is `true`)
   - `pinned` - `true` or `false` (pin the floating pane, when `floating` is `true`)
   - `borderless` - `true` or `false` (hide the pane border)
-  - `near_current_pane` - `true` or `false` (open near the current pane rather than following focus)
 
 ```javascript
     // will run "tail -f /tmp/foo" in a pane opened below the focused one

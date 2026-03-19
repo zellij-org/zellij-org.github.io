@@ -42,6 +42,7 @@ Configuration options can be set directly at the root of the [configuration file
 - [web_server_cert](#web_server_cert)
 - [web_server_key](#web_server_key)
 - [enforce_https_on_localhost](#enforce_https_on_localhost)
+- [base_url](#base_url)
 - [web_client](#web_client)
 - [advanced_mouse_actions](#advanced_mouse_actions)
 - [default_cwd](#default_cwd)
@@ -412,6 +413,17 @@ The path to the private_key of te SSL certificate for the Zellij [web-server](./
 ### enforce_https_on_localhost
 Whether to enforce https on localhost for the Zellij [web-server](./web-client.md). This is always enforced when listening on non-localhost addresses.
 
+### base_url
+Set the base URL path for the Zellij [web-server](./web-client.md). When set, the web server serves all content under this path prefix. This is useful when running behind a reverse proxy that serves Zellij under a subpath.
+
+Default: none (served at root "/")
+
+```javascript
+web_client {
+    base_url "/zellij"
+}
+```
+
 ### web_client
 Configuration having to do with the in-browser terminal of the Zellij web client (eg. colors, font). For more info, please see: [web-server](./web-client.md).
 
@@ -420,7 +432,14 @@ Options:
     - false (default)
 
 ### advanced_mouse_actions
-Whether to enable mouse hover effects and multiple select functionality (pane grouping).
+Whether to enable mouse hover effects, multiple select functionality (pane grouping), and mouse-based pane resizing.
+
+When enabled, the following mouse interactions are available:
+- **Drag tiled pane borders**: Click and drag the border between tiled panes to resize them
+- **Ctrl+Drag floating pane borders**: Hold Ctrl and drag the border of a floating pane to resize it
+- **Ctrl+ScrollWheel**: Hold Ctrl and scroll the mouse wheel up or down to resize the focused pane (increases/decreases size by approximately 5 cells)
+
+These interactions are shown as help text in the pane frame when hovering near resizable borders.
 
 Options:
     - true (default)
