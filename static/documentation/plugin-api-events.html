@@ -982,7 +982,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <ul>
 <li><code>pane_id</code> - <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane containing the clicked highlight</li>
 <li><code>pattern</code> - <code>String</code> - the regex pattern that matched</li>
-<li><code>matched_string</code> - <code>String</code> - the actual text that was matched</li>
+<li><code>matched_string</code> - <code>String</code> - the actual text that was matched (if the pattern contains a capture group, this is the content of group 1 rather than the full match)</li>
 <li><code>context</code> - <code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when setting up the highlight</li>
 </ul>
 <p>Fired when the user clicks on a regex highlight set by <a href="./plugin-api-commands.html#set_pane_regex_highlights"><code>set_pane_regex_highlights</code></a>.</p>

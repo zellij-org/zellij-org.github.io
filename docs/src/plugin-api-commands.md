@@ -1432,6 +1432,34 @@ Open a new tab with a plugin pane loaded from the specified URL.
 
 ---
 
+### `open_plugin_pane_floating`
+
+```rust
+fn open_plugin_pane_floating(
+    plugin_url: &str,
+    configuration: BTreeMap<String, String>,
+    coordinates: Option<FloatingPaneCoordinates>,
+    context: BTreeMap<String, String>,
+) -> Option<PaneId>
+```
+
+**Required Permission:** [`OpenTerminalsOrPlugins`](./plugin-api-permissions.md)
+
+Open a new floating plugin pane loaded from the specified URL.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `plugin_url` | `&str` | Plugin URL (e.g., `"file:/path/to/plugin.wasm"` or a named alias) |
+| `configuration` | `BTreeMap<String, String>` | Plugin configuration key-value pairs |
+| `coordinates` | `Option<`[`FloatingPaneCoordinates`](./plugin-api-types.md#floatingpanecoordinates)`>` | Optional position and size for the floating pane |
+| `context` | `BTreeMap<String, String>` | Arbitrary context for event callbacks |
+
+**Returns:** `Option<PaneId>` - the pane ID of the created plugin pane, if successful
+
+---
+
 ### `open_editor_pane_in_new_tab`
 
 ```rust
@@ -3870,6 +3898,8 @@ fn set_pane_regex_highlights(pane_id: PaneId, highlights: Vec<RegexHighlight>)
 **Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
 
 Set or update regex-based content highlights for a pane. Highlights are matched against the pane's terminal output and rendered with the specified styles. When the user clicks on a highlight, a [`HighlightClicked`](./plugin-api-events.md#highlightclicked) event is delivered.
+
+**Capture group support:** If the regex pattern contains a capture group, only group 1 is used for the visual highlight extent and the `matched_string` returned in the `HighlightClicked` event. This allows patterns to require surrounding context (e.g., whitespace) without including it in the highlight. For example, the pattern `(?:^|\s)(src/main\.rs)(?:\s|$)` highlights only `src/main.rs`, not the adjacent spaces. Patterns without capture groups behave normally - the full match is used.
 
 **Parameters:**
 

@@ -1017,7 +1017,7 @@ Event::HighlightClicked {
 **Payload:**
 - `pane_id` - [`PaneId`](./plugin-api-types.md#paneid) - the pane containing the clicked highlight
 - `pattern` - `String` - the regex pattern that matched
-- `matched_string` - `String` - the actual text that was matched
+- `matched_string` - `String` - the actual text that was matched (if the pattern contains a capture group, this is the content of group 1 rather than the full match)
 - `context` - `BTreeMap<String, String>` - the context dictionary provided when setting up the highlight
 
 Fired when the user clicks on a regex highlight set by [`set_pane_regex_highlights`](./plugin-api-commands.md#set_pane_regex_highlights).

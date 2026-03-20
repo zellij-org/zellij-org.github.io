@@ -5513,7 +5513,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <ul>
 <li><code>pane_id</code> - <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane containing the clicked highlight</li>
 <li><code>pattern</code> - <code>String</code> - the regex pattern that matched</li>
-<li><code>matched_string</code> - <code>String</code> - the actual text that was matched</li>
+<li><code>matched_string</code> - <code>String</code> - the actual text that was matched (if the pattern contains a capture group, this is the content of group 1 rather than the full match)</li>
 <li><code>context</code> - <code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when setting up the highlight</li>
 </ul>
 <p>Fired when the user clicks on a regex highlight set by <a href="./plugin-api-commands.html#set_pane_regex_highlights"><code>set_pane_regex_highlights</code></a>.</p>
@@ -6608,6 +6608,28 @@ layout {
 </tbody></table>
 </div>
 <p><strong>Returns:</strong> <code>(Option&lt;usize&gt;, Option&lt;PaneId&gt;)</code> - the tab ID and pane ID</p>
+<hr />
+<h3 id="open_plugin_pane_floating"><a class="header" href="#open_plugin_pane_floating"><code>open_plugin_pane_floating</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn open_plugin_pane_floating(
+    plugin_url: &amp;str,
+    configuration: BTreeMap&lt;String, String&gt;,
+    coordinates: Option&lt;FloatingPaneCoordinates&gt;,
+    context: BTreeMap&lt;String, String&gt;,
+) -&gt; Option&lt;PaneId&gt;
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>OpenTerminalsOrPlugins</code></a></p>
+<p>Open a new floating plugin pane loaded from the specified URL.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>plugin_url</code></td><td><code>&amp;str</code></td><td>Plugin URL (e.g., <code>"file:/path/to/plugin.wasm"</code> or a named alias)</td></tr>
+<tr><td><code>configuration</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Plugin configuration key-value pairs</td></tr>
+<tr><td><code>coordinates</code></td><td><code>Option&lt;</code><a href="./plugin-api-types.html#floatingpanecoordinates"><code>FloatingPaneCoordinates</code></a><code>&gt;</code></td><td>Optional position and size for the floating pane</td></tr>
+<tr><td><code>context</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Arbitrary context for event callbacks</td></tr>
+</tbody></table>
+</div>
+<p><strong>Returns:</strong> <code>Option&lt;PaneId&gt;</code> - the pane ID of the created plugin pane, if successful</p>
 <hr />
 <h3 id="open_editor_pane_in_new_tab"><a class="header" href="#open_editor_pane_in_new_tab"><code>open_editor_pane_in_new_tab</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -8383,6 +8405,7 @@ set_timeout(2.0); // Fire after 2 seconds
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
 <p>Set or update regex-based content highlights for a pane. Highlights are matched against the pane's terminal output and rendered with the specified styles. When the user clicks on a highlight, a <a href="./plugin-api-events.html#highlightclicked"><code>HighlightClicked</code></a> event is delivered.</p>
+<p><strong>Capture group support:</strong> If the regex pattern contains a capture group, only group 1 is used for the visual highlight extent and the <code>matched_string</code> returned in the <code>HighlightClicked</code> event. This allows patterns to require surrounding context (e.g., whitespace) without including it in the highlight. For example, the pattern <code>(?:^|\s)(src/main\.rs)(?:\s|$)</code> highlights only <code>src/main.rs</code>, not the adjacent spaces. Patterns without capture groups behave normally - the full match is used.</p>
 <p><strong>Parameters:</strong></p>
 <div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane to apply highlights to</td></tr>
