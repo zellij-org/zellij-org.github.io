@@ -141,7 +141,7 @@ Zellij sessions can be accessed remotely over HTTPS, both through a web browser 
 - **Terminal Attach**: Attach to a remote session from another terminal with `zellij attach https://my-server:8082/my-session`
 - **Read-Only Sharing**: Create read-only tokens for observers who can view but not interact with the session
 
-This makes pair programming, remote debugging, and terminal sharing seamless — no SSH tunnels or third-party tools required.
+This makes pair programming, remote debugging, and terminal sharing seamless - no SSH tunnels or third-party tools required.
 
 
 ## Advanced Scriptability
@@ -151,13 +151,13 @@ Zellij exposes its full control surface through CLI commands, making it possible
 - **Conditionally blocking panes**: Open a pane that blocks the calling script until the command succeeds (`--block-until-exit-success`), fails (`--block-until-exit-failure`), or simply finishes (`--block-until-exit`). Failed commands can be retried interactively without the script losing its place.
 - **Live pane output streaming**: `zellij subscribe` streams the rendered output of any pane to stdout in real time, with optional JSON formatting for structured processing.
 - **Structured state queries**: `list-panes --json`, `list-tabs --json`, and `current-tab-info --json` return full session state as JSON, enabling scripts to discover panes, check exit statuses, and make decisions based on session state.
-- **Background sessions**: Create headless sessions with `zellij attach --create-background`, then control them entirely from external scripts — opening panes, sending input, reading output, and tearing down when done.
+- **Background sessions**: Create headless sessions with `zellij attach --create-background`, then control them entirely from external scripts - opening panes, sending input, reading output, and tearing down when done.
 - **ID capture**: Pane and tab creation commands return the created resource's ID on stdout, enabling scripts to target specific panes by ID for subsequent operations.
 
 These primitives compose naturally. For example, a CI-like pipeline that retries failed steps with human intervention:
 
 ```bash
-# Each step blocks until it succeeds — the user can retry failures interactively
+# Each step blocks until it succeeds - the user can retry failures interactively
 zellij action new-pane --block-until-exit-success --name "tests" -- make test
 zellij action new-pane --block-until-exit-success --name "build" -- make build
 zellij action new-pane --block-until-exit --name "deploy" -- ./deploy.sh
