@@ -38,8 +38,13 @@
                   <td><code type="text" id="fishCmd">bash (curl -L https://zellij.dev/launch | psub)</code></td>
                   <td><button id="fishCmdBtn" onclick="copyOnClick('fishCmd')">Copy</button></td>
                 </tr>
+                <tr style="display: flexbox;">
+                  <th>For powershell:</th>
+                  <td><code type="text" id="psCmd">irm https://zellij.dev/launch.ps1 | iex</code></td>
+                  <td><button id="psCmdBtn" onclick="copyOnClick('psCmd')">Copy</button></td>
+                </tr>
               </table>
-              <p style="margin: 0; border-top: 1px solid #ddd; margin-bottom: 20px">View the script that will be executed <a href="/launch">here</a></p>
+              <p style="margin: 0; border-top: 1px solid #ddd; margin-bottom: 20px">View the script that will be executed <a href="/launch">here</a> (Linux/Mac) or <a href="/launch.ps1">here</a> (Windows)</p>
               <p style="text-align: center; margin-bottom: 40px"><a href="/features/"><strong>Explore Zellij's powerful features →<strong></a></p>
             </div>
 
