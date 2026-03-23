@@ -159,6 +159,29 @@
 <p>eg.</p>
 <pre><code class="language-javascript">    bind "a" { Clear; }
 </code></pre>
+<h2 id="copy"><a class="header" href="#copy"><code>Copy</code></a></h2>
+<p>Copy the current text selection to the clipboard</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { Copy; }
+</code></pre>
+<h2 id="breakpane"><a class="header" href="#breakpane"><code>BreakPane</code></a></h2>
+<p>Break the focused pane out of its current tab into a new tab</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>eg.</p>
+<pre><code class="language-javascript">    bind "a" { BreakPane; }
+</code></pre>
+<h2 id="breakpaneleft"><a class="header" href="#breakpaneleft"><code>BreakPaneLeft</code></a></h2>
+<p>Break the focused pane out into a new tab to the left of the current tab</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>eg.</p>
+<pre><code class="language-javascript">    bind "a" { BreakPaneLeft; }
+</code></pre>
+<h2 id="breakpaneright"><a class="header" href="#breakpaneright"><code>BreakPaneRight</code></a></h2>
+<p>Break the focused pane out into a new tab to the right of the current tab</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>eg.</p>
+<pre><code class="language-javascript">    bind "a" { BreakPaneRight; }
+</code></pre>
 <h2 id="closefocus"><a class="header" href="#closefocus"><code>CloseFocus</code></a></h2>
 <p>Close the focused pane</p>
 <p><strong>Possible arguments</strong>: None</p>
@@ -180,13 +203,20 @@
 <h2 id="dumpscreen"><a class="header" href="#dumpscreen"><code>DumpScreen</code></a></h2>
 <p>Dump the contents of the focused pane, including its entire scrollback, to the specified file.</p>
 <p><strong>Required arguments</strong>: A path to a file on the hard-drive</p>
+<p><strong>Optional arguments</strong>: <code>full</code> - <code>true</code> or <code>false</code> (include full scrollback, default is <code>false</code>), <code>ansi</code> - <code>true</code> or <code>false</code> (preserve ANSI styling, default is <code>false</code>)</p>
 <p>eg.</p>
 <pre><code class="language-javascript">    bind "a" { DumpScreen "/tmp/my-dump.txt"; }
 </code></pre>
 <h2 id="editscrollback"><a class="header" href="#editscrollback"><code>EditScrollback</code></a></h2>
 <p>Edit the scrollback of the currently focused pane with the user's default editor.</p>
-<p><strong>Possible arguments</strong>: None</p>
+<p><strong>Optional arguments</strong> (in child block):</p>
+<ul>
+<li><code>ansi</code> - <code>true</code> or <code>false</code> (preserve ANSI styling in the scrollback dump, default is <code>false</code>)</li>
+</ul>
 <pre><code class="language-javascript">    bind "a" { EditScrollback; }
+</code></pre>
+<p>or with ANSI styling preserved:</p>
+<pre><code class="language-javascript">    bind "a" { EditScrollback { ansi true; } }
 </code></pre>
 <h2 id="focusnextpane"><a class="header" href="#focusnextpane"><code>FocusNextPane</code></a></h2>
 <p>Change focus to the next pane (order not guaranteed)</p>
@@ -223,13 +253,55 @@
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { HalfPageScrollUp; }
 </code></pre>
+<h2 id="hidefloatingpanes"><a class="header" href="#hidefloatingpanes"><code>HideFloatingPanes</code></a></h2>
+<p>Hide all floating panes in the current (or specified) tab</p>
+<p><strong>Possible arguments</strong>: An optional tab index (integer)</p>
+<pre><code class="language-javascript">    bind "a" { HideFloatingPanes; }
+</code></pre>
+<p>or:</p>
+<pre><code class="language-javascript">    bind "a" { HideFloatingPanes 2; }
+</code></pre>
 <h2 id="launchorfocusplugin"><a class="header" href="#launchorfocusplugin"><code>LaunchOrFocusPlugin</code></a></h2>
 <p>Launch a plugin if it is not already loaded somewhere in the session, focus it if it is</p>
 <p><strong>Required arguments</strong>: The <a href="./plugin-loading.html#plugin-url-schema">plugin URL</a> (eg. <code>file:/path/to/my/plugin.wasm</code>)</p>
-<p><strong>Optional arguments</strong>: <code>floating</code> - <code>true</code> or <code>false</code> (default is <code>false</code>)</p>
+<p><strong>Optional arguments</strong>:</p>
+<ul>
+<li><code>floating</code> - <code>true</code> or <code>false</code> (default is <code>false</code>)</li>
+<li><code>in_place</code> - <code>true</code> or <code>false</code> (open in place of the focused pane, default is <code>false</code>)</li>
+<li><code>close_replaced_pane</code> - <code>true</code> or <code>false</code> (when using <code>in_place</code>, close the replaced pane instead of suspending it, default is <code>false</code>)</li>
+<li><code>move_to_focused_tab</code> - <code>true</code> or <code>false</code> (if the plugin is already running, move it to the focused tab, default is <code>false</code>)</li>
+<li><code>skip_plugin_cache</code> - <code>true</code> or <code>false</code> (skip the plugin cache and force reloading, default is <code>false</code>)</li>
+</ul>
 <pre><code class="language-javascript">    bind "a" {
         LaunchOrFocusPlugin "zellij:strider" {
             floating true
+        }
+    }
+</code></pre>
+<p>or:</p>
+<pre><code class="language-javascript">    bind "a" {
+        LaunchOrFocusPlugin "zellij:strider" {
+            in_place true
+            move_to_focused_tab true
+        }
+    }
+</code></pre>
+<h2 id="launchplugin"><a class="header" href="#launchplugin"><code>LaunchPlugin</code></a></h2>
+<p>Launch a new plugin instance. Unlike <code>LaunchOrFocusPlugin</code>, this always launches a new instance even if one is already running.</p>
+<p><strong>Required arguments</strong>: The <a href="./plugin-loading.html#plugin-url-schema">plugin URL</a> (eg. <code>file:/path/to/my/plugin.wasm</code>)</p>
+<p><strong>Optional arguments</strong>:</p>
+<ul>
+<li><code>floating</code> - <code>true</code> or <code>false</code> (default is <code>false</code>)</li>
+<li><code>in_place</code> - <code>true</code> or <code>false</code> (open in place of the focused pane, default is <code>false</code>)</li>
+<li><code>close_replaced_pane</code> - <code>true</code> or <code>false</code> (when using <code>in_place</code>, close the replaced pane instead of suspending it, default is <code>false</code>)</li>
+<li><code>skip_plugin_cache</code> - <code>true</code> or <code>false</code> (skip the plugin cache and force reloading, default is <code>false</code>)</li>
+<li>Additional key-value pairs are passed as plugin user configuration</li>
+</ul>
+<pre><code class="language-javascript">    bind "a" {
+        LaunchPlugin "file:/path/to/my/plugin.wasm" {
+            floating true
+            skip_plugin_cache true
+            my_config_key "my_config_value"
         }
     }
 </code></pre>
@@ -238,8 +310,9 @@
 <p><strong>Required arguments</strong>: None (with no options specified, this keybind will send an empty message to all plugins)</p>
 <p><strong>Optional arguments:</strong>:
 - <code>launch_new</code> (<code>true/false</code>): force a new plugin to launch even if one is already running
-- <code>skip_cache</code> (<code>true/false</code>): force re-compilation (and re-download if the plugin is http), even if the plugin is already running or cached
+- <code>skip_cache</code> (<code>true/false</code>): skip the plugin cache and force reloading (and re-download if the plugin is http), even if the plugin is already running or cached
 - <code>floating</code> (<code>true/false</code>): if launching a new plugin, should it be floating or tiled
+- <code>in_place</code> (<code>true/false</code>): if launching a new plugin, open it in place of the focused pane
 - <code>name</code> (<code>String</code>): The name of the message
 - <code>payload</code> (<code>String</code>): The payload of the message
 - <code>title</code> (<code>String</code>): The pane title of the pane if launching a new plugin instance
@@ -249,6 +322,14 @@
             name "message_name"
             payload "message_payload"
             cwd "/path/to/my/working/directory"
+        }
+    }
+</code></pre>
+<p>There is also <code>MessagePluginId</code> which sends a message to a specific running plugin by its numeric ID:</p>
+<pre><code class="language-javascript">    bind "a" {
+        MessagePluginId 42 {
+            name "message_name"
+            payload "message_payload"
         }
     }
 </code></pre>
@@ -267,6 +348,11 @@
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code></p>
 <pre><code class="language-javascript">    bind "a" { MovePane "Left"; }
 </code></pre>
+<h2 id="movepanebackwards"><a class="header" href="#movepanebackwards"><code>MovePaneBackwards</code></a></h2>
+<p>Move the focused pane backwards in the layout order (the inverse of <code>MovePane</code> without a direction)</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { MovePaneBackwards; }
+</code></pre>
 <h2 id="movetab"><a class="header" href="#movetab"><code>MoveTab</code></a></h2>
 <p>Change the position of the active tab either left or right.</p>
 <p><strong>Required arguments</strong>: the direction, either "Left" or "Right"</p>
@@ -277,12 +363,35 @@
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { NextSwapLayout; }
 </code></pre>
+<h2 id="overridelayout"><a class="header" href="#overridelayout"><code>OverrideLayout</code></a></h2>
+<p>Override the layout of the active tab with the specified layout file.</p>
+<p><strong>Optional arguments</strong> (in child block):</p>
+<ul>
+<li><code>layout</code> - path to the layout file</li>
+<li><code>cwd</code> - working directory for the layout</li>
+<li><code>name</code> - name of the tab</li>
+<li><code>retain_existing_terminal_panes</code> - <code>true</code> or <code>false</code> (keep terminal panes not fitting the new layout, default is <code>false</code>)</li>
+<li><code>retain_existing_plugin_panes</code> - <code>true</code> or <code>false</code> (keep plugin panes not fitting the new layout, default is <code>false</code>)</li>
+<li><code>apply_only_to_active_tab</code> - <code>true</code> or <code>false</code> (only apply to the active tab, default is <code>false</code>)</li>
+</ul>
+<pre><code class="language-javascript">    bind "a" {
+        OverrideLayout {
+            layout "/path/to/layout.kdl"
+            retain_existing_terminal_panes true
+            apply_only_to_active_tab true
+        }
+    }
+</code></pre>
 <h2 id="newpane"><a class="header" href="#newpane"><code>NewPane</code></a></h2>
 <p>Open a new pane (in the specified direction)</p>
 <p><strong>Possible arguments</strong>: <code>Down</code> | <code>Right</code> | <code>Stacked</code></p>
 <p><strong>Behaviour without arguments</strong>: Opens a pane in the largest available space or if floating panes are visible, in the next floating pane position.</p>
 <pre><code class="language-javascript">    bind "a" { NewPane "Right"; }
 </code></pre>
+<p>or open a stacked pane:</p>
+<pre><code class="language-javascript">    bind "a" { NewPane "Stacked"; }
+</code></pre>
+<p><strong>Note</strong>: For more advanced pane creation options (floating coordinates, borderless, close-on-exit, cwd, etc.), use the <a href="#run"><code>Run</code></a> keybinding action instead.</p>
 <h2 id="newtab"><a class="header" href="#newtab"><code>NewTab</code></a></h2>
 <p>Open a new tab</p>
 <p><strong>Possible arguments</strong>: <code>cwd</code></p>
@@ -308,6 +417,11 @@
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { PageScrollUp; }
 </code></pre>
+<h2 id="panenameinput"><a class="header" href="#panenameinput"><code>PaneNameInput</code></a></h2>
+<p>Send byte input for renaming the focused pane. Typically used in the <code>RenamePane</code> input mode.</p>
+<p><strong>Required arguments</strong>: One or more integer (u8) byte values</p>
+<pre><code class="language-javascript">    bind "a" { PaneNameInput 0; }
+</code></pre>
 <h2 id="previousswaplayout"><a class="header" href="#previousswaplayout"><code>PreviousSwapLayout</code></a></h2>
 <p>Change the layout of the current tab (either tiled or floating) to the previous one</p>
 <p><strong>Possible arguments</strong>: None</p>
@@ -323,15 +437,60 @@
 <p><strong>Required arguments</strong>: <code>Left</code> | <code>Right</code> | <code>Up</code> | <code>Down</code> | <code>Increase</code> | <code>Decrease</code></p>
 <pre><code class="language-javascript">    bind "a" { Resize "Increase"; }
 </code></pre>
+<h2 id="renamesession"><a class="header" href="#renamesession"><code>RenameSession</code></a></h2>
+<p>Rename the current session</p>
+<p><strong>Required arguments</strong>: The new session name as a string</p>
+<pre><code class="language-javascript">    bind "a" { RenameSession "my-new-session-name"; }
+</code></pre>
 <h2 id="run"><a class="header" href="#run"><code>Run</code></a></h2>
-<p>Run the specified command</p>
+<p>Run the specified command in a new pane</p>
 <p><strong>Required arguments</strong>: The command to run, followed by optional arguments</p>
-<p><strong>Possible arguments</strong>: <code>cwd</code> - current working directory, <code>direction</code> - the direction to open the new command pane</p>
+<p><strong>Possible arguments</strong> (in child block):</p>
+<ul>
+<li><code>cwd</code> - current working directory</li>
+<li><code>direction</code> - the direction to open the new command pane (<code>"Down"</code> | <code>"Right"</code>)</li>
+<li><code>floating</code> - <code>true</code> or <code>false</code> (open as a floating pane)</li>
+<li><code>in_place</code> - <code>true</code> or <code>false</code> (open in place of the focused pane)</li>
+<li><code>close_replaced_pane</code> - <code>true</code> or <code>false</code> (when using <code>in_place</code>, close the replaced pane)</li>
+<li><code>stacked</code> - <code>true</code> or <code>false</code> (open as a stacked pane)</li>
+<li><code>name</code> - name for the new pane</li>
+<li><code>close_on_exit</code> - <code>true</code> or <code>false</code> (close the pane when the command exits)</li>
+<li><code>start_suspended</code> - <code>true</code> or <code>false</code> (start the command suspended)</li>
+<li><code>x</code>, <code>y</code>, <code>width</code>, <code>height</code> - floating pane coordinates (when <code>floating</code> is <code>true</code>)</li>
+<li><code>pinned</code> - <code>true</code> or <code>false</code> (pin the floating pane, when <code>floating</code> is <code>true</code>)</li>
+<li><code>borderless</code> - <code>true</code> or <code>false</code> (hide the pane border)</li>
+</ul>
 <pre><code class="language-javascript">    // will run "tail -f /tmp/foo" in a pane opened below the focused one
     bind "a" {
         Run "tail" "-f" "foo" {
             cwd "/tmp"
             direction "Down"
+        }
+    }
+</code></pre>
+<p>or as a floating pane:</p>
+<pre><code class="language-javascript">    bind "a" {
+        Run "htop" {
+            floating true
+            x "10%"
+            y "10%"
+            width "80%"
+            height "80%"
+        }
+    }
+</code></pre>
+<p>or in place of the focused pane:</p>
+<pre><code class="language-javascript">    bind "a" {
+        Run "htop" {
+            in_place true
+            close_replaced_pane true
+        }
+    }
+</code></pre>
+<p>or as a stacked pane:</p>
+<pre><code class="language-javascript">    bind "a" {
+        Run "htop" {
+            stacked true
         }
     }
 </code></pre>
@@ -360,6 +519,11 @@
 <p><strong>Required arguments</strong>: "down" | "up"</p>
 <pre><code class="language-javascript">    bind "a" { Search "up"; }
 </code></pre>
+<h2 id="searchinput"><a class="header" href="#searchinput"><code>SearchInput</code></a></h2>
+<p>Send byte input for the search needle. Typically used in the <code>EnterSearch</code> input mode.</p>
+<p><strong>Required arguments</strong>: One or more integer (u8) byte values</p>
+<pre><code class="language-javascript">    bind "a" { SearchInput 0; }
+</code></pre>
 <h2 id="searchtoggleoption"><a class="header" href="#searchtoggleoption"><code>SearchToggleOption</code></a></h2>
 <p>Toggle various search options on/off</p>
 <p><strong>Required arguments</strong>: "CaseSensitivity" | "Wrap" | "WhileWord"</p>
@@ -369,6 +533,46 @@
 <p>Switch the current input mode</p>
 <p><strong>Required arguments</strong>: See <a href="#modes">Modes</a></p>
 <pre><code class="language-javascript">    bind "a" { SwitchToMode "locked"; }
+</code></pre>
+<h2 id="showfloatingpanes"><a class="header" href="#showfloatingpanes"><code>ShowFloatingPanes</code></a></h2>
+<p>Show all floating panes in the current (or specified) tab</p>
+<p><strong>Possible arguments</strong>: An optional tab index (integer)</p>
+<pre><code class="language-javascript">    bind "a" { ShowFloatingPanes; }
+</code></pre>
+<p>or:</p>
+<pre><code class="language-javascript">    bind "a" { ShowFloatingPanes 2; }
+</code></pre>
+<h2 id="switchsession"><a class="header" href="#switchsession"><code>SwitchSession</code></a></h2>
+<p>Switch to a different named session. The session must already exist or be creatable.</p>
+<p><strong>Required arguments</strong>: <code>name</code> - the session name to switch to</p>
+<p><strong>Optional arguments</strong> (in child block):</p>
+<ul>
+<li><code>tab_position</code> - tab index to focus after switching (integer)</li>
+<li><code>pane_id</code> - pane ID to focus after switching (integer)</li>
+<li><code>is_plugin</code> - whether the <code>pane_id</code> refers to a plugin pane (<code>true</code> or <code>false</code>, default is <code>false</code>)</li>
+<li><code>layout</code> - layout file path to apply</li>
+<li><code>cwd</code> - working directory for the session</li>
+</ul>
+<pre><code class="language-javascript">    bind "a" {
+        SwitchSession {
+            name "my-other-session"
+        }
+    }
+</code></pre>
+<p>or:</p>
+<pre><code class="language-javascript">    bind "a" {
+        SwitchSession {
+            name "my-session"
+            tab_position 0
+            layout "/path/to/layout.kdl"
+            cwd "/home/user"
+        }
+    }
+</code></pre>
+<h2 id="tabnameinput"><a class="header" href="#tabnameinput"><code>TabNameInput</code></a></h2>
+<p>Send byte input for renaming the focused tab. Typically used in the <code>RenameTab</code> input mode.</p>
+<p><strong>Required arguments</strong>: One or more integer (u8) byte values</p>
+<pre><code class="language-javascript">    bind "a" { TabNameInput 0; }
 </code></pre>
 <h2 id="toggleactivesynctab"><a class="header" href="#toggleactivesynctab"><code>ToggleActiveSyncTab</code></a></h2>
 <p>Toggle the syncing of input between all panes in the focused tab</p>
@@ -399,6 +603,21 @@
 <p>Show/hide the frames around panes (notice, these might have valuable UX info)</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { TogglePaneFrames; }
+</code></pre>
+<h2 id="togglepaneingroup"><a class="header" href="#togglepaneingroup"><code>TogglePaneInGroup</code></a></h2>
+<p>Toggle whether the focused pane is included in a pane group</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { TogglePaneInGroup; }
+</code></pre>
+<h2 id="togglepanepinned"><a class="header" href="#togglepanepinned"><code>TogglePanePinned</code></a></h2>
+<p>Toggle the pinned state of a floating pane. A pinned floating pane stays on top of other panes.</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { TogglePanePinned; }
+</code></pre>
+<h2 id="togglegroupmarking"><a class="header" href="#togglegroupmarking"><code>ToggleGroupMarking</code></a></h2>
+<p>Toggle group marking mode, allowing selection of multiple panes for group operations</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ToggleGroupMarking; }
 </code></pre>
 <h2 id="toggletab"><a class="header" href="#toggletab"><code>ToggleTab</code></a></h2>
 <p>Change the tab focus</p>

@@ -344,6 +344,30 @@
     }
 }
 </code></pre>
+<h4 id="default_fg"><a class="header" href="#default_fg">default_fg</a></h4>
+<p><code>default_fg</code> is a pane argument that sets the default foreground color for the pane. The color is specified as a quoted string in hex (eg. <code>"#00e000"</code>) or rgb notation (eg. <code>"rgb:00/e0/00"</code>).</p>
+<p><strong>Possible values:</strong> <code>"#rrggbb"</code> | <code>"rgb:rr/gg/bb"</code></p>
+<p>eg.</p>
+<pre><code class="language-javascript">layout {
+    pane default_fg="#00e000"
+    pane {
+        default_fg "#ff5500"
+    }
+}
+</code></pre>
+<h4 id="default_bg"><a class="header" href="#default_bg">default_bg</a></h4>
+<p><code>default_bg</code> is a pane argument that sets the default background color for the pane. The color is specified as a quoted string in hex (eg. <code>"#001a3a"</code>) or rgb notation (eg. <code>"rgb:00/1a/3a"</code>).</p>
+<p><strong>Possible values:</strong> <code>"#rrggbb"</code> | <code>"rgb:rr/gg/bb"</code></p>
+<p>eg.</p>
+<pre><code class="language-javascript">layout {
+    pane default_bg="#001a3a"
+    pane {
+        default_bg "rgb:00/1a/3a"
+        default_fg "#ffffff"
+    }
+}
+</code></pre>
+<p>These properties can be used together to create visually distinct panes (e.g., to highlight a specific command pane or to differentiate between environments). They can also be set at runtime via the <code>SetPaneColor</code> keybinding action or <code>zellij action set-pane-color</code> CLI command.</p>
 <h4 id="stacked"><a class="header" href="#stacked">stacked</a></h4>
 <p>If <code>true</code>, this pane property dictates that the children panes of this pane will be arranged in a stack.</p>
 <p>In a stack of panes, all panes except one have just one line - showing their title (and their scroll and exit code when relevant). The focused pane among these is displayed normally as any other pane.</p>

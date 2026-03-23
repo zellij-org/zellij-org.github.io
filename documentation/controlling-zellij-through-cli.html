@@ -153,17 +153,30 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="controlling-zellij-through-the-cli"><a class="header" href="#controlling-zellij-through-the-cli">Controlling Zellij through the CLI</a></h1>
-<p>Zellij can be controlled through the CLI. Meaning that while inside a zellij session, one can issue commands from the terminal to interact with the currently running session.</p>
+<p>Zellij can be controlled through the CLI. Whether inside or outside a zellij session, one can issue commands from the terminal to interact with any session running on the machine.</p>
 <p>eg.</p>
 <pre><code>$ zellij action new-pane
 </code></pre>
 <p>Commands can also be issued to a different Zellij session:</p>
 <pre><code>$ zellij --session pretentious-cat action new-pane
 </code></pre>
-<p>For a full list of actions, see <a href="./cli-actions.html">CLI Actions</a>.</p>
-<p>For starting commands in a new pane, see <a href="./zellij-run.html">Zellij Run</a>.</p>
-<p>For editing a file in a new pane with your own editor, see <a href="./zellij-edit.html">Zellij Edit</a>.</p>
-<p>For loading and controlling plugins, see <a href="./zellij-plugin.html">Zellij Plugin</a> and <a href="./zellij-pipe.html">Zellij Pipe</a>.</p>
+<hr />
+<ul>
+<li><a href="./zellij-run-and-edit.html">Zellij Run &amp; Edit</a> - Launch commands in new panes or open files in your default editor</li>
+<li><a href="./cli-actions.html">Zellij Action</a> - Full reference of all <code>zellij action</code> subcommands for controlling panes, tabs, layouts, and more</li>
+<li><a href="./zellij-plugin-and-pipe.html">Zellij Plugin &amp; Pipe</a> - Load plugins and send data to them from the command line</li>
+<li><a href="./zellij-subscribe.html">Zellij Subscribe</a> - Stream the rendered output of one or more panes to stdout in real time</li>
+<li><a href="#zellij-watch">Zellij Watch</a> - Watch a session in read-only mode</li>
+<li><a href="./cli-recipes.html">CLI Recipes &amp; Scripting</a> - Task-oriented examples and common workflows for scripting with Zellij</li>
+<li><a href="./programmatic-control.html">Programmatic Control</a> - Patterns for non-interactive, machine-driven control of Zellij sessions</li>
+</ul>
+<hr />
+<h3 id="zellij-watch"><a class="header" href="#zellij-watch">Zellij Watch</a></h3>
+<p>The <code>zellij watch</code> command provides a read-only view of a session:</p>
+<pre><code>$ zellij watch my-session-name
+</code></pre>
+<p>This attaches to the specified session in read-only mode - the terminal output is visible but no input can be sent.</p>
+<hr />
 <h3 id="completions"><a class="header" href="#completions">Completions</a></h3>
 <p>For convenience, zellij provides cli completions for popular shells.</p>
 <p>You can dump these completions to STDOUT and then append them to your shell's configuration file with:</p>
@@ -186,7 +199,7 @@ $ ze ./main.rs # open a new pane with your editor (eg. vim) pointed at ./main.rs
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="zellij-run.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="zellij-run-and-edit.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -200,7 +213,7 @@ $ ze ./main.rs # open a new pane with your editor (eg. vim) pointed at ./main.rs
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="zellij-run.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="zellij-run-and-edit.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

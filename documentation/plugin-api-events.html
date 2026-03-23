@@ -153,105 +153,855 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="plugin-api---events"><a class="header" href="#plugin-api---events">Plugin API - Events</a></h1>
-<p>A plugin can <a href="./plugin-api-commands.html#subscribe">subscribe</a> to multiple Events. These events will be sent to the plugin through its <a href="./plugin-lifecycle.html#update">update</a> method.</p>
-<p>For more detailed information, please see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
-<h2 id="modeupdate"><a class="header" href="#modeupdate">ModeUpdate</a></h2>
+<p>A plugin can <a href="./plugin-api-commands.html#subscribe">subscribe</a> to events using their <a href="./plugin-api-types.html#eventtype"><code>EventType</code></a> discriminant. Once subscribed, events are delivered to the plugin's <a href="./plugin-lifecycle.html#update"><code>update</code></a> method with their associated payload.</p>
+<p>For complete type definitions referenced below, see the <a href="./plugin-api-types.html">Type Reference</a>. For additional details, see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
+<h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
-<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+<li><a href="#modeupdate">ModeUpdate</a></li>
+<li><a href="#tabupdate">TabUpdate</a></li>
+<li><a href="#paneupdate">PaneUpdate</a></li>
+<li><a href="#key">Key</a></li>
+<li><a href="#mouse">Mouse</a></li>
+<li><a href="#timer">Timer</a></li>
+<li><a href="#copytoclipboard">CopyToClipboard</a></li>
+<li><a href="#systemclipboardfailure">SystemClipboardFailure</a></li>
+<li><a href="#inputreceived">InputReceived</a></li>
+<li><a href="#visible">Visible</a></li>
+<li><a href="#custommessage">CustomMessage</a></li>
+<li><a href="#filesystemcreate">FileSystemCreate</a></li>
+<li><a href="#filesystemread">FileSystemRead</a></li>
+<li><a href="#filesystemupdate">FileSystemUpdate</a></li>
+<li><a href="#filesystemdelete">FileSystemDelete</a></li>
+<li><a href="#permissionrequestresult">PermissionRequestResult</a></li>
+<li><a href="#sessionupdate">SessionUpdate</a></li>
+<li><a href="#runcommandresult">RunCommandResult</a></li>
+<li><a href="#webrequestresult">WebRequestResult</a></li>
+<li><a href="#commandpaneopened">CommandPaneOpened</a></li>
+<li><a href="#commandpaneexited">CommandPaneExited</a></li>
+<li><a href="#paneclosed">PaneClosed</a></li>
+<li><a href="#editpaneopened">EditPaneOpened</a></li>
+<li><a href="#editpaneexited">EditPaneExited</a></li>
+<li><a href="#commandpanererun">CommandPaneReRun</a></li>
+<li><a href="#failedtowriteconfigtodisk">FailedToWriteConfigToDisk</a></li>
+<li><a href="#listclients">ListClients</a></li>
+<li><a href="#hostfolderchanged">HostFolderChanged</a></li>
+<li><a href="#failedtochangehostfolder">FailedToChangeHostFolder</a></li>
+<li><a href="#pastedtext">PastedText</a></li>
+<li><a href="#configwaswrittentodisk">ConfigWasWrittenToDisk</a></li>
+<li><a href="#webserverstatus">WebServerStatus</a></li>
+<li><a href="#failedtostartwebserver">FailedToStartWebServer</a></li>
+<li><a href="#beforeclose">BeforeClose</a></li>
+<li><a href="#interceptedkeypress">InterceptedKeyPress</a></li>
+<li><a href="#useraction">UserAction</a></li>
+<li><a href="#panerenderreport">PaneRenderReport</a></li>
+<li><a href="#panerenderreportwithansi">PaneRenderReportWithAnsi</a></li>
+<li><a href="#actioncomplete">ActionComplete</a></li>
+<li><a href="#cwdchanged">CwdChanged</a></li>
+<li><a href="#availablelayoutinfo">AvailableLayoutInfo</a></li>
+<li><a href="#pluginconfigurationchanged">PluginConfigurationChanged</a></li>
+<li><a href="#highlightclicked">HighlightClicked</a></li>
 </ul>
-<p>Provides information about the input modes of Zellij (eg. <code>Normal</code>, <code>Locked</code>, <code>Pane</code>, <code>Tab</code>, etc.). It also provides information about the bound keys, the style (the active theme colors) and the session name.</p>
-<h2 id="tabupdate"><a class="header" href="#tabupdate">TabUpdate</a></h2>
+<hr />
+<h2 id="modeupdate"><a class="header" href="#modeupdate"><code>ModeUpdate</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::ModeUpdate(ModeInfo)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong> <a href="./plugin-api-types.html#modeinfo"><code>ModeInfo</code></a></p>
+<p>Fired when the input mode or relevant session metadata changes. Provides information about the current input mode (e.g., <code>Normal</code>, <code>Locked</code>, <code>Pane</code>, <code>Tab</code>), bound keys, the active theme colors, and the session name.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::ModeUpdate(mode_info) =&gt; {
+            self.current_mode = mode_info.mode;
+            self.session_name = mode_info.session_name.clone();
+            true // re-render
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="tabupdate"><a class="header" href="#tabupdate"><code>TabUpdate</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::TabUpdate(Vec&lt;TabInfo&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong> <code>Vec&lt;</code><a href="./plugin-api-types.html#tabinfo"><code>TabInfo</code></a><code>&gt;</code></p>
+<p>Fired when tab state changes in the application. Provides a list of all tabs with their position, name, active status, pane counts, swap layout information, and viewport dimensions.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::TabUpdate(tabs) =&gt; {
+            self.tabs = tabs;
+            if let Some(active) = self.tabs.iter().find(|t| t.active) {
+                self.active_tab_name = active.name.clone();
+            }
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="paneupdate"><a class="header" href="#paneupdate"><code>PaneUpdate</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::PaneUpdate(PaneManifest)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong> <a href="./plugin-api-types.html#panemanifest"><code>PaneManifest</code></a></p>
+<p>Fired when pane state changes in the application. Provides information about all panes in all tabs, including their title, position, size, command, focus state, and more.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::PaneUpdate(pane_manifest) =&gt; {
+            self.pane_manifest = pane_manifest;
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="key"><a class="header" href="#key"><code>Key</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::Key(KeyWithModifier)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <a href="./plugin-api-types.html#keywithmodifier"><code>KeyWithModifier</code></a></p>
+<p>Fired when the user presses a key while focused on this plugin's pane. No permission is required - this event is always available for the plugin's own pane.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::Key(key) =&gt; {
+            match key.bare_key {
+                BareKey::Char('q') if key.has_no_modifiers() =&gt; {
+                    close_self();
+                },
+                BareKey::Enter =&gt; {
+                    self.handle_enter();
+                },
+                _ =&gt; {},
+            }
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="mouse"><a class="header" href="#mouse"><code>Mouse</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::Mouse(Mouse)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <a href="./plugin-api-types.html#mouse"><code>Mouse</code></a></p>
+<p>Fired when the user performs a mouse action (click, scroll, hover, etc.) while focused on the plugin pane. No permission is required.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::Mouse(Mouse::LeftClick(line, col)) =&gt; {
+            self.handle_click(line as usize, col);
+            true
+        },
+        Event::Mouse(Mouse::ScrollUp(_)) =&gt; {
+            self.scroll_offset += 1;
+            true
+        },
+        Event::Mouse(Mouse::ScrollDown(_)) =&gt; {
+            self.scroll_offset = self.scroll_offset.saturating_sub(1);
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="timer"><a class="header" href="#timer"><code>Timer</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::Timer(f64)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <code>f64</code> - the duration (in seconds) that was originally set</p>
+<p>Fired when a timer set by <a href="./plugin-api-commands.html#set_timeout"><code>set_timeout</code></a> expires. No permission is required.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn load(&amp;mut self, _config: BTreeMap&lt;String, String&gt;) {
+    subscribe(&amp;[EventType::Timer]);
+    set_timeout(1.0); // fire after 1 second
+}
+
+fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::Timer(elapsed) =&gt; {
+            self.tick();
+            set_timeout(1.0); // schedule next tick
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="copytoclipboard"><a class="header" href="#copytoclipboard"><code>CopyToClipboard</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::CopyToClipboard(CopyDestination)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong> <a href="./plugin-api-types.html#copydestination"><code>CopyDestination</code></a></p>
+<p>Fired when the user copies text to their clipboard anywhere in the application. The payload indicates the clipboard destination (<code>System</code>, <code>Primary</code>, or <code>Command</code>).</p>
+<hr />
+<h2 id="systemclipboardfailure"><a class="header" href="#systemclipboardfailure"><code>SystemClipboardFailure</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::SystemClipboardFailure
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong> <em>(none)</em></p>
+<p>Fired when the system fails to copy text to the clipboard.</p>
+<hr />
+<h2 id="inputreceived"><a class="header" href="#inputreceived"><code>InputReceived</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::InputReceived
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <em>(none)</em></p>
+<p>Fired whenever any input is received anywhere in Zellij. Does not specify which input was received. No permission is required.</p>
+<hr />
+<h2 id="visible"><a class="header" href="#visible"><code>Visible</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::Visible(bool)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <code>bool</code> - <code>true</code> if the plugin became visible, <code>false</code> if it became invisible</p>
+<p>Fired when the plugin pane becomes visible or invisible (e.g., when switching tabs to or away from the plugin's tab). No permission is required.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::Visible(is_visible) =&gt; {
+            self.is_visible = is_visible;
+            if is_visible {
+                // refresh data when becoming visible
+                self.refresh();
+            }
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="custommessage"><a class="header" href="#custommessage"><code>CustomMessage</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::CustomMessage(String, String)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <code>(String, String)</code> - <code>(message_name, payload)</code></p>
+<p>Fired when a message is received from one of the plugin's workers via <a href="./plugin-api-commands.html#post_message_to_plugin"><code>post_message_to_plugin</code></a>. No permission is required. See <a href="./plugin-api-workers.html">Workers for Async Tasks</a> for details.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::CustomMessage(name, payload) =&gt; {
+            if name == "fetch_complete" {
+                self.data = serde_json::from_str(&amp;payload).ok();
+                true
+            } else {
+                false
+            }
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="filesystemcreate"><a class="header" href="#filesystemcreate"><code>FileSystemCreate</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::FileSystemCreate(Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;</code><a href="./plugin-api-types.html#filemetadata"><code>FileMetadata</code></a><code>)&gt;)</code> - paths and optional metadata of created files</p>
+<p>Fired when files are created in the Zellij host folder. The plugin must call <a href="./plugin-api-commands.html#watch_filesystem"><code>watch_filesystem</code></a> to start receiving these events. No permission is required beyond subscribing.</p>
+<hr />
+<h2 id="filesystemread"><a class="header" href="#filesystemread"><code>FileSystemRead</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::FileSystemRead(Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> - paths and optional metadata of accessed files</p>
+<p>Fired when files are read/accessed in the Zellij host folder.</p>
+<hr />
+<h2 id="filesystemupdate"><a class="header" href="#filesystemupdate"><code>FileSystemUpdate</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::FileSystemUpdate(Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> - paths and optional metadata of modified files</p>
+<p>Fired when files are modified in the Zellij host folder.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::FileSystemUpdate(files) =&gt; {
+            for (path, metadata) in &amp;files {
+                if path.extension().map_or(false, |ext| ext == "rs") {
+                    self.rust_files_changed = true;
+                }
+            }
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="filesystemdelete"><a class="header" href="#filesystemdelete"><code>FileSystemDelete</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::FileSystemDelete(Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <code>Vec&lt;(PathBuf, Option&lt;FileMetadata&gt;)&gt;</code> - paths and optional metadata of deleted files</p>
+<p>Fired when files are deleted from the Zellij host folder.</p>
+<hr />
+<h2 id="permissionrequestresult"><a class="header" href="#permissionrequestresult"><code>PermissionRequestResult</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::PermissionRequestResult(PermissionStatus)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <a href="./plugin-api-types.html#permissionstatus"><code>PermissionStatus</code></a> - <code>Granted</code> or <code>Denied</code></p>
+<p>Fired after <a href="./plugin-api-commands.html#request_permission"><code>request_permission</code></a> is called and the user responds. No permission is required.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::PermissionRequestResult(PermissionStatus::Granted) =&gt; {
+            // permissions granted, subscribe to events that require them
+            subscribe(&amp;[EventType::TabUpdate, EventType::PaneUpdate]);
+            true
+        },
+        Event::PermissionRequestResult(PermissionStatus::Denied) =&gt; {
+            eprintln!("Permissions denied - plugin functionality limited");
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="sessionupdate"><a class="header" href="#sessionupdate"><code>SessionUpdate</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::SessionUpdate(Vec&lt;SessionInfo&gt;, Vec&lt;(String, Duration)&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
 <ul>
-<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+<li><code>Vec&lt;</code><a href="./plugin-api-types.html#sessioninfo"><code>SessionInfo</code></a><code>&gt;</code> - list of active sessions</li>
+<li><code>Vec&lt;(String, Duration)&gt;</code> - list of resurrectable sessions <code>(name, time_since_death)</code></li>
 </ul>
-<p>Provides information about the active tabs in Zellij, their position, name, whether they contain a pane in full screen, how many hidden panes they contain and information on the swap layouts.</p>
-<h2 id="paneupdate"><a class="header" href="#paneupdate">PaneUpdate</a></h2>
+<p>Fired when session state changes, providing information about all active sessions of the current Zellij version and all resurrectable (dead) sessions.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::SessionUpdate(sessions, resurrectable) =&gt; {
+            self.sessions = sessions;
+            self.dead_sessions = resurrectable;
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="runcommandresult"><a class="header" href="#runcommandresult"><code>RunCommandResult</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::RunCommandResult(Option&lt;i32&gt;, Vec&lt;u8&gt;, Vec&lt;u8&gt;, BTreeMap&lt;String, String&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong></p>
 <ul>
-<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+<li><code>Option&lt;i32&gt;</code> - exit code (if the command exited normally)</li>
+<li><code>Vec&lt;u8&gt;</code> - stdout</li>
+<li><code>Vec&lt;u8&gt;</code> - stderr</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when running the command</li>
 </ul>
-<p>Provides information about the active panes in Zellij, their title, command and exit code (if available), etc.</p>
-<h2 id="sessionupdate"><a class="header" href="#sessionupdate">SessionUpdate</a></h2>
+<p>Fired after a command executed with <a href="./plugin-api-commands.html#run_command"><code>run_command</code></a> completes. No permission is required beyond the <code>RunCommands</code> permission used to initiate the command.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::RunCommandResult(exit_code, stdout, stderr, context) =&gt; {
+            if context.get("request_id") == Some(&amp;"git-status".to_string()) {
+                let output = String::from_utf8_lossy(&amp;stdout);
+                self.git_status = output.to_string();
+            }
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="webrequestresult"><a class="header" href="#webrequestresult"><code>WebRequestResult</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::WebRequestResult(u16, BTreeMap&lt;String, String&gt;, Vec&lt;u8&gt;, BTreeMap&lt;String, String&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong></p>
 <ul>
-<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+<li><code>u16</code> - HTTP status code</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - response headers</li>
+<li><code>Vec&lt;u8&gt;</code> - response body</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when making the request</li>
 </ul>
-<p>Provides information about the active sessions (of the current version) running on the machine.</p>
-<h2 id="key"><a class="header" href="#key">Key</a></h2>
-<p>A user pressed a key when focused to this plugin, this event also provides the key pressed.</p>
-<h2 id="mouse"><a class="header" href="#mouse">Mouse</a></h2>
-<p>A user issued a mouse action (click, scroll, etc.) while focused on the plugin, this event also provides the action in question.</p>
-<h2 id="timer"><a class="header" href="#timer">Timer</a></h2>
-<p>This event is fired when a timer the plugin set is expired. This corresponds to the <code>set_timeout</code> <a href="./plugin-api-commands.html#set_timeout">plugin command</a>;</p>
-<h2 id="copytoclipboard"><a class="header" href="#copytoclipboard">CopyToClipboard</a></h2>
+<p>Fired after a web request made with <a href="./plugin-api-commands.html#web_request"><code>web_request</code></a> completes. No permission is required beyond the <code>WebAccess</code> permission used to initiate the request.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::WebRequestResult(status, headers, body, context) =&gt; {
+            if status == 200 {
+                let body_str = String::from_utf8_lossy(&amp;body);
+                self.api_response = Some(body_str.to_string());
+            }
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="commandpaneopened"><a class="header" href="#commandpaneopened"><code>CommandPaneOpened</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::CommandPaneOpened(u32, BTreeMap&lt;String, String&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
 <ul>
-<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+<li><code>u32</code> - terminal pane ID of the opened command pane</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when opening the pane</li>
 </ul>
-<p>This event is fired when the user copies a String to their clipboard</p>
-<h2 id="systemclipboardfailure"><a class="header" href="#systemclipboardfailure">SystemClipboardFailure</a></h2>
+<p>Fired when a command pane opened with one of the <code>open_command_pane*</code> <a href="./plugin-api-commands.html">plugin commands</a> has been created.</p>
+<hr />
+<h2 id="commandpaneexited"><a class="header" href="#commandpaneexited"><code>CommandPaneExited</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::CommandPaneExited(u32, Option&lt;i32&gt;, BTreeMap&lt;String, String&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
 <ul>
-<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+<li><code>u32</code> - terminal pane ID</li>
+<li><code>Option&lt;i32&gt;</code> - exit code of the command (if available)</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - context dictionary</li>
 </ul>
-<p>This event is fired when the user fails to copy a String to their clipboard</p>
-<h2 id="inputreceived"><a class="header" href="#inputreceived">InputReceived</a></h2>
-<p>This event is fired whenever any input is received in Zellij, but does not specify which input</p>
-<h2 id="visible"><a class="header" href="#visible">Visible</a></h2>
-<p>This event is fired when the current plugin becomes visible or invisible (eg. when switching a tab to and away from it).</p>
-<h2 id="custommessage"><a class="header" href="#custommessage">CustomMessage</a></h2>
-<p>This event corresponds to the <code>post_message_to</code> and <code>post_message_to_plugin</code> <a href="./plugin-api-commands.html">plugin commands</a>, used for a plugin and its workers to communicate. For more information, please see: <a href="./plugin-api-workers.html">Workers for Async Tasks</a>.</p>
-<h2 id="filesystemcreate-filesystemread-filesystemupdate-filesystemdelete"><a class="header" href="#filesystemcreate-filesystemread-filesystemupdate-filesystemdelete">FileSystemCreate, FileSystemRead, FileSystemUpdate, FileSystemDelete</a></h2>
-<p>These events are fired when the user creates a file, reads a file, updates a file or deletes a file in the folder in which Zellij was started. It includes a vector of the files in question.</p>
-<h2 id="runcommandresult"><a class="header" href="#runcommandresult">RunCommandResult</a></h2>
-<p>Returned after the <code>RunCommand</code> <a href="./plugin-api-commands.html">plugin command</a>. Containing the exit status, STDIN and STDOUT of the command as well as the context (an arbitrary string dictionary) provided when initiating the command.</p>
-<h2 id="webrequestresult"><a class="header" href="#webrequestresult">WebRequestResult</a></h2>
-<p>Returned after the <code>WebRequest</code> <a href="./plugin-api-commands.html">plugin command</a>. Containing the status code and body of the request as well as the context (an arbitrary string dictionary) provided when initiating the command.</p>
-<h2 id="commandpaneopened"><a class="header" href="#commandpaneopened">CommandPaneOpened</a></h2>
+<p>Fired when the command inside a command pane has exited. Note that this does not mean the pane is closed - the pane remains open in a "held" state, allowing the user to re-run the command. This event can fire multiple times if the user re-runs the command.</p>
+<hr />
+<h2 id="paneclosed"><a class="header" href="#paneclosed"><code>PaneClosed</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::PaneClosed(PaneId)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong> <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the ID of the closed pane</p>
+<p>Fired when a pane in the current session is closed.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::PaneClosed(pane_id) =&gt; {
+            self.tracked_panes.remove(&amp;pane_id);
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="editpaneopened"><a class="header" href="#editpaneopened"><code>EditPaneOpened</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::EditPaneOpened(u32, BTreeMap&lt;String, String&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
 <ul>
-<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+<li><code>u32</code> - terminal pane ID of the editor pane</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - context dictionary</li>
 </ul>
-<p>Returned after a pane opened with the <code>OpenCommandPane</code> <a href="./plugin-api-commands.html">plugin command</a> is opened. Contains the terminal pane id of the pane, the context (an arbitrary string dictionary) provided when initiating the command.</p>
-<h2 id="commandpaneexited"><a class="header" href="#commandpaneexited">CommandPaneExited</a></h2>
+<p>Fired when an editor pane opened with one of the <code>open_file*</code> <a href="./plugin-api-commands.html">plugin commands</a> has been created.</p>
+<hr />
+<h2 id="editpaneexited"><a class="header" href="#editpaneexited"><code>EditPaneExited</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::EditPaneExited(u32, Option&lt;i32&gt;, BTreeMap&lt;String, String&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
 <ul>
-<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+<li><code>u32</code> - terminal pane ID of the editor pane</li>
+<li><code>Option&lt;i32&gt;</code> - editor exit code (if available)</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - context dictionary</li>
 </ul>
-<p>Returned after a pane opened with the <code>OpenCommandPane</code> <a href="./plugin-api-commands.html">plugin command</a> has exited. Note that this does not mean the pane is closed, it only means the command inside it has exited. This can happen multiple times if (for example) the user reruns the command by pressing <code>Enter</code> when focused on the command pane. Contains the terminal pane id of the pane, the command's numeric exit code (if there was one) as well as the context (an arbitrary string dictionary) provided when initiating the command.</p>
-<h2 id="paneclosed"><a class="header" href="#paneclosed">PaneClosed</a></h2>
+<p>Fired when the editor process inside an editor pane has exited.</p>
+<hr />
+<h2 id="commandpanererun"><a class="header" href="#commandpanererun"><code>CommandPaneReRun</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::CommandPaneReRun(u32, BTreeMap&lt;String, String&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
 <ul>
-<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+<li><code>u32</code> - terminal pane ID</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - context dictionary</li>
 </ul>
-<p>A pane inside the current session was closed. Includes the pane's id.</p>
-<h2 id="editpaneopened"><a class="header" href="#editpaneopened">EditPaneOpened</a></h2>
+<p>Fired when a command pane's command has been re-run. This is often triggered by the user pressing <code>Enter</code> when focused on a held command pane, but can also be triggered programmatically via <a href="./plugin-api-commands.html#rerun_command_pane"><code>rerun_command_pane</code></a>.</p>
+<hr />
+<h2 id="failedtowriteconfigtodisk"><a class="header" href="#failedtowriteconfigtodisk"><code>FailedToWriteConfigToDisk</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::FailedToWriteConfigToDisk(Option&lt;String&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong> <code>Option&lt;String&gt;</code> - error message or file path (if available)</p>
+<p>Fired when the plugin attempted to write configuration to disk (via <a href="./plugin-api-commands.html#reconfigure"><code>reconfigure</code></a> with <code>save_configuration_file: true</code>) and there was an error (e.g., the file was read-only).</p>
+<hr />
+<h2 id="listclients"><a class="header" href="#listclients"><code>ListClients</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::ListClients(Vec&lt;ClientInfo&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong> <code>Vec&lt;</code><a href="./plugin-api-types.html#clientinfo"><code>ClientInfo</code></a><code>&gt;</code></p>
+<p>Fired as a result of the <a href="./plugin-api-commands.html#list_clients"><code>list_clients</code></a> command. Contains information about all connected clients in the session, including their ID, focused pane, running command, and whether they are the current client.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::ListClients(clients) =&gt; {
+            self.clients = clients;
+            let current = self.clients.iter().find(|c| c.is_current_client);
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="hostfolderchanged"><a class="header" href="#hostfolderchanged"><code>HostFolderChanged</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::HostFolderChanged(PathBuf)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <code>PathBuf</code> - the new host folder path</p>
+<p>Fired when the host folder (working directory) has been changed, either via <a href="./plugin-api-commands.html#change_host_folder"><code>change_host_folder</code></a> or by other means. No permission is required.</p>
+<hr />
+<h2 id="failedtochangehostfolder"><a class="header" href="#failedtochangehostfolder"><code>FailedToChangeHostFolder</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::FailedToChangeHostFolder(Option&lt;String&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <code>Option&lt;String&gt;</code> - error message (if available)</p>
+<p>Fired when an attempt to change the host folder failed. No permission is required.</p>
+<hr />
+<h2 id="pastedtext"><a class="header" href="#pastedtext"><code>PastedText</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::PastedText(String)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <code>String</code> - the pasted text</p>
+<p>Fired when the user pastes text while focused on this plugin's pane. No permission is required.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::PastedText(text) =&gt; {
+            self.input_buffer.push_str(&amp;text);
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="configwaswrittentodisk"><a class="header" href="#configwaswrittentodisk"><code>ConfigWasWrittenToDisk</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::ConfigWasWrittenToDisk
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <em>(none)</em></p>
+<p>Fired when configuration was successfully saved to the configuration file listened to by the current session. No permission is required.</p>
+<hr />
+<h2 id="webserverstatus"><a class="header" href="#webserverstatus"><code>WebServerStatus</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::WebServerStatus(WebServerStatus)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <a href="./plugin-api-types.html#webserverstatus"><code>WebServerStatus</code></a></p>
+<p>Fired as a reply to the <a href="./plugin-api-commands.html#query_web_server_status"><code>query_web_server_status</code></a> command, or when the web server status changes. The payload can be <code>Online(base_url)</code>, <code>Offline</code>, or <code>DifferentVersion(version)</code>.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::WebServerStatus(WebServerStatus::Online(url)) =&gt; {
+            self.web_url = Some(url);
+            true
+        },
+        Event::WebServerStatus(WebServerStatus::Offline) =&gt; {
+            self.web_url = None;
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="failedtostartwebserver"><a class="header" href="#failedtostartwebserver"><code>FailedToStartWebServer</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::FailedToStartWebServer(String)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <code>String</code> - error message</p>
+<p>Fired when Zellij failed to start the web server after a <a href="./plugin-api-commands.html#start_web_server"><code>start_web_server</code></a> command.</p>
+<hr />
+<h2 id="beforeclose"><a class="header" href="#beforeclose"><code>BeforeClose</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::BeforeClose
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <em>(none)</em></p>
+<p>Fired before the plugin is being unloaded. This provides an opportunity for the plugin to perform cleanup operations. The plugin must subscribe to this event to receive it. No permission is required.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn load(&amp;mut self, _config: BTreeMap&lt;String, String&gt;) {
+    subscribe(&amp;[EventType::BeforeClose]);
+}
+
+fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::BeforeClose =&gt; {
+            self.save_state();
+            false
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="interceptedkeypress"><a class="header" href="#interceptedkeypress"><code>InterceptedKeyPress</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::InterceptedKeyPress(KeyWithModifier)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>InterceptInput</code></a></p>
+<p><strong>Payload:</strong> <a href="./plugin-api-types.html#keywithmodifier"><code>KeyWithModifier</code></a></p>
+<p>Similar to the <code>Key</code> event, but represents a key press that was intercepted after the <a href="./plugin-api-commands.html#intercept_key_presses"><code>intercept_key_presses</code></a> command was issued. Intercepted keys are consumed by the plugin and are not processed by Zellij's normal key handling.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::InterceptedKeyPress(key) =&gt; {
+            if key.bare_key == BareKey::Esc {
+                clear_key_presses_intercepts(); // stop intercepting
+            } else {
+                self.handle_intercepted_key(key);
+            }
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="useraction"><a class="header" href="#useraction"><code>UserAction</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::UserAction(Action, ClientId, Option&lt;u32&gt;, Option&lt;ClientId&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>InterceptInput</code></a></p>
+<p><strong>Payload:</strong></p>
 <ul>
-<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+<li><a href="./plugin-api-types.html#action"><code>Action</code></a> - the action that was performed</li>
+<li><code>ClientId</code> - the client that performed the action</li>
+<li><code>Option&lt;u32&gt;</code> - terminal ID (if applicable)</li>
+<li><code>Option&lt;ClientId&gt;</code> - CLI client ID (if the action originated from the CLI)</li>
 </ul>
-<p>Returned after a pane opened with the <code>OpenFile</code> <a href="./plugin-api-commands.html">plugin command</a> is opened. Contains the terminal pane id of the editor pane, the context (an arbitrary string dictionary) provided when initiating the command.</p>
-<h2 id="editpaneexited"><a class="header" href="#editpaneexited">EditPaneExited</a></h2>
+<p>Fired when any action is performed by a user. This is useful for observing all user activity in the session.</p>
+<hr />
+<h2 id="panerenderreport"><a class="header" href="#panerenderreport"><code>PaneRenderReport</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::PaneRenderReport(HashMap&lt;PaneId, PaneContents&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadPaneContents</code></a></p>
+<p><strong>Payload:</strong> <code>HashMap&lt;</code><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a><code>, </code><a href="./plugin-api-types.html#panecontents"><code>PaneContents</code></a><code>&gt;</code></p>
+<p>Provides the rendered content of subscribed panes with ANSI escape codes stripped. This event is fired periodically for panes the plugin has subscribed to observe.</p>
+<hr />
+<h2 id="panerenderreportwithansi"><a class="header" href="#panerenderreportwithansi"><code>PaneRenderReportWithAnsi</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::PaneRenderReportWithAnsi(HashMap&lt;PaneId, PaneContents&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadPaneContents</code></a></p>
+<p><strong>Payload:</strong> <code>HashMap&lt;PaneId, PaneContents&gt;</code></p>
+<p>Same as <code>PaneRenderReport</code>, but with ANSI escape codes preserved in the content. Useful when the plugin needs to process or display the terminal output with formatting intact.</p>
+<hr />
+<h2 id="actioncomplete"><a class="header" href="#actioncomplete"><code>ActionComplete</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::ActionComplete(Action, Option&lt;PaneId&gt;, BTreeMap&lt;String, String&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong></p>
 <ul>
-<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+<li><a href="./plugin-api-types.html#action"><code>Action</code></a> - the action that completed</li>
+<li><code>Option&lt;</code><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a><code>&gt;</code> - the resulting pane ID (if applicable)</li>
+<li><code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when running the action</li>
 </ul>
-<p>Returned after a pane opened with the <code>OpenFile</code> <a href="./plugin-api-commands.html">plugin command</a> has exited. Contains the terminal pane id of the editor pane, the editor's numeric exit code (if there was one) as well as the context (an arbitrary string dictionary) provided when initiating the command.</p>
-<h2 id="commandpanererun"><a class="header" href="#commandpanererun">CommandPaneReRun</a></h2>
+<p>Fired when an action executed via <a href="./plugin-api-commands.html#run_action"><code>run_action</code></a> has completed. No permission is required beyond the <code>RunActionsAsUser</code> permission used to initiate the action.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::ActionComplete(action, pane_id, context) =&gt; {
+            if context.get("request_id") == Some(&amp;"my-action".to_string()) {
+                if let Some(pane_id) = pane_id {
+                    self.created_pane = Some(pane_id);
+                }
+            }
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="cwdchanged"><a class="header" href="#cwdchanged"><code>CwdChanged</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::CwdChanged(PaneId, PathBuf, Vec&lt;ClientId&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong></p>
 <ul>
-<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+<li><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane whose working directory changed</li>
+<li><code>PathBuf</code> - the new working directory</li>
+<li><code>Vec&lt;ClientId&gt;</code> - client IDs that have this pane focused</li>
 </ul>
-<p>Returned after a pane opened with the <code>OpenCommandPane</code> <a href="./plugin-api-commands.html">plugin command</a> has been re-run. This can happen multiple times and is often (but not necessarily) a result of the user pressing <code>Enter</code> when focused on the command pane. Contains the terminal pane id of the pane, the command's numeric exit code (if there was one) as well as the context (an arbitrary string dictionary) provided when initiating the command.</p>
-<h2 id="failedtowriteconfigtodisk"><a class="header" href="#failedtowriteconfigtodisk">FailedToWriteConfigToDisk</a></h2>
+<p>Fired when the working directory changes in a terminal pane. No permission is required.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::CwdChanged(pane_id, new_cwd, _focused_clients) =&gt; {
+            self.pane_cwds.insert(pane_id, new_cwd);
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="availablelayoutinfo"><a class="header" href="#availablelayoutinfo"><code>AvailableLayoutInfo</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::AvailableLayoutInfo(Vec&lt;LayoutInfo&gt;, Vec&lt;LayoutWithError&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong></p>
 <ul>
-<li>Requires the <code>ReadApplicationState</code> <a href="./plugin-api-permissions.html">permission</a></li>
+<li><code>Vec&lt;</code><a href="./plugin-api-types.html#layoutinfo"><code>LayoutInfo</code></a><code>&gt;</code> - available layouts</li>
+<li><code>Vec&lt;LayoutWithError&gt;</code> - layouts that had parse errors</li>
 </ul>
-<p>After the plugin attempted writing the configuration to disk (with the <code>Reconfigure</code> <a href="./plugin-api-commands.html">plugin command</a>) and there was an error (eg. the file was read-only), this event is sent - optionally with the relevant error.</p>
-<h2 id="listclients"><a class="header" href="#listclients">ListClients</a></h2>
-<p>The result of the <code>ListClients</code> <a href="./plugin-api-commands.html">plugin command</a>. Contains information about all connected clients in the session, including their id, their focused pane id, the stringified representation of the running command or plugin inside their focused pane (if any), as well as an indication of whether they are the current client or not.</p>
-<h2 id="pastedtext"><a class="header" href="#pastedtext">PastedText</a></h2>
-<p>The user just pasted the given text while focused on the plugin.</p>
-<h2 id="configwaswrittentodisk"><a class="header" href="#configwaswrittentodisk">ConfigWasWrittenToDisk</a></h2>
-<p>A new configuration was successfully saved in the configuration file listened to by the current session.</p>
-<h2 id="webserverstatus"><a class="header" href="#webserverstatus">WebServerStatus</a></h2>
-<p>This event is sent as a reply to the <code>QueryWebServer</code> command. It can be either online (and include the base url), offline or different_version (including the specified version).</p>
-<h2 id="failedtostartwebserver"><a class="header" href="#failedtostartwebserver">FailedToStartWebServer</a></h2>
-<p>This event is sent as a reply to the <code>StartWebServer</code> command, when Zellij failed to start the web server. It includes a String representing the error.</p>
-<h2 id="beforeclose"><a class="header" href="#beforeclose">BeforeClose</a></h2>
-<p>This event (if subscribed to) is called before a plugin is being unloaded, and is a chance for a plugin to do some cleanups.</p>
-<h2 id="interceptedkeypress"><a class="header" href="#interceptedkeypress">InterceptedKeyPress</a></h2>
-<p>This event is similar to the Key Event, but represent a keypress that was intercepted after the InterceptKeyPresses plugin command was issued.</p>
+<p>Fired when the available layouts change (e.g., when a layout file is added, modified, or deleted in the layout directory). No permission is required.</p>
+<hr />
+<h2 id="pluginconfigurationchanged"><a class="header" href="#pluginconfigurationchanged"><code>PluginConfigurationChanged</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::PluginConfigurationChanged(BTreeMap&lt;String, String&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong> <code>BTreeMap&lt;String, String&gt;</code> - the updated configuration key-value pairs</p>
+<p>Fired when the plugin's configuration is modified at runtime. No permission is required.</p>
+<p><strong>Important caveat:</strong> When plugin configuration changes at runtime, the plugin's identity (used for pipe messages and self-referencing) remains tied to the original configuration at load time. This means that if another plugin or CLI pipe targets this plugin by its configuration, the original configuration values must be used, not the updated ones. Plugin developers should account for this when designing configuration-dependent communication patterns.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::PluginConfigurationChanged(config) =&gt; {
+            self.apply_configuration(config);
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="highlightclicked"><a class="header" href="#highlightclicked"><code>HighlightClicked</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::HighlightClicked {
+    pane_id: PaneId,
+    pattern: String,
+    matched_string: String,
+    context: BTreeMap&lt;String, String&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><code>pane_id</code> - <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane containing the clicked highlight</li>
+<li><code>pattern</code> - <code>String</code> - the regex pattern that matched</li>
+<li><code>matched_string</code> - <code>String</code> - the actual text that was matched (if the pattern contains a capture group, this is the content of group 1 rather than the full match)</li>
+<li><code>context</code> - <code>BTreeMap&lt;String, String&gt;</code> - the context dictionary provided when setting up the highlight</li>
+</ul>
+<p>Fired when the user clicks on a regex highlight set by <a href="./plugin-api-commands.html#set_pane_regex_highlights"><code>set_pane_regex_highlights</code></a>.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::HighlightClicked { pane_id, pattern, matched_string, context } =&gt; {
+            if pattern.contains("https?://") {
+                // Open the clicked URL
+                run_command(&amp;["xdg-open", &amp;matched_string], BTreeMap::new());
+            }
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
 
                     </main>
 

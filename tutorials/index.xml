@@ -16,4 +16,4 @@ The video screencast and the tutorial contain the same content, with the video s
 Why use Zellij to manage sessions? Do you find yourself jumping between tasks a lot?</description></item><item><title>Using Layouts for Personal Automation</title><link>https://zellij.dev/tutorials/layouts/</link><pubDate>Thu, 08 Dec 2022 19:54:34 +0100</pubDate><guid>https://zellij.dev/tutorials/layouts/</guid><description>This tutorial walks you through creating Zellij layouts to automate tasks and workflows.
 Layouts describe a pre-defined set of panes and tabs with different terminals, commands and plugins. They can be great to automate and formalize workflows and tasks.
 If you prefer a written tutorial, or would like to copy/paste the examples, scroll down past this video.
-var playerElement = document.getElementById("player-wrapper"); var player = new Clappr.Player({ source: "</description></item></channel></rss>
+Note: Recent Zellij versions added a dedicated Layout Manager UI to help us more easily manage layouts.</description></item></channel></rss>

@@ -154,6 +154,9 @@
                     <main>
                         <h1 id="command-line-configuration-options"><a class="header" href="#command-line-configuration-options">Command Line Configuration Options</a></h1>
 <p>In addition to the <a href="./configuration.html">configuration file</a>, zellij can also be configured through the command line when running it. These options will override options in the configuration file.</p>
+<blockquote>
+<p><strong>Migration Note:</strong> The <code>--disable-mouse-mode</code> and <code>--no-pane-frames</code> flags have been removed. Use <code>--mouse-mode false</code> (equivalent of <code>--disable-mouse-mode</code>) and <code>--pane-frames false</code> (equivalent of <code>--no-pane-frames</code>) instead.</p>
+</blockquote>
 <pre><code>USAGE:
     zellij options [OPTIONS]
 
@@ -181,7 +184,7 @@ OPTIONS:
             Set the default shell
 
         --disable-mouse-mode
-            Disable handling of mouse events
+            Disable handling of mouse events (REMOVED - use --mouse-mode false instead)
 
             Print help information
 
@@ -197,7 +200,7 @@ OPTIONS:
             [SHIFT] key [possible values: true, false]
 
         --no-pane-frames
-            Disable display of pane frames
+            Disable display of pane frames (REMOVED - use --pane-frames false instead)
 
         --on-force-close &lt;ON_FORCE_CLOSE&gt;
             Set behaviour on force close (quit or detach)

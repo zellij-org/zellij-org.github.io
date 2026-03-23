@@ -196,6 +196,21 @@ copy_command: "pbcopy"                     # osx
 <p>You can also embed a floating pane with <code>Ctrl + &lt;p&gt; + &lt;e&gt;</code>, and float an embedded pane in the same way.</p>
 <h2 id="how-can-i-switch-between-sessions-or-launch-a-new-session-from-within-zellij"><a class="header" href="#how-can-i-switch-between-sessions-or-launch-a-new-session-from-within-zellij">How can I switch between sessions or launch a new session from within Zellij?</a></h2>
 <p>You can use the built-in <code>session-manager</code>. By default, launch it with <code>Ctrl o</code> + <code>w</code>.</p>
+<h2 id="does-zellij-run-on-windows"><a class="header" href="#does-zellij-run-on-windows">Does Zellij run on Windows?</a></h2>
+<p>Yes. Zellij runs natively on Windows. The following differences apply compared to Linux/macOS:</p>
+<ul>
+<li><strong>IPC</strong>: Named pipes (<code>\\.\pipe\...</code>) are used instead of Unix domain sockets. The maximum socket path length is 256 characters (vs 108 on Unix).</li>
+<li><strong>PTY</strong>: Windows pseudo-terminals (ConPTY) are used instead of Unix PTYs.</li>
+<li><strong>Web Server</strong>: The built-in web server is fully functional on Windows, including the <code>--daemonize</code> flag which uses a <code>--server-startup-timeout</code> option (default: 10 seconds) for background server startup.</li>
+</ul>
+<h2 id="can-i-upgrade-zellij-without-losing-my-running-sessions"><a class="header" href="#can-i-upgrade-zellij-without-losing-my-running-sessions">Can I upgrade Zellij without losing my running sessions?</a></h2>
+<p>Yes. Sessions persist across Zellij version upgrades. The IPC contract uses protocol buffers and the socket directory uses a versioned path (<code>contract_version_1</code>) rather than per-Zellij-version directories. Sessions created by one Zellij version can be attached to by another version, as long as the contract version remains the same.</p>
+<p>The socket directory is located at:</p>
+<ul>
+<li><strong>Linux/macOS</strong>: <code>$XDG_RUNTIME_DIR/zellij/contract_version_1/</code> (or equivalent)</li>
+<li><strong>Windows</strong>: Named pipes under the <code>contract_version_1</code> namespace</li>
+</ul>
+<p><strong>Note for script authors:</strong> If existing scripts reference the old per-version socket paths, they should be updated to use the new <code>contract_version_1</code> path structure.</p>
 <h2 id="editing-the-pane-scrollbuffer-with-ctrl--s--e-doesnt-work-whats-wrong"><a class="header" href="#editing-the-pane-scrollbuffer-with-ctrl--s--e-doesnt-work-whats-wrong">Editing the pane scrollbuffer with <code>ctrl + &lt;s&gt; + &lt;e&gt;</code> doesn't work, what's wrong?</a></h2>
 <p>By default, Zellij looks for an editor defined in the <code>EDITOR</code> or <code>VISUAL</code> environment variables (in this order).
 Make sure one is set (eg. <code>export EDITOR=/usr/bin/vim</code>) before Zellij starts.
