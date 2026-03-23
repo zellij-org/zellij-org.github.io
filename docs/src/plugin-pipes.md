@@ -23,7 +23,7 @@ Pipes can be started either from the CLI, from a keybinding or from another plug
 If the source is the CLI, the internal pipe-id (a UUID) will be provided to allow plugins to apply backpressure to the CLI pipe as needed (for example, pausing a CLI pipeline until the user presses a specific key).
 
 ### CLI pipes and backpressure
-Pipes can be [started from the CLI](./zellij-pipe.md), in which case they can potentially listen to `STDIN` and send multiple messages down the same pipe. It's important to stress that this is usually slower than piping data to other programs, namely because Zellij plugins often render themselves on each pipe message. The `STDIN` buffer is only released after the plugin has been rendered (or has elected not to render itself) in order to apply backpressure.
+Pipes can be [started from the CLI](./zellij-plugin-and-pipe.md#zellij-pipe), in which case they can potentially listen to `STDIN` and send multiple messages down the same pipe. It's important to stress that this is usually slower than piping data to other programs, namely because Zellij plugins often render themselves on each pipe message. The `STDIN` buffer is only released after the plugin has been rendered (or has elected not to render itself) in order to apply backpressure.
 
 Zellij plugins can also elect to entirely block the CLI pipe, releasing it later based on (for example) user input. The same pipe can be blocked/released from any plugin, so long as it knows the CLI pipe ID provided as the [pipe source](#pipe-sources).
 

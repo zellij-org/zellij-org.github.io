@@ -4,6 +4,60 @@ Configuration options can be set directly at the root of the [configuration file
 
  These include:
 
+---
+
+- [on_force_close](#on_force_close)
+- [simplified_ui](#simplified_ui)
+- [default_shell](#default_shell)
+- [pane_frames](#pane_frames)
+- [theme](#theme)
+- [default_layout](#default_layout)
+- [default_mode](#default_mode-locked)
+- [mouse_mode](#mouse_mode)
+- [scroll_buffer_size](#scroll_buffer_size)
+- [copy_command](#copy_command)
+- [copy_clipboard](#copy_clipboard)
+- [copy_on_select](#copy_on_select)
+- [scrollback_editor](#scrollback_editor)
+- [mirror_session](#mirror_session)
+- [layout_dir](#layout_dir)
+- [theme_dir](#theme_dir)
+- [env](#env)
+- [rounded_corners](#rounded_corners)
+- [hide_session_name](#hide_session_name)
+- [auto_layout](#auto_layout)
+- [styled_underlines](#styled_underlines)
+- [session_serialization](#session_serialization)
+- [pane_viewport_serialization](#pane_viewport_serialization)
+- [scrollback_lines_to_serialize](#scrollback_lines_to_serialize)
+- [serialization_interval](#serialization_interval)
+- [disable_session_metadata](#disable_session_metadata)
+- [stacked_resize](#stacked_resize)
+- [show_startup_tips](#show_startup_tips)
+- [show_release_notes](#show_release_notes)
+- [post_command_discovery_hook](#post_command_discovery_hook)
+- [web_server](#web_server)
+- [web_server_ip](#web_server_ip)
+- [web_server_port](#web_server_port)
+- [web_server_cert](#web_server_cert)
+- [web_server_key](#web_server_key)
+- [enforce_https_on_localhost](#enforce_https_on_localhost)
+- [base_url](#base_url)
+- [web_client](#web_client)
+- [advanced_mouse_actions](#advanced_mouse_actions)
+- [default_cwd](#default_cwd)
+- [osc8_hyperlinks](#osc8_hyperlinks)
+- [session_name](#session_name)
+- [attach_to_session](#attach_to_session)
+- [support_kitty_keyboard_protocol](#support_kitty_keyboard_protocol)
+- [web_sharing](#web_sharing)
+- [mouse_hover_effects](#mouse_hover_effects)
+- [visual_bell](#visual_bell)
+- [focus_follows_mouse](#focus_follows_mouse)
+- [mouse_click_through](#mouse_click_through)
+
+---
+
 ### on_force_close
 
 Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
@@ -359,6 +413,17 @@ The path to the private_key of te SSL certificate for the Zellij [web-server](./
 ### enforce_https_on_localhost
 Whether to enforce https on localhost for the Zellij [web-server](./web-client.md). This is always enforced when listening on non-localhost addresses.
 
+### base_url
+Set the base URL path for the Zellij [web-server](./web-client.md). When set, the web server serves all content under this path prefix. This is useful when running behind a reverse proxy that serves Zellij under a subpath.
+
+Default: none (served at root "/")
+
+```javascript
+web_client {
+    base_url "/zellij"
+}
+```
+
 ### web_client
 Configuration having to do with the in-browser terminal of the Zellij web client (eg. colors, font). For more info, please see: [web-server](./web-client.md).
 
@@ -367,8 +432,118 @@ Options:
     - false (default)
 
 ### advanced_mouse_actions
-Whether to enable mouse hover effects and multiple select functionality (pane grouping).
+Whether to enable mouse hover effects, multiple select functionality (pane grouping), and mouse-based pane resizing.
+
+When enabled, the following mouse interactions are available:
+- **Drag tiled pane borders**: Click and drag the border between tiled panes to resize them
+- **Ctrl+Drag floating pane borders**: Hold Ctrl and drag the border of a floating pane to resize it
+- **Ctrl+ScrollWheel**: Hold Ctrl and scroll the mouse wheel up or down to resize the focused pane (increases/decreases size by approximately 5 cells)
+
+These interactions are shown as help text in the pane frame when hovering near resizable borders.
 
 Options:
     - true (default)
     - false
+
+### default_cwd
+Set the default current working directory for new panes. When set, new panes will open in this directory unless otherwise specified.
+
+```javascript
+default_cwd "/home/user/projects"
+```
+
+### osc8_hyperlinks
+Enable clickable OSC8 hyperlink output in terminal panes. When enabled, programs that emit OSC8 escape sequences will produce clickable hyperlinks.
+
+Options:
+  - true
+  - false (default)
+
+```javascript
+osc8_hyperlinks true
+```
+
+### session_name
+Set the name of the session to create when starting Zellij. If not set, a random name will be generated.
+
+```javascript
+session_name "my-session"
+```
+
+### attach_to_session
+If a session with the name specified in `session_name` already exists, attach to it instead of creating a new one.
+
+Options:
+  - true
+  - false (default)
+
+```javascript
+attach_to_session true
+```
+
+### support_kitty_keyboard_protocol
+Enable support for the Kitty keyboard protocol. This allows for more detailed key reporting from the terminal. Defaults to true if the terminal supports it.
+
+Options:
+  - true (default if terminal supports it)
+  - false
+
+```javascript
+support_kitty_keyboard_protocol true
+```
+
+### web_sharing
+Whether new sessions are shared through the local web server. This is separate from `web_server` which controls whether the server starts at all.
+
+Options:
+  - "on" - new sessions are shared by default
+  - "off" - new sessions are not shared by default (Default)
+  - "disabled" - sharing is completely disabled
+
+```javascript
+web_sharing "on"
+```
+
+### mouse_hover_effects
+Enable mouse hover visual effects, such as pane frame highlight and help text when hovering over panes.
+
+Options:
+  - true (default)
+  - false
+
+```javascript
+mouse_hover_effects false
+```
+
+### visual_bell
+Show visual bell indicators when a pane sends a bell character. This manifests as a brief pane/tab frame flash and a [!] suffix on the tab name.
+
+Options:
+  - true (default)
+  - false
+
+```javascript
+visual_bell false
+```
+
+### focus_follows_mouse
+Whether to automatically focus panes when hovering over them with the mouse.
+
+Options:
+  - true
+  - false (default)
+
+```javascript
+focus_follows_mouse true
+```
+
+### mouse_click_through
+Whether clicking a pane to focus it also sends the click event into the pane (to the running program). When false, the first click only focuses the pane and is consumed by Zellij.
+
+Options:
+  - true
+  - false (default)
+
+```javascript
+mouse_click_through true
+```

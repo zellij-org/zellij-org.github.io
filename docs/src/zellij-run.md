@@ -9,22 +9,41 @@ $ zellij run -- git diff
 
 **OPTIONS**:
 ```
-    -c, --close-on-exit            Close the pane immediately when its command exits
-        --cwd <CWD>                Change the working directory of the new pane
-    -d, --direction <DIRECTION>    Direction to open the new pane in
-    -f, --floating                 Open the new pane in floating mode
-    -h, --help                     Print help information
-        --height <HEIGHT>          The height if the pane is floating as a bare integer (eg. 1) or
-    -i, --in-place                 Open the new pane in place of the current pane, temporarily suspending it
-    -n, --name <NAME>              Name of the new pane
-    -s, --start-suspended          Start the command suspended, only running after you first presses
-                                   ENTER
-        --width <WIDTH>            The width if the pane is floating as a bare integer (eg. 1) or
-                                   percent (eg. 10%)
-    -x, --x <X>                    The x coordinates if the pane is floating as a bare integer (eg.
-                                   1) or percent (eg. 10%)
-    -y, --y <Y>                    The y coordinates if the pane is floating as a bare integer (eg.
-                                   1) or percent (eg. 10%)
+-b, --borderless <BORDERLESS>     start this pane without a border (warning: will make it
+                                  impossible to move with the mouse) [possible values: true,
+                                  false]
+    --block-until-exit            Block until the command exits (regardless of exit status) OR
+                                  its pane has been closed
+    --block-until-exit-failure    Block until the command exits with failure (non-zero exit
+                                  status) OR its pane has been closed
+    --block-until-exit-success    Block until the command exits successfully (exit status 0) OR
+                                  its pane has been closed
+    --blocking                    Block until the command has finished and its pane has been
+                                  closed
+-c, --close-on-exit               Close the pane immediately when its command exits
+    --close-replaced-pane         Close the replaced pane instead of suspending it (only
+                                  effective with --in-place)
+    --cwd <CWD>                   Change the working directory of the new pane
+-d, --direction <DIRECTION>       Direction to open the new pane in
+-f, --floating                    Open the new pane in floating mode
+-h, --help                        Print help information
+    --height <HEIGHT>             The height if the pane is floating as a bare integer (eg. 1)
+                                  or percent (eg. 10%)
+-i, --in-place                    Open the new pane in place of the current pane, temporarily
+                                  suspending it
+-n, --name <NAME>                 Name of the new pane
+    --near-current-pane           if set, will open the pane near the current one rather than
+                                  following the user's focus
+    --pinned <PINNED>             Whether to pin a floating pane so that it is always on top
+-s, --start-suspended             Start the command suspended, only running after you first
+                                  presses ENTER
+    --stacked
+    --width <WIDTH>               The width if the pane is floating as a bare integer (eg. 1) or
+                                  percent (eg. 10%)
+-x, --x <X>                       The x coordinates if the pane is floating as a bare integer
+                                  (eg. 1) or percent (eg. 10%)
+-y, --y <Y>                       The y coordinates if the pane is floating as a bare integer
+                                  (eg. 1) or percent (eg. 10%)
 ```
 
 **Note**: to shorten this command to a more friendly length, see `Completions` under: [CLI](./controlling-zellij-through-cli.md#completions)

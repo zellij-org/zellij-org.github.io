@@ -17,7 +17,7 @@ plugins {
     }
 }
 ```
-With this plugins block, whenever the bare `tab-bar` is used to refer to a plugin (be it in a [layout](./layouts.md), from the [command line](./zellij-plugin.md), from a [keybinding](./keybindings.md) or from [another plugin](./plugin-pipes.md)), Zellij will translate it to the internal `zellij:tab-bar` url. Whenever the bare `filepicker` url is used to refer to a plugin, Zellij will translate it to the built-in `zellij:strider` url will be used with the `cwd "/"` configuration.
+With this plugins block, whenever the bare `tab-bar` is used to refer to a plugin (be it in a [layout](./layouts.md), from the [command line](./zellij-plugin-and-pipe.md#zellij-plugin), from a [keybinding](./keybindings.md) or from [another plugin](./plugin-pipes.md)), Zellij will translate it to the internal `zellij:tab-bar` url. Whenever the bare `filepicker` url is used to refer to a plugin, Zellij will translate it to the built-in `zellij:strider` url will be used with the `cwd "/"` configuration.
 
 Aliases can be added to this block or changed to swap the default built-in plugins to other implementations. Removing the default aliases entirely might cause Zellij not to function as expected.
 

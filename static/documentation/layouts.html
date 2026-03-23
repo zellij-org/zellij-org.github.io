@@ -155,7 +155,6 @@
                         <h1 id="layouts"><a class="header" href="#layouts">Layouts</a></h1>
 <p>Layouts are text files that define an arrangement of Zellij panes and tabs.</p>
 <p>You can read more about <a href="./creating-a-layout.html">creating a layout</a></p>
-<p><strong>Looking for the YAML configuration docs for versions <code>&lt;0.32.0</code>? <a href="/old-documentation">Look no further!</a></strong></p>
 <h3 id="example"><a class="header" href="#example">Example</a></h3>
 <p>A basic layout can look like this:</p>
 <pre><code class="language-javascript">// layout_file.kdl
@@ -189,6 +188,14 @@ layout {
 <p>Layouts residing in the default directory can be accessed by their bare name:</p>
 <pre><code>zellij --layout [layout_name]
 </code></pre>
+<h3 id="runtime-layout-override"><a class="header" href="#runtime-layout-override">Runtime Layout Override</a></h3>
+<p>The layout of a running tab can be overridden without restarting the session. This is done via the <code>override-layout</code> CLI action or the <code>OverrideLayout</code> keybinding action:</p>
+<pre><code>$ zellij action override-layout /path/to/new-layout.kdl
+</code></pre>
+<p>Options allow retaining existing panes that do not fit the new layout:</p>
+<pre><code>$ zellij action override-layout /path/to/layout.kdl --retain-existing-terminal-panes --apply-only-to-active-tab
+</code></pre>
+<p>This enables dynamic workspace reorganization. For the full reference, see <a href="./cli-actions.html#override-layout">override-layout in CLI actions</a> and <a href="./keybindings-possible-actions.html#overridelayout">OverrideLayout in keybinding actions</a>.</p>
 <h3 id="layout-configuration-language"><a class="header" href="#layout-configuration-language">Layout Configuration Language</a></h3>
 <p>Zellij uses <a href="https://kdl.dev">KDL</a> as its configuration language.</p>
 
@@ -196,7 +203,7 @@ layout {
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="zellij-pipe.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="programmatic-control.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -210,7 +217,7 @@ layout {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="zellij-pipe.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="programmatic-control.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 

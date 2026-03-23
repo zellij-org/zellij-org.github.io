@@ -38,9 +38,7 @@
 {{ template "_internal/schema.html" . }}
 {{ template "_internal/twitter_cards.html" . }}
 
-{{ if isset .Site.Taxonomies "series" }}
-    {{ template "_internal/opengraph.html" . }}
-{{ end }}
+{{ template "_internal/opengraph.html" . }}
 
 <!-- Structured Data (JSON-LD) -->
 {{ partial "structured-data.html" . }}

@@ -1,6 +1,6 @@
 # Controlling Zellij through the CLI
 
-Zellij can be controlled through the CLI. Meaning that while inside a zellij session, one can issue commands from the terminal to interact with the currently running session.
+Zellij can be controlled through the CLI. Whether inside or outside a zellij session, one can issue commands from the terminal to interact with any session running on the machine.
 
 eg.
 ```
@@ -12,13 +12,29 @@ Commands can also be issued to a different Zellij session:
 $ zellij --session pretentious-cat action new-pane
 ```
 
-For a full list of actions, see [CLI Actions](./cli-actions.md).
+---
 
-For starting commands in a new pane, see [Zellij Run](./zellij-run.md).
+- [Zellij Run & Edit](./zellij-run-and-edit.md) - Launch commands in new panes or open files in your default editor
+- [Zellij Action](./cli-actions.md) - Full reference of all `zellij action` subcommands for controlling panes, tabs, layouts, and more
+- [Zellij Plugin & Pipe](./zellij-plugin-and-pipe.md) - Load plugins and send data to them from the command line
+- [Zellij Subscribe](./zellij-subscribe.md) - Stream the rendered output of one or more panes to stdout in real time
+- [Zellij Watch](#zellij-watch) - Watch a session in read-only mode
+- [CLI Recipes & Scripting](./cli-recipes.md) - Task-oriented examples and common workflows for scripting with Zellij
+- [Programmatic Control](./programmatic-control.md) - Patterns for non-interactive, machine-driven control of Zellij sessions
 
-For editing a file in a new pane with your own editor, see [Zellij Edit](./zellij-edit.md).
+---
 
-For loading and controlling plugins, see [Zellij Plugin](./zellij-plugin.md) and [Zellij Pipe](./zellij-pipe.md).
+### Zellij Watch
+
+The `zellij watch` command provides a read-only view of a session:
+
+```
+$ zellij watch my-session-name
+```
+
+This attaches to the specified session in read-only mode - the terminal output is visible but no input can be sent.
+
+---
 
 ### Completions
 For convenience, zellij provides cli completions for popular shells.

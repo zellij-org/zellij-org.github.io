@@ -57,6 +57,17 @@ web_server_key "/path/to/my/certs/localhost+3-key.pem" // SSL private key
 enforce_https_on_localhost true // whether to enforce an https certificate being present also when listening on localhost (default: false)
 ```
 
+### `base_url`
+The `base_url` option configures the base URL path for the web server. This is useful when running Zellij behind a reverse proxy that serves it under a subpath.
+
+```javascript
+web_client {
+    base_url "/zellij" // default: none (served at root "/")
+}
+```
+
+When set, the web server will serve all content under this path prefix (e.g., `https://my-server/zellij/my-session`). See also [options](./options.md#base_url).
+
 It's also possible to configure the browser terminal itself:
 
 ```javascript
@@ -103,6 +114,82 @@ The Zellij web server is security and privacy conscious, enforcing HTTPS if acce
 In its security model, the web-server assumes that **authenticated users are trusted**. This is because the server can only serve terminal sessions of a single particular user on a single particular machine. This user by-definition has access to start/stop the web server itself, as well as access sensitive information on the machine by nature of this being a terminal session.
 
 The web server only saves session-tokens (not the actual log-in tokens) in the browser as cookies, preventing javascript access to them and instead relying on http headers to authenticate them on the server side. Whenever an authentication token is revoked, all of its associated session tokens are revoked as well.
+
+## Remote Terminal Attach
+In addition to browser-based access, Zellij sessions can be attached remotely from another terminal using `zellij attach` with an HTTPS URL:
+
+```
+$ zellij attach https://my-server:8082/my-session
+```
+
+This connects to the remote Zellij web server and attaches to the specified session directly in the local terminal, without requiring a browser. Authentication is required via the `--token` flag:
+
+```
+$ zellij attach https://my-server:8082/my-session --token <login-token>
+```
+
+Use `--remember` to save the credentials locally for 4 weeks (avoiding repeated token entry):
+```
+$ zellij attach https://my-server:8082/my-session --token <login-token> --remember
+```
+
+Use `--forget` to clear previously saved credentials for a remote server:
+```
+$ zellij attach https://my-server:8082 --forget
+```
+
+A custom CA certificate can be specified with `--ca-cert`:
+```
+$ zellij attach https://my-server:8082/my-session --ca-cert /path/to/ca.pem
+```
+
+### Self-Signed Certificates
+Self-signed certificates are rejected by default. To connect to a server using a self-signed certificate, the `--insecure` flag must be passed:
+
+```
+$ zellij attach https://my-server:8082/my-session --insecure
+```
+
+**WARNING:** The `--insecure` flag skips TLS certificate validation entirely. It should only be used for development or in trusted network environments.
+
+## Read-Only Tokens
+In addition to regular login tokens, read-only tokens can be created. Users authenticating with a read-only token can view sessions but cannot send input or interact with them.
+
+Read-only tokens can be created from the CLI:
+```
+$ zellij web --create-read-only-token
+```
+
+Or with an optional name:
+```
+$ zellij web --create-read-only-token --token-name "observer-token"
+```
+
+Read-only tokens are managed in the same way as regular tokens - they can be listed with `--list-tokens` and revoked with `--revoke-token`.
+
+## Server Status
+The status of the Zellij web server can be queried from the CLI:
+
+```
+$ zellij web --status
+```
+
+This reports whether the server is online or offline, and if online, the base URL it is listening on.
+
+Optional flags:
+- `--timeout <seconds>` - Timeout in seconds for the status check (default: 30)
+- `--ip <IP>` - IP address to check (defaults to the configured address)
+- `--port <PORT>` - Port to check (defaults to the configured port)
+
+```
+$ zellij web --status --timeout 5 --ip 0.0.0.0 --port 443
+```
+
+## Mobile Support
+The web client supports mobile browsers. Two behaviors are specifically adapted for mobile devices:
+
+1. **Viewport Resizing**: The terminal automatically resizes to match the real mobile viewport, accounting for dynamic changes such as the address bar showing/hiding and the on-screen keyboard appearing/disappearing.
+2. **Touch Scroll**: Vertical touch swipes are converted to terminal scroll events, allowing natural scrolling through terminal output.
 
 ## This feature can optionally be disabled at compile-time
 For those who are averse to this feature (even when it's disabled - which is the default), Zellij can be compiled completely without this feature or its dependencies by removing the `web-server-capability` compile-time flag. For convenience, Zellij also provides an additional pre-built binary compiled without this flag called `zellij-no-web`.

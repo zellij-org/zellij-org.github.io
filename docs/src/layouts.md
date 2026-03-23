@@ -4,8 +4,6 @@ Layouts are text files that define an arrangement of Zellij panes and tabs.
 
 You can read more about [creating a layout](./creating-a-layout.md)
 
-**Looking for the YAML configuration docs for versions `<0.32.0`? [Look no further!](/old-documentation)**
-
 ### Example
 
 A basic layout can look like this:
@@ -56,6 +54,21 @@ Layouts residing in the default directory can be accessed by their bare name:
 ```
 zellij --layout [layout_name]
 ```
+
+### Runtime Layout Override
+
+The layout of a running tab can be overridden without restarting the session. This is done via the `override-layout` CLI action or the `OverrideLayout` keybinding action:
+
+```
+$ zellij action override-layout /path/to/new-layout.kdl
+```
+
+Options allow retaining existing panes that do not fit the new layout:
+```
+$ zellij action override-layout /path/to/layout.kdl --retain-existing-terminal-panes --apply-only-to-active-tab
+```
+
+This enables dynamic workspace reorganization. For the full reference, see [override-layout in CLI actions](./cli-actions.md#override-layout) and [OverrideLayout in keybinding actions](./keybindings-possible-actions.md#overridelayout).
 
 ### Layout Configuration Language
 

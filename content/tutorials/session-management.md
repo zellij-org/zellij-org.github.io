@@ -1,7 +1,7 @@
 ---
 title: "Session Management with Zellij"
 date: 2024-04-08T19:29:12+02:00
-images: ["/img/tutorial-3-preview.png"]
+images: ["/img/welcome-screen-single.png"]
 description: "Learn to manage terminal sessions with Zellij. Tutorial covering context switching, session resurrection, and the welcome screen."
 linktitle: "How to use Zellij to manage your sessions in the terminal"
 ---
@@ -26,11 +26,13 @@ When using the terminal, we often open new terminal windows for different tasks,
 - [Do you like Zellij?](#do-you-like-zellij-)
 
 ## The Zellij Welcome Screen
-{{<figure src="/img/tutorial-3-preview.png" style="max-width 995px;" alt="An image of Zellij welcome screen.">}}
+{{<figure src="/img/welcome-screen-single.png" style="max-width 995px;" alt="An image of Zellij welcome screen.">}}
 The Zellij `welcome-screen` is a friendly start-up menu that allows users to:
 1. Start a new sessions, optionally in a specific folder and/or with a specific [layout](/tutorials/layouts).
 2. Attach to currently running sessions and switch between them.
 3. Resurrect exited sessions, creating a new session from old context.
+
+We choose between these three options by typing in a session name (or choosing one from the list). If the session exists, we will attach to it. If it has exited, we will resurrect it. Otherwise, we will start a new session with this name.
 
 ## Setting up the Welcome Screen to open on Terminal startup
 In most terminals, it's possible to set up the Zellij `welcome-screen` to start up every time the terminal window is opened. Doing this will create a powerful integration between Zellij and your favorite terminal, allowing Zellij to manage not only your panes, layouts and tabs - but also your sessions and contexts.
@@ -57,10 +59,9 @@ config.default_prog = { 'zellij', '-l', 'welcome' }
 [See the WezTerm documentation](https://wezfurlong.org/wezterm/config/launch.html#changing-the-default-program) for more information.
 
 ## Starting a new session in a specific folder
-{{<figure src="/img/tutorial-3-specific-folder.png" style="max-width 995px;" alt="An image of Zellij welcome screen with the filepicker opened.">}}
 To start a new session in a specific folder, we:
-1. Optionally type in a session name
-2. Press `Ctrl-f` to open up the `filepicker`, explore our filesystem to search for the new folder, entering folders with `<TAB>` and once we're inside the folder we want, pressing `<ENTER>`. The folder will appear in the `New session folder:` section on the bottom of the `New session` form.
+1. Optionally type in a session name and press `ENTER`
+2. In the new session menu, we press `Ctrl-f` to open up the `filepicker`, explore our filesystem to search for the new folder, entering folders with `<TAB>` and once we're inside the folder we want, pressing `<ENTER>`. The folder will appear in the `New session folder:` section on the bottom of the `New session` form.
 3. We choose a [layout](/tutorials/layouts) or stick with the `default` layout.
 4. Press `<ENTER>` to start the new session
 
@@ -72,20 +73,19 @@ Similarly, to start a new session with a specific layout - we follow the above s
 We could either choose one of the built-in layouts (for example: `compact`), or one of our custom layouts that we saved to the `layouts` subfolder of the [Zellij configuration](https://zellij.dev/documentation/configuration#where-does-zellij-look-for-the-config-file). For more info on creating layouts, please see the [layout screencast and tutorial](/tutorials/layouts).
 
 ## Switching between running sessions to manage context
-{{<figure src="/img/tutorial-3-switch-session.png" style="max-width 995px;" alt="An image of Zellij session-manager about to attach to a new session.">}}
+{{<figure src="/img/session-manager-single.png" style="max-width 995px;" alt="An image of Zellij session-manager about to attach to a new session.">}}
 It's possible to attach to a currently running session either from the `welcome-screen` or from the `session-manager` (exactly like the `welcome-screen` only running inside an existing Zellij session). To launch the `session-manager`, press `Ctrl o` + `w`.
 
-In the menu, navigate with `<TAB>` to `Attach to Session` and select the session you would like to attach to from the list.
+In the menu, select the session you would like to attach to from the list.
 
 It's very helpful to keep different context for different tasks in separate sessions, thus allowing you to label them, switch between them at will and even resurrect them after a reboot.
 
 ## Resurrecting exited sessions to revive old contexts
-{{<figure src="/img/tutorial-3-resurrect-session.png" style="max-width 995px;" alt="An image of Zellij welcome-screen about to resurrect a new session.">}}
 When a Zellij session exits, Zellij keeps its metadata around: meaning the layout of the panes and tabs as well as which program was running in each pane or tab. This can be very useful to label and keep around old contexts.
 
 Imagine you were in a debugging session and opened several panes, each one with a specific command that helped you discover a problem in your system. Once you've solved this problem, instead of closing the session immediately, you can rename: start the `session-manager` with `Ctrl o` + `w`, rename the session with `Ctrl r` to a descriptive name and then quit Zellij with `Ctrl q`.
 
-You can then in the future open a new terminal window to the `welcome-screen`, press `<TAB>` until you reach `Resurrect Session`, search through your sessions for the descriptive name you gave the old session and press `<ENTER>` to have Zellij resurrect ths session and rebuild your own context. Allowing you to solve the same problem again rather than struggling to remember your steps from the past.
+You can then in the future open a new terminal window to the `welcome-screen`, search through your sessions for the descriptive name you gave the old session and press `<ENTER>` to have Zellij resurrect ths session and rebuild your own context. Allowing you to solve the same problem again rather than struggling to remember your steps from the past.
 
 ## Do you like Zellij? ❤️
 Me too. So much so that I spend 100% of my time developing and maintaining it and have no other income.

@@ -34,3 +34,15 @@ Control (start, stop, get status, manage login tokens) the Zellij [web-server](.
 
 ### InterceptInput
 Intercept user input (eg. keypresses), having all of this input sent to the plugin instead.
+
+### ReadPaneContents
+Read the rendered contents of terminal panes. Required for subscribing to `PaneRenderReport` and `PaneRenderReportWithAnsi` events.
+
+### RunActionsAsUser
+Execute Zellij actions as if they were performed by the user. Required for the `run_action` plugin API command.
+
+### WriteToClipboard
+Write text directly to the user's clipboard.
+
+### ReadSessionEnvironmentVariables
+Read environment variables from the session context.

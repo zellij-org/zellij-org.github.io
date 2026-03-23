@@ -13,21 +13,29 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 
 **Possible Options**:
 ```
-        --cwd <CWD>                    Change the working directory of the editor
-    -d, --direction <DIRECTION>        Direction to open the new pane in
-    -f, --floating                     Open the new pane in floating mode
-    -h, --help                         Print help information
-        --height <HEIGHT>              The height if the pane is floating as a bare integer (eg. 1)
-                                       or percent (eg. 10%)
-    -i, --in-place                     Open the new pane in place of the current pane, temporarily
-                                       suspending it
-    -l, --line-number <LINE_NUMBER>    Open the file in the specified line number
-        --width <WIDTH>                The width if the pane is floating as a bare integer (eg. 1)
-                                       or percent (eg. 10%)
-    -x, --x <X>                        The x coordinates if the pane is floating as a bare integer
-                                       (eg. 1) or percent (eg. 10%)
-    -y, --y <Y>                        The y coordinates if the pane is floating as a bare integer
-                                       (eg. 1) or percent (eg. 10%)
+-b, --borderless <BORDERLESS>      start this pane without a border (warning: will make it
+                                   impossible to move with the mouse) [possible values: true,
+                                   false]
+    --close-replaced-pane          Close the replaced pane instead of suspending it (only
+                                   effective with --in-place)
+    --cwd <CWD>                    Change the working directory of the editor
+-d, --direction <DIRECTION>        Direction to open the new pane in
+-f, --floating                     Open the new pane in floating mode
+-h, --help                         Print help information
+    --height <HEIGHT>              The height if the pane is floating as a bare integer (eg. 1)
+                                   or percent (eg. 10%)
+-i, --in-place                     Open the new pane in place of the current pane, temporarily
+                                   suspending it
+-l, --line-number <LINE_NUMBER>    Open the file in the specified line number
+    --near-current-pane            if set, will open the pane near the current one rather than
+                                   following the user's focus
+    --pinned <PINNED>              Whether to pin a floating pane so that it is always on top
+    --width <WIDTH>                The width if the pane is floating as a bare integer (eg. 1)
+                                   or percent (eg. 10%)
+-x, --x <X>                        The x coordinates if the pane is floating as a bare integer
+                                   (eg. 1) or percent (eg. 10%)
+-y, --y <Y>                        The y coordinates if the pane is floating as a bare integer
+                                   (eg. 1) or percent (eg. 10%)
 ```
 
 **Note**: The default editor is anything set in `$EDITOR` or `$VISUAL` - alternatively, it can be set explicitly with the [`scrollback_editor` configuration option](./options.md#scrollback_editor).

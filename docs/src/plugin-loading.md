@@ -1,5 +1,5 @@
 # Loading Plugins
-Plugins can either be loaded through a [Layout](./creating-a-layout.md#plugin), through the [command line](./zellij-plugin.md), or from a [keybinding](keybindings-possible-actions.md#launchorfocusplugin).
+Plugins can either be loaded through a [Layout](./creating-a-layout.md#plugin), through the [command line](./zellij-plugin-and-pipe.md#zellij-plugin), or from a [keybinding](keybindings-possible-actions.md#launchorfocusplugin).
 
 ## On startup
 Plugins can also be loaded on startup through the `load_plugins` [configuration block](./configuration.md). Eg.
