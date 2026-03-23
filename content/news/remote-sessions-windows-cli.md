@@ -2,7 +2,7 @@
 author: "Aram Drevekenin"
 authorlink: "https://hachyderm.io/@imsnif"
 date: 2026-03-23
-linktitle: "Zellij 0.44.0: Remote Sessions, Windows Support, Automation"
+linktitle: "Zellij 0.44.0: Remote Sessions, Windows Support, CLI Automation"
 type:
 - post
 - posts
@@ -34,7 +34,6 @@ Some highlights:
 - [Please Support the Zellij Developer](#please-support-the-zellij-developer-) ❤️
 
 ## Native Windows Support
-<!-- {{<figure src="/img/windows-support.png" width="900px;" alt="A screenshot of Zellij running natively on Windows">}} -->
 Zellij now runs natively on Windows(!!). Achieved through a major community code contribution, at long last Zellij is truly multi-platform. Allowing windows users to enjoy the same session management, workspace automation, plugin ecosystem and multiplayer capabilities that have been available on Linux and macOS since the inception of the tool. We are truly excited.
 
 Special thanks to [divens](https://github.com/divens) for the implementation and hard work.
@@ -47,9 +46,9 @@ This release introduces a new `layout-manager` interface, allowing users to:
 2. Apply their layouts to the current tab (optionally keeping panes that do not match the layout or closing them outright)
 3. Create new layouts on the fly by recording the current tab state
 
+To open the layout manager: `Ctrl o` + `l`
 
 ## Terminal-to-Terminal Attach over HTTPS
-<!-- {{<figure src="/img/remote-sessions-demo.png" width="900px;" alt="A screenshot of a Zellij remote session accessed from a different machine">}} -->
 Building on the web server introduced in 0.43.0, Zellij now allows attaching to remote sessions over HTTPS directly from the terminal. No browser needed. This is done through a built-in web client that connects to a remote Zellij session running the web server just like a browser would - same authentication, same tokens.
 
 ```
@@ -62,7 +61,6 @@ A much requested feature since the introduction of the web server has been the a
 We think this can create interesting opportunities to use Zellij for teaching, demonstrations, screencasting or streaming. We look forward to seeing what the community comes up with.
 
 ## CLI Automation
-<!-- {{<figure src="/img/cli-automation-demo.gif" width="900px;" alt="An animated gif demonstrating CLI automation with command sequences">}} -->
 This release dramatically expands what can be accomplished from the command line, enabling the creation of powerful workspace automations.
 
 ### Conditionally Blocking Command Panes
@@ -83,6 +81,8 @@ We can use this for example to perform simple and powerful control flows such as
 ### Pane/Tab ID Return Values
 CLI and plugin methods that create panes and tabs now return the IDs of the newly created resources, allowing users to use these IDs for further commands instead of finding them through queries.
 
+**For more information about controlling Zellij from the command line:** https://zellij.dev/documentation/controlling-zellij-through-cli.html
+
 ## Resize Panes with the Mouse
 {{<figure src="/img/resize-with-mouse-demo.gif" width="900px;" alt="A screenshot of a read-only Zellij session">}}
 Panes can now be resized with the mouse, both by dragging their borders and with `Ctrl` + `scrollup`/`scrolldown`.
@@ -97,6 +97,12 @@ Plugins can also highlight arbitrary text in the viewport, opening possibilities
 {{<figure src="/img/new-session-manager-ui-demo.png" width="900px;" alt="A screenshot of the new session manager UI">}}
 The session manager UI has been simplified. It now provides a single screen that allows users to create new sessions, attach to existing ones or resurrect exited ones. Fuzzy-finding between all of them in the same namespace.
 
+To start the session manager: `Ctrl o` + `w`
+
+To start a new session with the session manager as a welcome screen: `zellij -l welcome`
+
+For more information about the session manager, see: https://zellij.dev/tutorials/session-management/
+
 ## New Rust APIs
 It is Zellij development policy to create new UI interfaces as built-in plugins. This means that the new APIs created for all the above interfaces are now also available for third-party plugins (gated behind relevant permissions).
 These capabilities include:
@@ -107,6 +113,8 @@ These capabilities include:
 4. **Highlight viewport text** - Plugins can change the style of arbitrary text in any pane's viewport, optionally on mouse hover, optionally receiving an event when the user `Alt` + `Click`s them
 5. **Change pane colors** - Set foreground/background colors of panes
 6. **Explicit session save** - Trigger a session save for resurrection without waiting for the automatic interval
+
+For more info, see: https://zellij.dev/documentation/plugin-api.html
 
 ## Infrastructure Overhaul
 Under the hood, this release includes significant infrastructure changes:
@@ -120,7 +128,7 @@ Due to the lack of a client-server contract, Zellij sessions have never been bac
 A new client/server contract has been created and enforced with protocol buffers. Future versions will be able to connect to existing sessions. The only caveat being that new features won't work with old sessions and will silently fail.
 
 ## Additional Improvements
-Beyond the headline features, this release includes a large number of bug fixes and quality-of-life improvements:
+Beyond the above features, this release includes a large number of bug fixes and quality-of-life improvements:
 
 - **Borderless panes** - open specific panes as borderless or toggle border status at runtime
 - **Terminal BEL forwarding** from unfocused tabs and panes with visual indication
