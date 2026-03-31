@@ -1247,12 +1247,12 @@ bind "Left" // bind the left arrow key
 </code></pre>
 <h2 id="newpane"><a class="header" href="#newpane"><code>NewPane</code></a></h2>
 <p>Open a new pane (in the specified direction)</p>
-<p><strong>Possible arguments</strong>: <code>Down</code> | <code>Right</code> | <code>Stacked</code></p>
+<p><strong>Possible arguments</strong>: <code>Down</code> | <code>Right</code> | <code>stacked</code></p>
 <p><strong>Behaviour without arguments</strong>: Opens a pane in the largest available space or if floating panes are visible, in the next floating pane position.</p>
 <pre><code class="language-javascript">    bind "a" { NewPane "Right"; }
 </code></pre>
 <p>or open a stacked pane:</p>
-<pre><code class="language-javascript">    bind "a" { NewPane "Stacked"; }
+<pre><code class="language-javascript">    bind "a" { NewPane "stacked"; }
 </code></pre>
 <p><strong>Note</strong>: For more advanced pane creation options (floating coordinates, borderless, close-on-exit, cwd, etc.), use the <a href="keybindings-possible-actions.html#run"><code>Run</code></a> keybinding action instead.</p>
 <h2 id="newtab"><a class="header" href="#newtab"><code>NewTab</code></a></h2>
