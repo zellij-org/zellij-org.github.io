@@ -19,6 +19,7 @@ This page provides task-oriented examples for controlling Zellij from the comman
 - [Session Management](#session-management)
 - [Working with Plugins from the CLI](#working-with-plugins-from-the-cli)
 - [Layout Overrides at Runtime](#layout-overrides-at-runtime)
+- [Inline Layouts](#inline-layouts)
 
 ---
 
@@ -121,6 +122,11 @@ zellij action clear --pane-id terminal_3
 Scroll to the top of a specific pane:
 ```
 zellij action scroll-to-top --pane-id terminal_5
+```
+
+Focus a specific pane by its ID:
+```
+zellij action focus-pane-id terminal_3
 ```
 
 Close a specific tab by its ID:
@@ -263,6 +269,11 @@ Create a floating pane with specific coordinates and use its ID:
 PANE_ID=$(zellij action new-pane --floating --width 80 --height 24 --x 10% --y 10%)
 zellij action paste --pane-id $PANE_ID "htop" &&
 zellij action send-keys --pane-id $PANE_ID "Enter"
+```
+
+Open a pane in a specific tab (by tab ID) without switching focus to that tab:
+```
+zellij action new-pane --tab-id 2 --name "background task" -- cargo build
 ```
 
 Create a tab and capture its ID:
@@ -441,6 +452,11 @@ Show or hide all floating panes:
 ```
 zellij action show-floating-panes
 zellij action hide-floating-panes
+```
+
+Check whether floating panes are currently visible:
+```
+zellij action are-floating-panes-visible && echo "visible" || echo "hidden"
 ```
 
 Pin a floating pane so it stays on top:
@@ -693,4 +709,23 @@ zellij action override-layout /path/to/layout.kdl --retain-existing-terminal-pan
 Apply the layout only to the active tab:
 ```
 zellij action override-layout /path/to/layout.kdl --apply-only-to-active-tab
+```
+
+## Inline Layouts
+
+Instead of referencing a layout file, a raw KDL layout string can be passed directly on the command line using `--layout-string`. This is useful for scripted or dynamic layouts without creating temporary files.
+
+Start a new tab with an inline layout:
+```
+zellij action new-tab --layout-string 'layout { pane split_direction="vertical" { pane; pane; }; }'
+```
+
+Override the current tab's layout inline:
+```
+zellij action override-layout --layout-string 'layout { pane split_direction="vertical" { pane; pane; pane; }; }'
+```
+
+Start a new session with an inline layout:
+```
+zellij --layout-string 'layout { pane split_direction="vertical" { pane; pane; }; }'
 ```

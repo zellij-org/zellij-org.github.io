@@ -171,6 +171,7 @@
 <li><a href="#session-management">Session Management</a></li>
 <li><a href="#working-with-plugins-from-the-cli">Working with Plugins from the CLI</a></li>
 <li><a href="#layout-overrides-at-runtime">Layout Overrides at Runtime</a></li>
+<li><a href="#inline-layouts">Inline Layouts</a></li>
 </ul>
 <hr />
 <h2 id="targeting-specific-panes-and-tabs"><a class="header" href="#targeting-specific-panes-and-tabs">Targeting Specific Panes and Tabs</a></h2>
@@ -243,6 +244,9 @@ position: 0
 </code></pre>
 <p>Scroll to the top of a specific pane:</p>
 <pre><code>zellij action scroll-to-top --pane-id terminal_5
+</code></pre>
+<p>Focus a specific pane by its ID:</p>
+<pre><code>zellij action focus-pane-id terminal_3
 </code></pre>
 <p>Close a specific tab by its ID:</p>
 <pre><code>zellij action close-tab --tab-id 3
@@ -341,6 +345,9 @@ zellij action send-keys --pane-id $PANE_ID "Enter"
 <pre><code class="language-bash">PANE_ID=$(zellij action new-pane --floating --width 80 --height 24 --x 10% --y 10%)
 zellij action paste --pane-id $PANE_ID "htop" &amp;&amp;
 zellij action send-keys --pane-id $PANE_ID "Enter"
+</code></pre>
+<p>Open a pane in a specific tab (by tab ID) without switching focus to that tab:</p>
+<pre><code>zellij action new-pane --tab-id 2 --name "background task" -- cargo build
 </code></pre>
 <p>Create a tab and capture its ID:</p>
 <pre><code class="language-bash">TAB_ID=$(zellij action new-tab --name "tests" --layout /path/to/test-layout.kdl)
@@ -478,6 +485,9 @@ position: 0
 <p>Show or hide all floating panes:</p>
 <pre><code>zellij action show-floating-panes
 zellij action hide-floating-panes
+</code></pre>
+<p>Check whether floating panes are currently visible:</p>
+<pre><code>zellij action are-floating-panes-visible &amp;&amp; echo "visible" || echo "hidden"
 </code></pre>
 <p>Pin a floating pane so it stays on top:</p>
 <pre><code>zellij action toggle-pane-pinned --pane-id terminal_5
@@ -635,6 +645,17 @@ echo "Pipeline complete."
 </code></pre>
 <p>Apply the layout only to the active tab:</p>
 <pre><code>zellij action override-layout /path/to/layout.kdl --apply-only-to-active-tab
+</code></pre>
+<h2 id="inline-layouts"><a class="header" href="#inline-layouts">Inline Layouts</a></h2>
+<p>Instead of referencing a layout file, a raw KDL layout string can be passed directly on the command line using <code>--layout-string</code>. This is useful for scripted or dynamic layouts without creating temporary files.</p>
+<p>Start a new tab with an inline layout:</p>
+<pre><code>zellij action new-tab --layout-string 'layout { pane split_direction="vertical" { pane; pane; }; }'
+</code></pre>
+<p>Override the current tab's layout inline:</p>
+<pre><code>zellij action override-layout --layout-string 'layout { pane split_direction="vertical" { pane; pane; pane; }; }'
+</code></pre>
+<p>Start a new session with an inline layout:</p>
+<pre><code>zellij --layout-string 'layout { pane split_direction="vertical" { pane; pane; }; }'
 </code></pre>
 
                     </main>

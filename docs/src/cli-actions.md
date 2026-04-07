@@ -4,6 +4,7 @@
 
 ---
 
+- [are-floating-panes-visible](#are-floating-panes-visible)
 - [change-floating-pane-coordinates](#change-floating-pane-coordinates)
 - [clear](#clear)
 - [close-pane](#close-pane)
@@ -16,6 +17,7 @@
 - [edit](#edit)
 - [edit-scrollback](#edit-scrollback)
 - [focus-next-pane](#focus-next-pane)
+- [focus-pane-id](#focus-pane-id)
 - [focus-previous-pane](#focus-previous-pane)
 - [go-to-next-tab](#go-to-next-tab)
 - [go-to-previous-tab](#go-to-previous-tab)
@@ -76,6 +78,20 @@
 - [write-chars](#write-chars)
 
 ---
+
+#### are-floating-panes-visible
+Check if floating panes are visible in the specified tab (or active tab). Prints "true" to stdout and exits 0 if visible. Prints "false" to stdout and exits 1 if not visible.
+
+**OPTIONS**:
+```
+    -t, --tab-id <TAB_ID>    Target a specific tab by ID
+```
+
+eg.
+```
+$ zellij action are-floating-panes-visible
+$ zellij action are-floating-panes-visible --tab-id 3
+```
 
 #### change-floating-pane-coordinates
 Given a pane id, and coordinates, will change the coordinates of this pane.
@@ -259,6 +275,7 @@ Open the specified file in a new zellij pane with your default EDITOR. Returns t
         --height <HEIGHT>          Height for floating pane (requires --floating)
         --pinned <PINNED>          Pin the floating pane (requires --floating)
         --near-current-pane        Open near the current pane rather than following focus
+        --tab-id <TAB_ID>         Target a specific tab by ID (conflicts with --in-place, --near-current-pane)
     -b, --borderless <BORDERLESS>  Start without a border
 ```
 
@@ -296,6 +313,17 @@ Change focus to the next pane
 eg.
 ```
 $ zellij action focus-next-pane
+```
+
+#### focus-pane-id
+Focus a specific pane by its ID.
+
+**ARGS**: The pane ID (eg. `terminal_1`, `plugin_2`, or `3` which is equivalent to `terminal_3`)
+
+eg.
+```
+$ zellij action focus-pane-id terminal_1
+$ zellij action focus-pane-id 3
 ```
 
 #### focus-previous-pane
@@ -410,6 +438,7 @@ Launch a plugin if it is not loaded somewhere in the session, focus it if it is.
     -m, --move-to-focused-tab      Move the plugin to the focused tab if already running
     -c, --configuration <CONFIG>   Plugin configuration (key=value pairs)
     -s, --skip-plugin-cache        Skip the plugin cache and force reloading
+        --tab-id <TAB_ID>          Target a specific tab by ID (conflicts with --in-place)
 ```
 
 eg.
@@ -430,6 +459,7 @@ Launch a new plugin instance. Unlike `launch-or-focus-plugin`, this always launc
         --close-replaced-pane      Close the replaced pane (requires --in-place)
     -c, --configuration <CONFIG>   Plugin configuration (key=value pairs)
     -s, --skip-plugin-cache        Skip the plugin cache and force reloading
+        --tab-id <TAB_ID>          Target a specific tab by ID (conflicts with --in-place)
 ```
 
 eg.
@@ -736,6 +766,7 @@ Open a new pane in the specified direction or as a floating pane. If no directio
         --height <HEIGHT>              Height for floating pane (requires --floating)
         --pinned <PINNED>              Pin the floating pane (requires --floating)
         --stacked                      Open in stacked mode (conflicts with --floating/--direction)
+        --tab-id <TAB_ID>             Target a specific tab by ID (conflicts with --in-place, --near-current-pane)
     -b, --blocking                     Block until the pane exits
         --block-until-exit-success     Block until the command exits with status 0
         --block-until-exit-failure     Block until the command exits with non-zero status
@@ -775,6 +806,7 @@ See [layout CWD composition](./creating-a-layout.md#cwd-composition) for more in
     -c, --cwd <CWD>                    Working directory for the new tab
     -l, --layout <LAYOUT>              Layout to use
         --layout-dir <LAYOUT_DIR>      Default folder for layouts (requires --layout)
+        --layout-string <LAYOUT_STRING>  Raw KDL layout string to use directly (conflicts with --layout)
     -n, --name <NAME>                  Name of the new tab
         --initial-plugin <PLUGIN>      Plugin to load in the initial pane (conflicts with command)
         --close-on-exit                Close the initial pane when its command exits (requires command)
@@ -811,6 +843,7 @@ Override the layout of the active tab with the specified layout file.
 **OPTIONS**:
 ```
         --layout-dir <LAYOUT_DIR>              Default folder for layouts
+        --layout-string <LAYOUT_STRING>        Raw KDL layout string to use directly (conflicts with layout path arg)
         --retain-existing-terminal-panes       Retain existing terminal panes that do not fit the new layout
         --retain-existing-plugin-panes         Retain existing plugin panes that do not fit the new layout
         --apply-only-to-active-tab             Only apply the layout to the active tab
@@ -1146,6 +1179,7 @@ Switch to a different session
         --pane-id <PANE_ID>              Pane ID to focus after switching
     -l, --layout <LAYOUT>                Layout to apply when switching
         --layout-dir <LAYOUT_DIR>        Default folder for layouts (requires --layout)
+        --layout-string <LAYOUT_STRING>  Raw KDL layout string to use directly (conflicts with --layout)
     -c, --cwd <CWD>                      Working directory when switching
 ```
 
