@@ -1926,6 +1926,7 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 <p><em>A note about pane ids:</em> Since terminal panes and plugin panes can have overlapping IDs, they are differentiated by prefixing the pane type, eg. <code>terminal_1</code> is a different pane than <code>plugin_1</code>. The ID of terminal panes is the same one that can be discovered through the <code>ZELLIJ_PANE_ID</code> environment variable. When a <code>--pane-id</code> flag accepts a pane id, it can be specified as <code>terminal_1</code>, <code>plugin_2</code>, or just <code>3</code> (equivalent to <code>terminal_3</code>).</p>
 <hr />
 <ul>
+<li><a href="cli-actions.html#are-floating-panes-visible">are-floating-panes-visible</a></li>
 <li><a href="cli-actions.html#change-floating-pane-coordinates">change-floating-pane-coordinates</a></li>
 <li><a href="cli-actions.html#clear">clear</a></li>
 <li><a href="cli-actions.html#close-pane">close-pane</a></li>
@@ -1938,6 +1939,7 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 <li><a href="cli-actions.html#edit">edit</a></li>
 <li><a href="cli-actions.html#edit-scrollback">edit-scrollback</a></li>
 <li><a href="cli-actions.html#focus-next-pane">focus-next-pane</a></li>
+<li><a href="cli-actions.html#focus-pane-id">focus-pane-id</a></li>
 <li><a href="cli-actions.html#focus-previous-pane">focus-previous-pane</a></li>
 <li><a href="cli-actions.html#go-to-next-tab">go-to-next-tab</a></li>
 <li><a href="cli-actions.html#go-to-previous-tab">go-to-previous-tab</a></li>
@@ -1998,6 +2000,15 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 <li><a href="cli-actions.html#write-chars">write-chars</a></li>
 </ul>
 <hr />
+<h4 id="are-floating-panes-visible"><a class="header" href="#are-floating-panes-visible">are-floating-panes-visible</a></h4>
+<p>Check if floating panes are visible in the specified tab (or active tab). Prints "true" to stdout and exits 0 if visible. Prints "false" to stdout and exits 1 if not visible.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action are-floating-panes-visible
+$ zellij action are-floating-panes-visible --tab-id 3
+</code></pre>
 <h4 id="change-floating-pane-coordinates"><a class="header" href="#change-floating-pane-coordinates">change-floating-pane-coordinates</a></h4>
 <p>Given a pane id, and coordinates, will change the coordinates of this pane.</p>
 <p><strong>ARGS</strong>: The pane id (see example below - these can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var)
@@ -2129,6 +2140,7 @@ $ zellij action dump-screen --pane-id terminal_3 --full
         --height &lt;HEIGHT&gt;          Height for floating pane (requires --floating)
         --pinned &lt;PINNED&gt;          Pin the floating pane (requires --floating)
         --near-current-pane        Open near the current pane rather than following focus
+        --tab-id &lt;TAB_ID&gt;         Target a specific tab by ID (conflicts with --in-place, --near-current-pane)
     -b, --borderless &lt;BORDERLESS&gt;  Start without a border
 </code></pre>
 <p>eg.</p>
@@ -2153,6 +2165,13 @@ $ zellij action edit-scrollback --pane-id terminal_3 --ansi
 <p>Change focus to the next pane</p>
 <p>eg.</p>
 <pre><code>$ zellij action focus-next-pane
+</code></pre>
+<h4 id="focus-pane-id"><a class="header" href="#focus-pane-id">focus-pane-id</a></h4>
+<p>Focus a specific pane by its ID.</p>
+<p><strong>ARGS</strong>: The pane ID (eg. <code>terminal_1</code>, <code>plugin_2</code>, or <code>3</code> which is equivalent to <code>terminal_3</code>)</p>
+<p>eg.</p>
+<pre><code>$ zellij action focus-pane-id terminal_1
+$ zellij action focus-pane-id 3
 </code></pre>
 <h4 id="focus-previous-pane"><a class="header" href="#focus-previous-pane">focus-previous-pane</a></h4>
 <p>Change focus to the previous pane</p>
@@ -2225,6 +2244,7 @@ $ zellij action hide-floating-panes --tab-id 3
     -m, --move-to-focused-tab      Move the plugin to the focused tab if already running
     -c, --configuration &lt;CONFIG&gt;   Plugin configuration (key=value pairs)
     -s, --skip-plugin-cache        Skip the plugin cache and force reloading
+        --tab-id &lt;TAB_ID&gt;          Target a specific tab by ID (conflicts with --in-place)
 </code></pre>
 <p>eg.</p>
 <pre><code>zellij action launch-or-focus-plugin zellij:strider --floating
@@ -2239,6 +2259,7 @@ zellij action launch-or-focus-plugin zellij:strider --in-place --move-to-focused
         --close-replaced-pane      Close the replaced pane (requires --in-place)
     -c, --configuration &lt;CONFIG&gt;   Plugin configuration (key=value pairs)
     -s, --skip-plugin-cache        Skip the plugin cache and force reloading
+        --tab-id &lt;TAB_ID&gt;          Target a specific tab by ID (conflicts with --in-place)
 </code></pre>
 <p>eg.</p>
 <pre><code>zellij action launch-plugin file:/path/to/plugin.wasm --floating
@@ -2481,6 +2502,7 @@ $ zellij action move-tab left --tab-id 3
         --height &lt;HEIGHT&gt;              Height for floating pane (requires --floating)
         --pinned &lt;PINNED&gt;              Pin the floating pane (requires --floating)
         --stacked                      Open in stacked mode (conflicts with --floating/--direction)
+        --tab-id &lt;TAB_ID&gt;             Target a specific tab by ID (conflicts with --in-place, --near-current-pane)
     -b, --blocking                     Block until the pane exits
         --block-until-exit-success     Block until the command exits with status 0
         --block-until-exit-failure     Block until the command exits with non-zero status
@@ -2509,6 +2531,7 @@ See <a href="./creating-a-layout.html#cwd-composition">layout CWD composition</a
 <pre><code>    -c, --cwd &lt;CWD&gt;                    Working directory for the new tab
     -l, --layout &lt;LAYOUT&gt;              Layout to use
         --layout-dir &lt;LAYOUT_DIR&gt;      Default folder for layouts (requires --layout)
+        --layout-string &lt;LAYOUT_STRING&gt;  Raw KDL layout string to use directly (conflicts with --layout)
     -n, --name &lt;NAME&gt;                  Name of the new tab
         --initial-plugin &lt;PLUGIN&gt;      Plugin to load in the initial pane (conflicts with command)
         --close-on-exit                Close the initial pane when its command exits (requires command)
@@ -2534,6 +2557,7 @@ $ zellij action new-tab -- htop
 <p><strong>ARGS</strong>: Path to the layout file</p>
 <p><strong>OPTIONS</strong>:</p>
 <pre><code>        --layout-dir &lt;LAYOUT_DIR&gt;              Default folder for layouts
+        --layout-string &lt;LAYOUT_STRING&gt;        Raw KDL layout string to use directly (conflicts with layout path arg)
         --retain-existing-terminal-panes       Retain existing terminal panes that do not fit the new layout
         --retain-existing-plugin-panes         Retain existing plugin panes that do not fit the new layout
         --apply-only-to-active-tab             Only apply the layout to the active tab
@@ -2749,6 +2773,7 @@ $ zellij action stack-panes -- terminal_1 plugin_1 terminal_2
         --pane-id &lt;PANE_ID&gt;              Pane ID to focus after switching
     -l, --layout &lt;LAYOUT&gt;                Layout to apply when switching
         --layout-dir &lt;LAYOUT_DIR&gt;        Default folder for layouts (requires --layout)
+        --layout-string &lt;LAYOUT_STRING&gt;  Raw KDL layout string to use directly (conflicts with --layout)
     -c, --cwd &lt;CWD&gt;                      Working directory when switching
 </code></pre>
 <p>eg.</p>
@@ -3029,6 +3054,7 @@ tail -f /tmp/my-live-logfile | zellij pipe --name logs --plugin https://example.
 <li><a href="cli-recipes.html#session-management">Session Management</a></li>
 <li><a href="cli-recipes.html#working-with-plugins-from-the-cli">Working with Plugins from the CLI</a></li>
 <li><a href="cli-recipes.html#layout-overrides-at-runtime">Layout Overrides at Runtime</a></li>
+<li><a href="cli-recipes.html#inline-layouts">Inline Layouts</a></li>
 </ul>
 <hr />
 <h2 id="targeting-specific-panes-and-tabs"><a class="header" href="#targeting-specific-panes-and-tabs">Targeting Specific Panes and Tabs</a></h2>
@@ -3101,6 +3127,9 @@ position: 0
 </code></pre>
 <p>Scroll to the top of a specific pane:</p>
 <pre><code>zellij action scroll-to-top --pane-id terminal_5
+</code></pre>
+<p>Focus a specific pane by its ID:</p>
+<pre><code>zellij action focus-pane-id terminal_3
 </code></pre>
 <p>Close a specific tab by its ID:</p>
 <pre><code>zellij action close-tab --tab-id 3
@@ -3199,6 +3228,9 @@ zellij action send-keys --pane-id $PANE_ID "Enter"
 <pre><code class="language-bash">PANE_ID=$(zellij action new-pane --floating --width 80 --height 24 --x 10% --y 10%)
 zellij action paste --pane-id $PANE_ID "htop" &amp;&amp;
 zellij action send-keys --pane-id $PANE_ID "Enter"
+</code></pre>
+<p>Open a pane in a specific tab (by tab ID) without switching focus to that tab:</p>
+<pre><code>zellij action new-pane --tab-id 2 --name "background task" -- cargo build
 </code></pre>
 <p>Create a tab and capture its ID:</p>
 <pre><code class="language-bash">TAB_ID=$(zellij action new-tab --name "tests" --layout /path/to/test-layout.kdl)
@@ -3336,6 +3368,9 @@ position: 0
 <p>Show or hide all floating panes:</p>
 <pre><code>zellij action show-floating-panes
 zellij action hide-floating-panes
+</code></pre>
+<p>Check whether floating panes are currently visible:</p>
+<pre><code>zellij action are-floating-panes-visible &amp;&amp; echo "visible" || echo "hidden"
 </code></pre>
 <p>Pin a floating pane so it stays on top:</p>
 <pre><code>zellij action toggle-pane-pinned --pane-id terminal_5
@@ -3493,6 +3528,17 @@ echo "Pipeline complete."
 </code></pre>
 <p>Apply the layout only to the active tab:</p>
 <pre><code>zellij action override-layout /path/to/layout.kdl --apply-only-to-active-tab
+</code></pre>
+<h2 id="inline-layouts"><a class="header" href="#inline-layouts">Inline Layouts</a></h2>
+<p>Instead of referencing a layout file, a raw KDL layout string can be passed directly on the command line using <code>--layout-string</code>. This is useful for scripted or dynamic layouts without creating temporary files.</p>
+<p>Start a new tab with an inline layout:</p>
+<pre><code>zellij action new-tab --layout-string 'layout { pane split_direction="vertical" { pane; pane; }; }'
+</code></pre>
+<p>Override the current tab's layout inline:</p>
+<pre><code>zellij action override-layout --layout-string 'layout { pane split_direction="vertical" { pane; pane; pane; }; }'
+</code></pre>
+<p>Start a new session with an inline layout:</p>
+<pre><code>zellij --layout-string 'layout { pane split_direction="vertical" { pane; pane; }; }'
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="programmatic-control"><a class="header" href="#programmatic-control">Programmatic Control</a></h1>
 <p>This page describes patterns for controlling Zellij from external processes - scripts, daemons, orchestration tools, or any program that needs to create terminal sessions, run commands, observe their output, and react to results without human interaction.</p>
