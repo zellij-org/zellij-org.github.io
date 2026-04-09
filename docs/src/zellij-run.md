@@ -7,6 +7,12 @@ eg.
 $ zellij run -- git diff
 ```
 
+If outside of a session a target session can be specified:
+
+```
+$ zellij --session auspicious-apricot run -- echo foo
+```
+
 **OPTIONS**:
 ```
 -b, --borderless <BORDERLESS>     start this pane without a border (warning: will make it
