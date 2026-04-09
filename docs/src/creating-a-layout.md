@@ -246,7 +246,7 @@ layout {
 ```
 
 #### plugin
-`plugin` is a pane argument the points to a Zellij plugin to load. Currently is is only possible to specify inside the child-braces of a pane followed by a URL `location` in quoted string.
+`plugin` is a pane argument that points to a Zellij plugin to load. Currently, it is only possible to specify inside the child-braces of a pane, followed by a URL `location` in a quoted string.
 
 **Possible values:** `zellij:internal-plugin` | `file:/path/to/my/plugin.wasm`
 
