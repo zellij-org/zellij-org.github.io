@@ -192,4 +192,4 @@ The web client supports mobile browsers. Two behaviors are specifically adapted 
 2. **Touch Scroll**: Vertical touch swipes are converted to terminal scroll events, allowing natural scrolling through terminal output.
 
 ## This feature can optionally be disabled at compile-time
-For those who are averse to this feature (even when it's disabled - which is the default), Zellij can be compiled completely without this feature or its dependencies by removing the `web-server-capability` compile-time flag. For convenience, Zellij also provides an additional pre-built binary compiled without this flag called `zellij-no-web`.
+For those who are averse to this feature (even when it's disabled - which is the default), Zellij can be compiled completely without this feature or its dependencies by removing the `web_server_capability` compile-time flag. For convenience, Zellij also provides an additional pre-built binary compiled without this flag called `zellij-no-web`.
