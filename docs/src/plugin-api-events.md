@@ -49,6 +49,8 @@ For complete type definitions referenced below, see the [Type Reference](./plugi
 - [AvailableLayoutInfo](#availablelayoutinfo)
 - [PluginConfigurationChanged](#pluginconfigurationchanged)
 - [HighlightClicked](#highlightclicked)
+- [CommandChanged](#commandchanged)
+- [HostTerminalThemeChanged](#hostterminalthemechanged)
 
 ---
 
@@ -1032,6 +1034,65 @@ fn update(&mut self, event: Event) -> bool {
                 // Open the clicked URL
                 run_command(&["xdg-open", &matched_string], BTreeMap::new());
             }
+            true
+        },
+        _ => false,
+    }
+}
+```
+
+---
+
+## `CommandChanged`
+
+```rust
+Event::CommandChanged(PaneId, Vec<String>, bool, Vec<ClientId>)
+```
+
+**Payload:**
+- [`PaneId`](./plugin-api-types.md#paneid) - the pane whose running command changed
+- `Vec<String>` - the new command and its arguments (argv)
+- `bool` - `true` if the new command is the foreground process in the pane
+- `Vec<ClientId>` - client IDs that have this pane focused
+
+Fired when the foreground command running inside a terminal pane changes (for example when a user runs `vim` from a shell, or when that program exits and the shell becomes foreground again). No permission is required.
+
+**Example:**
+
+```rust
+fn update(&mut self, event: Event) -> bool {
+    match event {
+        Event::CommandChanged(pane_id, command, is_foreground, _focused_clients) => {
+            if is_foreground {
+                self.pane_commands.insert(pane_id, command);
+            }
+            true
+        },
+        _ => false,
+    }
+}
+```
+
+---
+
+## `HostTerminalThemeChanged`
+
+```rust
+Event::HostTerminalThemeChanged(HostTerminalThemeMode)
+```
+
+**Payload:**
+- [`HostTerminalThemeMode`](./plugin-api-types.md#hostterminalthememode) - `Dark` or `Light`
+
+Fired when the host terminal reports a change to its color-scheme mode via CSI 2031 / DSR 997 (the same mechanism Zellij uses internally to switch between [`theme_dark`](./options.md#theme_dark) and [`theme_light`](./options.md#theme_light)). Useful for plugins that want to re-render with a matching palette. No permission is required.
+
+**Example:**
+
+```rust
+fn update(&mut self, event: Event) -> bool {
+    match event {
+        Event::HostTerminalThemeChanged(mode) => {
+            self.is_dark = matches!(mode, HostTerminalThemeMode::Dark);
             true
         },
         _ => false,

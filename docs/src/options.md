@@ -11,6 +11,8 @@ Configuration options can be set directly at the root of the [configuration file
 - [default_shell](#default_shell)
 - [pane_frames](#pane_frames)
 - [theme](#theme)
+- [theme_dark](#theme_dark)
+- [theme_light](#theme_light)
 - [default_layout](#default_layout)
 - [default_mode](#default_mode-locked)
 - [mouse_mode](#mouse_mode)
@@ -111,6 +113,22 @@ Default: default
 
 ```javascript
 theme "default"
+```
+
+### theme_dark
+
+Name of the theme to use as the "dark" theme. Used by the `SetDarkTheme` / `ToggleTheme` actions, and applied automatically when the host terminal reports it is in dark mode (CSI 2031 / DSR 997). The named theme must be specified in the themes section or loaded from the themes folder. See [themes](./themes.md)
+
+```javascript
+theme_dark "catppuccin-mocha"
+```
+
+### theme_light
+
+Name of the theme to use as the "light" theme. Used by the `SetLightTheme` / `ToggleTheme` actions, and applied automatically when the host terminal reports it is in light mode (CSI 2031 / DSR 997). The named theme must be specified in the themes section or loaded from the themes folder. See [themes](./themes.md)
+
+```javascript
+theme_light "catppuccin-latte"
 ```
 
 ### default_layout
