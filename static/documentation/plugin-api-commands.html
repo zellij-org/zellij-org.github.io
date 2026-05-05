@@ -463,6 +463,31 @@ eprintln!("Running on Zellij {}", version);
 </div>
 <p><strong>Returns:</strong> <code>Result&lt;PathBuf, String&gt;</code> - the working directory path</p>
 <hr />
+<h3 id="get_session_list"><a class="header" href="#get_session_list"><code>get_session_list</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn get_session_list() -&gt; Result&lt;SessionListSnapshot, String&gt;
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p>Returns a one-shot snapshot of all live and resurrectable sessions on the local machine. Useful for plugins that want a point-in-time view of available sessions without subscribing to <a href="./plugin-api-events.html#sessionupdate"><code>SessionUpdate</code></a>.</p>
+<p><strong>Returns:</strong> <code>Result&lt;</code><a href="./plugin-api-types.html#sessionlistsnapshot"><code>SessionListSnapshot</code></a><code>, String&gt;</code></p>
+<ul>
+<li><code>live_sessions</code>: <code>Vec&lt;</code><a href="./plugin-api-types.html#sessioninfo"><code>SessionInfo</code></a><code>&gt;</code> - all currently running sessions</li>
+<li><code>resurrectable_sessions</code>: <code>Vec&lt;(String, Duration)&gt;</code> - dead-but-resurrectable session names and how long ago they were last alive</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>match get_session_list() {
+    Ok(snapshot) =&gt; {
+        for session in snapshot.live_sessions {
+            eprintln!("live: {}", session.name);
+        }
+    },
+    Err(e) =&gt; eprintln!("Error: {}", e),
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
 <h3 id="get_pane_scrollback"><a class="header" href="#get_pane_scrollback"><code>get_pane_scrollback</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {

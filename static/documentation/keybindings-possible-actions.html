@@ -529,6 +529,16 @@
 <p><strong>Required arguments</strong>: "CaseSensitivity" | "Wrap" | "WhileWord"</p>
 <pre><code class="language-javascript">    bind "a" { SearchToggleOption "CaseSensitivity"; }
 </code></pre>
+<h2 id="setdarktheme"><a class="header" href="#setdarktheme"><code>SetDarkTheme</code></a></h2>
+<p>Switch the theme to dark (uses the configured <code>theme_dark</code>).</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { SetDarkTheme; }
+</code></pre>
+<h2 id="setlighttheme"><a class="header" href="#setlighttheme"><code>SetLightTheme</code></a></h2>
+<p>Switch the theme to light (uses the configured <code>theme_light</code>).</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { SetLightTheme; }
+</code></pre>
 <h2 id="switchtomode"><a class="header" href="#switchtomode"><code>SwitchToMode</code></a></h2>
 <p>Switch the current input mode</p>
 <p><strong>Required arguments</strong>: See <a href="#modes">Modes</a></p>
@@ -623,6 +633,11 @@
 <p>Change the tab focus</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { ToggleTab; }
+</code></pre>
+<h2 id="toggletheme"><a class="header" href="#toggletheme"><code>ToggleTheme</code></a></h2>
+<p>Toggle between the configured <code>theme_dark</code> and <code>theme_light</code>.</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ToggleTheme; }
 </code></pre>
 <h2 id="undorenamepane"><a class="header" href="#undorenamepane"><code>UndoRenamePane</code></a></h2>
 <p>Undo a rename pane operation currently in progress (reverting to the previous name)</p>

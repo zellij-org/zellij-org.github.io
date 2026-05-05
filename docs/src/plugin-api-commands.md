@@ -408,6 +408,35 @@ Get the current working directory of a pane's process.
 
 ---
 
+### `get_session_list`
+
+```rust
+fn get_session_list() -> Result<SessionListSnapshot, String>
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+Returns a one-shot snapshot of all live and resurrectable sessions on the local machine. Useful for plugins that want a point-in-time view of available sessions without subscribing to [`SessionUpdate`](./plugin-api-events.md#sessionupdate).
+
+**Returns:** `Result<`[`SessionListSnapshot`](./plugin-api-types.md#sessionlistsnapshot)`, String>`
+- `live_sessions`: `Vec<`[`SessionInfo`](./plugin-api-types.md#sessioninfo)`>` - all currently running sessions
+- `resurrectable_sessions`: `Vec<(String, Duration)>` - dead-but-resurrectable session names and how long ago they were last alive
+
+**Example:**
+
+```rust
+match get_session_list() {
+    Ok(snapshot) => {
+        for session in snapshot.live_sessions {
+            eprintln!("live: {}", session.name);
+        }
+    },
+    Err(e) => eprintln!("Error: {}", e),
+}
+```
+
+---
+
 ### `get_pane_scrollback`
 
 ```rust

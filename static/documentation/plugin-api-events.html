@@ -200,6 +200,8 @@
 <li><a href="#availablelayoutinfo">AvailableLayoutInfo</a></li>
 <li><a href="#pluginconfigurationchanged">PluginConfigurationChanged</a></li>
 <li><a href="#highlightclicked">HighlightClicked</a></li>
+<li><a href="#commandchanged">CommandChanged</a></li>
+<li><a href="#hostterminalthemechanged">HostTerminalThemeChanged</a></li>
 </ul>
 <hr />
 <h2 id="modeupdate"><a class="header" href="#modeupdate"><code>ModeUpdate</code></a></h2>
@@ -996,6 +998,59 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
                 // Open the clicked URL
                 run_command(&amp;["xdg-open", &amp;matched_string], BTreeMap::new());
             }
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="commandchanged"><a class="header" href="#commandchanged"><code>CommandChanged</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::CommandChanged(PaneId, Vec&lt;String&gt;, bool, Vec&lt;ClientId&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane whose running command changed</li>
+<li><code>Vec&lt;String&gt;</code> - the new command and its arguments (argv)</li>
+<li><code>bool</code> - <code>true</code> if the new command is the foreground process in the pane</li>
+<li><code>Vec&lt;ClientId&gt;</code> - client IDs that have this pane focused</li>
+</ul>
+<p>Fired when the foreground command running inside a terminal pane changes (for example when a user runs <code>vim</code> from a shell, or when that program exits and the shell becomes foreground again). No permission is required.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::CommandChanged(pane_id, command, is_foreground, _focused_clients) =&gt; {
+            if is_foreground {
+                self.pane_commands.insert(pane_id, command);
+            }
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="hostterminalthemechanged"><a class="header" href="#hostterminalthemechanged"><code>HostTerminalThemeChanged</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::HostTerminalThemeChanged(HostTerminalThemeMode)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#hostterminalthememode"><code>HostTerminalThemeMode</code></a> - <code>Dark</code> or <code>Light</code></li>
+</ul>
+<p>Fired when the host terminal reports a change to its color-scheme mode via CSI 2031 / DSR 997 (the same mechanism Zellij uses internally to switch between <a href="./options.html#theme_dark"><code>theme_dark</code></a> and <a href="./options.html#theme_light"><code>theme_light</code></a>). Useful for plugins that want to re-render with a matching palette. No permission is required.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::HostTerminalThemeChanged(mode) =&gt; {
+            self.is_dark = matches!(mode, HostTerminalThemeMode::Dark);
             true
         },
         _ =&gt; false,

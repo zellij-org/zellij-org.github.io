@@ -589,6 +589,26 @@ or as a stacked pane:
     bind "a" { SearchToggleOption "CaseSensitivity"; }
 ```
 
+## `SetDarkTheme`
+
+ Switch the theme to dark (uses the configured `theme_dark`).
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { SetDarkTheme; }
+```
+
+## `SetLightTheme`
+
+ Switch the theme to light (uses the configured `theme_light`).
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { SetLightTheme; }
+```
+
 ## `SwitchToMode`
 
  Switch the current input mode
@@ -753,6 +773,16 @@ or:
 
 ```javascript
     bind "a" { ToggleTab; }
+```
+
+## `ToggleTheme`
+
+ Toggle between the configured `theme_dark` and `theme_light`.
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { ToggleTheme; }
 ```
 
 ## `UndoRenamePane`

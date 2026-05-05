@@ -58,6 +58,8 @@
 - [scroll-to-top](#scroll-to-top)
 - [scroll-up](#scroll-up)
 - [send-keys](#send-keys)
+- [set-dark-theme](#set-dark-theme)
+- [set-light-theme](#set-light-theme)
 - [set-pane-borderless](#set-pane-borderless)
 - [set-pane-color](#set-pane-color)
 - [show-floating-panes](#show-floating-panes)
@@ -72,6 +74,7 @@
 - [toggle-pane-embed-or-floating](#toggle-pane-embed-or-floating)
 - [toggle-pane-frames](#toggle-pane-frames)
 - [toggle-pane-pinned](#toggle-pane-pinned)
+- [toggle-theme](#toggle-theme)
 - [undo-rename-pane](#undo-rename-pane)
 - [undo-rename-tab](#undo-rename-tab)
 - [write](#write)
@@ -1086,6 +1089,22 @@ $ zellij action send-keys "Ctrl a"
 $ zellij action send-keys --pane-id terminal_3 "Alt b" "Enter"
 ```
 
+#### set-dark-theme
+Switch the theme to dark (uses the configured [`theme_dark`](./options.html#theme_dark)).
+
+eg.
+```
+$ zellij action set-dark-theme
+```
+
+#### set-light-theme
+Switch the theme to light (uses the configured [`theme_light`](./options.html#theme_light)).
+
+eg.
+```
+$ zellij action set-light-theme
+```
+
 #### set-pane-borderless
 Set the borderless state of a specific pane
 
@@ -1275,6 +1294,14 @@ If the current pane is a floating pane, toggle its pinned state (always on top).
 eg.
 ```
 $ zellij action toggle-pane-pinned
+```
+
+#### toggle-theme
+Toggle between the dark and light themes (uses the configured [`theme_dark`](./options.html#theme_dark) and [`theme_light`](./options.html#theme_light)).
+
+eg.
+```
+$ zellij action toggle-theme
 ```
 
 #### undo-rename-pane

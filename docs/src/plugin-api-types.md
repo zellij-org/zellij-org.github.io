@@ -35,6 +35,8 @@ All types listed here are available via `use zellij_tile::prelude::*;`.
 - [PaneInfo](#paneinfo)
 - [PaneManifest](#panemanifest)
 - [SessionInfo](#sessioninfo)
+- [SessionListSnapshot](#sessionlistsnapshot)
+- [HostTerminalThemeMode](#hostterminalthememode)
 - [ClientInfo](#clientinfo)
 - [ModeInfo](#modeinfo)
 - [Mouse](#mouse)
@@ -740,6 +742,37 @@ pub struct SessionInfo {
 | `tab_history` | `BTreeMap<ClientId, Vec<usize>>` | Tab focus history per client |
 | `pane_history` | `BTreeMap<ClientId, Vec<PaneId>>` | Pane focus history per client |
 | `creation_time` | `Duration` | When the session was created |
+
+---
+
+## `SessionListSnapshot`
+
+A point-in-time snapshot of all sessions on the local machine, returned by [`get_session_list`](./plugin-api-commands.md#get_session_list).
+
+```rust
+pub struct SessionListSnapshot {
+    pub live_sessions: Vec<SessionInfo>,
+    pub resurrectable_sessions: Vec<(String, Duration)>,
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `live_sessions` | `Vec<`[`SessionInfo`](#sessioninfo)`>` | All currently running sessions |
+| `resurrectable_sessions` | `Vec<(String, Duration)>` | Names of dead-but-resurrectable sessions, paired with how long ago each was last alive |
+
+---
+
+## `HostTerminalThemeMode`
+
+The color-scheme mode reported by the host terminal via CSI 2031 / DSR 997. Delivered as the payload of the [`HostTerminalThemeChanged`](./plugin-api-events.md#hostterminalthemechanged) event.
+
+```rust
+pub enum HostTerminalThemeMode {
+    Dark,
+    Light,
+}
+```
 
 ---
 
