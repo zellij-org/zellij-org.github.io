@@ -184,6 +184,8 @@
 <li><a href="#paneinfo">PaneInfo</a></li>
 <li><a href="#panemanifest">PaneManifest</a></li>
 <li><a href="#sessioninfo">SessionInfo</a></li>
+<li><a href="#sessionlistsnapshot">SessionListSnapshot</a></li>
+<li><a href="#hostterminalthememode">HostTerminalThemeMode</a></li>
 <li><a href="#clientinfo">ClientInfo</a></li>
 <li><a href="#modeinfo">ModeInfo</a></li>
 <li><a href="#mouse">Mouse</a></li>
@@ -808,6 +810,31 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>creation_time</code></td><td><code>Duration</code></td><td>When the session was created</td></tr>
 </tbody></table>
 </div>
+<hr />
+<h2 id="sessionlistsnapshot"><a class="header" href="#sessionlistsnapshot"><code>SessionListSnapshot</code></a></h2>
+<p>A point-in-time snapshot of all sessions on the local machine, returned by <a href="./plugin-api-commands.html#get_session_list"><code>get_session_list</code></a>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct SessionListSnapshot {
+    pub live_sessions: Vec&lt;SessionInfo&gt;,
+    pub resurrectable_sessions: Vec&lt;(String, Duration)&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>live_sessions</code></td><td><code>Vec&lt;</code><a href="#sessioninfo"><code>SessionInfo</code></a><code>&gt;</code></td><td>All currently running sessions</td></tr>
+<tr><td><code>resurrectable_sessions</code></td><td><code>Vec&lt;(String, Duration)&gt;</code></td><td>Names of dead-but-resurrectable sessions, paired with how long ago each was last alive</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="hostterminalthememode"><a class="header" href="#hostterminalthememode"><code>HostTerminalThemeMode</code></a></h2>
+<p>The color-scheme mode reported by the host terminal via CSI 2031 / DSR 997. Delivered as the payload of the <a href="./plugin-api-events.html#hostterminalthemechanged"><code>HostTerminalThemeChanged</code></a> event.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum HostTerminalThemeMode {
+    Dark,
+    Light,
+}
+<span class="boring">}</span></code></pre></pre>
 <hr />
 <h2 id="clientinfo"><a class="header" href="#clientinfo"><code>ClientInfo</code></a></h2>
 <p>Information about a connected client.</p>

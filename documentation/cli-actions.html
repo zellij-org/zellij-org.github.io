@@ -210,6 +210,8 @@
 <li><a href="#scroll-to-top">scroll-to-top</a></li>
 <li><a href="#scroll-up">scroll-up</a></li>
 <li><a href="#send-keys">send-keys</a></li>
+<li><a href="#set-dark-theme">set-dark-theme</a></li>
+<li><a href="#set-light-theme">set-light-theme</a></li>
 <li><a href="#set-pane-borderless">set-pane-borderless</a></li>
 <li><a href="#set-pane-color">set-pane-color</a></li>
 <li><a href="#show-floating-panes">show-floating-panes</a></li>
@@ -224,6 +226,7 @@
 <li><a href="#toggle-pane-embed-or-floating">toggle-pane-embed-or-floating</a></li>
 <li><a href="#toggle-pane-frames">toggle-pane-frames</a></li>
 <li><a href="#toggle-pane-pinned">toggle-pane-pinned</a></li>
+<li><a href="#toggle-theme">toggle-theme</a></li>
 <li><a href="#undo-rename-pane">undo-rename-pane</a></li>
 <li><a href="#undo-rename-tab">undo-rename-tab</a></li>
 <li><a href="#write">write</a></li>
@@ -942,6 +945,16 @@ $ zellij action resize --pane-id terminal_3 +
 <pre><code>$ zellij action send-keys "Ctrl a"
 $ zellij action send-keys --pane-id terminal_3 "Alt b" "Enter"
 </code></pre>
+<h4 id="set-dark-theme"><a class="header" href="#set-dark-theme">set-dark-theme</a></h4>
+<p>Switch the theme to dark (uses the configured <a href="./options.html#theme_dark"><code>theme_dark</code></a>).</p>
+<p>eg.</p>
+<pre><code>$ zellij action set-dark-theme
+</code></pre>
+<h4 id="set-light-theme"><a class="header" href="#set-light-theme">set-light-theme</a></h4>
+<p>Switch the theme to light (uses the configured <a href="./options.html#theme_light"><code>theme_light</code></a>).</p>
+<p>eg.</p>
+<pre><code>$ zellij action set-light-theme
+</code></pre>
 <h4 id="set-pane-borderless"><a class="header" href="#set-pane-borderless">set-pane-borderless</a></h4>
 <p>Set the borderless state of a specific pane</p>
 <p><strong>OPTIONS (required)</strong>:</p>
@@ -1063,6 +1076,11 @@ $ zellij action switch-session my-session --tab-position 2 --layout /path/to/lay
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action toggle-pane-pinned
+</code></pre>
+<h4 id="toggle-theme"><a class="header" href="#toggle-theme">toggle-theme</a></h4>
+<p>Toggle between the dark and light themes (uses the configured <a href="./options.html#theme_dark"><code>theme_dark</code></a> and <a href="./options.html#theme_light"><code>theme_light</code></a>).</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-theme
 </code></pre>
 <h4 id="undo-rename-pane"><a class="header" href="#undo-rename-pane">undo-rename-pane</a></h4>
 <p>Remove a previously set pane name</p>

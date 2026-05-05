@@ -479,6 +479,8 @@ zellij setup --dump-config &gt; ~/.config/zellij/config.kdl
 <li><a href="options.html#default_shell">default_shell</a></li>
 <li><a href="options.html#pane_frames">pane_frames</a></li>
 <li><a href="options.html#theme">theme</a></li>
+<li><a href="options.html#theme_dark">theme_dark</a></li>
+<li><a href="options.html#theme_light">theme_light</a></li>
 <li><a href="options.html#default_layout">default_layout</a></li>
 <li><a href="options.html#default_mode-locked">default_mode</a></li>
 <li><a href="options.html#mouse_mode">mouse_mode</a></li>
@@ -562,6 +564,14 @@ eg. when terminal window with an active zellij session is closed</p>
 <p>Choose the Zellij color theme. This theme must be specified in the themes section or loaded from the themes folder. See <a href="./themes.html">themes</a></p>
 <p>Default: default</p>
 <pre><code class="language-javascript">theme "default"
+</code></pre>
+<h3 id="theme_dark"><a class="header" href="#theme_dark">theme_dark</a></h3>
+<p>Name of the theme to use as the "dark" theme. Used by the <code>SetDarkTheme</code> / <code>ToggleTheme</code> actions, and applied automatically when the host terminal reports it is in dark mode (CSI 2031 / DSR 997). The named theme must be specified in the themes section or loaded from the themes folder. See <a href="./themes.html">themes</a></p>
+<pre><code class="language-javascript">theme_dark "catppuccin-mocha"
+</code></pre>
+<h3 id="theme_light"><a class="header" href="#theme_light">theme_light</a></h3>
+<p>Name of the theme to use as the "light" theme. Used by the <code>SetLightTheme</code> / <code>ToggleTheme</code> actions, and applied automatically when the host terminal reports it is in light mode (CSI 2031 / DSR 997). The named theme must be specified in the themes section or loaded from the themes folder. See <a href="./themes.html">themes</a></p>
+<pre><code class="language-javascript">theme_light "catppuccin-latte"
 </code></pre>
 <h3 id="default_layout"><a class="header" href="#default_layout">default_layout</a></h3>
 <p>The name of the layout to load on startup (must be in the layouts folder). See <a href="./layouts.html">layouts</a></p>
@@ -1392,6 +1402,16 @@ bind "Left" // bind the left arrow key
 <p><strong>Required arguments</strong>: "CaseSensitivity" | "Wrap" | "WhileWord"</p>
 <pre><code class="language-javascript">    bind "a" { SearchToggleOption "CaseSensitivity"; }
 </code></pre>
+<h2 id="setdarktheme"><a class="header" href="#setdarktheme"><code>SetDarkTheme</code></a></h2>
+<p>Switch the theme to dark (uses the configured <code>theme_dark</code>).</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { SetDarkTheme; }
+</code></pre>
+<h2 id="setlighttheme"><a class="header" href="#setlighttheme"><code>SetLightTheme</code></a></h2>
+<p>Switch the theme to light (uses the configured <code>theme_light</code>).</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { SetLightTheme; }
+</code></pre>
 <h2 id="switchtomode"><a class="header" href="#switchtomode"><code>SwitchToMode</code></a></h2>
 <p>Switch the current input mode</p>
 <p><strong>Required arguments</strong>: See <a href="keybindings-possible-actions.html#modes">Modes</a></p>
@@ -1486,6 +1506,11 @@ bind "Left" // bind the left arrow key
 <p>Change the tab focus</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { ToggleTab; }
+</code></pre>
+<h2 id="toggletheme"><a class="header" href="#toggletheme"><code>ToggleTheme</code></a></h2>
+<p>Toggle between the configured <code>theme_dark</code> and <code>theme_light</code>.</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ToggleTheme; }
 </code></pre>
 <h2 id="undorenamepane"><a class="header" href="#undorenamepane"><code>UndoRenamePane</code></a></h2>
 <p>Undo a rename pane operation currently in progress (reverting to the previous name)</p>
@@ -1980,6 +2005,8 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 <li><a href="cli-actions.html#scroll-to-top">scroll-to-top</a></li>
 <li><a href="cli-actions.html#scroll-up">scroll-up</a></li>
 <li><a href="cli-actions.html#send-keys">send-keys</a></li>
+<li><a href="cli-actions.html#set-dark-theme">set-dark-theme</a></li>
+<li><a href="cli-actions.html#set-light-theme">set-light-theme</a></li>
 <li><a href="cli-actions.html#set-pane-borderless">set-pane-borderless</a></li>
 <li><a href="cli-actions.html#set-pane-color">set-pane-color</a></li>
 <li><a href="cli-actions.html#show-floating-panes">show-floating-panes</a></li>
@@ -1994,6 +2021,7 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 <li><a href="cli-actions.html#toggle-pane-embed-or-floating">toggle-pane-embed-or-floating</a></li>
 <li><a href="cli-actions.html#toggle-pane-frames">toggle-pane-frames</a></li>
 <li><a href="cli-actions.html#toggle-pane-pinned">toggle-pane-pinned</a></li>
+<li><a href="cli-actions.html#toggle-theme">toggle-theme</a></li>
 <li><a href="cli-actions.html#undo-rename-pane">undo-rename-pane</a></li>
 <li><a href="cli-actions.html#undo-rename-tab">undo-rename-tab</a></li>
 <li><a href="cli-actions.html#write">write</a></li>
@@ -2712,6 +2740,16 @@ $ zellij action resize --pane-id terminal_3 +
 <pre><code>$ zellij action send-keys "Ctrl a"
 $ zellij action send-keys --pane-id terminal_3 "Alt b" "Enter"
 </code></pre>
+<h4 id="set-dark-theme"><a class="header" href="#set-dark-theme">set-dark-theme</a></h4>
+<p>Switch the theme to dark (uses the configured <a href="./options.html#theme_dark"><code>theme_dark</code></a>).</p>
+<p>eg.</p>
+<pre><code>$ zellij action set-dark-theme
+</code></pre>
+<h4 id="set-light-theme"><a class="header" href="#set-light-theme">set-light-theme</a></h4>
+<p>Switch the theme to light (uses the configured <a href="./options.html#theme_light"><code>theme_light</code></a>).</p>
+<p>eg.</p>
+<pre><code>$ zellij action set-light-theme
+</code></pre>
 <h4 id="set-pane-borderless"><a class="header" href="#set-pane-borderless">set-pane-borderless</a></h4>
 <p>Set the borderless state of a specific pane</p>
 <p><strong>OPTIONS (required)</strong>:</p>
@@ -2833,6 +2871,11 @@ $ zellij action switch-session my-session --tab-position 2 --layout /path/to/lay
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action toggle-pane-pinned
+</code></pre>
+<h4 id="toggle-theme"><a class="header" href="#toggle-theme">toggle-theme</a></h4>
+<p>Toggle between the dark and light themes (uses the configured <a href="./options.html#theme_dark"><code>theme_dark</code></a> and <a href="./options.html#theme_light"><code>theme_light</code></a>).</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-theme
 </code></pre>
 <h4 id="undo-rename-pane"><a class="header" href="#undo-rename-pane">undo-rename-pane</a></h4>
 <p>Remove a previously set pane name</p>
@@ -4777,6 +4820,8 @@ $ zellij convert-theme /path/to/my/theme.yaml &gt; /path/to/my/theme.kdl
 <li><a href="plugin-api-events.html#availablelayoutinfo">AvailableLayoutInfo</a></li>
 <li><a href="plugin-api-events.html#pluginconfigurationchanged">PluginConfigurationChanged</a></li>
 <li><a href="plugin-api-events.html#highlightclicked">HighlightClicked</a></li>
+<li><a href="plugin-api-events.html#commandchanged">CommandChanged</a></li>
+<li><a href="plugin-api-events.html#hostterminalthemechanged">HostTerminalThemeChanged</a></li>
 </ul>
 <hr />
 <h2 id="modeupdate"><a class="header" href="#modeupdate"><code>ModeUpdate</code></a></h2>
@@ -5579,6 +5624,59 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
     }
 }
 <span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="commandchanged"><a class="header" href="#commandchanged"><code>CommandChanged</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::CommandChanged(PaneId, Vec&lt;String&gt;, bool, Vec&lt;ClientId&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane whose running command changed</li>
+<li><code>Vec&lt;String&gt;</code> - the new command and its arguments (argv)</li>
+<li><code>bool</code> - <code>true</code> if the new command is the foreground process in the pane</li>
+<li><code>Vec&lt;ClientId&gt;</code> - client IDs that have this pane focused</li>
+</ul>
+<p>Fired when the foreground command running inside a terminal pane changes (for example when a user runs <code>vim</code> from a shell, or when that program exits and the shell becomes foreground again). No permission is required.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::CommandChanged(pane_id, command, is_foreground, _focused_clients) =&gt; {
+            if is_foreground {
+                self.pane_commands.insert(pane_id, command);
+            }
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="hostterminalthemechanged"><a class="header" href="#hostterminalthemechanged"><code>HostTerminalThemeChanged</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::HostTerminalThemeChanged(HostTerminalThemeMode)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#hostterminalthememode"><code>HostTerminalThemeMode</code></a> - <code>Dark</code> or <code>Light</code></li>
+</ul>
+<p>Fired when the host terminal reports a change to its color-scheme mode via CSI 2031 / DSR 997 (the same mechanism Zellij uses internally to switch between <a href="./options.html#theme_dark"><code>theme_dark</code></a> and <a href="./options.html#theme_light"><code>theme_light</code></a>). Useful for plugins that want to re-render with a matching palette. No permission is required.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::HostTerminalThemeChanged(mode) =&gt; {
+            self.is_dark = matches!(mode, HostTerminalThemeMode::Dark);
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api---commands"><a class="header" href="#plugin-api---commands">Plugin API - Commands</a></h1>
 <p>Zellij exports functions that allow plugins to control Zellij or change its behavior. All functions listed below are available via <code>use zellij_tile::prelude::*;</code>.</p>
 <p>For the complete type definitions referenced below, see the <a href="./plugin-api-types.html">Type Reference</a>. For additional details, see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
@@ -5889,6 +5987,31 @@ eprintln!("Running on Zellij {}", version);
 </tbody></table>
 </div>
 <p><strong>Returns:</strong> <code>Result&lt;PathBuf, String&gt;</code> - the working directory path</p>
+<hr />
+<h3 id="get_session_list"><a class="header" href="#get_session_list"><code>get_session_list</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn get_session_list() -&gt; Result&lt;SessionListSnapshot, String&gt;
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p>Returns a one-shot snapshot of all live and resurrectable sessions on the local machine. Useful for plugins that want a point-in-time view of available sessions without subscribing to <a href="./plugin-api-events.html#sessionupdate"><code>SessionUpdate</code></a>.</p>
+<p><strong>Returns:</strong> <code>Result&lt;</code><a href="./plugin-api-types.html#sessionlistsnapshot"><code>SessionListSnapshot</code></a><code>, String&gt;</code></p>
+<ul>
+<li><code>live_sessions</code>: <code>Vec&lt;</code><a href="./plugin-api-types.html#sessioninfo"><code>SessionInfo</code></a><code>&gt;</code> - all currently running sessions</li>
+<li><code>resurrectable_sessions</code>: <code>Vec&lt;(String, Duration)&gt;</code> - dead-but-resurrectable session names and how long ago they were last alive</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>match get_session_list() {
+    Ok(snapshot) =&gt; {
+        for session in snapshot.live_sessions {
+            eprintln!("live: {}", session.name);
+        }
+    },
+    Err(e) =&gt; eprintln!("Error: {}", e),
+}
+<span class="boring">}</span></code></pre></pre>
 <hr />
 <h3 id="get_pane_scrollback"><a class="header" href="#get_pane_scrollback"><code>get_pane_scrollback</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -8595,6 +8718,8 @@ run_action(
 <li><a href="plugin-api-types.html#paneinfo">PaneInfo</a></li>
 <li><a href="plugin-api-types.html#panemanifest">PaneManifest</a></li>
 <li><a href="plugin-api-types.html#sessioninfo">SessionInfo</a></li>
+<li><a href="plugin-api-types.html#sessionlistsnapshot">SessionListSnapshot</a></li>
+<li><a href="plugin-api-types.html#hostterminalthememode">HostTerminalThemeMode</a></li>
 <li><a href="plugin-api-types.html#clientinfo">ClientInfo</a></li>
 <li><a href="plugin-api-types.html#modeinfo">ModeInfo</a></li>
 <li><a href="plugin-api-types.html#mouse">Mouse</a></li>
@@ -9219,6 +9344,31 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>creation_time</code></td><td><code>Duration</code></td><td>When the session was created</td></tr>
 </tbody></table>
 </div>
+<hr />
+<h2 id="sessionlistsnapshot"><a class="header" href="#sessionlistsnapshot"><code>SessionListSnapshot</code></a></h2>
+<p>A point-in-time snapshot of all sessions on the local machine, returned by <a href="./plugin-api-commands.html#get_session_list"><code>get_session_list</code></a>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct SessionListSnapshot {
+    pub live_sessions: Vec&lt;SessionInfo&gt;,
+    pub resurrectable_sessions: Vec&lt;(String, Duration)&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>live_sessions</code></td><td><code>Vec&lt;</code><a href="plugin-api-types.html#sessioninfo"><code>SessionInfo</code></a><code>&gt;</code></td><td>All currently running sessions</td></tr>
+<tr><td><code>resurrectable_sessions</code></td><td><code>Vec&lt;(String, Duration)&gt;</code></td><td>Names of dead-but-resurrectable sessions, paired with how long ago each was last alive</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="hostterminalthememode"><a class="header" href="#hostterminalthememode"><code>HostTerminalThemeMode</code></a></h2>
+<p>The color-scheme mode reported by the host terminal via CSI 2031 / DSR 997. Delivered as the payload of the <a href="./plugin-api-events.html#hostterminalthemechanged"><code>HostTerminalThemeChanged</code></a> event.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum HostTerminalThemeMode {
+    Dark,
+    Light,
+}
+<span class="boring">}</span></code></pre></pre>
 <hr />
 <h2 id="clientinfo"><a class="header" href="#clientinfo"><code>ClientInfo</code></a></h2>
 <p>Information about a connected client.</p>
