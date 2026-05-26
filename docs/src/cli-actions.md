@@ -288,7 +288,7 @@ $ zellij action edit ./my-file.rs -f
 $ zellij action edit ./my-file.rs --in-place
 ```
 
-**Note**: it is also possible to issue this action without the `action` prefix:
+**Note:** This can also be shortened to [`zellij edit`](zellij-edit.md)
 
 eg.
 ```
@@ -787,7 +787,7 @@ $ zellij action new-pane --in-place -- htop
 $ zellij action new-pane --plugin zellij:strider --floating
 ```
 
-**Note:** This can also be shortened to `zellij run`
+**Note:** This can also be shortened to [`zellij run`](zellij-run.md)
 
 eg.
 ```
