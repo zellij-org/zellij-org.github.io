@@ -56,12 +56,12 @@ Note that in order to take advantage of this feature, one must also use a termin
 Starting from this release, Zellij supports changing the configuration file and having the changes applied at runtime. We recommend trying it out by switching to one of the [new themes](#new-themes) and seeing them applied to the UI in real time.
 
 ## New UI
-The Zellij status-bar has been redesigned, offering a variation for users choosing the "Unlock First" [keybinding preset](#solutions-for-colliding-keybindings) as well as a new more conceise one-line look for the default preset.
+The Zellij status-bar has been redesigned, offering a variation for users choosing the "Unlock First" [keybinding preset](#solutions-for-colliding-keybindings) as well as a new more concise one-line look for the default preset.
 {{<figure src="/img/new-status-bar.png" width="800px;" alt="An image of the new Zellij status bar">}}
 
 ## Configuration Screen and Setup Wizard
 {{<figure src="/img/setup-wizard.png" width="800px;" alt="A image of the Zellij setup wizard">}}
-In order to facilitate the usage of the new [Non-Colliding Keybinding Preset](#solutions-for-colliding-keybindings), Zellij will now display a short setup wizard on first run. This setup wizard will allow users to discover the new keybinging preset and either choose to use it immediately or know that they can switch to it at a later time.
+In order to facilitate the usage of the new [Non-Colliding Keybinding Preset](#solutions-for-colliding-keybindings), Zellij will now display a short setup wizard on first run. This setup wizard will allow users to discover the new keybinding preset and either choose to use it immediately or know that they can switch to it at a later time.
 
 The setup wizard can be accessed as a configuration screen in-app by pressing:
 * `Ctrl o` + `c` in the default preset

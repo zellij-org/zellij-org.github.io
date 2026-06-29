@@ -63,7 +63,7 @@ Pipes also integrate seamlessly with existing shell pipes, providing flow contro
 [Learn more about Pipes](/documentation/plugin-pipes.html)
 
 ## Open Floating Panes at Specific Coordinates
-A much requested feature after the introduction of floating panes, was to be able to open floating panes at specific coordinates and at specific sizes. Ths is now possible from the CLI, from plugins or from a keybinding (either with fixed numbers or percentage of the viewport):
+A much requested feature after the introduction of floating panes, was to be able to open floating panes at specific coordinates and at specific sizes. This is now possible from the CLI, from plugins or from a keybinding (either with fixed numbers or percentage of the viewport):
 
 ```sh
 zellij run --floating --width 50 --height 20% -x 10% -y 50% -- htop
@@ -90,7 +90,7 @@ Read more about [Plugin Aliases](/documentation/plugin-aliases.html).
 Thanks to some community contributions, it is now possible to bind `Ctrl`/`Alt` + Function keys (eg. `Ctrl F1`), as well as `Ctrl Space`. We as Zellij maintainers are aware that colliding keybindings are a big problem for many users and intend to fully and finally address this issue in the next version after this one.
 
 ## Start session in the background
-nother much requested feature was added in this release: it's now possible to start a new Zellij session in the background with the new `zellij attach --create-background` flag.
+Another much requested feature was added in this release: it's now possible to start a new Zellij session in the background with the new `zellij attach --create-background` flag.
 
 ## Performance Improvements
 This version introduces two major performance improvements:
