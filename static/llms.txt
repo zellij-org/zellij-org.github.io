@@ -1,0 +1,42 @@
+# Zellij
+
+> Zellij is a workspace and terminal multiplexer written in Rust, with support for multiple panes, tabs, and a WebAssembly plugin system for extending its functionality.
+
+Zellij runs on Linux, macOS, and via a web client. It ships opinionated defaults out of the box (a status bar, pane/tab management, layouts) while remaining fully configurable through KDL config files and layouts.
+
+## Documentation
+
+- [Introduction](https://zellij.dev/documentation/introduction): What Zellij is and how it works
+- [Installation](https://zellij.dev/documentation/installation): How to install Zellij on various platforms
+- [Command-line options](https://zellij.dev/documentation/command-line-options): Flags and options for the `zellij` binary
+- [Configuration](https://zellij.dev/documentation/configuration): How Zellij's configuration system works
+- [Configuration options](https://zellij.dev/documentation/options): Full list of configuration options
+- [Keybindings](https://zellij.dev/documentation/keybindings): Default keybindings and modes
+- [Rebinding keys](https://zellij.dev/documentation/rebinding-keys): How to customize keybindings
+- [Layouts](https://zellij.dev/documentation/layouts): Defining and using layouts
+- [Creating a layout](https://zellij.dev/documentation/creating-a-layout): Step-by-step layout authoring
+- [Layout examples](https://zellij.dev/documentation/layout-examples): Sample layout files
+- [Swap layouts](https://zellij.dev/documentation/swap-layouts): Alternate layouts for a session
+- [Themes](https://zellij.dev/documentation/themes): Theming Zellij
+- [Theme list](https://zellij.dev/documentation/theme-list): Community theme showcase
+- [Session resurrection](https://zellij.dev/documentation/session-resurrection): Restoring closed sessions
+- [Web client](https://zellij.dev/documentation/web-client): Accessing Zellij sessions from a browser
+- [Controlling Zellij through the CLI](https://zellij.dev/documentation/controlling-zellij-through-cli): Scripting Zellij actions
+- [CLI actions](https://zellij.dev/documentation/cli-actions): Available `zellij action` subcommands
+- [CLI commands](https://zellij.dev/documentation/commands): Top-level CLI command reference
+- [Programmatic control](https://zellij.dev/documentation/programmatic-control): Driving Zellij from scripts/other programs
+- [Plugins overview](https://zellij.dev/documentation/plugins): Zellij's WASM plugin system
+- [Plugin development](https://zellij.dev/documentation/plugin-development): Writing your own plugins
+- [Plugin API](https://zellij.dev/documentation/plugin-api): Full plugin API reference
+- [Compatibility](https://zellij.dev/documentation/compatibility): Terminal/OS compatibility notes
+- [Migrating YAML config](https://zellij.dev/documentation/migrating-yaml-config): Upgrading from the legacy YAML config format
+- [Migrating YAML layouts](https://zellij.dev/documentation/migrating-yaml-layouts): Upgrading legacy YAML layouts
+
+## Site
+
+- [Features](https://zellij.dev/features/): Overview of Zellij's headline features
+- [FAQ](https://zellij.dev/faq/): Frequently asked questions
+- [About](https://zellij.dev/about/): Project background and team
+- [Roadmap](https://zellij.dev/roadmap/): Planned work
+- [News](https://zellij.dev/news/): Release notes and feature announcements
+- [Tutorials](https://zellij.dev/tutorials/): Guided walkthroughs of specific features
