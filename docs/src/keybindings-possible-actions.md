@@ -653,7 +653,7 @@ By default bound to `[` in `scroll` and `search` modes.
 
  Toggle various search options on/off
 
-**Required arguments**: "CaseSensitivity" | "Wrap" | "WhileWord"
+**Required arguments**: "CaseSensitivity" | "Wrap" | "WholeWord"
 
 ```javascript
     bind "a" { SearchToggleOption "CaseSensitivity"; }
