@@ -17,7 +17,7 @@ Zellij provides plugins with some built-in UI components that will fit the user'
 
 Consists of a title line with an emphasis style and a grid of width-justified cells. Each cell can be styled individually (see `Text` below) and also marked as "selected". Marking adjacent cells as selected can create a "selected row" effect.
 
-Example from the Rust SDK (renders the screeshot above):
+Example from the Rust SDK (renders the screenshot above):
 ```rust
 let table = Table::new()
     .add_row(vec!["title1", "title2", "title3"])
