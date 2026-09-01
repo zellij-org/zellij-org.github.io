@@ -9,6 +9,7 @@ These themes are provided built-in with Zellij. One can switch to them by changi
 * ayu_dark
 * catppuccin-frappe
 * catppuccin-macchiato
+* catppuccin-mocha
 * cyber-noir
 * blade-runner
 * retro-wave
