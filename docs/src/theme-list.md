@@ -5,15 +5,17 @@ These themes are provided built-in with Zellij. One can switch to them by changi
 * ansi
 * ao
 * atelier-sulphurpool
-* ayu_mirage
-* ayu_dark
+* ayu-dark
+* ayu-mirage
+* blade-runner
 * catppuccin-frappe
 * catppuccin-macchiato
+* catppuccin-mocha
 * cyber-noir
-* blade-runner
-* retro-wave
 * dracula
 * everforest-dark
+* flexoki-dark
+* gruber-darker
 * gruvbox-dark
 * iceberg-dark
 * kanagawa
@@ -25,19 +27,21 @@ These themes are provided built-in with Zellij. One can switch to them by changi
 * nord
 * one-half-dark
 * onedark
+* retro-wave
 * solarized-dark
+* terafox
+* tokyo-night
 * tokyo-night-dark
 * tokyo-night-storm
-* tokyo-night
 * vesper
 
 ## Light Themes
-* ayu_light
+* ayu-light
 * catppuccin-latte
+* dayfox 
 * everforest-light
 * gruvbox-light
 * iceberg-light
-* dayfox 
 * pencil-light
 * solarized-light
 * tokyo-night-light
