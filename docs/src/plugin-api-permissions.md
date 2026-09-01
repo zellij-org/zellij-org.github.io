@@ -4,6 +4,26 @@ The plugin system provides a permission system to provide extra security and pro
 The system places certain [Events](./plugin-api-events.md) and [Commands](./plugin-api-commands.md) behind certain permissions.
 Plugins who want to listen to these events or use these commands should prompt the user to grant them these permissions with the `request_permission` command.
 
+## How permissions work
+
+**Built-in plugins** (loaded via the `zellij:` URL scheme) are automatically granted all permissions and do not need to call `request_permission`.
+
+**All other plugins** (loaded via `file:`, `http(s):`, or bare aliases pointing to non-`zellij:` URLs) **must** call `request_permission` in their `load()` function before using any privileged API call. If a plugin uses a command or subscribes to an event that requires a permission it has not been granted, the command will be **silently denied** — no response will be sent back to the plugin, which will likely cause a panic.
+
+```rust
+fn load(&mut self, configuration: BTreeMap<String, String>) {
+    request_permission(&[
+        PermissionType::ReadApplicationState,
+        PermissionType::ChangeApplicationState,
+    ]);
+    // ...
+}
+```
+
+On first load, Zellij will display a permission dialog to the user. Once granted, permissions are cached and will not be requested again.
+
+> **Important:** If you are forking a built-in plugin (e.g. `session-manager`) and loading it via `file:`, you must add `request_permission()` to its `load()` function — built-in plugins do not include this call since they bypass permission checks entirely.
+
 ## Permissions
 ### ReadApplicationState
 Access Zellij state (Panes, Tabs and UI)

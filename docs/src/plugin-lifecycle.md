@@ -16,7 +16,9 @@ pub trait ZellijPlugin {
 
 ## Lifecycle Methods
 ### load
-Will be called when the plugin is loaded, this is a good place to [subscribe](./plugin-api-commands.md#subscribe) to events that are interesting for this plugin.
+Will be called when the plugin is loaded, this is a good place to [request permissions](./plugin-api-permissions.md) and [subscribe](./plugin-api-commands.md#subscribe) to events that are interesting for this plugin.
+
+> **Note:** Non-built-in plugins (loaded via `file:` or `http(s):`) must call `request_permission()` in `load()` before using any privileged commands. See [Permissions](./plugin-api-permissions.md) for details.
 
 ### update
 Will be called with an [`Event`](./plugin-api-events.md) if the plugin is subscribed to said event. If the plugin returns `true` from this function, Zellij will know it should be rendered and call its `render` function.

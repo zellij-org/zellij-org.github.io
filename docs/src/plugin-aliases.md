@@ -23,6 +23,8 @@ Aliases can be added to this block or changed to swap the default built-in plugi
 
 When swapping the default aliases for custom plugins, it's important that these plugins implement the basic contract Zellij (and indeed, other plugins) expect of them. The following sections describe the contract for each default alias.
 
+> **Important:** Built-in plugins (`zellij:` prefix) are automatically granted all [permissions](./plugin-api-permissions.md). When you swap a built-in alias to a `file:` plugin, the replacement **must** call `request_permission()` in its `load()` function with the permissions it needs — otherwise privileged API calls will be silently denied, causing the plugin to crash. See [Permissions](./plugin-api-permissions.md) for details.
+
 Here's an example on how to use the plugin alias in a layout:
 
 ```javascript
