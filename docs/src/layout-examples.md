@@ -204,6 +204,57 @@ Here's how it looks like when opened:
 
 ![zellij-development](./img/zellij-development.png)
 
+## An example with useful panes
+
+```javascript
+layout {
+    default_tab_template {
+        children
+        pane size=1 borderless=true {
+            plugin location="file:~/.config/zellij/plugins/zjstatus.wasm"{
+                format_left  "{mode}#[fg=white,bg=#b1bbfa,bold]{session}  #[fg=#b1bbfa,bg=#000000]"
+                format_center "{tabs}"
+                format_right "#[fg=#181825,bg=#b1bbfa]{datetime}"
+                format_space "#[bg=#181825]"
+
+                hide_frame_for_single_pane "true"
+
+                mode_normal  "#[bg=#b1bbfa] "
+
+                tab_normal   "#[fg=#C0C0C0]"
+                tab_active   "#[fg=#00FF00,bold] "
+
+                datetime          "#[fg=#6C7086,bg=#b1bbfa,bold] {format} "
+                datetime_format   "%A, %d %b %Y %H:%M"
+                datetime_timezone "Europe/Amsterdam"
+            }
+        }
+    }
+    tab focus=true split_direction="Vertical" {
+        pane split_direction="Vertical" {
+            pane split_direction="Horizontal" size="25%"{
+                pane split_direction="Horizontal"{
+                  pane size="50%" name="zsh" command="~/.bin/barefoot-zsh"  // ~/.config/barefoot-zsh
+                  pane name="tasks (mytd)" command="mytd"
+                }
+                pane size="16%" name="calculator (kalker)" command="kalker"
+            }
+            pane split_direction="Horizontal"{
+                pane size="84%" focus=true
+                pane size="16%" name="cpu" command="btop" borderless=true{
+                    args "-p" "1"
+                }
+            }
+            pane size="12%" name="cal" command="mycal"
+        }
+    }
+}
+```
+
+Here's a screenshot
+
+![zsergiorgiraldo](./img/zellij-sergiorgiraldo.png)
+
 ## Your layout here?
 
 Please make PRs with cool layouts (and screenshots!) to [our website repo](https://github.com/zellij-org/zellij-org.github.io) and we'd be happy to include your name and a link to your profile.
