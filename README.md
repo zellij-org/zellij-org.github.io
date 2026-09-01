@@ -3,6 +3,6 @@ The website for zellij
 
 To run: `hugo server`
 
-To watch-build documentation: `mdbook watch docs/ -d ../static/documentation`
+To watch-build documentation: `mdbook watch docs/ --dest-dir ../static/documentation`
 
 For both, run: `./watch-serve.sh`
