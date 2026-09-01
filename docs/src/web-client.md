@@ -206,4 +206,4 @@ The mobile interface includes:
 9. **Welcome screen**: rendered client-side when connecting without an existing session.
 
 ## This feature can optionally be disabled at compile-time
-For those who are averse to this feature (even when it's disabled - which is the default), Zellij can be compiled completely without this feature or its dependencies by removing the `web-server-capability` compile-time flag. For convenience, Zellij also provides an additional pre-built binary compiled without this flag called `zellij-no-web`.
+For those who are averse to this feature (even when it's disabled - which is the default), Zellij can be compiled completely without this feature or its dependencies by removing the `web_server_capability` compile-time flag. For convenience, Zellij also provides an additional pre-built binary compiled without this flag called `zellij-no-web`.
