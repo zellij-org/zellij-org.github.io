@@ -102,7 +102,7 @@ Since Zellij implements its own mouse selection and copying, many users have not
 
 ## Release Notes and Tips on Startup
 {{<figure src="/img/zellij-tip-demo.png" alt="A demo of the Zellij tip on startup">}}
-Starting this version, on first run Zellij will display the release notes for the current version. On subsequent runs, Zellij will display a random useful usage tip on startup. It's possible to disable both of these behaviors through the config (and in the case of tips, also at runtime through the tips window as specified). More info [here](/documentation/options.html#show_release_nodes) and [here](/documentation/options.html#show_startup_tips).
+Starting this version, on first run Zellij will display the release notes for the current version. On subsequent runs, Zellij will display a random useful usage tip on startup. It's possible to disable both of these behaviors through the config (and in the case of tips, also at runtime through the tips window as specified). More info [here](/documentation/options.html#show_release_notes) and [here](/documentation/options.html#show_startup_tips).
 
 Both of these can be browsed through the new `about` plugin with `Ctrl o` + `a`.
 
