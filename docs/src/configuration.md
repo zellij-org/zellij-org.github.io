@@ -18,10 +18,11 @@ Zellij will search for the `config` directory as follows:
 
 - `--config-dir` flag
 - `ZELLIJ_CONFIG_DIR` env variable
-- `$HOME/.config/zellij`
+- `$HOME/.config/zellij` or `%APPDATA%/Zellij/config`
 - default location
     - Linux: `/home/alice/.config/zellij`
     - Mac: `/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij`
+    - Windows: `C:/Users/Alice/AppData/Roaming/Zellij/config`
 
 - system location (`/etc/zellij`)
 
