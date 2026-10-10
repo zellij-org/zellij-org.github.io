@@ -4,7 +4,7 @@ In addition to the [configuration file](./configuration.md), zellij can also be 
 
 > **Migration Note:** The `--disable-mouse-mode` and `--no-pane-frames` flags have been removed. Use `--mouse-mode false` (equivalent of `--disable-mouse-mode`) and `--pane-frames false` (equivalent of `--no-pane-frames`) instead.
 
-Every option that can be set in the [configuration file](./options.md) also has a corresponding flag here, in nearly all cases using the same name in kebab-case (eg. the `nested_session_handling` option is `--nested-session-handling`). The exceptions are `pane_viewport_serialization`, whose flag is `--serialize-pane-viewport`, and the web server options (`web_server_ip`, `web_server_port`, `web_server_cert`, `web_server_key`, `enforce_https_on_localhost`), which are taken as positional arguments rather than flags.
+Every option that can be set in the [configuration file](./options.md) also has a corresponding flag here, in nearly all cases using the same name in kebab-case (eg. the `nested_session_handling` option is `--nested-session-handling`). The exceptions the web server options (`web_server_ip`, `web_server_port`, `web_server_cert`, `web_server_key`, `enforce_https_on_localhost`), which are taken as positional arguments rather than flags.
 
 > **Note:** since `0.45.0` (which uses clap 4 for argument parsing), repeating the same flag no longer produces an error - the last occurrence overrides the previous ones. Help output is also styled and colored.
 

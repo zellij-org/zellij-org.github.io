@@ -30,7 +30,7 @@ Configuration options can be set directly at the root of the [configuration file
 - [auto_layout](#auto_layout)
 - [styled_underlines](#styled_underlines)
 - [session_serialization](#session_serialization)
-- [pane_viewport_serialization](#pane_viewport_serialization)
+- [serialize_pane_viewport](#serialize_pane_viewport)
 - [scrollback_lines_to_serialize](#scrollback_lines_to_serialize)
 - [serialization_interval](#serialization_interval)
 - [disable_session_metadata](#disable_session_metadata)
@@ -78,8 +78,9 @@ Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
 eg. when terminal window with an active zellij session is closed
 
 Options:
-  - detach (Default)
-  - quit
+
+- detach (Default)
+- quit
 
 ```javascript
 on_force_close "quit"
@@ -90,12 +91,14 @@ on_force_close "quit"
 Send a request for a simplified ui (without arrow fonts) to plugins
 
 Options:
-  - true
-  - false (Default)
+
+- true
+- false (Default)
 
 ```javascript
 simplified_ui true
 ```
+
 ### default_shell
 
 Choose the path to the default shell that zellij will use for opening new panes
@@ -111,12 +114,14 @@ default_shell "fish"
 Toggle between having pane frames around the panes. The style of these frames is controlled by [`pane_frame_style`](#pane_frame_style) - since `0.45.0` the default style is a single title line above each pane rather than a full border.
 
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 pane_frames true
 ```
+
 ### theme
 
 Choose the Zellij color theme. This theme must be specified in the themes section or loaded from the themes folder. See [themes](./themes.md)
@@ -170,8 +175,9 @@ On certain configurations, or terminals this could
 potentially interfere with copying text.
 
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 mouse_mode false
@@ -213,8 +219,9 @@ Allows using the primary selection buffer (on x11/wayland) instead of the system
 Does not apply when using copy_command.
 
 Options:
-  - system (default)
-  - primary
+
+- system (default)
+- primary
 
 ```javascript
 copy_clipboard "primary"
@@ -270,6 +277,7 @@ theme_dir "/path/to/my/theme_dir"
 ```
 
 ### env
+
 A key -> value map of environment variables that will be set for each terminal pane Zellij starts.
 
 ```javascript
@@ -280,6 +288,7 @@ env {
 ```
 
 ### rounded_corners
+
 Set whether the pane frames (if visible) should have rounded corners.
 
 This config variable is set differently than others:
@@ -293,6 +302,7 @@ ui {
 ```
 
 ### hide_session_name
+
 Hides the session name (randomly generated or otherwise) from the UI
 
 ```javascript
@@ -304,148 +314,181 @@ ui {
 ```
 
 ### auto_layout
+
 Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
+
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 auto_layout true
 ```
 
 ### styled_underlines
+
 Toggle between supporting the extended "styled_underlines" ANSI protocol and ignoring it (can sometimes cause some issues in unsupported terminals).
+
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 styled_underlines true
 ```
 
 ### session_serialization
+
 If enabled, sessions will be serialized to the cache folder (and thus become resurrectable between reboots or on exit). Read more about [session resurrection](./session-resurrection.md).
+
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 session_serialization true
 ```
 
-### pane_viewport_serialization
+### serialize_pane_viewport
+
 If enabled along with `session_serialization`, the pane viewport (the visible part of the terminal excluding the scrollback) will be serialized and resurrectable as well. Read more about [session resurrection](./session-resurrection.md).
+
 Options:
-  - true
-  - false (default)
+
+- true
+- false (default)
 
 ```javascript
-pane_viewport_serialization true
+serialize_pane_viewport true
 ```
 
 ### scrollback_lines_to_serialize
-When `pane_viewport_serialization` is enabled, setting `scrollback_lines_to_serialize` to `0` in the will serialize all scrollback and to any other number will serialize line number up to that scrollback. Read more about [session resurrection](./session-resurrection.md).
+
+When `serialize_pane_viewport` is enabled, setting `scrollback_lines_to_serialize` to `0` in the will serialize all scrollback and to any other number will serialize line number up to that scrollback. Read more about [session resurrection](./session-resurrection.md).
 
 *Note: this might incur higher resource utilization (and certainly a higher cache folder usage...)*
 
 Options:
-  - `0`: serialize all scrollback
-  - `int`: serialize this much lines for each pane (max is the scrollback limit)
+
+- `0`: serialize all scrollback
+- `int`: serialize this much lines for each pane (max is the scrollback limit)
 
 ```javascript
-pane_viewport_serialization 100
+scrollback_lines_to_serialize 100
 ```
 
 ### serialization_interval
+
 How often in seconds sessions are serialized to disk (if `session_serialization` is enabled).
 
 *Note: this might incur higher resource utilization (and certainly a higher cache folder usage...)*
 
 Options:
-  - `int`: the interval in seconds
+
+- `int`: the interval in seconds
 
 ```javascript
 serialization_interval 60
 ```
 
 ### disable_session_metadata
+
 Enable or disable writing of session metadata to disk
 
 *Note: If disabled, other sessions might not know metadata info on this session, so features such as the session-manager and session listing might not work properly.*
 
 Options:
-  - true
-  - false (default)
+
+- true
+- false (default)
 
 ```javascript
 disable_session_metadata true
 ```
 
 ### stacked_resize
+
 Attempt to stack panes with their neighbors when resizing non-directionally (by default `Alt+/-`).
 
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 stacked_resize true
 ```
 
 ### show_startup_tips
+
 Show usage tips on Zellij startup. These can also be browsed through the `about` plugin with `Ctrl o` + `a` and then `?`.
 
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 show_startup_tips true
 ```
 
 ### show_release_notes
+
 Show release notes on first run of a new version. These can also be browsed through the `about` plugin with `Ctrl o` + `a`.
 
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 show_release_notes true
 ```
 
 ### post_command_discovery_hook
+
 When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a `post_command_discovery_hook`. This is a command that will run in the context of te user's default shell and be provided the `$RESURRECT_COMMAND` that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over `STDOUT` will be serialized in place of the discovered command.
 
 Example:
+
 ```javascript
 post_command_discovery_hook "echo \"$RESURRECT_COMMAND\" | sed 's/^sudo\\s\\+//'" // strip sudo from commands
 ```
 
-
 ### web_server
+
 Whether to start the Zellij [web-server](./web-client.md) on startup.
 
 Options:
-  - true
-  - false (default)
+
+- true
+- false (default)
 
 ### web_server_ip
+
 The IP for the Zellij [web-server](./web-client.md) to listen on when it's started. Default: `127.0.0.1`.
 
 ### web_server_port
+
 The port for the Zellij [web-server](./web-client.md) to listen on when it's started. Default: `8082`.
 
 ### web_server_cert
+
 The path to the SSL certificate for the Zellij [web-server](./web-client.md). Note: the `web_server_key` must also be present for the server to serve itself as HTTPS.
 
 ### web_server_key
+
 The path to the private_key of te SSL certificate for the Zellij [web-server](./web-client.md). Note: the `web_server_cert` must also be present for the server to serve itself as HTTPS.
 
 ### enforce_https_on_localhost
+
 Whether to enforce https on localhost for the Zellij [web-server](./web-client.md). This is always enforced when listening on non-localhost addresses.
 
 ### base_url
+
 Set the base URL path for the Zellij [web-server](./web-client.md). When set, the web server serves all content under this path prefix. This is useful when running behind a reverse proxy that serves Zellij under a subpath.
 
 Default: none (served at root "/")
@@ -457,16 +500,20 @@ web_client {
 ```
 
 ### web_client
+
 Configuration having to do with the in-browser terminal of the Zellij web client (eg. colors, font). For more info, please see: [web-server](./web-client.md).
 
 Options:
-    - true
-    - false (default)
+
+- true
+- false (default)
 
 ### advanced_mouse_actions
+
 Whether to enable mouse hover effects, multiple select functionality (pane grouping), and mouse-based pane resizing.
 
 When enabled, the following mouse interactions are available:
+
 - **Drag tiled pane borders**: Click and drag the border between tiled panes to resize them
 - **Ctrl+Drag floating pane borders**: Hold Ctrl and drag the border of a floating pane to resize it
 - **Ctrl+ScrollWheel**: Hold Ctrl and scroll the mouse wheel up or down to resize the focused pane (increases/decreases size by approximately 5 cells)
@@ -474,10 +521,12 @@ When enabled, the following mouse interactions are available:
 These interactions are shown as help text in the pane frame when hovering near resizable borders.
 
 Options:
-    - true (default)
-    - false
+
+- true (default)
+- false
 
 ### default_cwd
+
 Set the default current working directory for new panes. When set, new panes will open in this directory unless otherwise specified.
 
 ```javascript
@@ -485,17 +534,20 @@ default_cwd "/home/user/projects"
 ```
 
 ### osc8_hyperlinks
+
 Enable clickable OSC8 hyperlink output in terminal panes. When enabled, programs that emit OSC8 escape sequences will produce clickable hyperlinks.
 
 Options:
-  - true
-  - false (default)
+
+- true
+- false (default)
 
 ```javascript
 osc8_hyperlinks true
 ```
 
 ### session_name
+
 Set the name of the session to create when starting Zellij. If not set, a random name will be generated.
 
 ```javascript
@@ -503,90 +555,106 @@ session_name "my-session"
 ```
 
 ### attach_to_session
+
 If a session with the name specified in `session_name` already exists, attach to it instead of creating a new one.
 
 Options:
-  - true
-  - false (default)
+
+- true
+- false (default)
 
 ```javascript
 attach_to_session true
 ```
 
 ### support_kitty_keyboard_protocol
+
 Enable support for the Kitty keyboard protocol. This allows for more detailed key reporting from the terminal. Defaults to true if the terminal supports it.
 
 Options:
-  - true (default if terminal supports it)
-  - false
+
+- true (default if terminal supports it)
+- false
 
 ```javascript
 support_kitty_keyboard_protocol true
 ```
 
 ### web_sharing
+
 Whether new sessions are shared through the local web server. This is separate from `web_server` which controls whether the server starts at all.
 
 Options:
-  - "on" - new sessions are shared by default
-  - "off" - new sessions are not shared by default (Default)
-  - "disabled" - sharing is completely disabled
+
+- "on" - new sessions are shared by default
+- "off" - new sessions are not shared by default (Default)
+- "disabled" - sharing is completely disabled
 
 ```javascript
 web_sharing "on"
 ```
 
 ### mouse_hover_effects
+
 Enable mouse hover visual effects, such as pane frame highlight and help text when hovering over panes.
 
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 mouse_hover_effects false
 ```
 
 ### visual_bell
+
 Show visual bell indicators when a pane sends a bell character. This manifests as a brief pane/tab frame flash and a [!] suffix on the tab name.
 
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 visual_bell false
 ```
 
 ### focus_follows_mouse
+
 Whether to automatically focus panes when hovering over them with the mouse.
 
 Options:
-  - true
-  - false (default)
+
+- true
+- false (default)
 
 ```javascript
 focus_follows_mouse true
 ```
 
 ### mouse_click_through
+
 Whether clicking a pane to focus it also sends the click event into the pane (to the running program). When false, the first click only focuses the pane and is consumed by Zellij.
 
 Options:
-  - true
-  - false (default)
+
+- true
+- false (default)
 
 ```javascript
 mouse_click_through true
 ```
 
 ### pane_frame_style
+
 The style of the pane frames when `pane_frames` is enabled.
 
 Options:
-  - "titles" (default) - a single title line above each pane
-  - "full" - a full border around each pane (the pre-`0.45.0` look)
-  - "none" - no frames at all (identical to `pane_frames false`)
+
+- "titles" (default) - a single title line above each pane
+- "full" - a full border around each pane (the pre-`0.45.0` look)
+- "none" - no frames at all (identical to `pane_frames false`)
 
 Setting `pane_frames false` forces the style to `none` regardless of this option.
 
@@ -597,61 +665,72 @@ pane_frame_style "titles"
 ```
 
 ### stacked_pane_list
+
 Whether stacked panes are rendered as a list of one-line titles with the expanded pane pinned to the bottom of the stack. When false, the expanded pane is rendered in place inside the stack (the pre-`0.45.0` behavior).
 
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 stacked_pane_list false
 ```
 
 ### support_kitty_graphics_protocol
+
 Enable support for the Kitty graphics protocol, allowing programs running in panes to display images. Defaults to true if the terminal supports it (queried when Zellij starts). Changing this option requires restarting Zellij.
 
 Options:
-  - true (default if terminal supports it)
-  - false
+
+- true (default if terminal supports it)
+- false
 
 ```javascript
 support_kitty_graphics_protocol true
 ```
 
 ### mouse_scroll_resize
+
 Whether holding Ctrl and scrolling the mouse wheel resizes the focused pane. When false, such scroll events are passed through to the pane instead.
 
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 mouse_scroll_resize false
 ```
 
 ### mouse_hover_tips
+
 Whether to show contextual help tips when hovering with the mouse (eg. resize help near pane borders, pane group shortcuts). This is distinct from `mouse_hover_effects`, which controls hover *visual* effects such as frame highlighting.
 
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 mouse_hover_tips false
 ```
 
 ### osc133_command_selection
+
 Whether triple-clicking inside output marked with [OSC 133 shell integration](./shell-integration.md) sequences selects the whole command and its output rather than the logical line under the cursor.
 
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 osc133_command_selection false
 ```
 
 ### word_separators
+
 The characters that terminate a word when double-clicking to select it. Whitespace always separates words and does not need to be included here.
 
 Default: `"[]{}<>()"`
@@ -661,33 +740,38 @@ word_separators "[]{}<>()/\\"
 ```
 
 ### host_notification_protocol
+
 The protocol used to forward desktop notifications emitted by panes (through OSC 9, OSC 99 or OSC 777) to the host terminal. See [desktop notifications](./compatibility.md#desktop-notifications).
 
 Options:
-  - "auto" (default) - OSC 99 for terminals that support it (eg. kitty), OSC 9 otherwise
-  - "osc9" - always use OSC 9
-  - "osc99" - always use OSC 99
-  - "bell" - emit a terminal bell instead of a notification
-  - "off" - do not forward notifications to the host terminal
+
+- "auto" (default) - OSC 99 for terminals that support it (eg. kitty), OSC 9 otherwise
+- "osc9" - always use OSC 9
+- "osc99" - always use OSC 99
+- "bell" - emit a terminal bell instead of a notification
+- "off" - do not forward notifications to the host terminal
 
 ```javascript
 host_notification_protocol "osc9"
 ```
 
 ### nested_session_handling
+
 What Zellij should do when a pane contains another (nested) Zellij session. See [nested sessions](./nested-sessions.md).
 
 Options:
-  - "ask" (default) - show a prompt when focusing the pane, offering to zoom into the nested session or to take control of it
-  - "fullscreen" - always zoom into the nested session when focusing its pane
-  - "descend" - always route input to the nested session when focusing its pane
-  - "never" - do nothing automatically
+
+- "ask" (default) - show a prompt when focusing the pane, offering to zoom into the nested session or to take control of it
+- "fullscreen" - always zoom into the nested session when focusing its pane
+- "descend" - always route input to the nested session when focusing its pane
+- "never" - do nothing automatically
 
 ```javascript
 nested_session_handling "descend"
 ```
 
 ### dangerously_enable_paste_buffer_read
+
 Whether programs running inside panes are allowed to **read** the system clipboard through the OSC 52 escape sequence. When false, such requests receive an empty reply.
 
 **Warning**: when this is enabled, any program running in any pane - including one running on a remote machine over SSH - can read the contents of the clipboard at any time, without prompting.
@@ -695,30 +779,35 @@ Whether programs running inside panes are allowed to **read** the system clipboa
 Copying to the clipboard (OSC 52 write) is not affected by this option and is always available.
 
 Options:
-  - true
-  - false (default)
+
+- true
+- false (default)
 
 ```javascript
 dangerously_enable_paste_buffer_read true
 ```
 
 ### scroll_mode_sync
+
 Whether scrolling a pane implicitly enters and exits [`scroll` mode](./keybindings-modes.md#a-note-about-scroll-mode). When false, scrolling a pane (eg. with the mouse wheel) leaves the current mode alone, and `scroll` mode is only entered through an explicit keybinding.
 
 Options:
-  - true (default)
-  - false
+
+- true (default)
+- false
 
 ```javascript
 scroll_mode_sync false
 ```
 
 ### explicit_theme_hue
+
 Pin the session to a dark or light appearance, ignoring the color scheme reported by the host terminal. It is resolved before the first render, so the session starts with the intended appearance rather than correcting itself once the terminal replies. See [themes](./themes.md#overriding-the-terminals-reported-hue).
 
 Options:
-  - "dark" - always treat the terminal as being in dark mode
-  - "light" - always treat the terminal as being in light mode
+
+- "dark" - always treat the terminal as being in dark mode
+- "light" - always treat the terminal as being in light mode
 
 Default: unset - the host terminal decides
 
