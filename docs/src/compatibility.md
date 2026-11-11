@@ -15,6 +15,8 @@ Programs running inside panes can display images using the [kitty graphics proto
 
 This requires the host terminal to support the protocol, which is queried when Zellij starts. It can be turned off with the [`support_kitty_graphics_protocol`](./options.md#support_kitty_graphics_protocol) option (changing it requires restarting Zellij).
 
+Images sent on to the host terminal are compressed (zlib, `o=z`) when the host terminal supports it, which is also checked when Zellij starts. This makes the data sent for each image many times smaller, which matters most over `ssh`.
+
 ## Sixel
 
 Sixel graphics are supported. Sixel support is only advertised to programs running in panes (through `DA1` and `XTSMGRAPHICS`) if the terminal Zellij is attached to actually supports Sixel. In previous versions it was advertised unconditionally, which could cause programs to emit Sixel data into terminals that could not display it.
@@ -29,6 +31,28 @@ Programs running in panes can raise desktop notifications through `OSC 9`, `OSC 
 - `off` - do not forward notifications
 
 Whether a notification is actually shown is up to the host terminal and the operating system.
+
+Notifications also become items in Zellij's [inbox](./inbox.md). When Zellij runs in its own [desktop terminal](./zellij-terminal.md#desktop-notifications), inbox items are shown as native desktop notifications of the operating system; which ones is set with `desktop_notifications` in the [`attention`](./inbox.md#configuration) block.
+
+## Program status (OSC 7501) and shell integration (OSC 133 / OSC 633)
+
+Programs can report what they are doing with `OSC 7501`: whether they are working, done, failed, idle or waiting for the user (eg. for an approval or an answer), optionally with a progress value and a message. Zellij shows this in the [inbox](./inbox.md), on the pane's frame and in the tab bar. Programs can ask whether `OSC 7501` is supported by sending `OSC 7501 ; ?`, which Zellij answers. When the terminal Zellij runs in also supports `OSC 7501`, Zellij reports the status of the whole session to it (the `host_status` setting of the [`attention`](./inbox.md#configuration) block). See [the inbox](./inbox.md#osc-7501) for the format, and [inbox integrations](./inbox-integrations.md) for setting up specific programs.
+
+The `OSC 133` and `OSC 633` (VS Code) shell integration sequences let Zellij report finished and failed commands in the same way; see [shell integration](./shell-integration.md).
+
+## Working directory (OSC 7)
+
+The working directory reported by the focused pane with `OSC 7` is passed on to the terminal Zellij runs in, so features of that terminal that rely on it (eg. opening a new window in the same folder) follow the focused pane. It is sent again only when it changes or when focus moves to a pane that has reported one; panes that never reported one send nothing. Reports that contain control characters are dropped. Other ways shells report their working directory are listed in [shell integration](./shell-integration.md#working-directory-reports).
+
+## Horizontal scrolling
+
+Scrolling sideways (eg. with a touchpad or a tilting mouse wheel) is passed on to programs that turned on mouse reporting, so programs that scroll horizontally (eg. editors with long lines) receive it. The default [mouse bindings](./mouse-bindings.md) bind `ScrollLeft` and `ScrollRight` to `ScrollColumns 4`.
+
+## Grapheme clusters (mode 2027)
+
+Zellij measures text by grapheme clusters, as the Unicode standard does: a sequence of characters that is shown as one symbol, such as a flag, an emoji with a skin tone or a letter with accents, takes up the width of that one symbol. This can be turned off with the [`grapheme_clusters`](./options.md#grapheme_clusters) option (it applies to new panes), in which case each character is measured on its own, the way older programs expect.
+
+Programs can turn grapheme cluster handling on for their pane with mode 2027 (`CSI ? 2027 h`) even when the option is off. Turning the mode off (`CSI ? 2027 l`) goes back to the option's setting, and the mode can be queried with `DECRQM` (`CSI ? 2027 $ p`).
 
 ## Terminal focus reporting
 

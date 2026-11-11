@@ -12,13 +12,18 @@ This page provides task-oriented examples for controlling Zellij from the comman
 - [Inspecting Session State](#inspecting-session-state)
 - [Controlling Floating Panes](#controlling-floating-panes)
 - [Borderless Panes](#borderless-panes)
+- [Border Styles](#border-styles)
+- [Hiding the UI Bars](#hiding-the-ui-bars)
 - [Toggling Pane Visibility](#toggling-pane-visibility)
 - [Changing Pane Colors](#changing-pane-colors)
 - [Blocking Panes](#blocking-panes)
+- [Asking the User from a Script](#asking-the-user-from-a-script)
+- [Getting Notified when a Command Finishes](#getting-notified-when-a-command-finishes)
 - [Scrollback and Screen Capture](#scrollback-and-screen-capture)
 - [Session Management](#session-management)
 - [Working with Plugins from the CLI](#working-with-plugins-from-the-cli)
 - [Layout Overrides at Runtime](#layout-overrides-at-runtime)
+- [Choosing a Swap Layout by Name](#choosing-a-swap-layout-by-name)
 - [Inline Layouts](#inline-layouts)
 
 ---
@@ -499,6 +504,39 @@ Explicitly set the borderless state:
 zellij action set-pane-borderless --pane-id terminal_5 --borderless true
 ```
 
+## Border Styles
+
+The line style of a pane's border can be set when the pane is opened, or changed later. A style can apply to all sides (eg. `double`) or to each side (eg. `top:double,left:single`), and `rounded` gives rounded corners. See [set-pane-border-style](./cli-actions.md#set-pane-border-style) for the full format.
+
+Open a floating pane with a double border and rounded corners:
+```
+zellij action new-pane --floating --border-style "double,rounded" -- htop
+```
+
+Change the border of an existing pane:
+```
+zellij action set-pane-border-style --pane-id terminal_5 --border-style "top:heavy,bottom:heavy"
+```
+
+Return the pane to the default border:
+```
+zellij action set-pane-border-style --pane-id terminal_5
+```
+
+## Hiding the UI Bars
+
+The tab-bar, status-bar and other bars can be hidden and shown again at runtime, in every tab of the session:
+```
+zellij action hide-bars
+zellij action hide-bars status-bar
+zellij action show-bars
+```
+
+`toggle-bars` shows all bars if any are hidden, and otherwise hides the named ones (all if none are named):
+```
+zellij action toggle-bars
+```
+
 ## Toggling Pane Visibility
 
 A tiled pane can be floated and a floating pane can be embedded. This is useful for background tasks - a long-running process can be kept in a floating pane whose visibility is toggled as needed, keeping the main workspace uncluttered.
@@ -633,6 +671,35 @@ The same blocking flags are available on `new-tab` for its initial command:
 zellij action new-tab --block-until-exit-success -- cargo test
 ```
 
+## Asking the User from a Script
+
+[`zellij prompt`](./zellij-prompt.md) shows a popup over the pane the script runs in and prints the answer. It can be used to confirm a step, pick an item or fill in a value:
+```bash
+zellij prompt confirm "Deploy to production?" --yes Deploy --no Cancel || exit 1
+BRANCH=$(git branch --format='%(refname:short)' | zellij prompt choose --title Branch) || exit 1
+MESSAGE=$(zellij prompt input "Commit message" --required) || exit 1
+git checkout "$BRANCH" && git commit -am "$MESSAGE"
+```
+
+A notice that does not take the keyboard can be shown at the end of a long task:
+```
+make && zellij prompt notify "Build finished" --timeout 5s
+```
+
+## Getting Notified when a Command Finishes
+
+A command pane can be watched from the start, so a notification is sent each time its command finishes or its output goes quiet:
+```
+zellij run --notify -- cargo build --release
+```
+
+An existing pane can be watched (and unwatched) with:
+```
+zellij action watch-pane --pane-id terminal_3
+```
+
+See [the inbox](./inbox.md) for where these notifications appear.
+
 ## Scrollback and Screen Capture
 
 Dump the viewport of the focused pane to stdout:
@@ -672,6 +739,28 @@ Switch to a different session:
 zellij action switch-session other-session
 ```
 
+Switch to a different session and close the current one if nothing was run in it:
+```
+zellij action switch-session other-session --close-current
+```
+
+Go back to the session this client was in before (run again to return):
+```
+zellij action toggle-session
+```
+
+Move back and forward through the sessions this client visited, or jump to the next pane that needs attention in any session:
+```
+zellij action go-to-previous-session
+zellij action go-to-next-session
+zellij action go-to-next-attention
+```
+
+Set the command a pane is [resurrected](./session-resurrection.md) with, for example from a program that knows how to resume itself:
+```
+zellij action set-resurrect-command -- opencode -s ses_abc
+```
+
 Detach from the current session:
 ```
 zellij action detach
@@ -709,6 +798,14 @@ zellij action override-layout /path/to/layout.kdl --retain-existing-terminal-pan
 Apply the layout only to the active tab:
 ```
 zellij action override-layout /path/to/layout.kdl --apply-only-to-active-tab
+```
+
+## Choosing a Swap Layout by Name
+
+Instead of cycling through [swap layouts](./swap-layouts.md) with `next-swap-layout`, one can be selected by the `name` it has in the layout file. The command exits with status 1 if no swap layout with that name fits the current number of panes:
+```
+zellij action apply-tiled-swap-layout stacked
+zellij action apply-floating-swap-layout spread --tab-id 2
 ```
 
 ## Inline Layouts

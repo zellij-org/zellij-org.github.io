@@ -153,6 +153,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="possible-actions"><a class="header" href="#possible-actions">Possible Actions</a></h1>
+<p>Actions whose name ends in <code>ByPaneId</code>, <code>ById</code> or <code>ByTabId</code> act on a specific pane or tab instead of the focused one. In a keybinding the pane or tab id must be given. Inside an item of the <a href="./context-menu.html">right-click menu</a> it can be left out, and the clicked pane or tab is used.</p>
 <h2 id="clear"><a class="header" href="#clear"><code>Clear</code></a></h2>
 <p>Clear the scrollback buffer of the focused pane</p>
 <p><strong>Possible arguments</strong>: None</p>
@@ -169,6 +170,16 @@
 <p><strong>Possible arguments</strong>: None</p>
 <p>By default bound to <code>c</code> in <code>scroll</code> mode.</p>
 <pre><code class="language-javascript">    bind "a" { CopyLastCommandOutput; }
+</code></pre>
+<h2 id="applyfloatingswaplayout"><a class="header" href="#applyfloatingswaplayout"><code>ApplyFloatingSwapLayout</code></a></h2>
+<p>Apply the floating swap layout with the given name, as declared in the layout file. Floating pane visibility and focus are left as they are. If no floating swap layout with that name fits the current number of panes, nothing changes.</p>
+<p><strong>Required arguments</strong>: the name of the swap layout</p>
+<pre><code class="language-javascript">    bind "a" { ApplyFloatingSwapLayout "spread"; }
+</code></pre>
+<h2 id="applytiledswaplayout"><a class="header" href="#applytiledswaplayout"><code>ApplyTiledSwapLayout</code></a></h2>
+<p>Apply the tiled swap layout with the given name, as declared in the layout file. Floating pane visibility and focus are left as they are. If no tiled swap layout with that name fits the current number of panes, nothing changes.</p>
+<p><strong>Required arguments</strong>: the name of the swap layout</p>
+<pre><code class="language-javascript">    bind "a" { ApplyTiledSwapLayout "vertical"; }
 </code></pre>
 <h2 id="breakpane"><a class="header" href="#breakpane"><code>BreakPane</code></a></h2>
 <p>Break the focused pane out of its current tab into a new tab</p>
@@ -194,17 +205,32 @@
 <p>eg.</p>
 <pre><code class="language-javascript">    bind "a" { CloseFocus; }
 </code></pre>
+<h2 id="closefocusbypaneid"><a class="header" href="#closefocusbypaneid"><code>CloseFocusByPaneId</code></a></h2>
+<p>Close a specific pane</p>
+<p><strong>Required arguments</strong>: a pane id as a string, eg. <code>"terminal_1"</code>, <code>"plugin_2"</code> or <code>"3"</code> (the same as <code>"terminal_3"</code>). It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { CloseFocusByPaneId "terminal_1"; }
+</code></pre>
 <h2 id="closetab"><a class="header" href="#closetab"><code>CloseTab</code></a></h2>
 <p>Close the focused tab</p>
 <p><strong>Possible arguments</strong>: None</p>
 <p>eg.</p>
 <pre><code class="language-javascript">    bind "a" { CloseTab; }
 </code></pre>
+<h2 id="closetabbyid"><a class="header" href="#closetabbyid"><code>CloseTabById</code></a></h2>
+<p>Close a specific tab</p>
+<p><strong>Required arguments</strong>: a numeric tab id. It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { CloseTabById 2; }
+</code></pre>
 <h2 id="detach"><a class="header" href="#detach"><code>Detach</code></a></h2>
 <p>Detach from the current session, leaving it running in the background</p>
 <p><strong>Possible arguments</strong>: None</p>
 <p>eg.</p>
 <pre><code class="language-javascript">    bind "a" { Detach; }
+</code></pre>
+<h2 id="dismissinfopopups"><a class="header" href="#dismissinfopopups"><code>DismissInfoPopups</code></a></h2>
+<p>Close the information popups (such as those shown with <a href="./zellij-prompt.html"><code>zellij prompt notify</code></a>) shown to this user</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { DismissInfoPopups; }
 </code></pre>
 <h2 id="dumpscreen"><a class="header" href="#dumpscreen"><code>DumpScreen</code></a></h2>
 <p>Dump the contents of the focused pane, including its entire scrollback, to the specified file.</p>
@@ -239,7 +265,7 @@
 <h2 id="focuslastpane"><a class="header" href="#focuslastpane"><code>FocusLastPane</code></a></h2>
 <p>Change focus back to the pane that was focused before the currently focused one. Takes floating panes into account, and swaps the pane in place when the focused pane is fullscreen.</p>
 <p><strong>Possible arguments</strong>: None</p>
-<p>By default bound to <code>;</code> in <code>pane</code> mode and to <code>Alt \</code> in all modes.</p>
+<p>By default bound to <code>;</code> in <code>pane</code> mode.</p>
 <pre><code class="language-javascript">    bind "a" { FocusLastPane; }
 </code></pre>
 <h2 id="focusnextpane"><a class="header" href="#focusnextpane"><code>FocusNextPane</code></a></h2>
@@ -251,6 +277,24 @@
 <p>Change focus to the previous pane (order not guaranteed)</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { FocusPreviousPane; }
+</code></pre>
+<h2 id="gotonextattention"><a class="header" href="#gotonextattention"><code>GoToNextAttention</code></a></h2>
+<p>Jump to the next pane that needs attention (see the <a href="./inbox.html">inbox</a>), in any session, switching session if needed</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>n</code> in <code>session</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { GoToNextAttention; }
+</code></pre>
+<h2 id="gotonextsession"><a class="header" href="#gotonextsession"><code>GoToNextSession</code></a></h2>
+<p>Go forward in this user's history of visited sessions</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>Right</code> in <code>session</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { GoToNextSession; }
+</code></pre>
+<h2 id="gotoprevioussession"><a class="header" href="#gotoprevioussession"><code>GoToPreviousSession</code></a></h2>
+<p>Go back in this user's history of visited sessions</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>Left</code> in <code>session</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { GoToPreviousSession; }
 </code></pre>
 <h2 id="gotonexttab"><a class="header" href="#gotonexttab"><code>GoToNextTab</code></a></h2>
 <p>Change focus to the next tab</p>
@@ -277,6 +321,19 @@
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { HalfPageScrollUp; }
 </code></pre>
+<h2 id="hidebarbypaneid"><a class="header" href="#hidebarbypaneid"><code>HideBarByPaneId</code></a></h2>
+<p>Hide the bar (eg. the tab-bar or status-bar) shown in a specific pane, in every tab</p>
+<p><strong>Required arguments</strong>: a pane id as a string, eg. <code>"terminal_1"</code>, <code>"plugin_2"</code> or <code>"3"</code> (the same as <code>"terminal_3"</code>). It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { HideBarByPaneId "plugin_1"; }
+</code></pre>
+<h2 id="hidebars"><a class="header" href="#hidebars"><code>HideBars</code></a></h2>
+<p>Hide the named bars in every tab, or all bars if none are named. They can be shown again with <a href="#showbars"><code>ShowBars</code></a> or <a href="#togglebars"><code>ToggleBars</code></a>.</p>
+<p><strong>Possible arguments</strong>: zero or more bar names: <code>tab-bar</code>, <code>status-bar</code>, <code>compact-bar</code>, a plugin alias or location, or <code>all</code></p>
+<pre><code class="language-javascript">    bind "a" { HideBars; }
+</code></pre>
+<p>or:</p>
+<pre><code class="language-javascript">    bind "a" { HideBars "status-bar"; }
+</code></pre>
 <h2 id="hidefloatingpanes"><a class="header" href="#hidefloatingpanes"><code>HideFloatingPanes</code></a></h2>
 <p>Hide all floating panes in the current (or specified) tab</p>
 <p><strong>Possible arguments</strong>: An optional tab index (integer)</p>
@@ -284,6 +341,17 @@
 </code></pre>
 <p>or:</p>
 <pre><code class="language-javascript">    bind "a" { HideFloatingPanes 2; }
+</code></pre>
+<h2 id="ignorepaneoutput"><a class="header" href="#ignorepaneoutput"><code>IgnorePaneOutput</code></a></h2>
+<p>Stop or start reporting new output of the focused pane. Only the "new output" note is hidden; panes that need attention, failed commands and finished commands are still reported.</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>g</code> in <code>pane</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { IgnorePaneOutput; }
+</code></pre>
+<h2 id="ignorepaneoutputbypaneid"><a class="header" href="#ignorepaneoutputbypaneid"><code>IgnorePaneOutputByPaneId</code></a></h2>
+<p>Like <a href="#ignorepaneoutput"><code>IgnorePaneOutput</code></a>, for a specific pane</p>
+<p><strong>Required arguments</strong>: a pane id as a string, eg. <code>"terminal_1"</code>, <code>"plugin_2"</code> or <code>"3"</code> (the same as <code>"terminal_3"</code>). It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { IgnorePaneOutputByPaneId "terminal_1"; }
 </code></pre>
 <h2 id="launchorfocusplugin"><a class="header" href="#launchorfocusplugin"><code>LaunchOrFocusPlugin</code></a></h2>
 <p>Launch a plugin if it is not already loaded somewhere in the session, focus it if it is</p>
@@ -328,6 +396,19 @@
             my_config_key "my_config_value"
         }
     }
+</code></pre>
+<h2 id="markallseen"><a class="header" href="#markallseen"><code>MarkAllSeen</code></a></h2>
+<p>Mark every pane of every running session as seen, clearing past events</p>
+<p><strong>Optional arguments</strong>: <code>this_session</code> - <code>true</code> or <code>false</code> (only mark the panes of the current session, default is <code>false</code>)</p>
+<pre><code class="language-javascript">    bind "a" { MarkAllSeen; }
+</code></pre>
+<p>or:</p>
+<pre><code class="language-javascript">    bind "a" { MarkAllSeen this_session=true; }
+</code></pre>
+<h2 id="markpaneseen"><a class="header" href="#markpaneseen"><code>MarkPaneSeen</code></a></h2>
+<p>Mark the focused pane as seen, clearing its past events</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { MarkPaneSeen; }
 </code></pre>
 <h2 id="messageplugin"><a class="header" href="#messageplugin"><code>MessagePlugin</code></a></h2>
 <p>Send a message to one or more plugins, using a <a href="./plugin-pipes.html">pipe</a> - meaning the plugin will be launched if it is not already running.</p>
@@ -382,9 +463,48 @@
 <p><strong>Required arguments</strong>: the direction, either "Left" or "Right"</p>
 <pre><code class="language-javascript">    bind "a" { MoveTab "Left"; }
 </code></pre>
+<h2 id="movetabbytabid"><a class="header" href="#movetabbytabid"><code>MoveTabByTabId</code></a></h2>
+<p>Move a specific tab one position to the left or right</p>
+<p><strong>Required arguments</strong>: the direction (<code>"left"</code> or <code>"right"</code>) followed by a numeric tab id. The tab id can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { MoveTabByTabId "left" 2; }
+</code></pre>
+<h2 id="movetabtoposition"><a class="header" href="#movetabtoposition"><code>MoveTabToPosition</code></a></h2>
+<p>Move a specific tab to a position in the tab list. This is also what dragging a tab in the tab bar does.</p>
+<p><strong>Required arguments</strong>: the position (<code>"start"</code>, <code>"end"</code>, or a number counting from 0) followed by a numeric tab id. The tab id can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { MoveTabToPosition "start" 2; }
+</code></pre>
+<h2 id="mutepane"><a class="header" href="#mutepane"><code>MutePane</code></a></h2>
+<p>Mute or unmute the focused pane. A muted pane shows nothing it reports (on its frame, in the tab bar or in the <a href="./inbox.html">inbox</a>) and raises no desktop notifications. It is still tracked, so unmuting it shows its current state.</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>u</code> in <code>pane</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { MutePane; }
+</code></pre>
+<h2 id="mutepanebypaneid"><a class="header" href="#mutepanebypaneid"><code>MutePaneByPaneId</code></a></h2>
+<p>Like <a href="#mutepane"><code>MutePane</code></a>, for a specific pane</p>
+<p><strong>Required arguments</strong>: a pane id as a string, eg. <code>"terminal_1"</code>, <code>"plugin_2"</code> or <code>"3"</code> (the same as <code>"terminal_3"</code>). It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { MutePaneByPaneId "terminal_1"; }
+</code></pre>
+<h2 id="mutesession"><a class="header" href="#mutesession"><code>MuteSession</code></a></h2>
+<p>Mute or unmute all panes of the current session</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>u</code> in <code>session</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { MuteSession; }
+</code></pre>
+<h2 id="mutetab"><a class="header" href="#mutetab"><code>MuteTab</code></a></h2>
+<p>Mute or unmute all panes of the active tab</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>u</code> in <code>tab</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { MuteTab; }
+</code></pre>
+<h2 id="mutetabbytabid"><a class="header" href="#mutetabbytabid"><code>MuteTabByTabId</code></a></h2>
+<p>Like <a href="#mutetab"><code>MuteTab</code></a>, for a specific tab</p>
+<p><strong>Required arguments</strong>: a numeric tab id. It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { MuteTabByTabId 2; }
+</code></pre>
 <h2 id="nextswaplayout"><a class="header" href="#nextswaplayout"><code>NextSwapLayout</code></a></h2>
 <p>Change the layout of the current tab (either tiled or floating) to the next one</p>
 <p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>Alt ]</code> in all modes except <code>locked</code>, and to <code>Space</code> in <code>tab</code> mode.</p>
 <pre><code class="language-javascript">    bind "a" { NextSwapLayout; }
 </code></pre>
 <h2 id="overridelayout"><a class="header" href="#overridelayout"><code>OverrideLayout</code></a></h2>
@@ -405,6 +525,12 @@
             apply_only_to_active_tab true
         }
     }
+</code></pre>
+<h2 id="newfloatingpane"><a class="header" href="#newfloatingpane"><code>NewFloatingPane</code></a></h2>
+<p>Open a new floating terminal pane</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>a</code> in <code>pane</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { NewFloatingPane; }
 </code></pre>
 <h2 id="newpane"><a class="header" href="#newpane"><code>NewPane</code></a></h2>
 <p>Open a new pane (in the specified direction)</p>
@@ -431,6 +557,16 @@
        }
     }
 </code></pre>
+<h2 id="opencontextmenu"><a class="header" href="#opencontextmenu"><code>OpenContextMenu</code></a></h2>
+<p>Open the <a href="./context-menu.html">right-click menu</a> of the focused pane, at that pane's position</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { OpenContextMenu; }
+</code></pre>
+<h2 id="opensessioninterminal"><a class="header" href="#opensessioninterminal"><code>OpenSessionInTerminal</code></a></h2>
+<p>Open the current session in a window of the <a href="./zellij-terminal.html">Zellij terminal</a></p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { OpenSessionInTerminal; }
+</code></pre>
 <h2 id="pagescrolldown"><a class="header" href="#pagescrolldown"><code>PageScrollDown</code></a></h2>
 <p>Scroll the focused pane one page down</p>
 <p><strong>Possible arguments</strong>: None</p>
@@ -446,13 +582,20 @@
 <p><strong>Required arguments</strong>: One or more integer (u8) byte values</p>
 <pre><code class="language-javascript">    bind "a" { PaneNameInput 0; }
 </code></pre>
+<h2 id="pastefromclipboardbypaneid"><a class="header" href="#pastefromclipboardbypaneid"><code>PasteFromClipboardByPaneId</code></a></h2>
+<p>Paste the clipboard into a specific pane. This only works in clients that can read the clipboard (the <a href="./zellij-terminal.html">Zellij terminal</a>); elsewhere it does nothing.</p>
+<p><strong>Required arguments</strong>: a pane id as a string, eg. <code>"terminal_1"</code>, <code>"plugin_2"</code> or <code>"3"</code> (the same as <code>"terminal_3"</code>). It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { PasteFromClipboardByPaneId "terminal_1"; }
+</code></pre>
 <h2 id="previousswaplayout"><a class="header" href="#previousswaplayout"><code>PreviousSwapLayout</code></a></h2>
 <p>Change the layout of the current tab (either tiled or floating) to the previous one</p>
 <p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>Alt [</code> in all modes except <code>locked</code>, and to <code>Shift Space</code> in <code>tab</code> mode.</p>
 <pre><code class="language-javascript">    bind "a" { PreviousSwapLayout; }
 </code></pre>
 <h2 id="quit"><a class="header" href="#quit"><code>Quit</code></a></h2>
 <p>Quit Zellij :(</p>
+<p>Since <code>0.46.0</code>, quitting from a keybinding first asks for confirmation. What it asks (or whether it asks at all) is set with the <a href="./options.html#on_quit"><code>on_quit</code></a> option. Pressing the quit key again while the question is shown quits.</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { Quit; }
 </code></pre>
@@ -482,10 +625,13 @@
 <li><code>start_suspended</code> - <code>true</code> or <code>false</code> (start the command suspended)</li>
 <li><code>x</code>, <code>y</code>, <code>width</code>, <code>height</code> - floating pane coordinates (when <code>floating</code> is <code>true</code>)</li>
 <li><code>pinned</code> - <code>true</code> or <code>false</code> (pin the floating pane, when <code>floating</code> is <code>true</code>)</li>
-<li><code>borderless</code> - <code>true</code> or <code>false</code> (hide the pane border)</li>
+<li><code>borderless</code> - <code>true</code> or <code>false</code> (hide the pane border, when <code>floating</code> is <code>true</code>)</li>
+<li><code>border_style</code> - the line style of the new pane's border: <code>"single"</code>, <code>"double"</code>, <code>"heavy"</code>, <code>"dashed"</code> or <code>"heavy_dashed"</code>. <code>border_top</code>, <code>border_right</code>, <code>border_bottom</code> and <code>border_left</code> set one side each, and <code>border_rounded_corners</code> (<code>true</code> or <code>false</code>) rounds the corners. These apply to floating and tiled panes, not to <code>in_place</code> or <code>stacked</code> ones.</li>
+<li><code>background</code> - <code>true</code> or <code>false</code> (run the command without opening a pane, default is <code>false</code>). Only the command, its arguments and <code>cwd</code> are used; the other arguments are ignored. Without <code>cwd</code>, the command runs in the working directory of the pane that was focused; a relative <code>cwd</code> is taken from that directory.</li>
 </ul>
-<pre><code class="language-javascript">    // will run "tail -f /tmp/foo" in a pane opened below the focused one
-    bind "a" {
+<p>A command started with <code>Run</code> gets the <code>ZELLIJ_ORIGIN_PANE_ID</code> environment variable: the id of the pane that was focused when the key was pressed, eg. <code>terminal_3</code> or <code>plugin_2</code>. Focus changes made earlier in the same binding count, so <code>MoveFocus "Left"; Run "my-script";</code> reports the pane on the left. A <code>background</code> command also gets <code>ZELLIJ_PANE_ID</code> set to that terminal pane's number (it is not set when the focused pane is a plugin).</p>
+<p>eg. to run "tail -f /tmp/foo" in a pane opened below the focused one:</p>
+<pre><code class="language-javascript">    bind "a" {
         Run "tail" "-f" "foo" {
             cwd "/tmp"
             direction "Down"
@@ -515,6 +661,21 @@
 <pre><code class="language-javascript">    bind "a" {
         Run "htop" {
             stacked true
+        }
+    }
+</code></pre>
+<p>or with a double border:</p>
+<pre><code class="language-javascript">    bind "a" {
+        Run "htop" {
+            floating true
+            border_style "double"
+        }
+    }
+</code></pre>
+<p>or in the background, without a pane:</p>
+<pre><code class="language-javascript">    bind "a" {
+        Run "sh" "-c" "echo $ZELLIJ_ORIGIN_PANE_ID &gt;&gt; /tmp/focused-panes" {
+            background true
         }
     }
 </code></pre>
@@ -571,6 +732,12 @@
 <p>By default bound to <code>m</code> in <code>scroll</code> and <code>search</code> modes.</p>
 <pre><code class="language-javascript">    bind "a" { SelectCommandAtScrollPosition; }
 </code></pre>
+<h2 id="sessionnameinput"><a class="header" href="#sessionnameinput"><code>SessionNameInput</code></a></h2>
+<p>Send byte input for renaming the current session. Typically used in the <code>RenameSession</code> input mode, where <code>0</code> clears the name to start typing a new one.</p>
+<p><strong>Required arguments</strong>: One or more integer (u8) byte values</p>
+<p>By default bound to <code>r</code> in <code>session</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { SwitchToMode "RenameSession"; SessionNameInput 0; }
+</code></pre>
 <h2 id="setdarktheme"><a class="header" href="#setdarktheme"><code>SetDarkTheme</code></a></h2>
 <p>Switch the theme to dark (uses the configured <code>theme_dark</code>).</p>
 <p><strong>Possible arguments</strong>: None</p>
@@ -588,8 +755,13 @@
 </code></pre>
 <h2 id="switchtomode"><a class="header" href="#switchtomode"><code>SwitchToMode</code></a></h2>
 <p>Switch the current input mode</p>
-<p><strong>Required arguments</strong>: See <a href="#modes">Modes</a></p>
+<p><strong>Required arguments</strong>: See <a href="./keybindings-modes.html">Modes</a></p>
 <pre><code class="language-javascript">    bind "a" { SwitchToMode "locked"; }
+</code></pre>
+<h2 id="showbars"><a class="header" href="#showbars"><code>ShowBars</code></a></h2>
+<p>Show all hidden bars</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ShowBars; }
 </code></pre>
 <h2 id="showfloatingpanes"><a class="header" href="#showfloatingpanes"><code>ShowFloatingPanes</code></a></h2>
 <p>Show all floating panes in the current (or specified) tab</p>
@@ -598,6 +770,16 @@
 </code></pre>
 <p>or:</p>
 <pre><code class="language-javascript">    bind "a" { ShowFloatingPanes 2; }
+</code></pre>
+<h2 id="startrenamepanebypaneid"><a class="header" href="#startrenamepanebypaneid"><code>StartRenamePaneByPaneId</code></a></h2>
+<p>Start renaming a specific pane: enter the <code>RenamePane</code> input mode for that pane, with its name cleared</p>
+<p><strong>Required arguments</strong>: a pane id as a string, eg. <code>"terminal_1"</code>, <code>"plugin_2"</code> or <code>"3"</code> (the same as <code>"terminal_3"</code>). It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { StartRenamePaneByPaneId "terminal_1"; }
+</code></pre>
+<h2 id="startrenametabbytabid"><a class="header" href="#startrenametabbytabid"><code>StartRenameTabByTabId</code></a></h2>
+<p>Start renaming a specific tab: enter the <code>RenameTab</code> input mode for that tab, with its name cleared</p>
+<p><strong>Required arguments</strong>: a numeric tab id. It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { StartRenameTabByTabId 2; }
 </code></pre>
 <h2 id="switchsession"><a class="header" href="#switchsession"><code>SwitchSession</code></a></h2>
 <p>Switch to a different named session. The session must already exist or be creatable.</p>
@@ -609,6 +791,7 @@
 <li><code>is_plugin</code> - whether the <code>pane_id</code> refers to a plugin pane (<code>true</code> or <code>false</code>, default is <code>false</code>)</li>
 <li><code>layout</code> - layout file path to apply</li>
 <li><code>cwd</code> - working directory for the session</li>
+<li><code>close_current</code> - <code>true</code> or <code>false</code> (close the current session after switching, if no command has been run in it and no other user is attached; default is <code>false</code>)</li>
 </ul>
 <pre><code class="language-javascript">    bind "a" {
         SwitchSession {
@@ -636,6 +819,12 @@
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { ToggleActiveSyncTab; }
 </code></pre>
+<h2 id="togglebars"><a class="header" href="#togglebars"><code>ToggleBars</code></a></h2>
+<p>If any bar is hidden, show all bars. Otherwise hide the named bars (all bars if none are named) in every tab.</p>
+<p><strong>Possible arguments</strong>: zero or more bar names: <code>tab-bar</code>, <code>status-bar</code>, <code>compact-bar</code>, a plugin alias or location, or <code>all</code></p>
+<p>By default bound to <code>Shift z</code> in <code>pane</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { ToggleBars; }
+</code></pre>
 <h2 id="togglefloatingpanes"><a class="header" href="#togglefloatingpanes"><code>ToggleFloatingPanes</code></a></h2>
 <p>Show/hide floating panes; if none are open, one will be opened</p>
 <p><strong>Possible arguments</strong>: None</p>
@@ -645,6 +834,11 @@
 <p>Toggle the focused pane as fullscreen on/off</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { ToggleFocusFullscreen; }
+</code></pre>
+<h2 id="togglefocusfullscreenbypaneid"><a class="header" href="#togglefocusfullscreenbypaneid"><code>ToggleFocusFullscreenByPaneId</code></a></h2>
+<p>Like <a href="#togglefocusfullscreen"><code>ToggleFocusFullscreen</code></a>, for a specific pane</p>
+<p><strong>Required arguments</strong>: a pane id as a string, eg. <code>"terminal_1"</code>, <code>"plugin_2"</code> or <code>"3"</code> (the same as <code>"terminal_3"</code>). It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { ToggleFocusFullscreenByPaneId "terminal_1"; }
 </code></pre>
 <h2 id="togglefocusnouifullscreen"><a class="header" href="#togglefocusnouifullscreen"><code>ToggleFocusNoUiFullscreen</code></a></h2>
 <p>Toggle the focused pane as fullscreen on/off, with the pane taking up the entire display - including the space normally occupied by the UI bars (eg. the tab-bar and status-bar). Unlike <code>ToggleFocusFullscreen</code>, which keeps them visible.</p>
@@ -658,6 +852,11 @@
 <p>By default bound to <code>f</code> in <code>session</code> mode.</p>
 <pre><code class="language-javascript">    bind "a" { ToggleHostFullscreen; }
 </code></pre>
+<h2 id="togglemirrorresize"><a class="header" href="#togglemirrorresize"><code>ToggleMirrorResize</code></a></h2>
+<p>Toggle whether the live view of a pane shown in the focused plugin pane (eg. in the <a href="./inbox.html">inbox</a>) resizes the program of the pane it shows</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ToggleMirrorResize; }
+</code></pre>
 <h2 id="togglemousemode"><a class="header" href="#togglemousemode"><code>ToggleMouseMode</code></a></h2>
 <p>Toggle mouse support on/off</p>
 <p><strong>Possible arguments</strong>: None</p>
@@ -667,6 +866,11 @@
 <p>Float focused embedded pane or embed focused floating pane</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { TogglePaneEmbedOrFloating; }
+</code></pre>
+<h2 id="togglepaneembedorfloatingbypaneid"><a class="header" href="#togglepaneembedorfloatingbypaneid"><code>TogglePaneEmbedOrFloatingByPaneId</code></a></h2>
+<p>Like <a href="#togglepaneembedorfloating"><code>TogglePaneEmbedOrFloating</code></a>, for a specific pane</p>
+<p><strong>Required arguments</strong>: a pane id as a string, eg. <code>"terminal_1"</code>, <code>"plugin_2"</code> or <code>"3"</code> (the same as <code>"terminal_3"</code>). It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { TogglePaneEmbedOrFloatingByPaneId "terminal_1"; }
 </code></pre>
 <h2 id="togglepaneframes"><a class="header" href="#togglepaneframes"><code>TogglePaneFrames</code></a></h2>
 <p>Show/hide the frames around panes (notice, these might have valuable UX info)</p>
@@ -678,15 +882,48 @@
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { TogglePaneInGroup; }
 </code></pre>
+<h2 id="togglepaneingroupbypaneid"><a class="header" href="#togglepaneingroupbypaneid"><code>TogglePaneInGroupByPaneId</code></a></h2>
+<p>Like <a href="#togglepaneingroup"><code>TogglePaneInGroup</code></a>, for a specific pane</p>
+<p><strong>Required arguments</strong>: a pane id as a string, eg. <code>"terminal_1"</code>, <code>"plugin_2"</code> or <code>"3"</code> (the same as <code>"terminal_3"</code>). It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { TogglePaneInGroupByPaneId "terminal_1"; }
+</code></pre>
 <h2 id="togglepanepinned"><a class="header" href="#togglepanepinned"><code>TogglePanePinned</code></a></h2>
 <p>Toggle the pinned state of a floating pane. A pinned floating pane stays on top of other panes.</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { TogglePanePinned; }
 </code></pre>
+<h2 id="togglepanepinnedbypaneid"><a class="header" href="#togglepanepinnedbypaneid"><code>TogglePanePinnedByPaneId</code></a></h2>
+<p>Like <a href="#togglepanepinned"><code>TogglePanePinned</code></a>, for a specific pane</p>
+<p><strong>Required arguments</strong>: a pane id as a string, eg. <code>"terminal_1"</code>, <code>"plugin_2"</code> or <code>"3"</code> (the same as <code>"terminal_3"</code>). It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { TogglePanePinnedByPaneId "terminal_1"; }
+</code></pre>
 <h2 id="togglegroupmarking"><a class="header" href="#togglegroupmarking"><code>ToggleGroupMarking</code></a></h2>
 <p>Toggle group marking mode, allowing selection of multiple panes for group operations</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { ToggleGroupMarking; }
+</code></pre>
+<h2 id="togglesession"><a class="header" href="#togglesession"><code>ToggleSession</code></a></h2>
+<p>Switch to the session this user was in before (run again to return), or to the next running session if there is none</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>Tab</code> in <code>session</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { ToggleSession; }
+</code></pre>
+<h2 id="togglesessioncard"><a class="header" href="#togglesessioncard"><code>ToggleSessionCard</code></a></h2>
+<p>Show or hide the <a href="./inbox.html">inbox</a>. If the inbox is open but not focused, focus it. If a live view of a pane inside the inbox has the keyboard, give the keys back to the inbox instead.</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>i</code> in <code>session</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { ToggleSessionCard; }
+</code></pre>
+<h2 id="togglestacklistorientation"><a class="header" href="#togglestacklistorientation"><code>ToggleStackListOrientation</code></a></h2>
+<p>Switch the focused stack between showing its pane titles in a column (vertical) and in a row (horizontal). See the <a href="./options.html#stacked_pane_list_orientation"><code>stacked_pane_list_orientation</code></a> option.</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>Shift s</code> in <code>pane</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { ToggleStackListOrientation; }
+</code></pre>
+<h2 id="togglestacklistorientationbypaneid"><a class="header" href="#togglestacklistorientationbypaneid"><code>ToggleStackListOrientationByPaneId</code></a></h2>
+<p>Like <a href="#togglestacklistorientation"><code>ToggleStackListOrientation</code></a>, for the stack holding a specific pane</p>
+<p><strong>Required arguments</strong>: a pane id as a string, eg. <code>"terminal_1"</code>, <code>"plugin_2"</code> or <code>"3"</code> (the same as <code>"terminal_3"</code>). It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { ToggleStackListOrientationByPaneId "terminal_1"; }
 </code></pre>
 <h2 id="toggletab"><a class="header" href="#toggletab"><code>ToggleTab</code></a></h2>
 <p>Change the tab focus</p>
@@ -698,6 +935,11 @@
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { ToggleTheme; }
 </code></pre>
+<h2 id="toggletrayicon"><a class="header" href="#toggletrayicon"><code>ToggleTrayIcon</code></a></h2>
+<p>Show or hide the tray (menu-bar) icon of the <a href="./zellij-terminal.html">Zellij desktop app</a> until the app restarts. Sessions and notifications keep working while it is hidden.</p>
+<p><strong>Possible arguments</strong>: None</p>
+<pre><code class="language-javascript">    bind "a" { ToggleTrayIcon; }
+</code></pre>
 <h2 id="undorenamepane"><a class="header" href="#undorenamepane"><code>UndoRenamePane</code></a></h2>
 <p>Undo a rename pane operation currently in progress (reverting to the previous name)</p>
 <p><strong>Possible arguments</strong>: None</p>
@@ -707,6 +949,23 @@
 <p>Undo a rename tab operation currently in progress (reverting to the previous name)</p>
 <p><strong>Possible arguments</strong>: None</p>
 <pre><code class="language-javascript">    bind "a" { UndoRenameTab; }
+</code></pre>
+<h2 id="undorenamesession"><a class="header" href="#undorenamesession"><code>UndoRenameSession</code></a></h2>
+<p>Undo a rename session operation currently in progress (keeping the previous name)</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>Esc</code> in <code>renamesession</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { UndoRenameSession; }
+</code></pre>
+<h2 id="watchpane"><a class="header" href="#watchpane"><code>WatchPane</code></a></h2>
+<p>Watch or stop watching the focused pane. A watched pane is reported as needing attention each time a command finishes (even a short one), the pane exits, or its output goes quiet. New output alone is not reported. It stays on until turned off.</p>
+<p><strong>Possible arguments</strong>: None</p>
+<p>By default bound to <code>v</code> in <code>pane</code> mode.</p>
+<pre><code class="language-javascript">    bind "a" { WatchPane; }
+</code></pre>
+<h2 id="watchpanebypaneid"><a class="header" href="#watchpanebypaneid"><code>WatchPaneByPaneId</code></a></h2>
+<p>Like <a href="#watchpane"><code>WatchPane</code></a>, for a specific pane</p>
+<p><strong>Required arguments</strong>: a pane id as a string, eg. <code>"terminal_1"</code>, <code>"plugin_2"</code> or <code>"3"</code> (the same as <code>"terminal_3"</code>). It can only be left out inside a <a href="./context-menu.html">right-click menu</a> item.</p>
+<pre><code class="language-javascript">    bind "a" { WatchPaneByPaneId "terminal_1"; }
 </code></pre>
 <h2 id="write"><a class="header" href="#write"><code>Write</code></a></h2>
 <p>Write bytes to the active pane</p>

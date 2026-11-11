@@ -1,0 +1,397 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Mouse Bindings - Zellij User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="mouse-bindings"><a class="header" href="#mouse-bindings">Mouse Bindings</a></h1>
+<p>What mouse clicks and the scroll wheel do can be configured in the <code>mousebinds</code> block of the <a href="./configuration.html">configuration file</a>, the same way keys are configured in the <a href="./keybindings.html"><code>keybinds</code></a> block. Mouse bindings only apply while <a href="./options.html#mouse_mode"><code>mouse_mode</code></a> is on.</p>
+<p>The default mouse bindings come from the active <a href="./keybinding-presets.html">keybinding preset</a>. Bindings in the <code>mousebinds</code> block are applied on top of them. Mouse bindings can also be changed in the <a href="./settings-screen.html">settings screen</a>, under <strong>Mouse</strong> → <strong>Mouse bindings…</strong>.</p>
+<pre><code class="language-javascript">mousebinds {
+    shared {
+        bind "Middle" { NewTab; }
+        bind "Alt Double Left" on="frame" { ToggleFullscreen; }
+        bind "ScrollUp" app_first=false { Scroll 5; }
+        bind "ScrollDown" app_first=false { Scroll 5; }
+    }
+    locked {
+        unbind "Right"
+    }
+}
+</code></pre>
+<h2 id="modes"><a class="header" href="#modes">Modes</a></h2>
+<p>Like keybindings, mouse bindings are divided into <a href="./keybindings-modes.html">modes</a>. The <code>shared</code>, <code>shared_except</code> and <code>shared_among</code> blocks work the same way as for <a href="./keybindings-shared.html">keybindings</a>.</p>
+<pre><code class="language-javascript">mousebinds {
+    normal {
+        bind "Middle" { NewPane; }
+    }
+    shared_except "locked" {
+        bind "Alt Middle" { NewTab; }
+    }
+}
+</code></pre>
+<h2 id="triggers"><a class="header" href="#triggers">Triggers</a></h2>
+<p>A trigger is a quoted string made of optional modifiers, an optional click count and a button, separated by spaces, eg. <code>"Left"</code>, <code>"Ctrl Left"</code>, <code>"Double Left"</code> or <code>"Ctrl Shift Triple Right"</code>.</p>
+<ul>
+<li>
+<p>Buttons</p>
+<ul>
+<li><code>Left</code></li>
+<li><code>Right</code></li>
+<li><code>Middle</code></li>
+<li><code>ScrollUp</code></li>
+<li><code>ScrollDown</code></li>
+<li><code>ScrollLeft</code></li>
+<li><code>ScrollRight</code></li>
+</ul>
+</li>
+<li>
+<p>Modifiers</p>
+<ul>
+<li><code>Ctrl</code></li>
+<li><code>Alt</code></li>
+<li><code>Shift</code></li>
+</ul>
+</li>
+<li>
+<p>Click counts</p>
+<ul>
+<li><code>Double</code></li>
+<li><code>Triple</code></li>
+</ul>
+</li>
+</ul>
+<p><code>Double</code> and <code>Triple</code> can only be used with <code>Left</code>, <code>Right</code> and <code>Middle</code>. <code>Super</code> cannot be used, because terminals do not report it for mouse events.</p>
+<h3 id="where-the-click-lands-on"><a class="header" href="#where-the-click-lands-on">Where the click lands: <code>on</code></a></h3>
+<p>The <code>on</code> attribute limits a binding to one part of a pane:</p>
+<ul>
+<li><code>"content"</code> - inside the pane</li>
+<li><code>"frame"</code> - on the pane's frame</li>
+<li><code>"any"</code> - anywhere on the pane (the default)</li>
+</ul>
+<pre><code class="language-javascript">mousebinds {
+    shared {
+        bind "Double Left" on="frame" { ToggleFullscreen; }
+        bind "Double Left" on="content" { Select; }
+    }
+}
+</code></pre>
+<h3 id="which-binding-is-used"><a class="header" href="#which-binding-is-used">Which binding is used</a></h3>
+<p>When a button is pressed, Zellij looks for a binding in this order:</p>
+<ol>
+<li>A binding with the exact modifiers. If none matches and <code>Shift</code> is held, the same trigger without <code>Shift</code> is tried.</li>
+<li>A binding with the exact click count, then with fewer clicks (a triple click falls back to <code>Double</code>, then to a single click).</li>
+<li>A binding for the part of the pane that was clicked (<code>content</code> or <code>frame</code>), then an <code>any</code> binding.</li>
+</ol>
+<p>A trigger with no binding is passed to the program in the pane (see <a href="#mouse-behaviours"><code>PassToApp</code></a>).</p>
+<h3 id="programs-that-use-the-mouse-app_first"><a class="header" href="#programs-that-use-the-mouse-app_first">Programs that use the mouse: <code>app_first</code></a></h3>
+<p>Some programs (eg. <code>vim</code> or <code>htop</code>) ask the terminal for mouse events. With <code>app_first=true</code>, a click on the focused pane goes to such a program instead of to the binding. Scroll bindings with <code>app_first=true</code> send the scroll to such programs, and to programs that use the full screen (eg. <code>less</code>), instead of scrolling the pane's scrollback.</p>
+<pre><code class="language-javascript">mousebinds {
+    shared {
+        bind "Right" app_first=false { ContextMenu; }
+    }
+}
+</code></pre>
+<p>Without <code>app_first</code>, it is <code>true</code> for the <code>Click</code>, <code>Select</code>, <code>FocusPane</code>, <code>ContextMenu</code>, <code>Scroll</code>, <code>ScrollColumns</code> and <code>ScrollToPrompt</code> behaviours, and <code>false</code> for the others and for bindings that run actions.</p>
+<h2 id="what-a-binding-does"><a class="header" href="#what-a-binding-does">What a binding does</a></h2>
+<p>A binding does one of two things:</p>
+<ul>
+<li>One mouse behaviour (listed below), which must be the only item in the binding:
+<pre><code class="language-javascript">bind "Middle" { ToggleFullscreen; }
+</code></pre>
+</li>
+<li>One or more <a href="./keybindings-possible-actions.html">actions</a>, as in a keybinding. The pane under the pointer is focused first, then the actions run:
+<pre><code class="language-javascript">bind "Alt Middle" { NewPane "Right"; SwitchToMode "normal"; }
+</code></pre>
+</li>
+</ul>
+<p><code>MovePane</code> without arguments is the mouse behaviour (drag a floating pane). With a direction (eg. <code>MovePane "left"</code>) it is the normal action.</p>
+<h3 id="mouse-behaviours"><a class="header" href="#mouse-behaviours">Mouse behaviours</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Behaviour</th><th>Arguments</th><th>What it does</th></tr></thead><tbody>
+<tr><td><code>Click</code></td><td>None</td><td>The normal left click: focus a pane, start selecting text in the focused pane, drag a floating pane by its frame or drag a tiled pane's border to resize it. With other buttons, the click goes to the focused pane or focuses the clicked one</td></tr>
+<tr><td><code>Select</code></td><td>None</td><td>Select text in the focused pane (with <code>Double</code>, a word; with <code>Triple</code>, a line)</td></tr>
+<tr><td><code>FocusPane</code></td><td>None</td><td>Focus the clicked pane</td></tr>
+<tr><td><code>MovePane</code></td><td>None</td><td>Drag a floating pane to move it</td></tr>
+<tr><td><code>ResizePane</code></td><td>None</td><td>Drag a pane's frame edge to resize the pane (tiled or floating)</td></tr>
+<tr><td><code>ToggleFullscreen</code></td><td>None</td><td>Toggle the clicked pane as fullscreen</td></tr>
+<tr><td><code>GroupToggle</code></td><td>None</td><td>Add the clicked pane to the pane group, or remove it. Dragging over panes adds them</td></tr>
+<tr><td><code>Ungroup</code></td><td>None</td><td>Clear the pane group</td></tr>
+<tr><td><code>ContextMenu</code></td><td>None</td><td>Open the <a href="./context-menu.html">right-click menu</a>. When <a href="./options.html#context_menu_enabled"><code>context_menu_enabled</code></a> is off, a right click on the focused pane goes to its program instead</td></tr>
+<tr><td><code>Scroll</code></td><td>Lines per scroll step (default <code>3</code>)</td><td>Scroll the pane under the pointer. Only for <code>ScrollUp</code>, <code>ScrollDown</code>, <code>ScrollLeft</code> and <code>ScrollRight</code>. If the terminal reports its own number of lines, that number is used</td></tr>
+<tr><td><code>ScrollColumns</code></td><td>Columns per scroll step (default <code>4</code>)</td><td>Scroll sideways (<code>ScrollUp</code> and <code>ScrollLeft</code> scroll left). Only for the scroll buttons</td></tr>
+<tr><td><code>ScrollToPrompt</code></td><td><code>"previous"</code> or <code>"next"</code></td><td>Jump to the previous or next shell prompt (needs <a href="./shell-integration.html">shell integration</a> and <a href="./options.html#advanced_mouse_actions"><code>advanced_mouse_actions</code></a>)</td></tr>
+<tr><td><code>ResizeScroll</code></td><td><code>"increase"</code> or <code>"decrease"</code></td><td>Grow or shrink the pane under the pointer (needs <a href="./options.html#mouse_scroll_resize"><code>mouse_scroll_resize</code></a>)</td></tr>
+<tr><td><code>DrawFloatingPane</code></td><td>Optional plugin, with its configuration</td><td>Drag a rectangle inside a pane to open a new floating pane there: a terminal, or the given plugin. Only with <code>Left</code></td></tr>
+<tr><td><code>PassToApp</code></td><td>None</td><td>Send the event to the program in the pane</td></tr>
+<tr><td><code>Ignore</code></td><td>None</td><td>Do nothing</td></tr>
+</tbody></table>
+</div>
+<p>For example, to draw a floating terminal with <code>Ctrl</code> and a floating plugin with <code>Ctrl Alt</code>:</p>
+<pre><code class="language-javascript">mousebinds {
+    normal {
+        bind "Ctrl Left" on="content" { DrawFloatingPane; }
+        bind "Ctrl Alt Left" { DrawFloatingPane "file:/path/to/plugin.wasm" { key "value"; }; }
+    }
+}
+</code></pre>
+<h2 id="unbinding-and-clearing"><a class="header" href="#unbinding-and-clearing">Unbinding and clearing</a></h2>
+<p><code>unbind</code> removes a binding, either in all modes (at the top of the block) or in one mode. It takes the same <code>on</code> attribute as <code>bind</code>:</p>
+<pre><code class="language-javascript">mousebinds {
+    unbind "ScrollLeft" "ScrollRight"
+    normal {
+        unbind "Middle" on="content"
+    }
+}
+</code></pre>
+<p><code>clear-defaults=true</code> drops the bindings of the preset, either on the whole block or for one mode:</p>
+<pre><code class="language-javascript">mousebinds clear-defaults=true {
+    shared {
+        bind "Left" { Click; }
+        bind "ScrollUp" { Scroll 3; }
+        bind "ScrollDown" { Scroll 3; }
+    }
+}
+</code></pre>
+<p>A <code>mousebinds</code> block in a <a href="./layouts-with-config.html">layout</a> is applied on top of the one in the configuration file.</p>
+<h2 id="default-mouse-bindings"><a class="header" href="#default-mouse-bindings">Default mouse bindings</a></h2>
+<p>These are the mouse bindings of both built-in presets, in all modes. <code>Ctrl</code> is the primary modifier and <code>Alt</code> the secondary one; changing the <a href="./changing-modifiers.html">modifiers</a> changes these bindings too.</p>
+<div class="table-wrapper"><table><thead><tr><th>Trigger</th><th>Where</th><th>Behaviour</th></tr></thead><tbody>
+<tr><td><code>Left</code></td><td>anywhere</td><td><code>Click</code></td></tr>
+<tr><td><code>Double Left</code>, <code>Triple Left</code></td><td>content</td><td><code>Select</code></td></tr>
+<tr><td><code>Double Left</code></td><td>frame</td><td><code>ToggleFullscreen</code></td></tr>
+<tr><td><code>Ctrl Left</code></td><td>frame</td><td><code>ResizePane</code></td></tr>
+<tr><td><code>Ctrl Left</code></td><td>content</td><td><code>DrawFloatingPane</code> (drag to draw a floating terminal)</td></tr>
+<tr><td><code>Alt Left</code></td><td>anywhere</td><td><code>GroupToggle</code></td></tr>
+<tr><td><code>Alt Right</code></td><td>anywhere</td><td><code>Ungroup</code></td></tr>
+<tr><td><code>Alt Middle</code></td><td>anywhere</td><td><code>Ignore</code></td></tr>
+<tr><td><code>Right</code>, <code>Ctrl Right</code></td><td>anywhere</td><td><code>ContextMenu</code></td></tr>
+<tr><td><code>ScrollUp</code>, <code>ScrollDown</code></td><td>anywhere</td><td><code>Scroll 3</code></td></tr>
+<tr><td><code>ScrollLeft</code>, <code>ScrollRight</code></td><td>anywhere</td><td><code>ScrollColumns 4</code></td></tr>
+<tr><td><code>Ctrl ScrollUp</code></td><td>anywhere</td><td><code>ResizeScroll "increase"</code></td></tr>
+<tr><td><code>Ctrl ScrollDown</code></td><td>anywhere</td><td><code>ResizeScroll "decrease"</code></td></tr>
+<tr><td><code>Ctrl ScrollLeft</code>, <code>Ctrl ScrollRight</code></td><td>anywhere</td><td><code>ScrollColumns 4</code></td></tr>
+<tr><td><code>Alt ScrollUp</code></td><td>anywhere</td><td><code>ScrollToPrompt "previous"</code></td></tr>
+<tr><td><code>Alt ScrollDown</code></td><td>anywhere</td><td><code>ScrollToPrompt "next"</code></td></tr>
+<tr><td><code>Alt ScrollLeft</code>, <code>Alt ScrollRight</code></td><td>anywhere</td><td><code>Ignore</code></td></tr>
+</tbody></table>
+</div>
+<p>In a <a href="./keybinding-presets.html#writing-a-preset">keybinding preset</a> file, the same bindings are written with placeholders, eg. <code>bind "{primary} Left" on="frame" { ResizePane; }</code>. A preset without a <code>mousebinds</code> block uses these default bindings.</p>
+<h2 id="the-tab-bar"><a class="header" href="#the-tab-bar">The tab bar</a></h2>
+<p>The tab bar (and the compact bar) handle their own clicks:</p>
+<ul>
+<li>Clicking a tab switches to it.</li>
+<li>Dragging a tab left or right moves it to a new position.</li>
+<li>Double-clicking a tab starts renaming it.</li>
+<li>Double-clicking an empty part of the bar opens a new tab.</li>
+<li>Right-clicking a tab or the bar opens the <a href="./context-menu.html">right-click menu</a> for it.</li>
+<li>Scrolling over the tab bar switches tabs.</li>
+</ul>
+<p>The two double-click actions can be turned off with the <code>double_click_tab</code> and <code>double_click_empty</code> plugin options:</p>
+<pre><code class="language-javascript">plugins {
+    tab-bar location="zellij:bars" {
+        role "tab-bar"
+        double_click_tab "none"
+        double_click_empty "none"
+    }
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="keybindings-shared.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="context-menu.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="keybindings-shared.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="context-menu.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

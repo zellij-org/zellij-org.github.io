@@ -157,33 +157,36 @@
 <p>The best and easiest way is to choose the "Unlock-First (non-colliding)" <a href="./keybinding-presets.html">keybinding preset</a>. If that is not sufficient for your use case, you can also <a href="./changing-modifiers.html">choose different modifiers</a>.</p>
 <h2 id="the-ui-takes-up-too-much-space-what-can-i-do-about-it"><a class="header" href="#the-ui-takes-up-too-much-space-what-can-i-do-about-it">The UI takes up too much space, what can I do about it?</a></h2>
 <p>You can load the <code>compact</code> layout with <code>zellij --layout compact</code>.</p>
-<p>Additionally, you can disable pane frames either at runtime with <code>Ctrl + &lt;p&gt; + &lt;z&gt;</code> or through the <a href="./configuration.html">config</a> with <code>pane_frames false</code>. A middle ground is <code>pane_frame_style "titles"</code> (the default since <code>0.45.0</code>), which renders a single title line above each pane rather than a full frame around it.</p>
-<h3 id="followup-question-can-i-use-the-compact-layout-but-still-see-the-keybinding-hints-when-necessary"><a class="header" href="#followup-question-can-i-use-the-compact-layout-but-still-see-the-keybinding-hints-when-necessary">Followup Question: can I use the <code>compact</code> layout but still see the keybinding hints when necessary?</a></h3>
-<p>Yes! You can set up a keybinding tooltip toggle for the compact-bar. Choose a key (for example <code>F1</code>) and set it up in the <a href="./configuration.html">config</a> (and then restart):</p>
-<pre><code class="language-javascript">plugins {
-    // ...
-    // compact-bar location="zellij:compact-bar" &lt;== COMMENT OUT THIS LINE
-    // and replace it with the following:
-    compact-bar location="zellij:compact-bar" {
-      tooltip "F1"
-    }
-    // ...
-}
-</code></pre>
+<p>The bars (eg. the tab bar and the status bar) can also be hidden:</p>
+<ul>
+<li><strong>While Zellij runs</strong>: with <code>Shift z</code> in <code>pane</code> mode (the <a href="./keybindings-possible-actions.html#togglebars"><code>ToggleBars</code></a> action), with "Hide all bars" in the <a href="./context-menu.html">right-click menu</a> of a bar, or with <a href="./cli-actions.html#hide-bars"><code>zellij action hide-bars</code></a>. They come back the same way, or with <a href="./keybindings-possible-actions.html#showbars"><code>ShowBars</code></a>.</li>
+<li><strong>From the start</strong>: with the <a href="./options.html#bars_hidden_on_start"><code>bars_hidden_on_start</code></a> option, eg. <code>bars_hidden_on_start "all"</code>.</li>
+</ul>
+<p>While the bar with the keys of the current mode is hidden, those keys are shown in a corner of the screen when entering a mode (see <a href="./options.html#mode_hints_when_bars_hidden"><code>mode_hints_when_bars_hidden</code></a>).</p>
+<h2 id="things-dont-work-right-in-my-terminal-emulator-what-can-i-do"><a class="header" href="#things-dont-work-right-in-my-terminal-emulator-what-can-i-do">Things don't work right in my terminal emulator, what can I do?</a></h2>
+<p>Some problems come from the terminal emulator Zellij runs in rather than from Zellij: copy / paste not working, keys (eg. <code>Alt</code> on macOS) not reaching Zellij, missing or broken characters, missing colors or images.</p>
+<p>The easiest solution is the <a href="./zellij-terminal.html">Zellij terminal</a> (<code>zellij terminal</code>), Zellij's own window, where these work without any setup.</p>
+<p>The entries below explain how to fix these in other terminals.</p>
 <h2 id="i-see-broken-characters-in-the-default-ui-how-can-i-fix-this"><a class="header" href="#i-see-broken-characters-in-the-default-ui-how-can-i-fix-this">I see broken characters in the default UI, how can I fix this?</a></h2>
 <p>This means your default terminal font doesn't include some special characters used by Zellij. A safe bet would be to install and use a font from <a href="https://www.nerdfonts.com">nerdfonts</a>.</p>
 <p>If you don't want to install a new font, you can also load the simplified UI that doesn't use these characters, with:</p>
 <pre><code>zellij options --simplified-ui true
 </code></pre>
+<p>The <a href="./zellij-terminal.html">Zellij terminal</a> includes the Nerd Font symbols, so these characters are shown there without installing a font.</p>
 <h2 id="i-am-a-macos-user-how-can-i-use-the-alt-key"><a class="header" href="#i-am-a-macos-user-how-can-i-use-the-alt-key">I am a macOS user, how can I use the Alt key?</a></h2>
-<p>This depends on which terminal emulator you're using. Here are some links that might be useful:</p>
+<p>In the <a href="./zellij-terminal.html">Zellij terminal</a>, the left Option key acts as Alt by default. This can be changed with the <a href="./terminal-options.html#macos_option_as_alt"><code>macos_option_as_alt</code></a> setting of the <code>terminal</code> block (<code>"left"</code>, <code>"right"</code>, <code>"both"</code> or <code>"none"</code>):</p>
+<pre><code class="language-javascript">terminal {
+    macos_option_as_alt "both"
+}
+</code></pre>
+<p>For other terminal emulators, this depends on which one you're using. Here are some links that might be useful:</p>
 <ol>
 <li><a href="https://www.reddit.com/r/zellij/comments/13twru4/comment/kpmsjv2/?utm_source=share&amp;utm_medium=web3x&amp;utm_name=web3xcss&amp;utm_term=1&amp;utm_content=share_button">iTerm2</a></li>
 <li><a href="https://superuser.com/questions/1038947/using-the-option-key-properly-on-mac-terminal">Terminal.app</a></li>
 <li><a href="https://github.com/zellij-org/zellij/issues/2051#issuecomment-1461519892">Alacritty</a></li>
 </ol>
 <h2 id="copy--paste-isnt-working-how-can-i-fix-this"><a class="header" href="#copy--paste-isnt-working-how-can-i-fix-this">Copy / Paste isn't working, how can I fix this?</a></h2>
-<p>Some terminals don't support the OSC 52 signal, which is the method Zellij uses by default to copy text to the clipboard. To get around this, you can either switch to a supported terminal (eg. Alacritty or xterm) or configure Zellij to use an external utility when copy pasting (eg. xclip, wl-copy or pbcopy).</p>
+<p>Some terminals don't support the OSC 52 signal, which is the method Zellij uses by default to copy text to the clipboard. To get around this, you can switch to a supported terminal (eg. the <a href="./zellij-terminal.html">Zellij terminal</a>, Alacritty or xterm) or configure Zellij to use an external utility when copy pasting (eg. xclip, wl-copy or pbcopy).</p>
 <p>To do the latter, add one of the following to your <a href="./configuration.html">Zellij Config</a>:</p>
 <pre><code class="language-javascript">copy_command "xclip -selection clipboard" // x11
 copy_command "wl-copy"                    // wayland
@@ -196,12 +199,23 @@ copy_command "pbcopy"                     // osx
 <p>You can also embed a floating pane with <code>Ctrl + &lt;p&gt; + &lt;e&gt;</code>, and float an embedded pane in the same way.</p>
 <h2 id="how-can-i-switch-between-sessions-or-launch-a-new-session-from-within-zellij"><a class="header" href="#how-can-i-switch-between-sessions-or-launch-a-new-session-from-within-zellij">How can I switch between sessions or launch a new session from within Zellij?</a></h2>
 <p>You can use the built-in <code>session-manager</code>. By default, launch it with <code>Ctrl o</code> + <code>w</code>.</p>
+<p><code>session</code> mode (<code>Ctrl o</code>) also has keys to move between sessions directly:</p>
+<div class="table-wrapper"><table><thead><tr><th>Key (in <code>session</code> mode)</th><th>Action</th></tr></thead><tbody>
+<tr><td><code>Tab</code></td><td>Go back to the session this client was in before (press again to return), or to the next running session if there is none</td></tr>
+<tr><td><code>Left</code> / <code>Right</code></td><td>Go back / forward in the list of sessions this client has visited</td></tr>
+<tr><td><code>n</code></td><td>Jump to the next pane that needs attention, in any session</td></tr>
+<tr><td><code>i</code></td><td>Open the session card with the <a href="./inbox.html">inbox</a></td></tr>
+</tbody></table>
+</div>
+<p>Other running sessions are also suggested in the session-manager and on the session card; see <a href="./session-suggestions.html">session suggestions</a>.</p>
 <h2 id="does-zellij-run-on-windows"><a class="header" href="#does-zellij-run-on-windows">Does Zellij run on Windows?</a></h2>
 <p>Yes. Zellij runs natively on Windows. The following differences apply compared to Linux/macOS:</p>
 <ul>
-<li><strong>IPC</strong>: Named pipes (<code>\\.\pipe\...</code>) are used instead of Unix domain sockets. The maximum socket path length is 256 characters (vs 108 on Unix).</li>
+<li><strong>IPC</strong>: Named pipes (<code>\\.\pipe\...</code>) are used instead of Unix domain sockets. The maximum socket path length is 256 characters (vs 104 on macOS and 108 on Linux).</li>
 <li><strong>PTY</strong>: Windows pseudo-terminals (ConPTY) are used instead of Unix PTYs.</li>
 <li><strong>Web Server</strong>: The built-in web server is fully functional on Windows, including the <code>--daemonize</code> flag which uses a <code>--server-startup-timeout</code> option (default: 10 seconds) for background server startup.</li>
+<li><strong>Session names</strong>: a session name cannot contain <code>\</code>. Renamed sessions can be attached to again on Windows.</li>
+<li><strong>Desktop app</strong>: Zellij can run in its own window, the <a href="./zellij-terminal.html">Zellij terminal</a>, started with <code>zellij-terminal.exe</code> (installed next to <code>zellij.exe</code>) or <code>zellij terminal</code>. It has an icon in the notification area (tray) and shows notifications as Windows notifications. The setup screen can add a Start menu shortcut and an "Open Zellij here" item to the Explorer right-click menu of folders and drives (see <a href="./desktop-setup.html#windows">desktop setup</a>).</li>
 </ul>
 <h2 id="can-i-upgrade-zellij-without-losing-my-running-sessions"><a class="header" href="#can-i-upgrade-zellij-without-losing-my-running-sessions">Can I upgrade Zellij without losing my running sessions?</a></h2>
 <p>Yes. Sessions persist across Zellij version upgrades. The IPC contract uses protocol buffers and the socket directory uses a versioned path (<code>contract_version_1</code>) rather than per-Zellij-version directories. Sessions created by one Zellij version can be attached to by another version, as long as the contract version remains the same.</p>
@@ -211,6 +225,7 @@ copy_command "pbcopy"                     // osx
 <li><strong>Windows</strong>: Named pipes under the <code>contract_version_1</code> namespace</li>
 </ul>
 <p><strong>Note for script authors:</strong> If existing scripts reference the old per-version socket paths, they should be updated to use the new <code>contract_version_1</code> path structure.</p>
+<p>Each session's socket (or named pipe) is named after a short id of 12 hexadecimal characters rather than after the session's name, so renaming a session renames nothing on disk. Scripts should not build socket paths from session names; use <code>zellij list-sessions</code> and <code>zellij --session &lt;name&gt; action ...</code> instead. If the socket directory itself is too long for the system's limit, Zellij says so when it starts and suggests a shorter one through the <code>ZELLIJ_SOCKET_DIR</code> environment variable.</p>
 <h2 id="editing-the-pane-scrollbuffer-with-ctrl--s--e-doesnt-work-whats-wrong"><a class="header" href="#editing-the-pane-scrollbuffer-with-ctrl--s--e-doesnt-work-whats-wrong">Editing the pane scrollbuffer with <code>ctrl + &lt;s&gt; + &lt;e&gt;</code> doesn't work, what's wrong?</a></h2>
 <p>By default, Zellij looks for an editor defined in the <code>EDITOR</code> or <code>VISUAL</code> environment variables (in this order).
 Make sure one is set (eg. <code>export EDITOR=/usr/bin/vim</code>) before Zellij starts.
@@ -227,7 +242,7 @@ Alternatively, you can set one in the Zellij <a href="./configuration.html">conf
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="commands.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="zellij-terminal.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -241,7 +256,7 @@ Alternatively, you can set one in the Zellij <a href="./configuration.html">conf
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="commands.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="zellij-terminal.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

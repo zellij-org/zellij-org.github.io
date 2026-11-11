@@ -41,11 +41,12 @@ The surface divides into four categories:
 | Create | [`new-pane`](./cli-actions.md#new-pane), [`new-tab`](./cli-actions.md#new-tab), [`edit`](./cli-actions.md#edit), [`launch-plugin`](./cli-actions.md#launch-plugin) - all return the created ID |
 | Close | [`close-pane`](./cli-actions.md#close-pane), [`close-tab`](./cli-actions.md#close-tab) |
 | Input | [`write-chars`](./cli-actions.md#write-chars), [`write`](./cli-actions.md#write), [`paste`](./cli-actions.md#paste), [`send-keys`](./cli-actions.md#send-keys) - all accept `--pane-id` |
-| Layout | [`override-layout`](./cli-actions.md#override-layout), [`next-swap-layout`](./cli-actions.md#next-swap-layout) |
-| Appearance | [`rename-pane`](./cli-actions.md#rename-pane), [`rename-tab`](./cli-actions.md#rename-tab), [`set-pane-color`](./cli-actions.md#set-pane-color), [`set-pane-borderless`](./cli-actions.md#set-pane-borderless) |
+| Layout | [`override-layout`](./cli-actions.md#override-layout), [`next-swap-layout`](./cli-actions.md#next-swap-layout), [`apply-tiled-swap-layout`](./cli-actions.md#apply-tiled-swap-layout), [`apply-floating-swap-layout`](./cli-actions.md#apply-floating-swap-layout) |
+| Appearance | [`rename-pane`](./cli-actions.md#rename-pane), [`rename-tab`](./cli-actions.md#rename-tab), [`set-pane-color`](./cli-actions.md#set-pane-color), [`set-pane-borderless`](./cli-actions.md#set-pane-borderless), [`set-pane-border-style`](./cli-actions.md#set-pane-border-style), [`hide-bars`](./cli-actions.md#hide-bars), [`show-bars`](./cli-actions.md#show-bars) |
 | Positioning | [`change-floating-pane-coordinates`](./cli-actions.md#change-floating-pane-coordinates), [`toggle-pane-embed-or-floating`](./cli-actions.md#toggle-pane-embed-or-floating), [`toggle-pane-pinned`](./cli-actions.md#toggle-pane-pinned) |
 | Visibility | [`show-floating-panes`](./cli-actions.md#show-floating-panes), [`hide-floating-panes`](./cli-actions.md#hide-floating-panes) |
-| Session | [`rename-session`](./cli-actions.md#rename-session), [`switch-session`](./cli-actions.md#switch-session), [`save-session`](./cli-actions.md#save-session), [`detach`](./cli-actions.md#detach) |
+| Session | [`rename-session`](./cli-actions.md#rename-session), [`switch-session`](./cli-actions.md#switch-session), [`save-session`](./cli-actions.md#save-session), [`set-resurrect-command`](./cli-actions.md#set-resurrect-command), [`detach`](./cli-actions.md#detach) |
+| Attention | [`watch-pane`](./cli-actions.md#watch-pane), [`mute-pane`](./cli-actions.md#mute-pane), [`ignore-pane-output`](./cli-actions.md#ignore-pane-output), [`mark-pane-seen`](./cli-actions.md#mark-pane-seen), [`mark-all-seen`](./cli-actions.md#mark-all-seen) |
 
 ### Observe (watch output)
 
@@ -63,8 +64,9 @@ The surface divides into four categories:
 | `new-pane --block-until-exit` | Block until command exits (any status) |
 | `new-pane --block-until-exit-success` | Block until command exits with status 0 |
 | `new-pane --block-until-exit-failure` | Block until command exits with non-zero status |
+| [`zellij prompt`](./zellij-prompt.md) | Block until the user answers a question shown in a popup |
 
-For the full reference of all 70+ actions, see the [CLI Actions](./cli-actions.md) page.
+For the full reference of all 100+ actions, see the [CLI Actions](./cli-actions.md) page.
 
 ---
 
@@ -301,10 +303,11 @@ The following commands support `--json` output for machine consumption:
 
 | Command | JSON Output Contains |
 |---------|---------------------|
-| [`list-panes --json`](./cli-actions.md#list-panes) | Array of pane objects: `id`, `is_plugin`, `is_focused`, `is_floating`, `title`, `pane_command`, `pane_cwd`, `exited`, `exit_status`, `pane_x`, `pane_y`, `pane_rows`, `pane_columns`, `tab_id`, `tab_name`, and more |
-| [`list-tabs --json`](./cli-actions.md#list-tabs) | Array of tab objects: `tab_id`, `position`, `name`, `active`, `is_fullscreen_active`, `is_sync_panes_active`, `are_floating_panes_visible`, `active_swap_layout_name`, viewport dimensions, pane counts |
+| [`list-panes --json`](./cli-actions.md#list-panes) | Array of pane objects: `id`, `is_plugin`, `is_focused`, `is_floating`, `title`, `pane_command`, `pane_cwd`, `exited`, `exit_status`, `pane_x`, `pane_y`, `pane_rows`, `pane_columns`, `tab_id`, `tab_name`, `attention`, `command_state`, `program_status`, and more |
+| [`list-tabs --json`](./cli-actions.md#list-tabs) | Array of tab objects: `tab_id`, `position`, `name`, `active`, `is_fullscreen_active`, `is_sync_panes_active`, `are_floating_panes_visible`, `active_swap_layout_name`, `attention`, viewport dimensions, pane counts |
 | [`current-tab-info --json`](./cli-actions.md#current-tab-info) | Single tab object (same fields as `list-tabs`) |
 | [`subscribe --format json`](./zellij-subscribe.md) | NDJSON stream: `pane_update` events with `viewport[]` and `scrollback[]` arrays, `pane_closed` events |
+| [`zellij prompt ... --json`](./zellij-prompt.md#json-output) | `result` (`answered`, `cancelled`, `timeout` or `error`) and `value` |
 
 Commands that return created resource IDs (plain text on stdout):
 
@@ -323,6 +326,10 @@ Commands that use exit codes to communicate state:
 |---------|-----------|
 | `hide-floating-panes` | `0` = panes were hidden, `1` = no floating panes existed, `2` = panes were already hidden |
 | `show-floating-panes` | `0` = panes were shown, `1` = no floating panes existed, `2` = panes were already visible |
+| `apply-tiled-swap-layout`, `apply-floating-swap-layout` | `0` = the layout was applied, `1` = no swap layout with that name fits the current number of panes |
+| `toggle-tray-icon` | `0` = done, `1` = the desktop app is not running |
+| [`zellij prompt`](./zellij-prompt.md#exit-codes) | `0` = answered, `1` = cancelled (or "no" for `confirm`), `2` = error, `124` = timed out without a default |
+| [`zellij pipe`](./zellij-plugin-and-pipe.md#exit-status) | `0` by default, or the exit status set by the plugin; `2` on error |
 
 ---
 
@@ -364,5 +371,6 @@ For individual command references and task-oriented scripting examples, see:
 - [Zellij Subscribe](./zellij-subscribe.md) - Real-time pane output streaming
 - [Zellij Run & Edit](./zellij-run-and-edit.md) - Launching commands and opening files in panes
 - [Zellij Plugin & Pipe](./zellij-plugin-and-pipe.md) - Plugin communication from the CLI
+- [Zellij Prompt](./zellij-prompt.md) - Asking the user a question from a script
 
 For deeper integration, the [Plugin API](./plugin-api.md) provides access to 120+ commands and 52 event types from compiled WASM plugins, including structured lifecycle events (`CommandPaneExited`, `PaneUpdate`, `TabUpdate`) that are not available through the CLI.

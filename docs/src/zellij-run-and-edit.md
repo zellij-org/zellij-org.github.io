@@ -14,6 +14,7 @@ Zellij includes a top-level `run` command that can be used to launch a new Zelli
 eg.
 ```
 $ zellij run -- git diff
+$ zellij run --notify -- cargo build
 ```
 
 **OPTIONS**:
@@ -21,6 +22,8 @@ $ zellij run -- git diff
 -b, --borderless <BORDERLESS>     start this pane without a border (warning: will make it
                                   impossible to move with the mouse) [possible values: true,
                                   false]
+    --border-style <BORDER_STYLE> Border line style, eg. "double" or
+                                  "top:double,left:single,rounded"
     --block-until-exit            Block until the command exits (regardless of exit status) OR
                                   its pane has been closed
     --block-until-exit-failure    Block until the command exits with failure (non-zero exit
@@ -44,6 +47,8 @@ $ zellij run -- git diff
     --near-current-pane           if set, will open the pane near the current one rather than
                                   following the user's focus
     --no-focus                    Open the pane without changing the focus of any client
+    --notify                      Watch the pane: notify each time its command finishes or its
+                                  output goes quiet, until the watch is turned off
     --pinned <PINNED>             Whether to pin a floating pane so that it is always on top
 -s, --start-suspended             Start the command suspended, only running after you first
                                   presses ENTER
@@ -61,6 +66,10 @@ $ zellij run -- git diff
 **Note**: to shorten this command to a more friendly length, see `Completions` under: [CLI](./controlling-zellij-through-cli.md#completions)
 
 **About `--no-focus`**: the pane is opened without changing the focus of any connected client. Its placement is relative to the pane the command was issued from rather than to the focused pane. This is useful for scripts that open panes in the background.
+
+**About `--notify`**: the pane is watched as with [`zellij action watch-pane`](./cli-actions.md#watch-pane): a notification is sent each time its command finishes or its output goes quiet, until the watch is turned off. See [the inbox](./inbox.md#watching-ignoring-and-muting).
+
+**About `--border-style`**: sets the line style of the pane's border. The format is described under [set-pane-border-style](./cli-actions.md#set-pane-border-style).
 
 **About `--tab-id`**: the pane is opened in the tab with the given (numeric) id rather than in the focused tab. Tab ids can be obtained with `zellij action list-tabs` or `zellij action query-tab-names`.
 
@@ -88,6 +97,8 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 -b, --borderless <BORDERLESS>      start this pane without a border (warning: will make it
                                    impossible to move with the mouse) [possible values: true,
                                    false]
+    --border-style <BORDER_STYLE>  Border line style, eg. "double" or
+                                   "top:double,left:single,rounded"
     --close-replaced-pane          Close the replaced pane instead of suspending it (only
                                    effective with --in-place)
     --cwd <CWD>                    Change the working directory of the editor
@@ -112,6 +123,8 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 -y, --y <Y>                        The y coordinates if the pane is floating as a bare integer
                                    (eg. 1) or percent (eg. 10%)
 ```
+
+**About `--border-style`**: see [set-pane-border-style](./cli-actions.md#set-pane-border-style) for the format.
 
 **Note**: The default editor is anything set in `$EDITOR` or `$VISUAL` - alternatively, it can be set explicitly with the [`scrollback_editor` configuration option](./options.md#scrollback_editor).
 

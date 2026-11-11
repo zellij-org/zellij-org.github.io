@@ -154,7 +154,7 @@
                     <main>
                         <h1 id="nested-sessions"><a class="header" href="#nested-sessions">Nested Sessions</a></h1>
 <p>Since version <code>0.45.0</code>, running Zellij inside a Zellij pane (for example after <code>ssh</code>-ing into a remote machine and starting Zellij there) is a first-class workflow.</p>
-<p>The inner session (the <strong>guest</strong>) announces itself to the outer session (the <strong>host</strong>) through an in-band protocol. Guest sessions detect that they are nested by way of the <code>ZELLIJ</code> environment variable, which Zellij sets in all the panes it opens.</p>
+<p>The inner session (the <strong>guest</strong>) announces itself to the outer session (the <strong>host</strong>) through an in-band protocol: messages sent within the pane's own output, so they also pass through <code>ssh</code>. Every Zellij client sends this announcement when it starts, and sends it again if it has not heard back from a host, so a guest is found even when environment variables such as <code>ZELLIJ</code> are not passed along (as is usual over <code>ssh</code>). The announcement is a <code>DCS</code> escape sequence, which terminals other than Zellij ignore.</p>
 <p><strong>Note:</strong> attaching to a session from inside itself is still not possible, and remains blocked.</p>
 <h2 id="what-happens-when-focusing-a-nested-session"><a class="header" href="#what-happens-when-focusing-a-nested-session">What happens when focusing a nested session</a></h2>
 <p>The behavior of the host session when its user focuses a pane containing a guest session is controlled by the <a href="./options.html#nested_session_handling"><code>nested_session_handling</code></a> configuration option:</p>
@@ -179,17 +179,23 @@
 </div>
 <p>Note that <code>FocusHostSession</code> and <code>ToggleHostFullscreen</code> are issued from within the guest session, and act on the host containing it. They have no effect in a session that is not nested.</p>
 <p>These actions are also available through the CLI and the <a href="./plugin-api-commands.html">plugin API</a> (<code>focus_host_session</code>).</p>
+<h2 id="guest-input-mode-and-keybindings"><a class="header" href="#guest-input-mode-and-keybindings">Guest input mode and keybindings</a></h2>
+<p>A guest tells its host which input mode it is in, so that plugins in the host can show hints for the session the user is actually typing into. The guest reports its mode (and its base mode, eg. <code>locked</code> for the "Unlock-First" preset) when it connects to the host, every time the mode changes, and when its configuration is reloaded.</p>
+<p>Plugins in the host receive this through the <a href="./plugin-api-events.html#nestedsessionmodeupdate"><code>NestedSessionModeUpdate</code></a> event, which includes the pane the guest runs in and the names of the nested sessions (the guest first, then any sessions nested further inside it). They can ask for the guest's full keybindings with the <a href="./plugin-api-commands.html#get_nested_session_keybinds"><code>get_nested_session_keybinds</code></a> command, and are told when a guest exits or stops responding through the <a href="./plugin-api-events.html#nestedsessionended"><code>NestedSessionEnded</code></a> event. All of these require the <code>ReadApplicationState</code> permission.</p>
+<p>The built-in bars do not use these events yet.</p>
 <h2 id="other-behaviors-that-are-aware-of-nesting"><a class="header" href="#other-behaviors-that-are-aware-of-nesting">Other behaviors that are aware of nesting</a></h2>
 <ul>
 <li>Desktop notifications emitted by panes in a guest session are forwarded up through the host to the terminal (see <a href="./compatibility.html#desktop-notifications">desktop notifications</a>).</li>
 <li>Terminal focus in/out events received by the host are forwarded to the guest, and from there to panes that requested them.</li>
+<li>The working directory reported by the focused pane (<code>OSC 7</code>) is passed up to the terminal Zellij runs in, so a guest's working directory reaches the host and from there the outer terminal (see <a href="./compatibility.html#working-directory-osc-7">working directory</a>).</li>
+<li>A guest reports the status of its session to its host with <code>OSC 7501</code>, so what a guest needs shows up in the host's <a href="./inbox.html">inbox</a> like any other program in a pane.</li>
 </ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="session-resurrection.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="inbox-integrations.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -203,7 +209,7 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="session-resurrection.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="inbox-integrations.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 

@@ -10,3 +10,6 @@ Users will likely expect the welcome-screen to:
 1. Allow them to attach to an existing session
 2. Allow them to resurrect an exited session
 3. Allow them to start a new session
+
+## Keys
+The welcome screen uses the same keys as the [session manager](./session-manager-alias.md#keys). When starting a new session, `Ctrl l` chooses a layout, and while choosing it `Ctrl f` chooses the folder the session starts in. `Alt w` creates the session in a [Zellij terminal](./zellij-terminal.md) window instead.

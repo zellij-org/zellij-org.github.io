@@ -3,6 +3,8 @@
 This page showcases the example themes that are included
 inside of the main zellij [repository](https://github.com/zellij-org/zellij/tree/main/example/themes).
 
+> **Note:** these screenshots were taken before `0.46.0`. In `0.46.0` the colors of most built-in themes were adjusted so that text stands out more from its background (including the ribbon emphasis colors, and a new hover color section), and the Zellij interface itself changed, so the themes now look somewhat different from these pictures. The full list of built-in themes is in the [list of themes](./theme-list.md).
+
 
 ### Dracula
 ![Dracula](img/theme-gallery/dracula_default__screenshot.png)

@@ -156,10 +156,16 @@
 <p>Plugin aliases are a dictionary between an arbitrary string (eg. <code>filepicker</code>) and a non-alias <a href="./plugin-loading.html">plugin url</a>, with optional <a href="./plugin-api-configuration.html">plugin configuration</a>. They can be configured in the <a href="./configuration.html">Zellij configuration file</a> under the <code>plugins</code> block.</p>
 <p>Here's the default aliases:</p>
 <pre><code class="language-javascript">plugins {
-    tab-bar location="zellij:tab-bar"
-    status-bar location="zellij:status-bar"
+    tab-bar location="zellij:bars" {
+        role "tab-bar"
+    }
+    status-bar location="zellij:bars" {
+        role "status-bar"
+    }
     strider location="zellij:strider"
-    compact-bar location="zellij:compact-bar"
+    compact-bar location="zellij:bars" {
+        role "compact-bar"
+    }
     session-manager location="zellij:session-manager"
     welcome-screen location="zellij:session-manager" {
         welcome_screen true
@@ -167,10 +173,18 @@
     filepicker location="zellij:strider" {
         cwd "/"
     }
+    configuration location="zellij:configuration"
+    plugin-manager location="zellij:plugin-manager"
+    about location="zellij:about"
+    context-menu location="zellij:context-menu"
+    prompt location="zellij:prompt"
 }
 </code></pre>
-<p>With this plugins block, whenever the bare <code>tab-bar</code> is used to refer to a plugin (be it in a <a href="./layouts.html">layout</a>, from the <a href="./zellij-plugin-and-pipe.html#zellij-plugin">command line</a>, from a <a href="./keybindings.html">keybinding</a> or from <a href="./plugin-pipes.html">another plugin</a>), Zellij will translate it to the internal <code>zellij:tab-bar</code> url. Whenever the bare <code>filepicker</code> url is used to refer to a plugin, Zellij will translate it to the built-in <code>zellij:strider</code> url will be used with the <code>cwd "/"</code> configuration.</p>
-<p>Aliases can be added to this block or changed to swap the default built-in plugins to other implementations. Removing the default aliases entirely might cause Zellij not to function as expected.</p>
+<p>With this plugins block, whenever the bare <code>tab-bar</code> is used to refer to a plugin (be it in a <a href="./layouts.html">layout</a>, from the <a href="./zellij-plugin-and-pipe.html#zellij-plugin">command line</a>, from a <a href="./keybindings.html">keybinding</a> or from <a href="./plugin-pipes.html">another plugin</a>), Zellij will translate it to the internal <code>zellij:bars</code> url with the <code>role "tab-bar"</code> configuration. Whenever the bare <code>filepicker</code> url is used to refer to a plugin, Zellij will translate it to the built-in <code>zellij:strider</code> url will be used with the <code>cwd "/"</code> configuration.</p>
+<p>Aliases can be added to this block or changed to swap the default built-in plugins to other implementations. The built-in aliases cannot be deleted: this block can only add aliases or override them, and removing an override from the configuration brings back the built-in alias. Changing aliases requires a restart.</p>
+<h3 id="the-bars-plugin"><a class="header" href="#the-bars-plugin">The <code>bars</code> plugin</a></h3>
+<p>The tab bar, the status bar and the compact bar are all drawn by one built-in plugin, <code>zellij:bars</code>, told what to draw with its <code>role</code> configuration (<code>tab-bar</code>, <code>status-bar</code> or <code>compact-bar</code>; <code>tab-bar</code> when no role is given). This plugin also opens file paths clicked in panes (the <code>link</code> role, loaded in the background through <code>load_plugins</code>).</p>
+<p>The plugin urls <code>zellij:tab-bar</code>, <code>zellij:status-bar</code>, <code>zellij:compact-bar</code> and <code>zellij:link</code> also work: Zellij translates them to <code>zellij:bars</code> with the matching role. Configuration files and layouts using them do not need to change.</p>
 <p>When swapping the default aliases for custom plugins, it's important that these plugins implement the basic contract Zellij (and indeed, other plugins) expect of them. The following sections describe the contract for each default alias.</p>
 <p>Here's an example on how to use the plugin alias in a layout:</p>
 <pre><code class="language-javascript">layout {

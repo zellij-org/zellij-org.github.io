@@ -175,8 +175,16 @@
 <li><a href="#background-command-execution--web-requests">Background Command Execution &amp; Web Requests</a></li>
 <li><a href="#plugin-communication">Plugin Communication</a></li>
 <li><a href="#cli-pipe-management">CLI Pipe Management</a></li>
+<li><a href="#popups--prompts">Popups &amp; Prompts</a></li>
+<li><a href="#context-menu">Context Menu</a></li>
+<li><a href="#settings-screen-entry">Settings Screen Entry</a></li>
+<li><a href="#shared-plugin-slots">Shared Plugin Slots</a></li>
+<li><a href="#nested-sessions">Nested Sessions</a></li>
+<li><a href="#other-sessions--attention">Other Sessions &amp; Attention</a></li>
+<li><a href="#pane-mirror-live-view">Pane Mirror (Live View)</a></li>
 <li><a href="#plugin-lifecycle">Plugin Lifecycle</a></li>
 <li><a href="#configuration--host">Configuration &amp; Host</a></li>
+<li><a href="#editing-the-configuration">Editing the Configuration</a></li>
 <li><a href="#web-server--sharing">Web Server &amp; Sharing</a></li>
 <li><a href="#regex-highlights">Regex Highlights</a></li>
 <li><a href="#action-execution">Action Execution</a></li>
@@ -243,8 +251,7 @@ fn load(&amp;mut self, _configuration: BTreeMap&lt;String, String&gt;) {
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// Make this plugin unselectable (e.g., for a status bar)
-set_selectable(false);
+</span>set_selectable(false);
 <span class="boring">}</span></code></pre></pre>
 <hr />
 <h3 id="show_cursor"><a class="header" href="#show_cursor"><code>show_cursor</code></a></h3>
@@ -261,10 +268,8 @@ set_selectable(false);
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// Show cursor at column 5, row 10
-show_cursor(Some((5, 10)));
+</span>show_cursor(Some((5, 10)));
 
-// Hide the cursor
 show_cursor(None);
 <span class="boring">}</span></code></pre></pre>
 <hr />
@@ -303,6 +308,31 @@ show_cursor(None);
 <tr><td><code>selection_support</code></td><td><code>bool</code></td><td><code>true</code> to enable, <code>false</code> to disable</td></tr>
 </tbody></table>
 </div>
+<hr />
+<h3 id="set_self_collapsed"><a class="header" href="#set_self_collapsed"><code>set_self_collapsed</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn set_self_collapsed(collapsed: bool)
+<span class="boring">}</span></code></pre></pre>
+<p>Give this plugin's space in the layout back to its neighbors while it has nothing to draw, or take it again when it does. Meant for plugins mounted in a layout as a bar whose content is sometimes empty: without this, the row the layout reserves for the bar stays reserved and shows as a blank line.</p>
+<p>While collapsed, the pane keeps its place and its size in the layout and simply takes no space, so expanding restores exactly the geometry the layout asked for. A collapse also survives entering and leaving fullscreen. Calling it with the state the pane is already in does nothing. It has no effect on a floating pane.</p>
+<p>Unlike <a href="#hide_self"><code>hide_self</code></a>, which suppresses the pane and later brings it back by splitting another pane, a collapsed pane comes back in its original position.</p>
+<p>The <a href="./plugin-api-types.html#paneinfo"><code>PaneInfo</code></a> of a collapsed pane has <code>is_collapsed</code> set to <code>true</code>.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>collapsed</code></td><td><code>bool</code></td><td><code>true</code> to give the space back, <code>false</code> to take it again</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn render(&amp;mut self, rows: usize, cols: usize) {
+    set_self_collapsed(self.items.is_empty());
+    for item in &amp;self.items {
+        println!("{}", item);
+    }
+}
+<span class="boring">}</span></code></pre></pre>
 <hr />
 <h3 id="set_soft_keyboard"><a class="header" href="#set_soft_keyboard"><code>set_soft_keyboard</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -578,10 +608,8 @@ list_clients();
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>// Switch to existing session
-switch_session(Some("my-project"));
+</span>switch_session(Some("my-project"));
 
-// Create a new session with a random name
 switch_session(None);
 <span class="boring">}</span></code></pre></pre>
 <hr />
@@ -629,6 +657,47 @@ switch_session(None);
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
 <p>Switch to a session, focusing a specific pane or tab. The pane is prioritized over the tab position if both are provided.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>name</code></td><td><code>&amp;str</code></td><td>Session name to switch to</td></tr>
+<tr><td><code>tab_position</code></td><td><code>Option&lt;usize&gt;</code></td><td>Tab position to focus</td></tr>
+<tr><td><code>pane_id</code></td><td><code>Option&lt;(u32, bool)&gt;</code></td><td>Pane to focus: <code>(id, is_plugin)</code></td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="switch_session_with_options"><a class="header" href="#switch_session_with_options"><code>switch_session_with_options</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn switch_session_with_options(connect_to_session: ConnectToSession)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Switch to (or create) a session, with every option of <a href="./plugin-api-types.html#connecttosession"><code>ConnectToSession</code></a> available at once: name, tab, pane, layout, working directory and switch context. Of the switch context, only <code>startup_card</code> and <code>disconnect_others</code> are taken from a plugin.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>connect_to_session</code></td><td><a href="./plugin-api-types.html#connecttosession"><code>ConnectToSession</code></a></td><td>Where to switch and how</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>switch_session_with_options(ConnectToSession {
+    name: Some("my-project".to_owned()),
+    cwd: Some(PathBuf::from("/home/user/project")),
+    ..Default::default()
+});
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h3 id="switch_session_and_close_current"><a class="header" href="#switch_session_and_close_current"><code>switch_session_and_close_current</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn switch_session_and_close_current(
+    name: &amp;str,
+    tab_position: Option&lt;usize&gt;,
+    pane_id: Option&lt;(u32, bool)&gt;,
+)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Switch to another session and close the current one if it was never used. The current session is killed only if no command was ever submitted in it and no other clients are attached to it. Otherwise this behaves like <a href="#switch_session_with_focus"><code>switch_session_with_focus</code></a>.</p>
 <p><strong>Parameters:</strong></p>
 <div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>name</code></td><td><code>&amp;str</code></td><td>Session name to switch to</td></tr>
@@ -1587,6 +1656,8 @@ layout {
 </span>fn hide_self()
 <span class="boring">}</span></code></pre></pre>
 <p>Hide (suppress) the plugin pane from the UI. The plugin continues running in the background.</p>
+<p>A hidden plugin is not rendered, but it keeps receiving the <code>ModeUpdate</code>, <code>TabUpdate</code>, <code>PaneUpdate</code> and <code>InputReceived</code> events it is subscribed to, so it can decide when to show itself again with <a href="#show_self"><code>show_self</code></a>. The same is true for plugins hidden with <a href="#hide_pane_with_id"><code>hide_pane_with_id</code></a> or <a href="#hide_slot"><code>hide_slot</code></a>.</p>
+<p>To give a bar's row in the layout back while it is empty, and get it back in the same position later, use <a href="#set_self_collapsed"><code>set_self_collapsed</code></a> instead.</p>
 <hr />
 <h3 id="show_self"><a class="header" href="#show_self"><code>show_self</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -1962,6 +2033,45 @@ layout {
 </span>set_pane_frame_style(PaneFrameStyle::Titles);
 <span class="boring">}</span></code></pre></pre>
 <hr />
+<h3 id="toggle_bars"><a class="header" href="#toggle_bars"><code>toggle_bars</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn toggle_bars(bar_names: Vec&lt;String&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>If any bars are hidden, show all bars. Otherwise hide the named bars, or all bars if <code>bar_names</code> is empty.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>bar_names</code></td><td><code>Vec&lt;String&gt;</code></td><td>Bars to hide: <code>tab-bar</code>, <code>status-bar</code>, <code>compact-bar</code>, a plugin alias or location, or <code>all</code></td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="hide_bars"><a class="header" href="#hide_bars"><code>hide_bars</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn hide_bars(bar_names: Vec&lt;String&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Hide the named bars in every tab, or all bars if <code>bar_names</code> is empty. The space of a hidden bar goes to the panes around it. The bars that are currently hidden are reported in the <code>hidden_bars</code> field of <a href="./plugin-api-types.html#modeinfo"><code>ModeInfo</code></a>.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>bar_names</code></td><td><code>Vec&lt;String&gt;</code></td><td>Bars to hide: <code>tab-bar</code>, <code>status-bar</code>, <code>compact-bar</code>, a plugin alias or location, or <code>all</code></td></tr>
+</tbody></table>
+</div>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>hide_bars(vec!["status-bar".to_owned()]);
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h3 id="show_bars"><a class="header" href="#show_bars"><code>show_bars</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn show_bars()
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Show all hidden bars.</p>
+<hr />
 <h3 id="toggle_pane_embed_or_eject"><a class="header" href="#toggle_pane_embed_or_eject"><code>toggle_pane_embed_or_eject</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -1976,12 +2086,51 @@ layout {
 </span>fn toggle_pane_embed_or_eject_for_pane_id(pane_id: PaneId)
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
-<p>Toggle a specific pane between floating and tiled (embedded) mode.</p>
+<p>Toggle a specific pane between floating and tiled (embedded) mode. This is the same as calling <a href="#toggle_pane_embed_or_eject_for_pane_id_with_focus"><code>toggle_pane_embed_or_eject_for_pane_id_with_focus</code></a> with <code>show_and_focus</code> set to <code>false</code>.</p>
 <p><strong>Parameters:</strong></p>
 <div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane to toggle</td></tr>
 </tbody></table>
 </div>
+<hr />
+<h3 id="toggle_pane_embed_or_eject_for_pane_id_with_focus"><a class="header" href="#toggle_pane_embed_or_eject_for_pane_id_with_focus"><code>toggle_pane_embed_or_eject_for_pane_id_with_focus</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn toggle_pane_embed_or_eject_for_pane_id_with_focus(pane_id: PaneId, show_and_focus: bool)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Toggle a specific pane between floating and tiled (embedded) mode. With <code>show_and_focus</code> set to <code>true</code>, the pane is also shown and focused for the user who triggered the plugin, the same way as when the user moves the focused pane between layers.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane to toggle</td></tr>
+<tr><td><code>show_and_focus</code></td><td><code>bool</code></td><td>Whether to show and focus the pane after moving it</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="set_pane_border_style"><a class="header" href="#set_pane_border_style"><code>set_pane_border_style</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn set_pane_border_style(pane_id: PaneId, border_style: BorderStyleOverride)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Set the line style of a pane's border, side by side. This replaces any override set before for the same pane. Sides left as <code>None</code> use the configured border style, so an empty override returns the pane to the configured style.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane to change</td></tr>
+<tr><td><code>border_style</code></td><td><a href="./plugin-api-types.html#borderstyleoverride"><code>BorderStyleOverride</code></a></td><td>The line styles to use</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>set_pane_border_style(
+    PaneId::Terminal(1),
+    BorderStyleOverride {
+        all: Some(LineStyle::Double),
+        ..Default::default()
+    },
+);
+<span class="boring">}</span></code></pre></pre>
 <hr />
 <h3 id="toggle_pane_borderless"><a class="header" href="#toggle_pane_borderless"><code>toggle_pane_borderless</code></a></h3>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
@@ -2726,6 +2875,32 @@ layout {
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
 <p>Switch to the next <a href="./swap-layouts.html">swap layout</a>.</p>
 <hr />
+<h3 id="apply_tiled_swap_layout"><a class="header" href="#apply_tiled_swap_layout"><code>apply_tiled_swap_layout</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn apply_tiled_swap_layout(layout_name: &amp;str)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Apply the tiled <a href="./swap-layouts.html">swap layout</a> with this name to the current tab. Floating pane visibility and focus do not change. A name that does not exist, or a layout that does not fit the current panes, does nothing.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>layout_name</code></td><td><code>&amp;str</code></td><td>Name of the tiled swap layout</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="apply_floating_swap_layout"><a class="header" href="#apply_floating_swap_layout"><code>apply_floating_swap_layout</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn apply_floating_swap_layout(layout_name: &amp;str)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Apply the floating <a href="./swap-layouts.html">swap layout</a> with this name to the current tab. Floating pane visibility and focus do not change. A name that does not exist, or a layout that does not fit the current panes, does nothing.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>layout_name</code></td><td><code>&amp;str</code></td><td>Name of the floating swap layout</td></tr>
+</tbody></table>
+</div>
+<hr />
 <h2 id="background-command-execution--web-requests"><a class="header" href="#background-command-execution--web-requests">Background Command Execution &amp; Web Requests</a></h2>
 <hr />
 <h3 id="run_command"><a class="header" href="#run_command"><code>run_command</code></a></h3>
@@ -2825,7 +3000,7 @@ web_request(
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>subscribe(&amp;[EventType::Timer]);
-set_timeout(2.0); // Fire after 2 seconds
+set_timeout(2.0);
 <span class="boring">}</span></code></pre></pre>
 <hr />
 <h2 id="plugin-communication"><a class="header" href="#plugin-communication">Plugin Communication</a></h2>
@@ -2952,6 +3127,601 @@ set_timeout(2.0); // Fire after 2 seconds
 </tbody></table>
 </div>
 <hr />
+<h3 id="set_cli_pipe_exit_code"><a class="header" href="#set_cli_pipe_exit_code"><code>set_cli_pipe_exit_code</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn set_cli_pipe_exit_code(pipe_name: &amp;str, exit_code: i32)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadCliPipes</code></a></p>
+<p>Set the exit code that the waiting <code>zellij pipe</code> command exits with once the pipe is released. This lets a plugin report success or failure to the shell script that piped to it.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>pipe_name</code></td><td><code>&amp;str</code></td><td>Name (CLI pipe id) of the pipe</td></tr>
+<tr><td><code>exit_code</code></td><td><code>i32</code></td><td>Exit code for the <code>zellij pipe</code> process</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn pipe(&amp;mut self, pipe_message: PipeMessage) -&gt; bool {
+    if let PipeSource::Cli(pipe_id) = &amp;pipe_message.source {
+        if pipe_message.payload.is_none() {
+            set_cli_pipe_exit_code(pipe_id, 1);
+            unblock_cli_pipe_input(pipe_id);
+        }
+    }
+    false
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="popups--prompts"><a class="header" href="#popups--prompts">Popups &amp; Prompts</a></h2>
+<p>A popup is a plugin pane drawn above everything else in the tab, for one user, and closed when it is no longer needed (eg. with <a href="#close_self"><code>close_self</code></a>). See also the <a href="./zellij-prompt.html"><code>zellij prompt</code></a> command, which uses the same popups from the command line.</p>
+<hr />
+<h3 id="open_plugin_popup"><a class="header" href="#open_plugin_popup"><code>open_plugin_popup</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn open_plugin_popup(
+    plugin_url: impl Into&lt;String&gt;,
+    configuration: BTreeMap&lt;String, String&gt;,
+    line: usize,
+    column: usize,
+    width: usize,
+    height: usize,
+)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Open a plugin as a popup for the user who triggered this plugin. The popup's top left corner is placed at <code>line</code> and <code>column</code>, relative to this plugin's content area, and is moved as needed to fit on the screen. This is the same as <a href="#open_plugin_popup_with_options"><code>open_plugin_popup_with_options</code></a> with <code>PopupOptions::default()</code>: the popup takes key focus, closes other open menus, and closes when the user clicks outside of it.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>plugin_url</code></td><td><code>impl Into&lt;String&gt;</code></td><td>URL or alias of the plugin to open</td></tr>
+<tr><td><code>configuration</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Configuration for the popup plugin</td></tr>
+<tr><td><code>line</code></td><td><code>usize</code></td><td>Line (relative to this plugin) for the popup's top edge</td></tr>
+<tr><td><code>column</code></td><td><code>usize</code></td><td>Column (relative to this plugin) for the popup's left edge</td></tr>
+<tr><td><code>width</code></td><td><code>usize</code></td><td>Width in columns</td></tr>
+<tr><td><code>height</code></td><td><code>usize</code></td><td>Height in rows</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>open_plugin_popup(
+    "file:/path/to/menu.wasm",
+    BTreeMap::new(),
+    1,
+    self.menu_button_column,
+    30,
+    10,
+);
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h3 id="open_plugin_popup_with_options"><a class="header" href="#open_plugin_popup_with_options"><code>open_plugin_popup_with_options</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn open_plugin_popup_with_options(
+    plugin_url: impl Into&lt;String&gt;,
+    configuration: BTreeMap&lt;String, String&gt;,
+    line: usize,
+    column: usize,
+    width: usize,
+    height: usize,
+    options: PopupOptions,
+)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Same as <a href="#open_plugin_popup"><code>open_plugin_popup</code></a>, with control over how the popup behaves:</p>
+<ul>
+<li><code>focused: true</code> (default) opens a menu-like popup: it takes key focus, replaces other open menus of the same user, and by default closes on a click outside of it.</li>
+<li><code>focused: false</code> opens an information popup: it does not take key focus, and by default ignores clicks outside of it.</li>
+<li><code>corner</code> places the popup in a corner of the screen instead of at <code>line</code> and <code>column</code>.</li>
+<li><code>capture_all_keys</code> sends every key to the popup, including the ones bound to Zellij actions.</li>
+<li><code>outside_click</code> chooses what a click outside the popup does: <code>Block</code> (ignore it) or <code>Close</code>.</li>
+</ul>
+<p>A popup that is waiting for the user to answer a permission request takes focus until the request is answered, and an outside click cannot close it.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>plugin_url</code></td><td><code>impl Into&lt;String&gt;</code></td><td>URL or alias of the plugin to open</td></tr>
+<tr><td><code>configuration</code></td><td><code>BTreeMap&lt;String, String&gt;</code></td><td>Configuration for the popup plugin</td></tr>
+<tr><td><code>line</code></td><td><code>usize</code></td><td>Line (relative to this plugin) for the popup's top edge</td></tr>
+<tr><td><code>column</code></td><td><code>usize</code></td><td>Column (relative to this plugin) for the popup's left edge</td></tr>
+<tr><td><code>width</code></td><td><code>usize</code></td><td>Width in columns</td></tr>
+<tr><td><code>height</code></td><td><code>usize</code></td><td>Height in rows</td></tr>
+<tr><td><code>options</code></td><td><a href="./plugin-api-types.html#popupoptions"><code>PopupOptions</code></a></td><td>How the popup behaves</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>open_plugin_popup_with_options(
+    "file:/path/to/notice.wasm",
+    BTreeMap::new(),
+    0,
+    0,
+    40,
+    3,
+    PopupOptions::default()
+        .focused(false)
+        .corner(PopupCorner::TopRight),
+);
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h3 id="set_popup_size"><a class="header" href="#set_popup_size"><code>set_popup_size</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn set_popup_size(width: usize, height: usize)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Resize the popup this plugin is running in, eg. once it knows how much content it has.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>width</code></td><td><code>usize</code></td><td>New width in columns</td></tr>
+<tr><td><code>height</code></td><td><code>usize</code></td><td>New height in rows</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="set_popup_focused"><a class="header" href="#set_popup_focused"><code>set_popup_focused</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn set_popup_focused(focused: bool)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Give key focus to the popup this plugin is running in, or take it away.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>focused</code></td><td><code>bool</code></td><td><code>true</code> to take key focus, <code>false</code> to give it back to the pane below</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="popup_to_floating_pane"><a class="header" href="#popup_to_floating_pane"><code>popup_to_floating_pane</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn popup_to_floating_pane(coordinates: Option&lt;FloatingPaneCoordinates&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Turn the popup this plugin is running in into a regular floating pane, which stays open until it is closed like any other pane.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>coordinates</code></td><td><code>Option&lt;</code><a href="./plugin-api-types.html#floatingpanecoordinates"><code>FloatingPaneCoordinates</code></a><code>&gt;</code></td><td>Position and size of the floating pane, or <code>None</code> for the default</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="prompt"><a class="header" href="#prompt"><code>prompt</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn prompt(request: PromptRequest) -&gt; u64
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>OpenTerminalsOrPlugins</code></a></p>
+<p>Ask the user something through the built-in prompt popup (<code>zellij:prompt</code>, see <a href="./prompt-alias.html">the prompt alias</a>), and return the id of the request. By default the popup opens over this plugin's pane, for the user who triggered the plugin.</p>
+<p>The answer arrives later as a <a href="./plugin-api-events.html#promptresult"><code>PromptResult</code></a> event carrying the same id. It is sent only to this plugin instance, which needs to <a href="#subscribe">subscribe</a> to <code>EventType::PromptResult</code>. An invalid request (eg. a number prompt whose minimum is above its maximum) is answered at once with <code>PromptResult::Error</code> and opens no popup. If this plugin closes or reloads before the user answers, its open prompts close and no result is sent.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>request</code></td><td><a href="./plugin-api-types.html#promptrequest"><code>PromptRequest</code></a></td><td>What to ask and how to show it</td></tr>
+</tbody></table>
+</div>
+<p><strong>Returns:</strong> <code>u64</code> - the id of this request, repeated in its <code>PromptResult</code> event</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn load(&amp;mut self, _configuration: BTreeMap&lt;String, String&gt;) {
+    request_permission(&amp;[PermissionType::OpenTerminalsOrPlugins]);
+    subscribe(&amp;[EventType::PromptResult]);
+}
+
+fn ask_before_closing(&amp;mut self) {
+    let request_id = prompt(PromptRequest::confirm("Close all panes?").yes("Close").no("Keep"));
+    self.pending_close = Some(request_id);
+}
+
+fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::PromptResult(request_id, PromptResult::Confirmed(true))
+            if Some(request_id) == self.pending_close =&gt;
+        {
+            self.close_all_panes();
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h3 id="reply_to_prompt"><a class="header" href="#reply_to_prompt"><code>reply_to_prompt</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn reply_to_prompt(request_id: u64, result: PromptResult)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>OpenTerminalsOrPlugins</code></a></p>
+<p>Answer a prompt request received through a pipe message whose source is <a href="./plugin-pipes.html#pipe-sources"><code>PipeSource::PromptRequest</code></a>. Only the built-in <code>zellij:prompt</code> plugin may use this command; calls from any other plugin are ignored.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>request_id</code></td><td><code>u64</code></td><td>The <code>request_id</code> of the <code>PipeSource::PromptRequest</code></td></tr>
+<tr><td><code>result</code></td><td><a href="./plugin-api-types.html#promptresult"><code>PromptResult</code></a></td><td>The answer</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="context-menu"><a class="header" href="#context-menu">Context Menu</a></h2>
+<p>See <a href="./context-menu.html">the context menu</a> for the user-facing side of this feature.</p>
+<hr />
+<h3 id="open_context_menu"><a class="header" href="#open_context_menu"><code>open_context_menu</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn open_context_menu(target: ContextMenuTarget, line: usize, column: usize)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Open Zellij's own right-click menu for a tab or for this bar, at <code>line</code> and <code>column</code> relative to this plugin's content area. This is how bar plugins (eg. a tab bar) offer the same menu Zellij shows when the user right-clicks a tab.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>target</code></td><td><a href="./plugin-api-types.html#contextmenutarget"><code>ContextMenuTarget</code></a></td><td><code>Tab(tab_position)</code> or <code>Bar</code></td></tr>
+<tr><td><code>line</code></td><td><code>usize</code></td><td>Line (relative to this plugin) to open the menu at</td></tr>
+<tr><td><code>column</code></td><td><code>usize</code></td><td>Column (relative to this plugin) to open the menu at</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    if let Event::Mouse(Mouse::RightClick(line, column)) = event {
+        if let Some(tab_position) = self.tab_at_column(column) {
+            open_context_menu(ContextMenuTarget::Tab(tab_position), line as usize, column);
+        }
+    }
+    false
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h3 id="run_context_menu_item"><a class="header" href="#run_context_menu_item"><code>run_context_menu_item</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn run_context_menu_item(index: usize)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>RunActionsAsUser</code></a></p>
+<p>Run the actions of entry <code>index</code> of the context menu that is currently open for the user. Only the plugin showing that menu as a popup (by default the built-in <a href="./context-menu-alias.html"><code>context-menu</code></a> plugin) may do this; it receives the entries through the <a href="./plugin-api-events.html#contextmenu"><code>ContextMenu</code></a> event.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>index</code></td><td><code>usize</code></td><td>Index of the entry in the list received with the <code>ContextMenu</code> event</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="settings-screen-entry"><a class="header" href="#settings-screen-entry">Settings Screen Entry</a></h2>
+<p>A plugin can add an entry to the plugins page of the <a href="./settings-screen.html">settings screen</a>, so that users can open the plugin's own settings from there.</p>
+<hr />
+<h3 id="register_settings_entry"><a class="header" href="#register_settings_entry"><code>register_settings_entry</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn register_settings_entry(title: &amp;str)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>List this plugin in the settings screen under <code>title</code>. Each plugin instance has at most one entry: calling this again changes the title. Instances of the same plugin (same location and configuration) with the same title are listed once. Titles are cut to 80 characters, and an empty title is ignored. The entry is removed when the plugin unloads, crashes or is reloaded.</p>
+<p>When the user selects the entry, this plugin receives a <a href="./plugin-pipes.html#the-pipe-lifecycle-method">pipe message</a> named <code>OPEN_PLUGIN_SETTINGS_MESSAGE</code> (<code>"zellij:open_plugin_settings"</code>), with the id of the client that selected it in the <code>OPEN_PLUGIN_SETTINGS_CLIENT_ID_ARG</code> (<code>"client_id"</code>) argument. The plugin then decides how to show its settings (eg. with <a href="#show_self"><code>show_self</code></a> or a popup).</p>
+<p>The list of all registered entries is available through the <a href="./plugin-api-events.html#pluginsettingsentries"><code>PluginSettingsEntries</code></a> event.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>title</code></td><td><code>&amp;str</code></td><td>The title shown in the settings screen</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn load(&amp;mut self, _configuration: BTreeMap&lt;String, String&gt;) {
+    request_permission(&amp;[PermissionType::ChangeApplicationState]);
+    subscribe(&amp;[EventType::PermissionRequestResult]);
+}
+
+fn update(&amp;mut self, event: Event) -&gt; bool {
+    if let Event::PermissionRequestResult(PermissionStatus::Granted) = event {
+        register_settings_entry("My Plugin");
+    }
+    false
+}
+
+fn pipe(&amp;mut self, pipe_message: PipeMessage) -&gt; bool {
+    if pipe_message.name == OPEN_PLUGIN_SETTINGS_MESSAGE {
+        self.showing_settings = true;
+        show_self(true);
+        return true;
+    }
+    false
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h3 id="unregister_settings_entry"><a class="header" href="#unregister_settings_entry"><code>unregister_settings_entry</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn unregister_settings_entry()
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Remove this plugin's entry from the settings screen.</p>
+<hr />
+<h2 id="shared-plugin-slots"><a class="header" href="#shared-plugin-slots">Shared Plugin Slots</a></h2>
+<p>These commands are meant for <a href="./plugin-lifecycle.html#shared-plugins">shared plugins</a>, where one plugin instance serves many panes ("slots"). They are the slot forms of <a href="#set_selectable"><code>set_selectable</code></a>, <a href="#hide_self"><code>hide_self</code></a>, <a href="#show_self"><code>show_self</code></a>, <a href="#close_self"><code>close_self</code></a> and <a href="#set_self_collapsed"><code>set_self_collapsed</code></a>.</p>
+<p>A shared plugin may only use the "self" commands inside <code>render</code> and <code>slot_added</code>, where Zellij knows which slot is meant. Everywhere else it must use these slot commands.</p>
+<p>All of them return <code>Err</code> with a message when the slot does not belong to the calling plugin. A plugin that is not shared may use them with its own plugin id. None of them require a permission.</p>
+<hr />
+<h3 id="set_selectable_slot"><a class="header" href="#set_selectable_slot"><code>set_selectable_slot</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn set_selectable_slot(slot_id: SlotId, selectable: bool) -&gt; Result&lt;(), String&gt;
+<span class="boring">}</span></code></pre></pre>
+<p>Set whether the pane of this slot can be selected by the user.</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>slot_id</code></td><td><a href="./plugin-api-types.html#slot"><code>SlotId</code></a></td><td>The slot</td></tr>
+<tr><td><code>selectable</code></td><td><code>bool</code></td><td><code>true</code> to make selectable</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="hide_slot"><a class="header" href="#hide_slot"><code>hide_slot</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn hide_slot(slot_id: SlotId) -&gt; Result&lt;(), String&gt;
+<span class="boring">}</span></code></pre></pre>
+<p>Hide (suppress) the pane of this slot. As with <a href="#hide_self"><code>hide_self</code></a>, the plugin keeps receiving events.</p>
+<hr />
+<h3 id="show_slot"><a class="header" href="#show_slot"><code>show_slot</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn show_slot(slot_id: SlotId, should_float_if_hidden: bool) -&gt; Result&lt;(), String&gt;
+<span class="boring">}</span></code></pre></pre>
+<p>Show the pane of this slot (unsuppress it if hidden) and focus it.</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>slot_id</code></td><td><a href="./plugin-api-types.html#slot"><code>SlotId</code></a></td><td>The slot</td></tr>
+<tr><td><code>should_float_if_hidden</code></td><td><code>bool</code></td><td>If <code>true</code>, show it as a floating pane when unsuppressing</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="close_slot"><a class="header" href="#close_slot"><code>close_slot</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn close_slot(slot_id: SlotId) -&gt; Result&lt;(), String&gt;
+<span class="boring">}</span></code></pre></pre>
+<p>Close the pane of this slot and remove the slot from the plugin. The plugin's <code>slot_removed</code> method is called for it.</p>
+<hr />
+<h3 id="set_collapsed_slot"><a class="header" href="#set_collapsed_slot"><code>set_collapsed_slot</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn set_collapsed_slot(slot_id: SlotId, collapsed: bool) -&gt; Result&lt;(), String&gt;
+<span class="boring">}</span></code></pre></pre>
+<p>The slot form of <a href="#set_self_collapsed"><code>set_self_collapsed</code></a>, for a shared plugin that decides outside of <code>render</code>.</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>slot_id</code></td><td><a href="./plugin-api-types.html#slot"><code>SlotId</code></a></td><td>The slot</td></tr>
+<tr><td><code>collapsed</code></td><td><code>bool</code></td><td><code>true</code> to give the space back, <code>false</code> to take it again</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="nested-sessions"><a class="header" href="#nested-sessions">Nested Sessions</a></h2>
+<p>See <a href="./nested-sessions.html">nested sessions</a>. A plugin in the host session can follow the input mode of a nested (guest) session through the <a href="./plugin-api-events.html#nestedsessionmodeupdate"><code>NestedSessionModeUpdate</code></a> event, and fetch its keybindings with the command below, for example to show the right hints while the user is typing into the guest.</p>
+<hr />
+<h3 id="get_nested_session_keybinds"><a class="header" href="#get_nested_session_keybinds"><code>get_nested_session_keybinds</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn get_nested_session_keybinds(pane_id: PaneId) -&gt; NestedSessionKeybindsResponse
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p>Ask the nested Zellij session running in <code>pane_id</code> for its input mode and keybindings. The call waits for the answer for up to one second.</p>
+<p>Fetch them again when a <code>NestedSessionModeUpdate</code> event arrives with a <code>keybinds_generation</code> different from the one of the last answer.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane the nested session runs in</td></tr>
+</tbody></table>
+</div>
+<p><strong>Returns:</strong> <a href="./plugin-api-types.html#nestedsessionkeybinds"><code>NestedSessionKeybindsResponse</code></a> - <code>Ok(NestedSessionKeybinds)</code>, or an error explaining why the keybindings are not available (eg. <code>NotANestedSession</code> or <code>Timeout</code>)</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    if let Event::NestedSessionModeUpdate { pane_id, keybinds_generation, .. } = event {
+        if self.keybinds_generation != Some(keybinds_generation) {
+            if let Ok(guest) = get_nested_session_keybinds(pane_id) {
+                self.keybinds_generation = Some(guest.keybinds_generation);
+                self.guest_keybinds = guest.keybinds;
+                return true;
+            }
+        }
+    }
+    false
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="other-sessions--attention"><a class="header" href="#other-sessions--attention">Other Sessions &amp; Attention</a></h2>
+<p>These commands work with panes in any running session on the machine, by session name. They are the building blocks of the <a href="./inbox.html">inbox</a>. Attention state itself arrives through the <a href="./plugin-api-events.html#paneattentionchanged"><code>PaneAttentionChanged</code></a> and <a href="./plugin-api-events.html#globalattentionupdate"><code>GlobalAttentionUpdate</code></a> events.</p>
+<hr />
+<h3 id="mark_session_pane_seen"><a class="header" href="#mark_session_pane_seen"><code>mark_session_pane_seen</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn mark_session_pane_seen(session_name: &amp;str, pane_id: PaneId)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Mark the attention state of a pane as seen.</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>session_name</code></td><td><code>&amp;str</code></td><td>Session the pane is in</td></tr>
+<tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="mark_all_seen"><a class="header" href="#mark_all_seen"><code>mark_all_seen</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn mark_all_seen(session_name: Option&lt;&amp;str&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Mark the attention state of every pane in a session as seen, or in every session if <code>None</code>.</p>
+<hr />
+<h3 id="toggle_session_pane_mute"><a class="header" href="#toggle_session_pane_mute"><code>toggle_session_pane_mute</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn toggle_session_pane_mute(session_name: &amp;str, pane_id: PaneId)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Mute or unmute the attention status of a pane.</p>
+<hr />
+<h3 id="toggle_session_pane_ignore_output"><a class="header" href="#toggle_session_pane_ignore_output"><code>toggle_session_pane_ignore_output</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn toggle_session_pane_ignore_output(session_name: &amp;str, pane_id: PaneId)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Stop or start reporting new output of a pane.</p>
+<hr />
+<h3 id="toggle_session_pane_watch"><a class="header" href="#toggle_session_pane_watch"><code>toggle_session_pane_watch</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn toggle_session_pane_watch(session_name: &amp;str, pane_id: PaneId)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Start or stop watching a pane. A watched pane notifies each time its command finishes or its output goes quiet, until it is no longer watched.</p>
+<hr />
+<h3 id="focus_session_pane"><a class="header" href="#focus_session_pane"><code>focus_session_pane</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn focus_session_pane(session_name: &amp;str, pane_id: PaneId)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Focus a pane in a session.</p>
+<hr />
+<h3 id="write_to_session_pane"><a class="header" href="#write_to_session_pane"><code>write_to_session_pane</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn write_to_session_pane(session_name: &amp;str, pane_id: PaneId, bytes: Vec&lt;u8&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>WriteToStdin</code></a></p>
+<p>Write bytes to the STDIN of a pane in a session, as if the user typed them.</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>session_name</code></td><td><code>&amp;str</code></td><td>Session the pane is in</td></tr>
+<tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane</td></tr>
+<tr><td><code>bytes</code></td><td><code>Vec&lt;u8&gt;</code></td><td>Bytes to write</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="send_key_to_session_pane"><a class="header" href="#send_key_to_session_pane"><code>send_key_to_session_pane</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn send_key_to_session_pane(session_name: &amp;str, pane_id: PaneId, key: KeyWithModifier)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>WriteToStdin</code></a></p>
+<p>Send a key press to a pane in a session, encoded the way the program in the pane expects.</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>session_name</code></td><td><code>&amp;str</code></td><td>Session the pane is in</td></tr>
+<tr><td><code>pane_id</code></td><td><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a></td><td>The pane</td></tr>
+<tr><td><code>key</code></td><td><a href="./plugin-api-types.html#keywithmodifier"><code>KeyWithModifier</code></a></td><td>The key to send</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="get_session_suggestions"><a class="header" href="#get_session_suggestions"><code>get_session_suggestions</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn get_session_suggestions(limit: usize)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p>Ask for a ranked list of up to <code>limit</code> sessions (running and resurrectable) that the user is likely to want, based on the current folder, git repository and recent use. See <a href="./session-suggestions.html">session suggestions</a>. The answer arrives as a <a href="./plugin-api-events.html#sessionsuggestions"><code>SessionSuggestions</code></a> event.</p>
+<hr />
+<h3 id="get_session_preview"><a class="header" href="#get_session_preview"><code>get_session_preview</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn get_session_preview(name: &amp;str, tab_index: Option&lt;usize&gt;, pane_id: Option&lt;(u32, bool)&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a> (the answer needs <a href="./plugin-api-permissions.html"><code>ReadPaneContents</code></a>)</p>
+<p>Ask for a text preview of a running session, optionally of a specific tab or pane (<code>(id, is_plugin)</code>). The answer arrives as a <a href="./plugin-api-events.html#sessionpreview"><code>SessionPreview</code></a> event.</p>
+<hr />
+<h3 id="get_session_preview_with_history"><a class="header" href="#get_session_preview_with_history"><code>get_session_preview_with_history</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn get_session_preview_with_history(name: &amp;str, tab_index: Option&lt;usize&gt;, pane_id: Option&lt;(u32, bool)&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a> (the answer needs <a href="./plugin-api-permissions.html"><code>ReadPaneContents</code></a>)</p>
+<p>Same as <a href="#get_session_preview"><code>get_session_preview</code></a>, with the preview anchored at the bottom of the pane's scrollback (<code>PreviewAnchor::Bottom</code>).</p>
+<hr />
+<h3 id="get_session_pane_preview"><a class="header" href="#get_session_pane_preview"><code>get_session_pane_preview</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn get_session_pane_preview(name: &amp;str, pane_id: PaneId, anchor: PreviewAnchor)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a> (the answer needs <a href="./plugin-api-permissions.html"><code>ReadPaneContents</code></a>)</p>
+<p>Ask for a preview of one pane, anchored where it is most useful: the bottom, the output of the last command, or the start of new output. See <a href="./plugin-api-types.html#sessionpreview"><code>PreviewAnchor</code></a>. The answer arrives as a <a href="./plugin-api-events.html#sessionpreview"><code>SessionPreview</code></a> event.</p>
+<hr />
+<h3 id="get_saved_session_preview"><a class="header" href="#get_saved_session_preview"><code>get_saved_session_preview</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn get_saved_session_preview(name: &amp;str)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p>Ask for a preview of a saved (resurrectable) session: its folder, tabs and panes. The answer arrives as a <a href="./plugin-api-events.html#savedsessionpreview"><code>SavedSessionPreview</code></a> event.</p>
+<hr />
+<h3 id="open_session_terminal"><a class="header" href="#open_session_terminal"><code>open_session_terminal</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn open_session_terminal(session_name: &amp;str, new_window: bool)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Open a session in a window of the <a href="./zellij-terminal.html">Zellij terminal</a> desktop app. With <code>new_window</code> set to <code>false</code>, a window already showing this session is reused. Nothing happens if the desktop app is not available.</p>
+<hr />
+<h3 id="open_session_pane_terminal"><a class="header" href="#open_session_pane_terminal"><code>open_session_pane_terminal</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn open_session_pane_terminal(session_name: &amp;str, pane_id: PaneId, new_window: bool)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Same as <a href="#open_session_terminal"><code>open_session_terminal</code></a>, focusing a specific pane.</p>
+<hr />
+<h3 id="open_new_session_terminal"><a class="header" href="#open_new_session_terminal"><code>open_new_session_terminal</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn open_new_session_terminal(session_name: Option&lt;&amp;str&gt;, layout: Option&lt;LayoutInfo&gt;, cwd: Option&lt;PathBuf&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Create a new session in a new window of the <a href="./zellij-terminal.html">Zellij terminal</a> desktop app, optionally with a name, a layout and a working directory. Without a <code>cwd</code>, the plugin's working directory is used.</p>
+<hr />
+<h3 id="request_session_terminal"><a class="header" href="#request_session_terminal"><code>request_session_terminal</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn request_session_terminal(request: SessionTerminalRequest)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>The general form of the three commands above. See <a href="./plugin-api-types.html#sessionterminalrequest"><code>SessionTerminalRequest</code></a>.</p>
+<hr />
+<h3 id="request_desktop_integration"><a class="header" href="#request_desktop_integration"><code>request_desktop_integration</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn request_desktop_integration(request: &amp;desktop_integration::Request)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ChangeApplicationState</code></a></p>
+<p>Change how Zellij integrates with the desktop (eg. installing the desktop app). Only built-in plugins may make these requests: for any other plugin the answer is always an error. The answer arrives as a <a href="./plugin-api-events.html#desktopintegration"><code>DesktopIntegration</code></a> event.</p>
+<hr />
+<h2 id="pane-mirror-live-view"><a class="header" href="#pane-mirror-live-view">Pane Mirror (Live View)</a></h2>
+<p>A plugin can show a live copy of another pane - in this session or another session on the machine - inside part of its own pane, and optionally let the user type into it.</p>
+<hr />
+<h3 id="set_live_view"><a class="header" href="#set_live_view"><code>set_live_view</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn set_live_view(view: Option&lt;LiveView&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permissions:</strong> <a href="./plugin-api-permissions.html"><code>ReadPaneContents</code></a> and <a href="./plugin-api-permissions.html"><code>WriteToStdin</code></a></p>
+<p>Show a live view of the pane described by <code>view</code>, in the rectangle <code>x</code>, <code>y</code>, <code>cols</code>, <code>rows</code> of this plugin's content area (it is cut to fit the content area). Each user looking at the plugin has their own live view. Calling it again with a different rectangle moves or resizes the view, and with a different target switches to that pane. <code>None</code> removes the view.</p>
+<p>Changes to the state of the view (connecting, live, closed, input captured or released) are reported with the <a href="./plugin-api-events.html#liveviewstatechanged"><code>LiveViewStateChanged</code></a> event.</p>
+<p><strong>Parameters:</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>view</code></td><td><code>Option&lt;</code><a href="./plugin-api-types.html#liveview"><code>LiveView</code></a><code>&gt;</code></td><td>What to show and where, or <code>None</code> to remove the view</td></tr>
+</tbody></table>
+</div>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn render(&amp;mut self, rows: usize, cols: usize) {
+    if let Some(pane_id) = self.selected_pane {
+        let target = PaneAddress::local(self.session_name.clone(), pane_id);
+        set_live_view(Some(LiveView::new(target, 0, 1, cols, rows.saturating_sub(1))));
+    } else {
+        set_live_view(None);
+    }
+    println!("{}", self.header);
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h3 id="set_live_view_input"><a class="header" href="#set_live_view_input"><code>set_live_view_input</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn set_live_view_input(capture: bool)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permissions:</strong> <a href="./plugin-api-permissions.html"><code>ReadPaneContents</code></a> and <a href="./plugin-api-permissions.html"><code>WriteToStdin</code></a></p>
+<p>With <code>true</code>, send the user's input to the mirrored pane instead of to this plugin. This is refused if the plugin pane is not focused or the view is view-only. Input is released again by the release key (the <a href="./options.html"><code>live_view_release_key</code></a> option, reported in <code>LiveViewStateChanged</code>), by a click outside the view, when the plugin loses focus, or by calling this with <code>false</code>.</p>
+<hr />
 <h2 id="plugin-lifecycle"><a class="header" href="#plugin-lifecycle">Plugin Lifecycle</a></h2>
 <hr />
 <h3 id="start_or_reload_plugin"><a class="header" href="#start_or_reload_plugin"><code>start_or_reload_plugin</code></a></h3>
@@ -3056,6 +3826,141 @@ set_timeout(2.0); // Fire after 2 seconds
 </span>fn watch_filesystem()
 <span class="boring">}</span></code></pre></pre>
 <p>Start watching the host folder for filesystem changes. File change events (<a href="./plugin-api-events.html#filesystemcreate"><code>FileSystemCreate</code></a>, <a href="./plugin-api-events.html#filesystemupdate"><code>FileSystemUpdate</code></a>, <a href="./plugin-api-events.html#filesystemdelete"><code>FileSystemDelete</code></a>) will be delivered to the plugin.</p>
+<hr />
+<h2 id="editing-the-configuration"><a class="header" href="#editing-the-configuration">Editing the Configuration</a></h2>
+<p>These commands are what the built-in <a href="./settings-screen.html">settings screen</a> uses to read and change the configuration of the user who triggered the plugin. Changes are made to the running configuration first (and marked as unsaved), and are written to the configuration file only when asked to. All of them require the <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a> permission.</p>
+<p>Related events: <a href="./plugin-api-events.html#configchangesdropped"><code>ConfigChangesDropped</code></a>, <a href="./plugin-api-events.html#configfilechangedsinceread"><code>ConfigFileChangedSinceRead</code></a>, <a href="./plugin-api-events.html#configwaswrittentodisk"><code>ConfigWasWrittenToDisk</code></a>, <a href="./plugin-api-events.html#failedtowriteconfigtodisk"><code>FailedToWriteConfigToDisk</code></a> and <a href="./plugin-api-events.html#availablekeybindpresets"><code>AvailableKeybindPresets</code></a>.</p>
+<hr />
+<h3 id="read_config"><a class="header" href="#read_config"><code>read_config</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn read_config() -&gt; ConfigSnapshot
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>Return a snapshot of the configuration: the saved and current value of each setting, the configuration blocks, the keybindings and mouse bindings and where each comes from, and the path of the configuration file.</p>
+<p><strong>Returns:</strong> <a href="./plugin-api-types.html#configsnapshot"><code>ConfigSnapshot</code></a></p>
+<hr />
+<h3 id="revert_config"><a class="header" href="#revert_config"><code>revert_config</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn revert_config(key: Option&lt;SettingKey&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>Undo unsaved changes: set one setting (or all of them, with <code>None</code>) back to its saved value.</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>key</code></td><td><code>Option&lt;</code><a href="./plugin-api-types.html#settingkey"><code>SettingKey</code></a><code>&gt;</code></td><td>The setting to revert, or <code>None</code> for all settings</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="unset_config_setting"><a class="header" href="#unset_config_setting"><code>unset_config_setting</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn unset_config_setting(key: SettingKey)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>Remove a setting from the running configuration, so that its default applies. Like other changes, this is unsaved until <a href="#save_config"><code>save_config</code></a> is called.</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>key</code></td><td><a href="./plugin-api-types.html#settingkey"><code>SettingKey</code></a></td><td>The setting to remove</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="save_config"><a class="header" href="#save_config"><code>save_config</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn save_config()
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>Write the unsaved changes to the configuration file, keeping its formatting and comments. If the file was changed by something else since Zellij read it, nothing is written and a <a href="./plugin-api-events.html#configfilechangedsinceread"><code>ConfigFileChangedSinceRead</code></a> event is sent instead, so the plugin can offer <a href="#overwrite_config_file"><code>overwrite_config_file</code></a> or <a href="#reload_config_file"><code>reload_config_file</code></a>.</p>
+<hr />
+<h3 id="overwrite_config_file"><a class="header" href="#overwrite_config_file"><code>overwrite_config_file</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn overwrite_config_file()
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>Same as <a href="#save_config"><code>save_config</code></a>, but write even if the file was changed since Zellij read it.</p>
+<hr />
+<h3 id="reload_config_file"><a class="header" href="#reload_config_file"><code>reload_config_file</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn reload_config_file()
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>Read the configuration file again and apply it.</p>
+<hr />
+<h3 id="replace_config_blocks"><a class="header" href="#replace_config_blocks"><code>replace_config_blocks</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn replace_config_blocks(blocks: String)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>Replace configuration blocks (eg. <code>plugins</code>, <code>load_plugins</code>, <code>env</code>, <code>themes</code> or <code>context_menu</code>) in the running configuration with the ones in <code>blocks</code>, given as KDL text. The change is not written to disk.</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>blocks</code></td><td><code>String</code></td><td>One or more configuration blocks, as KDL</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="reset_keys"><a class="header" href="#reset_keys"><code>reset_keys</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn reset_keys(keys: Vec&lt;(InputMode, KeyWithModifier)&gt;, write_config_to_disk: bool)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>Remove the user's own binding (or unbinding) of these keys, so that they go back to what the active keybinding preset binds them to.</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>keys</code></td><td><code>Vec&lt;(</code><a href="./plugin-api-types.html#inputmode"><code>InputMode</code></a><code>, </code><a href="./plugin-api-types.html#keywithmodifier"><code>KeyWithModifier</code></a><code>)&gt;</code></td><td>The keys to reset, per mode</td></tr>
+<tr><td><code>write_config_to_disk</code></td><td><code>bool</code></td><td>Whether to also save the change to the configuration file</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="reset_mousebinds"><a class="header" href="#reset_mousebinds"><code>reset_mousebinds</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn reset_mousebinds(triggers: Vec&lt;(InputMode, MouseTrigger)&gt;, write_config_to_disk: bool)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>The <a href="./mouse-bindings.html">mouse binding</a> form of <a href="#reset_keys"><code>reset_keys</code></a>.</p>
+<div class="table-wrapper"><table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>triggers</code></td><td><code>Vec&lt;(</code><a href="./plugin-api-types.html#inputmode"><code>InputMode</code></a><code>, </code><a href="./plugin-api-types.html#mousetrigger"><code>MouseTrigger</code></a><code>)&gt;</code></td><td>The mouse bindings to reset, per mode</td></tr>
+<tr><td><code>write_config_to_disk</code></td><td><code>bool</code></td><td>Whether to also save the change to the configuration file</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h3 id="copy_keybind_preset"><a class="header" href="#copy_keybind_preset"><code>copy_keybind_preset</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn copy_keybind_preset(preset: &amp;str, new_name: &amp;str) -&gt; Result&lt;String, String&gt;
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>Copy a keybinding preset into the keybinds folder under a new name, so that the user can edit it.</p>
+<p><strong>Returns:</strong> <code>Ok</code> with the name of the new preset, or <code>Err</code> with a message (eg. when there is no keybinds folder)</p>
+<hr />
+<h3 id="save_keybinds_as_preset"><a class="header" href="#save_keybinds_as_preset"><code>save_keybinds_as_preset</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn save_keybinds_as_preset(new_name: &amp;str) -&gt; Result&lt;String, String&gt;
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>Save the current keybindings as a new preset in the keybinds folder.</p>
+<p><strong>Returns:</strong> <code>Ok</code> with the name of the new preset, or <code>Err</code> with a message</p>
+<hr />
+<h3 id="write_theme_file"><a class="header" href="#write_theme_file"><code>write_theme_file</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn write_theme_file(name: &amp;str, copy_from: Option&lt;&amp;str&gt;, colours: &amp;[String]) -&gt; Result&lt;String, String&gt;
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>With <code>copy_from</code>, create a new theme file named <code>name</code> in the theme folder as a copy of the theme <code>copy_from</code> (this fails if a theme called <code>name</code> already exists). Without it, write <code>colours</code> into the file in the theme folder that defines the theme <code>name</code>. The theme becomes available right away.</p>
+<p><strong>Returns:</strong> <code>Ok</code> with the path of the theme file, or <code>Err</code> with a message (eg. when there is no theme folder)</p>
+<hr />
+<h3 id="delete_theme_file"><a class="header" href="#delete_theme_file"><code>delete_theme_file</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn delete_theme_file(name: &amp;str) -&gt; Result&lt;String, String&gt;
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>Delete the theme file of the theme <code>name</code> from the theme folder.</p>
+<p><strong>Returns:</strong> <code>Ok</code> with the path of the deleted file, or <code>Err</code> with a message</p>
 <hr />
 <h2 id="web-server--sharing"><a class="header" href="#web-server--sharing">Web Server &amp; Sharing</a></h2>
 <hr />
@@ -3231,10 +4136,8 @@ set_timeout(2.0); // Fire after 2 seconds
 </span><span class="boring">fn main() {
 </span>use zellij_tile::prelude::*;
 
-// Toggle floating panes
 run_action(Action::ToggleFloatingPanes, BTreeMap::new());
 
-// Switch to a specific input mode
 run_action(
     Action::SwitchToMode { input_mode: InputMode::Pane },
     BTreeMap::new(),
@@ -3285,6 +4188,31 @@ run_action(
 </tbody></table>
 </div>
 <p><strong>Returns:</strong> <code>Option&lt;</code><a href="./plugin-api-types.html#paneinfo"><code>PaneInfo</code></a><code>&gt;</code> - the focused pane, or <code>None</code></p>
+<hr />
+<h3 id="mouse_modifiers"><a class="header" href="#mouse_modifiers"><code>mouse_modifiers</code></a></h3>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn mouse_modifiers() -&gt; BTreeSet&lt;KeyModifier&gt;
+<span class="boring">}</span></code></pre></pre>
+<p>Return the modifier keys (<code>Shift</code>, <code>Ctrl</code>, <code>Alt</code>) that were held during the <a href="./plugin-api-events.html#mouse"><code>Mouse</code></a> event currently being handled. The set is empty for events without modifiers, and is reset with every new event, so read it inside <code>update</code>. This is a local helper that does not make a host call.</p>
+<p><strong>Returns:</strong> <code>BTreeSet&lt;KeyModifier&gt;</code> - the held modifiers</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>fn update(&amp;mut self, event: Event) -&gt; bool {
+    match event {
+        Event::Mouse(Mouse::LeftClick(line, column)) =&gt; {
+            if mouse_modifiers().contains(&amp;KeyModifier::Ctrl) {
+                self.add_to_selection(line, column);
+            } else {
+                self.select_only(line, column);
+            }
+            true
+        },
+        _ =&gt; false,
+    }
+}
+<span class="boring">}</span></code></pre></pre>
 
                     </main>
 

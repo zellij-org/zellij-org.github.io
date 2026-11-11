@@ -154,13 +154,13 @@
                     <main>
                         <h1 id="modes"><a class="header" href="#modes">Modes</a></h1>
 <p>The keybindings are divided into several modes. Each mode has its separate keybindings.</p>
-<p>eg.</p>
+<p>eg. keybindings available in normal mode go in the <code>normal</code> block, and keybindings available in pane mode go in the <code>pane</code> block:</p>
 <pre><code class="language-javascript">keybinds {
     normal {
-        // keybindings available in normal mode
+        bind "Alt n" { NewPane; }
     }
     pane {
-        // keybindings available in pane mode
+        bind "n" { NewPane; SwitchToMode "normal"; }
     }
 }
 </code></pre>
@@ -177,9 +177,12 @@
 <li>entersearch</li>
 <li>renametab</li>
 <li>renamepane</li>
+<li>renamesession</li>
 <li>session</li>
 <li>tmux</li>
 </ul>
+<h2 id="the-renamesession-mode"><a class="header" href="#the-renamesession-mode">The <code>renamesession</code> mode</a></h2>
+<p>The session can be renamed from <code>session</code> mode (<code>r</code> in the built-in presets). While in <code>renamesession</code> mode, typed text edits the new session name (through the <a href="./keybindings-possible-actions.html#sessionnameinput"><code>SessionNameInput</code></a> action). The new name is applied when leaving the mode, eg. with <code>Enter</code> or <code>Ctrl c</code>. In the built-in presets, <code>Esc</code> drops the new name with <a href="./keybindings-possible-actions.html#undorenamesession"><code>UndoRenameSession</code></a> and returns to <code>session</code> mode.</p>
 <h2 id="a-note-about-scroll-mode"><a class="header" href="#a-note-about-scroll-mode">A note about <code>scroll</code> mode</a></h2>
 <p>Leaving <code>scroll</code> mode keeps the scroll position of the pane - the pane is no longer scrolled back down to the bottom automatically. To scroll to the bottom and leave the mode, use a binding that includes the <a href="./keybindings-possible-actions.html#scrolltobottom"><code>ScrollToBottom</code></a> action.</p>
 <p>Focusing a pane that is scrolled back automatically enters <code>scroll</code> mode, and focusing a pane that is not scrolled back returns to <code>normal</code> mode.</p>

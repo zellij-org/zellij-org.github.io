@@ -25,14 +25,23 @@ zellij web --create-token
 **IMPORTANT:** These tokens are hashed in a local database and so will only be displayed once. They cannot be retrieved, only revoked (either from the CLI or from the `share` plugin).
 
 ## HTTPS?
-The Zellij web server can work with a user provided SSL certificate to serve terminal sessions over an encrypted HTTPS connection. This is a hard requirement if listening on any interface that is not `127.0.0.1` but is very much recommended even when working on `127.0.0.1`. (for more detailed instructions on how to do this, take a look at the [screencast](/tutorials/web-client/)).
+The Zellij web server can work with a user provided SSL certificate to serve terminal sessions over an encrypted HTTPS connection. This is a hard requirement if listening on any interface that is not `127.0.0.1` (see the [exception](#serving-without-a-certificate) below) but is very much recommended even when working on `127.0.0.1`. (for more detailed instructions on how to do this, take a look at the [screencast](/tutorials/web-client/)).
 
-To set up an SSL certificate in the Zellij [configuration](./configuration):
+To set up an SSL certificate in the Zellij [configuration](./configuration.md), set the paths of the certificate and of its private key:
 
 ```javascript
-web_server_cert "/path/to/my/certs/localhost+3.pem" // certificate
-web_server_key "/path/to/my/certs/localhost+3-key.pem" // private key
+web_server_cert "/path/to/my/certs/localhost+3.pem"
+web_server_key "/path/to/my/certs/localhost+3-key.pem"
 ```
+
+### Serving without a certificate
+The web server can be allowed to serve plain, unencrypted HTTP on an interface other than `127.0.0.1` when no certificate is set:
+
+```javascript
+dangerously_allow_web_serving_without_a_certificate true
+```
+
+Anyone on the network can then read and change the traffic, including login tokens. This should only be used behind a trusted proxy that adds TLS (eg. a reverse proxy that holds the certificate), or on a fully trusted network. It does not override `enforce_https_for_localhost`. See [the option](./options.md#dangerously_allow_web_serving_without_a_certificate).
 
 ## URL scheme
 
@@ -49,38 +58,49 @@ This means that if we bookmark this URL, we will be able to drop back in to exac
 To configure the webserver, in the Zellij [configuration](./configuration.md):
 
 ```javascript
-web_server true // always start the web server on Zellij startup (default: false)
-web_server_ip "0.0.0.0" // the IP to listen on, 0.0.0.0 is all (default: 127.0.0.1)
-web_server_port 443 // the port to listen on (default: 8082)
-web_server_cert "/path/to/my/certs/localhost+3.pem" // SSL certificate
-web_server_key "/path/to/my/certs/localhost+3-key.pem" // SSL private key
-enforce_https_on_localhost true // whether to enforce an https certificate being present also when listening on localhost (default: false)
+web_server true
+web_server_ip "0.0.0.0"
+web_server_port 443
+web_server_cert "/path/to/my/certs/localhost+3.pem"
+web_server_key "/path/to/my/certs/localhost+3-key.pem"
+enforce_https_for_localhost true
 ```
 
+| Option | Meaning | Default |
+|---|---|---|
+| [`web_server`](./options.md#web_server) | always start the web server on Zellij startup | `false` |
+| [`web_server_ip`](./options.md#web_server_ip) | the IP to listen on, `0.0.0.0` is all | `127.0.0.1` |
+| [`web_server_port`](./options.md#web_server_port) | the port to listen on | `8082` |
+| [`web_server_cert`](./options.md#web_server_cert) | the SSL certificate | none |
+| [`web_server_key`](./options.md#web_server_key) | the SSL private key | none |
+| [`enforce_https_for_localhost`](./options.md#enforce_https_for_localhost) | require a certificate also when listening on localhost | `false` |
+| [`dangerously_allow_web_serving_without_a_certificate`](./options.md#dangerously_allow_web_serving_without_a_certificate) | allow plain HTTP on other interfaces, see [above](#serving-without-a-certificate) | `false` |
+
+Changes to these options require a restart.
+
 ### `base_url`
-The `base_url` option configures the base URL path for the web server. This is useful when running Zellij behind a reverse proxy that serves it under a subpath.
+The `base_url` option configures the base URL path for the web server. This is useful when running Zellij behind a reverse proxy that serves it under a subpath. By default it is not set, and the web server serves everything at the root `/`.
 
 ```javascript
 web_client {
-    base_url "/zellij" // default: none (served at root "/")
+    base_url "/zellij"
 }
 ```
 
 When set, the web server will serve all content under this path prefix (e.g., `https://my-server/zellij/my-session`). See also [options](./options.md#base_url).
 
-It's also possible to configure the browser terminal itself:
+### Web client configuration
+It's also possible to configure the browser terminal itself, in the `web_client` block. Changes to this block require a restart.
 
 ```javascript
 web_client {
-  font "Iosevka Term" // default is "monospace" - deferring this decision to the browser/os
-  cursor_blink true // default is false
-  cursor_style "block" // possibilities: "block", "bar", "underline"
-  cursor_inactive_style "outline" // possibilities: "outline", "block", "bar", "underline"
-  mac_option_is_meta false // default is true
+  font "Iosevka Term"
+  font_size 14
+  cursor_blink true
+  cursor_style "block"
+  cursor_inactive_style "outline"
+  mac_option_is_meta false
   theme {
-    // NOTE: this is the theme of the terminal web client which is separate from Zellij's theme
-    //
-    // all values are optional and should be in the form of "r g b" (eg. 10 20 30)
     background 10 20 30
     foreground 10 20 30
     black 10 20 30
@@ -108,8 +128,24 @@ web_client {
 }
 ```
 
+| Key | Meaning | Default |
+|---|---|---|
+| `font` | the font family the browser draws the terminal with | `"monospace"` (left to the browser and OS) |
+| `font_size` | the font size in pixels, from 1 to 65535 | 12 (24 on mobile) |
+| `cursor_blink` | whether the cursor blinks | `false` |
+| `cursor_style` | `"block"`, `"bar"` or `"underline"` | `"block"` |
+| `cursor_inactive_style` | the cursor shape while the browser tab is not focused: `"outline"`, `"block"`, `"bar"`, `"underline"` or `"no_style"` | `"outline"` |
+| `mac_option_is_meta` | whether the Option key on macOS acts as Meta (Alt) | `true` |
+| `base_url` | see [above](#base_url) | none |
+| `theme` | the colors of the browser terminal | not set |
+
+The `theme` block is the theme of the browser terminal, which is separate from Zellij's own theme. All its values are optional and are given as `RGB` (eg. `10 20 30`).
+
+### Connection keep-alive
+The web server sends a WebSocket ping to each connected client every 30 seconds, and closes the connection if no reply arrives within 45 seconds. This keeps idle connections open through proxies that close quiet connections (eg. Cloudflare's 100 second idle timeout), which used to show false "connection lost" messages. Browsers reply to these pings on their own. These times are fixed and cannot be configured.
+
 ## Security Considerations and Recommendations
-The Zellij web server is security and privacy conscious, enforcing HTTPS if accessed over the network and authentication at all times. It is however recommended to place the server behind a reverse proxy (such as `nginx`) if exposing it to an untrusted network (eg. the Internet). This is because the web server does not provide its own rate-limiting to mitigate denial of service and similar attacks.
+The Zellij web server is security and privacy conscious, enforcing HTTPS if accessed over the network (unless [explicitly allowed otherwise](#serving-without-a-certificate)) and authentication at all times. It is however recommended to place the server behind a reverse proxy (such as `nginx`) if exposing it to an untrusted network (eg. the Internet). This is because the web server does not provide its own rate-limiting to mitigate denial of service and similar attacks.
 
 In its security model, the web-server assumes that **authenticated users are trusted**. This is because the server can only serve terminal sessions of a single particular user on a single particular machine. This user by-definition has access to start/stop the web server itself, as well as access sensitive information on the machine by nature of this being a terminal session.
 
@@ -151,6 +187,15 @@ $ zellij attach https://my-server:8082/my-session --insecure
 ```
 
 **WARNING:** The `--insecure` flag skips TLS certificate validation entirely. It should only be used for development or in trusted network environments.
+
+### Attaching from the Zellij terminal
+A remote session can also be opened in its own [Zellij terminal](./zellij-terminal.md) window, without another terminal emulator. `zellij terminal` takes the same URL and the same flags (`--token`, `--remember`, `--forget`, `--ca-cert`, `--insecure`) as `zellij attach`:
+
+```
+$ zellij terminal https://my-server:8082/my-session --token <login-token>
+```
+
+Programs in a remote session opened this way cannot read the local clipboard (through OSC 52) unless [`allow_remote_clipboard_read`](./terminal-options.md#allow_remote_clipboard_read) is set in the `terminal` block. Local sessions follow [`dangerously_enable_paste_buffer_read`](./options.md#dangerously_enable_paste_buffer_read) instead.
 
 ## Read-Only Tokens
 In addition to regular login tokens, read-only tokens can be created. Users authenticating with a read-only token can view sessions but cannot send input or interact with them.

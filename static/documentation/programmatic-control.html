@@ -185,11 +185,12 @@
 <tr><td>Create</td><td><a href="./cli-actions.html#new-pane"><code>new-pane</code></a>, <a href="./cli-actions.html#new-tab"><code>new-tab</code></a>, <a href="./cli-actions.html#edit"><code>edit</code></a>, <a href="./cli-actions.html#launch-plugin"><code>launch-plugin</code></a> - all return the created ID</td></tr>
 <tr><td>Close</td><td><a href="./cli-actions.html#close-pane"><code>close-pane</code></a>, <a href="./cli-actions.html#close-tab"><code>close-tab</code></a></td></tr>
 <tr><td>Input</td><td><a href="./cli-actions.html#write-chars"><code>write-chars</code></a>, <a href="./cli-actions.html#write"><code>write</code></a>, <a href="./cli-actions.html#paste"><code>paste</code></a>, <a href="./cli-actions.html#send-keys"><code>send-keys</code></a> - all accept <code>--pane-id</code></td></tr>
-<tr><td>Layout</td><td><a href="./cli-actions.html#override-layout"><code>override-layout</code></a>, <a href="./cli-actions.html#next-swap-layout"><code>next-swap-layout</code></a></td></tr>
-<tr><td>Appearance</td><td><a href="./cli-actions.html#rename-pane"><code>rename-pane</code></a>, <a href="./cli-actions.html#rename-tab"><code>rename-tab</code></a>, <a href="./cli-actions.html#set-pane-color"><code>set-pane-color</code></a>, <a href="./cli-actions.html#set-pane-borderless"><code>set-pane-borderless</code></a></td></tr>
+<tr><td>Layout</td><td><a href="./cli-actions.html#override-layout"><code>override-layout</code></a>, <a href="./cli-actions.html#next-swap-layout"><code>next-swap-layout</code></a>, <a href="./cli-actions.html#apply-tiled-swap-layout"><code>apply-tiled-swap-layout</code></a>, <a href="./cli-actions.html#apply-floating-swap-layout"><code>apply-floating-swap-layout</code></a></td></tr>
+<tr><td>Appearance</td><td><a href="./cli-actions.html#rename-pane"><code>rename-pane</code></a>, <a href="./cli-actions.html#rename-tab"><code>rename-tab</code></a>, <a href="./cli-actions.html#set-pane-color"><code>set-pane-color</code></a>, <a href="./cli-actions.html#set-pane-borderless"><code>set-pane-borderless</code></a>, <a href="./cli-actions.html#set-pane-border-style"><code>set-pane-border-style</code></a>, <a href="./cli-actions.html#hide-bars"><code>hide-bars</code></a>, <a href="./cli-actions.html#show-bars"><code>show-bars</code></a></td></tr>
 <tr><td>Positioning</td><td><a href="./cli-actions.html#change-floating-pane-coordinates"><code>change-floating-pane-coordinates</code></a>, <a href="./cli-actions.html#toggle-pane-embed-or-floating"><code>toggle-pane-embed-or-floating</code></a>, <a href="./cli-actions.html#toggle-pane-pinned"><code>toggle-pane-pinned</code></a></td></tr>
 <tr><td>Visibility</td><td><a href="./cli-actions.html#show-floating-panes"><code>show-floating-panes</code></a>, <a href="./cli-actions.html#hide-floating-panes"><code>hide-floating-panes</code></a></td></tr>
-<tr><td>Session</td><td><a href="./cli-actions.html#rename-session"><code>rename-session</code></a>, <a href="./cli-actions.html#switch-session"><code>switch-session</code></a>, <a href="./cli-actions.html#save-session"><code>save-session</code></a>, <a href="./cli-actions.html#detach"><code>detach</code></a></td></tr>
+<tr><td>Session</td><td><a href="./cli-actions.html#rename-session"><code>rename-session</code></a>, <a href="./cli-actions.html#switch-session"><code>switch-session</code></a>, <a href="./cli-actions.html#save-session"><code>save-session</code></a>, <a href="./cli-actions.html#set-resurrect-command"><code>set-resurrect-command</code></a>, <a href="./cli-actions.html#detach"><code>detach</code></a></td></tr>
+<tr><td>Attention</td><td><a href="./cli-actions.html#watch-pane"><code>watch-pane</code></a>, <a href="./cli-actions.html#mute-pane"><code>mute-pane</code></a>, <a href="./cli-actions.html#ignore-pane-output"><code>ignore-pane-output</code></a>, <a href="./cli-actions.html#mark-pane-seen"><code>mark-pane-seen</code></a>, <a href="./cli-actions.html#mark-all-seen"><code>mark-all-seen</code></a></td></tr>
 </tbody></table>
 </div>
 <h3 id="observe-watch-output"><a class="header" href="#observe-watch-output">Observe (watch output)</a></h3>
@@ -205,9 +206,10 @@
 <tr><td><code>new-pane --block-until-exit</code></td><td>Block until command exits (any status)</td></tr>
 <tr><td><code>new-pane --block-until-exit-success</code></td><td>Block until command exits with status 0</td></tr>
 <tr><td><code>new-pane --block-until-exit-failure</code></td><td>Block until command exits with non-zero status</td></tr>
+<tr><td><a href="./zellij-prompt.html"><code>zellij prompt</code></a></td><td>Block until the user answers a question shown in a popup</td></tr>
 </tbody></table>
 </div>
-<p>For the full reference of all 70+ actions, see the <a href="./cli-actions.html">CLI Actions</a> page.</p>
+<p>For the full reference of all 100+ actions, see the <a href="./cli-actions.html">CLI Actions</a> page.</p>
 <hr />
 <h2 id="the-control-loop"><a class="header" href="#the-control-loop">The Control Loop</a></h2>
 <p>A typical programmatic workflow follows a create-command-observe-react loop:</p>
@@ -368,10 +370,11 @@ zellij subscribe --pane-id terminal_1 --ansi
 <h2 id="structured-output-reference"><a class="header" href="#structured-output-reference">Structured Output Reference</a></h2>
 <p>The following commands support <code>--json</code> output for machine consumption:</p>
 <div class="table-wrapper"><table><thead><tr><th>Command</th><th>JSON Output Contains</th></tr></thead><tbody>
-<tr><td><a href="./cli-actions.html#list-panes"><code>list-panes --json</code></a></td><td>Array of pane objects: <code>id</code>, <code>is_plugin</code>, <code>is_focused</code>, <code>is_floating</code>, <code>title</code>, <code>pane_command</code>, <code>pane_cwd</code>, <code>exited</code>, <code>exit_status</code>, <code>pane_x</code>, <code>pane_y</code>, <code>pane_rows</code>, <code>pane_columns</code>, <code>tab_id</code>, <code>tab_name</code>, and more</td></tr>
-<tr><td><a href="./cli-actions.html#list-tabs"><code>list-tabs --json</code></a></td><td>Array of tab objects: <code>tab_id</code>, <code>position</code>, <code>name</code>, <code>active</code>, <code>is_fullscreen_active</code>, <code>is_sync_panes_active</code>, <code>are_floating_panes_visible</code>, <code>active_swap_layout_name</code>, viewport dimensions, pane counts</td></tr>
+<tr><td><a href="./cli-actions.html#list-panes"><code>list-panes --json</code></a></td><td>Array of pane objects: <code>id</code>, <code>is_plugin</code>, <code>is_focused</code>, <code>is_floating</code>, <code>title</code>, <code>pane_command</code>, <code>pane_cwd</code>, <code>exited</code>, <code>exit_status</code>, <code>pane_x</code>, <code>pane_y</code>, <code>pane_rows</code>, <code>pane_columns</code>, <code>tab_id</code>, <code>tab_name</code>, <code>attention</code>, <code>command_state</code>, <code>program_status</code>, and more</td></tr>
+<tr><td><a href="./cli-actions.html#list-tabs"><code>list-tabs --json</code></a></td><td>Array of tab objects: <code>tab_id</code>, <code>position</code>, <code>name</code>, <code>active</code>, <code>is_fullscreen_active</code>, <code>is_sync_panes_active</code>, <code>are_floating_panes_visible</code>, <code>active_swap_layout_name</code>, <code>attention</code>, viewport dimensions, pane counts</td></tr>
 <tr><td><a href="./cli-actions.html#current-tab-info"><code>current-tab-info --json</code></a></td><td>Single tab object (same fields as <code>list-tabs</code>)</td></tr>
 <tr><td><a href="./zellij-subscribe.html"><code>subscribe --format json</code></a></td><td>NDJSON stream: <code>pane_update</code> events with <code>viewport[]</code> and <code>scrollback[]</code> arrays, <code>pane_closed</code> events</td></tr>
+<tr><td><a href="./zellij-prompt.html#json-output"><code>zellij prompt ... --json</code></a></td><td><code>result</code> (<code>answered</code>, <code>cancelled</code>, <code>timeout</code> or <code>error</code>) and <code>value</code></td></tr>
 </tbody></table>
 </div>
 <p>Commands that return created resource IDs (plain text on stdout):</p>
@@ -388,6 +391,10 @@ zellij subscribe --pane-id terminal_1 --ansi
 <div class="table-wrapper"><table><thead><tr><th>Command</th><th>Exit Codes</th></tr></thead><tbody>
 <tr><td><code>hide-floating-panes</code></td><td><code>0</code> = panes were hidden, <code>1</code> = no floating panes existed, <code>2</code> = panes were already hidden</td></tr>
 <tr><td><code>show-floating-panes</code></td><td><code>0</code> = panes were shown, <code>1</code> = no floating panes existed, <code>2</code> = panes were already visible</td></tr>
+<tr><td><code>apply-tiled-swap-layout</code>, <code>apply-floating-swap-layout</code></td><td><code>0</code> = the layout was applied, <code>1</code> = no swap layout with that name fits the current number of panes</td></tr>
+<tr><td><code>toggle-tray-icon</code></td><td><code>0</code> = done, <code>1</code> = the desktop app is not running</td></tr>
+<tr><td><a href="./zellij-prompt.html#exit-codes"><code>zellij prompt</code></a></td><td><code>0</code> = answered, <code>1</code> = cancelled (or "no" for <code>confirm</code>), <code>2</code> = error, <code>124</code> = timed out without a default</td></tr>
+<tr><td><a href="./zellij-plugin-and-pipe.html#exit-status"><code>zellij pipe</code></a></td><td><code>0</code> by default, or the exit status set by the plugin; <code>2</code> on error</td></tr>
 </tbody></table>
 </div>
 <hr />
@@ -427,6 +434,7 @@ wait
 <li><a href="./zellij-subscribe.html">Zellij Subscribe</a> - Real-time pane output streaming</li>
 <li><a href="./zellij-run-and-edit.html">Zellij Run &amp; Edit</a> - Launching commands and opening files in panes</li>
 <li><a href="./zellij-plugin-and-pipe.html">Zellij Plugin &amp; Pipe</a> - Plugin communication from the CLI</li>
+<li><a href="./zellij-prompt.html">Zellij Prompt</a> - Asking the user a question from a script</li>
 </ul>
 <p>For deeper integration, the <a href="./plugin-api.html">Plugin API</a> provides access to 120+ commands and 52 event types from compiled WASM plugins, including structured lifecycle events (<code>CommandPaneExited</code>, <code>PaneUpdate</code>, <code>TabUpdate</code>) that are not available through the CLI.</p>
 

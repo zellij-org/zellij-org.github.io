@@ -1,0 +1,387 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Inbox &amp; Attention - Zellij User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="inbox--attention"><a class="header" href="#inbox--attention">Inbox &amp; Attention</a></h1>
+<p>Zellij keeps track of what each pane needs: a program waiting for approval, a command that failed, a long build that finished. These are collected in the <strong>inbox</strong>, across every running session on the machine.</p>
+<p><img src="./img/inbox-preview.png" alt="The inbox" /></p>
+<p>Many programs report to the inbox with no setup. See <a href="./inbox-integrations.html">Integrations</a> for which ones, and how to connect others.</p>
+<h2 id="states"><a class="header" href="#states">States</a></h2>
+<p>Each pane has one of these states:</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">State</th><th style="text-align: left">Meaning</th></tr></thead><tbody>
+<tr><td style="text-align: left">Needs you</td><td style="text-align: left">The program is waiting for you: approval, a question, a login, a notification or a bell</td></tr>
+<tr><td style="text-align: left">Failed</td><td style="text-align: left">A command failed</td></tr>
+<tr><td style="text-align: left">Done</td><td style="text-align: left">A command that ran for a while finished</td></tr>
+<tr><td style="text-align: left">Working</td><td style="text-align: left">A program or a long command is running</td></tr>
+<tr><td style="text-align: left">Gone quiet</td><td style="text-align: left">Busy output stopped</td></tr>
+<tr><td style="text-align: left">New output</td><td style="text-align: left">Output arrived while you were looking elsewhere</td></tr>
+</tbody></table>
+</div>
+<p>The state is shown:</p>
+<ul>
+<li>As a marker in the pane's frame title (<a href="#frame_markers"><code>frame_markers</code></a>)</li>
+<li>As a symbol next to the tab's name in the tab bar (<a href="#tab_markers"><code>tab_markers</code></a>)</li>
+<li>In the session indicator on the top-right of the screen, eg. <code>◉ 2 need you · 1 running</code>, counting every session</li>
+<li>In the inbox</li>
+<li>In the <a href="./zellij-terminal.html">Zellij terminal</a>: in the tray icon's badge (<a href="#tray_badge"><code>tray_badge</code></a>) and as desktop notifications (<a href="#desktop_notifications"><code>desktop_notifications</code></a>)</li>
+<li>In the outer terminal, when Zellij runs inside a terminal that supports <a href="./inbox-integrations.html#passing-status-to-your-terminal">OSC 7501</a> (<a href="#host_status"><code>host_status</code></a>)</li>
+</ul>
+<h2 id="opening-the-inbox"><a class="header" href="#opening-the-inbox">Opening the inbox</a></h2>
+<ul>
+<li><code>Ctrl o</code> + <code>i</code> (Session mode <code>i</code>, the <code>ToggleSessionCard</code> action). In the Unlock-First preset: <code>Ctrl g</code> + <code>o</code> + <code>i</code></li>
+<li>Clicking the session indicator on the top-right of the screen</li>
+<li>Clicking the tray icon of the Zellij terminal, or running <code>zellij terminal --inbox</code></li>
+</ul>
+<p>When a new session starts and something needs you, a small version of the inbox (the session card) is shown. This is set with <a href="#startup_card"><code>startup_card</code></a>.</p>
+<p>The inbox is part of the <a href="./session-manager-alias.html">session manager</a>. <code>Tab</code> switches between the inbox and the session list.</p>
+<h3 id="keys"><a class="header" href="#keys">Keys</a></h3>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Key</th><th style="text-align: left">Action</th></tr></thead><tbody>
+<tr><td style="text-align: left"><code>↓</code> <code>↑</code></td><td style="text-align: left">Select an item</td></tr>
+<tr><td style="text-align: left"><code>Enter</code></td><td style="text-align: left">Go to the pane, switching session if needed</td></tr>
+<tr><td style="text-align: left"><code>n</code></td><td style="text-align: left">Watch the pane</td></tr>
+<tr><td style="text-align: left"><code>m</code></td><td style="text-align: left">Mute or unmute the pane</td></tr>
+<tr><td style="text-align: left"><code>c</code></td><td style="text-align: left">Mark the item as seen</td></tr>
+<tr><td style="text-align: left"><code>C</code></td><td style="text-align: left">Dismiss everything</td></tr>
+<tr><td style="text-align: left"><code>Tab</code></td><td style="text-align: left">Switch to the session list</td></tr>
+<tr><td style="text-align: left"><code>?</code></td><td style="text-align: left">Show all keys</td></tr>
+<tr><td style="text-align: left"><code>Esc</code></td><td style="text-align: left">Close</td></tr>
+</tbody></table>
+</div>
+<p>The inbox shows a live view of the selected pane. Clicking the view types into that pane without leaving the inbox. <code>Alt Enter</code>, the inbox key or a click outside the view gives the keys back to the inbox. An extra key for this can be set with the <a href="./options.html#live_view_release_key"><code>live_view_release_key</code></a> option.</p>
+<h2 id="where-states-come-from"><a class="header" href="#where-states-come-from">Where states come from</a></h2>
+<p>Zellij picks states up from:</p>
+<ul>
+<li><a href="#osc-7501">OSC 7501</a> program status, sent by programs that report their own state</li>
+<li>Desktop notifications sent by programs (OSC 9, OSC 99 and OSC 777) and the terminal bell</li>
+<li>Shell prompt markers (<a href="./shell-integration.html">OSC 133 or OSC 633</a>), which tell when a command at the prompt finished and with which exit code</li>
+<li><a href="./zellij-run-and-edit.html">Command panes</a> exiting</li>
+<li>The program running in the pane, when it runs longer than <a href="#done_threshold_secs"><code>done_threshold_secs</code></a> (see <a href="#track_commands"><code>track_commands</code></a>)</li>
+<li>Busy output going quiet (see <a href="#idle_rule"><code>idle_rule</code></a>, <a href="#idle_activity_secs"><code>idle_activity_secs</code></a> and <a href="#idle_silence_secs"><code>idle_silence_secs</code></a>)</li>
+<li>Output arriving in a pane that is not being looked at</li>
+</ul>
+<p>Full-screen programs (such as <code>vim</code>, <code>less</code> and <code>htop</code>) and commands being typed into are not reported as working or done.</p>
+<h2 id="osc-7501"><a class="header" href="#osc-7501">OSC 7501</a></h2>
+<p>Programs and scripts can report their own state with the OSC 7501 escape sequence:</p>
+<pre><code>ESC ] 7501 ; key=value:key=value ESC \
+</code></pre>
+<p>The sequence can also end with BEL instead of <code>ESC \</code>.</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Key</th><th style="text-align: left">Values</th></tr></thead><tbody>
+<tr><td style="text-align: left"><code>state</code></td><td style="text-align: left"><code>idle</code>, <code>working</code>, <code>done</code>, <code>blocked</code>, <code>error</code>, or <code>clear</code> to remove the status</td></tr>
+<tr><td style="text-align: left"><code>kind</code></td><td style="text-align: left">With <code>blocked</code>: <code>permission</code>, <code>question</code> or <code>auth</code></td></tr>
+<tr><td style="text-align: left"><code>progress</code></td><td style="text-align: left">With <code>working</code> or <code>blocked</code>: a percentage from 0 to 100</td></tr>
+<tr><td style="text-align: left"><code>msg</code></td><td style="text-align: left">Base64-encoded text, up to 2048 bytes once decoded</td></tr>
+<tr><td style="text-align: left"><code>title</code></td><td style="text-align: left">Base64-encoded label, up to 192 bytes once decoded</td></tr>
+<tr><td style="text-align: left"><code>app</code></td><td style="text-align: left">A short program name, up to 32 characters</td></tr>
+<tr><td style="text-align: left"><code>id</code></td><td style="text-align: left">Reports several tasks at once, eg. <code>deploy/eu-west</code>. Up to 8 parts separated by <code>/</code></td></tr>
+</tbody></table>
+</div>
+<p>Sending <code>ESC ] 7501 ; ? ESC \</code> asks Zellij what it supports. It replies with <code>ESC ] 7501 ; ?:states=idle,working,done,blocked,error:kinds=permission,question,auth ESC \</code>.</p>
+<p>See <a href="./inbox-integrations.html#your-own-scripts">Integrations</a> for a ready-made shell function.</p>
+<h2 id="watching-ignoring-and-muting"><a class="header" href="#watching-ignoring-and-muting">Watching, ignoring and muting</a></h2>
+<p>Each pane can be set apart from the rules above, from its right-click menu, the pane mode keys or <code>zellij action</code>:</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left"></th><th style="text-align: left">Default keys</th><th style="text-align: left">Action</th><th style="text-align: left">What it does</th></tr></thead><tbody>
+<tr><td style="text-align: left"><strong>Watch pane</strong></td><td style="text-align: left"><code>Ctrl p</code> + <code>v</code></td><td style="text-align: left"><code>WatchPane</code></td><td style="text-align: left">Every finished command (even a short one), the pane exiting and its output going quiet count as needing you. New output alone is not reported. Stays on until turned off</td></tr>
+<tr><td style="text-align: left"><strong>Ignore output</strong></td><td style="text-align: left"><code>Ctrl p</code> + <code>g</code></td><td style="text-align: left"><code>IgnorePaneOutput</code></td><td style="text-align: left">Hides only the "new output" note. Needing you, failures and finished commands are still reported</td></tr>
+<tr><td style="text-align: left"><strong>Mute pane</strong></td><td style="text-align: left"><code>Ctrl p</code> + <code>u</code></td><td style="text-align: left"><code>MutePane</code></td><td style="text-align: left">Hides everything the pane reports, including desktop notifications. The pane is still tracked, so unmuting shows its current state</td></tr>
+<tr><td style="text-align: left"><strong>Mute tab</strong></td><td style="text-align: left"><code>Ctrl t</code> + <code>u</code></td><td style="text-align: left"><code>MuteTab</code></td><td style="text-align: left">Mutes every pane in the tab</td></tr>
+<tr><td style="text-align: left"><strong>Mute session</strong></td><td style="text-align: left"><code>Ctrl o</code> + <code>u</code></td><td style="text-align: left"><code>MuteSession</code></td><td style="text-align: left">Mutes the whole session</td></tr>
+</tbody></table>
+</div>
+<p>A command pane can be watched from the start:</p>
+<pre><code>$ zellij run --notify -- cargo build
+$ zellij action new-pane --notify -- cargo build
+</code></pre>
+<h2 id="cli-actions"><a class="header" href="#cli-actions">CLI actions</a></h2>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Action</th><th style="text-align: left">Description</th></tr></thead><tbody>
+<tr><td style="text-align: left"><code>zellij action watch-pane [-p &lt;PANE_ID&gt;]</code></td><td style="text-align: left">Toggle watching a pane (the focused pane by default)</td></tr>
+<tr><td style="text-align: left"><code>zellij action ignore-pane-output [-p &lt;PANE_ID&gt;]</code></td><td style="text-align: left">Stop or start reporting new output of a pane</td></tr>
+<tr><td style="text-align: left"><code>zellij action mute-pane [-p &lt;PANE_ID&gt;]</code></td><td style="text-align: left">Mute or unmute a pane</td></tr>
+<tr><td style="text-align: left"><code>zellij action mute-tab [-t &lt;TAB_ID&gt;]</code></td><td style="text-align: left">Mute or unmute all panes in a tab (the active tab by default)</td></tr>
+<tr><td style="text-align: left"><code>zellij action mute-session</code></td><td style="text-align: left">Mute or unmute the whole session</td></tr>
+<tr><td style="text-align: left"><code>zellij action mark-pane-seen [-p &lt;PANE_ID&gt;]</code></td><td style="text-align: left">Mark a pane as seen, clearing past events</td></tr>
+<tr><td style="text-align: left"><code>zellij action mark-all-seen [--this-session]</code></td><td style="text-align: left">Mark every pane of every running session as seen, or only those of the current session</td></tr>
+<tr><td style="text-align: left"><code>zellij action go-to-next-attention</code></td><td style="text-align: left">Jump to the next pane that needs attention in any session, switching session if needed</td></tr>
+<tr><td style="text-align: left"><code>zellij action toggle-tray-icon</code></td><td style="text-align: left">Show or hide the Zellij terminal's tray icon until it restarts</td></tr>
+</tbody></table>
+</div>
+<h2 id="moving-between-sessions"><a class="header" href="#moving-between-sessions">Moving between sessions</a></h2>
+<p>Zellij remembers which sessions each client was in, so it is possible to jump back and forth:</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Default keys</th><th style="text-align: left">Action</th><th style="text-align: left">Description</th></tr></thead><tbody>
+<tr><td style="text-align: left"><code>Ctrl o</code> + <code>Tab</code></td><td style="text-align: left"><code>ToggleSession</code></td><td style="text-align: left">Switch to the session this client was in before (again to return), or to the next running session if there is none</td></tr>
+<tr><td style="text-align: left"><code>Ctrl o</code> + <code>←</code></td><td style="text-align: left"><code>GoToPreviousSession</code></td><td style="text-align: left">Go back in this client's session history</td></tr>
+<tr><td style="text-align: left"><code>Ctrl o</code> + <code>→</code></td><td style="text-align: left"><code>GoToNextSession</code></td><td style="text-align: left">Go forward in this client's session history</td></tr>
+<tr><td style="text-align: left"><code>Ctrl o</code> + <code>n</code></td><td style="text-align: left"><code>GoToNextAttention</code></td><td style="text-align: left">Jump to the next pane that needs attention, in any session</td></tr>
+</tbody></table>
+</div>
+<p>The same are available as <code>zellij action toggle-session</code>, <code>go-to-previous-session</code>, <code>go-to-next-session</code> and <code>go-to-next-attention</code>. The right-click menu of the tab bar has a "Back to ..." item for <code>ToggleSession</code>.</p>
+<h2 id="configuration"><a class="header" href="#configuration">Configuration</a></h2>
+<p>Everything is configured in the <code>attention</code> block of the <a href="./configuration.html">configuration file</a>, or in the Attention and Notifications categories of the <a href="./settings-screen.html">settings screen</a>. Every key is optional. These are the defaults:</p>
+<pre><code class="language-javascript">attention {
+    enabled true
+    frame_markers true
+    tab_markers true
+    host_status true
+    tray_icon true
+    idle_rule "all"
+    done_threshold_secs 10
+    track_commands true
+    idle_activity_secs 10
+    idle_silence_secs 3
+    startup_card "attention"
+    desktop_notifications {
+        needs_you true
+        failed true
+        done true
+    }
+    tray_badge {
+        needs_you true
+        failed true
+        done true
+        working true
+        quiet false
+        new_output false
+    }
+    notification_details true
+}
+</code></pre>
+<h3 id="enabled"><a class="header" href="#enabled">enabled</a></h3>
+<p>Track what panes need. When <code>false</code>, panes report nothing: no markers, inbox, session card, counts in the session indicator, tray badge or desktop notifications, and the watch and mute items leave the right-click menu. The other keys only apply when this is <code>true</code>.</p>
+<h3 id="frame_markers"><a class="header" href="#frame_markers">frame_markers</a></h3>
+<p>Show what a pane needs in its frame title.</p>
+<h3 id="tab_markers"><a class="header" href="#tab_markers">tab_markers</a></h3>
+<p>Show what a tab's panes need as a symbol in the tab bar.</p>
+<h3 id="host_status"><a class="header" href="#host_status">host_status</a></h3>
+<p>Tell the terminal Zellij runs in what the session needs, when that terminal supports it.</p>
+<h3 id="tray_icon"><a class="header" href="#tray_icon">tray_icon</a></h3>
+<p>Show the Zellij terminal's tray icon. Sessions and notifications go on when it is hidden.</p>
+<h3 id="idle_rule"><a class="header" href="#idle_rule">idle_rule</a></h3>
+<p>Notice busy output going quiet in <code>"all"</code> panes, or only in <code>"watched"</code> ones.</p>
+<h3 id="done_threshold_secs"><a class="header" href="#done_threshold_secs">done_threshold_secs</a></h3>
+<p>Seconds a successful command must run before it is reported as done.</p>
+<h3 id="track_commands"><a class="header" href="#track_commands">track_commands</a></h3>
+<p>List commands as working once they run longer than <a href="#done_threshold_secs"><code>done_threshold_secs</code></a>.</p>
+<h3 id="idle_activity_secs"><a class="header" href="#idle_activity_secs">idle_activity_secs</a></h3>
+<p>Seconds of steady output before quiet detection applies.</p>
+<h3 id="idle_silence_secs"><a class="header" href="#idle_silence_secs">idle_silence_secs</a></h3>
+<p>Seconds of silence after busy output that count as gone quiet.</p>
+<h3 id="startup_card"><a class="header" href="#startup_card">startup_card</a></h3>
+<p>When a new session shows its session card: <code>"attention"</code> (when something needs you), <code>"always"</code> or <code>"never"</code>.</p>
+<h3 id="desktop_notifications"><a class="header" href="#desktop_notifications">desktop_notifications</a></h3>
+<p>Which items the Zellij terminal shows as desktop notifications: <code>needs_you</code>, <code>failed</code>, <code>done</code>.</p>
+<h3 id="tray_badge"><a class="header" href="#tray_badge">tray_badge</a></h3>
+<p>Which items the tray icon's badge counts: <code>needs_you</code>, <code>failed</code>, <code>done</code>, <code>working</code>, <code>quiet</code>, <code>new_output</code>. The badge shows the count of the most important type that is turned on.</p>
+<h3 id="tray_badge_colors"><a class="header" href="#tray_badge_colors">tray_badge_colors</a></h3>
+<p>The colour of each type as a hex colour, eg. <code>needs_you "#ff8c00"</code>. The inbox and the session list use these colours too. A type without a colour keeps the default badge colour and the theme colour in lists.</p>
+<pre><code class="language-javascript">attention {
+    tray_badge_colors {
+        needs_you "#ff8c00"
+        failed "#e5484d"
+        done "#30a46c"
+        working "#3e82f7"
+    }
+}
+</code></pre>
+<h3 id="notification_details"><a class="header" href="#notification_details">notification_details</a></h3>
+<p>Show the program and command text in desktop notifications.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="session-resurrection.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="inbox-integrations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="session-resurrection.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="inbox-integrations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -21,6 +21,8 @@ A regular terminal emulator (like Alacritty, iTerm2, or GNOME Terminal) provides
 
 While some terminals provide a limited amount of these features on their own, Zellij is terminal agnostic - allowing you to choose a terminal based on its own strengths (font and ligature rendering, GPU acceleration, integration with your desktop environment, etc.) rather than its pane/tab management features.
 
+Zellij can also be its own terminal: `zellij terminal` opens it in a window of its own, with a tray icon, desktop notifications and a launcher in the app menu. See the [Zellij Terminal documentation](/documentation/zellij-terminal.html).
+
 Think of Zellij as adding a powerful workspace layer on top of your existing terminal.
 
 ## Do I need to learn new keyboard shortcuts?
@@ -40,7 +42,7 @@ Yes! Zellij works with any terminal emulator and doesn't require changing your e
 - Use your configured `$EDITOR` (vim, neovim, emacs, helix)
 - Maintain your dotfiles and shell customizations
 
-Run `zellij` in your terminal to start and that's it. You can even configure your terminal to launch Zellij automatically. See our [session management tutorial](/tutorials/session-management) for integration examples.
+Run `zellij` in your terminal to start and that's it, or run `zellij terminal` to open Zellij in its own window. You can even configure your terminal to launch Zellij automatically. See our [session management tutorial](/tutorials/session-management) for integration examples.
 
 ## What are layouts and why should I use them?
 
@@ -115,9 +117,11 @@ Zellij will always remain free and open-source. If you find it valuable, conside
 If Zellij shortcuts conflict with applications running inside (like vim), use the "Unlock-First (non-colliding)" preset:
 
 1. Press `Ctrl o` to enter Session mode
-2. Press `c` to open the Configuration screen
-3. Press `Tab` to navigate to "Change Mode Behavior"
-4. Select "Unlock-First (non-colliding)" and press `Enter`
+2. Press `c` to open the Settings screen
+3. Open the "Keyboard" category and choose "Key bindings and preset…"
+4. Select the Unlock-First preset, then press `Ctrl a` to save it
+
+The same can be done from the command line with `zellij setup --keybinding-preset unlock-first`.
 
 This preset requires unlocking the interface before accessing Zellij modes, preventing conflicts. See our detailed [colliding keybindings tutorial](/tutorials/colliding-keybindings).
 
@@ -131,7 +135,7 @@ Yes, Zellij supports theming and configuration:
 - Adjust frame colors and borders
 - Control UI visibility and layout
 
-Configuration is stored in `~/.config/zellij/config.kdl` using the KDL format. See the [theme documentation](/documentation/themes.html) for details.
+Configuration is stored in `~/.config/zellij/config.kdl` using the KDL format, and most of it can be changed from the [settings screen](/documentation/settings-screen.html) (`Ctrl o` + `c`). See the [theme documentation](/documentation/themes.html) for details.
 
 ## How does Zellij compare to tmux or screen?
 
@@ -155,7 +159,7 @@ That being said, Zellij does not consider itself a tmux or screen replacement. R
 Zellij supports:
 - **Linux**: All major distributions
 - **macOS**: Intel and Apple Silicon
-- **Windows**: Via WSL (Windows Subsystem for Linux)
+- **Windows**: Natively, with an installer, or inside WSL (Windows Subsystem for Linux)
 
 Pre-built binaries are available for most platforms. See the [installation documentation](/documentation/installation.html) for details.
 
@@ -184,11 +188,7 @@ Check the [contributing guidelines](https://github.com/zellij-org/zellij/blob/ma
 
 ## Is there a quick way to try Zellij without installing?
 
-Yes! You can try Zellij directly in your browser without any installation:
-
-Visit [zellij.dev/documentation/installation.html#try-zellij-without-installing](/documentation/installation.html) for instructions on accessing the demo instance.
-
-For local installation, you can also use:
+Yes! See [Try Zellij without installing](/documentation/installation.html#try-zellij-without-installing), or run:
 ```bash
 bash <(curl -L zellij.dev/launch)
 ```

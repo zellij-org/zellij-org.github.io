@@ -158,6 +158,13 @@
 <li><a href="https://gitlab.com/scabala/zelligo">Go</a></li>
 <li>Your SDK?</li>
 </ol>
+<h2 id="notes-for-sdk-authors"><a class="header" href="#notes-for-sdk-authors">Notes for SDK authors</a></h2>
+<h3 id="the-zellij_plugin_contract-export"><a class="header" href="#the-zellij_plugin_contract-export">The <code>zellij_plugin_contract</code> export</a></h3>
+<p>Zellij checks whether a plugin exports a function called <code>zellij_plugin_contract</code>. The function takes no arguments, returns nothing and does nothing. It only marks the plugin as built for <code>0.46.0</code> or later.</p>
+<p>A plugin without this export is treated as built for <code>0.45</code>. Zellij then leaves out events and pipe messages that a <code>0.45</code> plugin could not read (see <a href="./plugin-upgrading.html#plugins-compiled-for-older-versions">Plugins compiled for older versions</a>). SDKs that support the <code>0.46.0</code> API should export this function from every plugin. The Rust SDK does this in its <code>register_plugin!</code> macro.</p>
+<h3 id="ui-components"><a class="header" href="#ui-components">UI components</a></h3>
+<p>The built-in UI components are drawn by printing a private escape sequence to <code>STDOUT</code>. This includes interactive components (buttons, toggles, text inputs, number steppers, dropdowns, menus, side menus, scroll indicators and dialogs). Their encoding is described in <a href="./plugin-ui-rendering.html#the-protocol">The Protocol</a>.</p>
+<p>Zellij only draws these components; it does not handle their input. In the Rust SDK, keyboard and mouse handling, focus, scrolling and hit-testing all happen inside the plugin (see <a href="./plugin-ui-rendering.html#how-interactive-components-work">How interactive components work</a>), so an SDK needs to provide this logic itself.</p>
 
                     </main>
 

@@ -1,14 +1,14 @@
 # Modes
 The keybindings are divided into several modes. Each mode has its separate keybindings.
 
-eg.
+eg. keybindings available in normal mode go in the `normal` block, and keybindings available in pane mode go in the `pane` block:
 ```javascript
 keybinds {
     normal {
-        // keybindings available in normal mode
+        bind "Alt n" { NewPane; }
     }
     pane {
-        // keybindings available in pane mode
+        bind "n" { NewPane; SwitchToMode "normal"; }
     }
 }
 ```
@@ -25,8 +25,13 @@ The available modes are:
 - entersearch
 - renametab
 - renamepane
+- renamesession
 - session
 - tmux
+
+## The `renamesession` mode
+
+The session can be renamed from `session` mode (`r` in the built-in presets). While in `renamesession` mode, typed text edits the new session name (through the [`SessionNameInput`](./keybindings-possible-actions.md#sessionnameinput) action). The new name is applied when leaving the mode, eg. with `Enter` or `Ctrl c`. In the built-in presets, `Esc` drops the new name with [`UndoRenameSession`](./keybindings-possible-actions.md#undorenamesession) and returns to `session` mode.
 
 ## A note about `scroll` mode
 

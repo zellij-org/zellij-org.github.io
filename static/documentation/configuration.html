@@ -193,7 +193,27 @@ zellij setup --dump-config &gt; ~/.config/zellij/config.kdl
 </code></pre>
 <h2 id="how-do-i-update-the-config-file-for-running-sessions"><a class="header" href="#how-do-i-update-the-config-file-for-running-sessions">How do I update the config file for running sessions?</a></h2>
 <p>Zellij actively watches for changes in the <a href="#where-does-zellij-look-for-the-config-file">active configuration file</a>. Most fields will be applied immediately without the need for a restart. Otherwise, this will be mentioned in the commentary of the relevant field.</p>
-
+<p>The themes folder, the keybindings folder and the layouts folder are watched as well.</p>
+<h2 id="changing-the-configuration-from-the-settings-screen"><a class="header" href="#changing-the-configuration-from-the-settings-screen">Changing the configuration from the settings screen</a></h2>
+<p>Most of the configuration can also be changed from the <a href="./settings-screen.html">settings screen</a> (<code>Ctrl o</code> + <code>c</code> with the default keybinding preset, or "Settings…" in the <a href="./context-menu.html">right-click menu</a>). Changes apply right away, and stay unsaved until they are saved to the configuration file.</p>
+<p>When saving, Zellij changes only the affected parts of the file and keeps its comments and formatting. The previous version of the file is copied next to it as <code>config.kdl.bak</code>, replacing any earlier backup with that name.</p>
+<h2 id="what-can-be-configured"><a class="header" href="#what-can-be-configured">What can be configured?</a></h2>
+<p>The configuration file is made of <a href="./options.html">options</a> set at its root, and of blocks:</p>
+<div class="table-wrapper"><table><thead><tr><th>Block</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>keybinds</code></td><td><a href="./keybindings.html">keybindings</a> and <a href="./keybinding-presets.html">keybinding presets</a></td></tr>
+<tr><td><code>mousebinds</code></td><td><a href="./mouse-bindings.html">mouse bindings</a></td></tr>
+<tr><td><code>themes</code></td><td><a href="./themes.html">themes</a></td></tr>
+<tr><td><code>ui</code></td><td>pane frame and <a href="./options.html#border_style">border</a> settings</td></tr>
+<tr><td><code>plugins</code></td><td><a href="./plugin-aliases.html">plugin aliases</a></td></tr>
+<tr><td><code>load_plugins</code></td><td><a href="./plugin-loading.html">plugins loaded in the background</a> when a session starts</td></tr>
+<tr><td><code>env</code></td><td><a href="./options.html#env">environment variables</a> for new panes</td></tr>
+<tr><td><code>web_client</code></td><td>the <a href="./web-client.html">web client</a></td></tr>
+<tr><td><code>context_menu</code></td><td>the <a href="./context-menu.html">right-click menu</a></td></tr>
+<tr><td><code>session_suggestions</code></td><td><a href="./session-suggestions.html">session suggestions</a></td></tr>
+<tr><td><code>terminal</code></td><td>the <a href="./terminal-options.html">Zellij terminal</a> window</td></tr>
+<tr><td><code>attention</code></td><td>the <a href="./inbox.html">inbox</a>, status markers and desktop notifications</td></tr>
+</tbody></table>
+</div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
@@ -202,7 +222,7 @@ zellij setup --dump-config &gt; ~/.config/zellij/config.kdl
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="options.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="settings-screen.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -216,7 +236,7 @@ zellij setup --dump-config &gt; ~/.config/zellij/config.kdl
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="options.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="settings-screen.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

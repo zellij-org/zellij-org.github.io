@@ -42,7 +42,7 @@ A layout can also be applied from a remote URL:
 ```
 $ zellij --layout https://example.com/layout_file.kdl
 ```
-For security reasons, remote layouts will have all their commands suspended behind a `Waiting ro run <command>` banner - prompting the user to run each one.
+For security reasons, remote layouts will have all their commands suspended behind a `Waiting to run: <command>` banner - prompting the user to run each one.
 
 ### Layout default directory
 
@@ -69,6 +69,12 @@ $ zellij action override-layout /path/to/layout.kdl --retain-existing-terminal-p
 ```
 
 This enables dynamic workspace reorganization. For the full reference, see [override-layout in CLI actions](./cli-actions.md#override-layout) and [OverrideLayout in keybinding actions](./keybindings-possible-actions.md#overridelayout).
+
+Smaller changes can also be made to a running tab without loading a new layout:
+
+- A [swap layout can be applied by name](./swap-layouts.md#applying-a-swap-layout-by-name) with `zellij action apply-tiled-swap-layout` or `zellij action apply-floating-swap-layout`.
+- A stack can switch between a column and a row of titles with `zellij action toggle-stack-list-orientation` (see [`stack_orientation`](./creating-a-layout.md#stack_orientation)).
+- The tab-bar and status-bar can be hidden and shown again with the `ToggleBars` action (see [Bars](./creating-a-layout.md#bars)).
 
 ### Layout Configuration Language
 

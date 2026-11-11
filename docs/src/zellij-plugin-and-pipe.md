@@ -28,6 +28,16 @@ $ zellij plugin -- https://path/to/my/plugin.wasm
 
 **OPTIONS**:
 ```
+    -b, --borderless <BORDERLESS>
+            Start this pane without a border (warning: will make it impossible to move with the
+            mouse) [possible values: true, false]
+
+        --border-style <BORDER_STYLE>
+            Border line style, eg. "double" or "top:double,left:single,rounded"
+
+        --close-replaced-pane
+            Close the replaced pane instead of suspending it (only effective with --in-place)
+
     -c, --configuration <CONFIGURATION>
             Plugin configuration
 
@@ -46,6 +56,10 @@ $ zellij plugin -- https://path/to/my/plugin.wasm
         --no-focus
             Open the plugin pane without changing the focus of any client
 
+        --pinned <PINNED>
+            Whether to pin a floating pane so that it is always on top [possible values: true,
+            false]
+
     -s, --skip-plugin-cache
             Skip the plugin cache and force reloading of the plugin (good for development)
 
@@ -61,6 +75,8 @@ $ zellij plugin -- https://path/to/my/plugin.wasm
     -y, --y <Y>
             The y coordinates if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
 ```
+
+The format of `--border-style` is described under [set-pane-border-style](./cli-actions.md#set-pane-border-style).
 
 ## Zellij Pipe
 
@@ -113,3 +129,15 @@ tail -f /tmp/my-live-logfile | zellij pipe --name logs --plugin https://example.
     -h, --help
             Print help information
 ```
+
+`zellij action pipe` takes more options, for controlling how a launched plugin is opened, including opening it as a popup. See [pipe](./cli-actions.md#pipe) and [Opening Plugins as Popups](./zellij-prompt.md#opening-plugins-as-popups).
+
+### Exit status
+
+`zellij pipe` (and `zellij action pipe`) exits with status `0` once the plugin has handled the message. A plugin can choose a different exit status with the `set_cli_pipe_exit_code` command before it unblocks the pipe, so a script can tell the outcome:
+
+```
+$ zellij pipe --plugin file:/path/to/my/plugin.wasm --name check -- my_data && echo "ok"
+```
+
+If Zellij reports an error for the pipe, the command exits with status `2`.

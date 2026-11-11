@@ -152,21 +152,49 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="shell-integration-osc-133"><a class="header" href="#shell-integration-osc-133">Shell Integration (OSC 133)</a></h1>
-<p>Since version <code>0.45.0</code>, Zellij understands the OSC 133 "semantic prompt" escape sequences. When the shell running in a pane emits them, Zellij knows where each prompt starts, where the command that was typed begins and ends, where its output begins and ends, and what exit status it had.</p>
+                        <h1 id="shell-integration-osc-133-and-osc-633"><a class="header" href="#shell-integration-osc-133-and-osc-633">Shell Integration (OSC 133 and OSC 633)</a></h1>
+<p>Since version <code>0.45.0</code>, Zellij understands the OSC 133 "semantic prompt" escape sequences. When the shell running in a pane emits them, Zellij knows where each prompt starts, where the command that was typed begins and ends, where its output begins and ends, and what exit status it had. It also understands the <code>OSC 633</code> sequences used by the VS Code shell integration, and the sequences shells use to report their working directory.</p>
 <p>There is nothing to configure on the Zellij side: the marks are parsed whenever the shell emits them.</p>
 <h2 id="getting-the-shell-to-emit-osc-133"><a class="header" href="#getting-the-shell-to-emit-osc-133">Getting the shell to emit OSC 133</a></h2>
 <p>The sequences Zellij looks for are:</p>
 <div class="table-wrapper"><table><thead><tr><th>Sequence</th><th>Meaning</th></tr></thead><tbody>
-<tr><td><code>OSC 133 ; A</code></td><td>Start of the prompt</td></tr>
+<tr><td><code>OSC 133 ; A</code> or <code>OSC 133 ; N</code></td><td>Start of the prompt</td></tr>
 <tr><td><code>OSC 133 ; P</code></td><td>Start of the prompt (with properties)</td></tr>
+<tr><td><code>OSC 133 ; L</code></td><td>Start of a fresh line</td></tr>
 <tr><td><code>OSC 133 ; B</code></td><td>End of the prompt / start of the typed command</td></tr>
 <tr><td><code>OSC 133 ; I</code></td><td>Start of the typed command</td></tr>
 <tr><td><code>OSC 133 ; C</code></td><td>Start of the command output</td></tr>
 <tr><td><code>OSC 133 ; D ; &lt;exit-status&gt;</code></td><td>End of the command, with its exit status</td></tr>
 </tbody></table>
 </div>
-<p><code>fish</code> emits these by default. <code>bash</code> and <code>zsh</code> need a shell integration snippet - the ones distributed for other terminals (eg. kitty, WezTerm, VS Code) emit the same standard sequences and work with Zellij as well.</p>
+<p>Zellij also reads these options:</p>
+<ul>
+<li><code>k=i</code>, <code>k=c</code>, <code>k=s</code> or <code>k=r</code> on a prompt mark tells the main prompt (<code>i</code>) apart from continuation (<code>c</code>), secondary (<code>s</code>) and right (<code>r</code>) prompts. Only a main prompt counts as the shell returning to its prompt.</li>
+<li><code>cmdline=&lt;text&gt;</code> (quoted the way <code>printf %q</code> does) or <code>cmdline_url=&lt;percent-encoded text&gt;</code> on <code>OSC 133 ; C</code> gives the text of the command that is starting.</li>
+<li><code>err=&lt;value&gt;</code> on <code>OSC 133 ; D</code>: a non-empty value marks the command as failed, whatever its exit status.</li>
+</ul>
+<p><code>fish</code> emits these by default. <code>bash</code> and <code>zsh</code> need a shell integration snippet - the ones distributed for other terminals (eg. kitty, WezTerm) emit the same standard sequences and work with Zellij as well.</p>
+<h2 id="osc-633-vs-code-shell-integration"><a class="header" href="#osc-633-vs-code-shell-integration">OSC 633 (VS Code shell integration)</a></h2>
+<p>The sequences emitted by the VS Code shell integration scripts are understood as well, and work the same way as their <code>OSC 133</code> counterparts:</p>
+<div class="table-wrapper"><table><thead><tr><th>Sequence</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>OSC 633 ; A</code></td><td>Start of the prompt</td></tr>
+<tr><td><code>OSC 633 ; B</code></td><td>End of the prompt / start of the typed command</td></tr>
+<tr><td><code>OSC 633 ; C</code></td><td>Start of the command output</td></tr>
+<tr><td><code>OSC 633 ; D ; &lt;exit-status&gt;</code></td><td>End of the command, with its exit status</td></tr>
+<tr><td><code>OSC 633 ; E ; &lt;command&gt;</code></td><td>The text of the command</td></tr>
+<tr><td><code>OSC 633 ; P ; Cwd=&lt;path&gt;</code></td><td>The current working directory</td></tr>
+</tbody></table>
+</div>
+<h2 id="working-directory-reports"><a class="header" href="#working-directory-reports">Working directory reports</a></h2>
+<p>Zellij follows the working directory reported by the shell through any of these sequences:</p>
+<div class="table-wrapper"><table><thead><tr><th>Sequence</th><th>Used by</th></tr></thead><tbody>
+<tr><td><code>OSC 7 ; file://&lt;host&gt;/&lt;path&gt;</code></td><td>Most terminals and shells</td></tr>
+<tr><td><code>OSC 633 ; P ; Cwd=&lt;path&gt;</code></td><td>VS Code shell integration</td></tr>
+<tr><td><code>OSC 1337 ; CurrentDir=&lt;path&gt;</code> (with <code>OSC 1337 ; RemoteHost=&lt;user&gt;@&lt;host&gt;</code>)</td><td>iTerm2 shell integration</td></tr>
+<tr><td><code>OSC 9 ; 9 ; &lt;path&gt;</code></td><td>ConEmu and Windows Terminal</td></tr>
+</tbody></table>
+</div>
+<p>A directory on the local machine becomes the pane's working directory: new panes opened from it start there, and it is kept when the session is <a href="./session-resurrection.html">resurrected</a>. Directories on another host (eg. reported over <code>ssh</code>) or on a network path do not change the pane's working directory. The <code>OSC 7</code> of the focused pane is also passed on to the terminal Zellij runs in (see <a href="./compatibility.html#working-directory-osc-7">compatibility</a>).</p>
 <h2 id="what-it-enables"><a class="header" href="#what-it-enables">What it enables</a></h2>
 <h3 id="selecting-a-command-and-its-output"><a class="header" href="#selecting-a-command-and-its-output">Selecting a command and its output</a></h3>
 <p>Triple-clicking inside output that was marked with OSC 133 selects the whole command along with its output, rather than the logical line under the cursor. This can be turned off with the <a href="./options.html#osc133_command_selection"><code>osc133_command_selection</code></a> option (it is on by default), in which case triple-click selects the logical line as before.</p>
@@ -178,9 +206,12 @@
 <tr><td><a href="./keybindings-possible-actions.html#scrolltonextprompt"><code>ScrollToNextPrompt</code></a></td><td><code>]</code> in <code>scroll</code> and <code>search</code> modes</td></tr>
 </tbody></table>
 </div>
+<p>The mouse wheel can do the same while holding <code>Alt</code>: <code>Alt</code> + scroll up jumps to the previous prompt and <code>Alt</code> + scroll down to the next one (the <code>ScrollToPrompt</code> <a href="./mouse-bindings.html">mouse binding</a>).</p>
 <h3 id="copying-the-output-of-the-last-command"><a class="header" href="#copying-the-output-of-the-last-command">Copying the output of the last command</a></h3>
 <p>The <a href="./keybindings-possible-actions.html#copylastcommandoutput"><code>CopyLastCommandOutput</code></a> action (bound to <code>c</code> in <code>scroll</code> mode) copies the output of the last command run in the focused pane to the clipboard, using the OSC 133 marks to find its boundaries. The copied region is briefly flashed in the pane.</p>
 <p>Since the marks include the exit status of each command, Zellij is also able to indicate which commands failed (eg. in the titles of collapsed panes in a stack).</p>
+<h3 id="finished-and-failed-commands-in-the-inbox"><a class="header" href="#finished-and-failed-commands-in-the-inbox">Finished and failed commands in the inbox</a></h3>
+<p>The marks also tell Zellij when a command starts and ends, so it can report it in the <a href="./inbox.html">inbox</a>, on the pane's frame and in the tab bar: a command that fails, or one that succeeds after running longer than <code>done_threshold_secs</code> (10 seconds by default), is listed together with the text of the command. A command that runs longer than that is shown as working until it ends (full-screen programs such as <code>vim</code> or <code>htop</code>, and commands that are typed into, are left out). This is configured in the <a href="./inbox.html#configuration"><code>attention</code></a> block (<code>track_commands</code>, <code>done_threshold_secs</code>).</p>
 <h2 id="word-selection"><a class="header" href="#word-selection">Word selection</a></h2>
 <p>Not strictly part of OSC 133, but related to selecting text: the characters that terminate a word when double-clicking can be configured with the <a href="./options.html#word_separators"><code>word_separators</code></a> option. Whitespace always separates words. The default is:</p>
 <pre><code class="language-javascript">word_separators "[]{}&lt;&gt;()"

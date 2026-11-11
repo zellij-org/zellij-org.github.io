@@ -18,7 +18,7 @@ layout {
         }
     }
     pane size=1 borderless=true {
-        plugin location="zellij:compact-bar"
+        plugin location="compact-bar"
     }
 }
 keybinds {
@@ -31,3 +31,9 @@ keybinds {
 ```
 
 This layout includes a map of panes and UI to open, as well as some keybindings to quickly open new panes with your favorite commands.
+
+## Keybindings from a layout
+
+Keybindings that come from a layout are kept apart from those in the configuration file. They are applied on top of the configured keybindings, and are shown in the [settings screen](./settings-screen.md) but cannot be edited there. The `keybinds` block of a layout has the same form as the one in the configuration, including the [keybinding presets](./keybinding-presets.md).
+
+Mouse bindings (the `mousebinds` block, see [mouse bindings](./mouse-bindings.md)) can be included in a layout in the same way.

@@ -153,9 +153,40 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="the-tab-bar-alias"><a class="header" href="#the-tab-bar-alias">The tab-bar Alias</a></h1>
-<p>This alias, by default translated to the internal <code>zellij:tab-bar</code> plugin url, represents the tab bar loaded on the top line of the default layout.</p>
+<p>This alias, by default translated to the internal <code>zellij:bars</code> plugin url with the <code>role "tab-bar"</code> configuration, represents the tab bar loaded on the top line of the default layout. The <code>zellij:tab-bar</code> plugin url works as well (see <a href="./plugin-aliases.html#the-bars-plugin">The <code>bars</code> plugin</a>).</p>
+<h2 id="features"><a class="header" href="#features">Features</a></h2>
+<ul>
+<li>Shows the tabs and the session name</li>
+<li>Clicking a tab switches to it, and dragging a tab moves it to another position</li>
+<li>Double-clicking a tab renames it, and double-clicking the empty part of the bar opens a new tab</li>
+<li>Shows a symbol next to a tab whose panes need attention, and a session indicator counting what needs you across all sessions (eg. <code>◉ 2 need you · 1 running</code>). Clicking the indicator opens the <a href="./inbox.html">inbox</a></li>
+<li>Right-clicking a tab or the bar opens the <a href="./context-menu.html">right-click menu</a></li>
+</ul>
+<h2 id="configuration"><a class="header" href="#configuration">Configuration</a></h2>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Key</th><th style="text-align: left">Description</th></tr></thead><tbody>
+<tr><td style="text-align: left"><code>role</code></td><td style="text-align: left"><code>tab-bar</code> (the default when no role is given)</td></tr>
+<tr><td style="text-align: left"><code>double_click_tab</code></td><td style="text-align: left"><code>"none"</code> turns off renaming a tab with a double-click</td></tr>
+<tr><td style="text-align: left"><code>double_click_empty</code></td><td style="text-align: left"><code>"none"</code> turns off opening a new tab with a double-click on the empty part of the bar</td></tr>
+</tbody></table>
+</div>
+<pre><code class="language-javascript">plugins {
+    tab-bar location="zellij:bars" {
+        role "tab-bar"
+        double_click_tab "none"
+    }
+}
+</code></pre>
+<h2 id="hiding-the-bars"><a class="header" href="#hiding-the-bars">Hiding the bars</a></h2>
+<p>Bars can be hidden and shown again while Zellij runs:</p>
+<ul>
+<li><code>Ctrl p</code> + <code>Shift z</code> (the <code>ToggleBars</code> action) hides all bars, or shows them again if any are hidden</li>
+<li>The right-click menu of a bar has "Hide ..." for that bar and "Hide all bars", and every right-click menu has "Show bars" while a bar is hidden</li>
+<li><code>zellij action hide-bars [BARS]...</code>, <code>zellij action show-bars</code> and <code>zellij action toggle-bars [BARS]...</code>, where a bar is named <code>tab-bar</code>, <code>status-bar</code>, <code>compact-bar</code>, a plugin alias or location, or <code>all</code></li>
+</ul>
+<p>The <code>bars_hidden_on_start</code>, <code>hidden_bars_notification</code> and <code>mode_hints_when_bars_hidden</code> <a href="./options.html">options</a> choose which bars a new session starts with hidden, whether a short note is shown when bars are hidden, and whether the keys of a mode are shown in a corner while the status bar is hidden.</p>
 <h2 id="contract"><a class="header" href="#contract">Contract</a></h2>
 <p>Zellij loads this tab bar with a height of <code>1</code> and a width the size of the user's full screen. Zellij has no other expectations from this plugin, even though users will probably expect at least the tabs to be shown.</p>
+<p>A bar plugin can give its space in the layout back while it has nothing to draw.</p>
 
                     </main>
 

@@ -24,8 +24,16 @@ For the complete type definitions referenced below, see the [Type Reference](./p
 - [Background Command Execution & Web Requests](#background-command-execution--web-requests)
 - [Plugin Communication](#plugin-communication)
 - [CLI Pipe Management](#cli-pipe-management)
+- [Popups & Prompts](#popups--prompts)
+- [Context Menu](#context-menu)
+- [Settings Screen Entry](#settings-screen-entry)
+- [Shared Plugin Slots](#shared-plugin-slots)
+- [Nested Sessions](#nested-sessions)
+- [Other Sessions & Attention](#other-sessions--attention)
+- [Pane Mirror (Live View)](#pane-mirror-live-view)
 - [Plugin Lifecycle](#plugin-lifecycle)
 - [Configuration & Host](#configuration--host)
+- [Editing the Configuration](#editing-the-configuration)
 - [Web Server & Sharing](#web-server--sharing)
 - [Regex Highlights](#regex-highlights)
 - [Action Execution](#action-execution)
@@ -110,7 +118,6 @@ Set whether the plugin pane is selectable by the user. Unselectable plugins migh
 **Example:**
 
 ```rust
-// Make this plugin unselectable (e.g., for a status bar)
 set_selectable(false);
 ```
 
@@ -133,10 +140,8 @@ Show the cursor at specific coordinates within the plugin pane, or hide it.
 **Example:**
 
 ```rust
-// Show cursor at column 5, row 10
 show_cursor(Some((5, 10)));
 
-// Hide the cursor
 show_cursor(None);
 ```
 
@@ -184,6 +189,39 @@ Enable or disable mouse selection support for the plugin pane.
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `selection_support` | `bool` | `true` to enable, `false` to disable |
+
+---
+
+### `set_self_collapsed`
+
+```rust
+fn set_self_collapsed(collapsed: bool)
+```
+
+Give this plugin's space in the layout back to its neighbors while it has nothing to draw, or take it again when it does. Meant for plugins mounted in a layout as a bar whose content is sometimes empty: without this, the row the layout reserves for the bar stays reserved and shows as a blank line.
+
+While collapsed, the pane keeps its place and its size in the layout and simply takes no space, so expanding restores exactly the geometry the layout asked for. A collapse also survives entering and leaving fullscreen. Calling it with the state the pane is already in does nothing. It has no effect on a floating pane.
+
+Unlike [`hide_self`](#hide_self), which suppresses the pane and later brings it back by splitting another pane, a collapsed pane comes back in its original position.
+
+The [`PaneInfo`](./plugin-api-types.md#paneinfo) of a collapsed pane has `is_collapsed` set to `true`.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `collapsed` | `bool` | `true` to give the space back, `false` to take it again |
+
+**Example:**
+
+```rust
+fn render(&mut self, rows: usize, cols: usize) {
+    set_self_collapsed(self.items.is_empty());
+    for item in &self.items {
+        println!("{}", item);
+    }
+}
+```
 
 ---
 
@@ -561,10 +599,8 @@ Switch to a named session, or create a new session with a random name if `None` 
 **Example:**
 
 ```rust
-// Switch to existing session
 switch_session(Some("my-project"));
 
-// Create a new session with a random name
 switch_session(None);
 ```
 
@@ -626,6 +662,58 @@ fn switch_session_with_focus(
 **Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
 
 Switch to a session, focusing a specific pane or tab. The pane is prioritized over the tab position if both are provided.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `name` | `&str` | Session name to switch to |
+| `tab_position` | `Option<usize>` | Tab position to focus |
+| `pane_id` | `Option<(u32, bool)>` | Pane to focus: `(id, is_plugin)` |
+
+---
+
+### `switch_session_with_options`
+
+```rust
+fn switch_session_with_options(connect_to_session: ConnectToSession)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Switch to (or create) a session, with every option of [`ConnectToSession`](./plugin-api-types.md#connecttosession) available at once: name, tab, pane, layout, working directory and switch context. Of the switch context, only `startup_card` and `disconnect_others` are taken from a plugin.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `connect_to_session` | [`ConnectToSession`](./plugin-api-types.md#connecttosession) | Where to switch and how |
+
+**Example:**
+
+```rust
+switch_session_with_options(ConnectToSession {
+    name: Some("my-project".to_owned()),
+    cwd: Some(PathBuf::from("/home/user/project")),
+    ..Default::default()
+});
+```
+
+---
+
+### `switch_session_and_close_current`
+
+```rust
+fn switch_session_and_close_current(
+    name: &str,
+    tab_position: Option<usize>,
+    pane_id: Option<(u32, bool)>,
+)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Switch to another session and close the current one if it was never used. The current session is killed only if no command was ever submitted in it and no other clients are attached to it. Otherwise this behaves like [`switch_session_with_focus`](#switch_session_with_focus).
 
 **Parameters:**
 
@@ -1916,6 +2004,10 @@ fn hide_self()
 
 Hide (suppress) the plugin pane from the UI. The plugin continues running in the background.
 
+A hidden plugin is not rendered, but it keeps receiving the `ModeUpdate`, `TabUpdate`, `PaneUpdate` and `InputReceived` events it is subscribed to, so it can decide when to show itself again with [`show_self`](#show_self). The same is true for plugins hidden with [`hide_pane_with_id`](#hide_pane_with_id) or [`hide_slot`](#hide_slot).
+
+To give a bar's row in the layout back while it is empty, and get it back in the same position later, use [`set_self_collapsed`](#set_self_collapsed) instead.
+
 ---
 
 ### `show_self`
@@ -2435,6 +2527,60 @@ set_pane_frame_style(PaneFrameStyle::Titles);
 
 ---
 
+### `toggle_bars`
+
+```rust
+fn toggle_bars(bar_names: Vec<String>)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+If any bars are hidden, show all bars. Otherwise hide the named bars, or all bars if `bar_names` is empty.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `bar_names` | `Vec<String>` | Bars to hide: `tab-bar`, `status-bar`, `compact-bar`, a plugin alias or location, or `all` |
+
+---
+
+### `hide_bars`
+
+```rust
+fn hide_bars(bar_names: Vec<String>)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Hide the named bars in every tab, or all bars if `bar_names` is empty. The space of a hidden bar goes to the panes around it. The bars that are currently hidden are reported in the `hidden_bars` field of [`ModeInfo`](./plugin-api-types.md#modeinfo).
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `bar_names` | `Vec<String>` | Bars to hide: `tab-bar`, `status-bar`, `compact-bar`, a plugin alias or location, or `all` |
+
+**Example:**
+
+```rust
+hide_bars(vec!["status-bar".to_owned()]);
+```
+
+---
+
+### `show_bars`
+
+```rust
+fn show_bars()
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Show all hidden bars.
+
+---
+
 ### `toggle_pane_embed_or_eject`
 
 ```rust
@@ -2455,13 +2601,63 @@ fn toggle_pane_embed_or_eject_for_pane_id(pane_id: PaneId)
 
 **Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
 
-Toggle a specific pane between floating and tiled (embedded) mode.
+Toggle a specific pane between floating and tiled (embedded) mode. This is the same as calling [`toggle_pane_embed_or_eject_for_pane_id_with_focus`](#toggle_pane_embed_or_eject_for_pane_id_with_focus) with `show_and_focus` set to `false`.
 
 **Parameters:**
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
 | `pane_id` | [`PaneId`](./plugin-api-types.md#paneid) | The pane to toggle |
+
+---
+
+### `toggle_pane_embed_or_eject_for_pane_id_with_focus`
+
+```rust
+fn toggle_pane_embed_or_eject_for_pane_id_with_focus(pane_id: PaneId, show_and_focus: bool)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Toggle a specific pane between floating and tiled (embedded) mode. With `show_and_focus` set to `true`, the pane is also shown and focused for the user who triggered the plugin, the same way as when the user moves the focused pane between layers.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `pane_id` | [`PaneId`](./plugin-api-types.md#paneid) | The pane to toggle |
+| `show_and_focus` | `bool` | Whether to show and focus the pane after moving it |
+
+---
+
+### `set_pane_border_style`
+
+```rust
+fn set_pane_border_style(pane_id: PaneId, border_style: BorderStyleOverride)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Set the line style of a pane's border, side by side. This replaces any override set before for the same pane. Sides left as `None` use the configured border style, so an empty override returns the pane to the configured style.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `pane_id` | [`PaneId`](./plugin-api-types.md#paneid) | The pane to change |
+| `border_style` | [`BorderStyleOverride`](./plugin-api-types.md#borderstyleoverride) | The line styles to use |
+
+**Example:**
+
+```rust
+set_pane_border_style(
+    PaneId::Terminal(1),
+    BorderStyleOverride {
+        all: Some(LineStyle::Double),
+        ..Default::default()
+    },
+);
+```
 
 ---
 
@@ -3492,6 +3688,42 @@ Switch to the next [swap layout](./swap-layouts.md).
 
 ---
 
+### `apply_tiled_swap_layout`
+
+```rust
+fn apply_tiled_swap_layout(layout_name: &str)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Apply the tiled [swap layout](./swap-layouts.md) with this name to the current tab. Floating pane visibility and focus do not change. A name that does not exist, or a layout that does not fit the current panes, does nothing.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `layout_name` | `&str` | Name of the tiled swap layout |
+
+---
+
+### `apply_floating_swap_layout`
+
+```rust
+fn apply_floating_swap_layout(layout_name: &str)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Apply the floating [swap layout](./swap-layouts.md) with this name to the current tab. Floating pane visibility and focus do not change. A name that does not exist, or a layout that does not fit the current panes, does nothing.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `layout_name` | `&str` | Name of the floating swap layout |
+
+---
+
 ## Background Command Execution & Web Requests
 
 ---
@@ -3613,7 +3845,7 @@ Set a timer. After the specified duration, the plugin's [`update`](./plugin-life
 
 ```rust
 subscribe(&[EventType::Timer]);
-set_timeout(2.0); // Fire after 2 seconds
+set_timeout(2.0);
 ```
 
 ---
@@ -3782,6 +4014,799 @@ Send output to the output side of a pipe. This does not affect the input side of
 
 ---
 
+### `set_cli_pipe_exit_code`
+
+```rust
+fn set_cli_pipe_exit_code(pipe_name: &str, exit_code: i32)
+```
+
+**Required Permission:** [`ReadCliPipes`](./plugin-api-permissions.md)
+
+Set the exit code that the waiting `zellij pipe` command exits with once the pipe is released. This lets a plugin report success or failure to the shell script that piped to it.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `pipe_name` | `&str` | Name (CLI pipe id) of the pipe |
+| `exit_code` | `i32` | Exit code for the `zellij pipe` process |
+
+**Example:**
+
+```rust
+fn pipe(&mut self, pipe_message: PipeMessage) -> bool {
+    if let PipeSource::Cli(pipe_id) = &pipe_message.source {
+        if pipe_message.payload.is_none() {
+            set_cli_pipe_exit_code(pipe_id, 1);
+            unblock_cli_pipe_input(pipe_id);
+        }
+    }
+    false
+}
+```
+
+---
+
+## Popups & Prompts
+
+A popup is a plugin pane drawn above everything else in the tab, for one user, and closed when it is no longer needed (eg. with [`close_self`](#close_self)). See also the [`zellij prompt`](./zellij-prompt.md) command, which uses the same popups from the command line.
+
+---
+
+### `open_plugin_popup`
+
+```rust
+fn open_plugin_popup(
+    plugin_url: impl Into<String>,
+    configuration: BTreeMap<String, String>,
+    line: usize,
+    column: usize,
+    width: usize,
+    height: usize,
+)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Open a plugin as a popup for the user who triggered this plugin. The popup's top left corner is placed at `line` and `column`, relative to this plugin's content area, and is moved as needed to fit on the screen. This is the same as [`open_plugin_popup_with_options`](#open_plugin_popup_with_options) with `PopupOptions::default()`: the popup takes key focus, closes other open menus, and closes when the user clicks outside of it.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `plugin_url` | `impl Into<String>` | URL or alias of the plugin to open |
+| `configuration` | `BTreeMap<String, String>` | Configuration for the popup plugin |
+| `line` | `usize` | Line (relative to this plugin) for the popup's top edge |
+| `column` | `usize` | Column (relative to this plugin) for the popup's left edge |
+| `width` | `usize` | Width in columns |
+| `height` | `usize` | Height in rows |
+
+**Example:**
+
+```rust
+open_plugin_popup(
+    "file:/path/to/menu.wasm",
+    BTreeMap::new(),
+    1,
+    self.menu_button_column,
+    30,
+    10,
+);
+```
+
+---
+
+### `open_plugin_popup_with_options`
+
+```rust
+fn open_plugin_popup_with_options(
+    plugin_url: impl Into<String>,
+    configuration: BTreeMap<String, String>,
+    line: usize,
+    column: usize,
+    width: usize,
+    height: usize,
+    options: PopupOptions,
+)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Same as [`open_plugin_popup`](#open_plugin_popup), with control over how the popup behaves:
+
+- `focused: true` (default) opens a menu-like popup: it takes key focus, replaces other open menus of the same user, and by default closes on a click outside of it.
+- `focused: false` opens an information popup: it does not take key focus, and by default ignores clicks outside of it.
+- `corner` places the popup in a corner of the screen instead of at `line` and `column`.
+- `capture_all_keys` sends every key to the popup, including the ones bound to Zellij actions.
+- `outside_click` chooses what a click outside the popup does: `Block` (ignore it) or `Close`.
+
+A popup that is waiting for the user to answer a permission request takes focus until the request is answered, and an outside click cannot close it.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `plugin_url` | `impl Into<String>` | URL or alias of the plugin to open |
+| `configuration` | `BTreeMap<String, String>` | Configuration for the popup plugin |
+| `line` | `usize` | Line (relative to this plugin) for the popup's top edge |
+| `column` | `usize` | Column (relative to this plugin) for the popup's left edge |
+| `width` | `usize` | Width in columns |
+| `height` | `usize` | Height in rows |
+| `options` | [`PopupOptions`](./plugin-api-types.md#popupoptions) | How the popup behaves |
+
+**Example:**
+
+```rust
+open_plugin_popup_with_options(
+    "file:/path/to/notice.wasm",
+    BTreeMap::new(),
+    0,
+    0,
+    40,
+    3,
+    PopupOptions::default()
+        .focused(false)
+        .corner(PopupCorner::TopRight),
+);
+```
+
+---
+
+### `set_popup_size`
+
+```rust
+fn set_popup_size(width: usize, height: usize)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Resize the popup this plugin is running in, eg. once it knows how much content it has.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `width` | `usize` | New width in columns |
+| `height` | `usize` | New height in rows |
+
+---
+
+### `set_popup_focused`
+
+```rust
+fn set_popup_focused(focused: bool)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Give key focus to the popup this plugin is running in, or take it away.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `focused` | `bool` | `true` to take key focus, `false` to give it back to the pane below |
+
+---
+
+### `popup_to_floating_pane`
+
+```rust
+fn popup_to_floating_pane(coordinates: Option<FloatingPaneCoordinates>)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Turn the popup this plugin is running in into a regular floating pane, which stays open until it is closed like any other pane.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `coordinates` | `Option<`[`FloatingPaneCoordinates`](./plugin-api-types.md#floatingpanecoordinates)`>` | Position and size of the floating pane, or `None` for the default |
+
+---
+
+### `prompt`
+
+```rust
+fn prompt(request: PromptRequest) -> u64
+```
+
+**Required Permission:** [`OpenTerminalsOrPlugins`](./plugin-api-permissions.md)
+
+Ask the user something through the built-in prompt popup (`zellij:prompt`, see [the prompt alias](./prompt-alias.md)), and return the id of the request. By default the popup opens over this plugin's pane, for the user who triggered the plugin.
+
+The answer arrives later as a [`PromptResult`](./plugin-api-events.md#promptresult) event carrying the same id. It is sent only to this plugin instance, which needs to [subscribe](#subscribe) to `EventType::PromptResult`. An invalid request (eg. a number prompt whose minimum is above its maximum) is answered at once with `PromptResult::Error` and opens no popup. If this plugin closes or reloads before the user answers, its open prompts close and no result is sent.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `request` | [`PromptRequest`](./plugin-api-types.md#promptrequest) | What to ask and how to show it |
+
+**Returns:** `u64` - the id of this request, repeated in its `PromptResult` event
+
+**Example:**
+
+```rust
+fn load(&mut self, _configuration: BTreeMap<String, String>) {
+    request_permission(&[PermissionType::OpenTerminalsOrPlugins]);
+    subscribe(&[EventType::PromptResult]);
+}
+
+fn ask_before_closing(&mut self) {
+    let request_id = prompt(PromptRequest::confirm("Close all panes?").yes("Close").no("Keep"));
+    self.pending_close = Some(request_id);
+}
+
+fn update(&mut self, event: Event) -> bool {
+    match event {
+        Event::PromptResult(request_id, PromptResult::Confirmed(true))
+            if Some(request_id) == self.pending_close =>
+        {
+            self.close_all_panes();
+            true
+        },
+        _ => false,
+    }
+}
+```
+
+---
+
+### `reply_to_prompt`
+
+```rust
+fn reply_to_prompt(request_id: u64, result: PromptResult)
+```
+
+**Required Permission:** [`OpenTerminalsOrPlugins`](./plugin-api-permissions.md)
+
+Answer a prompt request received through a pipe message whose source is [`PipeSource::PromptRequest`](./plugin-pipes.md#pipe-sources). Only the built-in `zellij:prompt` plugin may use this command; calls from any other plugin are ignored.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `request_id` | `u64` | The `request_id` of the `PipeSource::PromptRequest` |
+| `result` | [`PromptResult`](./plugin-api-types.md#promptresult) | The answer |
+
+---
+
+## Context Menu
+
+See [the context menu](./context-menu.md) for the user-facing side of this feature.
+
+---
+
+### `open_context_menu`
+
+```rust
+fn open_context_menu(target: ContextMenuTarget, line: usize, column: usize)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Open Zellij's own right-click menu for a tab or for this bar, at `line` and `column` relative to this plugin's content area. This is how bar plugins (eg. a tab bar) offer the same menu Zellij shows when the user right-clicks a tab.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `target` | [`ContextMenuTarget`](./plugin-api-types.md#contextmenutarget) | `Tab(tab_position)` or `Bar` |
+| `line` | `usize` | Line (relative to this plugin) to open the menu at |
+| `column` | `usize` | Column (relative to this plugin) to open the menu at |
+
+**Example:**
+
+```rust
+fn update(&mut self, event: Event) -> bool {
+    if let Event::Mouse(Mouse::RightClick(line, column)) = event {
+        if let Some(tab_position) = self.tab_at_column(column) {
+            open_context_menu(ContextMenuTarget::Tab(tab_position), line as usize, column);
+        }
+    }
+    false
+}
+```
+
+---
+
+### `run_context_menu_item`
+
+```rust
+fn run_context_menu_item(index: usize)
+```
+
+**Required Permission:** [`RunActionsAsUser`](./plugin-api-permissions.md)
+
+Run the actions of entry `index` of the context menu that is currently open for the user. Only the plugin showing that menu as a popup (by default the built-in [`context-menu`](./context-menu-alias.md) plugin) may do this; it receives the entries through the [`ContextMenu`](./plugin-api-events.md#contextmenu) event.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `index` | `usize` | Index of the entry in the list received with the `ContextMenu` event |
+
+---
+
+## Settings Screen Entry
+
+A plugin can add an entry to the plugins page of the [settings screen](./settings-screen.md), so that users can open the plugin's own settings from there.
+
+---
+
+### `register_settings_entry`
+
+```rust
+fn register_settings_entry(title: &str)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+List this plugin in the settings screen under `title`. Each plugin instance has at most one entry: calling this again changes the title. Instances of the same plugin (same location and configuration) with the same title are listed once. Titles are cut to 80 characters, and an empty title is ignored. The entry is removed when the plugin unloads, crashes or is reloaded.
+
+When the user selects the entry, this plugin receives a [pipe message](./plugin-pipes.md#the-pipe-lifecycle-method) named `OPEN_PLUGIN_SETTINGS_MESSAGE` (`"zellij:open_plugin_settings"`), with the id of the client that selected it in the `OPEN_PLUGIN_SETTINGS_CLIENT_ID_ARG` (`"client_id"`) argument. The plugin then decides how to show its settings (eg. with [`show_self`](#show_self) or a popup).
+
+The list of all registered entries is available through the [`PluginSettingsEntries`](./plugin-api-events.md#pluginsettingsentries) event.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `title` | `&str` | The title shown in the settings screen |
+
+**Example:**
+
+```rust
+fn load(&mut self, _configuration: BTreeMap<String, String>) {
+    request_permission(&[PermissionType::ChangeApplicationState]);
+    subscribe(&[EventType::PermissionRequestResult]);
+}
+
+fn update(&mut self, event: Event) -> bool {
+    if let Event::PermissionRequestResult(PermissionStatus::Granted) = event {
+        register_settings_entry("My Plugin");
+    }
+    false
+}
+
+fn pipe(&mut self, pipe_message: PipeMessage) -> bool {
+    if pipe_message.name == OPEN_PLUGIN_SETTINGS_MESSAGE {
+        self.showing_settings = true;
+        show_self(true);
+        return true;
+    }
+    false
+}
+```
+
+---
+
+### `unregister_settings_entry`
+
+```rust
+fn unregister_settings_entry()
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Remove this plugin's entry from the settings screen.
+
+---
+
+## Shared Plugin Slots
+
+These commands are meant for [shared plugins](./plugin-lifecycle.md#shared-plugins), where one plugin instance serves many panes ("slots"). They are the slot forms of [`set_selectable`](#set_selectable), [`hide_self`](#hide_self), [`show_self`](#show_self), [`close_self`](#close_self) and [`set_self_collapsed`](#set_self_collapsed).
+
+A shared plugin may only use the "self" commands inside `render` and `slot_added`, where Zellij knows which slot is meant. Everywhere else it must use these slot commands.
+
+All of them return `Err` with a message when the slot does not belong to the calling plugin. A plugin that is not shared may use them with its own plugin id. None of them require a permission.
+
+---
+
+### `set_selectable_slot`
+
+```rust
+fn set_selectable_slot(slot_id: SlotId, selectable: bool) -> Result<(), String>
+```
+
+Set whether the pane of this slot can be selected by the user.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `slot_id` | [`SlotId`](./plugin-api-types.md#slot) | The slot |
+| `selectable` | `bool` | `true` to make selectable |
+
+---
+
+### `hide_slot`
+
+```rust
+fn hide_slot(slot_id: SlotId) -> Result<(), String>
+```
+
+Hide (suppress) the pane of this slot. As with [`hide_self`](#hide_self), the plugin keeps receiving events.
+
+---
+
+### `show_slot`
+
+```rust
+fn show_slot(slot_id: SlotId, should_float_if_hidden: bool) -> Result<(), String>
+```
+
+Show the pane of this slot (unsuppress it if hidden) and focus it.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `slot_id` | [`SlotId`](./plugin-api-types.md#slot) | The slot |
+| `should_float_if_hidden` | `bool` | If `true`, show it as a floating pane when unsuppressing |
+
+---
+
+### `close_slot`
+
+```rust
+fn close_slot(slot_id: SlotId) -> Result<(), String>
+```
+
+Close the pane of this slot and remove the slot from the plugin. The plugin's `slot_removed` method is called for it.
+
+---
+
+### `set_collapsed_slot`
+
+```rust
+fn set_collapsed_slot(slot_id: SlotId, collapsed: bool) -> Result<(), String>
+```
+
+The slot form of [`set_self_collapsed`](#set_self_collapsed), for a shared plugin that decides outside of `render`.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `slot_id` | [`SlotId`](./plugin-api-types.md#slot) | The slot |
+| `collapsed` | `bool` | `true` to give the space back, `false` to take it again |
+
+---
+
+## Nested Sessions
+
+See [nested sessions](./nested-sessions.md). A plugin in the host session can follow the input mode of a nested (guest) session through the [`NestedSessionModeUpdate`](./plugin-api-events.md#nestedsessionmodeupdate) event, and fetch its keybindings with the command below, for example to show the right hints while the user is typing into the guest.
+
+---
+
+### `get_nested_session_keybinds`
+
+```rust
+fn get_nested_session_keybinds(pane_id: PaneId) -> NestedSessionKeybindsResponse
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+Ask the nested Zellij session running in `pane_id` for its input mode and keybindings. The call waits for the answer for up to one second.
+
+Fetch them again when a `NestedSessionModeUpdate` event arrives with a `keybinds_generation` different from the one of the last answer.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `pane_id` | [`PaneId`](./plugin-api-types.md#paneid) | The pane the nested session runs in |
+
+**Returns:** [`NestedSessionKeybindsResponse`](./plugin-api-types.md#nestedsessionkeybinds) - `Ok(NestedSessionKeybinds)`, or an error explaining why the keybindings are not available (eg. `NotANestedSession` or `Timeout`)
+
+**Example:**
+
+```rust
+fn update(&mut self, event: Event) -> bool {
+    if let Event::NestedSessionModeUpdate { pane_id, keybinds_generation, .. } = event {
+        if self.keybinds_generation != Some(keybinds_generation) {
+            if let Ok(guest) = get_nested_session_keybinds(pane_id) {
+                self.keybinds_generation = Some(guest.keybinds_generation);
+                self.guest_keybinds = guest.keybinds;
+                return true;
+            }
+        }
+    }
+    false
+}
+```
+
+---
+
+## Other Sessions & Attention
+
+These commands work with panes in any running session on the machine, by session name. They are the building blocks of the [inbox](./inbox.md). Attention state itself arrives through the [`PaneAttentionChanged`](./plugin-api-events.md#paneattentionchanged) and [`GlobalAttentionUpdate`](./plugin-api-events.md#globalattentionupdate) events.
+
+---
+
+### `mark_session_pane_seen`
+
+```rust
+fn mark_session_pane_seen(session_name: &str, pane_id: PaneId)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Mark the attention state of a pane as seen.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `session_name` | `&str` | Session the pane is in |
+| `pane_id` | [`PaneId`](./plugin-api-types.md#paneid) | The pane |
+
+---
+
+### `mark_all_seen`
+
+```rust
+fn mark_all_seen(session_name: Option<&str>)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Mark the attention state of every pane in a session as seen, or in every session if `None`.
+
+---
+
+### `toggle_session_pane_mute`
+
+```rust
+fn toggle_session_pane_mute(session_name: &str, pane_id: PaneId)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Mute or unmute the attention status of a pane.
+
+---
+
+### `toggle_session_pane_ignore_output`
+
+```rust
+fn toggle_session_pane_ignore_output(session_name: &str, pane_id: PaneId)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Stop or start reporting new output of a pane.
+
+---
+
+### `toggle_session_pane_watch`
+
+```rust
+fn toggle_session_pane_watch(session_name: &str, pane_id: PaneId)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Start or stop watching a pane. A watched pane notifies each time its command finishes or its output goes quiet, until it is no longer watched.
+
+---
+
+### `focus_session_pane`
+
+```rust
+fn focus_session_pane(session_name: &str, pane_id: PaneId)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Focus a pane in a session.
+
+---
+
+### `write_to_session_pane`
+
+```rust
+fn write_to_session_pane(session_name: &str, pane_id: PaneId, bytes: Vec<u8>)
+```
+
+**Required Permission:** [`WriteToStdin`](./plugin-api-permissions.md)
+
+Write bytes to the STDIN of a pane in a session, as if the user typed them.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `session_name` | `&str` | Session the pane is in |
+| `pane_id` | [`PaneId`](./plugin-api-types.md#paneid) | The pane |
+| `bytes` | `Vec<u8>` | Bytes to write |
+
+---
+
+### `send_key_to_session_pane`
+
+```rust
+fn send_key_to_session_pane(session_name: &str, pane_id: PaneId, key: KeyWithModifier)
+```
+
+**Required Permission:** [`WriteToStdin`](./plugin-api-permissions.md)
+
+Send a key press to a pane in a session, encoded the way the program in the pane expects.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `session_name` | `&str` | Session the pane is in |
+| `pane_id` | [`PaneId`](./plugin-api-types.md#paneid) | The pane |
+| `key` | [`KeyWithModifier`](./plugin-api-types.md#keywithmodifier) | The key to send |
+
+---
+
+### `get_session_suggestions`
+
+```rust
+fn get_session_suggestions(limit: usize)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+Ask for a ranked list of up to `limit` sessions (running and resurrectable) that the user is likely to want, based on the current folder, git repository and recent use. See [session suggestions](./session-suggestions.md). The answer arrives as a [`SessionSuggestions`](./plugin-api-events.md#sessionsuggestions) event.
+
+---
+
+### `get_session_preview`
+
+```rust
+fn get_session_preview(name: &str, tab_index: Option<usize>, pane_id: Option<(u32, bool)>)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md) (the answer needs [`ReadPaneContents`](./plugin-api-permissions.md))
+
+Ask for a text preview of a running session, optionally of a specific tab or pane (`(id, is_plugin)`). The answer arrives as a [`SessionPreview`](./plugin-api-events.md#sessionpreview) event.
+
+---
+
+### `get_session_preview_with_history`
+
+```rust
+fn get_session_preview_with_history(name: &str, tab_index: Option<usize>, pane_id: Option<(u32, bool)>)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md) (the answer needs [`ReadPaneContents`](./plugin-api-permissions.md))
+
+Same as [`get_session_preview`](#get_session_preview), with the preview anchored at the bottom of the pane's scrollback (`PreviewAnchor::Bottom`).
+
+---
+
+### `get_session_pane_preview`
+
+```rust
+fn get_session_pane_preview(name: &str, pane_id: PaneId, anchor: PreviewAnchor)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md) (the answer needs [`ReadPaneContents`](./plugin-api-permissions.md))
+
+Ask for a preview of one pane, anchored where it is most useful: the bottom, the output of the last command, or the start of new output. See [`PreviewAnchor`](./plugin-api-types.md#sessionpreview). The answer arrives as a [`SessionPreview`](./plugin-api-events.md#sessionpreview) event.
+
+---
+
+### `get_saved_session_preview`
+
+```rust
+fn get_saved_session_preview(name: &str)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+Ask for a preview of a saved (resurrectable) session: its folder, tabs and panes. The answer arrives as a [`SavedSessionPreview`](./plugin-api-events.md#savedsessionpreview) event.
+
+---
+
+### `open_session_terminal`
+
+```rust
+fn open_session_terminal(session_name: &str, new_window: bool)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Open a session in a window of the [Zellij terminal](./zellij-terminal.md) desktop app. With `new_window` set to `false`, a window already showing this session is reused. Nothing happens if the desktop app is not available.
+
+---
+
+### `open_session_pane_terminal`
+
+```rust
+fn open_session_pane_terminal(session_name: &str, pane_id: PaneId, new_window: bool)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Same as [`open_session_terminal`](#open_session_terminal), focusing a specific pane.
+
+---
+
+### `open_new_session_terminal`
+
+```rust
+fn open_new_session_terminal(session_name: Option<&str>, layout: Option<LayoutInfo>, cwd: Option<PathBuf>)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Create a new session in a new window of the [Zellij terminal](./zellij-terminal.md) desktop app, optionally with a name, a layout and a working directory. Without a `cwd`, the plugin's working directory is used.
+
+---
+
+### `request_session_terminal`
+
+```rust
+fn request_session_terminal(request: SessionTerminalRequest)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+The general form of the three commands above. See [`SessionTerminalRequest`](./plugin-api-types.md#sessionterminalrequest).
+
+---
+
+### `request_desktop_integration`
+
+```rust
+fn request_desktop_integration(request: &desktop_integration::Request)
+```
+
+**Required Permission:** [`ChangeApplicationState`](./plugin-api-permissions.md)
+
+Change how Zellij integrates with the desktop (eg. installing the desktop app). Only built-in plugins may make these requests: for any other plugin the answer is always an error. The answer arrives as a [`DesktopIntegration`](./plugin-api-events.md#desktopintegration) event.
+
+---
+
+## Pane Mirror (Live View)
+
+A plugin can show a live copy of another pane - in this session or another session on the machine - inside part of its own pane, and optionally let the user type into it.
+
+---
+
+### `set_live_view`
+
+```rust
+fn set_live_view(view: Option<LiveView>)
+```
+
+**Required Permissions:** [`ReadPaneContents`](./plugin-api-permissions.md) and [`WriteToStdin`](./plugin-api-permissions.md)
+
+Show a live view of the pane described by `view`, in the rectangle `x`, `y`, `cols`, `rows` of this plugin's content area (it is cut to fit the content area). Each user looking at the plugin has their own live view. Calling it again with a different rectangle moves or resizes the view, and with a different target switches to that pane. `None` removes the view.
+
+Changes to the state of the view (connecting, live, closed, input captured or released) are reported with the [`LiveViewStateChanged`](./plugin-api-events.md#liveviewstatechanged) event.
+
+**Parameters:**
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `view` | `Option<`[`LiveView`](./plugin-api-types.md#liveview)`>` | What to show and where, or `None` to remove the view |
+
+**Example:**
+
+```rust
+fn render(&mut self, rows: usize, cols: usize) {
+    if let Some(pane_id) = self.selected_pane {
+        let target = PaneAddress::local(self.session_name.clone(), pane_id);
+        set_live_view(Some(LiveView::new(target, 0, 1, cols, rows.saturating_sub(1))));
+    } else {
+        set_live_view(None);
+    }
+    println!("{}", self.header);
+}
+```
+
+---
+
+### `set_live_view_input`
+
+```rust
+fn set_live_view_input(capture: bool)
+```
+
+**Required Permissions:** [`ReadPaneContents`](./plugin-api-permissions.md) and [`WriteToStdin`](./plugin-api-permissions.md)
+
+With `true`, send the user's input to the mirrored pane instead of to this plugin. This is refused if the plugin pane is not focused or the view is view-only. Input is released again by the release key (the [`live_view_release_key`](./options.md) option, reported in `LiveViewStateChanged`), by a click outside the view, when the plugin loses focus, or by calling this with `false`.
+
+---
+
 ## Plugin Lifecycle
 
 ---
@@ -3921,6 +4946,202 @@ fn watch_filesystem()
 ```
 
 Start watching the host folder for filesystem changes. File change events ([`FileSystemCreate`](./plugin-api-events.md#filesystemcreate), [`FileSystemUpdate`](./plugin-api-events.md#filesystemupdate), [`FileSystemDelete`](./plugin-api-events.md#filesystemdelete)) will be delivered to the plugin.
+
+---
+
+## Editing the Configuration
+
+These commands are what the built-in [settings screen](./settings-screen.md) uses to read and change the configuration of the user who triggered the plugin. Changes are made to the running configuration first (and marked as unsaved), and are written to the configuration file only when asked to. All of them require the [`Reconfigure`](./plugin-api-permissions.md) permission.
+
+Related events: [`ConfigChangesDropped`](./plugin-api-events.md#configchangesdropped), [`ConfigFileChangedSinceRead`](./plugin-api-events.md#configfilechangedsinceread), [`ConfigWasWrittenToDisk`](./plugin-api-events.md#configwaswrittentodisk), [`FailedToWriteConfigToDisk`](./plugin-api-events.md#failedtowriteconfigtodisk) and [`AvailableKeybindPresets`](./plugin-api-events.md#availablekeybindpresets).
+
+---
+
+### `read_config`
+
+```rust
+fn read_config() -> ConfigSnapshot
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+Return a snapshot of the configuration: the saved and current value of each setting, the configuration blocks, the keybindings and mouse bindings and where each comes from, and the path of the configuration file.
+
+**Returns:** [`ConfigSnapshot`](./plugin-api-types.md#configsnapshot)
+
+---
+
+### `revert_config`
+
+```rust
+fn revert_config(key: Option<SettingKey>)
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+Undo unsaved changes: set one setting (or all of them, with `None`) back to its saved value.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `key` | `Option<`[`SettingKey`](./plugin-api-types.md#settingkey)`>` | The setting to revert, or `None` for all settings |
+
+---
+
+### `unset_config_setting`
+
+```rust
+fn unset_config_setting(key: SettingKey)
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+Remove a setting from the running configuration, so that its default applies. Like other changes, this is unsaved until [`save_config`](#save_config) is called.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `key` | [`SettingKey`](./plugin-api-types.md#settingkey) | The setting to remove |
+
+---
+
+### `save_config`
+
+```rust
+fn save_config()
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+Write the unsaved changes to the configuration file, keeping its formatting and comments. If the file was changed by something else since Zellij read it, nothing is written and a [`ConfigFileChangedSinceRead`](./plugin-api-events.md#configfilechangedsinceread) event is sent instead, so the plugin can offer [`overwrite_config_file`](#overwrite_config_file) or [`reload_config_file`](#reload_config_file).
+
+---
+
+### `overwrite_config_file`
+
+```rust
+fn overwrite_config_file()
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+Same as [`save_config`](#save_config), but write even if the file was changed since Zellij read it.
+
+---
+
+### `reload_config_file`
+
+```rust
+fn reload_config_file()
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+Read the configuration file again and apply it.
+
+---
+
+### `replace_config_blocks`
+
+```rust
+fn replace_config_blocks(blocks: String)
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+Replace configuration blocks (eg. `plugins`, `load_plugins`, `env`, `themes` or `context_menu`) in the running configuration with the ones in `blocks`, given as KDL text. The change is not written to disk.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `blocks` | `String` | One or more configuration blocks, as KDL |
+
+---
+
+### `reset_keys`
+
+```rust
+fn reset_keys(keys: Vec<(InputMode, KeyWithModifier)>, write_config_to_disk: bool)
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+Remove the user's own binding (or unbinding) of these keys, so that they go back to what the active keybinding preset binds them to.
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `keys` | `Vec<(`[`InputMode`](./plugin-api-types.md#inputmode)`, `[`KeyWithModifier`](./plugin-api-types.md#keywithmodifier)`)>` | The keys to reset, per mode |
+| `write_config_to_disk` | `bool` | Whether to also save the change to the configuration file |
+
+---
+
+### `reset_mousebinds`
+
+```rust
+fn reset_mousebinds(triggers: Vec<(InputMode, MouseTrigger)>, write_config_to_disk: bool)
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+The [mouse binding](./mouse-bindings.md) form of [`reset_keys`](#reset_keys).
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `triggers` | `Vec<(`[`InputMode`](./plugin-api-types.md#inputmode)`, `[`MouseTrigger`](./plugin-api-types.md#mousetrigger)`)>` | The mouse bindings to reset, per mode |
+| `write_config_to_disk` | `bool` | Whether to also save the change to the configuration file |
+
+---
+
+### `copy_keybind_preset`
+
+```rust
+fn copy_keybind_preset(preset: &str, new_name: &str) -> Result<String, String>
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+Copy a keybinding preset into the keybinds folder under a new name, so that the user can edit it.
+
+**Returns:** `Ok` with the name of the new preset, or `Err` with a message (eg. when there is no keybinds folder)
+
+---
+
+### `save_keybinds_as_preset`
+
+```rust
+fn save_keybinds_as_preset(new_name: &str) -> Result<String, String>
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+Save the current keybindings as a new preset in the keybinds folder.
+
+**Returns:** `Ok` with the name of the new preset, or `Err` with a message
+
+---
+
+### `write_theme_file`
+
+```rust
+fn write_theme_file(name: &str, copy_from: Option<&str>, colours: &[String]) -> Result<String, String>
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+With `copy_from`, create a new theme file named `name` in the theme folder as a copy of the theme `copy_from` (this fails if a theme called `name` already exists). Without it, write `colours` into the file in the theme folder that defines the theme `name`. The theme becomes available right away.
+
+**Returns:** `Ok` with the path of the theme file, or `Err` with a message (eg. when there is no theme folder)
+
+---
+
+### `delete_theme_file`
+
+```rust
+fn delete_theme_file(name: &str) -> Result<String, String>
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+Delete the theme file of the theme `name` from the theme folder.
+
+**Returns:** `Ok` with the path of the deleted file, or `Err` with a message
 
 ---
 
@@ -4168,10 +5389,8 @@ Run an arbitrary Zellij [`Action`](./plugin-api-types.md#action) programmaticall
 ```rust
 use zellij_tile::prelude::*;
 
-// Toggle floating panes
 run_action(Action::ToggleFloatingPanes, BTreeMap::new());
 
-// Switch to a specific input mode
 run_action(
     Action::SwitchToMode { input_mode: InputMode::Pane },
     BTreeMap::new(),
@@ -4236,3 +5455,33 @@ Extract the focused non-plugin pane from a pane manifest for a given tab. This i
 | `pane_manifest` | `&PaneManifest` | Pane manifest (from a `PaneUpdate` event) |
 
 **Returns:** `Option<`[`PaneInfo`](./plugin-api-types.md#paneinfo)`>` - the focused pane, or `None`
+
+---
+
+### `mouse_modifiers`
+
+```rust
+fn mouse_modifiers() -> BTreeSet<KeyModifier>
+```
+
+Return the modifier keys (`Shift`, `Ctrl`, `Alt`) that were held during the [`Mouse`](./plugin-api-events.md#mouse) event currently being handled. The set is empty for events without modifiers, and is reset with every new event, so read it inside `update`. This is a local helper that does not make a host call.
+
+**Returns:** `BTreeSet<KeyModifier>` - the held modifiers
+
+**Example:**
+
+```rust
+fn update(&mut self, event: Event) -> bool {
+    match event {
+        Event::Mouse(Mouse::LeftClick(line, column)) => {
+            if mouse_modifiers().contains(&KeyModifier::Ctrl) {
+                self.add_to_selection(line, column);
+            } else {
+                self.select_only(line, column);
+            }
+            true
+        },
+        _ => false,
+    }
+}
+```

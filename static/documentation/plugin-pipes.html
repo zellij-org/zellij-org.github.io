@@ -166,11 +166,34 @@
 <h3 id="pipe-sources"><a class="header" href="#pipe-sources">Pipe sources</a></h3>
 <p>Pipes can be started either from the CLI, from a keybinding or from another plugin. The source of the pipe will be specified to the plugin (see below). If the source is another plugin, the internal Zellij id of the source plugin will be provided (to allow the plugin to respond in a new pipe if needed).</p>
 <p>If the source is the CLI, the internal pipe-id (a UUID) will be provided to allow plugins to apply backpressure to the CLI pipe as needed (for example, pausing a CLI pipeline until the user presses a specific key).</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum PipeSource {
+    Cli(String),
+    Plugin(u32),
+    Keybind,
+    PromptRequest {
+        caller_plugin_id: u32,
+        request_id: u64,
+    },
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>Cli(pipe_id)</code></td><td>The pipe comes from <code>zellij pipe</code> (or <code>zellij action pipe</code>); <code>pipe_id</code> identifies the CLI pipe</td></tr>
+<tr><td><code>Plugin(plugin_id)</code></td><td>The pipe comes from another plugin</td></tr>
+<tr><td><code>Keybind</code></td><td>The pipe comes from a keybinding</td></tr>
+<tr><td><code>PromptRequest { caller_plugin_id, request_id }</code></td><td>A question asked by a plugin with <a href="./plugin-api-commands.html#prompt"><code>prompt</code></a>. These are only sent to the built-in <code>zellij:prompt</code> plugin, which answers with <a href="./plugin-api-commands.html#reply_to_prompt"><code>reply_to_prompt</code></a>. Plugins built against <code>0.45</code> never receive this source</td></tr>
+</tbody></table>
+</div>
 <h3 id="cli-pipes-and-backpressure"><a class="header" href="#cli-pipes-and-backpressure">CLI pipes and backpressure</a></h3>
 <p>Pipes can be <a href="./zellij-plugin-and-pipe.html#zellij-pipe">started from the CLI</a>, in which case they can potentially listen to <code>STDIN</code> and send multiple messages down the same pipe. It's important to stress that this is usually slower than piping data to other programs, namely because Zellij plugins often render themselves on each pipe message. The <code>STDIN</code> buffer is only released after the plugin has been rendered (or has elected not to render itself) in order to apply backpressure.</p>
 <p>Zellij plugins can also elect to entirely block the CLI pipe, releasing it later based on (for example) user input. The same pipe can be blocked/released from any plugin, so long as it knows the CLI pipe ID provided as the <a href="#pipe-sources">pipe source</a>.</p>
 <p>A plugin can also print to the CLI pipe's <code>STDOUT</code> (unrelated to the data it gets on <code>STDIN</code>) assuming it knows its ID. In fact, multiple plugins (or plugin instances) can print to the <code>STDOUT</code> of the same pipe if so desired.</p>
-<p>For more on this, see <a href="./plugin-api-commands.html#block_cli_pipe_input">block_cli_pipe_input</a>, <a href="./plugin-api-commands.html#unblock_cli_pipe_input">unblock_cli_pipe_input</a> and <a href="./plugin-api-commands.html#cli_pipe_output">cli_pipe_output</a>.</p>
+<p>A plugin can also choose the exit code of the <code>zellij pipe</code> command with <a href="./plugin-api-commands.html#set_cli_pipe_exit_code">set_cli_pipe_exit_code</a>, which is used once the pipe is released. This lets scripts tell whether the plugin accepted their input.</p>
+<p>If the plugin handling a CLI pipe message crashes, the pipe is released right away, so the <code>zellij pipe</code> command does not wait forever.</p>
+<p>For more on this, see <a href="./plugin-api-commands.html#block_cli_pipe_input">block_cli_pipe_input</a>, <a href="./plugin-api-commands.html#unblock_cli_pipe_input">unblock_cli_pipe_input</a>, <a href="./plugin-api-commands.html#cli_pipe_output">cli_pipe_output</a> and <a href="./plugin-api-commands.html#set_cli_pipe_exit_code">set_cli_pipe_exit_code</a>.</p>
+<h3 id="opening-the-destination-plugin-as-a-popup"><a class="header" href="#opening-the-destination-plugin-as-a-popup">Opening the destination plugin as a popup</a></h3>
+<p>When a CLI pipe launches its destination plugin, <code>zellij action pipe --popup &lt;placement&gt;</code> opens that plugin as a popup for the user looking at the pane the command runs in, instead of as a pane. The placement is one of <code>pane</code>, <code>center</code>, <code>mouse</code>, <code>cursor</code>, <code>top-left</code>, <code>top-right</code>, <code>bottom-left</code> or <code>bottom-right</code>. <code>--popup-no-focus</code> opens it as an information popup that does not take key focus, <code>--popup-capture-all-keys</code> sends it every key (including the ones bound to Zellij actions), and <code>--popup-outside-click block|close</code> chooses what a click outside it does. These options are available on <code>zellij action pipe</code> (not on the shorter <code>zellij pipe</code>). See <a href="./zellij-plugin-and-pipe.html#zellij-pipe"><code>zellij pipe</code></a>.</p>
 <h3 id="the-pipe-lifecycle-method"><a class="header" href="#the-pipe-lifecycle-method">The <code>pipe</code> lifecycle method</a></h3>
 <p>Plugins may listen to pipes by implementing the <code>pipe</code> lifecycle method. This method is called every time a message is sent over a pipe to this plugin (whether it's broadcast to all plugins or specifically directed at this one). It receives a <code>PipeMessage</code> containing the source of the pipe (CLI, another plugin or a keybinding), as well as information about said source (the plugin id or the CLI pipe id). The <code>PipeMessage</code> also contains the name of the pipe (explicitly provided by the user or a random UUID assigned by Zellij), its payload if it has one, its arguments and whether it is private or not (a private message is one directed specifically at this plugin rather than broadcast to all plugins).</p>
 <p>Similar to the <a href="./plugin-lifecycle.html#update">update method</a>, the pipe lifecycle method returns a bool, true if it would like to render itself, in which case the render function will be called as normal.</p>
@@ -182,29 +205,28 @@
     match pipe_message.source {
         PipeSource::Cli(input_pipe_id) =&gt; {
             if let Some(payload) = pipe_message.payload {
+                if self.should_print_to_cli_stdout {
+                    cli_pipe_output(&amp;input_pipe_id, &amp;payload);
+                }
                 self.messages_from_cli.push(payload);
                 should_render = true;
             }
             if self.paused {
-                // backpressure, this will pause data from the CLI pipeline until the unblock_cli_pipe_input method will be called for this id
-                // from this or another plugin
                 block_cli_pipe_input(&amp;input_pipe_id);
             }
-            if self.should_print_to_cli_stdout {
-                // this can happen anywhere, anytime, from multiple plugins and is not tied to data from STDIN
-                // as long as the pipe is open, plugins with its ID can print arbitrary data to its STDOUT side, even if the input side is blocked
-                cli_pipe_output(input_pipe_id, &amp;payload);
-            }
-        }
+        },
         PipeSource::Plugin(source_plugin_id) =&gt; {
-            // pipes can also arrive from other plugins
-        }
+            self.messages_from_plugins.push(source_plugin_id);
+        },
+        PipeSource::Keybind | PipeSource::PromptRequest { .. } =&gt; {},
     }
     should_render
 }
 <span class="boring">}</span></code></pre></pre>
+<p>In this example, a paused plugin blocks the CLI pipe, which applies backpressure: no more data comes from the CLI pipeline until <a href="./plugin-api-commands.html#unblock_cli_pipe_input">unblock_cli_pipe_input</a> is called for this id, from this or another plugin. Printing to the pipe's <code>STDOUT</code> can happen at any time, from several plugins, and does not depend on the input side: as long as the pipe is open, plugins that know its id can print to it, even while its input is blocked.</p>
+<p><a href="./plugin-lifecycle.html#shared-plugins">Shared plugins</a> implement <code>pipe</code> with an extra <code>EventContext</code> argument and return a <code>RenderResponse</code> instead of a <code>bool</code>.</p>
 <h3 id="the-pipe_message_to_plugin-plugin-api-command"><a class="header" href="#the-pipe_message_to_plugin-plugin-api-command">The <code>pipe_message_to_plugin</code> plugin API command</a></h3>
-<p>This <a href="./plugin-api-commands.html#pipe_message_to_plugin"><code>pipe_message_to_plugin</code> API command</a> allows plugins to start a new pipe to another plugin. It allows spcifying a pipe destination, name, payload, args and also some information to be used in case this message will end up launching a new plugin (for example, the pane title of the new plugin).</p>
+<p>This <a href="./plugin-api-commands.html#pipe_message_to_plugin"><code>pipe_message_to_plugin</code> API command</a> allows plugins to start a new pipe to another plugin. It allows specifying a pipe destination, name, payload, args and also some information to be used in case this message will end up launching a new plugin (for example, the pane title of the new plugin).</p>
 <p>Here's a short Rust example:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -217,6 +239,8 @@
 <h3 id="the-special-zellijown_url-pipe-destination"><a class="header" href="#the-special-zellijown_url-pipe-destination">The special <code>zellij:OWN_URL</code> pipe destination</a></h3>
 <p>When plugins open pipes, they can use the special <code>zellij:OWN_URL</code> destination url. Zellij will replace this URL with the plugin's own URL. This is useful when plugins want to launch new instances of themselves and communicate with them (for example, in order for the plugin to play different roles or to create a visual pipeline with multiple panes on the user's screen).</p>
 <p>It's important to remember though that if this is used, care needs to be taken to make sure the new plugin's configuration is different from the currently running one - otherwise Zellij will send this message back to the plugin (see plugin uniqueness above).</p>
+<h3 id="the-settings-screen-pipe-message"><a class="header" href="#the-settings-screen-pipe-message">The settings screen pipe message</a></h3>
+<p>A plugin that registered a <a href="./plugin-api-commands.html#register_settings_entry">settings screen entry</a> receives a pipe message named <code>"zellij:open_plugin_settings"</code> (the <code>OPEN_PLUGIN_SETTINGS_MESSAGE</code> constant) from the settings screen when the user selects the entry. Its <code>client_id</code> argument (the <code>OPEN_PLUGIN_SETTINGS_CLIENT_ID_ARG</code> constant) holds the id of the user who selected it.</p>
 
                     </main>
 

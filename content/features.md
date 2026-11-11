@@ -6,6 +6,35 @@ images: ["/img/floating-panes-preview.png"]
 
 Following is a non-exhaustive list of features that make using Zellij a joyful experience.
 
+## Zellij Terminal
+
+Zellij can run in its own window, without another terminal emulator. Start it with `zellij terminal`, or from the app menu, the Dock or the Start menu once it is set up.
+
+- **Sessions outlive their windows**: closing a window keeps its session running, ready to be reopened
+- **Tray icon**: shows at a glance when something needs you, with the inbox and the session list one click away
+- **Desktop notifications**: when a command finishes, fails or needs you
+- **Desktop integration**: a launcher in the app menu (Zellij.app on macOS, a Start menu shortcut and "Open Zellij here" on Windows), and Zellij as the default terminal on Linux
+- Runs on Linux (X11 and Wayland), macOS and Windows
+
+Learn more in the [Zellij Terminal documentation](/documentation/zellij-terminal.html).
+
+## Inbox & Notifications
+
+Zellij keeps track of what every pane needs - a coding agent waiting for approval, a test run that failed, a long build that finished - across all running sessions, and collects it in the inbox (`Ctrl o` + `i`):
+
+- Markers on pane frames and tabs, and a count of what needs you in the tab bar
+- Live previews of the panes in the inbox, that can be typed into without switching session
+- Watch a pane to hear about every finished command, or mute the ones that are too noisy
+- Many programs report their status out of the box, see [Inbox Integrations](/documentation/inbox-integrations.html)
+
+See the [Inbox documentation](/documentation/inbox.html) for details.
+
+## Right-click Menu & Settings Screen
+
+Right-clicking a pane, a tab or a bar opens a menu with the actions that apply to it: new panes, renaming, fullscreen, floating, muting and more. The menu's items are [configurable](/documentation/context-menu.html).
+
+The [settings screen](/documentation/settings-screen.html) (`Ctrl o` + `c`) changes Zellij's behavior and appearance - themes, key bindings, mouse bindings, the right-click menu and much more - without hunting through configuration files. Changes apply right away and can be saved to the configuration file, keeping its comments and formatting.
+
 ## Floating Panes
 
 {{<figure src="/img/floating-panes-feature-demo.gif" alt="Zellij floating panes demonstration">}}
@@ -53,9 +82,12 @@ Tired of searching through terminal windows trying to find the right context? Ze
 
 **Session Manager** (`Ctrl o` + `w`) provides:
 - Quick switching between running sessions
-- Session creation with custom names
+- Live previews of every session, that can be typed into without switching
+- Session creation with custom names, layouts and folders
 - Background session management
 - Context preservation when switching
+
+Jump back to the previous session with `Ctrl o` + `Tab`, or to the next pane that needs you in any session with `Ctrl o` + `n`.
 
 **Welcome Screen** (launch with `zellij -l welcome`) offers:
 - "Start Menu" for your terminal
@@ -91,11 +123,12 @@ Running the web server yourself means handling your own certificates and network
 Zellij's plugin system allows you to extend functionality using WebAssembly:
 
 **The Zellij interface is made up of plugins:**
-- **Tab Bar & Status Bar**: Customizable UI components
-- **Session Manager**: Visual session management interface
+- **Tab Bar & Status Bar**: Customizable UI components, that can be hidden at runtime
+- **Session Manager**: Visual session management interface, including the inbox
+- **Right-click Menu**: Contextual actions for panes, tabs and bars
 - **Welcome Screen**: Session launcher and manager
 - **Multiple Pane Select**: Bulk operations on multiple panes
-- **Configuration Screen**: Interactive configuration management
+- **Settings Screen**: Interactive configuration management
 - **Strider (Filepicker)**: Dynamic filesystem navigation with fuzzy finding
 
 **Develop Your Own:**
@@ -155,6 +188,7 @@ Zellij exposes its full control surface through CLI commands, making it possible
 - **Structured state queries**: `list-panes --json`, `list-tabs --json`, and `current-tab-info --json` return full session state as JSON, enabling scripts to discover panes, check exit statuses, and make decisions based on session state.
 - **Background sessions**: Create headless sessions with `zellij attach --create-background`, then control them entirely from external scripts - opening panes, sending input, reading output, and tearing down when done.
 - **ID capture**: Pane and tab creation commands return the created resource's ID on stdout, enabling scripts to target specific panes by ID for subsequent operations.
+- **Interactive prompts**: `zellij prompt` asks the user a question in a popup (a confirmation, a choice, a text field, a form) and prints the answer, eg. `zellij prompt confirm "Deploy?" && ./deploy.sh`. See [Zellij Prompt](/documentation/zellij-prompt.html).
 
 These primitives compose naturally. For example, a CI-like pipeline that retries failed steps with human intervention:
 
@@ -202,7 +236,7 @@ Zellij detects file paths appearing in terminal output and makes them clickable.
 
 ## Native Windows Support
 
-Zellij runs natively on Windows. Windows binaries are available on the [releases page](https://github.com/zellij-org/zellij/releases).
+Zellij runs natively on Windows. Windows binaries and an installer are available on the [releases page](https://github.com/zellij-org/zellij/releases). The [Zellij terminal](/documentation/zellij-terminal.html) runs on Windows too, with a notification-area icon, Windows notifications, a Start menu shortcut and an "Open Zellij here" item in Explorer.
 
 ## Getting Started
 

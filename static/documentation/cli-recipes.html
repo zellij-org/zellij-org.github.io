@@ -164,13 +164,18 @@
 <li><a href="#inspecting-session-state">Inspecting Session State</a></li>
 <li><a href="#controlling-floating-panes">Controlling Floating Panes</a></li>
 <li><a href="#borderless-panes">Borderless Panes</a></li>
+<li><a href="#border-styles">Border Styles</a></li>
+<li><a href="#hiding-the-ui-bars">Hiding the UI Bars</a></li>
 <li><a href="#toggling-pane-visibility">Toggling Pane Visibility</a></li>
 <li><a href="#changing-pane-colors">Changing Pane Colors</a></li>
 <li><a href="#blocking-panes">Blocking Panes</a></li>
+<li><a href="#asking-the-user-from-a-script">Asking the User from a Script</a></li>
+<li><a href="#getting-notified-when-a-command-finishes">Getting Notified when a Command Finishes</a></li>
 <li><a href="#scrollback-and-screen-capture">Scrollback and Screen Capture</a></li>
 <li><a href="#session-management">Session Management</a></li>
 <li><a href="#working-with-plugins-from-the-cli">Working with Plugins from the CLI</a></li>
 <li><a href="#layout-overrides-at-runtime">Layout Overrides at Runtime</a></li>
+<li><a href="#choosing-a-swap-layout-by-name">Choosing a Swap Layout by Name</a></li>
 <li><a href="#inline-layouts">Inline Layouts</a></li>
 </ul>
 <hr />
@@ -514,6 +519,26 @@ zellij action hide-floating-panes
 <p>Explicitly set the borderless state:</p>
 <pre><code>zellij action set-pane-borderless --pane-id terminal_5 --borderless true
 </code></pre>
+<h2 id="border-styles"><a class="header" href="#border-styles">Border Styles</a></h2>
+<p>The line style of a pane's border can be set when the pane is opened, or changed later. A style can apply to all sides (eg. <code>double</code>) or to each side (eg. <code>top:double,left:single</code>), and <code>rounded</code> gives rounded corners. See <a href="./cli-actions.html#set-pane-border-style">set-pane-border-style</a> for the full format.</p>
+<p>Open a floating pane with a double border and rounded corners:</p>
+<pre><code>zellij action new-pane --floating --border-style "double,rounded" -- htop
+</code></pre>
+<p>Change the border of an existing pane:</p>
+<pre><code>zellij action set-pane-border-style --pane-id terminal_5 --border-style "top:heavy,bottom:heavy"
+</code></pre>
+<p>Return the pane to the default border:</p>
+<pre><code>zellij action set-pane-border-style --pane-id terminal_5
+</code></pre>
+<h2 id="hiding-the-ui-bars"><a class="header" href="#hiding-the-ui-bars">Hiding the UI Bars</a></h2>
+<p>The tab-bar, status-bar and other bars can be hidden and shown again at runtime, in every tab of the session:</p>
+<pre><code>zellij action hide-bars
+zellij action hide-bars status-bar
+zellij action show-bars
+</code></pre>
+<p><code>toggle-bars</code> shows all bars if any are hidden, and otherwise hides the named ones (all if none are named):</p>
+<pre><code>zellij action toggle-bars
+</code></pre>
 <h2 id="toggling-pane-visibility"><a class="header" href="#toggling-pane-visibility">Toggling Pane Visibility</a></h2>
 <p>A tiled pane can be floated and a floating pane can be embedded. This is useful for background tasks - a long-running process can be kept in a floating pane whose visibility is toggled as needed, keeping the main workspace uncluttered.</p>
 <p>Float a tiled pane or embed a floating pane:</p>
@@ -600,6 +625,24 @@ echo "Pipeline complete."
 <p>The same blocking flags are available on <code>new-tab</code> for its initial command:</p>
 <pre><code>zellij action new-tab --block-until-exit-success -- cargo test
 </code></pre>
+<h2 id="asking-the-user-from-a-script"><a class="header" href="#asking-the-user-from-a-script">Asking the User from a Script</a></h2>
+<p><a href="./zellij-prompt.html"><code>zellij prompt</code></a> shows a popup over the pane the script runs in and prints the answer. It can be used to confirm a step, pick an item or fill in a value:</p>
+<pre><code class="language-bash">zellij prompt confirm "Deploy to production?" --yes Deploy --no Cancel || exit 1
+BRANCH=$(git branch --format='%(refname:short)' | zellij prompt choose --title Branch) || exit 1
+MESSAGE=$(zellij prompt input "Commit message" --required) || exit 1
+git checkout "$BRANCH" &amp;&amp; git commit -am "$MESSAGE"
+</code></pre>
+<p>A notice that does not take the keyboard can be shown at the end of a long task:</p>
+<pre><code>make &amp;&amp; zellij prompt notify "Build finished" --timeout 5s
+</code></pre>
+<h2 id="getting-notified-when-a-command-finishes"><a class="header" href="#getting-notified-when-a-command-finishes">Getting Notified when a Command Finishes</a></h2>
+<p>A command pane can be watched from the start, so a notification is sent each time its command finishes or its output goes quiet:</p>
+<pre><code>zellij run --notify -- cargo build --release
+</code></pre>
+<p>An existing pane can be watched (and unwatched) with:</p>
+<pre><code>zellij action watch-pane --pane-id terminal_3
+</code></pre>
+<p>See <a href="./inbox.html">the inbox</a> for where these notifications appear.</p>
 <h2 id="scrollback-and-screen-capture"><a class="header" href="#scrollback-and-screen-capture">Scrollback and Screen Capture</a></h2>
 <p>Dump the viewport of the focused pane to stdout:</p>
 <pre><code>zellij action dump-screen
@@ -622,6 +665,20 @@ echo "Pipeline complete."
 </code></pre>
 <p>Switch to a different session:</p>
 <pre><code>zellij action switch-session other-session
+</code></pre>
+<p>Switch to a different session and close the current one if nothing was run in it:</p>
+<pre><code>zellij action switch-session other-session --close-current
+</code></pre>
+<p>Go back to the session this client was in before (run again to return):</p>
+<pre><code>zellij action toggle-session
+</code></pre>
+<p>Move back and forward through the sessions this client visited, or jump to the next pane that needs attention in any session:</p>
+<pre><code>zellij action go-to-previous-session
+zellij action go-to-next-session
+zellij action go-to-next-attention
+</code></pre>
+<p>Set the command a pane is <a href="./session-resurrection.html">resurrected</a> with, for example from a program that knows how to resume itself:</p>
+<pre><code>zellij action set-resurrect-command -- opencode -s ses_abc
 </code></pre>
 <p>Detach from the current session:</p>
 <pre><code>zellij action detach
@@ -646,6 +703,11 @@ echo "Pipeline complete."
 <p>Apply the layout only to the active tab:</p>
 <pre><code>zellij action override-layout /path/to/layout.kdl --apply-only-to-active-tab
 </code></pre>
+<h2 id="choosing-a-swap-layout-by-name"><a class="header" href="#choosing-a-swap-layout-by-name">Choosing a Swap Layout by Name</a></h2>
+<p>Instead of cycling through <a href="./swap-layouts.html">swap layouts</a> with <code>next-swap-layout</code>, one can be selected by the <code>name</code> it has in the layout file. The command exits with status 1 if no swap layout with that name fits the current number of panes:</p>
+<pre><code>zellij action apply-tiled-swap-layout stacked
+zellij action apply-floating-swap-layout spread --tab-id 2
+</code></pre>
 <h2 id="inline-layouts"><a class="header" href="#inline-layouts">Inline Layouts</a></h2>
 <p>Instead of referencing a layout file, a raw KDL layout string can be passed directly on the command line using <code>--layout-string</code>. This is useful for scripted or dynamic layouts without creating temporary files.</p>
 <p>Start a new tab with an inline layout:</p>
@@ -662,7 +724,7 @@ echo "Pipeline complete."
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="zellij-subscribe.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="zellij-prompt.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -676,7 +738,7 @@ echo "Pipeline complete."
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="zellij-subscribe.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="zellij-prompt.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 

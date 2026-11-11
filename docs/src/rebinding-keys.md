@@ -3,6 +3,8 @@ Zellij places great emphasis on being a keyboard-first application. As such, Zel
 
 For some users, these shortcuts may "collide" with other shortcuts they use in the terminal in other programs. For these users, Zellij offers several solutions.
 
-1. Using a "non-colliding" [keybinding preset](./keybinding-presets.md)
+1. Using a "non-colliding" [keybinding preset](./keybinding-presets.md), or writing a preset of one's own
 2. Changing the [modifier keys](./changing-modifiers.md) Zellij uses for keybindings to ones that do not collide
 3. Reconfiguring keybindings entirely as part of the [configuration file](./keybindings.md)
+
+Mouse clicks and scrolling can be rebound as well, in the `mousebinds` block. See [Mouse Bindings](./mouse-bindings.md).

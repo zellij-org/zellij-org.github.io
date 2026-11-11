@@ -154,6 +154,8 @@
                     <main>
                         <h1 id="legacy-themes"><a class="header" href="#legacy-themes">Legacy Themes</a></h1>
 <p>This file defines the original Zellij theme specification. It is still supported, but new themes should be written in the new spec defined at the root of this section.</p>
+<p>The colors named <code>black</code>, <code>red</code> and so on in this format color the Zellij interface. They do not set the ANSI colors of the <a href="./zellij-terminal.html">Zellij terminal</a> window. A legacy theme can also contain a <a href="./themes.html#terminal_colors"><code>terminal_colors</code></a> section for that.</p>
+<p>The colors of hovered and alternate tabs in a legacy theme are worked out the same way as for a theme without a <a href="./themes.html#ribbon_hover"><code>ribbon_hover</code></a> section.</p>
 <h2 id="truecolor-themes"><a class="header" href="#truecolor-themes">Truecolor themes</a></h2>
 <pre><code class="language-javascript">themes {
    dracula {
@@ -173,7 +175,7 @@
 </code></pre>
 <h2 id="256-color-themes"><a class="header" href="#256-color-themes">256 color themes</a></h2>
 <pre><code class="language-javascript">themes {
-    default {
+    my-256-color-theme {
         fg 1
         bg 10
         black 20
