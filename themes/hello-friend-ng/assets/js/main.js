@@ -14,20 +14,14 @@ function copyOnClick(id) {
   var copyText = document.getElementById(id);
   navigator.clipboard.writeText(copyText.innerText);
   var btn = document.getElementById(id + "Btn");
-  btn.style.background = "#A3BD8D"
 
-  var otherBtn;
-  if (id === "fishCmd") {
-    otherBtn = "bashCmdBtn";
-  } else if (id === "bashCmd") {
-    otherBtn = "fishCmdBtn";
-  }
-  var otherBtn = document.getElementById(otherBtn);
+  document.querySelectorAll("button[id$='CmdBtn']").forEach(function (otherBtn) {
+    otherBtn.style.background = "#1B1C1D";
+  });
+  btn.style.background = "#A3BD8D";
   window.setTimeout(function () {
-    var btn = document.getElementById(id + "Btn");
-    btn.style.background = "#1B1C1D"
+    btn.style.background = "#1B1C1D";
   }, 300);
-  otherBtn.style.background = "#1B1C1D"
 }
 
 // Detect the color scheme the operating system prefers.
