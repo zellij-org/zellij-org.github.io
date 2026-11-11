@@ -156,22 +156,51 @@
 <p>This alias, by default translated to the internal <code>zellij:session-manager</code> plugin url, represents the session-manager loaded by default with <code>Ctrl o</code> + <code>w</code>.</p>
 <h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
 <p>The session manager provides a centralized interface for managing all Zellij sessions. It is loaded as a floating pane as part of the default keybindings.</p>
+<p>It also holds the <a href="./inbox.html">inbox</a>. <code>Tab</code> switches between the session list and the inbox.</p>
 <h2 id="features"><a class="header" href="#features">Features</a></h2>
 <p>The session manager allows the user to:</p>
 <ol>
 <li><strong>Switch between active sessions</strong> - Browse and switch to any running session</li>
+<li><strong>Preview sessions</strong> - See a live view of the selected session's panes (<code>←</code> <code>→</code> shows its tabs and panes), and click the view to type into a pane without switching to its session</li>
 <li><strong>Resurrect exited sessions</strong> - Bring back previously closed sessions with their full layout and commands</li>
-<li><strong>Start new sessions</strong> - Create new sessions with optional names and layouts</li>
+<li><strong>Start new sessions</strong> - Type a name to create a new session, or create one with a layout and a folder of your choice</li>
 <li><strong>Rename the current session</strong> - Change the name of the active session</li>
 <li><strong>Disconnect other clients</strong> - Disconnect other users connected to the current session</li>
-<li><strong>Kill and delete sessions</strong> - Kill active sessions or permanently delete exited sessions</li>
+<li><strong>Kill and delete sessions</strong> - Stop active sessions or permanently delete exited sessions</li>
 <li><strong>View session metadata</strong> - See tab counts, connected clients, and other session information</li>
-<li><strong>Web sharing controls</strong> - Start/stop the web server and manage sharing settings from within the session manager</li>
+<li><strong>Open a session in its own window</strong> - Open the selected session in a <a href="./zellij-terminal.html">Zellij terminal</a> window</li>
 </ol>
+<p>Other sessions are suggested in the list according to the <a href="./session-suggestions.html">session suggestions</a> rules (eg. sessions in the same folder or git branch first).</p>
+<p>Sharing sessions in the browser is done from the <a href="./web-client.html">share screen</a> (<code>Ctrl o</code> + <code>s</code>), not from the session manager.</p>
+<h2 id="keys"><a class="header" href="#keys">Keys</a></h2>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Key</th><th style="text-align: left">Action</th></tr></thead><tbody>
+<tr><td style="text-align: left">type</td><td style="text-align: left">Search sessions, or name a new session</td></tr>
+<tr><td style="text-align: left"><code>↓</code> <code>↑</code></td><td style="text-align: left">Select a session</td></tr>
+<tr><td style="text-align: left"><code>Enter</code></td><td style="text-align: left">Switch to, resurrect or create the selected session</td></tr>
+<tr><td style="text-align: left"><code>←</code> <code>→</code></td><td style="text-align: left">Show the tabs and panes of the selected session</td></tr>
+<tr><td style="text-align: left"><code>Tab</code> / <code>Shift Tab</code></td><td style="text-align: left">Complete the typed name, cycling through the matching sessions. When the inbox is shown, <code>Tab</code> switches to it</td></tr>
+<tr><td style="text-align: left"><code>Ctrl l</code></td><td style="text-align: left">Create a new session with a layout</td></tr>
+<tr><td style="text-align: left"><code>Ctrl r</code></td><td style="text-align: left">Rename the current session</td></tr>
+<tr><td style="text-align: left"><code>Del</code></td><td style="text-align: left">Stop or delete the selected session</td></tr>
+<tr><td style="text-align: left"><code>Shift Del</code></td><td style="text-align: left">Delete all exited sessions</td></tr>
+<tr><td style="text-align: left"><code>Alt w</code></td><td style="text-align: left">Open the selected session in a Zellij terminal window</td></tr>
+<tr><td style="text-align: left"><code>Ctrl c</code></td><td style="text-align: left">Clear the search, or close the session manager when the search is empty</td></tr>
+<tr><td style="text-align: left"><code>F1</code></td><td style="text-align: left">Show all keys</td></tr>
+<tr><td style="text-align: left"><code>Esc</code></td><td style="text-align: left">Close</td></tr>
+</tbody></table>
+</div>
+<p>When creating a session with a layout, typing filters the layouts, <code>Ctrl f</code> chooses the folder the session starts in and <code>Ctrl c</code> resets it.</p>
+<p>The current session can also be renamed without the session manager, with <code>Ctrl o</code> + <code>r</code>.</p>
 <h2 id="dismissing-the-session-manager"><a class="header" href="#dismissing-the-session-manager">Dismissing the session manager</a></h2>
-<p>Pressing <code>Esc</code> or <code>Ctrl c</code> closes the session manager rather than hiding it. It also closes itself after switching to another session.</p>
+<p>Pressing <code>Esc</code> (or <code>Ctrl c</code> with an empty search) closes the session manager rather than hiding it. It also closes itself after switching to another session.</p>
+<h2 id="configuration"><a class="header" href="#configuration">Configuration</a></h2>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Key</th><th style="text-align: left">Description</th></tr></thead><tbody>
+<tr><td style="text-align: left"><code>welcome_screen</code></td><td style="text-align: left">When <code>true</code>, act as the <a href="./welcome-screen-alias.html">welcome screen</a></td></tr>
+</tbody></table>
+</div>
 <h2 id="contract"><a class="header" href="#contract">Contract</a></h2>
 <p>Zellij loads the session-manager as a floating pane. Plugins implementing this alias should expect to be loaded in floating mode and should provide a navigable interface for the features listed above.</p>
+<p>Zellij also loads this alias to show the <a href="./inbox.html">inbox</a> (eg. with <code>Ctrl o</code> + <code>i</code>, or the session card at the start of a session) and the sessions and inbox panels of the <a href="./zellij-terminal.html">Zellij terminal</a>, passing a <code>role</code> configuration for each.</p>
 <p>The session-manager is a built-in plugin and can be replaced by specifying a different plugin URL for the <code>session-manager</code> alias in the <a href="./configuration.html">configuration</a>.</p>
 
                     </main>

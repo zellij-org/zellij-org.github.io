@@ -154,23 +154,139 @@
                     <main>
                         <h1 id="keybinding-presets"><a class="header" href="#keybinding-presets">Keybinding Presets</a></h1>
 <p>Keybinding Presets are a set of keybindings that can be used to control Zellij. Zellij comes with two such presets out of the box, intended to fit different kinds of users. They are described below.</p>
+<p>A preset is a file. It holds a full set of keybindings and <a href="./mouse-bindings.html">mouse bindings</a>, written with placeholders for the leader keys (see <a href="#leader-keys">Leader keys</a>). Besides the two built-in presets, presets can be written by hand and kept in the <a href="#the-keybinds-folder">keybinds folder</a>.</p>
 <h3 id="the-default-preset"><a class="header" href="#the-default-preset">The <code>default</code> preset</a></h3>
 <p><img src="img/default-preset.png" alt="default preset status-bar" />
 This preset should fit most users of Zellij. In it, all modes are accessible from the basic "normal" mode in which the user spends most of their time. One can enter <code>Pane</code> mode by pressing <code>Ctrl p</code> and then have access to all commands inside pane mode (eg. <code>n</code> to open a new pane or <code>x</code> to close the focused pane).</p>
+<p>Its name is <code>default</code>. Its full contents can be printed with <code>zellij setup --dump-keybinds default</code>.</p>
 <h3 id="the-unlock-first-non-colliding-preset"><a class="header" href="#the-unlock-first-non-colliding-preset">The <code>Unlock-First (non-colliding)</code> preset</a></h3>
 <p><img src="img/unlock-first-preset.png" alt="unlock-first preset status-bar" />
 This preset is tailored to users who use terminal applications with keyboard shortcuts that collide with Zellij's own keybindings. In this preset, users "unlock" the interface before accessing the various input modes. The modes themselves can then be accessed with a single character shortcut.</p>
 <p>So for example, in order to open a new pane, the user would press: <code>Ctrl g</code> followed by <code>p</code> followed by <code>n</code>. The Zellij maintainers found that after a short adjustment period, this is a fast, efficient and most importantly mentally-consistent way of interacting with the application.</p>
-<h2 id="how-to-switch-between-presets"><a class="header" href="#how-to-switch-between-presets">How to switch between presets?</a></h2>
-<p><img src="img/configuration-plugin.png" alt="configuration" />
-Switching between these presets is possible with the <code>Configuration</code> screen. Accessible with:</p>
+<p>Its name is <code>unlock-first</code>. Zellij starts in <code>locked</code> mode with this preset, unless the <a href="./options.html#default_mode-locked"><code>default_mode</code></a> option is set. Its full contents can be printed with <code>zellij setup --dump-keybinds unlock-first</code>.</p>
+<h2 id="how-to-choose-a-preset"><a class="header" href="#how-to-choose-a-preset">How to choose a preset?</a></h2>
+<h3 id="in-the-configuration-file"><a class="header" href="#in-the-configuration-file">In the configuration file</a></h3>
+<p>The preset is chosen with the <code>preset</code> attribute of the <code>keybinds</code> block:</p>
+<pre><code class="language-javascript">keybinds preset="unlock-first" {
+}
+</code></pre>
+<p>The value is one of:</p>
+<ul>
+<li>the name of a built-in preset (<code>default</code> or <code>unlock-first</code>)</li>
+<li>the name of a preset file in the <a href="#the-keybinds-folder">keybinds folder</a>, without the <code>.kdl</code> extension</li>
+<li>a path to a preset file (a relative path is taken from the folder of the configuration file)</li>
+</ul>
+<p>Without a <code>preset</code> attribute, the <code>default</code> preset is used.</p>
+<p>Bindings inside the <code>keybinds</code> block are applied on top of the preset (see <a href="./keybindings-binding.html">Binding and Overriding Keys</a>). To replace the preset completely, add <code>clear-defaults=true</code> to the block.</p>
+<p>If the preset cannot be loaded (eg. the file is missing, a leader key is empty, or the primary and secondary leader keys are the same), Zellij warns and uses the <code>default</code> preset instead.</p>
+<h3 id="in-the-settings-screen"><a class="header" href="#in-the-settings-screen">In the settings screen</a></h3>
+<p>The preset and its leader keys can also be chosen in the <a href="./settings-screen.html">settings screen</a>, under <strong>Keyboard</strong> → <strong>Key bindings and preset…</strong>. The settings screen is accessible with:</p>
 <ul>
 <li><code>Ctrl o</code> + <code>c</code> in the default preset</li>
 <li><code>Ctrl g</code> + <code>o</code> + <code>c</code> in the <code>Unlock-First</code> preset</li>
 </ul>
-<p>The configuration screen overrides the current keybindings with those of the selected preset. Either temporarily just for the relevant session, or permanently by writing them to the configuration file.</p>
-<p>Choosing between the two is also an option given to users on the first-run of Zellij if they do not already have a configuration file in place.</p>
-
+<p>The change can be applied just for the current session, or saved to the configuration file. From the same screen, a preset can be copied into the keybinds folder, and the current keybindings can be saved as a new preset there.</p>
+<p>Choosing between the two built-in presets is also offered on the setup screen shown on the first run of Zellij.</p>
+<h3 id="from-the-command-line"><a class="header" href="#from-the-command-line">From the command line</a></h3>
+<p>To save a preset to the configuration file (creating the file if needed):</p>
+<pre><code class="language-sh">zellij setup --keybinding-preset unlock-first
+</code></pre>
+<p>To use a preset for a single session, without changing the configuration file:</p>
+<pre><code class="language-sh">zellij options --keybinds-preset unlock-first --keybinds-unlock "Ctrl a"
+</code></pre>
+<p>The flags are:</p>
+<ul>
+<li><code>--keybinds-preset</code> - a preset name or a path to a preset file</li>
+<li><code>--keybinds-primary</code> - the primary leader key (eg. <code>"Ctrl"</code>)</li>
+<li><code>--keybinds-secondary</code> - the secondary leader key (eg. <code>"Alt"</code>)</li>
+<li><code>--keybinds-unlock</code> - the unlock key (eg. <code>"Ctrl g"</code>)</li>
+</ul>
+<p>When a preset is given with <code>--keybinds-preset</code>, a <code>keybinds clear-defaults=true</code> block in the configuration file is ignored, so that the chosen preset is used as it is. A <code>keybinds</code> block without <code>clear-defaults=true</code> is still applied on top of it.</p>
+<p>To print a preset (built-in, or from the keybinds folder):</p>
+<pre><code class="language-sh">zellij setup --dump-keybinds default
+</code></pre>
+<h2 id="leader-keys"><a class="header" href="#leader-keys">Leader keys</a></h2>
+<p>Presets are written with three placeholders, which are filled in with the leader keys:</p>
+<div class="table-wrapper"><table><thead><tr><th>Placeholder</th><th>Meaning</th><th>Default</th></tr></thead><tbody>
+<tr><td><code>{primary}</code></td><td>The primary modifier, used to enter modes (see <a href="./changing-modifiers.html">Changing Modifiers</a>)</td><td><code>Ctrl</code></td></tr>
+<tr><td><code>{secondary}</code></td><td>The secondary modifier, used for common shortcuts</td><td><code>Alt</code></td></tr>
+<tr><td><code>{unlock}</code></td><td>The key that leaves <code>locked</code> mode (used by <code>unlock-first</code>)</td><td><code>Ctrl g</code></td></tr>
+</tbody></table>
+</div>
+<p>They are set with attributes of the <code>keybinds</code> block:</p>
+<pre><code class="language-javascript">keybinds preset="default" primary="Ctrl Alt" secondary="Alt" {
+}
+</code></pre>
+<pre><code class="language-javascript">keybinds preset="unlock-first" unlock="Ctrl a" {
+}
+</code></pre>
+<p>The primary and secondary values must be different. The leader keys also change the <a href="./mouse-bindings.html#default-mouse-bindings">mouse bindings</a> of the preset.</p>
+<h2 id="the-keybinds-folder"><a class="header" href="#the-keybinds-folder">The keybinds folder</a></h2>
+<p>Preset files are looked for in the <code>keybinds</code> folder inside the configuration folder (eg. <code>~/.config/zellij/keybinds/my-preset.kdl</code> is used with <code>preset="my-preset"</code>). A different folder can be set with the <a href="./options.html#keybinds_dir"><code>keybinds_dir</code></a> option:</p>
+<pre><code class="language-javascript">keybinds_dir "/path/to/my/keybinds_dir"
+</code></pre>
+<p>Preset names may contain letters, digits, <code>-</code> and <code>_</code>.</p>
+<h2 id="writing-a-preset"><a class="header" href="#writing-a-preset">Writing a preset</a></h2>
+<p>A preset file has an optional <code>preset</code> block describing it, a <code>keybinds</code> block, and an optional <code>mousebinds</code> block:</p>
+<pre><code class="language-javascript">preset {
+    name "My preset"
+    description "All modes available directly from the base mode, eg.:"
+    example "{primary} p" "to enter PANE mode"
+    example "{primary} t" "to enter TAB mode"
+    default_mode "normal"
+    defaults {
+        primary "Ctrl"
+        secondary "Alt"
+    }
+}
+keybinds {
+    locked {
+        bind "{primary} g" { SwitchToMode "Normal"; }
+    }
+    shared_except "locked" {
+        bind "{primary} g" { SwitchToMode "Locked"; }
+        bind "{secondary} n" { NewPane; }
+    }
+}
+mousebinds {
+    shared {
+        bind "Left" { Click; }
+        bind "ScrollUp" { Scroll 3; }
+        bind "ScrollDown" { Scroll 3; }
+    }
+}
+</code></pre>
+<ul>
+<li><code>name</code>, <code>description</code> and <code>example</code> (the keys, then what they do) are shown when choosing a preset.</li>
+<li><code>default_mode</code> is the mode Zellij starts in with this preset, unless the <a href="./options.html#default_mode-locked"><code>default_mode</code></a> option is set.</li>
+<li><code>defaults</code> gives the value of each placeholder used, when the user does not set one.</li>
+<li>Only <code>{primary}</code>, <code>{secondary}</code> and <code>{unlock}</code> can be used, and only in the keys of <code>bind</code> and <code>unbind</code>. Any other placeholder is an error.</li>
+<li>The <code>keybinds</code> block uses the same syntax as in the configuration file (see <a href="./keybindings.html">Keybindings</a>).</li>
+<li>Without a <code>mousebinds</code> block, the mouse bindings of the <code>default</code> preset are used (see <a href="./mouse-bindings.html">Mouse Bindings</a>).</li>
+</ul>
+<p>A good starting point is a built-in preset: <code>zellij setup --dump-keybinds default &gt; ~/.config/zellij/keybinds/my-preset.kdl</code>.</p>
+<h2 id="more-default-keys"><a class="header" href="#more-default-keys">More default keys</a></h2>
+<p>These keys are in both built-in presets. In <code>unlock-first</code>, the actions return to <code>locked</code> mode instead of <code>normal</code> mode, and modes are entered without <code>Ctrl</code> (eg. <code>Ctrl g</code> + <code>p</code> instead of <code>Ctrl p</code>).</p>
+<div class="table-wrapper"><table><thead><tr><th>Mode</th><th>Key</th><th>Action</th></tr></thead><tbody>
+<tr><td><code>pane</code></td><td><code>a</code></td><td><a href="./keybindings-possible-actions.html#newfloatingpane"><code>NewFloatingPane</code></a></td></tr>
+<tr><td><code>pane</code></td><td><code>Shift s</code></td><td><a href="./keybindings-possible-actions.html#togglestacklistorientation"><code>ToggleStackListOrientation</code></a></td></tr>
+<tr><td><code>pane</code></td><td><code>Shift z</code></td><td><a href="./keybindings-possible-actions.html#togglebars"><code>ToggleBars</code></a> (hide or show the bars)</td></tr>
+<tr><td><code>pane</code></td><td><code>u</code></td><td><a href="./keybindings-possible-actions.html#mutepane"><code>MutePane</code></a></td></tr>
+<tr><td><code>pane</code></td><td><code>g</code></td><td><a href="./keybindings-possible-actions.html#ignorepaneoutput"><code>IgnorePaneOutput</code></a></td></tr>
+<tr><td><code>pane</code></td><td><code>v</code></td><td><a href="./keybindings-possible-actions.html#watchpane"><code>WatchPane</code></a></td></tr>
+<tr><td><code>tab</code></td><td><code>Space</code></td><td><a href="./keybindings-possible-actions.html#nextswaplayout"><code>NextSwapLayout</code></a></td></tr>
+<tr><td><code>tab</code></td><td><code>Shift Space</code></td><td><a href="./keybindings-possible-actions.html#previousswaplayout"><code>PreviousSwapLayout</code></a></td></tr>
+<tr><td><code>tab</code></td><td><code>u</code></td><td><a href="./keybindings-possible-actions.html#mutetab"><code>MuteTab</code></a></td></tr>
+<tr><td><code>session</code></td><td><code>i</code></td><td><a href="./keybindings-possible-actions.html#togglesessioncard"><code>ToggleSessionCard</code></a> (show or hide the <a href="./inbox.html">inbox</a>)</td></tr>
+<tr><td><code>session</code></td><td><code>r</code></td><td>Rename the session (enters the <a href="./keybindings-modes.html#the-renamesession-mode"><code>renamesession</code></a> mode)</td></tr>
+<tr><td><code>session</code></td><td><code>u</code></td><td><a href="./keybindings-possible-actions.html#mutesession"><code>MuteSession</code></a></td></tr>
+<tr><td><code>session</code></td><td><code>Tab</code></td><td><a href="./keybindings-possible-actions.html#togglesession"><code>ToggleSession</code></a> (back to the previous session)</td></tr>
+<tr><td><code>session</code></td><td><code>Left</code> / <code>Right</code></td><td><a href="./keybindings-possible-actions.html#gotoprevioussession"><code>GoToPreviousSession</code></a> / <a href="./keybindings-possible-actions.html#gotonextsession"><code>GoToNextSession</code></a></td></tr>
+<tr><td><code>session</code></td><td><code>n</code></td><td><a href="./keybindings-possible-actions.html#gotonextattention"><code>GoToNextAttention</code></a></td></tr>
+<tr><td><code>renamesession</code></td><td><code>Esc</code></td><td><a href="./keybindings-possible-actions.html#undorenamesession"><code>UndoRenameSession</code></a>, back to <code>session</code> mode</td></tr>
+<tr><td><code>renamesession</code></td><td><code>Ctrl c</code></td><td>Keep the new name, back to <code>normal</code> mode (<code>locked</code> in <code>unlock-first</code>, where <code>Enter</code> does the same)</td></tr>
+</tbody></table>
+</div>
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">

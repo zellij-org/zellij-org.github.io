@@ -155,6 +155,89 @@
                         <h1 id="upgrading-a-plugin"><a class="header" href="#upgrading-a-plugin">Upgrading a Plugin</a></h1>
 <p>Zellij plugins are backwards compatible - meaning that a plugin compiled for an older version of Zellij should always run fine on a newer version of Zellij.</p>
 <p>The plugin API however might break every now and then for plugin <em>code</em> that has not been compiled for the current version. We try to minimize these occurrences as much as possible.</p>
+<p>Compatibility only goes one way: a plugin compiled against a newer <code>zellij-tile</code> is not guaranteed to work on an older Zellij.</p>
+<h2 id="upgrading-to-0460"><a class="header" href="#upgrading-to-0460">Upgrading to 0.46.0</a></h2>
+<p>The following changes may require updating a plugin's code when moving it to <code>zellij-tile</code> <code>0.46.0</code>. Plugins that are not recompiled keep working (see <a href="#plugins-compiled-for-older-versions">Plugins compiled for older versions</a>).</p>
+<h3 id="textnew-is-replaced-by-textfrom"><a class="header" href="#textnew-is-replaced-by-textfrom"><code>Text::new</code> is replaced by <code>Text::from</code></a></h3>
+<p><code>Text::new</code> was removed. <code>Text</code> is now created with <code>Text::from</code>, which accepts a <code>&amp;str</code>, a <code>String</code>, a <code>&amp;String</code> or a <code>StyledText</code>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let text = Text::from("Hello").color_range(0, ..);
+<span class="boring">}</span></code></pre></pre>
+<p>The following <a href="https://ast-grep.github.io/">ast-grep</a> command handles most cases (but not all of them):</p>
+<pre><code>ast-grep run -p 'Text::new($A)' -r 'Text::from($A)' --update-all
+</code></pre>
+<p><code>Text::new</code> also accepted other types that can be turned into a string (eg. numbers). These need to be converted first, eg. <code>Text::from(count.to_string())</code>.</p>
+<h3 id="nestedlistitemnew-takes-a-text"><a class="header" href="#nestedlistitemnew-takes-a-text"><code>NestedListItem::new</code> takes a <code>Text</code></a></h3>
+<p><code>NestedListItem::new</code> now takes a <code>Text</code> instead of a string, and the styling methods were removed from <code>NestedListItem</code>: <code>opaque</code>, <code>color_indices</code>, <code>color_range</code>, <code>color_substring</code>, <code>color_nth_substring</code>, <code>color_last_substring</code>, <code>color_all</code>, and all the <code>error_color_*</code> and <code>success_color_*</code> methods. The remaining methods are <code>indent</code> and <code>selected</code>.</p>
+<p>The styling is now done on the <code>Text</code> before creating the item. Before:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>NestedListItem::new("my-session").color_range(0, ..).indent(1)
+<span class="boring">}</span></code></pre></pre>
+<p>After:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>NestedListItem::new(Text::from("my-session").color_range(0, ..)).indent(1)
+<span class="boring">}</span></code></pre></pre>
+<p>The ast-grep command above does not change these calls.</p>
+<h3 id="substring-styling-uses-character-positions"><a class="header" href="#substring-styling-uses-character-positions">Substring styling uses character positions</a></h3>
+<p>The <code>Text</code> methods <code>color_substring</code>, <code>color_nth_substring</code>, <code>color_last_substring</code> (and their <code>dim_</code>, <code>unbold_</code>, <code>error_color_</code> and <code>success_color_</code> versions) now always style the right characters in text that contains non-ASCII characters. Before, some of them used byte positions, so the styling could be shifted. Plugins that worked around this should remove the workaround. Text that is only ASCII is not affected.</p>
+<h3 id="new-struct-fields"><a class="header" href="#new-struct-fields">New struct fields</a></h3>
+<p>These structs gained a <code>border_style</code> field (or two):</p>
+<div class="table-wrapper"><table><thead><tr><th>Struct</th><th>New fields</th></tr></thead><tbody>
+<tr><td><code>Style</code></td><td><code>border_style</code>, <code>floating_border_style</code></td></tr>
+<tr><td><code>FloatingPaneCoordinates</code></td><td><code>border_style</code></td></tr>
+<tr><td><code>CommandToRun</code></td><td><code>border_style</code></td></tr>
+<tr><td><code>FileToOpen</code></td><td><code>border_style</code></td></tr>
+</tbody></table>
+</div>
+<p>Code that creates these structs by listing all of their fields no longer compiles. Adding <code>..Default::default()</code> fixes this:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let command = CommandToRun {
+    path: "htop".into(),
+    args: vec![],
+    cwd: None,
+    ..Default::default()
+};
+<span class="boring">}</span></code></pre></pre>
+<p>The constructors and builder methods, eg. <code>CommandToRun::new</code>, <code>CommandToRun::new_with_args</code>, <code>FileToOpen::new</code> and <code>FloatingPaneCoordinates::new</code>, work as before.</p>
+<h3 id="newpaneplacement-variants-have-a-border_style-field"><a class="header" href="#newpaneplacement-variants-have-a-border_style-field"><code>NewPanePlacement</code> variants have a <code>border_style</code> field</a></h3>
+<p>The <code>NoPreference</code>, <code>Tiled</code>, <code>InPlace</code> and <code>Stacked</code> variants of <code>NewPanePlacement</code> gained a <code>border_style: Option&lt;BorderStyleOverride&gt;</code> field. Code that creates them needs to add <code>border_style: None</code>, and code that matches on them needs to add <code>border_style</code> or <code>..</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let placement = NewPanePlacement::Tiled {
+    direction: Some(Direction::Right),
+    borderless: None,
+    border_style: None,
+};
+<span class="boring">}</span></code></pre></pre>
+<p><code>NewPanePlacement::default()</code>, <code>NewPanePlacement::with_floating_pane_coordinates</code> and <code>NewPanePlacement::with_pane_id_to_replace</code> work as before.</p>
+<h3 id="new-enum-variants"><a class="header" href="#new-enum-variants">New enum variants</a></h3>
+<p>These enums gained variants, so a <code>match</code> that lists every variant needs a new arm (or a <code>_</code> arm):</p>
+<div class="table-wrapper"><table><thead><tr><th>Enum</th><th>New variant</th></tr></thead><tbody>
+<tr><td><code>Mouse</code></td><td><code>DoubleClick(isize, usize)</code></td></tr>
+<tr><td><code>InputMode</code></td><td><code>RenameSession</code></td></tr>
+<tr><td><code>PipeSource</code></td><td><code>PromptRequest { caller_plugin_id, request_id }</code></td></tr>
+</tbody></table>
+</div>
+<h3 id="plugincommandtogglepaneembedorejectforpaneid-takes-paneid-bool"><a class="header" href="#plugincommandtogglepaneembedorejectforpaneid-takes-paneid-bool"><code>PluginCommand::TogglePaneEmbedOrEjectForPaneId</code> takes <code>(PaneId, bool)</code></a></h3>
+<p>The <code>bool</code> says whether the pane should also be shown and focused. This only matters for code that creates the <code>PluginCommand</code> directly. The <code>toggle_pane_embed_or_eject_for_pane_id(pane_id)</code> function works as before, and <code>toggle_pane_embed_or_eject_for_pane_id_with_focus(pane_id, show_and_focus)</code> was added.</p>
+<h3 id="clientid-is-a-u32"><a class="header" href="#clientid-is-a-u32"><code>ClientId</code> is a <code>u32</code></a></h3>
+<p><code>ClientId</code> (used eg. in <code>ClientInfo::client_id</code>) changed from <code>u16</code> to <code>u32</code>. Code that stores client ids in a <code>u16</code> needs to change the type.</p>
+<h3 id="the-zellij_plugin_contract-export"><a class="header" href="#the-zellij_plugin_contract-export">The <code>zellij_plugin_contract</code> export</a></h3>
+<p>Plugins built with <code>zellij-tile</code> <code>0.46.0</code> export an empty function called <code>zellij_plugin_contract</code>. <code>register_plugin!</code> adds it automatically. Zellij uses it to tell plugins built for <code>0.46.0</code> or later apart from older ones. Plugins written without <code>register_plugin!</code> (eg. in <a href="./plugin-other-languages.html">other languages</a>) need to export this function themselves to receive the full event stream.</p>
+<h3 id="plugins-compiled-for-older-versions"><a class="header" href="#plugins-compiled-for-older-versions">Plugins compiled for older versions</a></h3>
+<p>A plugin that does not export <code>zellij_plugin_contract</code> (except Zellij's built-in plugins) is treated as compiled for <code>0.45</code>. Zellij keeps it working by only sending it what it can read:</p>
+<ul>
+<li>Mode updates for the new <code>RenameSession</code> mode are sent as <code>RenameTab</code>.</li>
+<li><code>Mouse::DoubleClick</code> events are not sent.</li>
+<li><code>UserAction</code> events with actions that a <code>0.45</code> plugin cannot read are not sent.</li>
+<li>Pipe messages from sources a <code>0.45</code> plugin does not know (eg. prompt requests) are not sent.</li>
+</ul>
+<h3 id="the-new-ui-components-do-not-render-on-older-versions"><a class="header" href="#the-new-ui-components-do-not-render-on-older-versions">The new UI components do not render on older versions</a></h3>
+<p><code>0.46.0</code> adds <a href="./plugin-ui-rendering.html#interactive-components">interactive UI components</a> (buttons, text inputs, dropdowns and more). These are drawn by Zellij itself, so when a plugin that uses them runs on an older Zellij, the components are not drawn at all (an "Unknown component" error is written to the Zellij log instead).</p>
 
                     </main>
 

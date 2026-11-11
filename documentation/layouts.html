@@ -181,7 +181,7 @@ layout {
 <p>A layout can also be applied from a remote URL:</p>
 <pre><code>$ zellij --layout https://example.com/layout_file.kdl
 </code></pre>
-<p>For security reasons, remote layouts will have all their commands suspended behind a <code>Waiting ro run &lt;command&gt;</code> banner - prompting the user to run each one.</p>
+<p>For security reasons, remote layouts will have all their commands suspended behind a <code>Waiting to run: &lt;command&gt;</code> banner - prompting the user to run each one.</p>
 <h3 id="layout-default-directory"><a class="header" href="#layout-default-directory">Layout default directory</a></h3>
 <p>By default Zellij will load the <code>default.kdl</code> layout, found in the <code>layouts</code> directory (a subdirectory of the <code>config</code> directory [config/layouts]).</p>
 <p>If not found, Zellij will start with one pane and one tab.</p>
@@ -196,6 +196,12 @@ layout {
 <pre><code>$ zellij action override-layout /path/to/layout.kdl --retain-existing-terminal-panes --apply-only-to-active-tab
 </code></pre>
 <p>This enables dynamic workspace reorganization. For the full reference, see <a href="./cli-actions.html#override-layout">override-layout in CLI actions</a> and <a href="./keybindings-possible-actions.html#overridelayout">OverrideLayout in keybinding actions</a>.</p>
+<p>Smaller changes can also be made to a running tab without loading a new layout:</p>
+<ul>
+<li>A <a href="./swap-layouts.html#applying-a-swap-layout-by-name">swap layout can be applied by name</a> with <code>zellij action apply-tiled-swap-layout</code> or <code>zellij action apply-floating-swap-layout</code>.</li>
+<li>A stack can switch between a column and a row of titles with <code>zellij action toggle-stack-list-orientation</code> (see <a href="./creating-a-layout.html#stack_orientation"><code>stack_orientation</code></a>).</li>
+<li>The tab-bar and status-bar can be hidden and shown again with the <code>ToggleBars</code> action (see <a href="./creating-a-layout.html#bars">Bars</a>).</li>
+</ul>
 <h3 id="layout-configuration-language"><a class="header" href="#layout-configuration-language">Layout Configuration Language</a></h3>
 <p>Zellij uses <a href="https://kdl.dev">KDL</a> as its configuration language.</p>
 

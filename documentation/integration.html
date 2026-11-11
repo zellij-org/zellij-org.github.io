@@ -162,6 +162,27 @@ echo $ZELLIJ_SESSION_NAME
 set to <code>0</code> inside a zellij session.
 Arbitrary key value pairs can be set through configuration, or layouts.
 Note that <code>ZELLIJ_SESSION_NAME</code> will not be updated for existing terminal panes when renaming a session (but will for new panes).</p>
+<h2 id="reporting-status-to-the-inbox"><a class="header" href="#reporting-status-to-the-inbox">Reporting status to the inbox</a></h2>
+<p>Programs and scripts can tell Zellij whether they are working, waiting for the user, finished or failed, and Zellij shows this in its <a href="./inbox.html">inbox</a>. Many programs already do this. See <a href="./inbox-integrations.html">Inbox Integrations</a> for the list, and for a shell function that reports the status of a script.</p>
+<p>A command can also be run in a watched pane, so that Zellij reports when it finishes:</p>
+<pre><code>zellij run --notify -- cargo build
+</code></pre>
+<h2 id="opening-zellij-from-other-apps"><a class="header" href="#opening-zellij-from-other-apps">Opening Zellij from other apps</a></h2>
+<p>The <a href="./zellij-terminal.html">Zellij terminal</a> can be opened from scripts, desktop shortcuts and other apps:</p>
+<pre><code>zellij terminal
+zellij terminal --working-directory ~/code
+zellij terminal -e htop
+zellij terminal --inbox
+zellij terminal --sessions
+</code></pre>
+<p>On Linux, Zellij can also become the default terminal, so that apps that open a terminal open Zellij instead. See <a href="./desktop-setup.html#default-terminal">Desktop Setup</a>.</p>
+<h2 id="environment-variables-read-by-zellij"><a class="header" href="#environment-variables-read-by-zellij">Environment variables read by Zellij</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Variable</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>ZELLIJ_SOCKET_DIR</code></td><td>The folder for session sockets. The same as <code>zellij terminal --socket-dir</code></td></tr>
+<tr><td><code>ZELLIJ_DESKTOP_INTEGRATION</code></td><td><code>on</code> treats the environment as a desktop, <code>off</code> never offers desktop items. See <a href="./desktop-setup.html">Desktop Setup</a></td></tr>
+<tr><td><code>ZELLIJ_TERMINAL_STANDALONE</code></td><td>When set, <code>zellij terminal</code> opens its window on its own, outside the desktop app (the same as <code>--standalone</code>)</td></tr>
+</tbody></table>
+</div>
 <p>Here are some limited examples to help get you started:</p>
 <h2 id="autostart-on-shell-creation"><a class="header" href="#autostart-on-shell-creation">Autostart on shell creation</a></h2>
 <p>Autostart a new zellij shell, if not already inside one.

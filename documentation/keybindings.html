@@ -154,14 +154,12 @@
                     <main>
                         <h1 id="configuring-keybindings"><a class="header" href="#configuring-keybindings">Configuring Keybindings</a></h1>
 <p>Zellij comes with a default set of keybindings that try to fit as many different users and use cases while trying to maximize comfort for everyone.</p>
-<p>It is possible to add to these defaults or even override them with an external configuration. For more information about the configuration file itself, see <a href="./configuration.html">Configuration</a>.</p>
-<p>Keybindings can be configured in the <code>keybinds</code> block of the file.</p>
-<p>See <a href="https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/config/default.kdl">the default keybindings</a> as reference for the default keybindings.</p>
-<pre><code class="language-javascript">keybinds {
-    // keybinds are divided into modes
+<p>The keybindings come from a <a href="./keybinding-presets.html">keybinding preset</a>: a file that holds a full set of keybindings (and <a href="./mouse-bindings.html">mouse bindings</a>). Zellij has two built-in presets, <code>default</code> and <code>unlock-first</code>. The preset to use, and its leader keys, are chosen with attributes of the <code>keybinds</code> block.</p>
+<p>It is possible to add to the keys of the preset or even override them with an external configuration. For more information about the configuration file itself, see <a href="./configuration.html">Configuration</a>.</p>
+<p>Keybindings can be configured in the <code>keybinds</code> block of the file. Bindings inside the block are applied on top of the preset.</p>
+<p>See <a href="https://github.com/zellij-org/zellij/blob/main/zellij-utils/assets/keybinds/default.kdl">the default preset</a> as reference for the default keybindings, or print it with <code>zellij setup --dump-keybinds default</code>.</p>
+<pre><code class="language-javascript">keybinds preset="default" primary="Ctrl" secondary="Alt" {
     normal {
-        // bind instructions can include one or more keys (both keys will be bound separately)
-        // bind keys can include one or more actions (all actions will be performed with no sequential guarantees)
         bind "Ctrl g" { SwitchToMode "locked"; }
         bind "Ctrl p" { SwitchToMode "pane"; }
         bind "Alt n" { NewPane; }
@@ -179,6 +177,8 @@
     }
 }
 </code></pre>
+<p>Keybindings are divided into <a href="./keybindings-modes.html">modes</a>. A <code>bind</code> instruction can include one or more keys (each key is bound separately) and one or more actions. The actions of a key run one after another, in the order they are written.</p>
+<p>Keybindings can also be changed from the <a href="./settings-screen.html">settings screen</a>, under <strong>Keyboard</strong> → <strong>Key bindings and preset…</strong>.</p>
 
                     </main>
 

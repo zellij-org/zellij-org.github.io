@@ -156,80 +156,477 @@
 <h2 id="rendering-ansi-through-stdout"><a class="header" href="#rendering-ansi-through-stdout">Rendering ANSI through STDOUT</a></h2>
 <p>When a plugin's render function prints to <code>STDOUT</code>, Zellij treats the printed bytes as utf-8 ANSI. One can print to a Zellij plugin just like one could print to any terminal and have it rendered, with the following exception:</p>
 <p>Every time the render function is called, the previous state of the terminal is cleared. This is in order to facilitate UI development without having to keep track of the previous state on screen. This behavior might be toggleable in the future.</p>
-<p>Plugin developers are free to use whichever terminal UI libraries they wish in order to render a Zellij plugin. In the future Zellij might offer a UI library of its own as well as an integration with a few popular ones.</p>
+<p>Plugin developers are free to use whichever terminal UI libraries they wish in order to render a Zellij plugin. Zellij also offers its own built-in components, described below.</p>
 <h2 id="using-the-built-in-ui-components"><a class="header" href="#using-the-built-in-ui-components">Using the Built-in UI Components</a></h2>
 <p>Zellij provides plugins with some built-in UI components that will fit the user's theme and preferences. These are cross-language components, interpreted through serialized STDOUT in the render function as a private terminal DCS extension. The various plugin SDKs provide wrappers to facilitate serialization. <strong>All of these wrappers should be used inside the render function</strong></p>
-<h3 id="the-components"><a class="header" href="#the-components">The Components</a></h3>
+<p>All components, helpers and types on this page are available through <code>use zellij_tile::prelude::*;</code>.</p>
+<p>There are two kinds of components:</p>
+<ul>
+<li><a href="#display-components">Display components</a> (<code>Table</code>, <code>Ribbon</code>, <code>Nested List</code> and <code>Text</code>) only draw content.</li>
+<li><a href="#interactive-components">Interactive components</a> (buttons, toggles, text inputs, dropdowns, menus, dialogs and more), also handle keyboard and mouse input.</li>
+</ul>
+<h3 id="display-components"><a class="header" href="#display-components">Display Components</a></h3>
 <h4 id="table"><a class="header" href="#table">Table</a></h4>
 <p><img src="img/table-ui-component.png" alt="table" /></p>
 <p>Consists of a title line with an emphasis style and a grid of width-justified cells. Each cell can be styled individually (see <code>Text</code> below) and also marked as "selected". Marking adjacent cells as selected can create a "selected row" effect.</p>
-<p>Example from the Rust SDK (renders the screeshot above):</p>
+<p>Example from the Rust SDK (renders the screenshot above):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>let table = Table::new()
     .add_row(vec!["title1", "title2", "title3"])
-    .add_styled_row(vec![Text::new("content 1").color_range(0, 1..5), Text::new("content 2").color_range(2, ..), Text::new("content 3")])
-    .add_styled_row(vec![Text::new("content 11").selected(), Text::new("content 22").selected(), Text::new("content 33").selected()])
-    .add_styled_row(vec![Text::new("content 111"), Text::new("content 222").selected(), Text::new("content 33")])
-    .add_styled_row(vec![Text::new("content 11"), Text::new("content 22").selected(), Text::new("content 33")]);
-print_table(table); // will print this table wherever the cursor may be at the moment
-print_table_with_coordinates(table, 4, 5, None, None); // will print this table at x: 4, y: 5, the last two `Option`s are width/height
+    .add_styled_row(vec![Text::from("content 1").color_range(0, 1..5), Text::from("content 2").color_range(2, ..), Text::from("content 3")])
+    .add_styled_row(vec![Text::from("content 11").selected(), Text::from("content 22").selected(), Text::from("content 33").selected()])
+    .add_styled_row(vec![Text::from("content 111"), Text::from("content 222").selected(), Text::from("content 33")])
+    .add_styled_row(vec![Text::from("content 11"), Text::from("content 22").selected(), Text::from("content 33")]);
+print_table_with_coordinates(table, 4, 5, None, None);
 <span class="boring">}</span></code></pre></pre>
+<p><code>print_table_with_coordinates</code> prints the table at <code>x: 4, y: 5</code>. The last two <code>Option</code>s are its width and height. <code>print_table(table)</code> prints it wherever the cursor is at the moment. Both take the table by value, so use <code>table.clone()</code> to print the same table twice.</p>
 <h4 id="ribbon"><a class="header" href="#ribbon">Ribbon</a></h4>
 <p><img src="img/ribbon-ui-component.png" alt="ribbon" /></p>
 <p>Ribbons are the UI elements used for tabs in the Zellij tab bar and for modes in the Zellij status-bar. They can be selected, which would change their background color, and can contain styled text themselves (see Text below).</p>
 <p>Example from the Rust SDK (renders the screenshot above):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>print_ribbon_with_coordinates(Text::new("ribbon 1").color_range(0, 1..5), 0, 0, Some(12), None);
-print_ribbon_with_coordinates(Text::new("ribbon 2").color_range(1, 1..5).selected(), 12, 0,  Some(12), None);
-print_ribbon_with_coordinates(Text::new("ribbon 3").color_range(2, 1..5), 24, 0, Some(12), None);
-print_ribbon_with_coordinates(Text::new("ribbon 4").color_range(3, 1..5), 36, 0,  Some(12), None);
+</span>print_ribbon_with_coordinates(Text::from("ribbon 1").color_range(0, 1..5), 0, 0, Some(12), None);
+print_ribbon_with_coordinates(Text::from("ribbon 2").color_range(1, 1..5).selected(), 12, 0,  Some(12), None);
+print_ribbon_with_coordinates(Text::from("ribbon 3").color_range(2, 1..5), 24, 0, Some(12), None);
+print_ribbon_with_coordinates(Text::from("ribbon 4").color_range(3, 1..5), 36, 0,  Some(12), None);
 <span class="boring">}</span></code></pre></pre>
 <h4 id="nested-list"><a class="header" href="#nested-list">Nested List</a></h4>
 <p><img src="img/nested-list-ui-component.png" alt="nested-list" /></p>
-<p>A nested list is the UI element used in the Zellij session-manager. It is a list with possibility indented lines to an arbitrary level. Each line can be selected (multiple lines can be selected as well), and each line can be styled individually (see Text below).</p>
+<p>A nested list is the UI element used in the Zellij session-manager. It is a list whose lines can be indented to any level. Each line can be selected (multiple lines can be selected as well), and each line can be styled individually (see Text below).</p>
+<p>Each line is a <code>NestedListItem</code>, created from a <code>Text</code>. All styling is done on the <code>Text</code> before it is passed to <code>NestedListItem::new</code>. The item itself only has <code>indent(level)</code> and <code>selected()</code>.</p>
 <p>Example from the Rust SDK (renders the screenshot above):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>print_nested_list_with_coordinates(vec![
-    NestedListItem::new("item 1 with some nice text...").color_range(1, ..).color_range(3, 10..25).color_indices(1, vec![8]),
-    NestedListItem::new("item 2 with some more text").indent(1).color_range(0, 1..15).color_indices(1, vec![8]),
-    NestedListItem::new("item 3 is a real eye opener").color_range(2, ..).color_range(3, 5..20).color_indices(1, vec![8]).selected(),
-    NestedListItem::new("item 4 is just another item, really").indent(1).color_range(0, ..).color_range(1, 1..15).color_indices(1, vec![8]),
+    NestedListItem::new(Text::from("item 1 with some nice text...").color_range(1, ..).color_range(3, 10..25).color_indices(1, vec![8])),
+    NestedListItem::new(Text::from("item 2 with some more text").color_range(0, 1..15).color_indices(1, vec![8])).indent(1),
+    NestedListItem::new(Text::from("item 3 is a real eye opener").color_range(2, ..).color_range(3, 5..20).color_indices(1, vec![8])).selected(),
+    NestedListItem::new(Text::from("item 4 is just another item, really").color_range(0, ..).color_range(1, 1..15).color_indices(1, vec![8])).indent(1),
 ], 1, 1, None, None);
 <span class="boring">}</span></code></pre></pre>
-<p>In addition to <code>color_range</code> and <code>color_indices</code>, which take character ranges and indices, <code>NestedListItem</code> provides convenience methods that take the text to color rather than its coordinates:</p>
-<div class="table-wrapper"><table><thead><tr><th>Method</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>color_substring(color_idx, substring)</code></td><td>Color the first occurrence of <code>substring</code></td></tr>
-<tr><td><code>color_nth_substring(color_idx, substring, n)</code></td><td>Color the <code>n</code>th occurrence of <code>substring</code></td></tr>
-<tr><td><code>color_last_substring(color_idx, substring)</code></td><td>Color the last occurrence of <code>substring</code></td></tr>
-<tr><td><code>color_all(color_idx)</code></td><td>Color the whole item</td></tr>
-<tr><td><code>success_color_last_substring(substring)</code></td><td>Color the last occurrence of <code>substring</code> with the theme's "success" color</td></tr>
-<tr><td><code>error_color_last_substring(substring)</code></td><td>Color the last occurrence of <code>substring</code> with the theme's "error" color</td></tr>
-</tbody></table>
-</div>
+<p>Coloring by substring works the same way:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>NestedListItem::new("my-session (2 tabs)").color_substring(0, "my-session").success_color_last_substring("(2 tabs)")
+</span>NestedListItem::new(Text::from("my-session (2 tabs)").color_substring(0, "my-session").success_color_last_substring("(2 tabs)"))
 <span class="boring">}</span></code></pre></pre>
 <h4 id="text"><a class="header" href="#text">Text</a></h4>
 <p><img src="img/text-ui-component.png" alt="text" /></p>
 <p>While this element can be rendered on its own, it's mainly used inside other elements for styling.</p>
+<p>A <code>Text</code> element is created with <code>Text::from</code>, which accepts a <code>&amp;str</code>, a <code>String</code>, a <code>&amp;String</code> or a <a href="./plugin-api-types.html#styledtext"><code>StyledText</code></a>. A <code>Text</code> can also be turned back into a <code>StyledText</code> with <code>StyledText::from(text)</code>.</p>
 <p>A <code>Text</code> element can be selected - which will be interpreted in the context of the element it resides in, generally changing its background in one way or another.
-A <code>Text</code> element can also have indices. These indices can be one of 4 colors (preset depending on the user's theme) assigned to characters or ranges inside the element. This can be especially useful when incorporated with fuzzy finding.</p>
+A <code>Text</code> element can also have indices: character positions or ranges inside the element that get a special style. This can be especially useful when incorporated with fuzzy finding.</p>
 <p>Example from the Rust SDK (renders the screenshot above):</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>let text = Text::new("foo bar baz").selected().color_range(0, 0..=2).color_range(1, 3..=5).color_range(2, 7..=9);
+</span>let text = Text::from("foo bar baz").selected().color_range(0, 0..=2).color_range(1, 3..=5).color_range(2, 7..=9);
 print_text_with_coordinates(text, 0, 0, None, None);
 <span class="boring">}</span></code></pre></pre>
 <p>A <code>Text</code> element can also be marked as <code>disabled()</code>, which renders it dimmed to indicate that the thing it represents is currently unavailable:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>print_text(Text::new("Not available right now").disabled());
+</span>print_text(Text::from("Not available right now").disabled());
 <span class="boring">}</span></code></pre></pre>
-<p>A <a href="./plugin-api-types.html#styledtext"><code>StyledText</code></a> (received for example through the <a href="./plugin-api-events.html#hinttext"><code>HintText</code></a> event) can be turned into a <code>Text</code> element with <code>Text::from(styled_text)</code>, preserving its emphasized indices.</p>
+<p><code>opaque()</code> gives the text an opaque background (see <a href="#opaque">Opaque</a> below).</p>
+<h5 id="styling-methods"><a class="header" href="#styling-methods">Styling methods</a></h5>
+<p>Indices are character positions (not bytes). Each styling method comes in several forms:</p>
+<div class="table-wrapper"><table><thead><tr><th>Form</th><th>Example</th><th>Styles</th></tr></thead><tbody>
+<tr><td><code>_indices(vec)</code></td><td><code>color_indices(0, vec![1, 3])</code></td><td>The listed characters</td></tr>
+<tr><td><code>_range(range)</code></td><td><code>color_range(0, 2..5)</code></td><td>A range of characters (any Rust range, eg. <code>..</code>, <code>3..</code>, <code>0..=2</code>)</td></tr>
+<tr><td><code>_substring(s)</code></td><td><code>color_substring(0, "foo")</code></td><td>Every occurrence of <code>s</code></td></tr>
+<tr><td><code>_nth_substring(s, n)</code></td><td><code>color_nth_substring(0, "foo", 1)</code></td><td>The <code>n</code>th occurrence of <code>s</code> (counting from 0)</td></tr>
+<tr><td><code>_last_substring(s)</code></td><td><code>color_last_substring(0, "foo")</code></td><td>The last occurrence of <code>s</code></td></tr>
+<tr><td><code>_all()</code></td><td><code>color_all(0)</code></td><td>The whole text</td></tr>
+</tbody></table>
+</div>
+<p>The available styles:</p>
+<div class="table-wrapper"><table><thead><tr><th>Methods</th><th>Effect</th></tr></thead><tbody>
+<tr><td><code>color_*(color_index, ...)</code></td><td>One of the 4 theme emphasis colors (<code>color_index</code> 0 to 3). All forms are available.</td></tr>
+<tr><td><code>error_color_*</code></td><td>The theme's "error" color. All forms are available.</td></tr>
+<tr><td><code>success_color_*</code></td><td>The theme's "success" color. All forms are available.</td></tr>
+<tr><td><code>dim_indices</code>, <code>dim_range</code>, <code>dim_substring</code>, <code>dim_all</code></td><td>Dimmed</td></tr>
+<tr><td><code>unbold_indices</code>, <code>unbold_range</code>, <code>unbold_substring</code>, <code>unbold_all</code></td><td>Not bold (text that has any styling is drawn bold by default)</td></tr>
+<tr><td><code>italic_range</code>, <code>italic_all</code></td><td>Italic</td></tr>
+<tr><td><code>rgb_color_range([r, g, b], range)</code></td><td>Any RGB color, regardless of the theme</td></tr>
+</tbody></table>
+</div>
+<p>For example:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let text = Text::from("Saved 3 files, 1 failed")
+    .success_color_substring("3 files")
+    .error_color_last_substring("1 failed")
+    .italic_range(0..5)
+    .rgb_color_range([142, 78, 198], 15..16);
+<span class="boring">}</span></code></pre></pre>
+<h5 id="measuring-and-wrapping"><a class="header" href="#measuring-and-wrapping">Measuring and wrapping</a></h5>
+<div class="table-wrapper"><table><thead><tr><th>Method</th><th>Returns</th></tr></thead><tbody>
+<tr><td><code>content()</code></td><td>The text itself, as <code>&amp;str</code></td></tr>
+<tr><td><code>len()</code></td><td>The number of characters</td></tr>
+<tr><td><code>width()</code></td><td>The number of terminal columns the text takes (wide characters and emoji count as 2)</td></tr>
+<tr><td><code>is_empty()</code></td><td>Whether the text is empty</td></tr>
+<tr><td><code>is_plain()</code></td><td>Whether the text has no styled indices</td></tr>
+<tr><td><code>wrap(width)</code></td><td>A <code>Vec&lt;Text&gt;</code>, one per line, word-wrapped to <code>width</code> columns, keeping each character's styling</td></tr>
+</tbody></table>
+</div>
+<p><code>zellij_tile::graphemes::display_width(&amp;str)</code> gives the column width of any string, the same way <code>width()</code> does.</p>
+<h3 id="interactive-components"><a class="header" href="#interactive-components">Interactive Components</a></h3>
+<p><code>zellij-tile</code> includes components that react to the keyboard and mouse: <a href="#button"><code>Button</code></a>, <a href="#toggle"><code>Toggle</code></a>, <a href="#textinput"><code>TextInput</code></a>, <a href="#numberstepper"><code>NumberStepper</code></a>, <a href="#dropdown"><code>Dropdown</code></a>, <a href="#menulist"><code>MenuList</code></a>, <a href="#sidemenu"><code>SideMenu</code></a>, <a href="#scrollview"><code>ScrollView</code></a> and <a href="#confirmdialog"><code>ConfirmDialog</code></a>. <a href="#focusgroup"><code>FocusGroup</code></a> moves focus between several of them.</p>
+<p>These are the components used by the built-in configuration screen, prompts and context menu.</p>
+<h4 id="how-interactive-components-work"><a class="header" href="#how-interactive-components-work">How interactive components work</a></h4>
+<p>The plugin keeps each component in its state (they are not recreated on every render). Then:</p>
+<ol>
+<li><strong>Rendering</strong>: inside <code>render</code>, call the component's <code>render(..)</code> method (or <code>serialize(..)</code> to get the string instead of printing it). The method takes the position (and for some components the width and height) in the plugin's own coordinates. It also remembers where the component was drawn, which is used to tell which component a mouse click lands on. Because of this, mouse input only works on the same component that was rendered, and only at the position where it was last drawn.</li>
+<li><strong>Input</strong>: forward <code>Event::Key</code> and <code>Event::Mouse</code> events to the component's <code>handle_key(&amp;key)</code> and <code>handle_mouse(mouse)</code>. These return a <code>UiResponse</code> saying what happened. The component updates its own state (text, selection, on/off...). If the response is anything other than <code>UiResponse::NotHandled</code>, the plugin should usually return <code>true</code> from <code>update</code> so it is rendered again.</li>
+<li><strong>Subscribing</strong>: the plugin needs to <a href="./plugin-api-commands.html#subscribe">subscribe</a> to <code>EventType::Key</code> and <code>EventType::Mouse</code>. When using a <code>Button</code>, it should also subscribe to <code>EventType::Timer</code> (see <a href="#button">Button</a>).</li>
+</ol>
+<p><code>UiResponse</code> has the following variants:</p>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>Changed(UiValue)</code></td><td>The value changed (eg. text was typed, a toggle was flipped, a new option was selected)</td></tr>
+<tr><td><code>Submitted(UiValue)</code></td><td>The value was confirmed (eg. <code>Enter</code> in a text input, a menu item was chosen)</td></tr>
+<tr><td><code>Activated</code></td><td>A button was pressed</td></tr>
+<tr><td><code>Cancelled</code></td><td>The user backed out (eg. <code>Esc</code>)</td></tr>
+<tr><td><code>Consumed</code></td><td>The input was used, but nothing the plugin needs to act on (eg. moving the cursor, hovering)</td></tr>
+<tr><td><code>NotHandled</code></td><td>The component did not use this input</td></tr>
+</tbody></table>
+</div>
+<p><code>response.is_handled()</code> is <code>true</code> for anything other than <code>NotHandled</code>.</p>
+<p><code>UiValue</code> is one of <code>None</code>, <code>Bool(bool)</code>, <code>Index(usize)</code>, <code>Choice { index: usize, label: String }</code>, <code>Text(String)</code> or <code>Number(i64)</code>.</p>
+<p>All interactive components implement the <code>Widget</code> trait, which provides:</p>
+<div class="table-wrapper"><table><thead><tr><th>Method</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>handle_key(&amp;KeyWithModifier) -&gt; UiResponse</code></td><td>Handle a key press</td></tr>
+<tr><td><code>handle_mouse(Mouse) -&gt; UiResponse</code></td><td>Handle a mouse event (<code>Mouse</code> is passed by value)</td></tr>
+<tr><td><code>set_focused(bool)</code>, <code>is_focused()</code></td><td>Focus state. Only a focused component should get key presses.</td></tr>
+<tr><td><code>is_disabled()</code></td><td>Whether the component is disabled</td></tr>
+<tr><td><code>last_area() -&gt; Option&lt;Rect&gt;</code></td><td>Where the component was last drawn</td></tr>
+<tr><td><code>clear_area()</code></td><td>Forget where the component was drawn, so it no longer reacts to the mouse (useful when it is not rendered this time)</td></tr>
+<tr><td><code>hit_test(line, column) -&gt; bool</code></td><td>Whether a position is inside the last drawn area</td></tr>
+<tr><td><code>captures_input() -&gt; bool</code></td><td><code>true</code> while an open dropdown list or dialog should receive all input</td></tr>
+<tr><td><code>handle_timer() -&gt; bool</code></td><td>Handle an <code>Event::Timer</code>. Returns <code>true</code> if the component needs to be rendered again.</td></tr>
+</tbody></table>
+</div>
+<p><code>Rect</code> has public <code>x</code>, <code>y</code>, <code>width</code> and <code>height</code> fields, as well as <code>contains(line, column)</code>, <code>bottom()</code> and <code>right()</code>.</p>
+<p>Most components also have builder methods to create them already in a given state, eg. <code>.focused()</code>, <code>.disabled()</code> or <code>.hovered()</code>, as well as setters such as <code>set_disabled(bool)</code> to change them later.</p>
+<h4 id="button"><a class="header" href="#button">Button</a></h4>
+<p>A clickable button, drawn as its label in brackets.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut button = Button::new("Save").accent_brackets();
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li>Created with <code>Button::new(label)</code>, where <code>label</code> is anything that converts into a <code>Text</code>.</li>
+<li>Builders: <code>accent_brackets()</code>, <code>left_aligned()</code>, <code>width(columns)</code>, <code>focused()</code>, <code>disabled()</code>, <code>pressed()</code>, <code>hovered()</code>.</li>
+<li>Other methods: <code>label()</code>, <code>set_label(label)</code>, <code>set_disabled(bool)</code>, <code>is_pressed()</code>, <code>is_hovered()</code>, <code>natural_width()</code> (the label width plus 4, unless <code>width</code> was set).</li>
+<li>Rendered with <code>render(x, y)</code>.</li>
+<li><code>Enter</code> or <code>Space</code> while focused, or a left click, returns <code>UiResponse::Activated</code>.</li>
+</ul>
+<p>A click shows the button as pressed for a short time (<code>BUTTON_PRESS_SECONDS</code>, 0.4 seconds). To do this, the button calls <a href="./plugin-api-commands.html#set_timeout"><code>set_timeout</code></a> itself. The plugin should subscribe to <code>EventType::Timer</code> and pass <code>Event::Timer</code> to <code>handle_timer()</code>, which returns <code>true</code> when the button needs to be rendered again.</p>
+<h4 id="toggle"><a class="header" href="#toggle">Toggle</a></h4>
+<p>An on/off switch with a label, drawn as <code>Label [ on ]</code> or <code>Label [ off ]</code>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut toggle = Toggle::new("Notifications", true).label_width(16);
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li>Created with <code>Toggle::new(label, on)</code>.</li>
+<li>Builders: <code>label_width(columns)</code> (to align several fields), <code>focused()</code>, <code>disabled()</code>, <code>hovered()</code>.</li>
+<li>Other methods: <code>is_on()</code>, <code>set_on(bool)</code>, <code>label()</code>, <code>set_disabled(bool)</code>, <code>set_field_width(columns)</code>, <code>width()</code>.</li>
+<li>Rendered with <code>render(x, y)</code>.</li>
+<li><code>Enter</code>, <code>Space</code> or a click flips it and returns <code>UiResponse::Changed(UiValue::Bool(on))</code>.</li>
+</ul>
+<h4 id="textinput"><a class="header" href="#textinput">TextInput</a></h4>
+<p>A single-line text field with a label, a cursor, undo/redo and optional validation.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut input = TextInput::new("my-layout")
+    .label("Name")
+    .placeholder("layout name")
+    .validator(|text: &amp;str| {
+        if text.is_empty() {
+            Err("The name cannot be empty".to_owned())
+        } else {
+            Ok(())
+        }
+    });
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li>Created with <code>TextInput::new(initial_text)</code> or <code>TextInput::empty()</code>.</li>
+<li>Builders:
+<ul>
+<li><code>label(label)</code>, <code>label_width(columns)</code>, <code>accent_brackets()</code></li>
+<li><code>placeholder(text)</code>: shown dimmed while the field is empty</li>
+<li><code>validator(closure)</code>: a <code>Fn(&amp;str) -&gt; Result&lt;(), String&gt;</code>. The error is shown on a second line under the field, and <code>Enter</code> is ignored while the text is invalid.</li>
+<li><code>accept(function)</code>: a <code>fn(char) -&gt; bool</code> that decides which characters can be typed, eg. <code>accept(|c| c.is_ascii_digit())</code></li>
+<li><code>search_mode()</code>: <code>Esc</code> clears the text first instead of cancelling</li>
+<li><code>focused()</code>, <code>disabled()</code>, <code>hovered()</code></li>
+</ul>
+</li>
+<li>Reading and changing the text: <code>get_text()</code>, <code>set_text(text)</code>, <code>get_text_mut()</code>, <code>drain_text()</code>, <code>clear()</code>, <code>is_empty()</code>.</li>
+<li>Editing from code: <code>insert_char</code>, <code>backspace</code>, <code>delete</code>, <code>delete_word_backward</code>, <code>delete_word_forward</code>, <code>move_left</code>, <code>move_right</code>, <code>move_word_left</code>, <code>move_word_right</code>, <code>move_to_start</code>, <code>move_to_end</code>, <code>undo</code>, <code>redo</code>, <code>can_undo</code>, <code>can_redo</code>.</li>
+<li>Other methods: <code>get_cursor_position()</code>, <code>set_cursor_position(position)</code>, <code>cursor_column()</code>, <code>set_show_cursor(bool)</code>, <code>set_match_count(Option&lt;usize&gt;)</code> (shows "N matches" at the end of the field), <code>validation_error()</code>, <code>is_valid()</code>, <code>height()</code> (2 when a validator is set, otherwise 1), <code>set_disabled(bool)</code>.</li>
+<li>Rendered with <code>render(x, y, width)</code>. The width includes the label.</li>
+<li>Keys:
+<ul>
+<li>Typing inserts characters and returns <code>Changed(UiValue::Text(text))</code>.</li>
+<li><code>Left</code>, <code>Right</code>, <code>Home</code>, <code>End</code>, <code>Backspace</code> and <code>Delete</code> work as usual. With <code>Ctrl</code> or <code>Alt</code>, the arrows, <code>Backspace</code> and <code>Delete</code> work on whole words.</li>
+<li><code>Ctrl a</code> and <code>Ctrl e</code> move to the start and end.</li>
+<li><code>Ctrl z</code> undoes. <code>Ctrl y</code> or <code>Ctrl Shift z</code> redoes.</li>
+<li><code>Enter</code> returns <code>Submitted(UiValue::Text(text))</code> if the text is valid.</li>
+<li><code>Esc</code> or <code>Ctrl c</code> returns <code>Cancelled</code>. In search mode, they first clear the text and return <code>Changed(UiValue::Text(""))</code>.</li>
+</ul>
+</li>
+<li>A click inside the field moves the cursor there.</li>
+</ul>
+<h4 id="numberstepper"><a class="header" href="#numberstepper">NumberStepper</a></h4>
+<p>A number field with arrows on both sides to decrease or increase it.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut stepper = NumberStepper::new("Columns", 80).min(10).max(500).step(10);
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li>Created with <code>NumberStepper::new(label, value)</code>, where <code>value</code> is an <code>i64</code>.</li>
+<li>Builders: <code>step(n)</code>, <code>min(n)</code>, <code>max(n)</code>, <code>decimals(d)</code>, <code>label_width(columns)</code>, <code>field_width(columns)</code>, <code>focused()</code>, <code>disabled()</code>, <code>hovered()</code>, <code>editing(text)</code>.</li>
+<li>With <code>decimals(d)</code> (up to 9), the stored value is the number multiplied by 10<sup>d</sup>. For example, with <code>decimals(1)</code> the value <code>15</code> is shown as <code>1.5</code>. <code>format_scaled(value, decimals)</code> and <code>parse_scaled(text, decimals)</code> convert between the two.</li>
+<li>Other methods: <code>value()</code>, <code>set_value(n)</code>, <code>display_value()</code>, <code>label()</code>, <code>is_editing()</code>, <code>edit_text()</code>, <code>at_min()</code>, <code>at_max()</code>, <code>width()</code>, <code>set_field_width(columns)</code>, <code>set_disabled(bool)</code>.</li>
+<li>Rendered with <code>render(x, y)</code>.</li>
+<li><code>Left</code> and <code>Right</code>, or clicking the arrows, change the value by one step and return <code>Changed(UiValue::Number(value))</code>.</li>
+<li>Typing digits (and <code>-</code>, or <code>.</code> with decimals) starts editing the number directly. <code>Enter</code> confirms the typed number (kept within <code>min</code> and <code>max</code>), and <code>Esc</code> cancels the edit. Moving focus away also confirms it.</li>
+</ul>
+<h4 id="dropdown"><a class="header" href="#dropdown">Dropdown</a></h4>
+<p>A field showing the selected option. When opened, it shows a list of options below the field (or above it, when there is no room below).</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut dropdown = Dropdown::new("Theme", vec!["dracula", "gruvbox", "nord"]).selected(1);
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li>Created with <code>Dropdown::new(label, options)</code>, where <code>options</code> is a <code>Vec</code> of anything that converts into a <code>String</code>.</li>
+<li>Builders: <code>selected(index)</code>, <code>label_width(columns)</code>, <code>max_list_rows(rows)</code> (8 by default), <code>accent_brackets()</code>, <code>arrow(text)</code>, <code>styled_value(text)</code>, <code>hover_emphasis()</code>, <code>bold_value()</code>, <code>focused()</code>, <code>disabled()</code>, <code>hovered()</code>, <code>opened()</code>.</li>
+<li>Other methods: <code>options()</code>, <code>set_options(options)</code>, <code>selected_index()</code>, <code>selected_value()</code>, <code>set_selected(index)</code>, <code>label()</code>, <code>set_disabled(bool)</code>, <code>is_open()</code>, <code>open()</code>, <code>close()</code>, <code>highlighted_index()</code>, <code>set_highlighted_index(index)</code>, <code>opens_upward()</code>, <code>list_area()</code>.</li>
+<li>The field is rendered with <code>render(x, y, width)</code>. <strong>The open list is rendered separately with <code>render_overlay(rows, cols)</code></strong>, which should be called after everything else so the list is drawn on top. <code>rows</code> and <code>cols</code> are the plugin's size, as received in <code>render</code>.</li>
+<li>While closed:
+<ul>
+<li><code>Enter</code>, <code>Space</code> or a click opens the list.</li>
+<li><code>Left</code> and <code>Right</code> select the previous or next option and return <code>Changed(UiValue::Choice { index, label })</code>.</li>
+</ul>
+</li>
+<li>While open:
+<ul>
+<li><code>Up</code>, <code>Down</code>, <code>PageUp</code>, <code>PageDown</code>, <code>Home</code>, <code>End</code> and typing a letter move the highlight.</li>
+<li><code>Enter</code>, <code>Space</code> or a click on an option selects it, closes the list and returns <code>Changed(UiValue::Choice { index, label })</code>.</li>
+<li><code>Esc</code> or a click outside the list closes it and returns <code>Cancelled</code>.</li>
+<li><code>Tab</code> closes it and returns <code>NotHandled</code>, so that focus can move on.</li>
+</ul>
+</li>
+</ul>
+<h4 id="menulist"><a class="header" href="#menulist">MenuList</a></h4>
+<p>A vertical list of items, like a context menu. Each item is a <code>MenuItem</code>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut menu = MenuList::new(vec![
+    MenuItem::new("Rename").shortcut("r"),
+    MenuItem::new("Close").shortcut("x"),
+    MenuItem::separator(),
+    MenuItem::new("Unavailable").disabled(),
+])
+.with_border()
+.focused();
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li><code>MenuItem::new(label)</code> or <code>MenuItem::separator()</code>. Builders: <code>shortcut(text)</code>, <code>disabled()</code>, <code>marked()</code> (shows a check mark), <code>matched_indices(vec)</code> and <code>emphasized_indices(vec)</code> (highlight characters of the label, eg. fuzzy matches). Getters: <code>label()</code>, <code>shortcut_text()</code>, <code>is_separator()</code>, <code>is_disabled()</code>, <code>is_marked()</code>, <code>is_selectable()</code>, <code>matched()</code>, <code>emphasized()</code>. Setter: <code>set_marked(bool)</code>.</li>
+<li><code>MenuList::new(items)</code>. Builders: <code>with_border()</code>, <code>without_mark_column()</code>, <code>highlighted(index)</code>, <code>focused()</code>.</li>
+<li>Other methods: <code>items()</code>, <code>set_items(items)</code>, <code>highlighted_index()</code>, <code>highlighted_item()</code>, <code>set_highlighted(Option&lt;usize&gt;)</code>, <code>scroll_offset()</code>, <code>scroll_by(rows)</code>, <code>natural_width()</code>, <code>height_for(max_height)</code>, <code>item_at(line, column)</code>, <code>has_border()</code>, <code>is_hovered()</code>.</li>
+<li>Rendered with <code>render(x, y, width, max_height)</code>. When the items do not fit, the list scrolls and shows how many items are above and below. Clicking those lines scrolls by a page.</li>
+<li>Keys: <code>Up</code> and <code>Down</code> (wrapping around), <code>PageUp</code>, <code>PageDown</code>, <code>Home</code> and <code>End</code> move the highlight, skipping separators and disabled items. Typing a letter or digit jumps to the next item starting with it. <code>Enter</code> returns <code>Submitted(UiValue::Choice { index, label })</code>. <code>Esc</code> returns <code>Cancelled</code>.</li>
+<li>Mouse: hovering highlights an item, a click returns <code>Submitted(UiValue::Choice { index, label })</code>, and the scroll wheel scrolls the list.</li>
+</ul>
+<h4 id="sidemenu"><a class="header" href="#sidemenu">SideMenu</a></h4>
+<p>A vertical list of section names with one selected entry, like the sidebar of a settings screen.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut side_menu = SideMenu::new(vec!["General", "Keybindings", "Themes"]).focused();
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li>Created with <code>SideMenu::new(items)</code>, where <code>items</code> is a <code>Vec</code> of anything that converts into a <code>String</code>.</li>
+<li>Builders: <code>selected(index)</code>, <code>focused()</code>, <code>hovered_item(index)</code>.</li>
+<li>Other methods: <code>items()</code>, <code>set_items(items)</code>, <code>selected_index()</code>, <code>selected_label()</code>, <code>set_selected(index)</code>, <code>hovered_index()</code>, <code>scroll_offset()</code>, <code>scroll_by(rows)</code>, <code>item_at(line, column)</code>.</li>
+<li>Rendered with <code>render(x, y, width, height)</code>. Like <code>MenuList</code>, it scrolls when the items do not fit.</li>
+<li><code>Up</code> and <code>Down</code> (wrapping around), <code>Home</code>, <code>End</code> or a click select an item and return <code>Changed(UiValue::Choice { index, label })</code>. <code>Enter</code> returns <code>Submitted(UiValue::Choice { index, label })</code>. The scroll wheel scrolls the list.</li>
+</ul>
+<h4 id="scrollview"><a class="header" href="#scrollview">ScrollView</a></h4>
+<p><code>ScrollView</code> does not draw content. It keeps track of which rows of a long piece of content are visible, and draws a scrollbar and "more above/below" indicators next to it. The plugin draws the visible rows itself.</p>
+<p>For example, with a <code>lines: Vec&lt;String&gt;</code> and a <code>scroll: ScrollView</code> in the plugin's state, inside <code>render(&amp;mut self, rows: usize, cols: usize)</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>self.scroll.set_total_rows(self.lines.len());
+let visible = self.scroll.layout(0, 0, cols, rows);
+let content_width = self.scroll.content_width();
+for row in visible {
+    if let Some(y) = self.scroll.screen_row(row) {
+        print_text_with_coordinates(Text::from(&amp;self.lines[row]), 0, y, Some(content_width), None);
+    }
+}
+self.scroll.render_indicators();
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li>Created with <code>ScrollView::new(total_rows)</code>. Builder: <code>focused()</code>.</li>
+<li><code>layout(x, y, width, height)</code> sets the area and returns the range of rows to draw.</li>
+<li>Positions: <code>screen_row(row)</code> (the line on screen of a content row, if visible), <code>row_at(line)</code> (the content row at a screen line), <code>content_y()</code>, <code>content_width()</code> (the width left after the scrollbar), <code>gutter_width()</code>, <code>viewport_height()</code>, <code>needs_indicators()</code>.</li>
+<li>Scrolling: <code>offset()</code>, <code>set_offset(row)</code>, <code>scroll_by(rows)</code>, <code>page_up()</code>, <code>page_down()</code>, <code>ensure_visible(row)</code>, <code>ensure_range_visible(start, height)</code>, <code>is_row_range_visible(start, height)</code>, <code>visible_range()</code>, <code>rows_above()</code>, <code>rows_below()</code>.</li>
+<li>Other methods: <code>total_rows()</code>, <code>set_total_rows(rows)</code>, <code>is_hovered()</code>, <code>is_dragging()</code>.</li>
+<li>The scrollbar is drawn with <code>render_indicators()</code>, which draws nothing if all rows fit.</li>
+<li><code>PageUp</code> and <code>PageDown</code>, the scroll wheel (while hovering the area), clicking the indicators and dragging the scrollbar scroll the view and return <code>Changed(UiValue::Index(offset))</code>.</li>
+</ul>
+<h4 id="confirmdialog"><a class="header" href="#confirmdialog">ConfirmDialog</a></h4>
+<p>A framed dialog with a title, a message and a row of buttons. It is drawn only while open, and while open it takes all keyboard and mouse input (<code>captures_input()</code> returns <code>true</code>).</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let mut dialog = ConfirmDialog::new("Delete layout", "This cannot be undone.")
+    .buttons(vec!["Delete", "Cancel"])
+    .selected(1);
+dialog.open();
+<span class="boring">}</span></code></pre></pre>
+<ul>
+<li>Created with <code>ConfirmDialog::new(title, message)</code>, where <code>message</code> is anything that converts into a <code>Text</code>. The default buttons are <code>OK</code> and <code>Cancel</code>.</li>
+<li>Builders: <code>buttons(labels)</code>, <code>selected(index)</code>, <code>width(columns)</code> (at least 16, 50 by default), <code>centered()</code> (center the message lines), <code>footer_rows(rows)</code> (reserve rows under the buttons for the plugin to draw in, see <code>footer_area()</code>), <code>hovered_button(index)</code>, <code>opened()</code>.</li>
+<li>Other methods: <code>open()</code>, <code>open_with_selected(index)</code>, <code>close()</code>, <code>is_open()</code>, <code>title()</code>, <code>set_message(message)</code>, <code>button_labels()</code>, <code>selected_index()</code>, <code>button_areas()</code>, <code>footer_area()</code>, <code>size_for(cols)</code>.</li>
+<li>Rendered with <code>render_centered(rows, cols)</code> (centered in the plugin) or <code>render(x, y, width, max_height)</code>. The message is word-wrapped to fit.</li>
+<li><code>Tab</code>, <code>Shift Tab</code>, <code>Left</code> and <code>Right</code> move between buttons. <code>Enter</code>, <code>Space</code> or a click on a button closes the dialog and returns <code>Submitted(UiValue::Choice { index, label })</code> for that button. <code>Esc</code> closes it and returns <code>Cancelled</code>.</li>
+</ul>
+<p>For example, in <code>update</code>, with <code>dialog: ConfirmDialog</code> and <code>confirmed: bool</code> in the plugin's state:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>if let Event::Key(key) = event {
+    match self.dialog.handle_key(&amp;key) {
+        UiResponse::Submitted(UiValue::Choice { index: 0, .. }) =&gt; {
+            self.confirmed = true;
+        },
+        UiResponse::NotHandled =&gt; return false,
+        _ =&gt; {},
+    }
+    return true;
+}
+<span class="boring">}</span></code></pre></pre>
+<h4 id="focusgroup"><a class="header" href="#focusgroup">FocusGroup</a></h4>
+<p>A <code>FocusGroup</code> holds several components, each with a key chosen by the plugin (any type that is <code>Clone + PartialEq</code>, eg. a <code>&amp;'static str</code> or an enum). It sends key presses to the focused component, moves focus with <code>Tab</code> and <code>Shift Tab</code>, and sends mouse events to the right component.</p>
+<p>A <code>FocusGroup</code> can hold <code>Button</code>, <code>Toggle</code>, <code>Dropdown</code>, <code>TextInput</code>, <code>NumberStepper</code>, <code>MenuList</code> and <code>SideMenu</code> components. <code>ConfirmDialog</code> and <code>ScrollView</code> are used on their own.</p>
+<ul>
+<li>Created with <code>FocusGroup::new()</code>. Builders: <code>with(key, component)</code>, <code>wrap(bool)</code> (whether <code>Tab</code> on the last component goes back to the first, <code>true</code> by default).</li>
+<li>Adding and removing: <code>add(key, component)</code>, <code>remove(&amp;key)</code>, <code>len()</code>, <code>is_empty()</code>, <code>keys()</code>.</li>
+<li>Getting a component back: <code>get(&amp;key)</code> and <code>get_mut(&amp;key)</code> return an <code>Element</code> (an enum of the supported components). There are also typed getters, which return <code>None</code> if the key belongs to another kind of component: <code>button</code>, <code>toggle</code>, <code>dropdown</code>, <code>text_input</code>, <code>number_stepper</code>, <code>menu_list</code>, <code>side_menu</code> and their <code>_mut</code> versions (eg. <code>text_input_mut(&amp;key)</code>).</li>
+<li>Focus: <code>focused_key()</code>, <code>is_focused(&amp;key)</code>, <code>focus(&amp;key)</code>, <code>focus_first()</code>, <code>focus_next()</code>, <code>focus_prev()</code>, <code>blur()</code>. Disabled components are skipped.</li>
+<li>Rendering: each component is rendered by the plugin (through the <code>_mut</code> getters). Call <code>clear_areas()</code> at the start of <code>render</code>, so that components not rendered this time do not react to the mouse. Call <code>render_overlays(rows, cols)</code> at the end, to draw any open dropdown list on top.</li>
+<li>Input: <code>handle_key(&amp;key)</code> and <code>handle_mouse(mouse)</code> return a <code>FocusEvent</code>:
+<ul>
+<li><code>FocusEvent::Element { key, response }</code>: a component handled the input, with its <code>UiResponse</code>.</li>
+<li><code>FocusEvent::FocusChanged(key)</code>: focus moved to another component.</li>
+<li><code>FocusEvent::NotHandled</code>: nothing used the input.</li>
+</ul>
+</li>
+<li>Other methods: <code>handle_timer()</code> (pass <code>Event::Timer</code> here when the group has buttons), <code>has_open_overlay()</code>, <code>capturing_key()</code>, <code>element_at(line, column)</code>, <code>area_of(&amp;key)</code>.</li>
+</ul>
+<h5 id="a-complete-example"><a class="header" href="#a-complete-example">A complete example</a></h5>
+<p>A small form with a text input, a dropdown, a toggle and a button:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::BTreeMap;
+use zellij_tile::prelude::*;
+
+struct State {
+    form: FocusGroup&lt;&amp;'static str&gt;,
+    status: String,
+}
+
+impl Default for State {
+    fn default() -&gt; Self {
+        let mut form = FocusGroup::new()
+            .with("name", TextInput::empty().label("Name").label_width(8).placeholder("your name"))
+            .with("level", Dropdown::new("Level", vec!["low", "medium", "high"]).label_width(8))
+            .with("notify", Toggle::new("Notify", true).label_width(8))
+            .with("save", Button::new("Save"));
+        form.focus_first();
+        State {
+            form,
+            status: String::new(),
+        }
+    }
+}
+
+register_plugin!(State);
+
+impl ZellijPlugin for State {
+    fn load(&amp;mut self, _configuration: BTreeMap&lt;String, String&gt;) {
+        subscribe(&amp;[EventType::Key, EventType::Mouse, EventType::Timer]);
+    }
+
+    fn update(&amp;mut self, event: Event) -&gt; bool {
+        match event {
+            Event::Key(key) =&gt; {
+                let focus_event = self.form.handle_key(&amp;key);
+                self.handle_form_event(focus_event)
+            },
+            Event::Mouse(mouse) =&gt; {
+                let focus_event = self.form.handle_mouse(mouse);
+                self.handle_form_event(focus_event)
+            },
+            Event::Timer(_) =&gt; self.form.handle_timer(),
+            _ =&gt; false,
+        }
+    }
+
+    fn render(&amp;mut self, rows: usize, cols: usize) {
+        self.form.clear_areas();
+        let width = cols.min(40);
+        if let Some(input) = self.form.text_input_mut(&amp;"name") {
+            input.render(0, 0, width);
+        }
+        if let Some(dropdown) = self.form.dropdown_mut(&amp;"level") {
+            dropdown.render(0, 2, width);
+        }
+        if let Some(toggle) = self.form.toggle_mut(&amp;"notify") {
+            toggle.render(0, 4);
+        }
+        if let Some(button) = self.form.button_mut(&amp;"save") {
+            button.render(0, 6);
+        }
+        print_text_with_coordinates(Text::from(&amp;self.status), 0, 8, None, None);
+        self.form.render_overlays(rows, cols);
+    }
+}
+
+impl State {
+    fn handle_form_event(&amp;mut self, focus_event: FocusEvent&lt;&amp;'static str&gt;) -&gt; bool {
+        match focus_event {
+            FocusEvent::Element {
+                key: "save",
+                response: UiResponse::Activated,
+            } =&gt; {
+                let name = self
+                    .form
+                    .text_input(&amp;"name")
+                    .map(|input| input.get_text().to_owned())
+                    .unwrap_or_default();
+                let level = self
+                    .form
+                    .dropdown(&amp;"level")
+                    .and_then(|dropdown| dropdown.selected_value())
+                    .unwrap_or_default()
+                    .to_owned();
+                let notify = self
+                    .form
+                    .toggle(&amp;"notify")
+                    .map(|toggle| toggle.is_on())
+                    .unwrap_or(false);
+                self.status = format!("Saved: {}, {}, notify: {}", name, level, notify);
+                true
+            },
+            FocusEvent::NotHandled =&gt; false,
+            _ =&gt; true,
+        }
+    }
+}
+<span class="boring">}</span></code></pre></pre>
+<p><code>State</code> implements <code>Default</code> by hand because the form is built when the plugin starts. Every handled event returns <code>true</code>, so the form is rendered again after typing, focus changes and hovering.</p>
 <h3 id="the-protocol"><a class="header" href="#the-protocol">The Protocol</a></h3>
 <p><em>Note: This section discusses the private DCS ANSI serialization protocol used to represent the above components. It could be of interest to SDK authors, but plugin developers are encouraged to use the SDK abstractions instead.</em></p>
 <p>An example component can look like this: (<code>&lt;ESC&gt;</code>, represents the escape character)</p>
@@ -237,9 +634,9 @@ print_text_with_coordinates(text, 0, 0, None, None);
 </code></pre>
 <p>The first part of the sequence, <code>&lt;ESC&gt;Pz</code> is the DCS representing the beginning of a Zellij UI element, followed by the clear-text element name. Following is a semi-colon (<code>;</code>) separated list of items to be interpreted according to context. In the above case there's only one item representing a utf-8 encoded byte-string which is the ribbon's contents (the bytes separated by commas). Finally, the string terminator <code>&lt;ESC&gt;\</code> representing the end of the UI element.</p>
 <h4 id="coordinates"><a class="header" href="#coordinates">Coordinates</a></h4>
-<p>Each component can have an optional coordinates string, placed as the first element in the semi-colon separated list directly after the component name.
+<p>Each component can have an optional coordinates string, placed as the first element in the semi-colon separated list directly after the component name. For <a href="#interactive-components">interactive components</a> the coordinates are required.
 Example:</p>
-<pre><code>&lt;ESC&gt;Pzribbon;2/2/10/5;114,105,98,98,111,110,32,49&lt;ESC&gt;\
+<pre><code>&lt;ESC&gt;Pzribbon;2/3/10/5;114,105,98,98,111,110,32,49&lt;ESC&gt;\
 </code></pre>
 <p>Here, the coordinate string <code>2/3/10/5</code> instructs us to render the ribbon at <code>x: 2, y: 3, width: 10, height: 5</code>. The width and height are optional, so may be empty (eg. <code>2/3//</code>).</p>
 <h4 id="selected"><a class="header" href="#selected">Selected</a></h4>
@@ -247,23 +644,66 @@ Example:</p>
 <pre><code>&lt;ESC&gt;Pzribbon;x114,105,98,98,111,110,32,49&lt;ESC&gt;\
 </code></pre>
 <h4 id="opaque"><a class="header" href="#opaque">Opaque</a></h4>
-<p>If a utf-8 separated byte list begins with a clear-text <code>z</code> (note: must follow <code>Selected</code> is both are present), it will be considered "opaque". Eg.</p>
-<pre><code>&lt;ESC&gt;Ptext;z114,105,98,98,111,110,32,49&lt;ESC&gt;\
+<p>If a utf-8 separated byte list begins with a clear-text <code>z</code> (note: must follow <code>Selected</code> if both are present), it will be considered "opaque". Eg.</p>
+<pre><code>&lt;ESC&gt;Pztext;z114,105,98,98,111,110,32,49&lt;ESC&gt;\
 </code></pre>
 <p>This indicates that the UI component should use an opaque background, defaulting to the user's <code>black</code> theme color. Otherwise it will be considered transparent and use no background (when possible).
 Opaque components are best used as part of status bars, transparent components when one wishes to represent bare text (for example, in help text).</p>
+<h4 id="disabled"><a class="header" href="#disabled">Disabled</a></h4>
+<p>If a utf-8 separated byte list begins with a clear-text <code>d</code> (note: must follow <code>Selected</code> and <code>Opaque</code> if they are present), it will be rendered dimmed, as "disabled". Eg.</p>
+<pre><code>&lt;ESC&gt;Pztext;d114,105,98,98,111,110,32,49&lt;ESC&gt;\
+</code></pre>
 <h4 id="indices"><a class="header" href="#indices">Indices</a></h4>
-<p>A utf-8 separated byte list can be preceded by a dollar (<code>$</code>) separated index list representing colored indices. Each element within the dollar separated list can contain zero or more indexes (separated by commas) which will be colored in the desired index color (the colors themselves being determined by the user's theme).
-Example:</p>
+<p>A utf-8 separated byte list can be preceded by a dollar (<code>$</code>) separated index list representing styled indices. Each element within the dollar separated list can contain zero or more indexes (separated by commas), which are character positions in the text (not byte positions). The position of the element in the list (its "level") decides the style:</p>
+<div class="table-wrapper"><table><thead><tr><th>Level</th><th>Style</th></tr></thead><tbody>
+<tr><td>0 to 3</td><td>The 4 theme emphasis colors</td></tr>
+<tr><td>4</td><td>Dimmed</td></tr>
+<tr><td>5</td><td>Not bold</td></tr>
+<tr><td>6</td><td>The theme's "error" color</td></tr>
+<tr><td>7</td><td>The theme's "success" color</td></tr>
+<tr><td>8</td><td>Italic</td></tr>
+<tr><td>9 and above</td><td>A custom RGB color (see below)</td></tr>
+</tbody></table>
+</div>
+<p>Example:</p>
 <pre><code>&lt;ESC&gt;Pzribbon;2/2/10/;1,2,3,4$5,6$$7$114,105,98,98,111,110,32,49&lt;ESC&gt;\
 </code></pre>
 <p>Here, indices 1, 2, 3 and 4 will be colored in index color 0 while 5 and 6 will be colored in index color 1. Index color 2 is empty, so no elements will be colored using it, and element number 7 will be colored in index color 3.</p>
+<p>A custom color level (9 and above) contains one marker value, <code>1073741824</code> (<code>1 &lt;&lt; 30</code>) plus the color as <code>0xRRGGBB</code>, followed by the indices to paint in that color. Each color uses its own level. For example, <code>1083068102,0,1</code> (<code>1073741824 + 0x8e4ec6</code>) paints characters 0 and 1 in <code>#8e4ec6</code>.</p>
 <h4 id="indentation"><a class="header" href="#indentation">Indentation</a></h4>
 <p>In the context of a Nested List, elements can be arbitrarily indented. This is done one or more pipe (<code>|</code>) characters preceding the utf-8 byte list.
 Example:</p>
 <pre><code>&lt;ESC&gt;Pznested_list;105,116,101,109,32,51;|105,116,101,109,32,52;||105,116,101,109,32,53,32,108,115&lt;ESC&gt;\
 </code></pre>
 <p>Each item in a Nested List is represented as a utf-8 byte array separated by semicolons. Here, the first item will not be indented, the second item will be indented once, and the third item will be indented twice.</p>
+<h4 id="table-1"><a class="header" href="#table-1">Table</a></h4>
+<p>A table is sent as the number of columns, the number of rows, and then one cell after the other (row by row), all separated by semicolons. Each cell is a text element as described above. The first row is the title row. A table must have at least one column.
+Example (2 columns, 2 rows):</p>
+<pre><code>&lt;ESC&gt;Pztable;2;2;97;98;99;100&lt;ESC&gt;\
+</code></pre>
+<h4 id="interactive-component-encoding"><a class="header" href="#interactive-component-encoding">Interactive Component Encoding</a></h4>
+<p>Interactive components use the following form:</p>
+<pre><code>&lt;ESC&gt;Pz&lt;name&gt;;&lt;x&gt;/&lt;y&gt;/&lt;width&gt;/&lt;height&gt;;&lt;state&gt;;&lt;field&gt;;&lt;field&gt;...&lt;ESC&gt;\
+</code></pre>
+<ul>
+<li>The coordinates are required.</li>
+<li><code>&lt;state&gt;</code> is a comma-separated list of flags (eg. <code>f</code>) and <code>key=value</code> pairs (eg. <code>lw=8</code>). It can be empty.</li>
+<li>Each field is either a text element (with the prefixes and indices described above) or a plain utf-8 byte list, depending on the component.</li>
+</ul>
+<p>The flags common to most components are: <code>f</code> (focused), <code>d</code> (disabled), <code>h</code> (hovered), <code>ab</code> (accented brackets), and <code>lw=&lt;columns&gt;</code> (the width of the label column).</p>
+<div class="table-wrapper"><table><thead><tr><th>Name</th><th>State</th><th>Fields</th></tr></thead><tbody>
+<tr><td><code>button</code></td><td><code>f</code>, <code>d</code>, <code>p</code> (pressed), <code>h</code>, <code>ab</code>, <code>la</code> (left-aligned label)</td><td>label (text element)</td></tr>
+<tr><td><code>toggle</code></td><td><code>f</code>, <code>d</code>, <code>on</code>, <code>h</code>, <code>lw=</code></td><td>label (text element)</td></tr>
+<tr><td><code>text_input</code></td><td><code>f</code>, <code>d</code>, <code>ph</code> (showing the placeholder), <code>err</code> (invalid), <code>h</code>, <code>ab</code>, <code>lw=</code>, <code>cur=&lt;position&gt;</code> (cursor, only when shown)</td><td>label (text element), visible text or placeholder, error message, suffix (eg. <code>3 matches</code>), the last three as byte lists</td></tr>
+<tr><td><code>stepper</code></td><td><code>f</code>, <code>d</code>, <code>e</code> (editing), <code>lmin</code> / <code>lmax</code> (at the minimum / maximum), <code>h</code>, <code>hdec</code> / <code>hinc</code> (hovering the decrease / increase arrow), <code>lw=</code>, <code>cur=</code> (while editing)</td><td>label (text element), value as a byte list</td></tr>
+<tr><td><code>dropdown</code></td><td><code>f</code>, <code>d</code>, <code>o</code> (open), <code>h</code>, <code>ab</code>, <code>he</code> (hover emphasis), <code>bv</code> (bold value), <code>lw=</code></td><td>label (text element), selected value (byte list), and optionally the arrow (byte list) and a styled value (text element)</td></tr>
+<tr><td><code>menu</code></td><td><code>b</code> (border), <code>f</code>, <code>ind</code> (show "more above/below" lines), <code>nm</code> (no mark column), <code>hl=&lt;row&gt;</code> (highlighted visible row), <code>above=&lt;n&gt;</code>, <code>below=&lt;n&gt;</code> (hidden items), <code>hu</code> / <code>hd</code> (hovering the upper / lower indicator)</td><td>one per visible item (see below)</td></tr>
+<tr><td><code>side_menu</code></td><td><code>f</code>, <code>ind</code>, <code>sel=&lt;row&gt;</code> (selected visible row), <code>hov=&lt;row&gt;</code> (hovered visible row), <code>above=&lt;n&gt;</code>, <code>below=&lt;n&gt;</code>, <code>hu</code>, <code>hd</code></td><td>one byte list per visible item</td></tr>
+<tr><td><code>dialog</code></td><td><code>sel=&lt;index&gt;</code> (selected button), <code>nb=&lt;n&gt;</code> (number of buttons), <code>bx=&lt;column&gt;</code> (where the buttons start), <code>fr=&lt;rows&gt;</code> (footer rows), <code>c</code> (centered message), <code>hb=&lt;index&gt;</code> (hovered button)</td><td>title (byte list), one byte list per button label, then one text element per message line</td></tr>
+<tr><td><code>scroll_indicator</code></td><td><code>bar</code>, <code>f</code>, <code>tot=&lt;rows&gt;</code> (total rows), <code>off=&lt;row&gt;</code> (first visible row), <code>above=&lt;n&gt;</code>, <code>below=&lt;n&gt;</code>, <code>hu</code>, <code>hd</code></td><td>none</td></tr>
+</tbody></table>
+</div>
+<p>A <code>menu</code> item is <code>-</code> for a separator. Otherwise it is an optional <code>d</code> (disabled) and <code>m</code> (marked) prefix, the label as a byte list, then optionally <code>:</code> and the shortcut as a byte list, then optionally <code>/</code> and the comma-separated matched indices, and <code>/</code> and the comma-separated emphasized indices.</p>
 
                     </main>
 

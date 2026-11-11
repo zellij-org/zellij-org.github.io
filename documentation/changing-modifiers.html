@@ -155,19 +155,28 @@
                         <h1 id="changing-modifiers"><a class="header" href="#changing-modifiers">Changing Modifiers</a></h1>
 <p>Zellij uses two different modifiers to distinguish between two main sets of actions.</p>
 <h5 id="the-primary-modifier-default-ctrl"><a class="header" href="#the-primary-modifier-default-ctrl">The Primary Modifier (default: <code>Ctrl</code>)</a></h5>
-<p>This modifier is used to access the different modes (eg. <code>Pane</code> and <code>Tab</code>). Its exact usage depends on one's <a href="./keybinding-presets">preset</a>.</p>
+<p>This modifier is used to access the different modes (eg. <code>Pane</code> and <code>Tab</code>). Its exact usage depends on one's <a href="./keybinding-presets.html">preset</a>.</p>
 <h5 id="the-secondary-modifier-default-alt"><a class="header" href="#the-secondary-modifier-default-alt">The Secondary Modifier (default: <code>Alt</code>)</a></h5>
 <p>This modifier is used for common shortcuts (eg. <code>Alt n</code> to open a new pane or <code>Alt f</code> to toggle floating panes).</p>
+<p>The modifiers also apply to the <a href="./mouse-bindings.html#default-mouse-bindings">mouse bindings</a> of the preset. With the primary modifier held, dragging a pane frame resizes the pane, dragging inside a pane draws a new floating pane, and scrolling resizes the pane. With the secondary modifier held, clicking adds a pane to or removes it from the pane group, and scrolling jumps between shell prompts.</p>
 <h2 id="rebinding-modifiers"><a class="header" href="#rebinding-modifiers">Rebinding Modifiers</a></h2>
-<p><img src="img/rebind-keys-1.png" alt="rebinding modifiers configuration" />
-Other than <a href="./keybindings.html">manually configuring</a> keybindings, modifiers can be changed without overriding the current configuration through the <code>Configuration</code> screen, accessible with:</p>
+<p>Other than <a href="./keybindings.html">manually configuring</a> keybindings, modifiers can be changed without overriding the current keybindings, with the <code>primary</code> and <code>secondary</code> attributes of the <code>keybinds</code> block:</p>
+<pre><code class="language-javascript">keybinds primary="Ctrl Alt" secondary="Alt" {
+}
+</code></pre>
+<p>The two values must be different. For the <code>Unlock-First</code> preset, the <code>unlock</code> attribute changes the key that unlocks the interface (the <code>Unlock Toggle</code>) entirely:</p>
+<pre><code class="language-javascript">keybinds preset="unlock-first" unlock="Ctrl a" {
+}
+</code></pre>
+<p>The same can be done in the <a href="./settings-screen.html">settings screen</a>, under <strong>Keyboard</strong> → <strong>Key bindings and preset…</strong>, accessible with:</p>
 <ul>
 <li><code>Ctrl o</code> + <code>c</code> in the default preset</li>
 <li><code>Ctrl g</code> + <code>o</code> + <code>c</code> in the <code>Unlock-First</code> preset</li>
 </ul>
-<p>For the <code>Unlock-First</code> preset, one can change the <code>Unlock Toggle</code> entirely.</p>
+<p>For a single session, the <code>--keybinds-primary</code>, <code>--keybinds-secondary</code> and <code>--keybinds-unlock</code> flags of <code>zellij options</code> do the same without changing the configuration file. See <a href="./keybinding-presets.html#leader-keys">Keybinding Presets</a>.</p>
 <h2 id="a-note-about-multiple-modifiers"><a class="header" href="#a-note-about-multiple-modifiers">A note about multiple modifiers</a></h2>
 <p>While it's certainly possible to change these modifiers to <code>Ctrl Alt</code>, <code>Super</code> or even <code>Ctrl Shift Alt</code> - these all require the usage of a terminal emulator which itself supports multiple modifiers. Examples include: <code>Alacritty</code>, <code>WezTerm</code> and <code>foot</code>.</p>
+<p>Terminals do not report <code>Super</code> for mouse events. If a modifier is set to <code>Super</code>, the mouse bindings that use it are skipped.</p>
 
                     </main>
 

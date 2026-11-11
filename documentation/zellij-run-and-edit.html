@@ -163,11 +163,14 @@
 <p>Zellij includes a top-level <code>run</code> command that can be used to launch a new Zellij pane running a specific command:</p>
 <p>eg.</p>
 <pre><code>$ zellij run -- git diff
+$ zellij run --notify -- cargo build
 </code></pre>
 <p><strong>OPTIONS</strong>:</p>
 <pre><code>-b, --borderless &lt;BORDERLESS&gt;     start this pane without a border (warning: will make it
                                   impossible to move with the mouse) [possible values: true,
                                   false]
+    --border-style &lt;BORDER_STYLE&gt; Border line style, eg. "double" or
+                                  "top:double,left:single,rounded"
     --block-until-exit            Block until the command exits (regardless of exit status) OR
                                   its pane has been closed
     --block-until-exit-failure    Block until the command exits with failure (non-zero exit
@@ -191,6 +194,8 @@
     --near-current-pane           if set, will open the pane near the current one rather than
                                   following the user's focus
     --no-focus                    Open the pane without changing the focus of any client
+    --notify                      Watch the pane: notify each time its command finishes or its
+                                  output goes quiet, until the watch is turned off
     --pinned &lt;PINNED&gt;             Whether to pin a floating pane so that it is always on top
 -s, --start-suspended             Start the command suspended, only running after you first
                                   presses ENTER
@@ -206,6 +211,8 @@
 </code></pre>
 <p><strong>Note</strong>: to shorten this command to a more friendly length, see <code>Completions</code> under: <a href="./controlling-zellij-through-cli.html#completions">CLI</a></p>
 <p><strong>About <code>--no-focus</code></strong>: the pane is opened without changing the focus of any connected client. Its placement is relative to the pane the command was issued from rather than to the focused pane. This is useful for scripts that open panes in the background.</p>
+<p><strong>About <code>--notify</code></strong>: the pane is watched as with <a href="./cli-actions.html#watch-pane"><code>zellij action watch-pane</code></a>: a notification is sent each time its command finishes or its output goes quiet, until the watch is turned off. See <a href="./inbox.html#watching-ignoring-and-muting">the inbox</a>.</p>
+<p><strong>About <code>--border-style</code></strong>: sets the line style of the pane's border. The format is described under <a href="./cli-actions.html#set-pane-border-style">set-pane-border-style</a>.</p>
 <p><strong>About <code>--tab-id</code></strong>: the pane is opened in the tab with the given (numeric) id rather than in the focused tab. Tab ids can be obtained with <code>zellij action list-tabs</code> or <code>zellij action query-tab-names</code>.</p>
 <p>This new pane will not immediately close when the command exits. Instead, it will show its exit status on the pane frame and allow users to press <code>&lt;ENTER&gt;</code> to re-run the command inside the same pane, or <code>&lt;Ctrl-c&gt;</code> to close the pane.</p>
 <p>We feel this is a new and powerful way to interact with the command line.</p>
@@ -222,6 +229,8 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 <pre><code>-b, --borderless &lt;BORDERLESS&gt;      start this pane without a border (warning: will make it
                                    impossible to move with the mouse) [possible values: true,
                                    false]
+    --border-style &lt;BORDER_STYLE&gt;  Border line style, eg. "double" or
+                                   "top:double,left:single,rounded"
     --close-replaced-pane          Close the replaced pane instead of suspending it (only
                                    effective with --in-place)
     --cwd &lt;CWD&gt;                    Change the working directory of the editor
@@ -246,6 +255,7 @@ $ zellij edit ./main.rs --line-number 10 # open main.rs pointed at line number 1
 -y, --y &lt;Y&gt;                        The y coordinates if the pane is floating as a bare integer
                                    (eg. 1) or percent (eg. 10%)
 </code></pre>
+<p><strong>About <code>--border-style</code></strong>: see <a href="./cli-actions.html#set-pane-border-style">set-pane-border-style</a> for the format.</p>
 <p><strong>Note</strong>: The default editor is anything set in <code>$EDITOR</code> or <code>$VISUAL</code> - alternatively, it can be set explicitly with the <a href="./options.html#scrollback_editor"><code>scrollback_editor</code> configuration option</a>.</p>
 <p><strong>Another Note</strong>: To shorten this command, see <a href="./controlling-zellij-through-cli.html#completions">Cli Completions</a></p>
 

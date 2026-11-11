@@ -163,8 +163,11 @@ This configuration is available to plugins in their <code>load</code> method. It
     }
 </code></pre>
 <p>Or through the command line:</p>
-<pre><code>zellij action launch-or-focus-plugin --configuration "some_key=some_value,another_key=1"
+<pre><code>zellij action launch-or-focus-plugin file:/path/to/my/plugin.wasm --configuration "some_key=some_value,another_key=1"
 </code></pre>
+<h2 id="the-reserved-instance-key"><a class="header" href="#the-reserved-instance-key">The reserved <code>instance</code> key</a></h2>
+<p>The <code>instance</code> key has a special meaning for <a href="./plugin-lifecycle.html#shared-plugins">shared plugins</a>: all panes that load the same shared plugin with the same <code>instance</code> value (or without one) are served by a single plugin instance. Give panes different <code>instance</code> values to run separate instances of a shared plugin. Plugins that are not shared receive <code>instance</code> like any other key.</p>
+<p>The configuration each pane was opened with is available to a shared plugin in the <a href="./plugin-api-types.html#slot"><code>Slot</code></a> passed to <code>slot_added</code>.</p>
 
                     </main>
 

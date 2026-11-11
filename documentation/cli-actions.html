@@ -156,6 +156,8 @@
 <p><em>A note about pane ids:</em> Since terminal panes and plugin panes can have overlapping IDs, they are differentiated by prefixing the pane type, eg. <code>terminal_1</code> is a different pane than <code>plugin_1</code>. The ID of terminal panes is the same one that can be discovered through the <code>ZELLIJ_PANE_ID</code> environment variable. When a <code>--pane-id</code> flag accepts a pane id, it can be specified as <code>terminal_1</code>, <code>plugin_2</code>, or just <code>3</code> (equivalent to <code>terminal_3</code>).</p>
 <hr />
 <ul>
+<li><a href="#apply-floating-swap-layout">apply-floating-swap-layout</a></li>
+<li><a href="#apply-tiled-swap-layout">apply-tiled-swap-layout</a></li>
 <li><a href="#are-floating-panes-visible">are-floating-panes-visible</a></li>
 <li><a href="#change-floating-pane-coordinates">change-floating-pane-coordinates</a></li>
 <li><a href="#clear">clear</a></li>
@@ -164,6 +166,7 @@
 <li><a href="#close-tab-by-id">close-tab-by-id</a></li>
 <li><a href="#current-tab-info">current-tab-info</a></li>
 <li><a href="#detach">detach</a></li>
+<li><a href="#dismiss-info-popups">dismiss-info-popups</a></li>
 <li><a href="#dump-layout">dump-layout</a></li>
 <li><a href="#dump-screen">dump-screen</a></li>
 <li><a href="#edit">edit</a></li>
@@ -172,27 +175,38 @@
 <li><a href="#focus-next-pane">focus-next-pane</a></li>
 <li><a href="#focus-pane-id">focus-pane-id</a></li>
 <li><a href="#focus-previous-pane">focus-previous-pane</a></li>
+<li><a href="#go-to-next-attention">go-to-next-attention</a></li>
+<li><a href="#go-to-next-session">go-to-next-session</a></li>
 <li><a href="#go-to-next-tab">go-to-next-tab</a></li>
+<li><a href="#go-to-previous-session">go-to-previous-session</a></li>
 <li><a href="#go-to-previous-tab">go-to-previous-tab</a></li>
 <li><a href="#go-to-tab">go-to-tab</a></li>
 <li><a href="#go-to-tab-by-id">go-to-tab-by-id</a></li>
 <li><a href="#go-to-tab-name">go-to-tab-name</a></li>
 <li><a href="#half-page-scroll-down">half-page-scroll-down</a></li>
 <li><a href="#half-page-scroll-up">half-page-scroll-up</a></li>
+<li><a href="#hide-bars">hide-bars</a></li>
 <li><a href="#hide-floating-panes">hide-floating-panes</a></li>
+<li><a href="#ignore-pane-output">ignore-pane-output</a></li>
 <li><a href="#launch-or-focus-plugin">launch-or-focus-plugin</a></li>
 <li><a href="#launch-plugin">launch-plugin</a></li>
 <li><a href="#list-clients">list-clients</a></li>
 <li><a href="#list-panes">list-panes</a></li>
 <li><a href="#list-tabs">list-tabs</a></li>
+<li><a href="#mark-all-seen">mark-all-seen</a></li>
+<li><a href="#mark-pane-seen">mark-pane-seen</a></li>
 <li><a href="#move-focus">move-focus</a></li>
 <li><a href="#move-focus-or-tab">move-focus-or-tab</a></li>
 <li><a href="#move-pane">move-pane</a></li>
 <li><a href="#move-pane-backwards">move-pane-backwards</a></li>
 <li><a href="#move-tab">move-tab</a></li>
+<li><a href="#mute-pane">mute-pane</a></li>
+<li><a href="#mute-session">mute-session</a></li>
+<li><a href="#mute-tab">mute-tab</a></li>
 <li><a href="#new-pane">new-pane</a></li>
 <li><a href="#new-tab">new-tab</a></li>
 <li><a href="#next-swap-layout">next-swap-layout</a></li>
+<li><a href="#open-context-menu">open-context-menu</a></li>
 <li><a href="#override-layout">override-layout</a></li>
 <li><a href="#page-scroll-down">page-scroll-down</a></li>
 <li><a href="#page-scroll-up">page-scroll-up</a></li>
@@ -213,29 +227,59 @@
 <li><a href="#send-keys">send-keys</a></li>
 <li><a href="#set-dark-theme">set-dark-theme</a></li>
 <li><a href="#set-light-theme">set-light-theme</a></li>
+<li><a href="#set-pane-border-style">set-pane-border-style</a></li>
 <li><a href="#set-pane-borderless">set-pane-borderless</a></li>
 <li><a href="#set-pane-color">set-pane-color</a></li>
 <li><a href="#set-pane-frame-style">set-pane-frame-style</a></li>
+<li><a href="#set-resurrect-command">set-resurrect-command</a></li>
+<li><a href="#show-bars">show-bars</a></li>
 <li><a href="#show-floating-panes">show-floating-panes</a></li>
-<li><a href="#start-or-reload-plugin">start-or-reload-plugin</a></li>
 <li><a href="#stack-panes">stack-panes</a></li>
+<li><a href="#start-or-reload-plugin">start-or-reload-plugin</a></li>
 <li><a href="#switch-mode">switch-mode</a></li>
 <li><a href="#switch-session">switch-session</a></li>
 <li><a href="#toggle-active-sync-tab">toggle-active-sync-tab</a></li>
+<li><a href="#toggle-bars">toggle-bars</a></li>
 <li><a href="#toggle-floating-panes">toggle-floating-panes</a></li>
 <li><a href="#toggle-fullscreen">toggle-fullscreen</a></li>
+<li><a href="#toggle-mirror-resize">toggle-mirror-resize</a></li>
 <li><a href="#toggle-no-ui-fullscreen">toggle-no-ui-fullscreen</a></li>
 <li><a href="#toggle-pane-borderless">toggle-pane-borderless</a></li>
 <li><a href="#toggle-pane-embed-or-floating">toggle-pane-embed-or-floating</a></li>
 <li><a href="#toggle-pane-frames">toggle-pane-frames</a></li>
 <li><a href="#toggle-pane-pinned">toggle-pane-pinned</a></li>
+<li><a href="#toggle-session">toggle-session</a></li>
+<li><a href="#toggle-stack-list-orientation">toggle-stack-list-orientation</a></li>
 <li><a href="#toggle-theme">toggle-theme</a></li>
+<li><a href="#toggle-tray-icon">toggle-tray-icon</a></li>
 <li><a href="#undo-rename-pane">undo-rename-pane</a></li>
 <li><a href="#undo-rename-tab">undo-rename-tab</a></li>
+<li><a href="#watch-pane">watch-pane</a></li>
 <li><a href="#write">write</a></li>
 <li><a href="#write-chars">write-chars</a></li>
 </ul>
 <hr />
+<h4 id="apply-floating-swap-layout"><a class="header" href="#apply-floating-swap-layout">apply-floating-swap-layout</a></h4>
+<p>Apply the floating <a href="./swap-layouts.html">swap layout</a> with the given name. The visibility of floating panes and the focus are left unchanged. Exits with status 1 if no floating swap layout with that name fits the current number of panes.</p>
+<p><strong>ARGS</strong>: The name of the floating swap layout, as declared in the layout file</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action apply-floating-swap-layout spread
+$ zellij action apply-floating-swap-layout spread --tab-id 3
+</code></pre>
+<h4 id="apply-tiled-swap-layout"><a class="header" href="#apply-tiled-swap-layout">apply-tiled-swap-layout</a></h4>
+<p>Apply the tiled <a href="./swap-layouts.html">swap layout</a> with the given name. The visibility of floating panes and the focus are left unchanged. Exits with status 1 if no tiled swap layout with that name fits the current number of panes.</p>
+<p>Unlike <a href="#next-swap-layout"><code>next-swap-layout</code></a>, which moves through the swap layouts in order, this selects one directly.</p>
+<p><strong>ARGS</strong>: The name of the tiled swap layout, as declared in the layout file (eg. <code>swap_tiled_layout name="vertical"</code>)</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action apply-tiled-swap-layout vertical
+$ zellij action apply-tiled-swap-layout stacked --tab-id 3
+</code></pre>
 <h4 id="are-floating-panes-visible"><a class="header" href="#are-floating-panes-visible">are-floating-panes-visible</a></h4>
 <p>Check if floating panes are visible in the specified tab (or active tab). Prints "true" to stdout and exits 0 if visible. Prints "false" to stdout and exits 1 if not visible.</p>
 <p><strong>OPTIONS</strong>:</p>
@@ -250,6 +294,7 @@ $ zellij action are-floating-panes-visible --tab-id 3
 <p><strong>ARGS</strong>: The pane id (see example below - these can be discovered through the <code>$ZELLIJ_PANE_ID</code> env var)
 <strong>OPTIONS:</strong></p>
 <pre><code>    -b, --borderless &lt;BORDERLESS&gt;  Change the border state of the pane
+        --border-style &lt;STYLE&gt;     Border line style, eg. "double" or "top:double,left:single,rounded"
         --height &lt;HEIGHT&gt;          The height if the pane is floating as a bare integer (eg. 1) or
                                    percent (eg. 10%)
     -p, --pane-id &lt;PANE_ID&gt;        The pane_id of the floating pane, eg.  terminal_1, plugin_2 or 3
@@ -264,7 +309,9 @@ $ zellij action are-floating-panes-visible --tab-id 3
 </code></pre>
 <p>eg.</p>
 <pre><code>zellij action change-floating-pane-coordinates --pane-id terminal_15 --height 10 --width 10 -x 10 -y 10
+zellij action change-floating-pane-coordinates --pane-id terminal_15 --border-style double
 </code></pre>
+<p>The format of <code>--border-style</code> is described under <a href="#set-pane-border-style">set-pane-border-style</a>.</p>
 <h4 id="clear"><a class="header" href="#clear">clear</a></h4>
 <p>Clear all buffers for a focused pane</p>
 <p><strong>OPTIONS</strong>:</p>
@@ -342,6 +389,11 @@ position: 0
 <p>eg.</p>
 <pre><code>$ zellij action detach
 </code></pre>
+<h4 id="dismiss-info-popups"><a class="header" href="#dismiss-info-popups">dismiss-info-popups</a></h4>
+<p>Close the information popups that do not take the keyboard, such as the notices opened by <a href="./zellij-prompt.html#notify"><code>zellij prompt notify</code></a>.</p>
+<p>eg.</p>
+<pre><code>$ zellij action dismiss-info-popups
+</code></pre>
 <h4 id="dump-layout"><a class="header" href="#dump-layout">dump-layout</a></h4>
 <p>Dumps the current <a href="./creating-a-layout.html">Layout</a> of the session to STDOUT</p>
 <p>eg.</p>
@@ -379,11 +431,14 @@ $ zellij action dump-screen --pane-id terminal_3 --full
         --no-focus                 Open the pane without changing the focus of any client
         --tab-id &lt;TAB_ID&gt;         Target a specific tab by ID (conflicts with --in-place, --near-current-pane)
     -b, --borderless &lt;BORDERLESS&gt;  Start without a border
+        --border-style &lt;STYLE&gt;     Border line style, eg. "double" or "top:double,left:single,rounded"
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action edit ./my-file.rs -f
 $ zellij action edit ./my-file.rs --in-place
+$ zellij action edit ./my-file.rs -f --border-style "heavy,rounded"
 </code></pre>
+<p>The format of <code>--border-style</code> is described under <a href="#set-pane-border-style">set-pane-border-style</a>.</p>
 <p><strong>Note</strong>: it is also possible to issue this action without the <code>action</code> prefix:</p>
 <p>eg.</p>
 <pre><code>$ zellij edit ./my-file.rs -f
@@ -420,10 +475,25 @@ $ zellij action focus-pane-id 3
 <p>eg.</p>
 <pre><code>$ zellij action focus-previous-pane
 </code></pre>
+<h4 id="go-to-next-attention"><a class="header" href="#go-to-next-attention">go-to-next-attention</a></h4>
+<p>Jump to the next pane that needs attention in any running session, switching session if needed. See <a href="./inbox.html#where-states-come-from">the inbox</a> for how panes come to need attention.</p>
+<p>eg.</p>
+<pre><code>$ zellij action go-to-next-attention
+</code></pre>
+<h4 id="go-to-next-session"><a class="header" href="#go-to-next-session">go-to-next-session</a></h4>
+<p>Go forward in this client's session history (the sessions it switched between). Use after <a href="#go-to-previous-session"><code>go-to-previous-session</code></a>.</p>
+<p>eg.</p>
+<pre><code>$ zellij action go-to-next-session
+</code></pre>
 <h4 id="go-to-next-tab"><a class="header" href="#go-to-next-tab">go-to-next-tab</a></h4>
 <p>Go to the next tab</p>
 <p>eg.</p>
 <pre><code>$ zellij action go-to-next-tab
+</code></pre>
+<h4 id="go-to-previous-session"><a class="header" href="#go-to-previous-session">go-to-previous-session</a></h4>
+<p>Go back to the previous session in this client's session history (the sessions it switched between).</p>
+<p>eg.</p>
+<pre><code>$ zellij action go-to-previous-session
 </code></pre>
 <h4 id="go-to-previous-tab"><a class="header" href="#go-to-previous-tab">go-to-previous-tab</a></h4>
 <p>Go to the previous tab</p>
@@ -467,6 +537,15 @@ $ zellij action focus-pane-id 3
 <p>eg.</p>
 <pre><code>$ zellij action half-page-scroll-up
 </code></pre>
+<h4 id="hide-bars"><a class="header" href="#hide-bars">hide-bars</a></h4>
+<p>Hide UI bars (eg. the tab-bar and status-bar) in every tab of the session. The bars can be shown again with <a href="#show-bars"><code>show-bars</code></a> or <a href="#toggle-bars"><code>toggle-bars</code></a>.</p>
+<p><strong>ARGS (optional)</strong>: The bars to hide: <code>tab-bar</code>, <code>status-bar</code>, <code>compact-bar</code>, a plugin alias or plugin location, or <code>all</code>. If none are given, all bars are hidden.</p>
+<p>eg.</p>
+<pre><code>$ zellij action hide-bars
+$ zellij action hide-bars tab-bar
+$ zellij action hide-bars tab-bar status-bar
+</code></pre>
+<p>See also the <a href="./options.html#bars_hidden_on_start"><code>bars_hidden_on_start</code></a>, <a href="./options.html#hidden_bars_notification"><code>hidden_bars_notification</code></a> and <a href="./options.html#mode_hints_when_bars_hidden"><code>mode_hints_when_bars_hidden</code></a> options.</p>
 <h4 id="hide-floating-panes"><a class="header" href="#hide-floating-panes">hide-floating-panes</a></h4>
 <p>Hide all floating panes in the specified tab (or active tab). Returns exit code 0 if changed, 2 if already hidden, 1 if the tab was not found.</p>
 <p><strong>OPTIONS</strong>:</p>
@@ -475,6 +554,15 @@ $ zellij action focus-pane-id 3
 <p>eg.</p>
 <pre><code>$ zellij action hide-floating-panes
 $ zellij action hide-floating-panes --tab-id 3
+</code></pre>
+<h4 id="ignore-pane-output"><a class="header" href="#ignore-pane-output">ignore-pane-output</a></h4>
+<p>Stop reporting new output of a pane as something that needs attention, or start reporting it again (toggle). Defaults to the focused pane. See <a href="./inbox.html#watching-ignoring-and-muting">the inbox</a>.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID (eg. terminal_1 or 3)
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action ignore-pane-output
+$ zellij action ignore-pane-output --pane-id terminal_3
 </code></pre>
 <h4 id="launch-or-focus-plugin"><a class="header" href="#launch-or-focus-plugin">launch-or-focus-plugin</a></h4>
 <p>Launch a plugin if it is not loaded somewhere in the session, focus it if it is. Returns the plugin pane ID.</p>
@@ -685,6 +773,24 @@ terminal_2   terminal  vim main.rs
   }
 ]
 </code></pre>
+<h4 id="mark-all-seen"><a class="header" href="#mark-all-seen">mark-all-seen</a></h4>
+<p>Mark every pane of every running session as seen, clearing their past events. See <a href="./inbox.html">the inbox</a>.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>        --this-session    Only mark the panes of the current session
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action mark-all-seen
+$ zellij action mark-all-seen --this-session
+</code></pre>
+<h4 id="mark-pane-seen"><a class="header" href="#mark-pane-seen">mark-pane-seen</a></h4>
+<p>Mark a pane as seen, clearing its past events. Defaults to the focused pane. See <a href="./inbox.html">the inbox</a>.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID (eg. terminal_1 or 3)
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action mark-pane-seen
+$ zellij action mark-pane-seen --pane-id terminal_3
+</code></pre>
 <h4 id="move-focus"><a class="header" href="#move-focus">move-focus</a></h4>
 <p>Move the focused pane in the specified direction.</p>
 <p><strong>ARGS</strong>: The direction to move [right|left|up|down]</p>
@@ -725,6 +831,29 @@ $ zellij action move-pane --pane-id terminal_3 right
 <pre><code>$ zellij action move-tab right
 $ zellij action move-tab left --tab-id 3
 </code></pre>
+<h4 id="mute-pane"><a class="header" href="#mute-pane">mute-pane</a></h4>
+<p>Mute or unmute the attention status of a pane (toggle). Defaults to the focused pane. See <a href="./inbox.html#watching-ignoring-and-muting">the inbox</a>.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID (eg. terminal_1 or 3)
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action mute-pane
+$ zellij action mute-pane --pane-id terminal_3
+</code></pre>
+<h4 id="mute-session"><a class="header" href="#mute-session">mute-session</a></h4>
+<p>Mute or unmute the attention status of the whole session (toggle). See <a href="./inbox.html#watching-ignoring-and-muting">the inbox</a>.</p>
+<p>eg.</p>
+<pre><code>$ zellij action mute-session
+</code></pre>
+<h4 id="mute-tab"><a class="header" href="#mute-tab">mute-tab</a></h4>
+<p>Mute or unmute the attention status of all panes in a tab (toggle). Defaults to the active tab. See <a href="./inbox.html#watching-ignoring-and-muting">the inbox</a>.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -t, --tab-id &lt;TAB_ID&gt;    Target a specific tab by its ID
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action mute-tab
+$ zellij action mute-tab --tab-id 2
+</code></pre>
 <h4 id="new-pane"><a class="header" href="#new-pane">new-pane</a></h4>
 <p>Open a new pane in the specified direction or as a floating pane. If no direction is specified, will try to use the biggest available space. Returns the created pane ID.</p>
 <p><strong>ARGS (optional)</strong>: the command to run inside the pane in place of the default shell (must be preceded by a double-dash <code>--</code>)</p>
@@ -740,6 +869,8 @@ $ zellij action move-tab left --tab-id 3
         --configuration &lt;CONFIG&gt;       Plugin configuration (requires --plugin)
         --skip-plugin-cache            Skip the plugin cache (requires --plugin)
     -s, --start-suspended              Start the command suspended
+        --notify                       Watch the pane: notify each time its command finishes or its
+                                       output goes quiet, until the watch is turned off (requires a command)
     -x, --x &lt;X&gt;                        X coordinate for floating pane (requires --floating)
     -y, --y &lt;Y&gt;                        Y coordinate for floating pane (requires --floating)
         --width &lt;WIDTH&gt;                Width for floating pane (requires --floating)
@@ -755,6 +886,7 @@ $ zellij action move-tab left --tab-id 3
         --near-current-pane            Open near the current pane rather than following focus
         --no-focus                     Open the pane without changing the focus of any client
         --borderless &lt;BORDERLESS&gt;      Start without a border
+        --border-style &lt;STYLE&gt;         Border line style, eg. "double" or "top:double,left:single,rounded"
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action new-pane -f # open a new floating pane with the default shell
@@ -764,7 +896,11 @@ $ zellij action new-pane --in-place -- htop
 $ zellij action new-pane --in-place --pane-id terminal_4 -- htop
 $ zellij action new-pane --plugin zellij:strider --floating
 $ zellij action new-pane --no-focus -- tail -f /tmp/my-log-file
+$ zellij action new-pane --notify -- cargo build
+$ zellij action new-pane --floating --border-style "double,rounded"
 </code></pre>
+<p><strong>Note about <code>--notify</code></strong>: the new pane is watched as with <a href="#watch-pane"><code>watch-pane</code></a>. A notification is sent each time its command finishes or its output goes quiet, until the watch is turned off. See <a href="./inbox.html">the inbox</a> for where these notifications appear.</p>
+<p><strong>Note about <code>--border-style</code></strong>: the format is described under <a href="#set-pane-border-style">set-pane-border-style</a>.</p>
 <p><strong>Note about <code>--no-focus</code></strong>: the pane is opened without changing the focus of any connected client. Its placement is relative to the pane the command was issued from rather than to the focused pane.</p>
 <p><strong>Note:</strong> This can also be shortened to <code>zellij run</code></p>
 <p>eg.</p>
@@ -803,6 +939,12 @@ $ zellij action new-tab --no-focus --name "background tab"
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action next-swap-layout
+</code></pre>
+<p>To select a swap layout by name, see <a href="#apply-tiled-swap-layout"><code>apply-tiled-swap-layout</code></a> and <a href="#apply-floating-swap-layout"><code>apply-floating-swap-layout</code></a>.</p>
+<h4 id="open-context-menu"><a class="header" href="#open-context-menu">open-context-menu</a></h4>
+<p>Open the right-click menu for the focused pane, at that pane's position. See <a href="./context-menu.html">the right-click menu</a>.</p>
+<p>eg.</p>
+<pre><code>$ zellij action open-context-menu
 </code></pre>
 <h4 id="override-layout"><a class="header" href="#override-layout">override-layout</a></h4>
 <p>Override the layout of the active tab with the specified layout file.</p>
@@ -859,11 +1001,20 @@ $ zellij action override-layout --layout-string 'layout { pane; pane; }'
     -i, --in-place-plugin &lt;BOOL&gt;             Launch plugin in place (conflicts with --floating-plugin)
     -w, --plugin-cwd &lt;CWD&gt;                   Working directory for the launched plugin
     -t, --plugin-title &lt;TITLE&gt;               Pane title for the launched plugin
+        --popup &lt;PLACEMENT&gt;                  Open the launched plugin as a popup (conflicts with
+                                             --floating-plugin and --in-place-plugin)
+        --popup-no-focus                     The popup does not take key focus (requires --popup)
+        --popup-capture-all-keys             Send every key to the popup, including keys bound to
+                                             Zellij actions (requires --popup)
+        --popup-outside-click &lt;BEHAVIOR&gt;     What a click outside the popup does: block or close
+                                             (requires --popup)
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action pipe --name "my-pipe" --plugin "file:/path/to/plugin.wasm" "some payload"
 $ echo "data from stdin" | zellij action pipe --name "my-pipe" --plugin "my-plugin-alias"
+$ zellij action pipe --plugin "file:/path/to/plugin.wasm" --popup center --popup-outside-click close
 </code></pre>
+<p>The <code>--popup*</code> flags are described in <a href="./zellij-prompt.html#opening-plugins-as-popups">Opening plugins as popups</a>. The exit status of this command can be set by the plugin, see <a href="./zellij-plugin-and-pipe.html#exit-status">Zellij Pipe</a>.</p>
 <h4 id="previous-swap-layout"><a class="header" href="#previous-swap-layout">previous-swap-layout</a></h4>
 <p>Switch to the previous swap layout for the current tab</p>
 <p><strong>OPTIONS</strong>:</p>
@@ -976,6 +1127,24 @@ $ zellij action send-keys --pane-id terminal_3 "Alt b" "Enter"
 <p>eg.</p>
 <pre><code>$ zellij action set-light-theme
 </code></pre>
+<h4 id="set-pane-border-style"><a class="header" href="#set-pane-border-style">set-pane-border-style</a></h4>
+<p>Change the border line style of an existing pane. Leaving out <code>--border-style</code> returns the pane to the default border.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;          Target pane by ID (required), eg. terminal_1, plugin_2 or 3
+        --border-style &lt;STYLE&gt;       Border line style, eg. "double" or "top:double,left:single,rounded"
+</code></pre>
+<p>The <code>--border-style</code> value (here and in <code>new-pane</code>, <code>edit</code>, <code>run</code>, <code>plugin</code> and <code>change-floating-pane-coordinates</code>) is a comma-separated list of:</p>
+<ul>
+<li>A line style on its own, which applies to all four sides (eg. <code>double</code>)</li>
+<li><code>&lt;side&gt;:&lt;line style&gt;</code> or <code>&lt;side&gt;=&lt;line style&gt;</code>, where <code>&lt;side&gt;</code> is one of <code>all</code>, <code>top</code>, <code>right</code>, <code>bottom</code> or <code>left</code> (eg. <code>top:double</code>)</li>
+<li><code>rounded</code> for rounded corners, or <code>rounded:true</code> / <code>rounded:false</code></li>
+</ul>
+<p>The line styles are <code>single</code>, <code>double</code>, <code>heavy</code> (also accepted as <code>bold</code> or <code>thick</code>), <code>dashed</code> and <code>heavy_dashed</code>.</p>
+<p>eg.</p>
+<pre><code>$ zellij action set-pane-border-style --pane-id terminal_3 --border-style double
+$ zellij action set-pane-border-style --pane-id terminal_3 --border-style "top:double,left:single,rounded"
+$ zellij action set-pane-border-style --pane-id terminal_3
+</code></pre>
 <h4 id="set-pane-borderless"><a class="header" href="#set-pane-borderless">set-pane-borderless</a></h4>
 <p>Set the borderless state of a specific pane</p>
 <p><strong>OPTIONS (required)</strong>:</p>
@@ -1004,6 +1173,26 @@ $ zellij action set-pane-frame-style none
 <p>eg.</p>
 <pre><code>$ zellij action set-pane-color --fg "#00e000" --bg "#001a3a"
 $ zellij action set-pane-color --pane-id terminal_3 --reset
+</code></pre>
+<h4 id="set-resurrect-command"><a class="header" href="#set-resurrect-command">set-resurrect-command</a></h4>
+<p>Set the command a terminal pane will be <a href="./session-resurrection.html">resurrected</a> with, instead of the command Zellij detects running in it. This lets a program that knows how to resume itself (eg. by a session id) register the exact command to run when the session is resurrected.</p>
+<p>The command set this way takes the place of the detected command and is not passed through the <a href="./session-resurrection.html#post_command_discovery_hook"><code>post_command_discovery_hook</code></a>. It stays in effect until it is removed with <code>--clear</code> or until the pane is closed. It can only be set for terminal panes.</p>
+<p><strong>ARGS</strong>: The command and its arguments (must be preceded by a double-dash <code>--</code>). Required unless <code>--clear</code> is given.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    The terminal pane, eg. terminal_1 or 3 (defaults to $ZELLIJ_PANE_ID)
+        --cwd &lt;CWD&gt;            Working directory to resurrect the pane in (conflicts with --clear)
+        --clear                Remove a previously set resurrect command (conflicts with a command)
+</code></pre>
+<p>A relative <code>--cwd</code> is resolved from the folder the command is run in.</p>
+<p>eg.</p>
+<pre><code>$ zellij action set-resurrect-command -- opencode -s ses_abc
+$ zellij action set-resurrect-command --pane-id terminal_3 --cwd /home/user/project -- htop
+$ zellij action set-resurrect-command --clear
+</code></pre>
+<h4 id="show-bars"><a class="header" href="#show-bars">show-bars</a></h4>
+<p>Show all hidden UI bars. See <a href="#hide-bars"><code>hide-bars</code></a>.</p>
+<p>eg.</p>
+<pre><code>$ zellij action show-bars
 </code></pre>
 <h4 id="show-floating-panes"><a class="header" href="#show-floating-panes">show-floating-panes</a></h4>
 <p>Show all floating panes in the specified tab (or active tab). Returns exit code 0 if changed, 2 if already visible, 1 if the tab was not found.</p>
@@ -1047,11 +1236,15 @@ $ zellij action stack-panes -- terminal_1 plugin_1 terminal_2
         --layout-dir &lt;LAYOUT_DIR&gt;        Default folder for layouts (requires --layout)
         --layout-string &lt;LAYOUT_STRING&gt;  Raw KDL layout string to use directly (conflicts with --layout)
     -c, --cwd &lt;CWD&gt;                      Working directory when switching
+        --close-current                  Close the current session after switching, if no command
+                                         has been run in it and no other client is attached
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action switch-session my-other-session
 $ zellij action switch-session my-session --tab-position 2 --layout /path/to/layout.kdl
+$ zellij action switch-session my-other-session --close-current
 </code></pre>
+<p>To move between the sessions this client has visited, see <a href="#toggle-session"><code>toggle-session</code></a>, <a href="#go-to-previous-session"><code>go-to-previous-session</code></a> and <a href="#go-to-next-session"><code>go-to-next-session</code></a>.</p>
 <h4 id="toggle-active-sync-tab"><a class="header" href="#toggle-active-sync-tab">toggle-active-sync-tab</a></h4>
 <p>Toggle between sending text input to all panes in the current tab and just to the focused pane (the default)</p>
 <p><strong>OPTIONS</strong>:</p>
@@ -1059,6 +1252,13 @@ $ zellij action switch-session my-session --tab-position 2 --layout /path/to/lay
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action toggle-active-sync-tab
+</code></pre>
+<h4 id="toggle-bars"><a class="header" href="#toggle-bars">toggle-bars</a></h4>
+<p>If any UI bars are hidden, show all of them. Otherwise hide the named bars (all bars if none are named), as <a href="#hide-bars"><code>hide-bars</code></a> does.</p>
+<p><strong>ARGS (optional)</strong>: The bars to hide: <code>tab-bar</code>, <code>status-bar</code>, <code>compact-bar</code>, a plugin alias or plugin location, or <code>all</code></p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-bars
+$ zellij action toggle-bars status-bar
 </code></pre>
 <h4 id="toggle-floating-panes"><a class="header" href="#toggle-floating-panes">toggle-floating-panes</a></h4>
 <p>Toggle the visibility of all floating panes in the current Tab, open one if none exist</p>
@@ -1075,6 +1275,11 @@ $ zellij action switch-session my-session --tab-position 2 --layout /path/to/lay
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action toggle-fullscreen
+</code></pre>
+<h4 id="toggle-mirror-resize"><a class="header" href="#toggle-mirror-resize">toggle-mirror-resize</a></h4>
+<p>Toggle whether the live view of a pane shown inside the focused plugin pane resizes the program of the pane it shows. See also the <a href="./options.html#mirror_resizes_source_pane"><code>mirror_resizes_source_pane</code></a> option.</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-mirror-resize
 </code></pre>
 <h4 id="toggle-no-ui-fullscreen"><a class="header" href="#toggle-no-ui-fullscreen">toggle-no-ui-fullscreen</a></h4>
 <p>Toggle between fullscreen focus pane and normal layout, with the pane taking up the entire display - including the space normally occupied by the UI bars (eg. the tab-bar and status-bar). This is unlike <code>toggle-fullscreen</code>, which keeps the UI bars visible.</p>
@@ -1116,10 +1321,29 @@ $ zellij action toggle-no-ui-fullscreen --pane-id terminal_3
 <p>eg.</p>
 <pre><code>$ zellij action toggle-pane-pinned
 </code></pre>
+<h4 id="toggle-session"><a class="header" href="#toggle-session">toggle-session</a></h4>
+<p>Switch to the session this client was in before. Running it again returns to the first session. If there is no previous session, switch to the next running session.</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-session
+</code></pre>
+<h4 id="toggle-stack-list-orientation"><a class="header" href="#toggle-stack-list-orientation">toggle-stack-list-orientation</a></h4>
+<p>Switch a stack between showing its pane titles in a column (vertical) and in a row (horizontal). Defaults to the focused stack. See also the <a href="./options.html#stacked_pane_list_orientation"><code>stacked_pane_list_orientation</code></a> option.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target the stack holding a specific pane by ID (eg. terminal_1, plugin_2, or 3)
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-stack-list-orientation
+$ zellij action toggle-stack-list-orientation --pane-id terminal_3
+</code></pre>
 <h4 id="toggle-theme"><a class="header" href="#toggle-theme">toggle-theme</a></h4>
 <p>Toggle between the dark and light themes (uses the configured <a href="./options.html#theme_dark"><code>theme_dark</code></a> and <a href="./options.html#theme_light"><code>theme_light</code></a>).</p>
 <p>eg.</p>
 <pre><code>$ zellij action toggle-theme
+</code></pre>
+<h4 id="toggle-tray-icon"><a class="header" href="#toggle-tray-icon">toggle-tray-icon</a></h4>
+<p>Show or hide the <a href="./zellij-terminal.html#the-tray-icon">tray / menu-bar icon</a> of the <a href="./zellij-terminal.html#the-desktop-app">desktop app</a> until the app restarts. Sessions and notifications continue either way. This action is sent to the desktop app rather than to a session. It exits with status 1 and prints "The Zellij desktop app is not running." if the app is not running.</p>
+<p>eg.</p>
+<pre><code>$ zellij action toggle-tray-icon
 </code></pre>
 <h4 id="undo-rename-pane"><a class="header" href="#undo-rename-pane">undo-rename-pane</a></h4>
 <p>Remove a previously set pane name</p>
@@ -1136,6 +1360,15 @@ $ zellij action toggle-no-ui-fullscreen --pane-id terminal_3
 </code></pre>
 <p>eg.</p>
 <pre><code>$ zellij action undo-rename-tab
+</code></pre>
+<h4 id="watch-pane"><a class="header" href="#watch-pane">watch-pane</a></h4>
+<p>Watch a pane: a notification is sent each time its command finishes or its output goes quiet, until the watch is turned off by running this action again (toggle). Defaults to the focused pane. A pane can also be watched from the start with <code>zellij run --notify</code> or <code>zellij action new-pane --notify</code>. See <a href="./inbox.html#watching-ignoring-and-muting">the inbox</a>.</p>
+<p><strong>OPTIONS</strong>:</p>
+<pre><code>    -p, --pane-id &lt;PANE_ID&gt;    Target a specific pane by ID (eg. terminal_1 or 3)
+</code></pre>
+<p>eg.</p>
+<pre><code>$ zellij action watch-pane
+$ zellij action watch-pane --pane-id terminal_3
 </code></pre>
 <h4 id="write"><a class="header" href="#write">write</a></h4>
 <p>Write bytes to the focused pane</p>
