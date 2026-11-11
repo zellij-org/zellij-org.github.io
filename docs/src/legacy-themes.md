@@ -1,6 +1,10 @@
 # Legacy Themes
 This file defines the original Zellij theme specification. It is still supported, but new themes should be written in the new spec defined at the root of this section.
 
+The colors named `black`, `red` and so on in this format color the Zellij interface. They do not set the ANSI colors of the [Zellij terminal](./zellij-terminal.md) window. A legacy theme can also contain a [`terminal_colors`](./themes.md#terminal_colors) section for that.
+
+The colors of hovered and alternate tabs in a legacy theme are worked out the same way as for a theme without a [`ribbon_hover`](./themes.md#ribbon_hover) section.
+
 ## Truecolor themes
 
 ```javascript
@@ -25,7 +29,7 @@ themes {
 
 ```javascript
 themes {
-    default {
+    my-256-color-theme {
         fg 1
         bg 10
         black 20

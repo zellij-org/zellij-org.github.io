@@ -89,8 +89,31 @@ eg.
 ## Pane commands and plugins in Layouts
 [`pane`](./creating-a-layout.html#panes) nodes in swap layouts may include [`command`](./creating-a-layout.html#command) nodes and [`plugin`](./creating-a-layout.html#plugin) nodes normally, but these will not be newly opened or closed by their absence. If panes like these are included in swap layouts, it is expected that they already appear on screen from the base layout. Otherwise the behaviour is unspecified and might change in later versions.
 
+Command and plugin panes keep their order relative to each other when a swap layout is applied. Plugin panes are matched regardless of which name was used for the built-in bars, so a swap layout with `plugin location="zellij:tab-bar"` matches a pane started as `plugin location="tab-bar"` (see [the `plugin` property](./creating-a-layout.md#plugin)).
+
 ## Multiple swap layout nodes
-Multiple `swap_tiled_layout` and `swap_floating_layout` nodes can be included in a single `layout`. In this case, the user can switch between them manually (by default with `Alt` + `[]`), or they will be switched to automatically if the current swap node does not meet the constraints when opening or closing a pane.
+Multiple `swap_tiled_layout` and `swap_floating_layout` nodes can be included in a single `layout`. In this case, the user can switch between them manually (by default with `Alt` + `[]`, or `Space` and `Shift Space` in `tab` mode), or they will be switched to automatically if the current swap node does not meet the constraints when opening or closing a pane.
+
+When the swap layout changes, its name is shown briefly. This can be turned off with the [`swap_layout_notification`](./options.md#swap_layout_notification) option.
+
+## Applying a swap layout by name
+A swap layout can be chosen directly by its `name`, rather than cycling through them:
+
+```javascript
+keybinds {
+    tab {
+        bind "1" { ApplyTiledSwapLayout "vertical"; SwitchToMode "Normal"; }
+        bind "2" { ApplyFloatingSwapLayout "spread"; SwitchToMode "Normal"; }
+    }
+}
+```
+
+```
+$ zellij action apply-tiled-swap-layout vertical
+$ zellij action apply-floating-swap-layout spread --tab-id 2
+```
+
+The first swap layout with that name whose constraints fit the current number of panes is applied. If none fits, nothing changes (and the CLI command exits with status 1). Applying a swap layout this way does not show or hide floating panes and does not change focus. The [base layout](#base) can be chosen with the name `"BASE"`.
 
 ## Base
 The basic layout loaded is called the `Base` layout, and can be switched back to as any other layout - it is considered to have an implicit `exact_panes` constraint of its total pane count.

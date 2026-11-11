@@ -4,7 +4,7 @@ description: "Zellij is a terminal workspace that doesn't sacrifice simplicity f
 ---
 {{<figure src="https://raw.githubusercontent.com/zellij-org/zellij/main/assets/demo.gif" alt="A video demonstrating the features of Zellij">}}
 
-Zellij is a workspace aimed at developers, ops-oriented people and anyone who loves the terminal. Similar programs are sometimes called "Terminal Multiplexers".
+Zellij is a workspace aimed at developers, ops-oriented people and anyone who loves the terminal. Similar programs are sometimes called "Terminal Multiplexers". Zellij runs inside any terminal emulator, or in its own window as the [Zellij terminal](/documentation/zellij-terminal.html).
 
 Zellij is designed around the philosophy that one must not sacrifice simplicity for power, taking pride in its great experience out of the box as well as the advanced features it places at its users' fingertips.
 

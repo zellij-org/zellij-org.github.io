@@ -155,6 +155,7 @@
                         <h1 id="plugin-api---events"><a class="header" href="#plugin-api---events">Plugin API - Events</a></h1>
 <p>A plugin can <a href="./plugin-api-commands.html#subscribe">subscribe</a> to events using their <a href="./plugin-api-types.html#eventtype"><code>EventType</code></a> discriminant. Once subscribed, events are delivered to the plugin's <a href="./plugin-lifecycle.html#update"><code>update</code></a> method with their associated payload.</p>
 <p>For complete type definitions referenced below, see the <a href="./plugin-api-types.html">Type Reference</a>. For additional details, see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
+<p>A plugin built with <code>zellij-tile</code> <code>0.46.0</code> or later that receives an event it cannot read (eg. one added in a newer Zellij version) skips it, printing a message to its log, instead of crashing.</p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
 <ul>
 <li><a href="#modeupdate">ModeUpdate</a></li>
@@ -205,6 +206,28 @@
 <li><a href="#softkeyboardvisibilitychanged">SoftKeyboardVisibilityChanged</a></li>
 <li><a href="#hinttext">HintText</a></li>
 <li><a href="#activepanescroll">ActivePaneScroll</a></li>
+<li><a href="#nestedsessionmodeupdate">NestedSessionModeUpdate</a></li>
+<li><a href="#nestedsessionended">NestedSessionEnded</a></li>
+<li><a href="#promptresult">PromptResult</a></li>
+<li><a href="#contextmenu">ContextMenu</a></li>
+<li><a href="#pluginsettingsentries">PluginSettingsEntries</a></li>
+<li><a href="#configchangesdropped">ConfigChangesDropped</a></li>
+<li><a href="#configfilechangedsinceread">ConfigFileChangedSinceRead</a></li>
+<li><a href="#availablekeybindpresets">AvailableKeybindPresets</a></li>
+<li><a href="#paneattentionchanged">PaneAttentionChanged</a></li>
+<li><a href="#promptshown">PromptShown</a></li>
+<li><a href="#commandstarted">CommandStarted</a></li>
+<li><a href="#commandfinished">CommandFinished</a></li>
+<li><a href="#globalattentionupdate">GlobalAttentionUpdate</a></li>
+<li><a href="#sessionhistoryupdate">SessionHistoryUpdate</a></li>
+<li><a href="#sessionsuggestions">SessionSuggestions</a></li>
+<li><a href="#sessioncountsupdate">SessionCountsUpdate</a></li>
+<li><a href="#foldersessionsupdate">FolderSessionsUpdate</a></li>
+<li><a href="#terminalcommandsubmitted">TerminalCommandSubmitted</a></li>
+<li><a href="#sessionpreview">SessionPreview</a></li>
+<li><a href="#savedsessionpreview">SavedSessionPreview</a></li>
+<li><a href="#liveviewstatechanged">LiveViewStateChanged</a></li>
+<li><a href="#desktopintegration">DesktopIntegration</a></li>
 </ul>
 <hr />
 <h2 id="modeupdate"><a class="header" href="#modeupdate"><code>ModeUpdate</code></a></h2>
@@ -224,7 +247,7 @@
         Event::ModeUpdate(mode_info) =&gt; {
             self.current_mode = mode_info.mode;
             self.session_name = mode_info.session_name.clone();
-            true // re-render
+            true
         },
         _ =&gt; false,
     }
@@ -264,6 +287,7 @@
 <p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
 <p><strong>Payload:</strong> <a href="./plugin-api-types.html#panemanifest"><code>PaneManifest</code></a></p>
 <p>Fired when pane state changes in the application. Provides information about all panes in all tabs, including their title, position, size, command, focus state, and more.</p>
+<p>Plugins without the <a href="./plugin-api-permissions.html#readpanecontents"><code>ReadPaneContents</code></a> permission receive the <code>attention</code> and <code>command_state</code> of each <a href="./plugin-api-types.html#paneinfo"><code>PaneInfo</code></a> without the text of the commands run in the pane. The same applies to the panes in <a href="#sessionupdate"><code>SessionUpdate</code></a>.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -313,7 +337,11 @@
 </span>Event::Mouse(Mouse)
 <span class="boring">}</span></code></pre></pre>
 <p><strong>Payload:</strong> <a href="./plugin-api-types.html#mouse"><code>Mouse</code></a></p>
-<p>Fired when the user performs a mouse action (click, scroll, hover, etc.) while focused on the plugin pane. No permission is required.</p>
+<p>Fired when the user performs a mouse action (click, double click, scroll, hover, etc.) while focused on the plugin pane. No permission is required.</p>
+<p>The modifier keys held during the event (<code>Shift</code>, <code>Ctrl</code>, <code>Alt</code>) are available while handling it through <a href="./plugin-api-commands.html#mouse_modifiers"><code>mouse_modifiers</code></a>. Plugins built against an older <code>zellij-tile</code> do not receive <code>Mouse::DoubleClick</code>.</p>
+<blockquote>
+<p><strong>Note:</strong> the <code>EventType::MouseWithModifiers</code> and <code>Event::MouseWithModifiers</code> variants are used inside Zellij only: plugins subscribe to <code>EventType::Mouse</code> and receive <code>Event::Mouse</code>.</p>
+</blockquote>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -348,14 +376,14 @@
 </span><span class="boring">fn main() {
 </span>fn load(&amp;mut self, _config: BTreeMap&lt;String, String&gt;) {
     subscribe(&amp;[EventType::Timer]);
-    set_timeout(1.0); // fire after 1 second
+    set_timeout(1.0);
 }
 
 fn update(&amp;mut self, event: Event) -&gt; bool {
     match event {
         Event::Timer(elapsed) =&gt; {
             self.tick();
-            set_timeout(1.0); // schedule next tick
+            set_timeout(1.0);
             true
         },
         _ =&gt; false,
@@ -404,7 +432,6 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
         Event::Visible(is_visible) =&gt; {
             self.is_visible = is_visible;
             if is_visible {
-                // refresh data when becoming visible
                 self.refresh();
             }
             true
@@ -501,7 +528,6 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 </span>fn update(&amp;mut self, event: Event) -&gt; bool {
     match event {
         Event::PermissionRequestResult(PermissionStatus::Granted) =&gt; {
-            // permissions granted, subscribe to events that require them
             subscribe(&amp;[EventType::TabUpdate, EventType::PaneUpdate]);
             true
         },
@@ -840,7 +866,7 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
     match event {
         Event::InterceptedKeyPress(key) =&gt; {
             if key.bare_key == BareKey::Esc {
-                clear_key_presses_intercepts(); // stop intercepting
+                clear_key_presses_intercepts();
             } else {
                 self.handle_intercepted_key(key);
             }
@@ -990,7 +1016,6 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
     match event {
         Event::HighlightClicked { pane_id, pattern, matched_string, context } =&gt; {
             if pattern.contains("https?://") {
-                // Open the clicked URL
                 run_command(&amp;["xdg-open", &amp;matched_string], BTreeMap::new());
             }
             true
@@ -1131,6 +1156,299 @@ fn update(&amp;mut self, event: Event) -&gt; bool {
 <li><code>Option&lt;(usize, usize)&gt;</code> - the scroll position and the total length of the scrollback of the displayed pane, or <code>None</code> if this information is unavailable</li>
 </ul>
 <p>Fired when the scroll position of the single displayed pane changes. This is only sent when the session displays a single pane with a title (ie. when the <a href="./options.html#pane_frame_style"><code>pane_frame_style</code></a> is <code>titles</code> and only one pane is displayed), which is the case where a plugin (eg. a tab-bar) may want to render a scrollbar or a scroll indicator for it.</p>
+<hr />
+<h2 id="nestedsessionmodeupdate"><a class="header" href="#nestedsessionmodeupdate"><code>NestedSessionModeUpdate</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::NestedSessionModeUpdate {
+    pane_id: PaneId,
+    session_path: Vec&lt;String&gt;,
+    mode: InputMode,
+    base_mode: Option&lt;InputMode&gt;,
+    keybinds_generation: u64,
+}
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><code>pane_id</code> - <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane the <a href="./nested-sessions.html">nested session</a> runs in</li>
+<li><code>session_path</code> - <code>Vec&lt;String&gt;</code> - the names of the nested sessions, starting with the one in this pane; when sessions are nested more than one level deep, the last name is the session the user is typing into</li>
+<li><code>mode</code> - <a href="./plugin-api-types.html#inputmode"><code>InputMode</code></a> - the current input mode of that session</li>
+<li><code>base_mode</code> - <code>Option&lt;</code><a href="./plugin-api-types.html#inputmode"><code>InputMode</code></a><code>&gt;</code> - its base mode</li>
+<li><code>keybinds_generation</code> - <code>u64</code> - changes whenever the keybindings that apply may have changed</li>
+</ul>
+<p>Fired when the input mode of a nested session changes. This lets a plugin in the host session (eg. a status bar) show hints for the session the user is actually typing into. When <code>keybinds_generation</code> differs from the one of the keybindings the plugin has, it can fetch new ones with <a href="./plugin-api-commands.html#get_nested_session_keybinds"><code>get_nested_session_keybinds</code></a>.</p>
+<hr />
+<h2 id="nestedsessionended"><a class="header" href="#nestedsessionended"><code>NestedSessionEnded</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::NestedSessionEnded {
+    pane_id: PaneId,
+    reason: NestedSessionEndReason,
+}
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><code>pane_id</code> - <a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane the nested session ran in</li>
+<li><code>reason</code> - <a href="./plugin-api-types.html#nestedsessionkeybinds"><code>NestedSessionEndReason</code></a> - <code>Exited</code> or <code>Unresponsive</code></li>
+</ul>
+<p>Fired when a nested session stops reporting to this session, because it exited or stopped responding. Plugins should stop showing its mode and keybindings.</p>
+<hr />
+<h2 id="promptresult"><a class="header" href="#promptresult"><code>PromptResult</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::PromptResult(u64, PromptResult)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><code>u64</code> - the request id returned by <a href="./plugin-api-commands.html#prompt"><code>prompt</code></a></li>
+<li><a href="./plugin-api-types.html#promptresult"><code>PromptResult</code></a> - the answer</li>
+</ul>
+<p>The answer to a <a href="./plugin-api-commands.html#prompt"><code>prompt</code></a> request. It is sent only to the plugin instance that made the request. No permission is required to receive it.</p>
+<hr />
+<h2 id="contextmenu"><a class="header" href="#contextmenu"><code>ContextMenu</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::ContextMenu(ContextMenuContext, Vec&lt;ContextMenuEntry&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#contextmenucontext"><code>ContextMenuContext</code></a> - what was clicked and where</li>
+<li><code>Vec&lt;</code><a href="./plugin-api-types.html#contextmenucontext"><code>ContextMenuEntry</code></a><code>&gt;</code> - the entries to show</li>
+</ul>
+<p>Sent to the plugin that shows the <a href="./context-menu.html">context menu</a> (by default the built-in <a href="./context-menu-alias.html"><code>context-menu</code></a> plugin) when it is opened as a popup. The plugin runs an entry with <a href="./plugin-api-commands.html#run_context_menu_item"><code>run_context_menu_item</code></a>, passing the index of the entry in this list.</p>
+<hr />
+<h2 id="pluginsettingsentries"><a class="header" href="#pluginsettingsentries"><code>PluginSettingsEntries</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::PluginSettingsEntries(Vec&lt;PluginSettingsEntry&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><code>Vec&lt;</code><a href="./plugin-api-types.html#pluginsettingsentry"><code>PluginSettingsEntry</code></a><code>&gt;</code> - every settings screen entry plugins have registered</li>
+</ul>
+<p>Sent when the plugin loads, and again whenever plugins register or remove a <a href="./plugin-api-commands.html#register_settings_entry">settings screen entry</a>. Used by the <a href="./settings-screen.html">settings screen</a> to list them.</p>
+<hr />
+<h2 id="configchangesdropped"><a class="header" href="#configchangesdropped"><code>ConfigChangesDropped</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::ConfigChangesDropped(Vec&lt;SettingKey&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><code>Vec&lt;</code><a href="./plugin-api-types.html#settingkey"><code>SettingKey</code></a><code>&gt;</code> - the settings whose unsaved changes were dropped</li>
+</ul>
+<p>Fired when the saved configuration changes (eg. the file was edited) and this replaces unsaved changes the user had made to these settings.</p>
+<hr />
+<h2 id="configfilechangedsinceread"><a class="header" href="#configfilechangedsinceread"><code>ConfigFileChangedSinceRead</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::ConfigFileChangedSinceRead
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>Reconfigure</code></a></p>
+<p>Fired when <a href="./plugin-api-commands.html#save_config"><code>save_config</code></a> did not write the configuration file because it was changed by something else since Zellij read it, and when the file is changed outside of Zellij. The plugin can then offer to <a href="./plugin-api-commands.html#overwrite_config_file">overwrite</a> or <a href="./plugin-api-commands.html#reload_config_file">reload</a> it.</p>
+<hr />
+<h2 id="availablekeybindpresets"><a class="header" href="#availablekeybindpresets"><code>AvailableKeybindPresets</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::AvailableKeybindPresets(Vec&lt;KeybindPresetInfo&gt;, Vec&lt;KeybindPresetWithError&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><code>Vec&lt;</code><a href="./plugin-api-types.html#keybindpresetinfo"><code>KeybindPresetInfo</code></a><code>&gt;</code> - the keybinding presets that can be used</li>
+<li><code>Vec&lt;</code><a href="./plugin-api-types.html#keybindpresetinfo"><code>KeybindPresetWithError</code></a><code>&gt;</code> - preset files that could not be read, with the error</li>
+</ul>
+<p>Sent when the plugin loads with the list of keybinding presets (built in, and from the keybinds folder), and again whenever that list changes.</p>
+<hr />
+<h2 id="paneattentionchanged"><a class="header" href="#paneattentionchanged"><code>PaneAttentionChanged</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::PaneAttentionChanged(PaneId, PaneAttention)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane</li>
+<li><a href="./plugin-api-types.html#paneattention"><code>PaneAttention</code></a> - its new attention state</li>
+</ul>
+<p>Fired when the attention state of a pane in this session changes (eg. its command finished, failed, or is waiting for the user). See the <a href="./inbox.html">inbox</a>. Without the <a href="./plugin-api-permissions.html#readpanecontents"><code>ReadPaneContents</code></a> permission, the command text is left out.</p>
+<hr />
+<h2 id="promptshown"><a class="header" href="#promptshown"><code>PromptShown</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::PromptShown(PaneId)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane</li>
+</ul>
+<p>Fired when a shell prompt is shown in a pane whose shell reports its prompts (<a href="./shell-integration.html">shell integration</a>).</p>
+<hr />
+<h2 id="commandstarted"><a class="header" href="#commandstarted"><code>CommandStarted</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::CommandStarted(PaneId, Option&lt;CommandText&gt;)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane</li>
+<li><code>Option&lt;</code><a href="./plugin-api-types.html#paneattention"><code>CommandText</code></a><code>&gt;</code> - the command, if known</li>
+</ul>
+<p>Fired when a command starts running in a pane. Without the <a href="./plugin-api-permissions.html#readpanecontents"><code>ReadPaneContents</code></a> permission, the command is always <code>None</code>.</p>
+<hr />
+<h2 id="commandfinished"><a class="header" href="#commandfinished"><code>CommandFinished</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::CommandFinished(PaneId, CommandOutcome)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#paneid"><code>PaneId</code></a> - the pane</li>
+<li><a href="./plugin-api-types.html#paneattention"><code>CommandOutcome</code></a> - whether it succeeded, its exit code and how long it ran</li>
+</ul>
+<p>Fired when a command finishes in a pane. Without the <a href="./plugin-api-permissions.html#readpanecontents"><code>ReadPaneContents</code></a> permission, <code>outcome.command</code> is <code>None</code>.</p>
+<hr />
+<h2 id="globalattentionupdate"><a class="header" href="#globalattentionupdate"><code>GlobalAttentionUpdate</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::GlobalAttentionUpdate(GlobalAttention)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#globalattention"><code>GlobalAttention</code></a> - the attention state of all running sessions on the machine</li>
+</ul>
+<p>Fired when the attention state of any session changes. This is what the <a href="./inbox.html">inbox</a> shows. Without the <a href="./plugin-api-permissions.html#readpanecontents"><code>ReadPaneContents</code></a> permission, the command text is left out.</p>
+<hr />
+<h2 id="sessionhistoryupdate"><a class="header" href="#sessionhistoryupdate"><code>SessionHistoryUpdate</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::SessionHistoryUpdate(SessionHistoryInfo)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#sessionhistoryinfo"><code>SessionHistoryInfo</code></a> - the sessions the user came from and can go back or forward to</li>
+</ul>
+<p>Fired for each user when their session history changes (eg. after switching sessions).</p>
+<hr />
+<h2 id="sessionsuggestions"><a class="header" href="#sessionsuggestions"><code>SessionSuggestions</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::SessionSuggestions(SessionSuggestions)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#sessionsuggestions"><code>SessionSuggestions</code></a> - ranked sessions</li>
+</ul>
+<p>The answer to <a href="./plugin-api-commands.html#get_session_suggestions"><code>get_session_suggestions</code></a>. See <a href="./session-suggestions.html">session suggestions</a>.</p>
+<hr />
+<h2 id="sessioncountsupdate"><a class="header" href="#sessioncountsupdate"><code>SessionCountsUpdate</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::SessionCountsUpdate(SessionCounts)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#sessionsuggestions"><code>SessionCounts</code></a> - how many sessions are running, and how many resumable sessions match the current folder</li>
+</ul>
+<p>Sent to plugins that asked for <a href="./plugin-api-commands.html#get_session_suggestions">session suggestions</a>, when these numbers change.</p>
+<hr />
+<h2 id="foldersessionsupdate"><a class="header" href="#foldersessionsupdate"><code>FolderSessionsUpdate</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::FolderSessionsUpdate(FolderSessions)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#sessionsuggestions"><code>FolderSessions</code></a> - the running and resumable sessions of the current folder</li>
+</ul>
+<p>Sent together with <a href="#sessioncountsupdate"><code>SessionCountsUpdate</code></a>.</p>
+<hr />
+<h2 id="terminalcommandsubmitted"><a class="header" href="#terminalcommandsubmitted"><code>TerminalCommandSubmitted</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::TerminalCommandSubmitted
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p>Fired the first time the user submits input in a terminal pane of this session. A session where this never happened is considered unused (see <a href="./plugin-api-commands.html#switch_session_and_close_current"><code>switch_session_and_close_current</code></a>).</p>
+<hr />
+<h2 id="sessionpreview"><a class="header" href="#sessionpreview"><code>SessionPreview</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::SessionPreview(SessionPreview)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html#readpanecontents"><code>ReadPaneContents</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#sessionpreview"><code>SessionPreview</code></a> - the text contents and layout of a running session</li>
+</ul>
+<p>The answer to <a href="./plugin-api-commands.html#get_session_preview"><code>get_session_preview</code></a>, <a href="./plugin-api-commands.html#get_session_preview_with_history"><code>get_session_preview_with_history</code></a> and <a href="./plugin-api-commands.html#get_session_pane_preview"><code>get_session_pane_preview</code></a>.</p>
+<hr />
+<h2 id="savedsessionpreview"><a class="header" href="#savedsessionpreview"><code>SavedSessionPreview</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::SavedSessionPreview(SavedSessionPreview)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><a href="./plugin-api-types.html#sessionpreview"><code>SavedSessionPreview</code></a> - the folder, tabs and panes of a saved session</li>
+</ul>
+<p>The answer to <a href="./plugin-api-commands.html#get_saved_session_preview"><code>get_saved_session_preview</code></a>. Without the <a href="./plugin-api-permissions.html#readpanecontents"><code>ReadPaneContents</code></a> permission, the pane contents are left out.</p>
+<hr />
+<h2 id="liveviewstatechanged"><a class="header" href="#liveviewstatechanged"><code>LiveViewStateChanged</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::LiveViewStateChanged {
+    target: Option&lt;PaneAddress&gt;,
+    state: MirrorState,
+    input_captured: bool,
+    input_released_by: Option&lt;LiveViewRelease&gt;,
+    resize_allowed: bool,
+    view_only: bool,
+    pinned: bool,
+    source_size: Option&lt;Size&gt;,
+    release_key: String,
+}
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html#readpanecontents"><code>ReadPaneContents</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><code>target</code> - <code>Option&lt;</code><a href="./plugin-api-types.html#liveview"><code>PaneAddress</code></a><code>&gt;</code> - the pane shown, or <code>None</code> if there is no live view</li>
+<li><code>state</code> - <a href="./plugin-api-types.html#liveview"><code>MirrorState</code></a> - <code>NoTarget</code>, <code>Connecting</code>, <code>Live</code> or <code>Closed(reason)</code></li>
+<li><code>input_captured</code> - <code>bool</code> - whether the user's input currently goes to the mirrored pane</li>
+<li><code>input_released_by</code> - <code>Option&lt;</code><a href="./plugin-api-types.html#liveview"><code>LiveViewRelease</code></a><code>&gt;</code> - why input was last released, if it was</li>
+<li><code>resize_allowed</code> - <code>bool</code> - whether the view may resize the program in the mirrored pane</li>
+<li><code>view_only</code> - <code>bool</code> - whether the view accepts input at all</li>
+<li><code>pinned</code> - <code>bool</code> - whether this view is the one currently deciding the size of the program in the mirrored pane</li>
+<li><code>source_size</code> - <code>Option&lt;Size&gt;</code> - the size of the mirrored pane</li>
+<li><code>release_key</code> - <code>String</code> - the key that gives input back to the plugin, for display</li>
+</ul>
+<p>Fired for the plugin and user that own a <a href="./plugin-api-commands.html#set_live_view">live view</a> whenever its state changes.</p>
+<hr />
+<h2 id="desktopintegration"><a class="header" href="#desktopintegration"><code>DesktopIntegration</code></a></h2>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>Event::DesktopIntegration(String)
+<span class="boring">}</span></code></pre></pre>
+<p><strong>Required Permission:</strong> <a href="./plugin-api-permissions.html"><code>ReadApplicationState</code></a></p>
+<p><strong>Payload:</strong></p>
+<ul>
+<li><code>String</code> - the answer, as JSON</li>
+</ul>
+<p>The answer to <a href="./plugin-api-commands.html#request_desktop_integration"><code>request_desktop_integration</code></a>. For plugins that are not built in, this is always an error.</p>
 
                     </main>
 

@@ -178,10 +178,11 @@
 <li><a href="#env">env</a></li>
 <li><a href="#rounded_corners">rounded_corners</a></li>
 <li><a href="#hide_session_name">hide_session_name</a></li>
+<li><a href="#border_style">border_style</a></li>
 <li><a href="#auto_layout">auto_layout</a></li>
 <li><a href="#styled_underlines">styled_underlines</a></li>
 <li><a href="#session_serialization">session_serialization</a></li>
-<li><a href="#pane_viewport_serialization">pane_viewport_serialization</a></li>
+<li><a href="#serialize_pane_viewport">serialize_pane_viewport</a></li>
 <li><a href="#scrollback_lines_to_serialize">scrollback_lines_to_serialize</a></li>
 <li><a href="#serialization_interval">serialization_interval</a></li>
 <li><a href="#disable_session_metadata">disable_session_metadata</a></li>
@@ -194,9 +195,11 @@
 <li><a href="#web_server_port">web_server_port</a></li>
 <li><a href="#web_server_cert">web_server_cert</a></li>
 <li><a href="#web_server_key">web_server_key</a></li>
-<li><a href="#enforce_https_on_localhost">enforce_https_on_localhost</a></li>
+<li><a href="#enforce_https_for_localhost">enforce_https_for_localhost</a></li>
+<li><a href="#dangerously_allow_web_serving_without_a_certificate">dangerously_allow_web_serving_without_a_certificate</a></li>
 <li><a href="#base_url">base_url</a></li>
 <li><a href="#web_client">web_client</a></li>
+<li><a href="#client_async_worker_tasks">client_async_worker_tasks</a></li>
 <li><a href="#advanced_mouse_actions">advanced_mouse_actions</a></li>
 <li><a href="#default_cwd">default_cwd</a></li>
 <li><a href="#osc8_hyperlinks">osc8_hyperlinks</a></li>
@@ -220,11 +223,27 @@
 <li><a href="#dangerously_enable_paste_buffer_read">dangerously_enable_paste_buffer_read</a></li>
 <li><a href="#scroll_mode_sync">scroll_mode_sync</a></li>
 <li><a href="#explicit_theme_hue">explicit_theme_hue</a></li>
+<li><a href="#on_quit">on_quit</a></li>
+<li><a href="#bars_hidden_on_start">bars_hidden_on_start</a></li>
+<li><a href="#hidden_bars_notification">hidden_bars_notification</a></li>
+<li><a href="#mode_hints_when_bars_hidden">mode_hints_when_bars_hidden</a></li>
+<li><a href="#session_indicator">session_indicator</a></li>
+<li><a href="#swap_layout_notification">swap_layout_notification</a></li>
+<li><a href="#stacked_pane_list_orientation">stacked_pane_list_orientation</a></li>
+<li><a href="#grapheme_clusters">grapheme_clusters</a></li>
+<li><a href="#mirror_resizes_source_pane">mirror_resizes_source_pane</a></li>
+<li><a href="#live_view_release_key">live_view_release_key</a></li>
+<li><a href="#keybinds_dir">keybinds_dir</a></li>
+<li><a href="#context_menu_enabled">context_menu_enabled</a></li>
+<li><a href="#context_menu">context_menu</a></li>
+<li><a href="#session_suggestions">session_suggestions</a></li>
+<li><a href="#terminal">terminal</a></li>
+<li><a href="#attention">attention</a></li>
 </ul>
 <hr />
 <h3 id="on_force_close"><a class="header" href="#on_force_close">on_force_close</a></h3>
 <p>Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
-eg. when terminal window with an active zellij session is closed</p>
+eg. when terminal window with an active zellij session is closed. This also applies to closing a window of the <a href="./zellij-terminal.html">Zellij terminal</a>.</p>
 <p>Options:</p>
 <ul>
 <li>detach (Default)</li>
@@ -257,15 +276,19 @@ eg. when terminal window with an active zellij session is closed</p>
 </code></pre>
 <h3 id="theme"><a class="header" href="#theme">theme</a></h3>
 <p>Choose the Zellij color theme. This theme must be specified in the themes section or loaded from the themes folder. See <a href="./themes.html">themes</a></p>
+<p>Setting <code>theme</code> pins the session to this theme and turns off the automatic switching between the bundled <code>default</code> and <code>default-light</code> themes. Switching still happens if both <a href="#theme_dark"><code>theme_dark</code></a> and <a href="#theme_light"><code>theme_light</code></a> are also set.</p>
+<p>Since <code>0.46.0</code>, the <code>default</code> theme has a new palette. The previous default theme is bundled as <code>classic</code>.</p>
 <p>Default: default</p>
 <pre><code class="language-javascript">theme "default"
 </code></pre>
 <h3 id="theme_dark"><a class="header" href="#theme_dark">theme_dark</a></h3>
-<p>Name of the theme to use as the "dark" theme. Used by the <code>SetDarkTheme</code> / <code>ToggleTheme</code> actions, and applied automatically when the host terminal reports it is in dark mode (CSI 2031 / DSR 997). The named theme must be specified in the themes section or loaded from the themes folder. See <a href="./themes.html">themes</a></p>
+<p>Name of the theme to use as the "dark" theme. Used by the <code>SetDarkTheme</code> / <code>ToggleTheme</code> actions, and applied automatically when the host terminal reports it is in dark mode (CSI 2031 / DSR 997). The named theme must be specified in the themes section or loaded from the themes folder. See <a href="./themes.html#automatic-dark-and-light-theme-switching">themes</a></p>
+<p>Default: <code>default</code> when <a href="#theme"><code>theme</code></a> is not set, otherwise unset</p>
 <pre><code class="language-javascript">theme_dark "catppuccin-mocha"
 </code></pre>
 <h3 id="theme_light"><a class="header" href="#theme_light">theme_light</a></h3>
-<p>Name of the theme to use as the "light" theme. Used by the <code>SetLightTheme</code> / <code>ToggleTheme</code> actions, and applied automatically when the host terminal reports it is in light mode (CSI 2031 / DSR 997). The named theme must be specified in the themes section or loaded from the themes folder. See <a href="./themes.html">themes</a></p>
+<p>Name of the theme to use as the "light" theme. Used by the <code>SetLightTheme</code> / <code>ToggleTheme</code> actions, and applied automatically when the host terminal reports it is in light mode (CSI 2031 / DSR 997). The named theme must be specified in the themes section or loaded from the themes folder. See <a href="./themes.html#automatic-dark-and-light-theme-switching">themes</a></p>
+<p>Default: <code>default-light</code> when <a href="#theme"><code>theme</code></a> is not set, otherwise unset</p>
 <pre><code class="language-javascript">theme_light "catppuccin-latte"
 </code></pre>
 <h3 id="default_layout"><a class="header" href="#default_layout">default_layout</a></h3>
@@ -274,7 +297,7 @@ eg. when terminal window with an active zellij session is closed</p>
 <pre><code class="language-javascript">default_layout "compact"
 </code></pre>
 <h3 id="default_mode-locked"><a class="header" href="#default_mode-locked">default_mode "locked"</a></h3>
-<p>Choose the mode that zellij uses when starting up.</p>
+<p>Choose the mode that zellij uses when starting up and returns to after actions.</p>
 <p>Default: normal</p>
 <pre><code class="language-javascript">default_mode "locked"
 </code></pre>
@@ -291,8 +314,9 @@ potentially interfere with copying text.</p>
 </code></pre>
 <h3 id="scroll_buffer_size"><a class="header" href="#scroll_buffer_size">scroll_buffer_size</a></h3>
 <p>Configure the scroll back buffer size
-This is the number of lines zellij stores for each pane in the scroll back
-buffer. Excess number of lines are discarded in a FIFO fashion.</p>
+This is the number of display rows zellij stores for each pane in the scroll
+back buffer. A line wider than the pane takes one row for each time it wraps.
+Excess rows are discarded in a FIFO fashion.</p>
 <p>Valid values: positive integers</p>
 <p>Default value: 10000</p>
 <pre><code class="language-javascript">scroll_buffer_size 10000
@@ -302,10 +326,10 @@ buffer. Excess number of lines are discarded in a FIFO fashion.</p>
 the stdin of the program to perform the copy. This can be used with
 terminal emulators which do not support the OSC 52 ANSI control sequence
 that will be used by default if this option is not set.</p>
-<p>Examples:</p>
-<pre><code class="language-javascript">copy_command "xclip -selection clipboard" // x11
-copy_command "wl-copy"                    // wayland
-copy_command "pbcopy"                     // osx
+<p>Examples, for X11, Wayland and macOS:</p>
+<pre><code class="language-javascript">copy_command "xclip -selection clipboard"
+copy_command "wl-copy"
+copy_command "pbcopy"
 </code></pre>
 <h3 id="copy_clipboard"><a class="header" href="#copy_clipboard">copy_clipboard</a></h3>
 <p>Choose the destination for copied text
@@ -341,7 +365,7 @@ Default: false</p>
 <pre><code class="language-javascript">layout_dir "/path/to/my/layout_dir"
 </code></pre>
 <h3 id="theme_dir"><a class="header" href="#theme_dir">theme_dir</a></h3>
-<p>The folder in which Zellij will look for themes</p>
+<p>The folder in which Zellij will look for themes. Themes from this folder are read-only in the <a href="./settings-screen.html">settings screen</a> (copy one to edit it).</p>
 <pre><code class="language-javascript">theme_dir "/path/to/my/theme_dir"
 </code></pre>
 <h3 id="env"><a class="header" href="#env">env</a></h3>
@@ -368,6 +392,42 @@ Default: false</p>
     }
 }
 </code></pre>
+<h3 id="border_style"><a class="header" href="#border_style">border_style</a></h3>
+<p>The line style of pane borders can be set, for all sides at once or for each side. Like <code>rounded_corners</code>, these keys go inside the <code>ui</code> block:</p>
+<pre><code class="language-javascript">ui {
+    pane_frames {
+        rounded_corners true
+        border_style "single"
+        border_top "double"
+        border_right "single"
+        border_bottom "single"
+        border_left "single"
+        border_rounded_corners true
+        floating_border_style "double"
+        floating_border_top "double"
+        floating_border_right "double"
+        floating_border_bottom "double"
+        floating_border_left "double"
+        floating_border_rounded_corners false
+    }
+}
+</code></pre>
+<p>Line styles:</p>
+<ul>
+<li>"single" (default)</li>
+<li>"double"</li>
+<li>"heavy"</li>
+<li>"dashed"</li>
+<li>"heavy_dashed"</li>
+</ul>
+<p>How the keys combine:</p>
+<ul>
+<li><code>border_style</code> sets all four sides of tiled panes. <code>border_top</code>, <code>border_right</code>, <code>border_bottom</code> and <code>border_left</code> override one side each.</li>
+<li><code>border_rounded_corners</code> overrides <code>rounded_corners</code> for tiled panes. Corners are only rounded where two thin lines (<code>single</code> or <code>dashed</code>) meet.</li>
+<li>The keys starting with <code>floating_</code> do the same for floating panes. Any of them that is not set takes the value of the matching tiled pane key.</li>
+<li>When pane frames are off and two neighboring panes ask for different styles on the line they share, that line uses <code>border_style</code>.</li>
+</ul>
+<p>These can also be changed from the <a href="./settings-screen.html">settings screen</a>.</p>
 <h3 id="auto_layout"><a class="header" href="#auto_layout">auto_layout</a></h3>
 <p>Toggle between having Zellij lay out panes according to a predefined set of layouts whenever possible
 Options:</p>
@@ -395,24 +455,24 @@ Options:</p>
 </ul>
 <pre><code class="language-javascript">session_serialization true
 </code></pre>
-<h3 id="pane_viewport_serialization"><a class="header" href="#pane_viewport_serialization">pane_viewport_serialization</a></h3>
+<h3 id="serialize_pane_viewport"><a class="header" href="#serialize_pane_viewport">serialize_pane_viewport</a></h3>
 <p>If enabled along with <code>session_serialization</code>, the pane viewport (the visible part of the terminal excluding the scrollback) will be serialized and resurrectable as well. Read more about <a href="./session-resurrection.html">session resurrection</a>.
 Options:</p>
 <ul>
 <li>true</li>
 <li>false (default)</li>
 </ul>
-<pre><code class="language-javascript">pane_viewport_serialization true
+<pre><code class="language-javascript">serialize_pane_viewport true
 </code></pre>
 <h3 id="scrollback_lines_to_serialize"><a class="header" href="#scrollback_lines_to_serialize">scrollback_lines_to_serialize</a></h3>
-<p>When <code>pane_viewport_serialization</code> is enabled, setting <code>scrollback_lines_to_serialize</code> to <code>0</code> in the will serialize all scrollback and to any other number will serialize line number up to that scrollback. Read more about <a href="./session-resurrection.html">session resurrection</a>.</p>
+<p>When <code>serialize_pane_viewport</code> is enabled, setting <code>scrollback_lines_to_serialize</code> to <code>0</code> will serialize all scrollback and to any other number will serialize line number up to that scrollback. Read more about <a href="./session-resurrection.html">session resurrection</a>.</p>
 <p><em>Note: this might incur higher resource utilization (and certainly a higher cache folder usage...)</em></p>
 <p>Options:</p>
 <ul>
 <li><code>0</code>: serialize all scrollback</li>
 <li><code>int</code>: serialize this much lines for each pane (max is the scrollback limit)</li>
 </ul>
-<pre><code class="language-javascript">pane_viewport_serialization 100
+<pre><code class="language-javascript">scrollback_lines_to_serialize 100
 </code></pre>
 <h3 id="serialization_interval"><a class="header" href="#serialization_interval">serialization_interval</a></h3>
 <p>How often in seconds sessions are serialized to disk (if <code>session_serialization</code> is enabled).</p>
@@ -462,8 +522,8 @@ Options:</p>
 </code></pre>
 <h3 id="post_command_discovery_hook"><a class="header" href="#post_command_discovery_hook">post_command_discovery_hook</a></h3>
 <p>When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a <code>post_command_discovery_hook</code>. This is a command that will run in the context of te user's default shell and be provided the <code>$RESURRECT_COMMAND</code> that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over <code>STDOUT</code> will be serialized in place of the discovered command.</p>
-<p>Example:</p>
-<pre><code class="language-javascript">post_command_discovery_hook "echo \"$RESURRECT_COMMAND\" | sed 's/^sudo\\s\\+//'" // strip sudo from commands
+<p>Example, removing <code>sudo</code> from the start of commands:</p>
+<pre><code class="language-javascript">post_command_discovery_hook "echo \"$RESURRECT_COMMAND\" | sed 's/^sudo\\s\\+//'"
 </code></pre>
 <h3 id="web_server"><a class="header" href="#web_server">web_server</a></h3>
 <p>Whether to start the Zellij <a href="./web-client.html">web-server</a> on startup.</p>
@@ -480,8 +540,26 @@ Options:</p>
 <p>The path to the SSL certificate for the Zellij <a href="./web-client.html">web-server</a>. Note: the <code>web_server_key</code> must also be present for the server to serve itself as HTTPS.</p>
 <h3 id="web_server_key"><a class="header" href="#web_server_key">web_server_key</a></h3>
 <p>The path to the private_key of te SSL certificate for the Zellij <a href="./web-client.html">web-server</a>. Note: the <code>web_server_cert</code> must also be present for the server to serve itself as HTTPS.</p>
-<h3 id="enforce_https_on_localhost"><a class="header" href="#enforce_https_on_localhost">enforce_https_on_localhost</a></h3>
-<p>Whether to enforce https on localhost for the Zellij <a href="./web-client.html">web-server</a>. This is always enforced when listening on non-localhost addresses.</p>
+<h3 id="enforce_https_for_localhost"><a class="header" href="#enforce_https_for_localhost">enforce_https_for_localhost</a></h3>
+<p>Whether to enforce https on localhost for the Zellij <a href="./web-client.html">web-server</a>. HTTPS is always enforced when listening on non-localhost addresses, unless <a href="#dangerously_allow_web_serving_without_a_certificate"><code>dangerously_allow_web_serving_without_a_certificate</code></a> is set. Requires a restart.</p>
+<p>Options:</p>
+<ul>
+<li>true</li>
+<li>false (default)</li>
+</ul>
+<pre><code class="language-javascript">enforce_https_for_localhost true
+</code></pre>
+<h3 id="dangerously_allow_web_serving_without_a_certificate"><a class="header" href="#dangerously_allow_web_serving_without_a_certificate">dangerously_allow_web_serving_without_a_certificate</a></h3>
+<p>Allows the Zellij <a href="./web-client.html">web-server</a> to serve plain, unencrypted HTTP when it listens on an address other than localhost and no <code>web_server_cert</code> and <code>web_server_key</code> are set. Without this option, the web server refuses to start in that case.</p>
+<p><strong>Warning</strong>: anyone on the network can read and change the traffic, including login tokens. Only use this behind a trusted proxy that adds TLS, or on a fully trusted network.</p>
+<p>This option does not override <a href="#enforce_https_for_localhost"><code>enforce_https_for_localhost</code></a>. Requires a restart.</p>
+<p>Options:</p>
+<ul>
+<li>true</li>
+<li>false (default)</li>
+</ul>
+<pre><code class="language-javascript">dangerously_allow_web_serving_without_a_certificate true
+</code></pre>
 <h3 id="base_url"><a class="header" href="#base_url">base_url</a></h3>
 <p>Set the base URL path for the Zellij <a href="./web-client.html">web-server</a>. When set, the web server serves all content under this path prefix. This is useful when running behind a reverse proxy that serves Zellij under a subpath.</p>
 <p>Default: none (served at root "/")</p>
@@ -490,19 +568,26 @@ Options:</p>
 }
 </code></pre>
 <h3 id="web_client"><a class="header" href="#web_client">web_client</a></h3>
-<p>Configuration having to do with the in-browser terminal of the Zellij web client (eg. colors, font). For more info, please see: <a href="./web-client.html">web-server</a>.</p>
-<p>Options:
-- true
-- false (default)</p>
+<p>A block with settings for the in-browser terminal of the Zellij web client (eg. colors, font, font size, cursor). Changes require a restart. For the full list, please see: <a href="./web-client.html#web-client-configuration">web-server</a>.</p>
+<pre><code class="language-javascript">web_client {
+    font "monospace"
+    font_size 14
+}
+</code></pre>
+<h3 id="client_async_worker_tasks"><a class="header" href="#client_async_worker_tasks">client_async_worker_tasks</a></h3>
+<p>The number of background threads used by <code>zellij attach &lt;url&gt;</code> when it connects to a session on another machine. One set of threads is made for that program, not one per client. The web server, browser clients and local sessions are not affected. Most of the work runs on the main thread, so these threads are usually idle. Requires a restart.</p>
+<p>Default: the number of physical CPU cores (also used when set to <code>0</code>)</p>
+<pre><code class="language-javascript">client_async_worker_tasks 4
+</code></pre>
 <h3 id="advanced_mouse_actions"><a class="header" href="#advanced_mouse_actions">advanced_mouse_actions</a></h3>
-<p>Whether to enable mouse hover effects, multiple select functionality (pane grouping), and mouse-based pane resizing.</p>
-<p>When enabled, the following mouse interactions are available:</p>
+<p>Whether to enable mouse hover effects and jumping between shell prompts with the mouse wheel (the <code>ScrollToPrompt</code> <a href="./mouse-bindings.html">mouse binding</a>, <code>Alt</code> + scroll by default). When false, those bindings do nothing.</p>
+<p>The other mouse interactions are <a href="./mouse-bindings.html">mouse bindings</a> and can be rebound:</p>
 <ul>
-<li><strong>Drag tiled pane borders</strong>: Click and drag the border between tiled panes to resize them</li>
-<li><strong>Ctrl+Drag floating pane borders</strong>: Hold Ctrl and drag the border of a floating pane to resize it</li>
-<li><strong>Ctrl+ScrollWheel</strong>: Hold Ctrl and scroll the mouse wheel up or down to resize the focused pane (increases/decreases size by approximately 5 cells)</li>
+<li><strong>Resizing panes by their frame</strong>: the <code>ResizePane</code> binding, on <code>Ctrl</code> + left-drag on the frame of any tiled or floating pane by default</li>
+<li><strong>Drawing a new floating pane</strong>: the <code>DrawFloatingPane</code> binding, on <code>Ctrl</code> + left-drag inside a pane by default</li>
+<li><strong>Resizing with the scroll wheel</strong>: the <code>ResizeScroll</code> binding, controlled by <a href="#mouse_scroll_resize"><code>mouse_scroll_resize</code></a></li>
 </ul>
-<p>These interactions are shown as help text in the pane frame when hovering near resizable borders.</p>
+<p><code>Ctrl</code> here is the preset's primary modifier, which can be changed (see <a href="./changing-modifiers.html">Changing Modifiers</a>).</p>
 <p>Options:
 - true (default)
 - false</p>
@@ -511,13 +596,13 @@ Options:</p>
 <pre><code class="language-javascript">default_cwd "/home/user/projects"
 </code></pre>
 <h3 id="osc8_hyperlinks"><a class="header" href="#osc8_hyperlinks">osc8_hyperlinks</a></h3>
-<p>Enable clickable OSC8 hyperlink output in terminal panes. When enabled, programs that emit OSC8 escape sequences will produce clickable hyperlinks.</p>
+<p>Enable clickable OSC8 hyperlink output in terminal panes. When enabled, programs that emit OSC8 escape sequences will produce clickable hyperlinks. Requires a restart.</p>
 <p>Options:</p>
 <ul>
-<li>true</li>
-<li>false (default)</li>
+<li>true (default)</li>
+<li>false</li>
 </ul>
-<pre><code class="language-javascript">osc8_hyperlinks true
+<pre><code class="language-javascript">osc8_hyperlinks false
 </code></pre>
 <h3 id="session_name"><a class="header" href="#session_name">session_name</a></h3>
 <p>Set the name of the session to create when starting Zellij. If not set, a random name will be generated.</p>
@@ -618,7 +703,7 @@ Options:</p>
 <pre><code class="language-javascript">support_kitty_graphics_protocol true
 </code></pre>
 <h3 id="mouse_scroll_resize"><a class="header" href="#mouse_scroll_resize">mouse_scroll_resize</a></h3>
-<p>Whether holding Ctrl and scrolling the mouse wheel resizes the focused pane. When false, such scroll events are passed through to the pane instead.</p>
+<p>Whether holding the primary modifier (<code>Ctrl</code> by default) and scrolling the mouse wheel resizes the pane under the mouse. This is done by the <code>ResizeScroll</code> <a href="./mouse-bindings.html">mouse binding</a>, which can be rebound; when this option is false, that binding does nothing.</p>
 <p>Options:</p>
 <ul>
 <li>true (default)</li>
@@ -700,15 +785,127 @@ Options:</p>
 <li>"light" - always treat the terminal as being in light mode</li>
 </ul>
 <p>Default: unset - the host terminal decides</p>
-<p>This only selects which of <a href="#theme_dark"><code>theme_dark</code></a> / <a href="#theme_light"><code>theme_light</code></a> applies. Both of those must be set for dark/light switching to happen at all - otherwise <a href="#theme"><code>theme</code></a> remains authoritative.</p>
+<p>This only selects which dark or light theme applies. When <a href="#theme"><code>theme</code></a> is not set, these are <a href="#theme_dark"><code>theme_dark</code></a> and <a href="#theme_light"><code>theme_light</code></a>, or the bundled <code>default</code> and <code>default-light</code> themes in their place. When <code>theme</code> is set, both <code>theme_dark</code> and <code>theme_light</code> must be set for this option to have an effect - otherwise <code>theme</code> remains authoritative.</p>
 <pre><code class="language-javascript">explicit_theme_hue "dark"
 </code></pre>
+<h3 id="on_quit"><a class="header" href="#on_quit">on_quit</a></h3>
+<p>Choose what the <code>Quit</code> action (<code>Ctrl q</code> by default) does.</p>
+<p>Options:</p>
+<ul>
+<li>"ask_quit" (default) - ask, with quitting preselected</li>
+<li>"ask_detach" - ask, with detaching preselected</li>
+<li>"quit" - quit without asking</li>
+<li>"detach" - detach without asking; the session keeps running</li>
+</ul>
+<pre><code class="language-javascript">on_quit "ask_detach"
+</code></pre>
+<h3 id="bars_hidden_on_start"><a class="header" href="#bars_hidden_on_start">bars_hidden_on_start</a></h3>
+<p>The bars (eg. the tab bar and status bar) a new session starts with hidden. Hidden bars come back with the "Show bars" item of the <a href="./context-menu.html">right-click menu</a> or the <code>ToggleBars</code> action.</p>
+<p>Options:</p>
+<ul>
+<li>"none" (default) - no bars are hidden</li>
+<li>"all" - all bars are hidden</li>
+<li>bar names separated by commas, eg. "tab-bar,status-bar"</li>
+</ul>
+<p>A bar is matched by its plugin alias (eg. <code>tab-bar</code>, <code>status-bar</code>, <code>compact-bar</code>) or by its plugin location.</p>
+<pre><code class="language-javascript">bars_hidden_on_start "all"
+</code></pre>
+<h3 id="hidden_bars_notification"><a class="header" href="#hidden_bars_notification">hidden_bars_notification</a></h3>
+<p>Whether to briefly show a note saying what was hidden and how to show it again whenever bars are hidden.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">hidden_bars_notification false
+</code></pre>
+<h3 id="mode_hints_when_bars_hidden"><a class="header" href="#mode_hints_when_bars_hidden">mode_hints_when_bars_hidden</a></h3>
+<p>While the bar that shows the keys of the current mode is hidden, whether to show those keys in a corner of the screen when entering a mode.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">mode_hints_when_bars_hidden false
+</code></pre>
+<h3 id="session_indicator"><a class="header" href="#session_indicator">session_indicator</a></h3>
+<p>Whether to show the other sessions indicator in the tab bar and the compact bar.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">session_indicator false
+</code></pre>
+<h3 id="swap_layout_notification"><a class="header" href="#swap_layout_notification">swap_layout_notification</a></h3>
+<p>Whether to briefly show the name of the new swap layout when it is changed.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">swap_layout_notification false
+</code></pre>
+<h3 id="stacked_pane_list_orientation"><a class="header" href="#stacked_pane_list_orientation">stacked_pane_list_orientation</a></h3>
+<p>Whether new stacks show their pane titles in a column (one title per line) or in a row (side by side on one line). The orientation of an existing stack can be changed from its right-click menu.</p>
+<p>Options:</p>
+<ul>
+<li>"vertical" (default)</li>
+<li>"horizontal"</li>
+</ul>
+<pre><code class="language-javascript">stacked_pane_list_orientation "horizontal"
+</code></pre>
+<h3 id="grapheme_clusters"><a class="header" href="#grapheme_clusters">grapheme_clusters</a></h3>
+<p>Whether to count each grapheme cluster (an emoji sequence such as a flag or a skin tone, or a letter with its accents) as one unit of width, as the Unicode standard does. When false, width is counted per code point, the way older programs expect, and programs can still ask for clusters with mode 2027. Applies to new panes.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">grapheme_clusters false
+</code></pre>
+<h3 id="mirror_resizes_source_pane"><a class="header" href="#mirror_resizes_source_pane">mirror_resizes_source_pane</a></h3>
+<p>Whether a focused mirror of a pane (a live copy of the pane shown elsewhere) in this session may resize that pane's program to the mirror's size, and whether new mirrors opened in this session do so by default.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">mirror_resizes_source_pane false
+</code></pre>
+<h3 id="live_view_release_key"><a class="header" href="#live_view_release_key">live_view_release_key</a></h3>
+<p>An extra key that stops typing into a live view of a pane (in the <a href="./inbox.html">inbox</a> or a mirror) and gives the keys back to the plugin showing it. <code>Alt Enter</code>, the inbox key or a click outside always do this. A key written twice, eg. <code>"Esc Esc"</code>, must be pressed twice in a row.</p>
+<p>Default: not set</p>
+<pre><code class="language-javascript">live_view_release_key "Ctrl Alt Home"
+</code></pre>
+<h3 id="keybinds_dir"><a class="header" href="#keybinds_dir">keybinds_dir</a></h3>
+<p>The folder in which Zellij looks for <a href="./keybinding-presets.html">keybinding presets</a>. Changes to files in this folder are picked up live.</p>
+<p>Default: a <code>keybinds</code> folder in the config directory</p>
+<pre><code class="language-javascript">keybinds_dir "/path/to/my/keybinds_dir"
+</code></pre>
+<h3 id="context_menu_enabled"><a class="header" href="#context_menu_enabled">context_menu_enabled</a></h3>
+<p>Whether a right click opens the <a href="./context-menu.html">right-click menu</a>. When false, right clicks go to the focused pane only, and <code>Alt</code> + right click clears the pane group. Plugins can still open the menu through their API.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">context_menu_enabled false
+</code></pre>
+<h3 id="context_menu"><a class="header" href="#context_menu">context_menu</a></h3>
+<p>A block that sets the items of the right-click menu. See <a href="./context-menu.html">the right-click menu</a>.</p>
+<h3 id="session_suggestions"><a class="header" href="#session_suggestions">session_suggestions</a></h3>
+<p>A block that sets how other sessions are suggested on the session card and in the session manager. See <a href="./session-suggestions.html">session suggestions</a>.</p>
+<h3 id="terminal"><a class="header" href="#terminal">terminal</a></h3>
+<p>A block with the settings of the <a href="./zellij-terminal.html">Zellij terminal</a> window (<code>zellij terminal</code>), eg. its font, padding and opacity. See <a href="./terminal-options.html">terminal options</a>.</p>
+<h3 id="attention"><a class="header" href="#attention">attention</a></h3>
+<p>A block that sets how Zellij tracks and shows what panes, tabs and sessions need: the markers on frames and tabs, the inbox, and the desktop app's tray icon and notifications. See <a href="./inbox.html">the inbox</a>.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="configuration.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="settings-screen.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -722,7 +919,7 @@ Options:</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="configuration.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="settings-screen.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 

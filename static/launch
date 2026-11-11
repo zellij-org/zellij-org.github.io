@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-dir="/tmp/zellij/bootstrap"
+dir="/tmp/zellij/bootstrap-gnu"
 mkdir -p "$dir"
 
 if [[ -x "$dir/zellij" ]]
@@ -24,7 +24,11 @@ esac
 
 case $(uname -s) in
     "Linux")
-        sys="unknown-linux-musl"
+        if ldd --version 2>&1 | grep -qi musl; then
+            sys="unknown-linux-musl"
+        else
+            sys="unknown-linux-gnu"
+        fi
     ;;
     "Darwin")
         sys="apple-darwin"

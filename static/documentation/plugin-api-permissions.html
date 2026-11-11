@@ -156,6 +156,7 @@
 <p>The plugin system provides a permission system to provide extra security and protection to the user.</p>
 <p>The system places certain <a href="./plugin-api-events.html">Events</a> and <a href="./plugin-api-commands.html">Commands</a> behind certain permissions.
 Plugins who want to listen to these events or use these commands should prompt the user to grant them these permissions with the <code>request_permission</code> command.</p>
+<p>Each command and event page entry lists the permission it requires. A few commands require two permissions at once (eg. <a href="./plugin-api-commands.html#set_live_view"><code>set_live_view</code></a> needs both <code>ReadPaneContents</code> and <code>WriteToStdin</code>). Built-in plugins are granted every permission.</p>
 <h2 id="permissions-1"><a class="header" href="#permissions-1">Permissions</a></h2>
 <h3 id="readapplicationstate"><a class="header" href="#readapplicationstate">ReadApplicationState</a></h3>
 <p>Access Zellij state (Panes, Tabs and UI)</p>
@@ -166,11 +167,17 @@ Plugins who want to listen to these events or use these commands should prompt t
 <h3 id="runcommands"><a class="header" href="#runcommands">RunCommands</a></h3>
 <p>Run commands in panes or silently</p>
 <h3 id="openterminalsorplugins"><a class="header" href="#openterminalsorplugins">OpenTerminalsOrPlugins</a></h3>
-<p>Start new terminals and plugins</p>
+<p>Start new terminals and plugins. Also required to ask the user something with <a href="./plugin-api-commands.html#prompt"><code>prompt</code></a>.</p>
 <h3 id="writetostdin"><a class="header" href="#writetostdin">WriteToStdin</a></h3>
-<p>Write to STDIN as if it were the user</p>
+<p>Write to STDIN as if it were the user, including to panes of other sessions with <a href="./plugin-api-commands.html#write_to_session_pane"><code>write_to_session_pane</code></a> and <a href="./plugin-api-commands.html#send_key_to_session_pane"><code>send_key_to_session_pane</code></a>.</p>
+<h3 id="webaccess"><a class="header" href="#webaccess">WebAccess</a></h3>
+<p>Make HTTP requests with <a href="./plugin-api-commands.html#web_request"><code>web_request</code></a>.</p>
+<h3 id="readclipipes"><a class="header" href="#readclipipes">ReadCliPipes</a></h3>
+<p>Control CLI pipes: block and unblock their input, write to their output and set the exit code of the <code>zellij pipe</code> command (see <a href="./plugin-pipes.html">pipes</a>).</p>
+<h3 id="messageandlaunchotherplugins"><a class="header" href="#messageandlaunchotherplugins">MessageAndLaunchOtherPlugins</a></h3>
+<p>Send messages to other plugins, launching them if they are not running (see <a href="./plugin-api-commands.html#pipe_message_to_plugin"><code>pipe_message_to_plugin</code></a>).</p>
 <h3 id="reconfigure"><a class="header" href="#reconfigure">Reconfigure</a></h3>
-<p>Change the <a href="./configuration.html">configuration</a> (running and also saved in the configuration file) of Zellij.</p>
+<p>Change the <a href="./configuration.html">configuration</a> (running and also saved in the configuration file) of Zellij. This includes the commands under <a href="./plugin-api-commands.html#editing-the-configuration">editing the configuration</a>, such as <a href="./plugin-api-commands.html#read_config"><code>read_config</code></a> and <a href="./plugin-api-commands.html#save_config"><code>save_config</code></a>, and the <code>ConfigChangesDropped</code> and <code>ConfigFileChangedSinceRead</code> events.</p>
 <h3 id="fullhdaccess"><a class="header" href="#fullhdaccess">FullHdAccess</a></h3>
 <p>Access the full HD on the machine rather than just the folder in which Zellij was started.</p>
 <h3 id="startwebserver"><a class="header" href="#startwebserver">StartWebServer</a></h3>
@@ -178,13 +185,25 @@ Plugins who want to listen to these events or use these commands should prompt t
 <h3 id="interceptinput"><a class="header" href="#interceptinput">InterceptInput</a></h3>
 <p>Intercept user input (eg. keypresses), having all of this input sent to the plugin instead.</p>
 <h3 id="readpanecontents"><a class="header" href="#readpanecontents">ReadPaneContents</a></h3>
-<p>Read the rendered contents of terminal panes. Required for subscribing to the <code>PaneRenderReport</code> event.</p>
+<p>Read the contents of panes and the commands run in them. Required for:</p>
+<ul>
+<li>subscribing to the <code>PaneRenderReport</code>, <code>SessionPreview</code> and <code>LiveViewStateChanged</code> events</li>
+<li>reading pane scrollback with <a href="./plugin-api-commands.html#get_pane_scrollback"><code>get_pane_scrollback</code></a></li>
+<li>showing a live view of another pane with <a href="./plugin-api-commands.html#set_live_view"><code>set_live_view</code></a> and <a href="./plugin-api-commands.html#set_live_view_input"><code>set_live_view_input</code></a> (together with <code>WriteToStdin</code>)</li>
+</ul>
+<p>Plugins without this permission still receive pane and attention information, but without the text of the commands run in the panes: the command text is left out of the <code>attention</code> and <code>command_state</code> fields of <a href="./plugin-api-types.html#paneinfo"><code>PaneInfo</code></a> (in <code>PaneUpdate</code> and <code>SessionUpdate</code>), and out of the <code>PaneAttentionChanged</code>, <code>CommandStarted</code>, <code>CommandFinished</code> and <code>GlobalAttentionUpdate</code> events. Pane contents are also left out of <code>SavedSessionPreview</code>.</p>
 <h3 id="runactionsasuser"><a class="header" href="#runactionsasuser">RunActionsAsUser</a></h3>
-<p>Execute Zellij actions as if they were performed by the user. Required for the <code>run_action</code> plugin API command.</p>
+<p>Execute Zellij actions as if they were performed by the user. Required for the <code>run_action</code> and <code>run_context_menu_item</code> plugin API commands.</p>
 <h3 id="writetoclipboard"><a class="header" href="#writetoclipboard">WriteToClipboard</a></h3>
 <p>Write text directly to the user's clipboard.</p>
 <h3 id="readsessionenvironmentvariables"><a class="header" href="#readsessionenvironmentvariables">ReadSessionEnvironmentVariables</a></h3>
 <p>Read environment variables from the session context.</p>
+<h2 id="commands-only-built-in-plugins-may-use"><a class="header" href="#commands-only-built-in-plugins-may-use">Commands only built-in plugins may use</a></h2>
+<p>Some commands are refused to plugins that are not built in, whatever permissions they were granted:</p>
+<ul>
+<li><a href="./plugin-api-commands.html#reply_to_prompt"><code>reply_to_prompt</code></a> only works for the built-in <code>zellij:prompt</code> plugin.</li>
+<li><a href="./plugin-api-commands.html#request_desktop_integration"><code>request_desktop_integration</code></a> always answers other plugins with an error.</li>
+</ul>
 
                     </main>
 

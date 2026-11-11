@@ -2,7 +2,7 @@
 
 Since version `0.45.0`, running Zellij inside a Zellij pane (for example after `ssh`-ing into a remote machine and starting Zellij there) is a first-class workflow.
 
-The inner session (the **guest**) announces itself to the outer session (the **host**) through an in-band protocol. Guest sessions detect that they are nested by way of the `ZELLIJ` environment variable, which Zellij sets in all the panes it opens.
+The inner session (the **guest**) announces itself to the outer session (the **host**) through an in-band protocol: messages sent within the pane's own output, so they also pass through `ssh`. Every Zellij client sends this announcement when it starts, and sends it again if it has not heard back from a host, so a guest is found even when environment variables such as `ZELLIJ` are not passed along (as is usual over `ssh`). The announcement is a `DCS` escape sequence, which terminals other than Zellij ignore.
 
 **Note:** attaching to a session from inside itself is still not possible, and remains blocked.
 
@@ -39,7 +39,17 @@ Note that `FocusHostSession` and `ToggleHostFullscreen` are issued from within t
 
 These actions are also available through the CLI and the [plugin API](./plugin-api-commands.md) (`focus_host_session`).
 
+## Guest input mode and keybindings
+
+A guest tells its host which input mode it is in, so that plugins in the host can show hints for the session the user is actually typing into. The guest reports its mode (and its base mode, eg. `locked` for the "Unlock-First" preset) when it connects to the host, every time the mode changes, and when its configuration is reloaded.
+
+Plugins in the host receive this through the [`NestedSessionModeUpdate`](./plugin-api-events.md#nestedsessionmodeupdate) event, which includes the pane the guest runs in and the names of the nested sessions (the guest first, then any sessions nested further inside it). They can ask for the guest's full keybindings with the [`get_nested_session_keybinds`](./plugin-api-commands.md#get_nested_session_keybinds) command, and are told when a guest exits or stops responding through the [`NestedSessionEnded`](./plugin-api-events.md#nestedsessionended) event. All of these require the `ReadApplicationState` permission.
+
+The built-in bars do not use these events yet.
+
 ## Other behaviors that are aware of nesting
 
 - Desktop notifications emitted by panes in a guest session are forwarded up through the host to the terminal (see [desktop notifications](./compatibility.md#desktop-notifications)).
 - Terminal focus in/out events received by the host are forwarded to the guest, and from there to panes that requested them.
+- The working directory reported by the focused pane (`OSC 7`) is passed up to the terminal Zellij runs in, so a guest's working directory reaches the host and from there the outer terminal (see [working directory](./compatibility.md#working-directory-osc-7)).
+- A guest reports the status of its session to its host with `OSC 7501`, so what a guest needs shows up in the host's [inbox](./inbox.md) like any other program in a pane.

@@ -157,17 +157,20 @@
 <p>The <code>zellij-tile</code> crate provides the <code>ZellijPlugin</code> trait:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>pub trait ZellijPlugin {
-    fn load(&amp;mut self) {}
+</span>pub trait ZellijPlugin: Default {
+    fn load(&amp;mut self, configuration: BTreeMap&lt;String, String&gt;) {}
     fn update(&amp;mut self, event: Event) -&gt; bool {
         false
-    } // return true if it should render
+    }
+    fn pipe(&amp;mut self, pipe_message: PipeMessage) -&gt; bool {
+        false
+    }
     fn render(&amp;mut self, rows: usize, cols: usize) {}
 }
 <span class="boring">}</span></code></pre></pre>
 <h2 id="lifecycle-methods"><a class="header" href="#lifecycle-methods">Lifecycle Methods</a></h2>
 <h3 id="load"><a class="header" href="#load">load</a></h3>
-<p>Will be called when the plugin is loaded, this is a good place to <a href="./plugin-api-commands.html#subscribe">subscribe</a> to events that are interesting for this plugin.</p>
+<p>Will be called when the plugin is loaded, with the plugin's <a href="./plugin-api-configuration.html">configuration</a>. This is a good place to <a href="./plugin-api-commands.html#subscribe">subscribe</a> to events that are interesting for this plugin.</p>
 <h3 id="update"><a class="header" href="#update">update</a></h3>
 <p>Will be called with an <a href="./plugin-api-events.html"><code>Event</code></a> if the plugin is subscribed to said event. If the plugin returns <code>true</code> from this function, Zellij will know it should be rendered and call its <code>render</code> function.</p>
 <p>Since events are used for asynchronous communication between Zellij and the plugin, they do not follow
@@ -175,24 +178,106 @@ a specific order. This means, that a plugin could receive certain events (like <
 <code>PermissionRequestResult</code> event is received. Therefore the plugin should ensure, that dependencies within
 the plugin logic between certain events are handled correctly. An example for waiting for the <code>PermissionRequestResult</code>
 can be found in <a href="https://blog.nerd.rocks/posts/common-snippets-for-zellij-development/">this great plug post</a></p>
+<p>Events that happen while a plugin is still loading are kept and delivered once it has loaded. This also works for plugins loaded in the background (eg. through <a href="./plugin-loading.html#on-startup"><code>load_plugins</code></a>) before any user is attached to the session.</p>
+<p>A plugin that is hidden (eg. with <a href="./plugin-api-commands.html#hide_self"><code>hide_self</code></a>) is not rendered, but keeps receiving the <code>ModeUpdate</code>, <code>TabUpdate</code>, <code>PaneUpdate</code> and <code>InputReceived</code> events it is subscribed to.</p>
+<h3 id="pipe"><a class="header" href="#pipe">pipe</a></h3>
+<p>Will be called when a message is sent to the plugin through a <a href="./plugin-pipes.html">pipe</a> (from the command line, a keybinding or another plugin). A <code>PipeMessage</code> whose <code>payload</code> is <code>None</code> means the pipe has ended. As with <code>update</code>, returning <code>true</code> renders the plugin.</p>
 <h3 id="render"><a class="header" href="#render">render</a></h3>
-<p>Will be called either after an <code>update</code> that requested it, or when the plugin otherwise needs to be re-rendered (eg. on startup, or when the plugin is resized). The <code>rows</code> and <code>cols</code> values represent the "content size" of the plugin (this will not include its surrounding frame if the user has pane frames enabled).</p>
-<p>This function is expeted to print to <code>STDOUT</code> whatever the plugin would like to render inside its pane. For more information, see <a href="plugin-ui-rendering.html">plugin ui rendering</a>.</p>
+<p>Will be called either after an <code>update</code> or <code>pipe</code> that requested it, or when the plugin otherwise needs to be re-rendered (eg. on startup, or when the plugin is resized). The <code>rows</code> and <code>cols</code> values represent the "content size" of the plugin (this will not include its surrounding frame if the user has pane frames enabled).</p>
+<p>This function is expected to print to <code>STDOUT</code> whatever the plugin would like to render inside its pane. For more information, see <a href="plugin-ui-rendering.html">plugin ui rendering</a>.</p>
 <h2 id="registering-a-plugin"><a class="header" href="#registering-a-plugin">Registering a plugin</a></h2>
 <p>After implementing the trait on a struct, we'll need to use the <code>register_plugin</code> macro on it:</p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>struct MyPlugin {
-    // ...
 }
 
 impl ZellijPlugin for MyPlugin {
-    // ...
 }
 
 register_plugin!(MyPlugin);
 <span class="boring">}</span></code></pre></pre>
 <p>Zellij will then instantiate the plugin (using the <code>Default</code> implementation) and call it as needed.</p>
+<h2 id="shared-plugins"><a class="header" href="#shared-plugins">Shared plugins</a></h2>
+<p>Normally, every pane that shows a plugin runs its own instance of it. A shared plugin is a plugin where a single instance serves many panes. This saves memory and lets the plugin keep one state for all of them - the built-in <code>zellij:bars</code> plugin, which draws the tab bar, the status bar and the compact bar of every tab, is a shared plugin.</p>
+<p>Each pane (or background load) that uses a shared plugin is a <strong>slot</strong>. All slots that load the same plugin location with the same value for the <a href="./plugin-api-configuration.html#the-reserved-instance-key"><code>instance</code> configuration key</a> (or without one) belong to the same instance. The instance is loaded with the configuration of its first slot, and is unloaded when its last slot is closed.</p>
+<p>A shared plugin implements the <code>ZellijSharedPlugin</code> trait and is registered with <code>register_shared_plugin!</code>:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait ZellijSharedPlugin: Default {
+    fn load(&amp;mut self, configuration: BTreeMap&lt;String, String&gt;) {}
+    fn slot_added(&amp;mut self, slot: Slot) {}
+    fn slot_removed(&amp;mut self, slot_id: SlotId) {}
+    fn client_connected(&amp;mut self, client_id: ClientId) {}
+    fn client_disconnected(&amp;mut self, client_id: ClientId) {}
+    fn update(&amp;mut self, event: Event, context: EventContext) -&gt; RenderResponse {
+        RenderResponse::Nothing
+    }
+    fn pipe(&amp;mut self, pipe_message: PipeMessage, context: EventContext) -&gt; RenderResponse {
+        RenderResponse::Nothing
+    }
+    fn render(&amp;mut self, rows: usize, cols: usize, slot_id: SlotId, client_id: ClientId) {}
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Method</th><th>Called when</th></tr></thead><tbody>
+<tr><td><code>load</code></td><td>The instance is loaded, once</td></tr>
+<tr><td><code>slot_added</code></td><td>A pane or background load starts using this instance. The <a href="./plugin-api-types.html#slot"><code>Slot</code></a> carries its id, kind and configuration</td></tr>
+<tr><td><code>slot_removed</code></td><td>A slot's pane is closed</td></tr>
+<tr><td><code>client_connected</code> / <code>client_disconnected</code></td><td>A user attaches to or leaves the session</td></tr>
+<tr><td><code>update</code></td><td>An event the instance is subscribed to arrives. <code>context.slot_id</code> is set for events tied to one pane (<code>Key</code>, <code>Mouse</code>, <code>PastedText</code>, <code>Visible</code>, <code>PermissionRequestResult</code> and <code>PluginConfigurationChanged</code>), and <code>context.client_id</code> when the user the event came from is known</td></tr>
+<tr><td><code>pipe</code></td><td>A pipe message arrives, with the same kind of context</td></tr>
+<tr><td><code>render</code></td><td>One slot needs to be drawn for one user. It is called once per slot and user that can see it</td></tr>
+</tbody></table>
+</div>
+<p>Instead of a <code>bool</code>, <code>update</code> and <code>pipe</code> return a <a href="./plugin-api-types.html#slot"><code>RenderResponse</code></a>: <code>Nothing</code>, <code>All</code> (every slot for every user), <code>Client(client_id)</code> (every slot as seen by that user) or <code>Slots(slot_ids)</code>.</p>
+<p>Commands that act on "this plugin's pane" (eg. <a href="./plugin-api-commands.html#set_selectable"><code>set_selectable</code></a>, <a href="./plugin-api-commands.html#hide_self"><code>hide_self</code></a>, <a href="./plugin-api-commands.html#set_self_collapsed"><code>set_self_collapsed</code></a> or <a href="./plugin-api-commands.html#set_live_view"><code>set_live_view</code></a>) only work inside <code>render</code> and <code>slot_added</code>, where Zellij knows which slot is meant. Anywhere else they fail with an error; use the <a href="./plugin-api-commands.html#shared-plugin-slots">slot commands</a> (eg. <code>set_selectable_slot(slot_id, ...)</code>) instead.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>use std::collections::BTreeMap;
+use zellij_tile::prelude::*;
+
+#[derive(Default)]
+struct State {
+    slots: BTreeMap&lt;SlotId, Slot&gt;,
+    modes: BTreeMap&lt;ClientId, InputMode&gt;,
+}
+
+register_shared_plugin!(State);
+
+impl ZellijSharedPlugin for State {
+    fn load(&amp;mut self, _configuration: BTreeMap&lt;String, String&gt;) {
+        request_permission(&amp;[PermissionType::ReadApplicationState]);
+        subscribe(&amp;[EventType::ModeUpdate]);
+    }
+    fn slot_added(&amp;mut self, slot: Slot) {
+        set_selectable(false);
+        self.slots.insert(slot.id, slot);
+    }
+    fn slot_removed(&amp;mut self, slot_id: SlotId) {
+        self.slots.remove(&amp;slot_id);
+    }
+    fn update(&amp;mut self, event: Event, context: EventContext) -&gt; RenderResponse {
+        match event {
+            Event::ModeUpdate(mode_info) =&gt; match context.client_id {
+                Some(client_id) =&gt; {
+                    self.modes.insert(client_id, mode_info.mode);
+                    RenderResponse::Client(client_id)
+                },
+                None =&gt; RenderResponse::Nothing,
+            },
+            _ =&gt; RenderResponse::Nothing,
+        }
+    }
+    fn render(&amp;mut self, _rows: usize, _cols: usize, slot_id: SlotId, client_id: ClientId) {
+        let label = self
+            .slots
+            .get(&amp;slot_id)
+            .and_then(|slot| slot.configuration.get("label").cloned())
+            .unwrap_or_default();
+        println!("{} {:?}", label, self.modes.get(&amp;client_id));
+    }
+}
+<span class="boring">}</span></code></pre></pre>
 
                     </main>
 

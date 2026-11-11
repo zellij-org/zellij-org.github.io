@@ -14,6 +14,35 @@ Arbitrary key value pairs can be set through configuration, or layouts.
 Note that `ZELLIJ_SESSION_NAME` will not be updated for existing terminal panes when renaming a session (but will for new panes).
 
 
+## Reporting status to the inbox
+Programs and scripts can tell Zellij whether they are working, waiting for the user, finished or failed, and Zellij shows this in its [inbox](./inbox.md). Many programs already do this. See [Inbox Integrations](./inbox-integrations.md) for the list, and for a shell function that reports the status of a script.
+
+A command can also be run in a watched pane, so that Zellij reports when it finishes:
+```
+zellij run --notify -- cargo build
+```
+
+## Opening Zellij from other apps
+The [Zellij terminal](./zellij-terminal.md) can be opened from scripts, desktop shortcuts and other apps:
+
+```
+zellij terminal
+zellij terminal --working-directory ~/code
+zellij terminal -e htop
+zellij terminal --inbox
+zellij terminal --sessions
+```
+
+On Linux, Zellij can also become the default terminal, so that apps that open a terminal open Zellij instead. See [Desktop Setup](./desktop-setup.md#default-terminal).
+
+## Environment variables read by Zellij
+
+| Variable | Description |
+|----------|-------------|
+| `ZELLIJ_SOCKET_DIR` | The folder for session sockets. The same as `zellij terminal --socket-dir` |
+| `ZELLIJ_DESKTOP_INTEGRATION` | `on` treats the environment as a desktop, `off` never offers desktop items. See [Desktop Setup](./desktop-setup.md) |
+| `ZELLIJ_TERMINAL_STANDALONE` | When set, `zellij terminal` opens its window on its own, outside the desktop app (the same as `--standalone`) |
+
 Here are some limited examples to help get you started:
 
 ## Autostart on shell creation

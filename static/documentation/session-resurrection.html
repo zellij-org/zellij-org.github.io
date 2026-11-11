@@ -160,14 +160,32 @@ Zellij includes built-in session resurrection capabilities. This means that by d
 <p>By default, Zellij serializes the session layout (panes and tabs) and the command running in each pane (it will re-run them in command panes). Through configuration it's possible to have Zellij also serialize and resurrect the pane viewport and scrollback.</p>
 <p>Tabs are serialized in the order in which they appear in the session, so tabs that were reordered by the user keep their position when the session is resurrected.</p>
 <p>Zellij does not immediately run resurrected commands, but rather places them behind a "Press <code>ENTER</code> to run..." banner so as to prevent uncomfortable accidents with things like <code>rm -rf</code>.</p>
+<p>The following are also kept when a session is resurrected:</p>
+<ul>
+<li>each pane's <a href="./creating-a-layout.html#border_style">border style</a></li>
+<li>the <a href="./creating-a-layout.html#stack_orientation">orientation of stacks</a> (titles in a column or in a row)</li>
+<li>muted panes, tabs and sessions, and panes whose output is ignored (see <a href="./inbox.html">the inbox</a>)</li>
+</ul>
+<h2 id="setting-the-command-a-pane-is-resurrected-with"><a class="header" href="#setting-the-command-a-pane-is-resurrected-with">Setting the command a pane is resurrected with</a></h2>
+<p>A program can tell Zellij which command should be used to bring its pane back, instead of the command Zellij detects. This is useful for programs that can resume where they left off when started with different arguments (for example a chat or agent program that resumes a conversation by its id):</p>
+<pre><code>$ zellij action set-resurrect-command -- opencode -s ses_abc123
+$ zellij action set-resurrect-command --pane-id terminal_3 --cwd /path/to/project -- my-tool --resume
+$ zellij action set-resurrect-command --clear
+</code></pre>
+<ul>
+<li><code>--pane-id</code> - the terminal pane to set the command for (eg. <code>terminal_3</code> or <code>3</code>). If omitted, <code>$ZELLIJ_PANE_ID</code> is used, which means a program can run this command inside its own pane without arguments. Plugin panes are not supported.</li>
+<li><code>--cwd</code> - the folder to resurrect the pane in. A relative path is taken from the folder the command is run in.</li>
+<li><code>--clear</code> - remove a command set earlier, so that the detected command is used again. It cannot be combined with a command or <code>--cwd</code>.</li>
+</ul>
+<p>The command given takes precedence over the detected command, including the output of the <a href="#post_command_discovery_hook"><code>post_command_discovery_hook</code></a>. It stays in place until it is cleared or the pane is closed. Like other resurrected commands, it is placed behind the "Press <code>ENTER</code> to run..." banner unless <code>--force-run-commands</code> is used.</p>
 <h3 id="session_serialization"><a class="header" href="#session_serialization"><code>session_serialization</code></a></h3>
 <p>To disable session serialization (and thus also resurrection), set <code>session_serialization false</code> in the <a href="./configuration.html">config</a>.</p>
-<h3 id="pane_viewport_serialization"><a class="header" href="#pane_viewport_serialization"><code>pane_viewport_serialization</code></a></h3>
-<p>When <code>session_serialization</code> is enabled, setting <code>pane_viewport_serialization</code> to <code>true</code> in the <a href="./configuration.html">config</a> will also serialize the pane viewport (the part of the terminal visible on screen).</p>
+<h3 id="serialize_pane_viewport"><a class="header" href="#serialize_pane_viewport"><code>serialize_pane_viewport</code></a></h3>
+<p>When <code>session_serialization</code> is enabled, setting <code>serialize_pane_viewport</code> to <code>true</code> in the <a href="./configuration.html">config</a> will also serialize the pane viewport (the part of the terminal visible on screen).</p>
 <h3 id="scrollback_lines_to_serialize"><a class="header" href="#scrollback_lines_to_serialize"><code>scrollback_lines_to_serialize</code></a></h3>
-<p>When <code>pane_viewport_serialization</code> is enabled, setting <code>scrollback_lines_to_serialize</code> to <code>0</code> in the <a href="./configuration.html">config</a> will serialize all scrollback and to any other number will serialize line number up to that scrollback. Note that this might incur higher resource utilization (and certainly a higher cache folder usage...)</p>
+<p>When <code>serialize_pane_viewport</code> is enabled, setting <code>scrollback_lines_to_serialize</code> to <code>0</code> in the <a href="./configuration.html">config</a> will serialize all scrollback and to any other number will serialize line number up to that scrollback. Note that this might incur higher resource utilization (and certainly a higher cache folder usage...)</p>
 <h3 id="post_command_discovery_hook"><a class="header" href="#post_command_discovery_hook"><code>post_command_discovery_hook</code></a></h3>
-<p>When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a <code>post_command_discovery_hook</code>. This is a command that will run in the context of te user's default shell and be provided the <code>$RESURRECT_COMMAND</code> that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over <code>STDOUT</code> will be serialized in place of the discovered command.</p>
+<p>When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a <code>post_command_discovery_hook</code>. This is a command that will run in the context of the user's default shell and be provided the <code>$RESURRECT_COMMAND</code> that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over <code>STDOUT</code> will be serialized in place of the discovered command.</p>
 <p>Example:</p>
 <pre><code class="language-javascript">post_command_discovery_hook "echo \"$RESURRECT_COMMAND\" | sed 's/^sudo\\s\\+//'" // strip sudo from commands
 </code></pre>
@@ -175,12 +193,15 @@ Zellij includes built-in session resurrection capabilities. This means that by d
 <p>To list exited sessions, use <code>zellij list-sessions</code> (or <code>zellij ls</code>) for short:</p>
 <p><img src="img/zellij-ls-resurrection.png" alt="zellij-list-sessions-output" /></p>
 <p>Then, in order to resurrect a session, one can <code>attach</code> to it. If you'd like to immediately run all resurrected commands and skip the "Press <code>ENTER</code> to run..." banner, you can issue the <code>--force-run-commands</code> flag.</p>
+<p>Attaching to a session that is still running never reads its saved layout, so a saved layout that cannot be loaded does not prevent attaching to the running session.</p>
 <h2 id="resurrecting-sessions-through-the-session-manager"><a class="header" href="#resurrecting-sessions-through-the-session-manager">Resurrecting Sessions through the session-manager</a></h2>
-<p>Sessions can also be resurrected and switched to from within a Zellij session using the <code>session-manager</code>. To do this, press <code>&lt;TAB&gt;</code> to toggle the <code>EXITED</code> sessions and select one with <code>&lt;ENTER&gt;</code>.</p>
+<p>Sessions can also be resurrected and switched to from within a Zellij session using the <code>session-manager</code>. Exited sessions are listed in an <code>Exited</code> group at the end of the session list. Open the group with <code>&lt;RIGHT&gt;</code> or <code>&lt;ENTER&gt;</code> (and close it with <code>&lt;LEFT&gt;</code>), then select a session with <code>&lt;ENTER&gt;</code>. Typing the name of an exited session and pressing <code>&lt;ENTER&gt;</code> resurrects it as well.</p>
 <h2 id="permanently-deleting-sessions"><a class="header" href="#permanently-deleting-sessions">Permanently Deleting Sessions</a></h2>
 <p>Resurrectable sessions can be permanently deleted with the <code>zellij delete-session</code> or <code>zellij delete-all-sessions</code> CLI commands. They can also be deleted from the <code>session-manager</code>.</p>
 <h2 id="session-files-in-the-cache"><a class="header" href="#session-files-in-the-cache">Session files in the cache</a></h2>
-<p>Zellij serializes the session data into a <a href="./layouts.html">layout</a> every 1 second and saves it to the system's cache folder. These layouts can later be examined, altered and even shared as is across machines. They can be loaded with <code>zellij --layout session-layout.kdl</code> just like any other layout. They are intentionally Human readable to facilitate their re-use.</p>
+<p>Zellij serializes the session data into a <a href="./layouts.html">layout</a> and saves it to the system's cache folder. By default this happens every 60 seconds; the interval can be changed with the <a href="./options.html#serialization_interval"><code>serialization_interval</code></a> option. These layouts can later be examined, altered and even shared as is across machines. They can be loaded with <code>zellij --layout session-layout.kdl</code> just like any other layout. They are intentionally Human readable to facilitate their re-use.</p>
+<p>A <code>$</code> in a saved path or command is written as <code>$$</code>, since <code>$NAME</code> in a layout is replaced with the value of the environment variable <code>NAME</code>.</p>
+<p>Each session's folder in the cache (and its socket) is named after a short id of 12 hexadecimal characters (eg. <code>3f9a1c07b2de</code>), rather than after the session's name. The saved layout of a session is at <code>contract_version_1/session_info/&lt;id&gt;/session-layout.kdl</code> inside Zellij's cache folder. Zellij keeps a list matching names to ids in the <code>session_index.sqlite</code> file next to the <code>session_info</code> folder, so renaming a session does not rename anything on disk. Sessions created by earlier versions keep their name as their id.</p>
 
                     </main>
 
@@ -190,7 +211,7 @@ Zellij includes built-in session resurrection capabilities. This means that by d
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="nested-sessions.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="inbox.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -204,7 +225,7 @@ Zellij includes built-in session resurrection capabilities. This means that by d
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="nested-sessions.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="inbox.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

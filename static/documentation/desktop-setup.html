@@ -1,0 +1,272 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Desktop Setup - Zellij User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="desktop-setup"><a class="header" href="#desktop-setup">Desktop Setup</a></h1>
+<p>Zellij can add itself to the desktop: a copy of Zellij in a permanent folder, a desktop entry (an app menu launcher, Zellij.app on macOS, or a Start menu shortcut on Windows), and Zellij as the default terminal. These open the <a href="./zellij-terminal.html">Zellij terminal</a>.</p>
+<h2 id="the-setup-screen"><a class="header" href="#the-setup-screen">The setup screen</a></h2>
+<p>The setup screen is shown when a new session starts for the first time (when Zellij had to create its configuration file). Until it is approved or dismissed with "Don't Show Again", it is offered again in new sessions while one of its items is still missing.</p>
+<p>It can be opened at any time:</p>
+<ul>
+<li>From the <a href="./settings-screen.html">settings screen</a>, with <code>Ctrl w</code></li>
+<li>From the About screen (<code>Ctrl o</code> + <code>a</code>), with <code>s</code> ("Setup Zellij")</li>
+</ul>
+<p><img src="./img/setup-screen.png" alt="The setup screen" /></p>
+<p>The screen lists what can be set up on this computer. Items that are already set up are grayed out:</p>
+<ul>
+<li><strong>Copy Zellij to a Permanent Folder</strong> - so <code>zellij</code> can be run from anywhere, and so the desktop entry and the default terminal run that copy instead of the file that was started (eg. one in the Downloads folder)</li>
+<li><strong>Install Desktop Entry</strong> - an app menu launcher on Linux, Zellij.app on macOS, a Start menu entry and an "Open Zellij here" Explorer item on Windows</li>
+<li><strong>Make Zellij your Default Terminal</strong> - Linux only</li>
+<li><strong>Keybindings</strong> - choose a <a href="./keybinding-presets.html">keybinding preset</a> that avoids collisions with editors and other programs</li>
+</ul>
+<p>"Approve and Finish" applies the checked items and shows what was written or removed.</p>
+<p>Desktop items are not offered when there is no desktop: over SSH, inside a container (Distrobox, Toolbox, Flatpak, Podman, Docker), in WSL, or on Linux without <code>DISPLAY</code> or <code>WAYLAND_DISPLAY</code>. Setting the environment variable <code>ZELLIJ_DESKTOP_INTEGRATION=on</code> treats the environment as a desktop anyway, and <code>ZELLIJ_DESKTOP_INTEGRATION=off</code> never offers desktop items.</p>
+<h2 id="from-the-command-line"><a class="header" href="#from-the-command-line">From the command line</a></h2>
+<p>Everything the setup screen does is also available through <code>zellij setup</code>. These flags use the same checks as the setup screen and can be combined:</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Flag</th><th style="text-align: left">Description</th></tr></thead><tbody>
+<tr><td style="text-align: left"><code>--copy-to-permanent-folder</code></td><td style="text-align: left">Copy this Zellij to a permanent folder, or update an older Zellij already there</td></tr>
+<tr><td style="text-align: left"><code>--replace-existing</code></td><td style="text-align: left">With <code>--copy-to-permanent-folder</code>: replace a different file that is in the way</td></tr>
+<tr><td style="text-align: left"><code>--install-desktop-entry</code></td><td style="text-align: left">Install the desktop entry</td></tr>
+<tr><td style="text-align: left"><code>--uninstall-desktop-entry</code></td><td style="text-align: left">Remove the desktop entry Zellij installed. Entries Zellij did not write are left alone</td></tr>
+<tr><td style="text-align: left"><code>--make-default-terminal</code></td><td style="text-align: left">Make Zellij the default terminal, installing the desktop entry if it is missing</td></tr>
+<tr><td style="text-align: left"><code>--keybinding-preset &lt;PRESET&gt;</code></td><td style="text-align: left">Choose a keybinding preset (eg. <code>unlock-first</code>) and save it to the configuration file</td></tr>
+</tbody></table>
+</div>
+<pre><code>$ zellij setup --install-desktop-entry
+$ zellij setup --make-default-terminal
+$ zellij setup --keybinding-preset unlock-first
+</code></pre>
+<p>When the desktop entry or the default terminal is installed from a Zellij that is not in a permanent place, Zellij copies itself to the permanent folder first and points the entry at that copy.</p>
+<h2 id="linux"><a class="header" href="#linux">Linux</a></h2>
+<ul>
+<li><strong>Permanent folder</strong>: <code>~/.local/bin/zellij</code>. No copy is offered when Zellij is already in a permanent place: a package manager's path (eg. Nix, Homebrew, <code>cargo install</code>), <code>/usr</code>, <code>/usr/local</code> or <code>/opt</code>.</li>
+<li><strong>Desktop entry</strong>: <code>~/.local/share/applications/dev.zellij.Zellij.desktop</code>, with icons in <code>~/.local/share/icons/hicolor/</code>. It runs <code>zellij terminal</code> and has Show Inbox, Show Sessions and New Window actions. If a package manager already installed the launcher (in <code>$XDG_DATA_DIRS/applications</code>), Zellij shows it as installed by the package manager and does not write its own. An old <code>zellij.desktop</code> written by an earlier Zellij is removed.</li>
+<li>If the desktop entry later points at a Zellij that no longer exists, a new session offers to repair it.</li>
+</ul>
+<h3 id="default-terminal"><a class="header" href="#default-terminal">Default terminal</a></h3>
+<p>Zellij can become the default terminal on KDE Plasma, Cinnamon and MATE, and on desktops that use <a href="https://github.com/Vladimir-csp/xdg-terminal-exec">xdg-terminal-exec</a>. It needs the desktop entry. Zellij never changes the default terminal back by itself.</p>
+<p>Elsewhere, the setup screen explains how to do it by hand:</p>
+<ul>
+<li>On tiling window managers, bind <code>zellij terminal</code> to the key used to open a terminal</li>
+<li>On Debian and Ubuntu, <code>sudo update-alternatives --config x-terminal-emulator</code> chooses the default terminal</li>
+<li>Installing xdg-terminal-exec lets Zellij set it</li>
+</ul>
+<p>Other apps then run <code>zellij terminal -e &lt;command&gt;</code> or <code>zellij terminal --working-directory=&lt;dir&gt;</code>. Where such a command opens is set with <a href="./terminal-options.html#terminal_requests"><code>terminal_requests</code></a>.</p>
+<h3 id="packaging"><a class="header" href="#packaging">Packaging</a></h3>
+<p>Each release has a <code>zellij-desktop-files.tar.gz</code> holding the desktop entry, icons and software-centre listing for packagers. See <a href="https://github.com/zellij-org/zellij/blob/main/docs/PACKAGING_DESKTOP.md">PACKAGING_DESKTOP.md</a>.</p>
+<h2 id="macos"><a class="header" href="#macos">macOS</a></h2>
+<ul>
+<li><strong>Desktop entry</strong>: <code>~/Applications/Zellij.app</code>. The app contains a signed copy of Zellij (signed with <code>/usr/bin/codesign</code>), so that its menu bar icon and desktop notifications work. It needs macOS 11.0 or later. To update Zellij.app after upgrading Zellij, install it again (eg. with <code>zellij setup --install-desktop-entry</code> from a terminal).</li>
+<li><strong>Permanent folder</strong>: <code>~/.local/bin/zellij</code>. Zellij.app has its own copy, but running <code>zellij</code> from a terminal still needs one on the <code>PATH</code>.</li>
+<li>Making Zellij the default terminal is not available on macOS.</li>
+</ul>
+<h2 id="windows"><a class="header" href="#windows">Windows</a></h2>
+<ul>
+<li><strong>Permanent folder</strong>: <code>%LOCALAPPDATA%\Zellij\zellij.exe</code>. Zellij adds that folder to the end of the user's <code>PATH</code>, and removes it again only when it removes the copy. No copy is offered when Zellij was installed by the MSI installer, Scoop, winget, Chocolatey or cargo, or is in Program Files.</li>
+<li><strong>Start menu entry</strong>: a Zellij shortcut in the Start menu.</li>
+<li><strong>"Open Zellij here"</strong>: an Explorer item when right-clicking a folder, the background of a folder, or a drive.</li>
+<li>Making Zellij the default terminal is not offered. "Open Zellij here" is the closest equivalent.</li>
+</ul>
+<p>The MSI installer can add the Start menu shortcut (a checkbox on its welcome screen, on by default) and the "Open Zellij here" item itself.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="zellij-terminal.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="terminal-options.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="zellij-terminal.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="terminal-options.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

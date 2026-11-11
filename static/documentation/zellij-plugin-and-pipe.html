@@ -171,7 +171,17 @@
 <pre><code>    &lt;URL&gt;    Plugin URL, can either start with http(s), file: or zellij:
 </code></pre>
 <p><strong>OPTIONS</strong>:</p>
-<pre><code>    -c, --configuration &lt;CONFIGURATION&gt;
+<pre><code>    -b, --borderless &lt;BORDERLESS&gt;
+            Start this pane without a border (warning: will make it impossible to move with the
+            mouse) [possible values: true, false]
+
+        --border-style &lt;BORDER_STYLE&gt;
+            Border line style, eg. "double" or "top:double,left:single,rounded"
+
+        --close-replaced-pane
+            Close the replaced pane instead of suspending it (only effective with --in-place)
+
+    -c, --configuration &lt;CONFIGURATION&gt;
             Plugin configuration
 
     -f, --floating
@@ -189,6 +199,10 @@
         --no-focus
             Open the plugin pane without changing the focus of any client
 
+        --pinned &lt;PINNED&gt;
+            Whether to pin a floating pane so that it is always on top [possible values: true,
+            false]
+
     -s, --skip-plugin-cache
             Skip the plugin cache and force reloading of the plugin (good for development)
 
@@ -204,6 +218,7 @@
     -y, --y &lt;Y&gt;
             The y coordinates if the pane is floating as a bare integer (eg. 1) or percent (eg. 10%)
 </code></pre>
+<p>The format of <code>--border-style</code> is described under <a href="./cli-actions.html#set-pane-border-style">set-pane-border-style</a>.</p>
 <h2 id="zellij-pipe"><a class="header" href="#zellij-pipe">Zellij Pipe</a></h2>
 <p>Zellij <a href="./plugin-pipes.html">pipes</a> provide a way to send messages to one or more plugins, launching them on first-message if they are not running.</p>
 <p>eg.</p>
@@ -246,6 +261,12 @@ tail -f /tmp/my-live-logfile | zellij pipe --name logs --plugin https://example.
     -h, --help
             Print help information
 </code></pre>
+<p><code>zellij action pipe</code> takes more options, for controlling how a launched plugin is opened, including opening it as a popup. See <a href="./cli-actions.html#pipe">pipe</a> and <a href="./zellij-prompt.html#opening-plugins-as-popups">Opening Plugins as Popups</a>.</p>
+<h3 id="exit-status"><a class="header" href="#exit-status">Exit status</a></h3>
+<p><code>zellij pipe</code> (and <code>zellij action pipe</code>) exits with status <code>0</code> once the plugin has handled the message. A plugin can choose a different exit status with the <code>set_cli_pipe_exit_code</code> command before it unblocks the pipe, so a script can tell the outcome:</p>
+<pre><code>$ zellij pipe --plugin file:/path/to/my/plugin.wasm --name check -- my_data &amp;&amp; echo "ok"
+</code></pre>
+<p>If Zellij reports an error for the pipe, the command exits with status <code>2</code>.</p>
 
                     </main>
 

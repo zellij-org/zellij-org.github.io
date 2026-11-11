@@ -248,13 +248,29 @@ layout {
 #### plugin
 `plugin` is a pane argument the points to a Zellij plugin to load. Currently is is only possible to specify inside the child-braces of a pane followed by a URL `location` in quoted string.
 
-**Possible values:** `zellij:internal-plugin` | `file:/path/to/my/plugin.wasm`
+**Possible values:** `zellij:internal-plugin` | `file:/path/to/my/plugin.wasm` | a [plugin alias](./plugin-aliases.md) (eg. `tab-bar`)
 
 eg.
 ```
 layout {
     pane {
         plugin location="zellij:status-bar"
+    }
+}
+```
+
+**Note**: the tab-bar, status-bar and compact-bar are a single built-in plugin, `zellij:bars`, that is told which bar to draw with its `role` setting (`"tab-bar"` (the default), `"status-bar"` or `"compact-bar"`). The locations `zellij:tab-bar`, `zellij:status-bar` and `zellij:compact-bar` also work, and are mapped to `zellij:bars` with the matching role. The default configuration defines the `tab-bar`, `status-bar` and `compact-bar` aliases this way, so the bundled layouts use `plugin location="tab-bar"`:
+
+```javascript
+layout {
+    pane size=1 borderless=true {
+        plugin location="zellij:bars" {
+            role "tab-bar"
+        }
+    }
+    pane
+    pane size=1 borderless=true {
+        plugin location="status-bar"
     }
 }
 ```
@@ -292,12 +308,68 @@ layout {
 
 These properties can be used together to create visually distinct panes (e.g., to highlight a specific command pane or to differentiate between environments). They can also be set at runtime via the `SetPaneColor` keybinding action or `zellij action set-pane-color` CLI command.
 
+#### border_style
+A pane can have its own border line style, which takes precedence over the [`border_style`](./options.md#border_style) and [`rounded_corners`](./options.md#rounded_corners) set in the configuration.
+
+The available properties are:
+
+- `border_style` - the line style of all four sides
+- `border_top`, `border_right`, `border_bottom`, `border_left` - the line style of one side, taking precedence over `border_style`
+- `rounded_corners` - whether to round the corners where thin lines (`single` or `dashed`) meet (true | false)
+
+**Possible values for line styles:** `"single"` | `"double"` | `"heavy"` | `"dashed"` | `"heavy_dashed"`
+
+`"light"` and `"normal"` are also accepted for `"single"`, and `"bold"` and `"thick"` for `"heavy"`. Unknown values are an error.
+
+These properties can be used on tiled panes, on floating panes and in `pane_template`s. Properties given to a pane that uses a template are combined with the template's own.
+
+eg.
+```javascript
+layout {
+    pane border_style="double"
+    pane border_style="single" border_top="heavy" rounded_corners=false
+    floating_panes {
+        pane border_style="dashed"
+    }
+}
+```
+
+The border of an existing pane can be changed with `zellij action set-pane-border-style --pane-id <id> --border-style <style>`, where the style is either a single line style (eg. `"double"`) or a list of sides (eg. `"top:double,left:single,rounded"`).
+
+#### attention_muted
+If `true`, the pane starts muted: nothing it reports is shown in the [inbox](./inbox.md), on its frame or in the tab bar, and it raises no desktop notifications. It is still tracked, so unmuting it (eg. with `MutePane`, bound to `u` in `pane` mode) shows its current state.
+
+**Possible values:** true | false
+
+**Default value if omitted:** false
+
+#### ignore_output
+If `true`, the pane starts with its output ignored: only the "new output" note is hidden, while panes that need attention, failed commands and finished commands are still reported. At runtime this is toggled with `IgnorePaneOutput` (bound to `g` in `pane` mode).
+
+**Possible values:** true | false
+
+**Default value if omitted:** false
+
+eg.
+```javascript
+layout {
+    pane command="tail" attention_muted=true {
+        args "-f" "/var/log/syslog"
+    }
+    pane command="cargo" ignore_output=true {
+        args "watch"
+    }
+}
+```
+
+**Note**: `attention_muted` and `ignore_output` can be set on `pane` nodes (tiled or floating). They are not taken from `pane_template`s or from panes that use a template.
+
 #### stacked
 If `true`, this pane property dictates that the children panes of this pane will be arranged in a stack.
 
 In a stack of panes, all panes except one have just one line - showing their title (and their scroll and exit code when relevant). The focused pane among these is displayed normally as any other pane.
 
-Since `0.45.0`, a stack is rendered as a list of these one-line titles with the expanded pane pinned to the bottom of the stack, rather than expanded in place between the titles. The previous rendering can be restored by setting the [`stacked_pane_list`](./options.md#stacked_pane_list) option to `false`.
+Since `0.45.0`, a stack is rendered as a list of these one-line titles with the expanded pane pinned to the bottom of the stack, rather than expanded in place between the titles. The previous rendering can be restored by setting the [`stacked_pane_list`](./options.md#stacked_pane_list) option to `false`. The titles can also be shown in a single row, see [`stack_orientation`](#stack_orientation).
 
 eg.
 ```javascript
@@ -326,6 +398,33 @@ layout {
     }
 }
 ```
+
+#### stack_orientation
+A `stacked` pane can choose how its list of titles is shown: `"vertical"` shows the titles in a column, one per line, and `"horizontal"` shows them side by side in a single row at the top of the stack. A horizontal row is centered when it fits; when it does not, it scrolls so the selected title stays in view. Moving focus left and right moves through the titles, and clicking a title brings its pane forward.
+
+**Possible values:** `"vertical"` | `"horizontal"`
+
+**Default value if omitted:** the value of the [`stacked_pane_list_orientation`](./options.md#stacked_pane_list_orientation) option (`"vertical"` by default)
+
+**Note**: `stack_orientation` can only be set on a pane with `stacked=true` (directly or through its template); otherwise loading the layout fails. It only has an effect while [`stacked_pane_list`](./options.md#stacked_pane_list) is enabled (the default).
+
+eg.
+```javascript
+layout {
+    pane split_direction="vertical" {
+        pane command="nvim"
+        pane stacked=true stack_orientation="horizontal" size="40%" {
+            pane
+            pane command="htop"
+            pane command="cargo" {
+                args "test"
+            }
+        }
+    }
+}
+```
+
+The orientation of a stack can also be switched at runtime with the `ToggleStackListOrientation` action (bound to `Shift s` in `pane` mode), with `zellij action toggle-stack-list-orientation [--pane-id <id>]`, or from the right-click menu of the stack's titles ("Show titles in a row" / "Show titles in a column"). The orientation is kept when the session is [resurrected](./session-resurrection.md).
 
 ### Floating Panes
 A `floating_panes` node can be included either at the root of the layout or inside a `tab` node. Panes nested in this node will be floating, and can be given `x`, `y`, `width` and `height` properties.
@@ -470,6 +569,27 @@ tab name="Tab #1" hide_floating_panes=true {
     }
 }
 ```
+
+#### attention_muted
+If set, the tab starts muted: nothing its panes report is shown in the [inbox](./inbox.md) or the tab bar, and they raise no desktop notifications. At runtime this is toggled with `MuteTab` (bound to `u` in `tab` mode).
+
+**Possible values:** true | false
+
+**Default value if omitted:** false
+
+eg.
+```javascript
+layout {
+    tab name="logs" attention_muted=true {
+        pane command="journalctl" {
+            args "-f"
+        }
+    }
+    tab name="work"
+}
+```
+
+**Note**: this property is read from `tab` nodes, and not from `tab_template`s.
 
 ### Templates
 Templates can be used avoid repetition when creating layouts.
@@ -683,3 +803,22 @@ layout {
     }
 }
 ```
+
+### `session_attention_muted`
+Setting `session_attention_muted=true` on the `layout` node starts the whole session muted: all of its panes behave as if they were muted (see [`attention_muted`](#attention_muted)), so nothing in the session is shown in the [inbox](./inbox.md) or raises desktop notifications. At runtime this is toggled with `MuteSession` (bound to `u` in `session` mode).
+
+**Note**: this must be written on the `layout` line itself. Written as a child node it is reported as an unknown layout node.
+
+eg.
+```javascript
+layout session_attention_muted=true {
+    pane
+}
+```
+
+### Bars
+Plugin panes that sit along the top or bottom edge of the screen are treated as bars. A pane counts as a bar when it runs a plugin, is not selectable or has no border (eg. `borderless=true`), spans the full width of the screen, and touches its top or bottom edge.
+
+- Several bars side by side on the same edge are all left out of the area used for fullscreen and floating panes, not only a single full-width bar.
+- Bars can be hidden while Zellij runs with the `ToggleBars` action (bound to `Shift z` in `pane` mode), or when a session starts with the [`bars_hidden_on_start`](./options.md#bars_hidden_on_start) option. A hidden bar gives its space to the other panes. Bars are named by their plugin alias (eg. `tab-bar`), by their `role` (for `zellij:bars`) or by their plugin location.
+- A plugin used as a bar can give its row back to the neighboring panes while it has nothing to draw, using the [`set_self_collapsed`](./plugin-api-commands.md#set_self_collapsed) plugin command. The pane keeps its place in the layout and gets its original size back when it expands again.

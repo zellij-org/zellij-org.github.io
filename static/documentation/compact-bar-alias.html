@@ -153,7 +153,31 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="the-compact-bar-alias"><a class="header" href="#the-compact-bar-alias">The compact-bar alias</a></h1>
-<p>This alias, by default translated to the internal <code>zellij:compact-bar</code> plugin url, represents the compact-bar loaded in the compact layout on the bottom of the screen.</p>
+<p>This alias, by default translated to the internal <code>zellij:bars</code> plugin url with the <code>role "compact-bar"</code> configuration, represents the compact-bar loaded in the compact layout on the bottom of the screen. The <code>zellij:compact-bar</code> plugin url works as well (see <a href="./plugin-aliases.html#the-bars-plugin">The <code>bars</code> plugin</a>).</p>
+<h2 id="features"><a class="header" href="#features">Features</a></h2>
+<ul>
+<li>Shows the current input mode, the tabs and the session name on one line</li>
+<li>Tabs can be clicked, dragged to reorder them and double-clicked to rename them, as in the <a href="./tab-bar-alias.html">tab bar</a></li>
+<li>Shows the session indicator and the attention symbols of the <a href="./inbox.html">inbox</a></li>
+<li>Can show the keys of the current mode in a tooltip, toggled with a key of your choice</li>
+<li>Can be hidden and shown again while Zellij runs, see <a href="./tab-bar-alias.html#hiding-the-bars">Hiding the bars</a></li>
+</ul>
+<h2 id="configuration"><a class="header" href="#configuration">Configuration</a></h2>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Key</th><th style="text-align: left">Description</th></tr></thead><tbody>
+<tr><td style="text-align: left"><code>role</code></td><td style="text-align: left"><code>compact-bar</code></td></tr>
+<tr><td style="text-align: left"><code>tooltip</code></td><td style="text-align: left">A key that shows and hides a tooltip with the keys of the current mode, eg. <code>"F1"</code></td></tr>
+<tr><td style="text-align: left"><code>double_click_tab</code></td><td style="text-align: left"><code>"none"</code> turns off renaming a tab with a double-click</td></tr>
+<tr><td style="text-align: left"><code>double_click_empty</code></td><td style="text-align: left"><code>"none"</code> turns off opening a new tab with a double-click on the empty part of the bar</td></tr>
+</tbody></table>
+</div>
+<p>When changing the alias, keep the <code>role</code>: <code>zellij:bars</code> without a role draws a tab bar.</p>
+<pre><code class="language-javascript">plugins {
+    compact-bar location="zellij:bars" {
+        role "compact-bar"
+        tooltip "F1"
+    }
+}
+</code></pre>
 <h2 id="contract"><a class="header" href="#contract">Contract</a></h2>
 <p>Zellij loads this compact bar with a height of <code>1</code> and a width the size of the user's full screen. Zellij has no other expectations from this plugin, even though users will probably expect at least the input mode and the tabs be shown.</p>
 

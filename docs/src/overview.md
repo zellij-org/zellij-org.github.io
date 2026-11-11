@@ -13,11 +13,16 @@ the default configuration.
 ![Default layout](img/overview-default-legend.png)
 
 The default configuration consists of:
-1. The tab-bar plugin. It shows current tabs that are in use as well as the session name.
+1. The tab bar. It shows current tabs that are in use as well as the session name.
+Tabs can be clicked, dragged to reorder them, and double-clicked to rename them.
 2. The pane, in which the default shell is started.
 The title the shell sets can be seen in the upper left corner of the pane.
-3. The status-bar plugin. It gives an overview over current default keybindings,
+3. The status bar. It gives an overview over current default keybindings,
 since Zellij is modal it can show hints based on modes it currently resides in.
+
+The tab bar and the status bar are both drawn by the built-in `bars` plugin (see the [tab-bar](./tab-bar-alias.md) and [status-bar](./status-bar-alias.md) aliases). They can be hidden and shown again with `Ctrl p` + `Shift z`, or from the right-click menu.
+
+Right-clicking a pane, a tab or a bar opens a [right-click menu](./context-menu.md) with the actions that apply to it, including "Settings…", which opens the [settings screen](./settings-screen.md).
 
 To dive deeper in to how the default layout works and how to change it, checkout the [layouts](layouts.md) section.
 

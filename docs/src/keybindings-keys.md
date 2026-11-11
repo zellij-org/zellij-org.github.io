@@ -1,12 +1,14 @@
 # Keys
 Keys are defined in a single quoted string, with space delimiting modifier keys.
+
+eg. the individual character `a`, `a` with the ctrl modifier, `a` with the alt modifier, `a` with both the ctrl and alt modifiers, the F8 key and the left arrow key:
 ```javascript
-bind "a" // bind the individual character a
-bind "Ctrl a" // bind a with the ctrl modifier
-bind "Alt a" // bind a with the alt modifier
-bind "Ctrl Alt a" // bind a with the multiple "ctrl alt" modifier
-bind "F8" // bind the F8 key
-bind "Left" // bind the left arrow key
+bind "a" { NewPane; }
+bind "Ctrl a" { NewPane; }
+bind "Alt a" { NewPane; }
+bind "Ctrl Alt a" { NewPane; }
+bind "F8" { NewPane; }
+bind "Left" { NewPane; }
 ```
 
 * Possible keys
@@ -33,6 +35,10 @@ bind "Left" // bind the left arrow key
   - `Alt`
   - `Shift`
   - `Super`
+
+Inside a [keybinding preset](./keybinding-presets.md#writing-a-preset) file, keys can also use the `{primary}`, `{secondary}` and `{unlock}` placeholders (eg. `"{primary} p"`). These are not supported in the `keybinds` block of the configuration file.
+
+Mouse buttons are bound separately, in the `mousebinds` block. See [Mouse Bindings](./mouse-bindings.md).
 
 ## A note about multiple and special modifiers
 Some modifiers (eg. `Super`), multiple modifiers (eg. `Ctrl Alt`) as well as certain key combinations require support from the terminal emulator as well. Example of supporting terminals are: `Alacritty`, `WezTerm` and `foot`.

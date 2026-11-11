@@ -1,0 +1,521 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Terminal Options - Zellij User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="terminal-options"><a class="header" href="#terminal-options">Terminal Options</a></h1>
+<p>Zellij can open sessions in its own window, the <a href="./zellij-terminal.html">Zellij terminal</a> (<code>zellij terminal</code>), without another terminal emulator. That window is configured in the <code>terminal</code> block of the <a href="./configuration.html">configuration file</a>.</p>
+<p>Every key is optional. With the whole block absent, the window uses the defaults listed below. Unless noted otherwise, changes apply to open windows right away. The keys marked "requires restart" only apply to windows opened after the change.</p>
+<p>These settings can also be changed from the <a href="./settings-screen.html">settings screen</a>.</p>
+<pre><code class="language-javascript">terminal {
+    font "Iosevka Term"
+    font_size 13
+    line_height 1.1
+    padding 8
+    opacity 0.95
+    blur true
+    cursor_style "bar"
+    theme {
+        background "#101010"
+    }
+}
+</code></pre>
+<hr />
+<ul>
+<li><a href="#fonts">Fonts</a>: <a href="#font">font</a>, <a href="#font_bold-font_italic-font_bold_italic">font_bold, font_italic, font_bold_italic</a>, <a href="#font_size">font_size</a>, <a href="#font_weight">font_weight</a>, <a href="#system_fonts">system_fonts</a>, <a href="#ligatures">ligatures</a>, <a href="#font_features">font_features</a></li>
+<li><a href="#cells-and-padding">Cells and padding</a>: <a href="#line_height">line_height</a>, <a href="#cell_width">cell_width</a>, <a href="#baseline_offset">baseline_offset</a>, <a href="#underline_offset-and-underline_thickness">underline_offset and underline_thickness</a>, <a href="#padding">padding</a>, <a href="#padding_balance">padding_balance</a>, <a href="#padding_color">padding_color</a>, <a href="#minimum_contrast">minimum_contrast</a></li>
+<li><a href="#cursor">Cursor</a>: <a href="#cursor_style">cursor_style</a>, <a href="#cursor_blink">cursor_blink</a>, <a href="#cursor_unfocused_hollow">cursor_unfocused_hollow</a></li>
+<li><a href="#keys">Keys</a>: <a href="#paste_keys">paste_keys</a>, <a href="#copy_keys">copy_keys</a>, <a href="#fullscreen_keys">fullscreen_keys</a>, <a href="#zoom_in_keys-zoom_out_keys-and-zoom_reset_keys">zoom_in_keys, zoom_out_keys and zoom_reset_keys</a>, <a href="#macos_option_as_alt">macos_option_as_alt</a></li>
+<li><a href="#mouse-and-scrolling">Mouse and scrolling</a>: <a href="#middle_click_paste">middle_click_paste</a>, <a href="#open_links">open_links</a>, <a href="#open_links_with_shift">open_links_with_shift</a>, <a href="#shift_drag_selects">shift_drag_selects</a>, <a href="#hide_pointer_while_typing">hide_pointer_while_typing</a>, <a href="#smooth_scrolling">smooth_scrolling</a>, <a href="#scroll_animation_duration">scroll_animation_duration</a>, <a href="#scroll_momentum">scroll_momentum</a>, <a href="#scroll_momentum_friction">scroll_momentum_friction</a></li>
+<li><a href="#window">Window</a>: <a href="#opacity">opacity</a>, <a href="#opacity_mode">opacity_mode</a>, <a href="#blur">blur</a>, <a href="#startup_mode">startup_mode</a>, <a href="#initial_columns-and-initial_rows">initial_columns and initial_rows</a>, <a href="#reuse_session_windows">reuse_session_windows</a>, <a href="#terminal_requests">terminal_requests</a>, <a href="#bell">bell</a></li>
+<li><a href="#clipboard">Clipboard</a>: <a href="#allow_remote_clipboard_read">allow_remote_clipboard_read</a></li>
+<li><a href="#colors">Colors</a>: <a href="#theme">theme</a></li>
+</ul>
+<hr />
+<h2 id="fonts"><a class="header" href="#fonts">Fonts</a></h2>
+<h3 id="font"><a class="header" href="#font">font</a></h3>
+<p>The font family to draw text with, found through the system's font configuration. A family that cannot be found falls back to the font built into Zellij.</p>
+<p>Default: the built-in font</p>
+<pre><code class="language-javascript">font "Iosevka Term"
+</code></pre>
+<h3 id="font_bold-font_italic-font_bold_italic"><a class="header" href="#font_bold-font_italic-font_bold_italic">font_bold, font_italic, font_bold_italic</a></h3>
+<p>Font families for bold, italic and bold italic text, each used in place of the <code>font</code> family's own face for that style. A style without one of these, or whose family cannot be found, keeps the <code>font</code> family's face.</p>
+<p>Default: not set</p>
+<pre><code class="language-javascript">font_bold "Iosevka Term"
+font_italic "Iosevka Term"
+font_bold_italic "Iosevka Term"
+</code></pre>
+<h3 id="font_size"><a class="header" href="#font_size">font_size</a></h3>
+<p>The font size in points, as other terminals measure it. Any number above 0.</p>
+<p>Default: <code>12</code></p>
+<pre><code class="language-javascript">font_size 13.5
+</code></pre>
+<h3 id="font_weight"><a class="header" href="#font_weight">font_weight</a></h3>
+<p>The weight of regular text: a number from <code>100</code> to <code>900</code>, or one of these names: <code>"thin"</code> (100), <code>"extralight"</code> (200), <code>"light"</code> (300), <code>"regular"</code> (400), <code>"medium"</code> (500), <code>"semibold"</code> (600), <code>"bold"</code> (700), <code>"extrabold"</code> (800), <code>"black"</code> (900). Bold text uses a face 300 heavier, up to 900. Variable fonts are set to the exact weight.</p>
+<p>Default: <code>"regular"</code> (400)</p>
+<pre><code class="language-javascript">font_weight "medium"
+</code></pre>
+<h3 id="system_fonts"><a class="header" href="#system_fonts">system_fonts</a></h3>
+<p>Whether to use the system's fonts for characters the main font does not have.</p>
+<p>Default: <code>true</code></p>
+<pre><code class="language-javascript">system_fonts false
+</code></pre>
+<h3 id="ligatures"><a class="header" href="#ligatures">ligatures</a></h3>
+<p>Whether the font's ligatures are formed, so that sequences like <code>-&gt;</code> or <code>!=</code> are drawn as one shape.</p>
+<p>Default: <code>true</code></p>
+<pre><code class="language-javascript">ligatures false
+</code></pre>
+<h3 id="font_features"><a class="header" href="#font_features">font_features</a></h3>
+<p>OpenType features to turn on, or to turn off with a leading <code>-</code>, as four-character tags. Listing any feature shapes text even with <code>ligatures false</code>. In that case, <code>liga</code>, <code>calt</code> and <code>dlig</code> stay off unless they are listed here.</p>
+<p>Default: none</p>
+<pre><code class="language-javascript">font_features "ss01" "zero" "-calt"
+</code></pre>
+<h2 id="cells-and-padding"><a class="header" href="#cells-and-padding">Cells and padding</a></h2>
+<h3 id="line_height"><a class="header" href="#line_height">line_height</a></h3>
+<p>The height of a cell as a multiple of the font's own line height, from <code>0.5</code> to <code>3.0</code>. The extra space is shared evenly above and below the text.</p>
+<p>Default: <code>1.0</code></p>
+<pre><code class="language-javascript">line_height 1.2
+</code></pre>
+<h3 id="cell_width"><a class="header" href="#cell_width">cell_width</a></h3>
+<p>The width of a cell as a multiple of the font's own character width, from <code>0.5</code> to <code>3.0</code>. Characters keep their shape and are centered in the cell.</p>
+<p>Default: <code>1.0</code></p>
+<pre><code class="language-javascript">cell_width 1.1
+</code></pre>
+<h3 id="baseline_offset"><a class="header" href="#baseline_offset">baseline_offset</a></h3>
+<p>Pixels to move the text down inside its cell (or up, when negative), from <code>-64</code> to <code>64</code>.</p>
+<p>Default: <code>0</code></p>
+<pre><code class="language-javascript">baseline_offset 1
+</code></pre>
+<h3 id="underline_offset-and-underline_thickness"><a class="header" href="#underline_offset-and-underline_thickness">underline_offset and underline_thickness</a></h3>
+<p>Pixels to move the underline down (or up, when negative), and pixels to add to (or remove from) its thickness, each from <code>-64</code> to <code>64</code>. The underline always stays inside the cell.</p>
+<p>Default: <code>0</code></p>
+<pre><code class="language-javascript">underline_offset 1
+underline_thickness 1
+</code></pre>
+<h3 id="padding"><a class="header" href="#padding">padding</a></h3>
+<p>Empty space around the text, in pixels, from <code>0</code> to <code>1000</code>. It is scaled with the display, but not with zoom. <code>padding</code> sets every side, and <code>padding_top</code>, <code>padding_right</code>, <code>padding_bottom</code> and <code>padding_left</code> override one side each.</p>
+<p>Default: <code>0</code></p>
+<pre><code class="language-javascript">padding 8
+padding_top 4
+</code></pre>
+<h3 id="padding_balance"><a class="header" href="#padding_balance">padding_balance</a></h3>
+<p>Whether the pixels left over when the window is not a whole number of cells are shared evenly on all sides, instead of all going to the right and bottom edges.</p>
+<p>Default: <code>false</code></p>
+<pre><code class="language-javascript">padding_balance true
+</code></pre>
+<h3 id="padding_color"><a class="header" href="#padding_color">padding_color</a></h3>
+<p>How the padding is painted:</p>
+<ul>
+<li><code>"background"</code> (default) - with the theme background and the window <a href="#opacity">opacity</a></li>
+<li><code>"extend"</code> - continuing the background of the nearest cell at the edge of the grid</li>
+</ul>
+<pre><code class="language-javascript">padding_color "extend"
+</code></pre>
+<h3 id="minimum_contrast"><a class="header" href="#minimum_contrast">minimum_contrast</a></h3>
+<p>The lowest allowed contrast ratio between text and its background, from <code>1.0</code> (off) to <code>21.0</code>. Text colors below it are adjusted.</p>
+<p>Default: <code>1.0</code></p>
+<pre><code class="language-javascript">minimum_contrast 4.5
+</code></pre>
+<h2 id="cursor"><a class="header" href="#cursor">Cursor</a></h2>
+<h3 id="cursor_style"><a class="header" href="#cursor_style">cursor_style</a></h3>
+<p>The cursor shape to draw where the program in the pane has not asked for one: <code>"block"</code>, <code>"bar"</code> or <code>"underline"</code>. A program that asks for a shape (with <code>CSI &lt;n&gt; q</code>) still gets the shape it asked for.</p>
+<p>Default: not set</p>
+<pre><code class="language-javascript">cursor_style "bar"
+</code></pre>
+<h3 id="cursor_blink"><a class="header" href="#cursor_blink">cursor_blink</a></h3>
+<p>Whether the cursor blinks. Unlike <code>cursor_style</code>, this wins over the program: set it to force a blinking or a steady cursor whatever the pane asks for. When it is not set, the cursor blinks exactly when the program asks for a blinking cursor.</p>
+<p>Default: not set</p>
+<pre><code class="language-javascript">cursor_blink false
+</code></pre>
+<h3 id="cursor_unfocused_hollow"><a class="header" href="#cursor_unfocused_hollow">cursor_unfocused_hollow</a></h3>
+<p>Whether the cursor is drawn as an outlined block while the window is not focused.</p>
+<p>Default: <code>true</code></p>
+<pre><code class="language-javascript">cursor_unfocused_hollow false
+</code></pre>
+<h2 id="keys"><a class="header" href="#keys">Keys</a></h2>
+<p>Keys are written as in <a href="./keybindings-keys.html">keybindings</a>, eg. <code>"Ctrl Shift v"</code>. Each of these keys takes a list of keys. The window keeps the keys it lists for itself; any other key goes to the session. Listing no keys leaves them all to the session. On macOS, <code>Super</code> is the Command key.</p>
+<h3 id="paste_keys"><a class="header" href="#paste_keys">paste_keys</a></h3>
+<p>The keys that paste from the clipboard.</p>
+<p>Default: <code>"Ctrl Shift v"</code> and <code>"Shift Insert"</code>, plus <code>"Super v"</code> on macOS</p>
+<pre><code class="language-javascript">paste_keys "Ctrl Shift v" "Shift Insert"
+</code></pre>
+<h3 id="copy_keys"><a class="header" href="#copy_keys">copy_keys</a></h3>
+<p>The keys that copy the text marked with shift and drag (see <a href="#shift_drag_selects"><code>shift_drag_selects</code></a>).</p>
+<p>Default: <code>"Ctrl Shift c"</code>, plus <code>"Super c"</code> on macOS</p>
+<pre><code class="language-javascript">copy_keys "Ctrl Shift c"
+</code></pre>
+<h3 id="fullscreen_keys"><a class="header" href="#fullscreen_keys">fullscreen_keys</a></h3>
+<p>The keys that switch the window between fullscreen and the size it had before.</p>
+<p>Default: <code>"F11"</code></p>
+<pre><code class="language-javascript">fullscreen_keys "F11"
+</code></pre>
+<h3 id="zoom_in_keys-zoom_out_keys-and-zoom_reset_keys"><a class="header" href="#zoom_in_keys-zoom_out_keys-and-zoom_reset_keys">zoom_in_keys, zoom_out_keys and zoom_reset_keys</a></h3>
+<p>The keys that make text larger, make it smaller, and return it to the configured <a href="#font_size"><code>font_size</code></a>.</p>
+<p>Defaults:</p>
+<ul>
+<li><code>zoom_in_keys</code>: <code>"Ctrl ="</code>, <code>"Ctrl +"</code> and <code>"Ctrl Shift +"</code>, plus <code>"Super ="</code>, <code>"Super +"</code> and <code>"Super Shift +"</code> on macOS</li>
+<li><code>zoom_out_keys</code>: <code>"Ctrl -"</code> and <code>"Ctrl Shift _"</code>, plus <code>"Super -"</code> on macOS</li>
+<li><code>zoom_reset_keys</code>: <code>"Ctrl 0"</code>, plus <code>"Super 0"</code> on macOS</li>
+</ul>
+<pre><code class="language-javascript">zoom_in_keys "Ctrl ="
+zoom_out_keys "Ctrl -"
+zoom_reset_keys "Ctrl 0"
+</code></pre>
+<h3 id="macos_option_as_alt"><a class="header" href="#macos_option_as_alt">macos_option_as_alt</a></h3>
+<p>Which Option key acts as Alt on macOS. The other one keeps typing characters such as <code>å</code>. Ignored on other platforms.</p>
+<p>Options:</p>
+<ul>
+<li><code>"left"</code> (default)</li>
+<li><code>"right"</code></li>
+<li><code>"both"</code></li>
+<li><code>"none"</code></li>
+</ul>
+<pre><code class="language-javascript">macos_option_as_alt "both"
+</code></pre>
+<h2 id="mouse-and-scrolling"><a class="header" href="#mouse-and-scrolling">Mouse and scrolling</a></h2>
+<h3 id="middle_click_paste"><a class="header" href="#middle_click_paste">middle_click_paste</a></h3>
+<p>Whether the middle mouse button pastes the primary selection (on Linux, the text last selected anywhere). A pane whose program asks for mouse reporting gets the click instead.</p>
+<p>Default: <code>true</code></p>
+<pre><code class="language-javascript">middle_click_paste false
+</code></pre>
+<h3 id="open_links"><a class="header" href="#open_links">open_links</a></h3>
+<p>Whether clicking an OSC 8 hyperlink opens it with the system's default handler. A plain left click opens it; over a pane whose program asks for mouse reporting, shift must be held instead. Dragging is a selection and never opens anything, and the click still reaches the pane either way. Only <code>http</code>, <code>https</code>, <code>ftp</code>, <code>ftps</code>, <code>mailto</code> and <code>file</code> links are opened.</p>
+<p>Default: <code>true</code></p>
+<pre><code class="language-javascript">open_links false
+</code></pre>
+<h3 id="open_links_with_shift"><a class="header" href="#open_links_with_shift">open_links_with_shift</a></h3>
+<p>Whether shift and click opens a link in every pane, not only in panes whose program asks for mouse reporting. Has no effect when <code>open_links</code> is <code>false</code>.</p>
+<p>Default: <code>true</code></p>
+<pre><code class="language-javascript">open_links_with_shift false
+</code></pre>
+<h3 id="shift_drag_selects"><a class="header" href="#shift_drag_selects">shift_drag_selects</a></h3>
+<p>Whether dragging with shift held marks text anywhere in the window, including the tab bar, the status bar, pane frames and across pane borders. The marked text is copied with <a href="#copy_keys"><code>copy_keys</code></a>.</p>
+<p>Default: <code>true</code></p>
+<pre><code class="language-javascript">shift_drag_selects false
+</code></pre>
+<h3 id="hide_pointer_while_typing"><a class="header" href="#hide_pointer_while_typing">hide_pointer_while_typing</a></h3>
+<p>Whether the mouse pointer is hidden while typing, until it moves again.</p>
+<p>Default: <code>false</code></p>
+<pre><code class="language-javascript">hide_pointer_while_typing true
+</code></pre>
+<h3 id="smooth_scrolling"><a class="header" href="#smooth_scrolling">smooth_scrolling</a></h3>
+<p>Whether scrolling through a pane's scrollback slides the text to its new position instead of jumping. This applies to the mouse wheel, the touchpad and the scroll keys alike.</p>
+<p>Default: <code>true</code></p>
+<pre><code class="language-javascript">smooth_scrolling false
+</code></pre>
+<h3 id="scroll_animation_duration"><a class="header" href="#scroll_animation_duration">scroll_animation_duration</a></h3>
+<p>How long one scroll slide takes, in milliseconds, from <code>1</code> to <code>1000</code>. Ignored when <code>smooth_scrolling</code> is <code>false</code>.</p>
+<p>Default: <code>100</code></p>
+<pre><code class="language-javascript">scroll_animation_duration 150
+</code></pre>
+<h3 id="scroll_momentum"><a class="header" href="#scroll_momentum">scroll_momentum</a></h3>
+<p>Whether a fast two-finger touchpad swipe through a pane's scrollback keeps scrolling for a moment after the fingers lift, slowing down until it stops. Touching the touchpad again, clicking, typing or moving the pointer to another pane stops it at once. This works independently of <code>smooth_scrolling</code>. It currently only has an effect on Wayland; on X11, Windows and macOS it is ignored (macOS already provides its own touchpad momentum).</p>
+<p>Default: <code>true</code></p>
+<pre><code class="language-javascript">scroll_momentum false
+</code></pre>
+<h3 id="scroll_momentum_friction"><a class="header" href="#scroll_momentum_friction">scroll_momentum_friction</a></h3>
+<p>How quickly that continued scrolling slows down, from <code>0.5</code> to <code>10.0</code>. Higher values stop sooner. Currently only has an effect on Wayland.</p>
+<p>Default: <code>2.0</code></p>
+<pre><code class="language-javascript">scroll_momentum_friction 4.0
+</code></pre>
+<h2 id="window"><a class="header" href="#window">Window</a></h2>
+<h3 id="opacity"><a class="header" href="#opacity">opacity</a></h3>
+<p>How opaque the window is, from <code>0.0</code> (invisible) to <code>1.0</code> (solid). This needs a compositor; without one, the window stays solid.</p>
+<p>Default: <code>1.0</code></p>
+<pre><code class="language-javascript">opacity 0.9
+</code></pre>
+<h3 id="opacity_mode"><a class="header" href="#opacity_mode">opacity_mode</a></h3>
+<p>What the opacity applies to:</p>
+<ul>
+<li><code>"background"</code> (default) - only the default background shows through; text, colored cells, the cursor and images stay solid</li>
+<li><code>"everything"</code> - the whole window fades evenly</li>
+</ul>
+<pre><code class="language-javascript">opacity_mode "everything"
+</code></pre>
+<h3 id="blur"><a class="header" href="#blur">blur</a></h3>
+<p>Whether to ask the compositor to blur what is behind the window. It is only visible with an <code>opacity</code> below <code>1.0</code>. It is supported on macOS, KDE Plasma and Windows 11 22H2 or later, and ignored elsewhere. On Windows it is the system's Acrylic material, which only shows while the window is focused.</p>
+<p>Default: <code>false</code></p>
+<pre><code class="language-javascript">blur true
+</code></pre>
+<h3 id="startup_mode"><a class="header" href="#startup_mode">startup_mode</a></h3>
+<p>How a new window opens. Requires restart. The <code>--startup-mode</code> flag of <code>zellij terminal</code> overrides it.</p>
+<p>Options:</p>
+<ul>
+<li><code>"remember"</code> (default) - at the size (counted in rows and columns) and in the state the last window was closed in; with nothing remembered yet, it opens windowed at 120x40</li>
+<li><code>"windowed"</code></li>
+<li><code>"maximized"</code></li>
+<li><code>"fullscreen"</code></li>
+</ul>
+<pre><code class="language-javascript">startup_mode "maximized"
+</code></pre>
+<h3 id="initial_columns-and-initial_rows"><a class="header" href="#initial_columns-and-initial_rows">initial_columns and initial_rows</a></h3>
+<p>The size, in columns and rows, of a window that has no remembered size to open at, each from <code>2</code> to <code>1000</code>. A size remembered by <code>startup_mode "remember"</code> wins over these. A maximized or fullscreen window returns to this size when it is restored. Requires restart.</p>
+<p>Default: 120 columns and 40 rows</p>
+<pre><code class="language-javascript">initial_columns 160
+initial_rows 48
+</code></pre>
+<h3 id="reuse_session_windows"><a class="header" href="#reuse_session_windows">reuse_session_windows</a></h3>
+<p>Whether a session is shown in at most one window of the desktop app. When on, switching a window to a session that another window already shows brings that other window forward and closes the switching one; the session it left keeps running. When off, the window always switches in place. Windows opened with <code>zellij terminal --standalone</code> always switch in place.</p>
+<p>Default: <code>true</code></p>
+<pre><code class="language-javascript">reuse_session_windows false
+</code></pre>
+<h3 id="terminal_requests"><a class="header" href="#terminal_requests">terminal_requests</a></h3>
+<p>Where a command opens when another program uses Zellij as its terminal (<code>zellij terminal -e &lt;command&gt;</code>, as <code>xdg-terminal-exec</code> or a file manager runs it):</p>
+<ul>
+<li><code>"new_session"</code> (default) - in a session of its own</li>
+<li><code>"existing_session"</code> - as a new tab in the session whose window was focused last, or in a new session when no window is open</li>
+</ul>
+<pre><code class="language-javascript">terminal_requests "existing_session"
+</code></pre>
+<h3 id="bell"><a class="header" href="#bell">bell</a></h3>
+<p>What the window does when a program rings the bell:</p>
+<ul>
+<li><code>"visual"</code> (default) - asks the desktop to draw attention to the window, eg. by highlighting it in the taskbar</li>
+<li><code>"audible"</code> - plays the system sound</li>
+<li><code>"both"</code></li>
+<li><code>"none"</code></li>
+</ul>
+<pre><code class="language-javascript">bell "both"
+</code></pre>
+<h2 id="clipboard"><a class="header" href="#clipboard">Clipboard</a></h2>
+<h3 id="allow_remote_clipboard_read"><a class="header" href="#allow_remote_clipboard_read">allow_remote_clipboard_read</a></h3>
+<p>Whether programs in a session on another machine (opened with <code>zellij terminal https://...</code>, see <a href="./web-client.html#attaching-from-the-zellij-terminal">remote attach</a>) may read this computer's clipboard with OSC 52. Local sessions follow <a href="./options.html#dangerously_enable_paste_buffer_read"><code>dangerously_enable_paste_buffer_read</code></a> instead.</p>
+<p>Default: <code>false</code></p>
+<pre><code class="language-javascript">allow_remote_clipboard_read true
+</code></pre>
+<h2 id="colors"><a class="header" href="#colors">Colors</a></h2>
+<h3 id="theme"><a class="header" href="#theme">theme</a></h3>
+<p>The colors the window paints itself:</p>
+<pre><code class="language-javascript">terminal {
+    theme {
+        foreground "#e5e5e5"
+        background "#000000"
+        cursor "#e5e5e5"
+        black "#000000"
+        red "#cd0000"
+        green "#00cd00"
+        yellow "#cdcd00"
+        blue "#0000ee"
+        magenta "#cd00cd"
+        cyan "#00cdcd"
+        white "#e5e5e5"
+        bright_black "#7f7f7f"
+        bright_red "#ff0000"
+        bright_green "#00ff00"
+        bright_yellow "#ffff00"
+        bright_blue "#5c5cff"
+        bright_magenta "#ff00ff"
+        bright_cyan "#00ffff"
+        bright_white "#ffffff"
+    }
+}
+</code></pre>
+<p>Every color is optional, and is given as <code>RGB</code> (eg. <code>229 229 229</code>) or as a hex string. The sixteen ANSI colors (<code>black</code> to <code>bright_white</code>) cannot be given as a number from the 256-color palette, because that palette is built from them.</p>
+<p>Where the colors come from, from lowest to highest priority:</p>
+<ul>
+<li><code>foreground</code> and <code>background</code>: the <code>text_unselected</code> colors of the active Zellij <a href="./themes.html">theme</a> (following <a href="./themes.html#automatic-dark-and-light-theme-switching">dark and light switching</a>), then this block.</li>
+<li>The sixteen ANSI colors: the <a href="./themes.html#terminal_colors"><code>terminal_colors</code></a> section of the active Zellij theme, then this block. Colors that neither of them sets keep the usual xterm defaults (eg. <code>red</code> is <code>205 0 0</code>).</li>
+<li><code>cursor</code>: only this block.</li>
+</ul>
+<p>So with no <code>theme</code> block here, the window follows the Zellij theme, including its <code>terminal_colors</code>. Colors set in this block stay the same whatever Zellij theme is active.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="desktop-setup.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="commands.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="desktop-setup.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="commands.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

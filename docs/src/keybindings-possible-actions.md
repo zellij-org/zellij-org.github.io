@@ -1,5 +1,7 @@
 # Possible Actions
 
+Actions whose name ends in `ByPaneId`, `ById` or `ByTabId` act on a specific pane or tab instead of the focused one. In a keybinding the pane or tab id must be given. Inside an item of the [right-click menu](./context-menu.md) it can be left out, and the clicked pane or tab is used.
+
 ## `Clear`
 
  Clear the scrollback buffer of the focused pane
@@ -31,6 +33,26 @@ By default bound to `c` in `scroll` mode.
 
 ```javascript
     bind "a" { CopyLastCommandOutput; }
+```
+
+## `ApplyFloatingSwapLayout`
+
+ Apply the floating swap layout with the given name, as declared in the layout file. Floating pane visibility and focus are left as they are. If no floating swap layout with that name fits the current number of panes, nothing changes.
+
+**Required arguments**: the name of the swap layout
+
+```javascript
+    bind "a" { ApplyFloatingSwapLayout "spread"; }
+```
+
+## `ApplyTiledSwapLayout`
+
+ Apply the tiled swap layout with the given name, as declared in the layout file. Floating pane visibility and focus are left as they are. If no tiled swap layout with that name fits the current number of panes, nothing changes.
+
+**Required arguments**: the name of the swap layout
+
+```javascript
+    bind "a" { ApplyTiledSwapLayout "vertical"; }
 ```
 
 ## `BreakPane`
@@ -76,6 +98,16 @@ eg.
 ```javascript
     bind "a" { CloseFocus; }
 ```
+## `CloseFocusByPaneId`
+
+ Close a specific pane
+
+**Required arguments**: a pane id as a string, eg. `"terminal_1"`, `"plugin_2"` or `"3"` (the same as `"terminal_3"`). It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { CloseFocusByPaneId "terminal_1"; }
+```
+
 ## `CloseTab`
 
  Close the focused tab
@@ -86,6 +118,16 @@ eg.
 ```javascript
     bind "a" { CloseTab; }
 ```
+## `CloseTabById`
+
+ Close a specific tab
+
+**Required arguments**: a numeric tab id. It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { CloseTabById 2; }
+```
+
 ## `Detach`
 
  Detach from the current session, leaving it running in the background
@@ -96,6 +138,16 @@ eg.
 ```javascript
     bind "a" { Detach; }
 ```
+## `DismissInfoPopups`
+
+ Close the information popups (such as those shown with [`zellij prompt notify`](./zellij-prompt.md)) shown to this user
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { DismissInfoPopups; }
+```
+
 ## `DumpScreen`
 
  Dump the contents of the focused pane, including its entire scrollback, to the specified file.
@@ -152,7 +204,7 @@ By default bound to `]` in `session` mode.
 
 **Possible arguments**: None
 
-By default bound to `;` in `pane` mode and to `Alt \` in all modes.
+By default bound to `;` in `pane` mode.
 
 ```javascript
     bind "a" { FocusLastPane; }
@@ -176,6 +228,42 @@ By default bound to `;` in `pane` mode and to `Alt \` in all modes.
 ```javascript
     bind "a" { FocusPreviousPane; }
 ```
+## `GoToNextAttention`
+
+ Jump to the next pane that needs attention (see the [inbox](./inbox.md)), in any session, switching session if needed
+
+**Possible arguments**: None
+
+By default bound to `n` in `session` mode.
+
+```javascript
+    bind "a" { GoToNextAttention; }
+```
+
+## `GoToNextSession`
+
+ Go forward in this user's history of visited sessions
+
+**Possible arguments**: None
+
+By default bound to `Right` in `session` mode.
+
+```javascript
+    bind "a" { GoToNextSession; }
+```
+
+## `GoToPreviousSession`
+
+ Go back in this user's history of visited sessions
+
+**Possible arguments**: None
+
+By default bound to `Left` in `session` mode.
+
+```javascript
+    bind "a" { GoToPreviousSession; }
+```
+
 ## `GoToNextTab`
 
  Change focus to the next tab
@@ -222,6 +310,30 @@ By default bound to `;` in `pane` mode and to `Alt \` in all modes.
     bind "a" { HalfPageScrollUp; }
 ```
 
+## `HideBarByPaneId`
+
+ Hide the bar (eg. the tab-bar or status-bar) shown in a specific pane, in every tab
+
+**Required arguments**: a pane id as a string, eg. `"terminal_1"`, `"plugin_2"` or `"3"` (the same as `"terminal_3"`). It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { HideBarByPaneId "plugin_1"; }
+```
+
+## `HideBars`
+
+ Hide the named bars in every tab, or all bars if none are named. They can be shown again with [`ShowBars`](#showbars) or [`ToggleBars`](#togglebars).
+
+**Possible arguments**: zero or more bar names: `tab-bar`, `status-bar`, `compact-bar`, a plugin alias or location, or `all`
+
+```javascript
+    bind "a" { HideBars; }
+```
+or:
+```javascript
+    bind "a" { HideBars "status-bar"; }
+```
+
 ## `HideFloatingPanes`
 
  Hide all floating panes in the current (or specified) tab
@@ -234,6 +346,28 @@ By default bound to `;` in `pane` mode and to `Alt \` in all modes.
 or:
 ```javascript
     bind "a" { HideFloatingPanes 2; }
+```
+
+## `IgnorePaneOutput`
+
+ Stop or start reporting new output of the focused pane. Only the "new output" note is hidden; panes that need attention, failed commands and finished commands are still reported.
+
+**Possible arguments**: None
+
+By default bound to `g` in `pane` mode.
+
+```javascript
+    bind "a" { IgnorePaneOutput; }
+```
+
+## `IgnorePaneOutputByPaneId`
+
+ Like [`IgnorePaneOutput`](#ignorepaneoutput), for a specific pane
+
+**Required arguments**: a pane id as a string, eg. `"terminal_1"`, `"plugin_2"` or `"3"` (the same as `"terminal_3"`). It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { IgnorePaneOutputByPaneId "terminal_1"; }
 ```
 
 ## `LaunchOrFocusPlugin`
@@ -287,6 +421,30 @@ or:
             my_config_key "my_config_value"
         }
     }
+```
+
+## `MarkAllSeen`
+
+ Mark every pane of every running session as seen, clearing past events
+
+**Optional arguments**: `this_session` - `true` or `false` (only mark the panes of the current session, default is `false`)
+
+```javascript
+    bind "a" { MarkAllSeen; }
+```
+or:
+```javascript
+    bind "a" { MarkAllSeen this_session=true; }
+```
+
+## `MarkPaneSeen`
+
+ Mark the focused pane as seen, clearing its past events
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { MarkPaneSeen; }
 ```
 
 ## `MessagePlugin`
@@ -375,11 +533,89 @@ There is also `MessagePluginId` which sends a message to a specific running plug
     bind "a" { MoveTab "Left"; }
 ```
 
+## `MoveTabByTabId`
+
+ Move a specific tab one position to the left or right
+
+**Required arguments**: the direction (`"left"` or `"right"`) followed by a numeric tab id. The tab id can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { MoveTabByTabId "left" 2; }
+```
+
+## `MoveTabToPosition`
+
+ Move a specific tab to a position in the tab list. This is also what dragging a tab in the tab bar does.
+
+**Required arguments**: the position (`"start"`, `"end"`, or a number counting from 0) followed by a numeric tab id. The tab id can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { MoveTabToPosition "start" 2; }
+```
+
+## `MutePane`
+
+ Mute or unmute the focused pane. A muted pane shows nothing it reports (on its frame, in the tab bar or in the [inbox](./inbox.md)) and raises no desktop notifications. It is still tracked, so unmuting it shows its current state.
+
+**Possible arguments**: None
+
+By default bound to `u` in `pane` mode.
+
+```javascript
+    bind "a" { MutePane; }
+```
+
+## `MutePaneByPaneId`
+
+ Like [`MutePane`](#mutepane), for a specific pane
+
+**Required arguments**: a pane id as a string, eg. `"terminal_1"`, `"plugin_2"` or `"3"` (the same as `"terminal_3"`). It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { MutePaneByPaneId "terminal_1"; }
+```
+
+## `MuteSession`
+
+ Mute or unmute all panes of the current session
+
+**Possible arguments**: None
+
+By default bound to `u` in `session` mode.
+
+```javascript
+    bind "a" { MuteSession; }
+```
+
+## `MuteTab`
+
+ Mute or unmute all panes of the active tab
+
+**Possible arguments**: None
+
+By default bound to `u` in `tab` mode.
+
+```javascript
+    bind "a" { MuteTab; }
+```
+
+## `MuteTabByTabId`
+
+ Like [`MuteTab`](#mutetab), for a specific tab
+
+**Required arguments**: a numeric tab id. It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { MuteTabByTabId 2; }
+```
+
 ## `NextSwapLayout`
 
  Change the layout of the current tab (either tiled or floating) to the next one
 
 **Possible arguments**: None
+
+By default bound to `Alt ]` in all modes except `locked`, and to `Space` in `tab` mode.
 
 ```javascript
     bind "a" { NextSwapLayout; }
@@ -405,6 +641,18 @@ There is also `MessagePluginId` which sends a message to a specific running plug
             apply_only_to_active_tab true
         }
     }
+```
+
+## `NewFloatingPane`
+
+ Open a new floating terminal pane
+
+**Possible arguments**: None
+
+By default bound to `a` in `pane` mode.
+
+```javascript
+    bind "a" { NewFloatingPane; }
 ```
 
 ## `NewPane`
@@ -445,6 +693,26 @@ or:
        }
     }
 ```
+## `OpenContextMenu`
+
+ Open the [right-click menu](./context-menu.md) of the focused pane, at that pane's position
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { OpenContextMenu; }
+```
+
+## `OpenSessionInTerminal`
+
+ Open the current session in a window of the [Zellij terminal](./zellij-terminal.md)
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { OpenSessionInTerminal; }
+```
+
 ## `PageScrollDown`
 
  Scroll the focused pane one page down
@@ -475,11 +743,23 @@ or:
     bind "a" { PaneNameInput 0; }
 ```
 
+## `PasteFromClipboardByPaneId`
+
+ Paste the clipboard into a specific pane. This only works in clients that can read the clipboard (the [Zellij terminal](./zellij-terminal.md)); elsewhere it does nothing.
+
+**Required arguments**: a pane id as a string, eg. `"terminal_1"`, `"plugin_2"` or `"3"` (the same as `"terminal_3"`). It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { PasteFromClipboardByPaneId "terminal_1"; }
+```
+
 ## `PreviousSwapLayout`
 
  Change the layout of the current tab (either tiled or floating) to the previous one
 
 **Possible arguments**: None
+
+By default bound to `Alt [` in all modes except `locked`, and to `Shift Space` in `tab` mode.
 
 ```javascript
     bind "a" { PreviousSwapLayout; }
@@ -487,6 +767,8 @@ or:
 ## `Quit`
 
  Quit Zellij :(
+
+Since `0.46.0`, quitting from a keybinding first asks for confirmation. What it asks (or whether it asks at all) is set with the [`on_quit`](./options.md#on_quit) option. Pressing the quit key again while the question is shown quits.
 
 **Possible arguments**: None
 
@@ -531,10 +813,14 @@ or:
   - `start_suspended` - `true` or `false` (start the command suspended)
   - `x`, `y`, `width`, `height` - floating pane coordinates (when `floating` is `true`)
   - `pinned` - `true` or `false` (pin the floating pane, when `floating` is `true`)
-  - `borderless` - `true` or `false` (hide the pane border)
+  - `borderless` - `true` or `false` (hide the pane border, when `floating` is `true`)
+  - `border_style` - the line style of the new pane's border: `"single"`, `"double"`, `"heavy"`, `"dashed"` or `"heavy_dashed"`. `border_top`, `border_right`, `border_bottom` and `border_left` set one side each, and `border_rounded_corners` (`true` or `false`) rounds the corners. These apply to floating and tiled panes, not to `in_place` or `stacked` ones.
+  - `background` - `true` or `false` (run the command without opening a pane, default is `false`). Only the command, its arguments and `cwd` are used; the other arguments are ignored. Without `cwd`, the command runs in the working directory of the pane that was focused; a relative `cwd` is taken from that directory.
 
+A command started with `Run` gets the `ZELLIJ_ORIGIN_PANE_ID` environment variable: the id of the pane that was focused when the key was pressed, eg. `terminal_3` or `plugin_2`. Focus changes made earlier in the same binding count, so `MoveFocus "Left"; Run "my-script";` reports the pane on the left. A `background` command also gets `ZELLIJ_PANE_ID` set to that terminal pane's number (it is not set when the focused pane is a plugin).
+
+eg. to run "tail -f /tmp/foo" in a pane opened below the focused one:
 ```javascript
-    // will run "tail -f /tmp/foo" in a pane opened below the focused one
     bind "a" {
         Run "tail" "-f" "foo" {
             cwd "/tmp"
@@ -568,6 +854,23 @@ or as a stacked pane:
     bind "a" {
         Run "htop" {
             stacked true
+        }
+    }
+```
+or with a double border:
+```javascript
+    bind "a" {
+        Run "htop" {
+            floating true
+            border_style "double"
+        }
+    }
+```
+or in the background, without a pane:
+```javascript
+    bind "a" {
+        Run "sh" "-c" "echo $ZELLIJ_ORIGIN_PANE_ID >> /tmp/focused-panes" {
+            background true
         }
     }
 ```
@@ -671,6 +974,18 @@ By default bound to `m` in `scroll` and `search` modes.
     bind "a" { SelectCommandAtScrollPosition; }
 ```
 
+## `SessionNameInput`
+
+ Send byte input for renaming the current session. Typically used in the `RenameSession` input mode, where `0` clears the name to start typing a new one.
+
+**Required arguments**: One or more integer (u8) byte values
+
+By default bound to `r` in `session` mode.
+
+```javascript
+    bind "a" { SwitchToMode "RenameSession"; SessionNameInput 0; }
+```
+
 ## `SetDarkTheme`
 
  Switch the theme to dark (uses the configured `theme_dark`).
@@ -705,10 +1020,20 @@ By default bound to `m` in `scroll` and `search` modes.
 
  Switch the current input mode
 
-**Required arguments**: See [Modes](#modes)
+**Required arguments**: See [Modes](./keybindings-modes.md)
 
 ```javascript
     bind "a" { SwitchToMode "locked"; }
+```
+
+## `ShowBars`
+
+ Show all hidden bars
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { ShowBars; }
 ```
 
 ## `ShowFloatingPanes`
@@ -725,6 +1050,26 @@ or:
     bind "a" { ShowFloatingPanes 2; }
 ```
 
+## `StartRenamePaneByPaneId`
+
+ Start renaming a specific pane: enter the `RenamePane` input mode for that pane, with its name cleared
+
+**Required arguments**: a pane id as a string, eg. `"terminal_1"`, `"plugin_2"` or `"3"` (the same as `"terminal_3"`). It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { StartRenamePaneByPaneId "terminal_1"; }
+```
+
+## `StartRenameTabByTabId`
+
+ Start renaming a specific tab: enter the `RenameTab` input mode for that tab, with its name cleared
+
+**Required arguments**: a numeric tab id. It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { StartRenameTabByTabId 2; }
+```
+
 ## `SwitchSession`
 
  Switch to a different named session. The session must already exist or be creatable.
@@ -737,6 +1082,7 @@ or:
   - `is_plugin` - whether the `pane_id` refers to a plugin pane (`true` or `false`, default is `false`)
   - `layout` - layout file path to apply
   - `cwd` - working directory for the session
+  - `close_current` - `true` or `false` (close the current session after switching, if no command has been run in it and no other user is attached; default is `false`)
 
 ```javascript
     bind "a" {
@@ -777,6 +1123,18 @@ or:
     bind "a" { ToggleActiveSyncTab; }
 ```
 
+## `ToggleBars`
+
+ If any bar is hidden, show all bars. Otherwise hide the named bars (all bars if none are named) in every tab.
+
+**Possible arguments**: zero or more bar names: `tab-bar`, `status-bar`, `compact-bar`, a plugin alias or location, or `all`
+
+By default bound to `Shift z` in `pane` mode.
+
+```javascript
+    bind "a" { ToggleBars; }
+```
+
 ## `ToggleFloatingPanes`
 
  Show/hide floating panes; if none are open, one will be opened
@@ -795,6 +1153,16 @@ or:
 
 ```javascript
     bind "a" { ToggleFocusFullscreen; }
+```
+
+## `ToggleFocusFullscreenByPaneId`
+
+ Like [`ToggleFocusFullscreen`](#togglefocusfullscreen), for a specific pane
+
+**Required arguments**: a pane id as a string, eg. `"terminal_1"`, `"plugin_2"` or `"3"` (the same as `"terminal_3"`). It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { ToggleFocusFullscreenByPaneId "terminal_1"; }
 ```
 
 ## `ToggleFocusNoUiFullscreen`
@@ -821,6 +1189,16 @@ By default bound to `f` in `session` mode.
     bind "a" { ToggleHostFullscreen; }
 ```
 
+## `ToggleMirrorResize`
+
+ Toggle whether the live view of a pane shown in the focused plugin pane (eg. in the [inbox](./inbox.md)) resizes the program of the pane it shows
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { ToggleMirrorResize; }
+```
+
 ## `ToggleMouseMode`
 
  Toggle mouse support on/off
@@ -839,6 +1217,16 @@ By default bound to `f` in `session` mode.
 
 ```javascript
     bind "a" { TogglePaneEmbedOrFloating; }
+```
+
+## `TogglePaneEmbedOrFloatingByPaneId`
+
+ Like [`TogglePaneEmbedOrFloating`](#togglepaneembedorfloating), for a specific pane
+
+**Required arguments**: a pane id as a string, eg. `"terminal_1"`, `"plugin_2"` or `"3"` (the same as `"terminal_3"`). It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { TogglePaneEmbedOrFloatingByPaneId "terminal_1"; }
 ```
 
 ## `TogglePaneFrames`
@@ -861,6 +1249,16 @@ By default bound to `f` in `session` mode.
     bind "a" { TogglePaneInGroup; }
 ```
 
+## `TogglePaneInGroupByPaneId`
+
+ Like [`TogglePaneInGroup`](#togglepaneingroup), for a specific pane
+
+**Required arguments**: a pane id as a string, eg. `"terminal_1"`, `"plugin_2"` or `"3"` (the same as `"terminal_3"`). It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { TogglePaneInGroupByPaneId "terminal_1"; }
+```
+
 ## `TogglePanePinned`
 
  Toggle the pinned state of a floating pane. A pinned floating pane stays on top of other panes.
@@ -871,6 +1269,16 @@ By default bound to `f` in `session` mode.
     bind "a" { TogglePanePinned; }
 ```
 
+## `TogglePanePinnedByPaneId`
+
+ Like [`TogglePanePinned`](#togglepanepinned), for a specific pane
+
+**Required arguments**: a pane id as a string, eg. `"terminal_1"`, `"plugin_2"` or `"3"` (the same as `"terminal_3"`). It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { TogglePanePinnedByPaneId "terminal_1"; }
+```
+
 ## `ToggleGroupMarking`
 
  Toggle group marking mode, allowing selection of multiple panes for group operations
@@ -879,6 +1287,52 @@ By default bound to `f` in `session` mode.
 
 ```javascript
     bind "a" { ToggleGroupMarking; }
+```
+
+## `ToggleSession`
+
+ Switch to the session this user was in before (run again to return), or to the next running session if there is none
+
+**Possible arguments**: None
+
+By default bound to `Tab` in `session` mode.
+
+```javascript
+    bind "a" { ToggleSession; }
+```
+
+## `ToggleSessionCard`
+
+ Show or hide the [inbox](./inbox.md). If the inbox is open but not focused, focus it. If a live view of a pane inside the inbox has the keyboard, give the keys back to the inbox instead.
+
+**Possible arguments**: None
+
+By default bound to `i` in `session` mode.
+
+```javascript
+    bind "a" { ToggleSessionCard; }
+```
+
+## `ToggleStackListOrientation`
+
+ Switch the focused stack between showing its pane titles in a column (vertical) and in a row (horizontal). See the [`stacked_pane_list_orientation`](./options.md#stacked_pane_list_orientation) option.
+
+**Possible arguments**: None
+
+By default bound to `Shift s` in `pane` mode.
+
+```javascript
+    bind "a" { ToggleStackListOrientation; }
+```
+
+## `ToggleStackListOrientationByPaneId`
+
+ Like [`ToggleStackListOrientation`](#togglestacklistorientation), for the stack holding a specific pane
+
+**Required arguments**: a pane id as a string, eg. `"terminal_1"`, `"plugin_2"` or `"3"` (the same as `"terminal_3"`). It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { ToggleStackListOrientationByPaneId "terminal_1"; }
 ```
 
 ## `ToggleTab`
@@ -901,6 +1355,16 @@ By default bound to `f` in `session` mode.
     bind "a" { ToggleTheme; }
 ```
 
+## `ToggleTrayIcon`
+
+ Show or hide the tray (menu-bar) icon of the [Zellij desktop app](./zellij-terminal.md) until the app restarts. Sessions and notifications keep working while it is hidden.
+
+**Possible arguments**: None
+
+```javascript
+    bind "a" { ToggleTrayIcon; }
+```
+
 ## `UndoRenamePane`
 
  Undo a rename pane operation currently in progress (reverting to the previous name)
@@ -919,6 +1383,40 @@ By default bound to `f` in `session` mode.
 
 ```javascript
     bind "a" { UndoRenameTab; }
+```
+
+## `UndoRenameSession`
+
+ Undo a rename session operation currently in progress (keeping the previous name)
+
+**Possible arguments**: None
+
+By default bound to `Esc` in `renamesession` mode.
+
+```javascript
+    bind "a" { UndoRenameSession; }
+```
+
+## `WatchPane`
+
+ Watch or stop watching the focused pane. A watched pane is reported as needing attention each time a command finishes (even a short one), the pane exits, or its output goes quiet. New output alone is not reported. It stays on until turned off.
+
+**Possible arguments**: None
+
+By default bound to `v` in `pane` mode.
+
+```javascript
+    bind "a" { WatchPane; }
+```
+
+## `WatchPaneByPaneId`
+
+ Like [`WatchPane`](#watchpane), for a specific pane
+
+**Required arguments**: a pane id as a string, eg. `"terminal_1"`, `"plugin_2"` or `"3"` (the same as `"terminal_3"`). It can only be left out inside a [right-click menu](./context-menu.md) item.
+
+```javascript
+    bind "a" { WatchPaneByPaneId "terminal_1"; }
 ```
 
 ## `Write`

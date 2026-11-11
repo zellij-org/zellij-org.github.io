@@ -1,3 +1,5 @@
+**Note:** this page describes the old YAML layout format, which Zellij does not read. Layouts are written in KDL; see [Creating a Layout](./creating-a-layout.md) and its [templates](./creating-a-layout.md#templates) section.
+
 ## Layout Templates
 
 The templates section of the layout file describes the structure of the layout.

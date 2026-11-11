@@ -18,6 +18,7 @@ $ zellij --session pretentious-cat action new-pane
 - [Zellij Action](./cli-actions.md) - Full reference of all `zellij action` subcommands for controlling panes, tabs, layouts, and more
 - [Zellij Plugin & Pipe](./zellij-plugin-and-pipe.md) - Load plugins and send data to them from the command line
 - [Zellij Subscribe](./zellij-subscribe.md) - Stream the rendered output of one or more panes to stdout in real time
+- [Zellij Prompt](./zellij-prompt.md) - Ask the user a question, a choice or a value in a popup and print the answer
 - [Zellij Watch](#zellij-watch) - Watch a session in read-only mode
 - [CLI Recipes & Scripting](./cli-recipes.md) - Task-oriented examples and common workflows for scripting with Zellij
 - [Programmatic Control](./programmatic-control.md) - Patterns for non-interactive, machine-driven control of Zellij sessions
@@ -33,6 +34,8 @@ $ zellij watch my-session-name
 ```
 
 This attaches to the specified session in read-only mode - the terminal output is visible but no input can be sent.
+
+The same read-only view can be opened in the Zellij terminal window with `zellij terminal --watch my-session-name` (see [Zellij Terminal](./zellij-terminal.md)).
 
 ---
 

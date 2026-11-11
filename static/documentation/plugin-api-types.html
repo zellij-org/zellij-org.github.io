@@ -199,6 +199,27 @@
 <li><a href="#connecttosession">ConnectToSession</a></li>
 <li><a href="#action">Action</a></li>
 <li><a href="#eventtype">EventType</a></li>
+<li><a href="#borderstyleoverride">BorderStyleOverride</a></li>
+<li><a href="#hiddenbars">HiddenBars</a></li>
+<li><a href="#mousetrigger">MouseTrigger</a></li>
+<li><a href="#popupoptions">PopupOptions</a></li>
+<li><a href="#promptrequest">PromptRequest</a></li>
+<li><a href="#promptresult">PromptResult</a></li>
+<li><a href="#contextmenutarget">ContextMenuTarget</a></li>
+<li><a href="#contextmenucontext">ContextMenuContext</a></li>
+<li><a href="#pluginsettingsentry">PluginSettingsEntry</a></li>
+<li><a href="#slot">Slot</a></li>
+<li><a href="#nestedsessionkeybinds">NestedSessionKeybinds</a></li>
+<li><a href="#paneattention">PaneAttention</a></li>
+<li><a href="#globalattention">GlobalAttention</a></li>
+<li><a href="#sessionhistoryinfo">SessionHistoryInfo</a></li>
+<li><a href="#sessionterminalrequest">SessionTerminalRequest</a></li>
+<li><a href="#sessionsuggestions">SessionSuggestions</a></li>
+<li><a href="#sessionpreview">SessionPreview</a></li>
+<li><a href="#liveview">LiveView</a></li>
+<li><a href="#settingkey">SettingKey</a></li>
+<li><a href="#configsnapshot">ConfigSnapshot</a></li>
+<li><a href="#keybindpresetinfo">KeybindPresetInfo</a></li>
 </ul>
 <hr />
 <h2 id="paneid"><a class="header" href="#paneid"><code>PaneId</code></a></h2>
@@ -217,8 +238,8 @@
 let plugin_pane = PaneId::Plugin(0);
 
 match pane_id {
-    PaneId::Terminal(id) =&gt; { /* terminal pane */ },
-    PaneId::Plugin(id) =&gt; { /* plugin pane */ },
+    PaneId::Terminal(id) =&gt; {},
+    PaneId::Plugin(id) =&gt; {},
 }
 <span class="boring">}</span></code></pre></pre>
 <hr />
@@ -230,22 +251,21 @@ match pane_id {
     pub path: PathBuf,
     pub line_number: Option&lt;usize&gt;,
     pub cwd: Option&lt;PathBuf&gt;,
+    pub border_style: Option&lt;BorderStyleOverride&gt;,
 }
 <span class="boring">}</span></code></pre></pre>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>path</code></td><td><code>PathBuf</code></td><td>Path to the file to open</td></tr>
 <tr><td><code>line_number</code></td><td><code>Option&lt;usize&gt;</code></td><td>Optional line number to jump to (if the editor supports it)</td></tr>
 <tr><td><code>cwd</code></td><td><code>Option&lt;PathBuf&gt;</code></td><td>Optional working directory for the editor process</td></tr>
+<tr><td><code>border_style</code></td><td><code>Option&lt;</code><a href="#borderstyleoverride"><code>BorderStyleOverride</code></a><code>&gt;</code></td><td>Optional border line style for the new pane</td></tr>
 </tbody></table>
 </div>
+<p>The builder methods <code>FileToOpen::new(path)</code>, <code>.with_line_number(line)</code>, <code>.with_cwd(cwd)</code> and <code>.with_border_style(border_style)</code> keep working when fields are added.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>let file = FileToOpen {
-    path: PathBuf::from("/home/user/project/src/main.rs"),
-    line_number: Some(42),
-    cwd: None,
-};
+</span>let file = FileToOpen::new("/home/user/project/src/main.rs").with_line_number(42);
 open_file(file, BTreeMap::new());
 <span class="boring">}</span></code></pre></pre>
 <hr />
@@ -257,14 +277,17 @@ open_file(file, BTreeMap::new());
     pub path: PathBuf,
     pub args: Vec&lt;String&gt;,
     pub cwd: Option&lt;PathBuf&gt;,
+    pub border_style: Option&lt;BorderStyleOverride&gt;,
 }
 <span class="boring">}</span></code></pre></pre>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>path</code></td><td><code>PathBuf</code></td><td>Path to the executable</td></tr>
 <tr><td><code>args</code></td><td><code>Vec&lt;String&gt;</code></td><td>Command-line arguments</td></tr>
 <tr><td><code>cwd</code></td><td><code>Option&lt;PathBuf&gt;</code></td><td>Optional working directory</td></tr>
+<tr><td><code>border_style</code></td><td><code>Option&lt;</code><a href="#borderstyleoverride"><code>BorderStyleOverride</code></a><code>&gt;</code></td><td>Optional border line style for the new pane</td></tr>
 </tbody></table>
 </div>
+<p>The builder methods <code>CommandToRun::new(path)</code>, <code>CommandToRun::new_with_args(path, args)</code> and <code>.with_border_style(border_style)</code> are also available. When building the struct directly, end it with <code>..Default::default()</code> so that it keeps compiling when fields are added.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -272,6 +295,7 @@ open_file(file, BTreeMap::new());
     path: PathBuf::from("cargo"),
     args: vec!["build".to_string(), "--release".to_string()],
     cwd: Some(PathBuf::from("/home/user/project")),
+    ..Default::default()
 };
 open_command_pane(cmd, BTreeMap::new());
 <span class="boring">}</span></code></pre></pre>
@@ -287,6 +311,7 @@ open_command_pane(cmd, BTreeMap::new());
     pub height: Option&lt;PercentOrFixed&gt;,
     pub pinned: Option&lt;bool&gt;,
     pub borderless: Option&lt;bool&gt;,
+    pub border_style: Option&lt;BorderStyleOverride&gt;,
 }
 <span class="boring">}</span></code></pre></pre>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
@@ -296,6 +321,7 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>height</code></td><td><code>Option&lt;PercentOrFixed&gt;</code></td><td>Height of the pane</td></tr>
 <tr><td><code>pinned</code></td><td><code>Option&lt;bool&gt;</code></td><td>Whether the floating pane is pinned (stays visible when toggling floating panes)</td></tr>
 <tr><td><code>borderless</code></td><td><code>Option&lt;bool&gt;</code></td><td>Whether the pane border is hidden</td></tr>
+<tr><td><code>border_style</code></td><td><code>Option&lt;</code><a href="#borderstyleoverride"><code>BorderStyleOverride</code></a><code>&gt;</code></td><td>Border line style of the pane</td></tr>
 </tbody></table>
 </div>
 <p>All fields are optional. When <code>None</code>, Zellij uses its default placement logic.</p>
@@ -305,10 +331,11 @@ open_command_pane(cmd, BTreeMap::new());
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub enum PercentOrFixed {
-    Percent(usize),  // 1 to 100
-    Fixed(usize),    // absolute number of columns or rows
+    Percent(usize),
+    Fixed(usize),
 }
 <span class="boring">}</span></code></pre></pre>
+<p><code>Percent</code> is a value from 1 to 100. <code>Fixed</code> is an absolute number of columns or rows.</p>
 <p><strong>Example:</strong></p>
 <pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
@@ -318,7 +345,7 @@ open_command_pane(cmd, BTreeMap::new());
     width: Some(PercentOrFixed::Percent(80)),
     height: Some(PercentOrFixed::Fixed(20)),
     pinned: Some(true),
-    borderless: None,
+    ..Default::default()
 };
 <span class="boring">}</span></code></pre></pre>
 <hr />
@@ -337,7 +364,7 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>plugin_id</code></td><td><code>u32</code></td><td>Unique identifier for this plugin pane</td></tr>
 <tr><td><code>zellij_pid</code></td><td><code>u32</code></td><td>Process ID of the Zellij server</td></tr>
 <tr><td><code>initial_cwd</code></td><td><code>PathBuf</code></td><td>Working directory when the plugin was loaded</td></tr>
-<tr><td><code>client_id</code></td><td><code>ClientId</code></td><td>The client that loaded this plugin (<code>u16</code>)</td></tr>
+<tr><td><code>client_id</code></td><td><code>ClientId</code></td><td>The client that loaded this plugin (<code>u32</code>)</td></tr>
 </tbody></table>
 </div>
 <hr />
@@ -467,6 +494,7 @@ open_command_pane(cmd, BTreeMap::new());
     Move,
     Prompt,
     Tmux,
+    RenameSession,
 }
 <span class="boring">}</span></code></pre></pre>
 <div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Description</th></tr></thead><tbody>
@@ -484,6 +512,7 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>Move</code></td><td>Allows moving panes within a tab</td></tr>
 <tr><td><code>Prompt</code></td><td>Allows interacting with active prompts</td></tr>
 <tr><td><code>Tmux</code></td><td>Provides basic tmux keybinding compatibility</td></tr>
+<tr><td><code>RenameSession</code></td><td>Allows assigning a new name to the session (plugins built against <code>0.45</code> see it as <code>RenameTab</code>)</td></tr>
 </tbody></table>
 </div>
 <hr />
@@ -664,6 +693,7 @@ open_command_pane(cmd, BTreeMap::new());
     pub is_sync_panes_active: bool,
     pub are_floating_panes_visible: bool,
     pub other_focused_clients: Vec&lt;ClientId&gt;,
+    pub other_focused_client_slots: Vec&lt;usize&gt;,
     pub active_swap_layout_name: Option&lt;String&gt;,
     pub is_swap_layout_dirty: bool,
     pub viewport_rows: usize,
@@ -675,6 +705,7 @@ open_command_pane(cmd, BTreeMap::new());
     pub tab_id: usize,
     pub has_bell_notification: bool,
     pub is_flashing_bell: bool,
+    pub attention: TabAttention,
 }
 <span class="boring">}</span></code></pre></pre>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
@@ -686,6 +717,7 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>is_sync_panes_active</code></td><td><code>bool</code></td><td>Whether STDIN sync is active for this tab</td></tr>
 <tr><td><code>are_floating_panes_visible</code></td><td><code>bool</code></td><td>Whether floating panes are visible</td></tr>
 <tr><td><code>other_focused_clients</code></td><td><code>Vec&lt;ClientId&gt;</code></td><td>Other clients focused on this tab</td></tr>
+<tr><td><code>other_focused_client_slots</code></td><td><code>Vec&lt;usize&gt;</code></td><td>The display color slot of each client in <code>other_focused_clients</code>, in the same order. Pass it to <code>client_slot_to_colors</code> to get that client's colors</td></tr>
 <tr><td><code>active_swap_layout_name</code></td><td><code>Option&lt;String&gt;</code></td><td>Name of the active swap layout, if any</td></tr>
 <tr><td><code>is_swap_layout_dirty</code></td><td><code>bool</code></td><td>Whether the user manually changed the layout</td></tr>
 <tr><td><code>viewport_rows</code></td><td><code>usize</code></td><td>Row count in the viewport (excluding UI panes)</td></tr>
@@ -697,6 +729,7 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>tab_id</code></td><td><code>usize</code></td><td>Stable identifier for this tab</td></tr>
 <tr><td><code>has_bell_notification</code></td><td><code>bool</code></td><td>Whether this tab has an active bell notification</td></tr>
 <tr><td><code>is_flashing_bell</code></td><td><code>bool</code></td><td>Whether this tab is currently flashing its bell</td></tr>
+<tr><td><code>attention</code></td><td><a href="#paneattention"><code>TabAttention</code></a></td><td>The most urgent attention state of the tab's panes, with counts</td></tr>
 </tbody></table>
 </div>
 <hr />
@@ -716,6 +749,7 @@ open_command_pane(cmd, BTreeMap::new());
     pub is_fullscreen: bool,
     pub is_floating: bool,
     pub is_suppressed: bool,
+    pub is_collapsed: bool,
     pub title: String,
     pub exited: bool,
     pub exit_status: Option&lt;i32&gt;,
@@ -735,6 +769,10 @@ open_command_pane(cmd, BTreeMap::new());
     pub index_in_pane_group: BTreeMap&lt;ClientId, usize&gt;,
     pub default_fg: Option&lt;String&gt;,
     pub default_bg: Option&lt;String&gt;,
+    pub nested_session_name: Option&lt;String&gt;,
+    pub attention: PaneAttention,
+    pub command_state: CommandState,
+    pub program_status: Vec&lt;ProgramStatusRecord&gt;,
 }
 <span class="boring">}</span></code></pre></pre>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
@@ -744,6 +782,7 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>is_fullscreen</code></td><td><code>bool</code></td><td>Whether this pane is in fullscreen mode</td></tr>
 <tr><td><code>is_floating</code></td><td><code>bool</code></td><td>Whether this pane is floating</td></tr>
 <tr><td><code>is_suppressed</code></td><td><code>bool</code></td><td>Whether this pane is suppressed (hidden but still running)</td></tr>
+<tr><td><code>is_collapsed</code></td><td><code>bool</code></td><td>Whether this pane gave its layout space back with <a href="./plugin-api-commands.html#set_self_collapsed"><code>set_self_collapsed</code></a></td></tr>
 <tr><td><code>title</code></td><td><code>String</code></td><td>Display title of the pane</td></tr>
 <tr><td><code>exited</code></td><td><code>bool</code></td><td>Whether the pane's process has exited</td></tr>
 <tr><td><code>exit_status</code></td><td><code>Option&lt;i32&gt;</code></td><td>Exit code if the process exited</td></tr>
@@ -763,8 +802,13 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>index_in_pane_group</code></td><td><code>BTreeMap&lt;ClientId, usize&gt;</code></td><td>Pane group membership indices per client</td></tr>
 <tr><td><code>default_fg</code></td><td><code>Option&lt;String&gt;</code></td><td>Default foreground color (e.g., <code>"#00e000"</code>)</td></tr>
 <tr><td><code>default_bg</code></td><td><code>Option&lt;String&gt;</code></td><td>Default background color (e.g., <code>"#001a3a"</code>)</td></tr>
+<tr><td><code>nested_session_name</code></td><td><code>Option&lt;String&gt;</code></td><td>Name of the <a href="./nested-sessions.html">nested Zellij session</a> running in this pane, if any</td></tr>
+<tr><td><code>attention</code></td><td><a href="#paneattention"><code>PaneAttention</code></a></td><td>Attention state of the pane</td></tr>
+<tr><td><code>command_state</code></td><td><a href="#paneattention"><code>CommandState</code></a></td><td>What the shell in the pane is doing: at the prompt, running a command, finished, and the last command's outcome</td></tr>
+<tr><td><code>program_status</code></td><td><code>Vec&lt;</code><a href="#paneattention"><code>ProgramStatusRecord</code></a><code>&gt;</code></td><td>Statuses reported by programs running in the pane</td></tr>
 </tbody></table>
 </div>
+<p>Without the <a href="./plugin-api-permissions.html#readpanecontents"><code>ReadPaneContents</code></a> permission, <code>attention</code> and <code>command_state</code> arrive without the text of the commands.</p>
 <hr />
 <h2 id="panemanifest"><a class="header" href="#panemanifest"><code>PaneManifest</code></a></h2>
 <p>A dictionary of all panes in the session, indexed by tab position.</p>
@@ -797,6 +841,7 @@ open_command_pane(cmd, BTreeMap::new());
     pub tab_history: BTreeMap&lt;ClientId, Vec&lt;usize&gt;&gt;,
     pub pane_history: BTreeMap&lt;ClientId, Vec&lt;PaneId&gt;&gt;,
     pub creation_time: Duration,
+    pub attention_muted: bool,
 }
 <span class="boring">}</span></code></pre></pre>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
@@ -812,6 +857,7 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>tab_history</code></td><td><code>BTreeMap&lt;ClientId, Vec&lt;usize&gt;&gt;</code></td><td>Tab focus history per client</td></tr>
 <tr><td><code>pane_history</code></td><td><code>BTreeMap&lt;ClientId, Vec&lt;PaneId&gt;&gt;</code></td><td>Pane focus history per client</td></tr>
 <tr><td><code>creation_time</code></td><td><code>Duration</code></td><td>When the session was created</td></tr>
+<tr><td><code>attention_muted</code></td><td><code>bool</code></td><td>Whether the attention status of the whole session is muted</td></tr>
 </tbody></table>
 </div>
 <hr />
@@ -852,12 +898,15 @@ open_command_pane(cmd, BTreeMap::new());
 }
 <span class="boring">}</span></code></pre></pre>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>client_id</code></td><td><code>ClientId</code></td><td>Unique client identifier (<code>u16</code>)</td></tr>
-<tr><td><code>pane_id</code></td><td><code>PaneId</code></td><td>The pane this client is focused on</td></tr>
-<tr><td><code>running_command</code></td><td><code>String</code></td><td>Stringified command or plugin name in the focused pane</td></tr>
-<tr><td><code>is_current_client</code></td><td><code>bool</code></td><td>Whether this is the client associated with the requesting plugin</td></tr>
+<tr><td><code>client_id</code></td><td><code>ClientId</code></td><td>Unique client identifier (<code>u32</code>). Client ids are not reused within a session</td></tr>
 </tbody></table>
 </div>
+<blockquote>
+<p><strong>Changed in <code>0.46.0</code>:</strong> <code>ClientId</code> used to be a <code>u16</code>, and the ids of clients that left were given to new clients.
+| <code>pane_id</code> | <code>PaneId</code> | The pane this client is focused on |
+| <code>running_command</code> | <code>String</code> | Stringified command or plugin name in the focused pane |
+| <code>is_current_client</code> | <code>bool</code> | Whether this is the client associated with the requesting plugin |</p>
+</blockquote>
 <hr />
 <h2 id="modeinfo"><a class="header" href="#modeinfo"><code>ModeInfo</code></a></h2>
 <p>Information about the current input mode, keybindings, and session metadata. Delivered via the <code>ModeUpdate</code> event.</p>
@@ -886,6 +935,8 @@ open_command_pane(cmd, BTreeMap::new());
     pub nested_ascend_keys: Vec&lt;KeyWithModifier&gt;,
     pub session_ascended: Option&lt;bool&gt;,
     pub nested_descend_keys: Vec&lt;KeyWithModifier&gt;,
+    pub remote_client: Option&lt;String&gt;,
+    pub hidden_bars: HiddenBars,
 }
 <span class="boring">}</span></code></pre></pre>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
@@ -911,9 +962,13 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>nested_ascend_keys</code></td><td><code>Vec&lt;</code><a href="#keywithmodifier"><code>KeyWithModifier</code></a><code>&gt;</code></td><td>Keys bound to <code>FocusHostSession</code></td></tr>
 <tr><td><code>session_ascended</code></td><td><code>Option&lt;bool&gt;</code></td><td>Whether focus has been handed back up to the host session</td></tr>
 <tr><td><code>nested_descend_keys</code></td><td><code>Vec&lt;</code><a href="#keywithmodifier"><code>KeyWithModifier</code></a><code>&gt;</code></td><td>Keys bound to <code>FocusGuestSession</code></td></tr>
+<tr><td><code>remote_client</code></td><td><code>Option&lt;String&gt;</code></td><td>How this client is connected, for display (eg. <code>"from a terminal"</code>, <code>"from a terminal, over SSH from 10.0.0.2"</code> or <code>"through the web server"</code>); <code>None</code> in the <a href="./zellij-terminal.html">Zellij terminal</a> desktop app</td></tr>
+<tr><td><code>hidden_bars</code></td><td><a href="#hiddenbars"><code>HiddenBars</code></a></td><td>The bars currently hidden with <a href="./plugin-api-commands.html#hide_bars"><code>hide_bars</code></a> or the matching actions</td></tr>
 </tbody></table>
 </div>
-<p>The last seven fields relate to <a href="./nested-sessions.html">nested sessions</a> and to the <a href="./options.html#pane_frame_style">pane frame style</a>. They allow plugins that render session chrome (eg. the tab-bar and status-bar) to indicate where the session sits in the nesting hierarchy and how to leave it.</p>
+<p>The seven fields from <code>pane_frame_style</code> to <code>nested_descend_keys</code> relate to <a href="./nested-sessions.html">nested sessions</a> and to the <a href="./options.html#pane_frame_style">pane frame style</a>. They allow plugins that render session chrome (eg. the tab-bar and status-bar) to indicate where the session sits in the nesting hierarchy and how to leave it.</p>
+<p><code>style</code> (of type <code>Style</code>) also has the fields <code>border_style</code> and <code>floating_border_style</code>, each a <code>BorderStyle</code> with the line style of every side (<code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>) and <code>rounded_corners</code>: the configured border style of tiled and of floating panes.</p>
+<p>The theme colors (<code>style.colors</code>, of type <code>Styling</code>) have one <code>StyleDeclaration</code> (the six colors <code>base</code>, <code>background</code> and <code>emphasis_0</code> to <code>emphasis_3</code>, each a <code>PaletteColor</code>) per <a href="./themes.html#theme-ui-components">theme component</a>, plus <code>ribbon_hover: Option&lt;StyleDeclaration&gt;</code>, which is <code>None</code> when the theme has no <a href="./themes.html#ribbon_hover"><code>ribbon_hover</code></a> section. To draw a hovered ribbon, use <code>Styling::ribbon_hover_style()</code>: it returns the hover colors that apply, including the fallback for themes without that section. Do not use <code>ribbon_unselected.emphasis_1</code> as the hover fill.</p>
 <hr />
 <h2 id="paneframestyle"><a class="header" href="#paneframestyle"><code>PaneFrameStyle</code></a></h2>
 <p>The style used to render pane frames in the session. See the <a href="./options.html#pane_frame_style"><code>pane_frame_style</code></a> option.</p>
@@ -943,9 +998,10 @@ open_command_pane(cmd, BTreeMap::new());
 <span class="boring">}</span></code></pre></pre>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>text</code></td><td><code>String</code></td><td>The text itself</td></tr>
-<tr><td><code>indices</code></td><td><code>Vec&lt;Vec&lt;usize&gt;&gt;</code></td><td>Character indices to emphasize, grouped by <a href="./plugin-ui-rendering.html">color index</a></td></tr>
+<tr><td><code>indices</code></td><td><code>Vec&lt;Vec&lt;usize&gt;&gt;</code></td><td>Character indices to emphasize, grouped by <a href="./plugin-ui-rendering.html#indices">color index</a></td></tr>
 </tbody></table>
 </div>
+<p><code>StyledText::plain(text)</code> creates a <code>StyledText</code> with no highlights, and <code>is_plain()</code> returns <code>true</code> when nothing is highlighted. A <code>StyledText</code> can also be created from a <code>&amp;str</code> or a <code>String</code> (with no highlights), or from a <code>Text</code> UI component (<code>StyledText::from(text)</code>).</p>
 <hr />
 <h2 id="mouse"><a class="header" href="#mouse"><code>Mouse</code></a></h2>
 <p>A mouse event that occurred while the user is focused on the plugin pane.</p>
@@ -961,6 +1017,7 @@ open_command_pane(cmd, BTreeMap::new());
     Hold(isize, usize),
     Release(isize, usize),
     Hover(isize, usize),
+    DoubleClick(isize, usize),
 }
 <span class="boring">}</span></code></pre></pre>
 <div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Parameters</th><th>Description</th></tr></thead><tbody>
@@ -973,8 +1030,10 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>Hold(line, col)</code></td><td><code>isize, usize</code> - line and column</td><td>Mouse button held (drag)</td></tr>
 <tr><td><code>Release(line, col)</code></td><td><code>isize, usize</code> - line and column</td><td>Mouse button released</td></tr>
 <tr><td><code>Hover(line, col)</code></td><td><code>isize, usize</code> - line and column</td><td>Mouse moved without button pressed</td></tr>
+<tr><td><code>DoubleClick(line, col)</code></td><td><code>isize, usize</code> - line and column</td><td>Left mouse button double-clicked (not sent while <a href="./plugin-api-commands.html#set_self_mouse_selection_support">mouse selection support</a> is enabled)</td></tr>
 </tbody></table>
 </div>
+<p>The modifier keys held during a mouse event are returned by <a href="./plugin-api-commands.html#mouse_modifiers"><code>mouse_modifiers</code></a>.</p>
 <hr />
 <h2 id="copydestination"><a class="header" href="#copydestination"><code>CopyDestination</code></a></h2>
 <p>Specifies where text was copied to.</p>
@@ -1094,6 +1153,7 @@ open_command_pane(cmd, BTreeMap::new());
     pub pane_id: Option&lt;(u32, bool)&gt;,
     pub layout: Option&lt;LayoutInfo&gt;,
     pub cwd: Option&lt;PathBuf&gt;,
+    pub switch_context: Option&lt;SwitchContext&gt;,
 }
 <span class="boring">}</span></code></pre></pre>
 <div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
@@ -1102,8 +1162,16 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>pane_id</code></td><td><code>Option&lt;(u32, bool)&gt;</code></td><td>Pane to focus: <code>(id, is_plugin)</code></td></tr>
 <tr><td><code>layout</code></td><td><code>Option&lt;LayoutInfo&gt;</code></td><td>Layout to apply when creating a new session</td></tr>
 <tr><td><code>cwd</code></td><td><code>Option&lt;PathBuf&gt;</code></td><td>Working directory for the new session</td></tr>
+<tr><td><code>switch_context</code></td><td><code>Option&lt;SwitchContext&gt;</code></td><td>Extra options for the switch (see below)</td></tr>
 </tbody></table>
 </div>
+<p>Of <code>SwitchContext</code>, plugins can set two fields (the others are filled in by Zellij):</p>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>startup_card</code></td><td><code>Option&lt;StartupCard&gt;</code></td><td>Whether to show the session card on arrival: <code>Attention</code> (only when a pane is waiting for the user), <code>Always</code> or <code>Never</code></td></tr>
+<tr><td><code>disconnect_others</code></td><td><code>bool</code></td><td>Disconnect all other clients from the target session once this client is attached</td></tr>
+</tbody></table>
+</div>
+<p><code>ConnectToSession</code> implements <code>Default</code>, so it can be built with <code>..Default::default()</code>.</p>
 <hr />
 <h2 id="action"><a class="header" href="#action"><code>Action</code></a></h2>
 <p>The <code>Action</code> enum represents all possible Zellij actions that can be triggered programmatically via <code>run_action</code>. The full enum has many variants; the most commonly used ones are listed below:</p>
@@ -1140,6 +1208,13 @@ open_command_pane(cmd, BTreeMap::new());
 <tr><td><code>ScrollToPreviousPrompt</code> / <code>ScrollToNextPrompt</code></td><td>Jump between shell prompts in the scrollback (<a href="./shell-integration.html">OSC 133</a>)</td></tr>
 <tr><td><code>SelectCommandAtScrollPosition</code></td><td>Select the command and output at the scroll position (<a href="./shell-integration.html">OSC 133</a>)</td></tr>
 <tr><td><code>CopyLastCommandOutput</code></td><td>Copy the last command's output to the clipboard (<a href="./shell-integration.html">OSC 133</a>)</td></tr>
+<tr><td><code>ApplyTiledSwapLayout</code> / <code>ApplyFloatingSwapLayout</code></td><td>Apply a <a href="./swap-layouts.html">swap layout</a> by name</td></tr>
+<tr><td><code>SetPaneBorderStyle</code></td><td>Set the border line style of a pane</td></tr>
+<tr><td><code>ToggleBars</code> / <code>HideBars</code> / <code>ShowBars</code></td><td>Hide or show bars at runtime</td></tr>
+<tr><td><code>CloseFocusByPaneId</code>, <code>ToggleFocusFullscreenByPaneId</code>, <code>TogglePaneEmbedOrFloatingByPaneId</code>, <code>TogglePanePinnedByPaneId</code>, <code>TogglePaneInGroupByPaneId</code>, <code>StartRenamePaneByPaneId</code></td><td>Pane actions that target a specific pane</td></tr>
+<tr><td><code>StartRenameTabByTabId</code>, <code>MoveTabByTabId</code>, <code>MoveTabToPosition</code></td><td>Tab actions that target a specific tab</td></tr>
+<tr><td><code>MutePane</code>, <code>IgnorePaneOutput</code>, <code>WatchPane</code>, <code>MuteTab</code>, <code>MuteSession</code>, <code>MarkPaneSeen</code>, <code>MarkAllSeen</code>, <code>GoToNextAttention</code></td><td>Attention controls (see the <a href="./inbox.html">inbox</a>)</td></tr>
+<tr><td><code>GoToPreviousSession</code> / <code>GoToNextSession</code> / <code>ToggleSession</code></td><td>Move through the session history</td></tr>
 </tbody></table>
 </div>
 <p>For the complete list, see the <a href="https://github.com/zellij-org/zellij/blob/main/zellij-utils/src/input/actions.rs">source code</a>.</p>
@@ -1197,9 +1272,753 @@ open_command_pane(cmd, BTreeMap::new());
     SoftKeyboardVisibilityChanged,
     HintText,
     ActivePaneScroll,
+    MouseWithModifiers,
+    NestedSessionModeUpdate,
+    NestedSessionEnded,
+    ContextMenu,
+    ConfigChangesDropped,
+    AvailableKeybindPresets,
+    ConfigFileChangedSinceRead,
+    PromptResult,
+    SessionSuggestions,
+    SessionCountsUpdate,
+    FolderSessionsUpdate,
+    TerminalCommandSubmitted,
+    SessionPreview,
+    SavedSessionPreview,
+    PaneAttentionChanged,
+    PromptShown,
+    CommandStarted,
+    CommandFinished,
+    GlobalAttentionUpdate,
+    SessionHistoryUpdate,
+    DesktopIntegration,
+    PluginSettingsEntries,
+    LiveViewStateChanged,
 }
 <span class="boring">}</span></code></pre></pre>
-<p>See <a href="./plugin-api-events.html">Events</a> for details on each event and its payload.</p>
+<p>See <a href="./plugin-api-events.html">Events</a> for details on each event and its payload. <code>MouseWithModifiers</code> is used inside Zellij only: subscribing to it is the same as subscribing to <code>Mouse</code>.</p>
+<hr />
+<h2 id="borderstyleoverride"><a class="header" href="#borderstyleoverride"><code>BorderStyleOverride</code></a></h2>
+<p>The border line style of a single pane, side by side. Used by <a href="./plugin-api-commands.html#set_pane_border_style"><code>set_pane_border_style</code></a> and by the <code>border_style</code> field of <a href="#filetoopen"><code>FileToOpen</code></a>, <a href="#commandtorun"><code>CommandToRun</code></a> and <a href="#floatingpanecoordinates"><code>FloatingPaneCoordinates</code></a>. Every field left as <code>None</code> keeps the configured style.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct BorderStyleOverride {
+    pub all: Option&lt;LineStyle&gt;,
+    pub top: Option&lt;LineStyle&gt;,
+    pub right: Option&lt;LineStyle&gt;,
+    pub bottom: Option&lt;LineStyle&gt;,
+    pub left: Option&lt;LineStyle&gt;,
+    pub rounded_corners: Option&lt;bool&gt;,
+}
+
+pub enum LineStyle {
+    Single,
+    Double,
+    Heavy,
+    Dashed,
+    HeavyDashed,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>all</code></td><td><code>Option&lt;LineStyle&gt;</code></td><td>Style for every side that does not set its own</td></tr>
+<tr><td><code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code></td><td><code>Option&lt;LineStyle&gt;</code></td><td>Style for one side; takes precedence over <code>all</code></td></tr>
+<tr><td><code>rounded_corners</code></td><td><code>Option&lt;bool&gt;</code></td><td>Whether the corners are rounded</td></tr>
+</tbody></table>
+</div>
+<p><code>BorderStyleOverride</code> implements <code>Default</code>. <code>BorderStyleOverride::from_cli_string</code> parses the same text as the command line, eg. <code>"double"</code> or <code>"top:double,left:heavy,rounded"</code>.</p>
+<hr />
+<h2 id="hiddenbars"><a class="header" href="#hiddenbars"><code>HiddenBars</code></a></h2>
+<p>The bars currently hidden, as reported in <a href="#modeinfo"><code>ModeInfo</code></a>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum HiddenBars {
+    None,
+    All,
+    Named(BTreeSet&lt;String&gt;),
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>None</code></td><td>No bar is hidden</td></tr>
+<tr><td><code>All</code></td><td>All bars are hidden</td></tr>
+<tr><td><code>Named(names)</code></td><td>The bars with these names are hidden (eg. <code>tab-bar</code>, <code>status-bar</code>, <code>compact-bar</code>, or a plugin alias or location)</td></tr>
+</tbody></table>
+</div>
+<p><code>hidden_bars.hides("tab-bar")</code> tells whether a specific bar is hidden. The constants <code>ALL_BARS</code>, <code>TAB_BAR</code>, <code>STATUS_BAR</code> and <code>COMPACT_BAR</code> hold the built-in names.</p>
+<hr />
+<h2 id="mousetrigger"><a class="header" href="#mousetrigger"><code>MouseTrigger</code></a></h2>
+<p>A mouse button press, as used in <a href="./mouse-bindings.html">mouse bindings</a> and <a href="./plugin-api-commands.html#reset_mousebinds"><code>reset_mousebinds</code></a>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct MouseTrigger {
+    pub button: MouseButton,
+    pub modifiers: BTreeSet&lt;KeyModifier&gt;,
+    pub click_count: u8,
+    pub target: MouseTarget,
+}
+
+pub enum MouseButton {
+    Left,
+    Right,
+    Middle,
+    ScrollUp,
+    ScrollDown,
+    ScrollLeft,
+    ScrollRight,
+}
+
+pub enum MouseTarget {
+    Any,
+    Content,
+    Frame,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>button</code></td><td><code>MouseButton</code></td><td>The button (or wheel direction)</td></tr>
+<tr><td><code>modifiers</code></td><td><code>BTreeSet&lt;KeyModifier&gt;</code></td><td>Modifier keys held</td></tr>
+<tr><td><code>click_count</code></td><td><code>u8</code></td><td><code>1</code> for a click, <code>2</code> for a double click</td></tr>
+<tr><td><code>target</code></td><td><code>MouseTarget</code></td><td>Where the press happens: anywhere (default), in pane content, or on a pane frame</td></tr>
+</tbody></table>
+</div>
+<p><code>MouseTrigger::new(button)</code> builds one, and <code>.with_modifiers()</code>, <code>.with_click_count()</code> and <code>.with_target()</code> change it.</p>
+<hr />
+<h2 id="popupoptions"><a class="header" href="#popupoptions"><code>PopupOptions</code></a></h2>
+<p>How a popup opened with <a href="./plugin-api-commands.html#open_plugin_popup_with_options"><code>open_plugin_popup_with_options</code></a> behaves. The struct is marked <code>#[non_exhaustive]</code>: build it with <code>PopupOptions::default()</code> and the builder methods <code>.focused()</code>, <code>.corner()</code>, <code>.capture_all_keys()</code> and <code>.outside_click()</code>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct PopupOptions {
+    pub focused: bool,
+    pub corner: Option&lt;PopupCorner&gt;,
+    pub capture_all_keys: bool,
+    pub outside_click: Option&lt;OutsideClick&gt;,
+}
+
+pub enum PopupCorner {
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight,
+}
+
+pub enum OutsideClick {
+    Block,
+    Close,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>focused</code></td><td><code>bool</code></td><td><code>true</code></td><td><code>true</code> for a menu-like popup that takes key focus and replaces the user's other open menus; <code>false</code> for an information popup that does not take key focus</td></tr>
+<tr><td><code>corner</code></td><td><code>Option&lt;PopupCorner&gt;</code></td><td><code>None</code></td><td>Place the popup in this corner of the screen instead of at the requested position</td></tr>
+<tr><td><code>capture_all_keys</code></td><td><code>bool</code></td><td><code>false</code></td><td>Send every key to the popup, including the ones bound to Zellij actions</td></tr>
+<tr><td><code>outside_click</code></td><td><code>Option&lt;OutsideClick&gt;</code></td><td><code>None</code></td><td>What a click outside the popup does: <code>Block</code> ignores it, <code>Close</code> closes the popup. <code>None</code> means <code>Close</code> for focused popups and <code>Block</code> for the others</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="promptrequest"><a class="header" href="#promptrequest"><code>PromptRequest</code></a></h2>
+<p>A question to ask with <a href="./plugin-api-commands.html#prompt"><code>prompt</code></a>. It is marked <code>#[non_exhaustive]</code>: build it with one of the constructors below and the builder methods.</p>
+<div class="table-wrapper"><table><thead><tr><th>Constructor</th><th>Asks for</th><th>Answer</th></tr></thead><tbody>
+<tr><td><code>PromptRequest::confirm(message)</code></td><td>Yes or no</td><td><code>PromptResult::Confirmed(bool)</code></td></tr>
+<tr><td><code>PromptRequest::choose(items)</code></td><td>One item of a list (several with <code>.multi()</code>)</td><td><code>PromptValue::Choice</code>, or <code>PromptValue::Choices</code> with <code>.multi()</code></td></tr>
+<tr><td><code>PromptRequest::input(message)</code></td><td>A line of text</td><td><code>PromptValue::Text</code></td></tr>
+<tr><td><code>PromptRequest::number(message)</code></td><td>A whole number</td><td><code>PromptValue::Number</code></td></tr>
+<tr><td><code>PromptRequest::toggle(message)</code></td><td>On or off</td><td><code>PromptValue::Bool</code></td></tr>
+<tr><td><code>PromptRequest::select(message, options)</code></td><td>One option of a dropdown</td><td><code>PromptValue::Choice</code></td></tr>
+<tr><td><code>PromptRequest::menu(items)</code></td><td>An action from a menu</td><td><code>PromptValue::Choice</code> with the value of the chosen item</td></tr>
+<tr><td><code>PromptRequest::form(fields)</code> / <code>PromptRequest::form_spec(spec)</code></td><td>Several fields at once</td><td><code>PromptValue::Form</code>, keyed by field id</td></tr>
+<tr><td><code>PromptRequest::notify(message)</code></td><td>Nothing: a notice in the top right corner that does not take focus</td><td><code>PromptValue::Bool(true)</code> only if the user clicks it; no result if it closes otherwise</td></tr>
+<tr><td><code>PromptRequest::info(title, message)</code></td><td>Nothing: an information popup</td><td>-</td></tr>
+</tbody></table>
+</div>
+<p>Builder methods that apply to every request:</p>
+<div class="table-wrapper"><table><thead><tr><th>Method</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>.title(title)</code></td><td>Title shown at the top of the popup</td></tr>
+<tr><td><code>.message(text)</code></td><td>The question, or the text above the fields of a form (accepts a <code>Text</code> to color parts of it)</td></tr>
+<tr><td><code>.timeout(duration)</code></td><td>Close the prompt after this long; the answer is then <code>PromptResult::TimedOut</code></td></tr>
+<tr><td><code>.default(value)</code></td><td>The initial value, and the answer used when the timeout runs out</td></tr>
+<tr><td><code>.placement(placement)</code></td><td>Where to open: <code>PromptPlacement::Pane(pane_id)</code>, <code>Center</code>, <code>Mouse</code>, <code>Cursor</code> or <code>Corner(corner)</code>; by default over the calling plugin's pane</td></tr>
+<tr><td><code>.focused(bool)</code></td><td>Whether the popup takes key focus (all elements except <code>notify</code> do by default)</td></tr>
+<tr><td><code>.capture_all_keys(bool)</code></td><td>Send every key to the popup, including the ones bound to Zellij actions</td></tr>
+<tr><td><code>.outside_click(OutsideClick)</code></td><td>What a click outside does; by default <code>Close</code> for <code>info</code> and <code>Block</code> for the others</td></tr>
+</tbody></table>
+</div>
+<p>Builder methods for specific elements: <code>.yes(label)</code> and <code>.no(label)</code> (confirm), <code>.multi()</code> and <code>.selected(values)</code> (choose), <code>.placeholder(text)</code>, <code>.validate(regex)</code> and <code>.required()</code> (input), <code>.min(n)</code> and <code>.max(n)</code> (number), <code>.remember(label)</code> and <code>.padded()</code> (menu), and <code>.buttons(submit, cancel)</code> (form). Items are <code>ChoiceItem</code>s, which can be built from a <code>&amp;str</code>, a <code>String</code> or a <code>(value, label)</code> pair.</p>
+<p>Form fields are built with <code>FormField::input(id, label)</code>, <code>FormField::toggle(id, label)</code>, <code>FormField::number(id, label)</code>, <code>FormField::select(id, label, options)</code> and <code>FormField::choose(id, label, options)</code>, then refined with <code>.required()</code>, <code>.validate(regex)</code>, <code>.placeholder(text)</code>, <code>.multi()</code>, <code>.min(n)</code>, <code>.max(n)</code>, <code>.step(n)</code> and <code>.default_value(value)</code>. A <code>FormSpec</code> (<code>FormSpec::new(fields)</code> with <code>.title()</code>, <code>.message()</code> and <code>.buttons()</code>) gives the form its own title and button labels.</p>
+<p><strong>Example:</strong></p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let request = PromptRequest::form(vec![
+    FormField::input("name", "Name").required(),
+    FormField::toggle("public", "Public"),
+])
+.title("New project")
+.timeout(Duration::from_secs(60));
+self.form_request = Some(prompt(request));
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="promptresult"><a class="header" href="#promptresult"><code>PromptResult</code></a></h2>
+<p>The answer to a <a href="./plugin-api-commands.html#prompt"><code>prompt</code></a>, delivered with the <a href="./plugin-api-events.html#promptresult"><code>PromptResult</code></a> event.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum PromptResult {
+    Answered(PromptValue),
+    Confirmed(bool),
+    Cancelled,
+    TimedOut(Option&lt;PromptValue&gt;),
+    Error(String),
+}
+
+pub enum PromptValue {
+    Text(String),
+    Number(i64),
+    Bool(bool),
+    Choice(String),
+    Choices(Vec&lt;String&gt;),
+    Form(BTreeMap&lt;String, PromptValue&gt;),
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>Answered(value)</code></td><td>The user answered; see <a href="#promptrequest"><code>PromptRequest</code></a> for which <code>PromptValue</code> each element gives</td></tr>
+<tr><td><code>Confirmed(answer)</code></td><td>The answer to a <code>confirm</code> prompt</td></tr>
+<tr><td><code>Cancelled</code></td><td>The user dismissed the prompt</td></tr>
+<tr><td><code>TimedOut(default)</code></td><td>The timeout passed; carries the default value, if any</td></tr>
+<tr><td><code>Error(message)</code></td><td>The request was invalid or the popup could not be opened</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="contextmenutarget"><a class="header" href="#contextmenutarget"><code>ContextMenuTarget</code></a></h2>
+<p>What a context menu opened with <a href="./plugin-api-commands.html#open_context_menu"><code>open_context_menu</code></a> is about.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum ContextMenuTarget {
+    Tab(usize),
+    Bar,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Variant</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>Tab(position)</code></td><td>The tab at this position (0-indexed)</td></tr>
+<tr><td><code>Bar</code></td><td>The bar plugin that opens the menu</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="contextmenucontext"><a class="header" href="#contextmenucontext"><code>ContextMenuContext</code></a></h2>
+<p>What was right-clicked, delivered with the <a href="./plugin-api-events.html#contextmenu"><code>ContextMenu</code></a> event together with the entries to show.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct ContextMenuContext {
+    pub kind: ContextMenuKind,
+    pub pane_id: Option&lt;PaneId&gt;,
+    pub pane_is_floating: bool,
+    pub tab_index: Option&lt;usize&gt;,
+    pub tab_id: Option&lt;usize&gt;,
+    pub tab_count: usize,
+    pub line: usize,
+    pub column: usize,
+    pub client_id: ClientId,
+    pub paste_shortcut: Option&lt;String&gt;,
+}
+
+pub enum ContextMenuKind {
+    Pane,
+    PaneFrame,
+    Tab,
+    Bar,
+}
+
+pub enum ContextMenuEntry {
+    Item {
+        label: String,
+        actions: Vec&lt;ContextMenuAction&gt;,
+        toggled_label: Option&lt;String&gt;,
+    },
+    Separator,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>kind</code></td><td><code>ContextMenuKind</code></td><td>Whether a pane's content, a pane frame, a tab or a bar was clicked</td></tr>
+<tr><td><code>pane_id</code></td><td><code>Option&lt;PaneId&gt;</code></td><td>The pane clicked, if any</td></tr>
+<tr><td><code>pane_is_floating</code></td><td><code>bool</code></td><td>Whether that pane is floating</td></tr>
+<tr><td><code>tab_index</code> / <code>tab_id</code></td><td><code>Option&lt;usize&gt;</code></td><td>Position and id of the tab clicked, if any</td></tr>
+<tr><td><code>tab_count</code></td><td><code>usize</code></td><td>Number of tabs</td></tr>
+<tr><td><code>line</code> / <code>column</code></td><td><code>usize</code></td><td>Screen position of the click</td></tr>
+<tr><td><code>client_id</code></td><td><code>ClientId</code></td><td>The user who clicked</td></tr>
+<tr><td><code>paste_shortcut</code></td><td><code>Option&lt;String&gt;</code></td><td>The key that pastes from the clipboard, for display</td></tr>
+</tbody></table>
+</div>
+<p>Each <code>ContextMenuEntry::Item</code> has a label and the actions it runs (a <code>ContextMenuAction</code> is either a plain <code>Action</code> or an action on the clicked pane or tab). For items that toggle something, Zellij picks the right label (<code>label</code> or <code>toggled_label</code>) before sending the entries, so the <code>label</code> received is the one to show.</p>
+<hr />
+<h2 id="pluginsettingsentry"><a class="header" href="#pluginsettingsentry"><code>PluginSettingsEntry</code></a></h2>
+<p>An entry a plugin added to the settings screen with <a href="./plugin-api-commands.html#register_settings_entry"><code>register_settings_entry</code></a>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct PluginSettingsEntry {
+    pub plugin_id: u32,
+    pub title: String,
+}
+<span class="boring">}</span></code></pre></pre>
+<p>The constants <code>OPEN_PLUGIN_SETTINGS_MESSAGE</code> (<code>"zellij:open_plugin_settings"</code>) and <code>OPEN_PLUGIN_SETTINGS_CLIENT_ID_ARG</code> (<code>"client_id"</code>) are the name and argument of the pipe message sent to the plugin when its entry is selected.</p>
+<hr />
+<h2 id="slot"><a class="header" href="#slot"><code>Slot</code></a></h2>
+<p>Types used by <a href="./plugin-lifecycle.html#shared-plugins">shared plugins</a>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub type SlotId = u32;
+
+pub struct Slot {
+    pub id: SlotId,
+    pub kind: SlotKind,
+    pub configuration: BTreeMap&lt;String, String&gt;,
+}
+
+pub enum SlotKind {
+    Pane,
+    Background,
+}
+
+pub struct EventContext {
+    pub slot_id: Option&lt;SlotId&gt;,
+    pub client_id: Option&lt;ClientId&gt;,
+}
+
+pub enum RenderResponse {
+    Nothing,
+    All,
+    Client(ClientId),
+    Slots(Vec&lt;SlotId&gt;),
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>Slot</code></td><td>One use of a shared plugin: a pane (<code>SlotKind::Pane</code>) or a background load, eg. from <code>load_plugins</code> (<code>SlotKind::Background</code>). Its id is the plugin id of that pane, and <code>configuration</code> is the configuration it was opened with</td></tr>
+<tr><td><code>EventContext</code></td><td>The slot an event is about (for events tied to one pane, eg. <code>Key</code>, <code>Mouse</code>, <code>PastedText</code>, <code>Visible</code>, <code>PermissionRequestResult</code> and <code>PluginConfigurationChanged</code>) and the client it came from, when known</td></tr>
+<tr><td><code>RenderResponse</code></td><td>What to render after an event: nothing (default), every slot for every client, every slot as seen by one client, or specific slots</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="nestedsessionkeybinds"><a class="header" href="#nestedsessionkeybinds"><code>NestedSessionKeybinds</code></a></h2>
+<p>Returned by <a href="./plugin-api-commands.html#get_nested_session_keybinds"><code>get_nested_session_keybinds</code></a>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub type NestedSessionKeybindsResponse = Result&lt;NestedSessionKeybinds, NestedSessionKeybindsError&gt;;
+
+pub struct NestedSessionKeybinds {
+    pub session_path: Vec&lt;String&gt;,
+    pub mode: InputMode,
+    pub base_mode: Option&lt;InputMode&gt;,
+    pub keybinds: KeybindsVec,
+    pub keybinds_generation: u64,
+}
+
+pub enum NestedSessionKeybindsError {
+    NotANestedSession,
+    NotSupported,
+    GuestUnresponsive,
+    GuestGone,
+    TooLarge,
+    Timeout,
+}
+
+pub enum NestedSessionEndReason {
+    Exited,
+    Unresponsive,
+}
+<span class="boring">}</span></code></pre></pre>
+<p><code>keybinds</code> has the same shape as the keybindings of <a href="./plugin-api-events.html#initialkeybinds"><code>InitialKeybinds</code></a>. <code>session_path</code>, <code>mode</code>, <code>base_mode</code> and <code>keybinds_generation</code> mean the same as in <a href="./plugin-api-events.html#nestedsessionmodeupdate"><code>NestedSessionModeUpdate</code></a>.</p>
+<div class="table-wrapper"><table><thead><tr><th>Error</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>NotANestedSession</code></td><td>No nested session runs in this pane</td></tr>
+<tr><td><code>NotSupported</code></td><td>The nested session cannot report its keybindings (eg. an older Zellij version)</td></tr>
+<tr><td><code>GuestUnresponsive</code></td><td>The nested session is not responding</td></tr>
+<tr><td><code>GuestGone</code></td><td>The nested session has ended</td></tr>
+<tr><td><code>TooLarge</code></td><td>The keybindings are too large to send</td></tr>
+<tr><td><code>Timeout</code></td><td>No answer arrived in time</td></tr>
+</tbody></table>
+</div>
+<p><code>NestedSessionEndReason</code> is the reason given by <a href="./plugin-api-events.html#nestedsessionended"><code>NestedSessionEnded</code></a>.</p>
+<hr />
+<h2 id="paneattention"><a class="header" href="#paneattention"><code>PaneAttention</code></a></h2>
+<p>The attention state of a pane: whether it is working, done, failed, waiting for the user, and so on. See the <a href="./inbox.html">inbox</a>. Found in <a href="#paneinfo"><code>PaneInfo</code></a> and in the <a href="./plugin-api-events.html#paneattentionchanged"><code>PaneAttentionChanged</code></a> event.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct PaneAttention {
+    pub status: AttentionStatus,
+    pub source: Option&lt;AttentionSource&gt;,
+    pub text: String,
+    pub detail: AttentionDetail,
+    pub since_ms: u64,
+    pub changed_ms: u64,
+    pub seen: bool,
+    pub muted: Option&lt;MuteScope&gt;,
+    pub ignore_output: bool,
+    pub watched: bool,
+    pub from_watch: bool,
+    pub remembered: Option&lt;RememberedStatus&gt;,
+}
+
+pub enum AttentionStatus {
+    Idle,
+    Working,
+    NewOutput,
+    Quiet,
+    Done,
+    Failed,
+    NeedsYou,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>status</code></td><td><code>AttentionStatus</code></td><td>The state, from least to most urgent: <code>Idle</code>, <code>Working</code>, <code>NewOutput</code>, <code>Quiet</code>, <code>Done</code>, <code>Failed</code>, <code>NeedsYou</code></td></tr>
+<tr><td><code>source</code></td><td><code>Option&lt;AttentionSource&gt;</code></td><td>What set it: <code>ProgramStatus</code>, <code>Notification</code>, <code>Bell</code>, <code>CommandPane</code>, <code>ShellCommand</code>, <code>ForegroundProcess</code>, <code>IdleRule</code>, <code>Watch</code> or <code>UnseenOutput</code></td></tr>
+<tr><td><code>text</code></td><td><code>String</code></td><td>Short description, for display</td></tr>
+<tr><td><code>detail</code></td><td><code>AttentionDetail</code></td><td>More detail when known: the kind of block (<code>BlockedKind</code>: <code>Permission</code>, <code>Question</code>, <code>Auth</code>), progress, app, title, body, exit code, duration and command</td></tr>
+<tr><td><code>since_ms</code> / <code>changed_ms</code></td><td><code>u64</code></td><td>When the status started and last changed (milliseconds since the Unix epoch)</td></tr>
+<tr><td><code>seen</code></td><td><code>bool</code></td><td>Whether the user has seen it</td></tr>
+<tr><td><code>muted</code></td><td><code>Option&lt;MuteScope&gt;</code></td><td>Whether it is muted, and by what: <code>Pane</code>, <code>Tab</code> or <code>Session</code></td></tr>
+<tr><td><code>ignore_output</code></td><td><code>bool</code></td><td>Whether new output of the pane is ignored</td></tr>
+<tr><td><code>watched</code> / <code>from_watch</code></td><td><code>bool</code></td><td>Whether the pane is watched, and whether this status came from the watch</td></tr>
+<tr><td><code>remembered</code></td><td><code>Option&lt;RememberedStatus&gt;</code></td><td>An earlier status kept for display (<code>status</code>, <code>text</code>, <code>since_ms</code>)</td></tr>
+</tbody></table>
+</div>
+<p>Related types:</p>
+<ul>
+<li><code>TabAttention</code> (in <a href="#tabinfo"><code>TabInfo</code></a>): <code>status</code>, <code>counts</code> and <code>muted</code> for a whole tab.</li>
+<li><code>AttentionCounts</code>: the number of panes in each state (<code>needs_you</code>, <code>failed</code>, <code>done</code>, <code>working</code>, <code>quiet</code>, <code>new_output</code>) and of muted panes (<code>muted</code>).</li>
+<li><code>CommandState</code> (in <a href="#paneinfo"><code>PaneInfo</code></a>): <code>phase</code> (<code>Unknown</code>, <code>AtPrompt</code>, <code>Typing</code>, <code>Running</code>, <code>Finished</code>), the <code>running</code> command and when it started, the <code>last</code> <code>CommandOutcome</code>, the <code>cwd</code> the shell reported, and <code>reports_markers</code> (whether the shell reports prompts and commands).</li>
+<li><code>CommandOutcome</code> (in <a href="./plugin-api-events.html#commandfinished"><code>CommandFinished</code></a>): <code>result</code> (<code>Succeeded</code>, <code>Failed</code> or <code>Unknown</code>), <code>exit_code</code>, <code>err</code>, <code>duration_ms</code>, <code>ended_ms</code> and <code>command</code>.</li>
+<li><code>CommandText</code>: the <code>text</code> of a command and its <code>source</code> (<code>Shell</code>, <code>Screen</code> or <code>Process</code>). Left out without the <a href="./plugin-api-permissions.html#readpanecontents"><code>ReadPaneContents</code></a> permission.</li>
+<li><code>ProgramStatusRecord</code> (in <a href="#paneinfo"><code>PaneInfo</code></a>): a status reported by a program in the pane, with an optional <code>id</code>, a <code>state</code> (<code>Idle</code>, <code>Working</code>, <code>Done</code>, <code>Blocked</code> or <code>Error</code>), <code>kind</code>, <code>progress</code>, <code>app</code>, <code>title</code>, <code>msg</code> and <code>updated_ms</code>.</li>
+</ul>
+<p>All of these are defined in <code>zellij_utils::attention</code>. Most are also exported by <code>zellij_tile::prelude</code>; <code>CommandState</code>, <code>CommandText</code> and <code>ProgramStatusRecord</code> are not, and are reached through the fields that hold them.</p>
+<hr />
+<h2 id="globalattention"><a class="header" href="#globalattention"><code>GlobalAttention</code></a></h2>
+<p>The attention state of every running session on the machine, delivered with the <a href="./plugin-api-events.html#globalattentionupdate"><code>GlobalAttentionUpdate</code></a> event.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct GlobalAttention {
+    pub current_session: String,
+    pub sessions: Vec&lt;GlobalSessionAttention&gt;,
+    pub items: Vec&lt;GlobalAttentionItem&gt;,
+    pub counts: AttentionCounts,
+    pub status: AttentionStatus,
+    pub badge_colors: Vec&lt;(AttentionStatus, [u8; 3])&gt;,
+    pub attention_disabled: bool,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>current_session</code></td><td><code>String</code></td><td>The session this plugin runs in</td></tr>
+<tr><td><code>sessions</code></td><td><code>Vec&lt;GlobalSessionAttention&gt;</code></td><td>Each session's <code>name</code>, whether it <code>is_current</code>, and its <code>SessionAttention</code> (<code>status</code>, <code>counts</code>, <code>muted</code>, the <code>top</code> item and all <code>items</code>)</td></tr>
+<tr><td><code>items</code></td><td><code>Vec&lt;GlobalAttentionItem&gt;</code></td><td>Every pane needing attention, with its <code>session</code> and whether it <code>is_current</code>. Each <code>AttentionItem</code> has the <code>pane_id</code>, <code>tab_id</code>, <code>tab_name</code>, <code>pane_title</code> and <a href="#paneattention"><code>PaneAttention</code></a></td></tr>
+<tr><td><code>counts</code></td><td><code>AttentionCounts</code></td><td>Totals across all sessions</td></tr>
+<tr><td><code>status</code></td><td><code>AttentionStatus</code></td><td>The most urgent status across all sessions</td></tr>
+<tr><td><code>badge_colors</code></td><td><code>Vec&lt;(AttentionStatus, [u8; 3])&gt;</code></td><td>The configured RGB color of each status</td></tr>
+<tr><td><code>attention_disabled</code></td><td><code>bool</code></td><td>Whether attention tracking is turned off in the configuration</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="sessionhistoryinfo"><a class="header" href="#sessionhistoryinfo"><code>SessionHistoryInfo</code></a></h2>
+<p>A user's session history, delivered with the <a href="./plugin-api-events.html#sessionhistoryupdate"><code>SessionHistoryUpdate</code></a> event.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct SessionHistoryInfo {
+    pub current: String,
+    pub previous: Option&lt;String&gt;,
+    pub back: Vec&lt;String&gt;,
+    pub forward: Vec&lt;String&gt;,
+    pub arrived_from: Option&lt;String&gt;,
+    pub arrival: Option&lt;SessionArrival&gt;,
+    pub arrived_at_ms: u64,
+}
+
+pub enum SessionArrival {
+    Switch,
+    Toggle,
+    Back,
+    Forward,
+    Attention { pane_id: PaneId },
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>current</code></td><td><code>String</code></td><td>The current session</td></tr>
+<tr><td><code>previous</code></td><td><code>Option&lt;String&gt;</code></td><td>The session the user would toggle back to</td></tr>
+<tr><td><code>back</code> / <code>forward</code></td><td><code>Vec&lt;String&gt;</code></td><td>Sessions to go back or forward to</td></tr>
+<tr><td><code>arrived_from</code></td><td><code>Option&lt;String&gt;</code></td><td>The session the user came from</td></tr>
+<tr><td><code>arrival</code></td><td><code>Option&lt;SessionArrival&gt;</code></td><td>How the user arrived: a switch, a toggle, back, forward, or by following a pane that needed attention</td></tr>
+<tr><td><code>arrived_at_ms</code></td><td><code>u64</code></td><td>When the user arrived</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="sessionterminalrequest"><a class="header" href="#sessionterminalrequest"><code>SessionTerminalRequest</code></a></h2>
+<p>What to open in the <a href="./zellij-terminal.html">Zellij terminal</a> desktop app, used by <a href="./plugin-api-commands.html#request_session_terminal"><code>request_session_terminal</code></a>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct SessionTerminalRequest {
+    pub session_name: Option&lt;String&gt;,
+    pub new_window: bool,
+    pub pane_id: Option&lt;PaneId&gt;,
+    pub layout: Option&lt;LayoutInfo&gt;,
+    pub cwd: Option&lt;PathBuf&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>session_name</code></td><td><code>Option&lt;String&gt;</code></td><td>The session to open; <code>None</code> creates a new session</td></tr>
+<tr><td><code>new_window</code></td><td><code>bool</code></td><td>Open a new window even if one already shows this session</td></tr>
+<tr><td><code>pane_id</code></td><td><code>Option&lt;PaneId&gt;</code></td><td>Pane to focus</td></tr>
+<tr><td><code>layout</code></td><td><code>Option&lt;LayoutInfo&gt;</code></td><td>Layout for a new session</td></tr>
+<tr><td><code>cwd</code></td><td><code>Option&lt;PathBuf&gt;</code></td><td>Working directory for a new session</td></tr>
+</tbody></table>
+</div>
+<p><code>SessionTerminalRequest::existing(session_name, pane_id, new_window)</code> and <code>SessionTerminalRequest::new_session(session_name, layout, cwd)</code> build the two common cases.</p>
+<hr />
+<h2 id="sessionsuggestions"><a class="header" href="#sessionsuggestions"><code>SessionSuggestions</code></a></h2>
+<p>Ranked sessions, delivered with the <a href="./plugin-api-events.html#sessionsuggestions"><code>SessionSuggestions</code></a> event. See <a href="./session-suggestions.html">session suggestions</a>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct SessionSuggestions {
+    pub folder: Option&lt;String&gt;,
+    pub branch: Option&lt;String&gt;,
+    pub columns: Vec&lt;SessionSuggestionColumn&gt;,
+    pub suggestions: Vec&lt;SessionSuggestion&gt;,
+    pub command_submitted: bool,
+    pub from_script: bool,
+    pub desktop_app_running: bool,
+    pub desktop_window_sessions: Vec&lt;String&gt;,
+}
+
+pub struct SessionSuggestion {
+    pub name: String,
+    pub is_running: bool,
+    pub last_used_secs_ago: u64,
+    pub created_secs_ago: u64,
+    pub folder: Option&lt;String&gt;,
+    pub folder_relation: FolderRelation,
+    pub repo: Option&lt;String&gt;,
+    pub branch: Option&lt;String&gt;,
+    pub facts: BTreeMap&lt;String, String&gt;,
+    pub tier: Option&lt;u32&gt;,
+    pub matching_columns: Vec&lt;String&gt;,
+    pub script_label: Option&lt;String&gt;,
+    pub tabs: Vec&lt;SessionPreviewTab&gt;,
+    pub connected_clients: usize,
+}
+<span class="boring">}</span></code></pre></pre>
+<p><code>folder</code> and <code>branch</code> describe where the user is now. Each suggestion's <code>folder_relation</code> is <code>Here</code>, <code>Subfolder</code> or <code>Other</code> relative to that folder. <code>columns</code> lists the extra facts (each with a <code>fact</code> key and a <code>title</code>) to show for each suggestion, read with <code>suggestion.fact_value(fact)</code>. <code>desktop_window_sessions</code> lists the sessions already open in a desktop window.</p>
+<p>The related events carry two smaller types:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct SessionCounts {
+    pub running: u32,
+    pub resumable_matching: u32,
+}
+
+pub struct FolderSessions {
+    pub folder: String,
+    pub running: Vec&lt;String&gt;,
+    pub resumable: Vec&lt;String&gt;,
+    pub full_match_running: Vec&lt;String&gt;,
+}
+<span class="boring">}</span></code></pre></pre>
+<hr />
+<h2 id="sessionpreview"><a class="header" href="#sessionpreview"><code>SessionPreview</code></a></h2>
+<p>The contents of another session, delivered with the <a href="./plugin-api-events.html#sessionpreview"><code>SessionPreview</code></a> and <a href="./plugin-api-events.html#savedsessionpreview"><code>SavedSessionPreview</code></a> events.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct SessionPreview {
+    pub session_name: String,
+    pub tab_index: Option&lt;usize&gt;,
+    pub active_tab_index: Option&lt;usize&gt;,
+    pub tab_names: Vec&lt;String&gt;,
+    pub contents: String,
+    pub pane_count: usize,
+    pub connected_clients: usize,
+    pub error: Option&lt;String&gt;,
+    pub tabs: Vec&lt;SessionPreviewTab&gt;,
+    pub pane_id: Option&lt;(u32, bool)&gt;,
+    pub anchor_line: Option&lt;usize&gt;,
+}
+
+pub struct SessionPreviewTab {
+    pub name: String,
+    pub active: bool,
+    pub panes: Vec&lt;SessionPreviewPane&gt;,
+}
+
+pub struct SessionPreviewPane {
+    pub id: u32,
+    pub is_plugin: bool,
+    pub title: String,
+    pub focused: bool,
+    pub contents: Option&lt;String&gt;,
+}
+
+pub enum PreviewAnchor {
+    Bottom,
+    LastCommandOutput,
+    NewOutputStart,
+}
+
+pub struct SavedSessionPreview {
+    pub session_name: String,
+    pub folder: Option&lt;String&gt;,
+    pub tabs: Vec&lt;SavedTabPreview&gt;,
+    pub error: Option&lt;String&gt;,
+}
+
+pub struct SavedTabPreview {
+    pub name: String,
+    pub focused: bool,
+    pub panes: Vec&lt;SavedPanePreview&gt;,
+}
+
+pub struct SavedPanePreview {
+    pub title: Option&lt;String&gt;,
+    pub command: Option&lt;String&gt;,
+    pub cwd: Option&lt;String&gt;,
+    pub contents: Option&lt;String&gt;,
+    pub focused: bool,
+}
+<span class="boring">}</span></code></pre></pre>
+<p><code>contents</code> is the screen of the previewed pane (the requested one, or the focused pane of the tab), including its ANSI color codes, and <code>error</code> is set when the preview could not be made. With an anchor, <code>anchor_line</code> is the line of <code>contents</code> the anchor points at. <code>PreviewAnchor</code> chooses where a pane preview starts: the bottom of the pane, the output of the last command, or the start of output the user has not seen yet.</p>
+<hr />
+<h2 id="liveview"><a class="header" href="#liveview"><code>LiveView</code></a></h2>
+<p>A live view of another pane inside a plugin, set with <a href="./plugin-api-commands.html#set_live_view"><code>set_live_view</code></a>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct LiveView {
+    pub target: PaneAddress,
+    pub x: usize,
+    pub y: usize,
+    pub cols: usize,
+    pub rows: usize,
+    pub resize_allowed: Option&lt;bool&gt;,
+    pub view_only: bool,
+}
+
+pub struct PaneAddress {
+    pub host: Option&lt;HostId&gt;,
+    pub session: String,
+    pub pane_id: PaneId,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>target</code></td><td><code>PaneAddress</code></td><td>The pane to show: its <code>session</code> and <code>pane_id</code>. <code>host</code> is <code>None</code> for this machine. An empty <code>session</code> shows nothing</td></tr>
+<tr><td><code>x</code>, <code>y</code>, <code>cols</code>, <code>rows</code></td><td><code>usize</code></td><td>Where in the plugin's content area to show it</td></tr>
+<tr><td><code>resize_allowed</code></td><td><code>Option&lt;bool&gt;</code></td><td>Whether the view may resize the program in the mirrored pane to its own size; <code>None</code> uses the <code>mirror_resizes_source_pane</code> option</td></tr>
+<tr><td><code>view_only</code></td><td><code>bool</code></td><td>If <code>true</code>, the view never takes input</td></tr>
+</tbody></table>
+</div>
+<p><code>LiveView::new(target, x, y, cols, rows)</code> builds one with the defaults, and <code>PaneAddress::local(session, pane_id)</code> builds a target on this machine.</p>
+<p>The state reported by <a href="./plugin-api-events.html#liveviewstatechanged"><code>LiveViewStateChanged</code></a> uses these types:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub enum MirrorState {
+    NoTarget,
+    Connecting,
+    Live,
+    Closed(MirrorClosedReason),
+}
+
+pub enum MirrorClosedReason {
+    PaneClosed,
+    PaneNotFound,
+    SessionEnding,
+    Rejected,
+    VersionMismatch,
+    UnsupportedHost,
+    ConnectionFailed,
+    ConnectionLost,
+    ProtocolError,
+    ContainsViewer,
+}
+
+pub enum LiveViewRelease {
+    Key,
+    ClickOutside,
+    FocusLost,
+    Plugin,
+    Cleared,
+    NotAllowed,
+}
+<span class="boring">}</span></code></pre></pre>
+<p><code>LiveViewRelease</code> tells why input went back to the plugin: the release key, a click outside the view, focus moving away, the plugin, the view being removed or replaced, or the capture not being allowed.</p>
+<hr />
+<h2 id="settingkey"><a class="header" href="#settingkey"><code>SettingKey</code></a></h2>
+<p>Identifies one configuration setting, for the commands under <a href="./plugin-api-commands.html#editing-the-configuration">editing the configuration</a>. There is one variant per setting (eg. <code>SettingKey::Theme</code>, <code>SettingKey::MouseMode</code>, <code>SettingKey::FrameRoundedCorners</code>).</p>
+<div class="table-wrapper"><table><thead><tr><th>Method</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>key.id()</code></td><td>The setting's full name, eg. <code>"theme"</code> or <code>"ui.pane_frames.rounded_corners"</code></td></tr>
+<tr><td><code>SettingKey::from_id(id)</code></td><td>The key for a full name</td></tr>
+<tr><td><code>key.kdl_name()</code></td><td>The name of the setting's KDL node</td></tr>
+<tr><td><code>key.requires_restart()</code></td><td>Whether a change only takes effect after a restart</td></tr>
+<tr><td><code>key.value_shape()</code></td><td>The kind of value: <code>Flag</code>, <code>Number</code>, <code>Decimal</code>, <code>Text</code>, <code>List</code> or <code>Colour</code></td></tr>
+<tr><td><code>SettingKey::all()</code></td><td>Every key</td></tr>
+</tbody></table>
+</div>
+<hr />
+<h2 id="configsnapshot"><a class="header" href="#configsnapshot"><code>ConfigSnapshot</code></a></h2>
+<p>The configuration as returned by <a href="./plugin-api-commands.html#read_config"><code>read_config</code></a>.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct ConfigSnapshot {
+    pub settings: Vec&lt;ConfigSettingState&gt;,
+    pub config_file_path: Option&lt;String&gt;,
+    pub backup_file_path: Option&lt;String&gt;,
+    pub pending_restart_settings: Vec&lt;SettingKey&gt;,
+    pub theme_names: Vec&lt;String&gt;,
+    pub plugin_aliases: Vec&lt;String&gt;,
+    pub load_plugins: Vec&lt;String&gt;,
+    pub env_vars: Vec&lt;String&gt;,
+    pub context_menu_items: Vec&lt;String&gt;,
+    pub blocks: ConfigBlocks,
+    pub saved_blocks: ConfigBlocks,
+    pub default_blocks: ConfigBlocks,
+    pub keybindings: Vec&lt;KeybindingEntry&gt;,
+    pub keybinds: KeybindsSelectionSnapshot,
+    pub mousebindings: Vec&lt;MousebindingEntry&gt;,
+    pub font_families: Vec&lt;String&gt;,
+}
+
+pub struct ConfigSettingState {
+    pub key: SettingKey,
+    pub saved_value: Option&lt;String&gt;,
+    pub current_value: Option&lt;String&gt;,
+    pub set_in_file: bool,
+}
+<span class="boring">}</span></code></pre></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>settings</code></td><td>Each setting's saved and current value (a setting is unsaved when they differ), and whether it is set in the file</td></tr>
+<tr><td><code>config_file_path</code> / <code>backup_file_path</code></td><td>The configuration file and its backup</td></tr>
+<tr><td><code>pending_restart_settings</code></td><td>Changed settings that only take effect after a restart</td></tr>
+<tr><td><code>theme_names</code>, <code>plugin_aliases</code>, <code>load_plugins</code>, <code>env_vars</code>, <code>context_menu_items</code></td><td>Names available for display</td></tr>
+<tr><td><code>blocks</code>, <code>saved_blocks</code>, <code>default_blocks</code></td><td>The current, saved and default configuration blocks (<code>ConfigBlocks</code>: plugin aliases, <code>load_plugins</code>, <code>env</code>, context menu sections and themes)</td></tr>
+<tr><td><code>keybindings</code></td><td>Every keybinding (<code>KeybindingEntry</code>: mode, key, actions, where it comes from, and whether it is unbound or unsaved)</td></tr>
+<tr><td><code>keybinds</code></td><td>The selected keybinding preset and its values (<code>KeybindsSelectionSnapshot</code>)</td></tr>
+<tr><td><code>mousebindings</code></td><td>Every mouse binding (<code>MousebindingEntry</code>), like <code>keybindings</code></td></tr>
+<tr><td><code>font_families</code></td><td>Font families available to the <a href="./zellij-terminal.html">Zellij terminal</a></td></tr>
+</tbody></table>
+</div>
+<p><code>snapshot.setting(key)</code> finds one setting and <code>snapshot.unsaved_count()</code> counts the unsaved ones.</p>
+<hr />
+<h2 id="keybindpresetinfo"><a class="header" href="#keybindpresetinfo"><code>KeybindPresetInfo</code></a></h2>
+<p>A keybinding preset, delivered with the <a href="./plugin-api-events.html#availablekeybindpresets"><code>AvailableKeybindPresets</code></a> event.</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub struct KeybindPresetInfo {
+    pub name: String,
+    pub display_name: String,
+    pub description: Option&lt;String&gt;,
+    pub source: KeybindPresetSource,
+    pub placeholders: Vec&lt;String&gt;,
+    pub path: Option&lt;String&gt;,
+    pub examples: Vec&lt;(String, String)&gt;,
+}
+
+pub enum KeybindPresetSource {
+    BuiltIn,
+    Folder,
+    File,
+}
+
+pub struct KeybindPresetWithError {
+    pub name: String,
+    pub path: String,
+    pub error: String,
+}
+<span class="boring">}</span></code></pre></pre>
+<p><code>placeholders</code> are the names of the values the preset lets the user choose, and <code>examples</code> are pairs of keys and what they do, from the preset's header, for display. <code>KeybindPresetWithError</code> describes a preset file that could not be read.</p>
 
                     </main>
 

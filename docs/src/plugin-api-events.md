@@ -4,6 +4,8 @@ A plugin can [subscribe](./plugin-api-commands.md#subscribe) to events using the
 
 For complete type definitions referenced below, see the [Type Reference](./plugin-api-types.md). For additional details, see the [`zellij-tile`](https://docs.rs/zellij-tile/latest/zellij_tile/) API documentation.
 
+A plugin built with `zellij-tile` `0.46.0` or later that receives an event it cannot read (eg. one added in a newer Zellij version) skips it, printing a message to its log, instead of crashing.
+
 ## Table of Contents
 
 - [ModeUpdate](#modeupdate)
@@ -54,6 +56,28 @@ For complete type definitions referenced below, see the [Type Reference](./plugi
 - [SoftKeyboardVisibilityChanged](#softkeyboardvisibilitychanged)
 - [HintText](#hinttext)
 - [ActivePaneScroll](#activepanescroll)
+- [NestedSessionModeUpdate](#nestedsessionmodeupdate)
+- [NestedSessionEnded](#nestedsessionended)
+- [PromptResult](#promptresult)
+- [ContextMenu](#contextmenu)
+- [PluginSettingsEntries](#pluginsettingsentries)
+- [ConfigChangesDropped](#configchangesdropped)
+- [ConfigFileChangedSinceRead](#configfilechangedsinceread)
+- [AvailableKeybindPresets](#availablekeybindpresets)
+- [PaneAttentionChanged](#paneattentionchanged)
+- [PromptShown](#promptshown)
+- [CommandStarted](#commandstarted)
+- [CommandFinished](#commandfinished)
+- [GlobalAttentionUpdate](#globalattentionupdate)
+- [SessionHistoryUpdate](#sessionhistoryupdate)
+- [SessionSuggestions](#sessionsuggestions)
+- [SessionCountsUpdate](#sessioncountsupdate)
+- [FolderSessionsUpdate](#foldersessionsupdate)
+- [TerminalCommandSubmitted](#terminalcommandsubmitted)
+- [SessionPreview](#sessionpreview)
+- [SavedSessionPreview](#savedsessionpreview)
+- [LiveViewStateChanged](#liveviewstatechanged)
+- [DesktopIntegration](#desktopintegration)
 
 ---
 
@@ -79,7 +103,7 @@ fn update(&mut self, event: Event) -> bool {
         Event::ModeUpdate(mode_info) => {
             self.current_mode = mode_info.mode;
             self.session_name = mode_info.session_name.clone();
-            true // re-render
+            true
         },
         _ => false,
     }
@@ -130,6 +154,8 @@ Event::PaneUpdate(PaneManifest)
 **Payload:** [`PaneManifest`](./plugin-api-types.md#panemanifest)
 
 Fired when pane state changes in the application. Provides information about all panes in all tabs, including their title, position, size, command, focus state, and more.
+
+Plugins without the [`ReadPaneContents`](./plugin-api-permissions.md#readpanecontents) permission receive the `attention` and `command_state` of each [`PaneInfo`](./plugin-api-types.md#paneinfo) without the text of the commands run in the pane. The same applies to the panes in [`SessionUpdate`](#sessionupdate).
 
 **Example:**
 
@@ -189,7 +215,11 @@ Event::Mouse(Mouse)
 
 **Payload:** [`Mouse`](./plugin-api-types.md#mouse)
 
-Fired when the user performs a mouse action (click, scroll, hover, etc.) while focused on the plugin pane. No permission is required.
+Fired when the user performs a mouse action (click, double click, scroll, hover, etc.) while focused on the plugin pane. No permission is required.
+
+The modifier keys held during the event (`Shift`, `Ctrl`, `Alt`) are available while handling it through [`mouse_modifiers`](./plugin-api-commands.md#mouse_modifiers). Plugins built against an older `zellij-tile` do not receive `Mouse::DoubleClick`.
+
+> **Note:** the `EventType::MouseWithModifiers` and `Event::MouseWithModifiers` variants are used inside Zellij only: plugins subscribe to `EventType::Mouse` and receive `Event::Mouse`.
 
 **Example:**
 
@@ -230,14 +260,14 @@ Fired when a timer set by [`set_timeout`](./plugin-api-commands.md#set_timeout) 
 ```rust
 fn load(&mut self, _config: BTreeMap<String, String>) {
     subscribe(&[EventType::Timer]);
-    set_timeout(1.0); // fire after 1 second
+    set_timeout(1.0);
 }
 
 fn update(&mut self, event: Event) -> bool {
     match event {
         Event::Timer(elapsed) => {
             self.tick();
-            set_timeout(1.0); // schedule next tick
+            set_timeout(1.0);
             true
         },
         _ => false,
@@ -305,7 +335,6 @@ fn update(&mut self, event: Event) -> bool {
         Event::Visible(is_visible) => {
             self.is_visible = is_visible;
             if is_visible {
-                // refresh data when becoming visible
                 self.refresh();
             }
             true
@@ -429,7 +458,6 @@ Fired after [`request_permission`](./plugin-api-commands.md#request_permission) 
 fn update(&mut self, event: Event) -> bool {
     match event {
         Event::PermissionRequestResult(PermissionStatus::Granted) => {
-            // permissions granted, subscribe to events that require them
             subscribe(&[EventType::TabUpdate, EventType::PaneUpdate]);
             true
         },
@@ -847,7 +875,7 @@ fn update(&mut self, event: Event) -> bool {
     match event {
         Event::InterceptedKeyPress(key) => {
             if key.bare_key == BareKey::Esc {
-                clear_key_presses_intercepts(); // stop intercepting
+                clear_key_presses_intercepts();
             } else {
                 self.handle_intercepted_key(key);
             }
@@ -1022,7 +1050,6 @@ fn update(&mut self, event: Event) -> bool {
     match event {
         Event::HighlightClicked { pane_id, pattern, matched_string, context } => {
             if pattern.contains("https?://") {
-                // Open the clicked URL
                 run_command(&["xdg-open", &matched_string], BTreeMap::new());
             }
             true
@@ -1184,3 +1211,363 @@ Event::ActivePaneScroll(Option<(usize, usize)>)
 - `Option<(usize, usize)>` - the scroll position and the total length of the scrollback of the displayed pane, or `None` if this information is unavailable
 
 Fired when the scroll position of the single displayed pane changes. This is only sent when the session displays a single pane with a title (ie. when the [`pane_frame_style`](./options.md#pane_frame_style) is `titles` and only one pane is displayed), which is the case where a plugin (eg. a tab-bar) may want to render a scrollbar or a scroll indicator for it.
+
+---
+
+## `NestedSessionModeUpdate`
+
+```rust
+Event::NestedSessionModeUpdate {
+    pane_id: PaneId,
+    session_path: Vec<String>,
+    mode: InputMode,
+    base_mode: Option<InputMode>,
+    keybinds_generation: u64,
+}
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- `pane_id` - [`PaneId`](./plugin-api-types.md#paneid) - the pane the [nested session](./nested-sessions.md) runs in
+- `session_path` - `Vec<String>` - the names of the nested sessions, starting with the one in this pane; when sessions are nested more than one level deep, the last name is the session the user is typing into
+- `mode` - [`InputMode`](./plugin-api-types.md#inputmode) - the current input mode of that session
+- `base_mode` - `Option<`[`InputMode`](./plugin-api-types.md#inputmode)`>` - its base mode
+- `keybinds_generation` - `u64` - changes whenever the keybindings that apply may have changed
+
+Fired when the input mode of a nested session changes. This lets a plugin in the host session (eg. a status bar) show hints for the session the user is actually typing into. When `keybinds_generation` differs from the one of the keybindings the plugin has, it can fetch new ones with [`get_nested_session_keybinds`](./plugin-api-commands.md#get_nested_session_keybinds).
+
+---
+
+## `NestedSessionEnded`
+
+```rust
+Event::NestedSessionEnded {
+    pane_id: PaneId,
+    reason: NestedSessionEndReason,
+}
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- `pane_id` - [`PaneId`](./plugin-api-types.md#paneid) - the pane the nested session ran in
+- `reason` - [`NestedSessionEndReason`](./plugin-api-types.md#nestedsessionkeybinds) - `Exited` or `Unresponsive`
+
+Fired when a nested session stops reporting to this session, because it exited or stopped responding. Plugins should stop showing its mode and keybindings.
+
+---
+
+## `PromptResult`
+
+```rust
+Event::PromptResult(u64, PromptResult)
+```
+
+**Payload:**
+- `u64` - the request id returned by [`prompt`](./plugin-api-commands.md#prompt)
+- [`PromptResult`](./plugin-api-types.md#promptresult) - the answer
+
+The answer to a [`prompt`](./plugin-api-commands.md#prompt) request. It is sent only to the plugin instance that made the request. No permission is required to receive it.
+
+---
+
+## `ContextMenu`
+
+```rust
+Event::ContextMenu(ContextMenuContext, Vec<ContextMenuEntry>)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- [`ContextMenuContext`](./plugin-api-types.md#contextmenucontext) - what was clicked and where
+- `Vec<`[`ContextMenuEntry`](./plugin-api-types.md#contextmenucontext)`>` - the entries to show
+
+Sent to the plugin that shows the [context menu](./context-menu.md) (by default the built-in [`context-menu`](./context-menu-alias.md) plugin) when it is opened as a popup. The plugin runs an entry with [`run_context_menu_item`](./plugin-api-commands.md#run_context_menu_item), passing the index of the entry in this list.
+
+---
+
+## `PluginSettingsEntries`
+
+```rust
+Event::PluginSettingsEntries(Vec<PluginSettingsEntry>)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- `Vec<`[`PluginSettingsEntry`](./plugin-api-types.md#pluginsettingsentry)`>` - every settings screen entry plugins have registered
+
+Sent when the plugin loads, and again whenever plugins register or remove a [settings screen entry](./plugin-api-commands.md#register_settings_entry). Used by the [settings screen](./settings-screen.md) to list them.
+
+---
+
+## `ConfigChangesDropped`
+
+```rust
+Event::ConfigChangesDropped(Vec<SettingKey>)
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+**Payload:**
+- `Vec<`[`SettingKey`](./plugin-api-types.md#settingkey)`>` - the settings whose unsaved changes were dropped
+
+Fired when the saved configuration changes (eg. the file was edited) and this replaces unsaved changes the user had made to these settings.
+
+---
+
+## `ConfigFileChangedSinceRead`
+
+```rust
+Event::ConfigFileChangedSinceRead
+```
+
+**Required Permission:** [`Reconfigure`](./plugin-api-permissions.md)
+
+Fired when [`save_config`](./plugin-api-commands.md#save_config) did not write the configuration file because it was changed by something else since Zellij read it, and when the file is changed outside of Zellij. The plugin can then offer to [overwrite](./plugin-api-commands.md#overwrite_config_file) or [reload](./plugin-api-commands.md#reload_config_file) it.
+
+---
+
+## `AvailableKeybindPresets`
+
+```rust
+Event::AvailableKeybindPresets(Vec<KeybindPresetInfo>, Vec<KeybindPresetWithError>)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- `Vec<`[`KeybindPresetInfo`](./plugin-api-types.md#keybindpresetinfo)`>` - the keybinding presets that can be used
+- `Vec<`[`KeybindPresetWithError`](./plugin-api-types.md#keybindpresetinfo)`>` - preset files that could not be read, with the error
+
+Sent when the plugin loads with the list of keybinding presets (built in, and from the keybinds folder), and again whenever that list changes.
+
+---
+
+## `PaneAttentionChanged`
+
+```rust
+Event::PaneAttentionChanged(PaneId, PaneAttention)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- [`PaneId`](./plugin-api-types.md#paneid) - the pane
+- [`PaneAttention`](./plugin-api-types.md#paneattention) - its new attention state
+
+Fired when the attention state of a pane in this session changes (eg. its command finished, failed, or is waiting for the user). See the [inbox](./inbox.md). Without the [`ReadPaneContents`](./plugin-api-permissions.md#readpanecontents) permission, the command text is left out.
+
+---
+
+## `PromptShown`
+
+```rust
+Event::PromptShown(PaneId)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- [`PaneId`](./plugin-api-types.md#paneid) - the pane
+
+Fired when a shell prompt is shown in a pane whose shell reports its prompts ([shell integration](./shell-integration.md)).
+
+---
+
+## `CommandStarted`
+
+```rust
+Event::CommandStarted(PaneId, Option<CommandText>)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- [`PaneId`](./plugin-api-types.md#paneid) - the pane
+- `Option<`[`CommandText`](./plugin-api-types.md#paneattention)`>` - the command, if known
+
+Fired when a command starts running in a pane. Without the [`ReadPaneContents`](./plugin-api-permissions.md#readpanecontents) permission, the command is always `None`.
+
+---
+
+## `CommandFinished`
+
+```rust
+Event::CommandFinished(PaneId, CommandOutcome)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- [`PaneId`](./plugin-api-types.md#paneid) - the pane
+- [`CommandOutcome`](./plugin-api-types.md#paneattention) - whether it succeeded, its exit code and how long it ran
+
+Fired when a command finishes in a pane. Without the [`ReadPaneContents`](./plugin-api-permissions.md#readpanecontents) permission, `outcome.command` is `None`.
+
+---
+
+## `GlobalAttentionUpdate`
+
+```rust
+Event::GlobalAttentionUpdate(GlobalAttention)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- [`GlobalAttention`](./plugin-api-types.md#globalattention) - the attention state of all running sessions on the machine
+
+Fired when the attention state of any session changes. This is what the [inbox](./inbox.md) shows. Without the [`ReadPaneContents`](./plugin-api-permissions.md#readpanecontents) permission, the command text is left out.
+
+---
+
+## `SessionHistoryUpdate`
+
+```rust
+Event::SessionHistoryUpdate(SessionHistoryInfo)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- [`SessionHistoryInfo`](./plugin-api-types.md#sessionhistoryinfo) - the sessions the user came from and can go back or forward to
+
+Fired for each user when their session history changes (eg. after switching sessions).
+
+---
+
+## `SessionSuggestions`
+
+```rust
+Event::SessionSuggestions(SessionSuggestions)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- [`SessionSuggestions`](./plugin-api-types.md#sessionsuggestions) - ranked sessions
+
+The answer to [`get_session_suggestions`](./plugin-api-commands.md#get_session_suggestions). See [session suggestions](./session-suggestions.md).
+
+---
+
+## `SessionCountsUpdate`
+
+```rust
+Event::SessionCountsUpdate(SessionCounts)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- [`SessionCounts`](./plugin-api-types.md#sessionsuggestions) - how many sessions are running, and how many resumable sessions match the current folder
+
+Sent to plugins that asked for [session suggestions](./plugin-api-commands.md#get_session_suggestions), when these numbers change.
+
+---
+
+## `FolderSessionsUpdate`
+
+```rust
+Event::FolderSessionsUpdate(FolderSessions)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- [`FolderSessions`](./plugin-api-types.md#sessionsuggestions) - the running and resumable sessions of the current folder
+
+Sent together with [`SessionCountsUpdate`](#sessioncountsupdate).
+
+---
+
+## `TerminalCommandSubmitted`
+
+```rust
+Event::TerminalCommandSubmitted
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+Fired the first time the user submits input in a terminal pane of this session. A session where this never happened is considered unused (see [`switch_session_and_close_current`](./plugin-api-commands.md#switch_session_and_close_current)).
+
+---
+
+## `SessionPreview`
+
+```rust
+Event::SessionPreview(SessionPreview)
+```
+
+**Required Permission:** [`ReadPaneContents`](./plugin-api-permissions.md#readpanecontents)
+
+**Payload:**
+- [`SessionPreview`](./plugin-api-types.md#sessionpreview) - the text contents and layout of a running session
+
+The answer to [`get_session_preview`](./plugin-api-commands.md#get_session_preview), [`get_session_preview_with_history`](./plugin-api-commands.md#get_session_preview_with_history) and [`get_session_pane_preview`](./plugin-api-commands.md#get_session_pane_preview).
+
+---
+
+## `SavedSessionPreview`
+
+```rust
+Event::SavedSessionPreview(SavedSessionPreview)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- [`SavedSessionPreview`](./plugin-api-types.md#sessionpreview) - the folder, tabs and panes of a saved session
+
+The answer to [`get_saved_session_preview`](./plugin-api-commands.md#get_saved_session_preview). Without the [`ReadPaneContents`](./plugin-api-permissions.md#readpanecontents) permission, the pane contents are left out.
+
+---
+
+## `LiveViewStateChanged`
+
+```rust
+Event::LiveViewStateChanged {
+    target: Option<PaneAddress>,
+    state: MirrorState,
+    input_captured: bool,
+    input_released_by: Option<LiveViewRelease>,
+    resize_allowed: bool,
+    view_only: bool,
+    pinned: bool,
+    source_size: Option<Size>,
+    release_key: String,
+}
+```
+
+**Required Permission:** [`ReadPaneContents`](./plugin-api-permissions.md#readpanecontents)
+
+**Payload:**
+- `target` - `Option<`[`PaneAddress`](./plugin-api-types.md#liveview)`>` - the pane shown, or `None` if there is no live view
+- `state` - [`MirrorState`](./plugin-api-types.md#liveview) - `NoTarget`, `Connecting`, `Live` or `Closed(reason)`
+- `input_captured` - `bool` - whether the user's input currently goes to the mirrored pane
+- `input_released_by` - `Option<`[`LiveViewRelease`](./plugin-api-types.md#liveview)`>` - why input was last released, if it was
+- `resize_allowed` - `bool` - whether the view may resize the program in the mirrored pane
+- `view_only` - `bool` - whether the view accepts input at all
+- `pinned` - `bool` - whether this view is the one currently deciding the size of the program in the mirrored pane
+- `source_size` - `Option<Size>` - the size of the mirrored pane
+- `release_key` - `String` - the key that gives input back to the plugin, for display
+
+Fired for the plugin and user that own a [live view](./plugin-api-commands.md#set_live_view) whenever its state changes.
+
+---
+
+## `DesktopIntegration`
+
+```rust
+Event::DesktopIntegration(String)
+```
+
+**Required Permission:** [`ReadApplicationState`](./plugin-api-permissions.md)
+
+**Payload:**
+- `String` - the answer, as JSON
+
+The answer to [`request_desktop_integration`](./plugin-api-commands.md#request_desktop_integration). For plugins that are not built in, this is always an error.

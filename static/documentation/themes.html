@@ -155,12 +155,24 @@
                         <h1 id="themes"><a class="header" href="#themes">Themes</a></h1>
 <h2 id="using-the-built-in-themes"><a class="header" href="#using-the-built-in-themes">Using the built-in themes</a></h2>
 <p>The built-in themes in Zellij can be used by setting the <code>theme [THEME_NAME]</code> in the <a href="./configuration.html">configuration file</a>. Take a look at the <a href="./theme-list.html">list of themes</a> to see what's possible.</p>
+<p>Since <code>0.46.0</code>, the <code>default</code> theme has a new palette, and is paired with a new <code>default-light</code> theme. The theme that was called <code>default</code> before <code>0.46.0</code> is bundled as <code>classic</code>:</p>
+<pre><code class="language-javascript">theme "classic"
+</code></pre>
 <h2 id="automatic-dark-and-light-theme-switching"><a class="header" href="#automatic-dark-and-light-theme-switching">Automatic dark and light theme switching</a></h2>
-<p>Instead of (or in addition to) the static <code>theme</code> directive, two themes can be configured - one for when the host terminal is in dark mode, and one for when it is in light mode:</p>
+<p>When none of <a href="./options.html#theme"><code>theme</code></a>, <a href="./options.html#theme_dark"><code>theme_dark</code></a> and <a href="./options.html#theme_light"><code>theme_light</code></a> is set, Zellij switches automatically between the bundled <code>default</code> theme (when the host terminal is in dark mode) and <code>default-light</code> (when it is in light mode).</p>
+<p>Other themes can be chosen for each mode:</p>
 <pre><code class="language-javascript">theme_dark "catppuccin-mocha"
 theme_light "catppuccin-latte"
 </code></pre>
-<p><strong>Both</strong> <a href="./options.html#theme_dark"><code>theme_dark</code></a> and <a href="./options.html#theme_light"><code>theme_light</code></a> must be set for automatic switching to happen. If only one of them is set, the static <code>theme</code> remains authoritative.</p>
+<p>How these options combine:</p>
+<div class="table-wrapper"><table><thead><tr><th>Set in the configuration</th><th>Result</th></tr></thead><tbody>
+<tr><td>nothing</td><td>switches between <code>default</code> and <code>default-light</code></td></tr>
+<tr><td><code>theme_dark</code> and <code>theme_light</code></td><td>switches between the two (with or without <code>theme</code>)</td></tr>
+<tr><td>only <code>theme_dark</code></td><td>switches between it and <code>default-light</code></td></tr>
+<tr><td>only <code>theme_light</code></td><td>switches between <code>default</code> and it</td></tr>
+<tr><td><code>theme</code>, with at most one of <code>theme_dark</code> / <code>theme_light</code></td><td>no switching, <code>theme</code> is always used</td></tr>
+</tbody></table>
+</div>
 <p>Zellij detects the color scheme of the terminal it is attached to (through <code>DSR 997</code> replies and <code>CSI 2031</code> change notifications) and switches themes when it changes. Terminals that do not report their color scheme will not trigger switching.</p>
 <p>The theme can also be switched manually, with these actions (bindable in the <a href="./keybindings.html"><code>keybinds</code></a> block) and their CLI equivalents:</p>
 <div class="table-wrapper"><table><thead><tr><th>Action</th><th>CLI</th></tr></thead><tbody>
@@ -175,15 +187,17 @@ theme_light "catppuccin-latte"
 <pre><code class="language-javascript">explicit_theme_hue "dark"
 </code></pre>
 <p>It is resolved before the first render, so the session starts with the intended appearance instead of correcting itself once the terminal replies. This is useful for terminals that report the wrong color scheme, or that do not report one at all. When it is unset, the host terminal decides.</p>
-<p>Since it only selects which of <code>theme_dark</code> / <code>theme_light</code> applies, <strong>both</strong> of those must still be set - otherwise the static <code>theme</code> remains authoritative.</p>
+<p>It only selects which of the dark and light themes applies, following the table <a href="#automatic-dark-and-light-theme-switching">above</a>. When <code>theme</code> is set and switching is off, it has no effect.</p>
 <h2 id="theme-definition-specification"><a class="header" href="#theme-definition-specification">Theme Definition Specification</a></h2>
 <p>Themes in Zellij are defined according to UI components. These components are used in the various plugins that make up the Zellij interface, and can also be used dynamically in user plugins.</p>
 <p><img src="/img/theme-spec.png" alt="theme definition spec diagram" /></p>
 <h2 id="structure-of-a-theme-definition"><a class="header" href="#structure-of-a-theme-definition">Structure of a theme definition</a></h2>
-<p>A theme definition is a <code>KDL</code> file (or part of one) defined as so:</p>
-<pre><code class="language-javascript">themes { // a node named "themes"
-    dracula { // a nested node inside the "themes" node indicating the theme name
-        // a list of nodes defining the UI components
+<blockquote>
+<p><strong>Note:</strong> the easiest way to create or change a theme is the <a href="#the-theme-editor">theme editor</a>, which shows a preview of the colors and can fix colors that are hard to read. The structure below is what it writes to the theme file.</p>
+</blockquote>
+<p>A theme definition is a <code>KDL</code> file (or part of one). It has a node named <code>themes</code>, with a node inside it named after the theme, and inside that a list of nodes defining the UI components:</p>
+<pre><code class="language-javascript">themes {
+    dracula {
         ribbon_unselected {
             base 0 0 0
             background 255 153 0
@@ -192,17 +206,17 @@ theme_light "catppuccin-latte"
             emphasis_2 0 217 227
             emphasis_3 255 0 255
         }
-        // ...
     }
 }
 </code></pre>
+<p>A full theme has one such node for each of the components listed below.</p>
 <p>It can either be placed directly in the main <a href="./configuration.html">configuration file</a> or in a <a href="#getting-zellij-to-pick-up-the-theme">separate directory</a>.</p>
 <h3 id="theme-ui-components"><a class="header" href="#theme-ui-components">Theme UI Components</a></h3>
-<p>Components have the following attributes, each one including a space separated list of three numbers representing the <code>RGB</code> color.</p>
+<p>Components have the following attributes, each one including a space separated list of three numbers representing the <code>RGB</code> color. A color can also be given as a hex string (eg. <code>"#ff8c00"</code> or <code>"#f80"</code>) or as a single number from the 256-color palette.</p>
 <ol>
 <li><code>base</code> - the base color of the component</li>
 <li><code>background</code> - the background color of the component</li>
-<li><code>emphasis_0</code>, <code>emphasis_1</code>, <code>emphases_2</code>, <code>emphasis_3</code> - the color of text emphases inside the text. These are used either to differentiate whole text components one from another (with each having a full color of one of the emphases), or even combined in a single component (eg. when indicating indices in fuzzy find results). Not all of these are used in the base UI, but they might be used in user plugins.</li>
+<li><code>emphasis_0</code>, <code>emphasis_1</code>, <code>emphasis_2</code>, <code>emphasis_3</code> - the color of text emphases inside the text. These are used either to differentiate whole text components one from another (with each having a full color of one of the emphases), or even combined in a single component (eg. when indicating indices in fuzzy find results). Not all of these are used in the base UI, but they might be used in user plugins.</li>
 </ol>
 <p>Following is the list of available component specifications:</p>
 <h4 id="text_unselected"><a class="header" href="#text_unselected">text_unselected</a></h4>
@@ -210,9 +224,40 @@ theme_light "catppuccin-latte"
 <h4 id="text_selected"><a class="header" href="#text_selected">text_selected</a></h4>
 <p>This component refers to the bare text parts of the Zellij UI when they need to indicate selection (eg. when paging through search results). This is often done by providing them a different color background than their unselected counterparts.</p>
 <h4 id="ribbon_unselected"><a class="header" href="#ribbon_unselected">ribbon_unselected</a></h4>
-<p>Ribbons are used often in the Zellij UI, examples are the tabs and the keybinding modes in the status bar.</p>
+<p>Ribbons are used often in the Zellij UI, examples are the tabs and the keybinding modes in the status bar. Its emphasis colors (<code>emphasis_0</code> to <code>emphasis_3</code>) color parts of the text inside unselected ribbons, eg. when a plugin highlights part of a ribbon's text with a color index. The color of hovered tabs is set by <a href="#ribbon_hover"><code>ribbon_hover</code></a>.</p>
 <h4 id="ribbon_selected"><a class="header" href="#ribbon_selected">ribbon_selected</a></h4>
 <p>Selected ribbons are often indicated with a different color than their unselected counterparts (eg. the focused tab, or the active keybinding mode in the status bar).</p>
+<h4 id="ribbon_hover"><a class="header" href="#ribbon_hover">ribbon_hover</a></h4>
+<p>The colors of a ribbon that is hovered with the mouse, or shown as an alternate tab (the shading that tells neighboring tabs apart). This section is optional.</p>
+<pre><code class="language-javascript">themes {
+    my-theme {
+        ribbon_hover {
+            base 11 11 11
+            background 220 220 220
+            emphasis_0 79 26 34
+            emphasis_1 60 20 70
+            emphasis_2 20 49 79
+            emphasis_3 99 11 20
+        }
+    }
+}
+</code></pre>
+<p>The built-in bars use these colors as follows:</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: left">Color</th><th style="text-align: left">Used for</th></tr></thead><tbody>
+<tr><td style="text-align: left"><code>background</code></td><td style="text-align: left">The fill of hovered tabs, alternate tabs, the hovered new-tab <code>+</code> button and hovered status-bar hints</td></tr>
+<tr><td style="text-align: left"><code>base</code></td><td style="text-align: left">The text on hovered or alternate tabs, and on hovered hints</td></tr>
+<tr><td style="text-align: left"><code>emphasis_0</code></td><td style="text-align: left">The key labels in hovered status-bar hints</td></tr>
+<tr><td style="text-align: left"><code>emphasis_3</code></td><td style="text-align: left">The text of a hovered or alternate tab whose bell is ringing</td></tr>
+<tr><td style="text-align: left"><code>emphasis_1</code>, <code>emphasis_2</code></td><td style="text-align: left">Not used by the built-in bars. Available to plugins that draw their own hover state</td></tr>
+</tbody></table>
+</div>
+<p>When a theme has no <code>ribbon_hover</code> section:</p>
+<ul>
+<li>If it has a <code>ribbon_unselected</code> section, the hover fill is <code>ribbon_unselected</code>'s <code>emphasis_1</code>, and the other hover colors are taken from <code>ribbon_unselected</code>.</li>
+<li>If it has neither section, the built-in default hover colors are used.</li>
+<li><a href="./legacy-themes.html">Legacy themes</a> (written with <code>fg</code>, <code>bg</code>, <code>red</code> and so on) get the same <code>emphasis_1</code> fallback.</li>
+</ul>
+<p>All the built-in themes have a <code>ribbon_hover</code> section.</p>
 <h4 id="table_title"><a class="header" href="#table_title">table_title</a></h4>
 <p>The table UI component has a different style applied to its title line than the rest of the table. This is what differentiates this line.</p>
 <h4 id="table_cell_unselected"><a class="header" href="#table_cell_unselected">table_cell_unselected</a></h4>
@@ -249,26 +294,57 @@ theme_light "catppuccin-latte"
 }
 </code></pre>
 <p>Each player represents the color given to a user joining (attaching) to an active session. These colors appear the same to all users and are given by order of attaching.</p>
+<h4 id="terminal_colors"><a class="header" href="#terminal_colors">terminal_colors</a></h4>
+<p>A theme can also define the sixteen ANSI colors that programs use (eg. <code>ls --color</code> or a shell prompt). Any of the sixteen can be left out:</p>
+<pre><code class="language-javascript">terminal_colors {
+    black 33 34 44
+    red 255 85 85
+    green 80 250 123
+    yellow 241 250 140
+    blue 189 147 249
+    magenta 255 121 198
+    cyan 139 233 253
+    white 248 248 242
+    bright_black 98 114 164
+    bright_red 255 110 110
+    bright_green 105 255 148
+    bright_yellow 255 255 165
+    bright_blue 214 172 255
+    bright_magenta 255 146 223
+    bright_cyan 164 255 255
+    bright_white 255 255 255
+}
+</code></pre>
+<p>These colors must be given as <code>RGB</code> or as a hex string, not as a number from the 256-color palette.</p>
+<p>They are only used by the <a href="./zellij-terminal.html">Zellij terminal</a> window, which paints these colors itself. Inside another terminal emulator, that terminal's own colors are used. The <code>theme</code> section of the <a href="./terminal-options.html#theme"><code>terminal</code> block</a> takes priority over them. Most of the built-in themes include this section.</p>
+<h2 id="the-theme-editor"><a class="header" href="#the-theme-editor">The theme editor</a></h2>
+<p>Themes can be created and edited from inside Zellij, without editing files by hand, in the theme editor of the <a href="./settings-screen.html">settings screen</a> (Settings → Appearance → Themes).</p>
+<p><img src="./img/theme-editor.png" alt="The theme editor" /></p>
+<ul>
+<li><strong>Creating a theme</strong>: <code>a</code> adds a new theme. Built-in themes and themes from the themes folder are read-only: copy one to start from it.</li>
+<li><strong>Editing colors</strong>: <code>Enter</code> opens the colors of the selected theme. <code>Enter</code> and the arrow keys move between colors, which can be typed as <code>#rrggbb</code>, <code>rrggbb</code>, <code>r g b</code> or a number from the 256-color palette. <code>Ctrl a</code> applies the changes.</li>
+<li><strong>Previewing</strong>: a sample of the Zellij interface drawn with the theme's colors is shown next to them (when the pane is wide enough). When the theme being edited is the active one, the whole of Zellij changes along with it.</li>
+<li><strong>Hover colors</strong>: the editor has a row for each of the six <a href="#ribbon_hover"><code>ribbon_hover</code></a> colors, and the preview shows a "Hover" ribbon next to "Tab" and "Active". When a theme without a <code>ribbon_hover</code> section is opened, these rows are filled with the colors the theme currently uses for hover, and saving writes the section to the theme.</li>
+<li><strong>Fixing contrast</strong>: colors that are hard to read against their background are pointed out. Most text colors are checked against a contrast of 3:1. The <code>emphasis_1</code> and <code>emphasis_2</code> colors of ribbons are checked against their ribbon's background, and the hover text colors against the hover fill, at 4.5:1. <code>Ctrl f</code> raises the contrast of the selected color to its target. <code>Ctrl e</code> fixes every color below 3:1, changing each color only as much as needed; colors between 3:1 and 4.5:1 are marked but left for <code>Ctrl f</code>.</li>
+<li><strong>Managing themes</strong>: <code>n</code> renames a theme, <code>Del</code> deletes it, <code>r</code> reverts unsaved changes and <code>/</code> searches the list.</li>
+</ul>
 <h2 id="getting-zellij-to-pick-up-the-theme"><a class="header" href="#getting-zellij-to-pick-up-the-theme">Getting Zellij to pick up the theme</a></h2>
 <p>While developing and iterating over a theme, the easiest way would be to define it directly in the main configuration file (add the <code>themes</code> block defined above with your theme) and then set the:</p>
 <pre><code class="language-javascript">theme "your_theme_name"
 </code></pre>
 <p>directive above or below it. This way, Zellij will pick up on any changes to the theme in real time and you will not have to restart the session to see your changes.</p>
-<p>Otherwise, it's possible to define themes in separate files under the <code>themes</code> folder located in <code>CONFIG_DIR/themes</code>. You can find the exact location of this folder with <code>zellij setup --check</code>. Changes to files in this folder are also picked up live, without restarting the session.</p>
+<p>Otherwise, it's possible to define themes in separate files under the <code>themes</code> folder located in <code>CONFIG_DIR/themes</code>. You can find the exact location of this folder with <code>zellij setup --check</code>. Changes to files in this folder are also picked up live, without restarting the session. This also works when the folder is created after Zellij started. A different folder can be set with the <a href="./options.html#theme_dir"><code>theme_dir</code></a> option.</p>
 <p>Themes can also be loaded from the command line when starting Zellij:</p>
 <pre><code>zellij options --theme [NAME]
 </code></pre>
 <h2 id="example-themes"><a class="header" href="#example-themes">Example Themes</a></h2>
 <p>Here are <a href="https://github.com/zellij-org/zellij/tree/main/zellij-utils/assets/themes">some example themes</a> these are the themes that come built-in with Zellij and can be freely used for inspiration and to kick off your own theme definition.</p>
-<h2 id="example-plugin-with-all-ui-components"><a class="header" href="#example-plugin-with-all-ui-components">Example Plugin with all UI components</a></h2>
-<p>While developing a theme, it might be helpful to load the following plugin: <a href="https://github.com/imsnif/theme-tester">https://github.com/imsnif/theme-tester</a></p>
-<p>This will display all UI components and all their permutations, allowing you to see how your changes affect them in real time.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="keybindings-shared.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="session-suggestions.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -282,7 +358,7 @@ theme_light "catppuccin-latte"
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="keybindings-shared.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="session-suggestions.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 

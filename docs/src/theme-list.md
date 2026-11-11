@@ -1,19 +1,25 @@
 # List of Themes
-These themes are provided built-in with Zellij. One can switch to them by changing the `theme` [configuration option](./options.md)
+These themes are provided built-in with Zellij. One can switch to them by changing the `theme` [configuration option](./options.md#theme)
+
+When no theme is set, Zellij uses `default` when the host terminal is in dark mode and `default-light` when it is in light mode. See [automatic dark and light theme switching](./themes.md#automatic-dark-and-light-theme-switching).
 
 ## Dark Themes
+* default
+* classic (the default theme before `0.46.0`)
 * ansi
 * ao
 * atelier-sulphurpool
-* ayu_mirage
-* ayu_dark
+* ayu-mirage
+* ayu-dark
+* blade-runner
 * catppuccin-frappe
 * catppuccin-macchiato
+* catppuccin-mocha
 * cyber-noir
-* blade-runner
-* retro-wave
 * dracula
 * everforest-dark
+* flexoki-dark
+* gruber-darker
 * gruvbox-dark
 * iceberg-dark
 * kanagawa
@@ -25,19 +31,22 @@ These themes are provided built-in with Zellij. One can switch to them by changi
 * nord
 * one-half-dark
 * onedark
+* retro-wave
 * solarized-dark
+* terafox
 * tokyo-night-dark
 * tokyo-night-storm
 * tokyo-night
 * vesper
 
 ## Light Themes
-* ayu_light
+* default-light
+* ayu-light
 * catppuccin-latte
+* dayfox
 * everforest-light
 * gruvbox-light
 * iceberg-light
-* dayfox 
 * pencil-light
 * solarized-light
 * tokyo-night-light
