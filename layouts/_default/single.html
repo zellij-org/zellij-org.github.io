@@ -33,7 +33,7 @@
                 <hr />
             {{ end }}
 
-                  {{ if .Params.Date }}
+                  {{ if not .Date.IsZero }}
                 <span class="post-date">
                   {{ .Date.Format "2006-01-02" }}
                 </span>

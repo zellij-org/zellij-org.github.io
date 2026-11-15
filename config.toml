@@ -1,7 +1,8 @@
 baseURL = "https://zellij.dev/"
 title   = "Zellij"
-languageCode = "en-us"
+locale = "en-us"
 theme = "hello-friend-ng"
+capitalizeListTitles = false  # keep tag page titles as written; newer Hugo capitalizes them by default
 
 PygmentsCodeFences = true
 PygmentsStyle = "monokai"

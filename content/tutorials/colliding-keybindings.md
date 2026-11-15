@@ -3,7 +3,7 @@ title: "Dealing with Colliding Keyboard Shortcuts"
 date: 2024-11-11T14:45:48+01:00
 images: ["/img/configuration-screen-1.png"]
 description: "Solve keyboard shortcut conflicts in Zellij. Learn about the unlock-first preset to prevent key intercepts while maintaining workflow efficiency."
-linktitle: "How to quickly solve the issue of Zellij intercepting keys while still maintaining peak efficiency in one\'s workflow"
+linktitle: "How to quickly solve the issue of Zellij intercepting keys while still maintaining peak efficiency in one's workflow"
 ---
 {{<video-left-aligned "/video/colliding-keybindings-screencast.mp4">}}
 

@@ -21,6 +21,8 @@ jobs:
 
       - name: Setup mdBook
         uses: peaceiris/actions-mdbook@v2
+        with:
+          mdbook-version: '0.5.4'
 
       - name: Build mdBook
         run: mdbook build docs/ -d ../static/documentation
@@ -28,8 +30,15 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
         with:
-          hugo-version: '0.82.0'
-          extended: true
+          hugo-version: '0.170.0'
+
+      # Hugo calls Dart Sass to compile the theme's SCSS (layouts/partials/head.html)
+      - name: Setup Dart Sass
+        env:
+          DART_SASS_VERSION: '1.108.2'
+        run: |
+          curl -fsSL "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" | tar -xz -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/dart-sass" >> "$GITHUB_PATH"
 
       - name: Build
         run: hugo --minify
