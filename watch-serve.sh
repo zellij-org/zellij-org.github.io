@@ -5,7 +5,7 @@ function _exists {
     command -v "$1" >/dev/null
 }
 
-if $(_exists mdbook) && $(_exists hugo); then
+if $(_exists mdbook) && $(_exists hugo) && $(_exists sass); then
     mdbook build docs/ -d ../static/documentation
     mdbook watch docs/ -d ../static/documentation &
     MDBOOK_PID=$!
@@ -49,7 +49,7 @@ else
     echo "  - nix"
     echo "  - docker"
     echo "  - podman"
-    echo "  - mdbook AND hugo"
+    echo "  - mdbook, hugo AND sass (Dart Sass)"
     echo ""
     echo "To compile and preview the docs locally."
     exit 1
