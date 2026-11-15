@@ -1,0 +1,30 @@
+{{- /* Footer for pages in the new design. Links to pages that don't exist yet appear once they do. */ -}}
+<footer class="site-foot">
+  <div class="wrap foot-row">
+    <div class="foot-brand">
+      <b>Zellij</b>
+      <p>Free and open source under the MIT license. No ads, no telemetry.</p>
+    </div>
+    <nav class="foot-links" aria-label="Footer">
+      <a href="https://zellij.online">zellij.online</a>
+      <a href="https://github.com/sponsors/imsnif">Sponsor</a>
+      <a href="https://github.com/zellij-org/zellij">GitHub</a>
+      <a href="https://discord.gg/CrUAFH3">Discord</a>
+      <a href="https://matrix.to/#/#zellij_general:matrix.org">Matrix</a>
+      {{- range .Site.Params.social }}{{ if ne .name "github" }}
+      <a href="{{ .url }}">{{ humanize .name }}</a>
+      {{- end }}{{ end }}
+      <a href="/about/">About</a>
+      <a href="/features/">Features</a>
+      {{- with .Site.GetPage "/vs-tmux" }}
+      <a href="{{ .RelPermalink }}">Zellij vs tmux</a>
+      {{- end }}
+      <a href="/roadmap/">Roadmap</a>
+      <a href="/stickers/">Stickers</a>
+      <a href="/faq/">FAQ</a>
+      {{- if fileExists "static/llms.txt" }}
+      <a href="/llms.txt">llms.txt</a>
+      {{- end }}
+    </nav>
+  </div>
+</footer>

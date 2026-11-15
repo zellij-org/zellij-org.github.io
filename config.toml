@@ -71,7 +71,7 @@ disableHugoGeneratorInject = false
 
   # Metadata mostly used in document's head
   #
-  description = "A terminal workspace that doesn't sacrifice simplicity for power. Features floating panes, layouts, multiplayer collaboration, plugins, and works in your browser."
+  description = "Zellij is a terminal workspace and multiplexer for your shells and coding agents. Every shortcut is on screen, and nothing stops when you close the window."
   keywords = "rust,terminal,multiplexer"
   images = ["/img/floating-panes-preview.png"]
 
@@ -128,6 +128,22 @@ disableHugoGeneratorInject = false
 #     mask = "#1b1c1d"
 #     msapplication = "#1b1c1d"
 #     theme = "#1b1c1d"
+
+  # Homepage (layouts/index.html). Update these with each release.
+  #
+  [params.landing]
+    version         = "0.46.0"
+    releasePost     = "/news/terminal-inbox-session-previews/"
+    releaseHeadline = "Zellij now comes with its own terminal"
+    title           = "Zellij: a terminal workspace and multiplexer"
+    # Numbers for the proof strip and header, as of 2026-11-14:
+    # stars and contributors from the GitHub API, packages from repology.org/project/zellij,
+    # plugins from the Plugins section of github.com/zellij-org/awesome-zellij (78 on 2026-11-15)
+    stars           = "36.1k"
+    contributors    = "220+"
+    plugins         = "75+"
+    packages        = "53"
+    firstRelease    = "2021"
 
   [params.logo]
     logoMark     = ">"
