@@ -33,14 +33,6 @@ jobs:
         with:
           hugo-version: '0.170.0'
 
-      # Hugo calls Dart Sass to compile the theme's SCSS (layouts/partials/head.html)
-      - name: Setup Dart Sass
-        env:
-          DART_SASS_VERSION: '1.108.2'
-        run: |
-          curl -fsSL "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz" | tar -xz -C "$RUNNER_TEMP"
-          echo "$RUNNER_TEMP/dart-sass" >> "$GITHUB_PATH"
-
       - name: Build
         run: hugo --minify
 

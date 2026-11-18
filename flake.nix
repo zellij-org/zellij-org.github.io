@@ -14,7 +14,6 @@
         buildInputs = [
           pkgs.mdbook
           pkgs.hugo
-          pkgs.dart-sass
         ];
       };
     }) // {

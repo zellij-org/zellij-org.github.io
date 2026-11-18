@@ -1,7 +1,7 @@
 # zellij.dev
 The website for zellij
 
-Requires [Hugo](https://gohugo.io/installation/) and [Dart Sass](https://sass-lang.com/install/) on your `PATH`; Hugo uses Dart Sass to compile the theme's SCSS. CI uses the versions pinned in `.github/workflows/gh-pages.yml`.
+Requires [Hugo](https://gohugo.io/installation/), and [mdBook](https://rust-lang.github.io/mdBook/guide/installation.html) for the docs. CI uses the versions pinned in `.github/workflows/gh-pages.yml`.
 
 To run: `hugo server`
 
