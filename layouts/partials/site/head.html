@@ -1,10 +1,13 @@
-{{- /* <head> for pages in the new design. Same metadata as partials/head.html, without the theme's stylesheet. */ -}}
+{{- /* <head> for every page (layouts/_default/baseof.html). The homepage also gets landing.css, bundled into the same file. */ -}}
 {{- $l := .Site.Params.landing -}}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>{{ if .IsHome }}{{ $l.title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
+<title>{{ if .IsHome }}{{ $l.title }}{{ else if in .Title .Site.Title }}{{ .Title }}{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
 <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ with .Description }}{{ . }}{{ else }}{{ .Summary | plainify }}{{ end }}{{ end }}">
-<meta name="keywords" content="{{ .Site.Params.keywords }}">
+<meta name="keywords" content="{{ .Site.Params.keywords }}{{ range .Params.tags }}, {{ . }}{{ end }}">
+{{- with .Params.author }}
+<meta name="author" content="{{ . }}">
+{{- end }}
 <meta name="theme-color" content="#121315" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#e6e4dd" media="(prefers-color-scheme: light)">
 <link rel="canonical" href="{{ .Permalink }}">
@@ -16,8 +19,10 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600;700;800&family=Fira+Code:wght@400;600;700&display=swap">
-{{- $css := resources.Get "css/landing.css" | resources.Minify | resources.Fingerprint }}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Fira+Code:wght@400;600;700&display=swap">
+{{- $css := resources.Get "css/site.css" }}
+{{- if .IsHome }}{{ $css = slice $css (resources.Get "css/landing.css") | resources.Concat "css/home.css" }}{{ end }}
+{{- $css = $css | resources.Minify | resources.Fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 
 {{ template "_internal/schema.html" . }}

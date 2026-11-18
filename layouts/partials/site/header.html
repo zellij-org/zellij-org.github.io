@@ -1,5 +1,6 @@
-{{- /* Header for pages in the new design: Zellij-style tab segments, search, theme toggle, and the support links. */ -}}
+{{- /* Header for every page: Zellij-style tab segments, search, theme toggle, and the support links. */ -}}
 {{- $l := .Site.Params.landing -}}
+{{- $tab := cond .IsHome "home" (cond (eq .Section "news") "news" (cond (or (eq .Section "tutorials") (eq .Layout "tutorials")) "tutorials" "")) -}}
 
 {{- /* Search index, loaded by landing.js on first open: docs titles come from the mdBook table of contents, the rest from Hugo's pages. */ -}}
 {{- $entries := slice -}}
@@ -27,9 +28,9 @@
       <a class="ver" href="{{ $l.releasePost }}" title="What's new in {{ $l.version }}">v{{ $l.version }}</a>
     </div>
     <nav class="tabs" aria-label="Main">
-      <a class="seg{{ if .IsHome }} is-active{{ end }}"{{ if .IsHome }} aria-current="page"{{ end }} href="/">Home</a>
-      <a class="seg{{ if eq .Section "news" }} is-active{{ end }}" href="/news/">News</a>
-      <a class="seg{{ if eq .Section "tutorials" }} is-active{{ end }}" href="/screencasts/">Tutorials</a>
+      <a class="seg{{ if eq $tab "home" }} is-active{{ end }}"{{ if .IsHome }} aria-current="page"{{ end }} href="/">Home</a>
+      <a class="seg{{ if eq $tab "news" }} is-active{{ end }}"{{ if eq .RelPermalink "/news/" }} aria-current="page"{{ end }} href="/news/">News</a>
+      <a class="seg{{ if eq $tab "tutorials" }} is-active{{ end }}"{{ if eq .RelPermalink "/screencasts/" }} aria-current="page"{{ end }} href="/screencasts/">Tutorials</a>
       <a class="seg" href="/documentation/">Docs</a>
     </nav>
     <div class="head-tools">

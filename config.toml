@@ -4,9 +4,6 @@ locale = "en-us"
 theme = "hello-friend-ng"
 capitalizeListTitles = false  # keep tag page titles as written; newer Hugo capitalizes them by default
 
-PygmentsCodeFences = true
-PygmentsStyle = "monokai"
-
 paginate  = 10
 rssLimit  = 10  # Maximum number of items in the RSS feed.
 copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License." # This message is only used by the RSS template.
@@ -55,6 +52,8 @@ disableHugoGeneratorInject = false
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+  [markup.highlight]
+    noClasses = false  # colors come from the .chroma rules in assets/css/site.css
   [markup.tableOfContents]
     endLevel = 3
     ordered = false

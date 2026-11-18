@@ -1,0 +1,33 @@
+{{- /* News: the latest post up top, then every post by year. */ -}}
+{{ define "main" }}
+{{- $posts := .Pages.ByDate.Reverse -}}
+{{- $latest := index $posts 0 -}}
+<div class="page is-list">
+  <div class="wrap">
+    <header class="page-head">
+      {{ partial "site/page-rule.html" . }}
+      <h1>{{ .Title }}</h1>
+      <p class="meta"><span class="meta-label">Follow along:</span>
+        {{- with .OutputFormats.Get "rss" }}<a href="{{ .RelPermalink }}">RSS</a>{{ end }}
+        {{- range .Site.Params.social }}{{ if ne .name "github" }}<a href="{{ .url }}">{{ humanize .name }}</a>{{ end }}{{ end }}
+      </p>
+    </header>
+
+    {{ partial "site/card.html" (dict "page" $latest "class" "is-featured" "heading" "h2") }}
+
+    {{- range $posts.GroupByDate "2006" }}
+    {{- $rest := where .Pages "RelPermalink" "ne" $latest.RelPermalink }}
+    {{- if $rest }}
+    <section class="year" aria-labelledby="y{{ .Key }}">
+      <h2 class="band-rule" id="y{{ .Key }}"><span>{{ .Key }}</span></h2>
+      <div class="cards-grid">
+        {{- range $rest }}
+        {{ partial "site/card.html" (dict "page" .) }}
+        {{- end }}
+      </div>
+    </section>
+    {{- end }}
+    {{- end }}
+  </div>
+</div>
+{{ end }}

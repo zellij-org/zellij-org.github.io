@@ -1,0 +1,9 @@
+{{- /* The pane title line above a page heading, like the homepage's sections: the section's name, linking to its index. */ -}}
+{{- $label := path.Base .RelPermalink -}}
+{{- $href := "" -}}
+{{- if eq .Section "news" }}{{ $label = "news" }}{{ $href = "/news/" }}
+{{- else if or (eq .Section "tutorials") (eq .Layout "tutorials") }}{{ $label = "tutorials" }}{{ $href = "/screencasts/" }}
+{{- else if eq .Section "tags" }}{{ $label = "tags" }}{{ $href = "/tags/" }}
+{{- else if eq $label "zellij-online" }}{{ $label = "zellij.online" }}
+{{- end }}
+<div class="band-rule page-rule">{{ if and $href (ne $href .RelPermalink) }}<a href="{{ $href }}">{{ $label }}</a>{{ else }}<span>{{ $label }}</span>{{ end }}</div>

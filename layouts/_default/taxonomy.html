@@ -1,0 +1,18 @@
+{{- /* /tags/: every tag, with how many posts use it. */ -}}
+{{ define "main" }}
+<div class="page">
+  <div class="wrap">
+    <header class="page-head">
+      {{ partial "site/page-rule.html" . }}
+      <h1>{{ .Title }}</h1>
+    </header>
+    <div class="page-body">
+      <ul class="tags tags-big">
+        {{- range .Data.Terms.ByCount }}
+        <li><a href="{{ .Page.RelPermalink }}">{{ .Page.LinkTitle }}<small>{{ .Count }}</small></a></li>
+        {{- end }}
+      </ul>
+    </div>
+  </div>
+</div>
+{{ end }}

@@ -1,0 +1,28 @@
+{{- /* Screencasts & Tutorials (content/screencasts.md, layout "tutorials").
+       The page's own list stays the source: each "- **[Title](/tutorials/...)**: Description" line becomes a card,
+       with the tutorial's preview image. Anything else in the page is shown as written. */ -}}
+{{ define "main" }}
+{{- $t := partial "site/title.html" . -}}
+{{- $items := findRESubmatch `(?m)^- \*\*\[(.+?)\]\(([^)\s]+)\)\*\*:\s*(.+)$` .RawContent -}}
+<div class="page is-list">
+  <div class="wrap">
+    <header class="page-head">
+      {{ partial "site/page-rule.html" . }}
+      <h1>{{ $t.name }}{{ with $t.tagline }} <span class="tagline">{{ . }}</span>{{ end }}</h1>
+    </header>
+    {{- if $items }}
+    <div class="cards-grid">
+      {{- range $items }}
+      {{- $title := index . 1 }}
+      {{- $desc := index . 3 | markdownify | plainify | htmlUnescape }}
+      {{- with site.GetPage (strings.TrimSuffix "/" (index . 2)) }}
+      {{ partial "site/card.html" (dict "page" . "title" $title "desc" $desc) }}
+      {{- end }}
+      {{- end }}
+    </div>
+    {{- else }}
+    <div class="prose">{{ .Content }}</div>
+    {{- end }}
+  </div>
+</div>
+{{ end }}

@@ -1,22 +1,16 @@
-{{- /* Homepage. A complete document (no "define" blocks), so the theme's baseof.html and stylesheet aren't used.
+{{- /* Homepage, inside layouts/_default/baseof.html.
        Release-specific values live in [params.landing] in config.toml; styles in assets/css/landing.css; behavior in assets/js/landing.js. */ -}}
+{{ define "top" }}
+{{- if fileExists "static/llms.txt" }}
+<div class="llm-hint" data-nosnippet>Are you an LLM? Read {{ "llms.txt" | absURL }} for a Markdown index of the Zellij docs{{ if fileExists "static/llms-full.txt" }}, or {{ "llms-full.txt" | absURL }} for all of them in one file{{ end }}.</div>
+{{- end }}
+{{ end }}
+
+{{ define "main" }}
 {{- $l := .Site.Params.landing -}}
 {{- $short := delimit (first 2 (split $l.version ".")) "." -}}
 {{- $dl := "https://github.com/zellij-org/zellij/releases/latest/download/" -}}
 {{- $vsTmux := .Site.GetPage "/vs-tmux" -}}
-<!DOCTYPE html>
-<html lang="{{ .Site.Language.Locale }}">
-<head>
-{{ partial "landing/head.html" . }}
-</head>
-<body>
-{{- if fileExists "static/llms.txt" }}
-<div class="llm-hint" data-nosnippet>Are you an LLM? Read {{ "llms.txt" | absURL }} for a Markdown index of the Zellij docs{{ if fileExists "static/llms-full.txt" }}, or {{ "llms-full.txt" | absURL }} for all of them in one file{{ end }}.</div>
-{{- end }}
-
-{{ partial "landing/header.html" . }}
-
-<main>
   <section class="hero" id="install">
     <div class="wrap hero-grid">
       <div class="hero-copy">
@@ -262,28 +256,17 @@
       </div>
     </div>
   </section>
-</main>
 
 <div class="try-scrim" id="tryScrim" hidden></div>
+{{ end }}
 
-{{ partial "landing/footer.html" . }}
-
-<div class="statusbar" id="statusbar">
-  <div class="wrap sb-row">
-    <span class="sb-label" id="sbLabel">zellij.dev</span>
-    <div class="sb-segs" role="group" aria-label="Page shortcuts">
-      <span class="sb-key" aria-hidden="true">i</span><button class="seg" type="button" data-key="i" data-target="install">INSTALL</button>
-      <span class="sb-key" aria-hidden="true">t</span><button class="seg" type="button" data-key="t" data-action="try">TRY IT</button>
-      <span class="sb-key" aria-hidden="true">f</span><button class="seg" type="button" data-key="f" data-target="features">FEATURES</button>
-      <span class="sb-key" aria-hidden="true">q</span><button class="seg" type="button" data-key="q" data-target="questions">QUESTIONS</button>
-      <span class="sb-key" aria-hidden="true">s</span><button class="seg" type="button" data-key="s" data-target="support">SUPPORT</button>
-      <span class="sb-key" aria-hidden="true">d</span><button class="seg" type="button" data-key="d" data-target="next">DOCS</button>
-    </div>
-    <div class="sb-lock"><span class="sb-key" aria-hidden="true">Ctrl g</span><button class="seg" type="button" data-action="lock"><span class="seg-text">LOCK</span></button></div>
-  </div>
-</div>
-
-{{- $js := resources.Get "js/landing.js" | resources.Minify | resources.Fingerprint }}
-<script src="{{ $js.RelPermalink }}" defer></script>
-</body>
-</html>
+{{ define "statusbar" }}
+{{- partial "site/statusbar.html" (dict "segs" (slice
+  (dict "k" "i" "t" "INSTALL" "target" "install")
+  (dict "k" "t" "t" "TRY IT" "action" "try")
+  (dict "k" "f" "t" "FEATURES" "target" "features")
+  (dict "k" "q" "t" "QUESTIONS" "target" "questions")
+  (dict "k" "s" "t" "SUPPORT" "target" "support")
+  (dict "k" "d" "t" "DOCS" "target" "next")
+)) }}
+{{ end }}

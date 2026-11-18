@@ -1,4 +1,5 @@
 ---
+layout: tutorials  # rendered as cards by layouts/_default/tutorials.html
 title: "Screencasts & Tutorials - Learn Zellij"
 description: "Tutorials and screencasts showing Zellij features in action. Learn about layouts, floating panes, session management, and the web client."
 images: ["/img/floating-panes-preview.png"]

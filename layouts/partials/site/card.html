@@ -1,0 +1,13 @@
+{{- /* A card for the News and Tutorials lists: the page's preview image, date, title and description.
+       Takes a dict: page, and optionally title and desc (to override the page's own), class, and heading ("h2" or "h3"). */ -}}
+{{- $p := .page -}}
+{{- $h := .heading | default "h3" -}}
+<article class="post-card{{ with .class }} {{ . }}{{ end }}">
+  <div class="thumb">{{ with $p.Params.images }}<img src="{{ index . 0 | relURL }}" alt="" loading="lazy" decoding="async">{{ end }}</div>
+  <div class="card-body">
+    {{- if not $p.Date.IsZero }}<time datetime="{{ $p.Date.Format "2006-01-02" }}">{{ $p.Date.Format $p.Site.Params.dateform }}</time>{{ end }}
+    {{- $link := printf `<a class="card-link" href="%s">%s</a>` $p.RelPermalink (.title | default $p.Title | htmlEscape) }}
+    {{- if eq $h "h2" }}<h2 class="card-title">{{ $link | safeHTML }}</h2>{{ else }}<h3 class="card-title">{{ $link | safeHTML }}</h3>{{ end }}
+    {{- with .desc | default $p.Description }}<p>{{ . }}</p>{{ end }}
+  </div>
+</article>

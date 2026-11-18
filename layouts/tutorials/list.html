@@ -1,0 +1,16 @@
+{{- /* /tutorials/: every tutorial, newest first. The curated list with descriptions is Screencasts & Tutorials (content/screencasts.md). */ -}}
+{{ define "main" }}
+<div class="page is-list">
+  <div class="wrap">
+    <header class="page-head">
+      {{ partial "site/page-rule.html" . }}
+      <h1>{{ .Title }}</h1>
+    </header>
+    <div class="cards-grid">
+      {{- range .Pages.ByDate.Reverse }}
+      {{ partial "site/card.html" (dict "page" .) }}
+      {{- end }}
+    </div>
+  </div>
+</div>
+{{ end }}

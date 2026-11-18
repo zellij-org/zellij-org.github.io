@@ -1,0 +1,18 @@
+{{- /* /tags/<tag>/: the posts with that tag, newest first. */ -}}
+{{ define "main" }}
+<div class="page">
+  <div class="wrap">
+    <header class="page-head">
+      {{ partial "site/page-rule.html" . }}
+      <h1><span class="hash" aria-hidden="true">#</span>{{ .Title }}</h1>
+    </header>
+    <div class="page-body">
+      <ul class="rows">
+        {{- range .Pages.ByDate.Reverse }}
+        <li>{{ if not .Date.IsZero }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format .Site.Params.dateform }}</time>{{ end }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>
+        {{- end }}
+      </ul>
+    </div>
+  </div>
+</div>
+{{ end }}

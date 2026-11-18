@@ -1,0 +1,11 @@
+{{- /* The posts on either side of this one in its section, by date: returns a dict with "newer" and "older" (either may be nil). */ -}}
+{{- $list := (where .Site.RegularPages "Section" .Section).ByDate.Reverse -}}
+{{- $newer := false -}}
+{{- $older := false -}}
+{{- range $i, $p := $list -}}
+  {{- if eq $p $ -}}
+    {{- if gt $i 0 }}{{ $newer = index $list (sub $i 1) }}{{ end -}}
+    {{- if lt (add $i 1) (len $list) }}{{ $older = index $list (add $i 1) }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- return (dict "newer" $newer "older" $older) -}}
