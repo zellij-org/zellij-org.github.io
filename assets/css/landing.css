@@ -1,9 +1,24 @@
 /* Landing pages: the homepage (layouts/index.html) and Agents (layouts/_default/agents.html), with their demos.
    Loaded after site.css, which has the colors, type, panes, rows, header, search, footer and status bar. */
 
-/* Hero row: Zellij and how to install it on the left, the demo on the right */
-.hero-pane { gap: 1.25rem; }
-.hero-pane h1 { margin-top: 0.25rem; }
+/* Hero: one pane. At the top, Zellij and how to install it, with the demo in a pane of its own beside it, 40/60;
+   below, the details. Stacked on narrower screens. */
+.hero-pane { gap: clamp(1.5rem, 3vw, 2.25rem); }
+.hero-top { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: clamp(1.5rem, 3vw, 2.5rem); align-items: center; }
+.hero-main { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; align-content: start; min-width: 0; }
+.hero-main h1 { margin-top: 0.25rem; }
+.hero-top > .pane { padding: 1.3rem clamp(0.75rem, 1.6vw, 1rem) clamp(0.75rem, 1.6vw, 1rem); }
+.hero-more { padding-top: 1.25rem; border-top: 1px solid var(--line-soft); }
+.hero-more:has(> p) { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem clamp(1.5rem, 3vw, 2.5rem); }
+.hero-more p { color: var(--muted); font-size: 0.93rem; line-height: 1.55; }
+.hero-more strong { color: var(--text-strong); }
+.hero-more a { color: var(--sub); font-weight: 700; text-decoration: none; }
+.hero-more a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.hero-more .agents-row { padding-top: 0; border-top: 0; }
+@media (max-width: 940px) {
+  .hero-top { grid-template-columns: minmax(0, 1fr); }
+  .hero-more:has(> p) { grid-template-columns: minmax(0, 1fr); }
+}
 .news-pill {
   justify-self: start;
   display: inline-flex;
@@ -15,6 +30,7 @@
   text-decoration: none;
 }
 .news-pill b { flex-shrink: 0; padding: 0.3rem 0.55rem; background: var(--fill-amber); color: var(--on-fill); font: 700 0.74rem/1 var(--font-mono); letter-spacing: 0; }
+.news-pill span { text-wrap: balance; }
 .news-pill:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 .install { display: grid; gap: 0.85rem; margin-top: 0.25rem; }
@@ -40,41 +56,24 @@
 .dl-alt { font-size: 0.9rem; color: var(--muted); }
 .dl-alt a { color: var(--sub); font-weight: 700; text-decoration: none; }
 .dl-alt a:hover { text-decoration: underline; }
-.fine { font-size: 0.9rem; color: var(--muted); }
-.fine a, .platforms a { color: var(--sub); font-weight: 700; text-decoration: none; }
-.fine a:hover, .platforms a:hover { text-decoration: underline; text-underline-offset: 3px; }
-.platforms { font-size: 0.93rem; color: var(--muted); }
 
-/* The hero row's right column: the live demo, and the numbers under it */
-.hero-side { grid-template-rows: minmax(0, 1fr) auto; }
-/* The demo's pane: the drawing, then its caption or the guided steps */
-.demo-pane { align-content: center; }
-.hero-term { margin: 0; display: grid; gap: 0.9rem; min-width: 0; }
+/* The demo, in its pane beside the hero's text, with its pause button on the frame. Side by side, the window is 4:3,
+   whatever its scene holds, so the page never moves as it plays; its panes get the extra lines. Stacked, it keeps
+   its usual shape. */
+.demo { min-width: 0; }
+@media (min-width: 941px) {
+  .demo-pane .term { display: flex; flex-direction: column; width: 100%; aspect-ratio: 4 / 3; min-height: 0; }
+  .demo-pane .term-screen { display: flex; flex-direction: column; flex: 1 1 0; min-height: 0; }
+  .demo-pane .t-body { flex: 1 1 0; height: auto; min-height: 0; }
+}
 
 /* Terminal window, drawn with Zellij 0.46's default UI */
-.hero-term { margin: 0; display: grid; gap: 0.8rem; min-width: 0; }
 .term {
   position: relative;
   container-type: inline-size;
   overflow: hidden;
   background: var(--t-bg);
-  transition: box-shadow 0.2s ease;
 }
-.term.trying { box-shadow: 0 0 0 1px var(--accent); }
-/* The window title bar shows only when the demo floats; in the page, the pane title takes its place */
-.pane .term-bar { display: none; }
-.term-bar {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 0.75rem;
-  background: #1f2022;
-  color: #cfcfcf;
-  font: 600 0.76rem/1 var(--font-body);
-}
-.term-bar img { width: 14px; height: auto; display: block; }
-.term-ctl { justify-self: end; color: #9a9a9a; font: 600 0.72rem/1 var(--font-mono); letter-spacing: 0.6em; }
 .term-screen {
   font-family: var(--font-mono);
   font-size: clamp(6.4px, 1.6cqi, 14px);
@@ -112,8 +111,12 @@
 .tpane.focused .tp-title { color: var(--t-green); }
 .tp-body { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
 .tpane pre { margin: 0; font: inherit; white-space: pre; overflow: hidden; }
-.t-right.split .tp-b .tp-body { justify-content: flex-end; }
-.t-right.split .tp-b pre { flex-shrink: 0; }
+/* A pane's output starts at the top, and when the pane is too short for it, its newest lines stay in view, as in a
+   terminal: the empty ::after takes any spare room below the output, and without spare room, the output sits on the
+   bottom edge. The editor keeps its first lines and its status line instead, and the inbox lays out its own. */
+.tp-body:not(.inbox):not(:has(> .hx-status)) { justify-content: flex-end; }
+.tp-body:not(.inbox):not(:has(> .hx-status)) > * { flex-shrink: 0; }
+.tp-body:not(.inbox):not(:has(> .hx-status))::after { content: ""; flex: 1 0 0; }
 /* A scene's elements: data-states lists the scenes an element shows in; the window's data-state is the current one */
 .term[data-state="0"] [data-states]:not([data-states~="0"]),
 .term[data-state="1"] [data-states]:not([data-states~="1"]),
@@ -196,72 +199,6 @@
 }
 .t-key.pop { animation: pop 0.28s ease-out; }
 @keyframes pop { from { transform: scale(0.75); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-.term-cap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem 1rem; font-size: 0.95rem; color: var(--muted); }
-.term-cap > span:first-child { flex: 1 1 16rem; }
-.cap-btns { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
-
-/* Guided try-it: replaces the caption while active */
-.guide { display: grid; gap: 0.65rem; padding: 0.85rem 0.95rem 0.95rem; border: 1px solid var(--line); }
-.guide:focus { outline: none; }
-.guide-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 0.9rem; }
-.guide-top .guide-text { flex: 1 1 16rem; }
-.guide-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.4rem; }
-.guide-row .guide-hint { flex: 1 1 18rem; }
-.guide-step { color: var(--accent); font: 700 0.78rem/1 var(--font-mono); }
-.guide-text { color: var(--text-strong); font-size: 1rem; line-height: 1.45; }
-.guide-keys { display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; }
-.g-key {
-  padding: 0.5em 0.75em;
-  border: 1px solid var(--line);
-  border-bottom-width: 3px;
-  border-radius: 3px;
-  background: var(--bg-deep);
-  color: var(--text-strong);
-  font: 700 0.86rem/1 var(--font-mono);
-  cursor: pointer;
-}
-.g-key.is-next { border-color: var(--accent); }
-.g-key.is-done { border-color: var(--fill-green); background: var(--fill-green); color: var(--on-fill); }
-.g-key.is-wrong { animation: nudge 0.32s ease; }
-@keyframes nudge { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
-.g-then { color: var(--muted); font-size: 0.85rem; }
-.guide-hint { color: var(--muted); font-size: 0.88rem; line-height: 1.45; }
-.guide-hint.is-warn { color: var(--sub); }
-.guide-end { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; }
-.guide-close { margin-left: auto; }
-.guide-close kbd { margin-left: 0.4rem; padding: 0.12em 0.35em; border-bottom-width: 1px; font-size: 0.68rem; }
-
-/* Try it yourself: the demo floats centered and wide above the page, as a floating pane.
-   Esc, Close or a click outside puts it back. */
-.try-scrim { position: fixed; inset: 0; z-index: 40; background: var(--scrim); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
-html.is-trying { overflow: hidden; }
-.hero-term.is-floating {
-  position: fixed;
-  z-index: 41;
-  top: 50%;
-  left: 50%;
-  width: min(1180px, calc(100vw - 32px));
-  max-height: calc(100vh - 32px);
-  overflow-y: auto;
-  padding: clamp(0.8rem, 2vw, 1.25rem);
-  border: 1px solid var(--accent);
-  background: var(--bg);
-  box-shadow: 0 50px 120px -30px rgba(0, 0, 0, 0.75);
-  transform: translate(-50%, -50%);
-  animation: float-in 0.22s ease-out;
-}
-@keyframes float-in { from { opacity: 0; transform: translate(-50%, -47%) scale(0.98); } }
-.hero-term.is-floating figcaption { order: -1; }
-.hero-term.is-floating .guide { padding: 0.1rem 0.2rem 0.3rem; border: 0; }
-
-/* Numbers, compact under the demo */
-.stats-pane { padding-block: 1.3rem 1.1rem; container-type: inline-size; }
-.facts-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem 1rem; }
-@container (min-width: 30rem) { .facts-row { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-.fact { display: grid; gap: 0.1rem; align-content: start; }
-.fact b { color: var(--text-strong); font: 700 1.35rem/1.1 var(--font-mono); font-variant-numeric: tabular-nums; }
-.fact span { color: var(--muted); font-size: 0.85rem; }
-.fact a { color: inherit; text-decoration-color: var(--line); text-underline-offset: 3px; }
 
 /* The agents that report to the inbox, each with the inbox's "working" dot */
 .agents-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.7rem 1.6rem; padding-top: 1.1rem; border-top: 1px solid var(--line-soft); }
@@ -300,22 +237,21 @@ html.is-trying { overflow: hidden; }
 
 /* Support */
 .card-head { display: flex; align-items: center; gap: 0.6rem; }
-.card-head .online-name { color: var(--accent); font-size: 1.1rem; }
+.card-head .online-name { color: var(--accent); }
 
 /* Docs */
 .docs-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem 1.5rem; }
 .docs-hint { color: var(--muted); font-size: 0.92rem; }
 
 @media (prefers-reduced-motion: reduce) {
-  .t-key.pop, .g-key.is-wrong, .t-cur { animation: none; }
-  .term-screen, .term { transition: none; }
-  .hero-term.is-floating { animation: none; }
+  .t-key.pop, .t-cur { animation: none; }
+  .term-screen { transition: none; }
 }
 
 /* Single-column grids: keep long no-wrap commands from widening the page on phones */
-.install, .os-panel, .qa, .guide { grid-template-columns: minmax(0, 1fr); }
+.install, .os-panel, .qa { grid-template-columns: minmax(0, 1fr); }
 
-code.cmd, .term-screen, .t-key, .agents li, .g-key, .guide-step, .fact b, .news-pill b { letter-spacing: 0; }
+code.cmd, .term-screen, .t-key, .agents li, .news-pill b { letter-spacing: 0; }
 
 /* Inline code in the panes' text */
 .modes code, .qa code, .pane > p code, .feature-text p code { padding: 0.2rem 0.45rem; border-radius: 3px; background: var(--code-bg); color: var(--text-strong); font: 600 0.85em/1.2 var(--font-mono); }

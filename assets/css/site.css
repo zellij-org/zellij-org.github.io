@@ -159,7 +159,7 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .link { color: var(--sub); font-weight: 700; text-decoration: none; }
 .link:hover { text-decoration: underline; text-underline-offset: 3px; }
 /* Buttons, written like zellij.online's: [ label ]. Filled for the main action, framed for the rest. */
-.btn, .btn-try, .btn-quiet, .btn-dl, .copy {
+.btn, .btn-dl, .copy {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
@@ -174,13 +174,13 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
   white-space: nowrap;
   cursor: pointer;
 }
-.btn::before, .btn-try::before, .btn-quiet::before, .btn-dl::before, .copy::before { content: "[" / ""; opacity: 0.7; }
-.btn::after, .btn-try::after, .btn-quiet::after, .btn-dl::after, .copy::after { content: "]" / ""; opacity: 0.7; }
-.btn-green, .btn-try, .copy { background: var(--fill-green); color: var(--on-fill); }
+.btn::before, .btn-dl::before, .copy::before { content: "[" / ""; opacity: 0.7; }
+.btn::after, .btn-dl::after, .copy::after { content: "]" / ""; opacity: 0.7; }
+.btn-green, .copy { background: var(--fill-green); color: var(--on-fill); }
 .btn-rose { background: var(--fill-rose); color: var(--on-fill); }
-.btn-quiet, .btn-dl { border-color: var(--line); }
-.btn-quiet:hover, .btn-dl:hover { border-color: var(--text-strong); }
-.btn-try:hover, .copy:hover { filter: brightness(1.07); }
+.btn-dl { border-color: var(--line); }
+.btn-dl:hover { border-color: var(--text-strong); }
+.copy:hover { filter: brightness(1.07); }
 .copy.is-done { background: var(--fill-amber); }
 .btn:hover { filter: brightness(1.07); }
 kbd {
@@ -447,8 +447,32 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
   transition: color 0.15s ease;
 }
 .pane .pane .pane-title { background: var(--bg); }
+.pane .pane .pane-ctl { background-image: linear-gradient(var(--bg), var(--bg)); }
+/* A control on the frame, across from the title, like the indicators on the right of Zellij's pane frames: [ pause ].
+   Its box is 24px tall to be easy to hit, with only the text's height covering the frame. */
+.pane-ctl {
+  position: absolute;
+  top: 0;
+  right: 0.85rem;
+  z-index: 1;
+  min-height: 24px;
+  margin: 0;
+  padding: 0 0.5rem;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(var(--bg-deep), var(--bg-deep)) center / 100% 1.25em no-repeat;
+  color: var(--muted);
+  font: 700 0.85rem/1.25 var(--font-mono);
+  letter-spacing: 0;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: color 0.15s ease;
+}
+.pane-ctl::before { content: "[ " / ""; }
+.pane-ctl::after { content: " ]" / ""; }
+.pane-ctl:hover { color: var(--text-strong); }
 .pane.is-focus { border-color: var(--accent); }
-.pane.is-focus > .pane-title { color: var(--accent); }
+.pane.is-focus > .pane-title, .pane.is-focus > * > .pane-ctl { color: var(--accent); }
 .pane > :is(h1, h2, h3, p, ul, ol) { margin: 0; }
 
 /* A page of panes, laid out like a Zellij session: full-width panes, and rows that split side by side.
@@ -458,16 +482,16 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 .session { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--pane-gap); padding-block: 2rem 3.5rem; }
 .row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem var(--pane-gap-tight); }
 .group { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem; }
-.row-hero { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
 .row-split { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
 .row-split.rev { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
 .row-split.rev > :first-child { order: 2; }
+.row-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .row-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 @media (max-width: 940px) {
-  .row-hero, .row-split, .row-split.rev { grid-template-columns: minmax(0, 1fr); }
+  .row-split, .row-split.rev { grid-template-columns: minmax(0, 1fr); }
   .row-split.rev > :first-child { order: 0; }
 }
-@media (max-width: 860px) { .row-3 { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 860px) { .row-2, .row-3 { grid-template-columns: minmax(0, 1fr); } }
 .pane-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; }
 .pane-links a { display: grid; gap: 0.15rem; margin: 0 -0.6rem; padding: 0.55rem 0.6rem; border-radius: 0; text-decoration: none; }
 .pane-links a:hover { background: var(--sel); }
@@ -655,4 +679,4 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 
 /* Body letter-spacing is for the text font only: monospace keeps its natural spacing */
 button { letter-spacing: inherit; }
-code, kbd, pre, samp, h1, h2, h3, .seg, .online, .band-rule, .sb-row, .ver, .brand, .beta, .search-close, .search-hit .sh-path, .pane-title, .pane-links b, .code-title, .code-pane .copy, .tags a, .rows time, .hash, .tagline, .card-title, .pager b, .llm-hint { letter-spacing: 0; }
+code, kbd, pre, samp, h1, h2, h3, .seg, .online, .band-rule, .sb-row, .ver, .brand, .beta, .search-close, .search-hit .sh-path, .pane-title, .pane-ctl, .pane-links b, .code-title, .code-pane .copy, .tags a, .rows time, .hash, .tagline, .card-title, .pager b, .llm-hint { letter-spacing: 0; }

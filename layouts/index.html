@@ -10,73 +10,64 @@
 {{- $l := .Site.Params.landing -}}
 {{- $short := delimit (first 2 (split $l.version ".")) "." -}}
 {{- $dl := "https://github.com/zellij-org/zellij/releases/latest/download/" -}}
-{{- $vsTmux := .Site.GetPage "/vs-tmux" -}}
   {{- /* The page is a Zellij session: each section is a pane, and rows split side by side like a layout.
          The pane under the pointer, or holding keyboard focus, gets the focused frame (site.js). */}}
   <div class="wrap session">
-    <div class="row row-hero" id="install">
-      <section class="pane hero-pane is-focus">
-        <span class="pane-title" aria-hidden="true">zellij</span>
-        <a class="news-pill" href="{{ $l.releasePost }}"><b>New in {{ $short }}</b>{{ $l.releaseHeadline }} →</a>
-        <h1>Power without complexity.</h1>
-        <p class="lead">{{ .Site.Params.description }}</p>
-        <div class="install">
-          <div class="os-tabs" role="tablist" aria-label="Your system">
-            <button class="os-tab seg" role="tab" id="tab-linux" data-os="linux" aria-controls="panel-linux" aria-selected="true" type="button">Linux</button>
-            <button class="os-tab seg" role="tab" id="tab-macos" data-os="macos" aria-controls="panel-macos" aria-selected="false" tabindex="-1" type="button">macOS</button>
-            <button class="os-tab seg" role="tab" id="tab-windows" data-os="windows" aria-controls="panel-windows" aria-selected="false" tabindex="-1" type="button">Windows</button>
-          </div>
-          <div class="os-panel" role="tabpanel" id="panel-linux" aria-labelledby="tab-linux">
-            <div class="cmd-box"><code class="cmd" data-prompt="$">bash &lt;(curl -L https://zellij.dev/launch)</code><button class="copy" type="button" data-copy="bash <(curl -L https://zellij.dev/launch)">Copy</button></div>
-            <div class="dl-row">
-              <a class="btn-dl" href="{{ $dl }}zellij-x86_64-unknown-linux-musl.tar.gz"><span aria-hidden="true">↓</span> Download {{ $l.version }} for Linux</a>
-              <span class="dl-alt"><a href="{{ $dl }}zellij-aarch64-unknown-linux-musl.tar.gz">ARM64</a> · <a href="https://repology.org/project/zellij/versions">Packages</a></span>
+    {{- /* Zellij and how to get it: the title, the install command and a demo side by side, then the details below */}}
+    <section class="pane hero-pane is-focus" id="install">
+      <span class="pane-title" aria-hidden="true">zellij</span>
+      <div class="hero-top">
+        <div class="hero-main">
+          <a class="news-pill" href="{{ $l.releasePost }}"><b>New in {{ $short }}</b><span>{{ $l.releaseHeadline }}&nbsp;→</span></a>
+          <h1>Power without complexity.</h1>
+          <p class="lead">{{ .Site.Params.description }}</p>
+          <div class="install">
+            <div class="os-tabs" role="tablist" aria-label="Your system">
+              <button class="os-tab seg" role="tab" id="tab-linux" data-os="linux" aria-controls="panel-linux" aria-selected="true" type="button">Linux</button>
+              <button class="os-tab seg" role="tab" id="tab-macos" data-os="macos" aria-controls="panel-macos" aria-selected="false" tabindex="-1" type="button">macOS</button>
+              <button class="os-tab seg" role="tab" id="tab-windows" data-os="windows" aria-controls="panel-windows" aria-selected="false" tabindex="-1" type="button">Windows</button>
+            </div>
+            <div class="os-panel" role="tabpanel" id="panel-linux" aria-labelledby="tab-linux">
+              <div class="cmd-box"><code class="cmd" data-prompt="$">bash &lt;(curl -L https://zellij.dev/launch)</code><button class="copy" type="button" data-copy="bash <(curl -L https://zellij.dev/launch)">Copy</button></div>
+              <div class="dl-row">
+                <a class="btn-dl" href="{{ $dl }}zellij-x86_64-unknown-linux-musl.tar.gz"><span aria-hidden="true">↓</span> Download {{ $l.version }} for Linux</a>
+                <span class="dl-alt"><a href="{{ $dl }}zellij-aarch64-unknown-linux-musl.tar.gz">ARM64</a> · <a href="https://repology.org/project/zellij/versions">Packages</a></span>
+              </div>
+            </div>
+            <div class="os-panel" role="tabpanel" id="panel-macos" aria-labelledby="tab-macos" hidden>
+              <div class="cmd-box"><code class="cmd" data-prompt="$">bash &lt;(curl -L https://zellij.dev/launch)</code><button class="copy" type="button" data-copy="bash <(curl -L https://zellij.dev/launch)">Copy</button></div>
+              <div class="dl-row">
+                <a class="btn-dl" href="{{ $dl }}zellij-aarch64-apple-darwin.tar.gz"><span aria-hidden="true">↓</span> Download {{ $l.version }} for Apple Silicon</a>
+                <span class="dl-alt"><a href="{{ $dl }}zellij-x86_64-apple-darwin.tar.gz">Intel Mac</a></span>
+              </div>
+            </div>
+            <div class="os-panel" role="tabpanel" id="panel-windows" aria-labelledby="tab-windows" hidden>
+              <div class="cmd-box"><code class="cmd" data-prompt="&gt;">irm https://zellij.dev/launch.ps1 | iex</code><button class="copy" type="button" data-copy="irm https://zellij.dev/launch.ps1 | iex">Copy</button></div>
+              <div class="dl-row">
+                <a class="btn-dl" href="{{ $dl }}zellij-x86_64-pc-windows-msvc-installer.msi"><span aria-hidden="true">↓</span> Download {{ $l.version }} for Windows</a>
+                <span class="dl-alt"><a href="{{ $dl }}zellij-x86_64-pc-windows-msvc.zip">.zip</a></span>
+              </div>
             </div>
           </div>
-          <div class="os-panel" role="tabpanel" id="panel-macos" aria-labelledby="tab-macos" hidden>
-            <div class="cmd-box"><code class="cmd" data-prompt="$">bash &lt;(curl -L https://zellij.dev/launch)</code><button class="copy" type="button" data-copy="bash <(curl -L https://zellij.dev/launch)">Copy</button></div>
-            <div class="dl-row">
-              <a class="btn-dl" href="{{ $dl }}zellij-aarch64-apple-darwin.tar.gz"><span aria-hidden="true">↓</span> Download {{ $l.version }} for Apple Silicon</a>
-              <span class="dl-alt"><a href="{{ $dl }}zellij-x86_64-apple-darwin.tar.gz">Intel Mac</a></span>
-            </div>
-          </div>
-          <div class="os-panel" role="tabpanel" id="panel-windows" aria-labelledby="tab-windows" hidden>
-            <div class="cmd-box"><code class="cmd" data-prompt="&gt;">irm https://zellij.dev/launch.ps1 | iex</code><button class="copy" type="button" data-copy="irm https://zellij.dev/launch.ps1 | iex">Copy</button></div>
-            <div class="dl-row">
-              <a class="btn-dl" href="{{ $dl }}zellij-x86_64-pc-windows-msvc-installer.msi"><span aria-hidden="true">↓</span> Download {{ $l.version }} for Windows</a>
-              <span class="dl-alt"><a href="{{ $dl }}zellij-x86_64-pc-windows-msvc.zip">.zip</a></span>
-            </div>
-          </div>
-          <p class="fine">The script starts the latest release and offers to install it, or you can just try it from a temporary folder. <a href="/documentation/installation.html">More ways to install</a></p>
         </div>
-        <p class="platforms">Linux, macOS and Windows. <a href="/documentation/web-client.html">On your phone through the web client&nbsp;→</a></p>
-      </section>
-      <div class="group hero-side">
-        <section class="pane demo-pane">
+        <div class="pane demo-pane">
           <span class="pane-title" aria-hidden="true">{{ (index hugo.Data.demos "home").title }}</span>
           {{ partial "demo/demo.html" (dict "name" "home") }}
-        </section>
-        <section class="pane stats-pane" aria-label="Zellij in numbers">
-          <span class="pane-title" aria-hidden="true">stats</span>
-          <ul class="facts-row">
-            <li class="fact"><b>{{ $l.stars }}</b><span>stars on GitHub</span></li>
-            <li class="fact"><b>{{ $l.contributors }}</b><span>contributors</span></li>
-            <li class="fact"><b>{{ $l.plugins }}</b><span><a href="https://github.com/zellij-org/awesome-zellij">community plugins</a></span></li>
-            <li class="fact"><b>{{ $l.packages }}</b><span><a href="https://repology.org/project/zellij/versions">package repositories</a></span></li>
-            <li class="fact"><b>{{ $l.firstRelease }}</b><span>first release</span></li>
-          </ul>
-        </section>
+        </div>
       </div>
-    </div>
+      <div class="hero-more">
+        <p><strong>Try it before you install it.</strong> The script starts the latest release and offers to install it, or runs it from a temporary folder. <a href="/documentation/installation.html">More ways to install&nbsp;→</a></p>
+        <p><strong>Wherever you work.</strong> Linux, macOS and Windows, on your computer or on a server over SSH, and in a browser, even on a phone, with the <a href="/documentation/web-client.html">web client&nbsp;→</a></p>
+        <p><strong>Free and open source.</strong> MIT licensed, with no ads, no telemetry and no account. Developed full-time, and paid for by its <a href="#support">sponsors&nbsp;→</a></p>
+      </div>
+    </section>
 
-
-    {{- /* A way into the Agents page, with a still of its demo */}}
-    <section class="pane feature-pane" id="agents">
+    {{- /* A way into the Agents page, with its demo playing */}}
+    <section class="pane feature-pane rev" id="agents">
       <span class="pane-title" aria-hidden="true">agents</span>
       <div class="feature-text">
         <h2>Running coding agents?</h2>
         <p class="lead">Run them side by side in tabs and sessions, see at a glance which one needs you, and answer it from the inbox without switching.</p>
-        {{ partial "site/agents-list.html" . }}
         <div class="actions">
           <a class="btn btn-green" href="/agents/">Zellij for coding agents</a>
           <a class="link" href="/tutorials/zellij-with-coding-agents/">Tutorial →</a>
@@ -138,103 +129,37 @@
       </figure>
     </section>
 
-    <section class="pane" id="questions">
-      <span class="pane-title" aria-hidden="true">questions</span>
-      <h2>Switching is easy</h2>
-      <div class="faq">
-        <div class="qa">
-          <h3>How is Zellij different from tmux?</h3>
-          <p>Zellij shows its keys on screen, and more comes built in: layouts, restoring sessions after a reboot, a web client, its own terminal window and the inbox. It also runs natively on Windows. If your fingers know tmux, press <strong>Ctrl b</strong>: tmux mode keeps <kbd>"</kbd> and <kbd>%</kbd> to split, and <kbd>c</kbd> for a new tab.{{ with $vsTmux }} <a href="{{ .RelPermalink }}">Zellij vs tmux, side by side →</a>{{ end }}</p>
-        </div>
-        <div class="qa">
-          <h3>Which coding agents does it work with?</h3>
-          <p>Any agent that runs in a terminal, and most report their status to the inbox on their own. <a href="/agents/">Zellij for coding agents →</a></p>
-        </div>
-        <div class="qa">
-          <h3>Do I have to give up my terminal?</h3>
-          <p>No. Zellij runs inside the terminal you already use. Since 0.46 it can also run in its own window with <strong>zellij terminal</strong>, which adds a tray icon and desktop notifications.</p>
-        </div>
-        <div class="qa">
-          <h3>Can I use it on a server, or from my phone?</h3>
-          <p>Yes. Run it on a remote machine over SSH and your sessions survive dropped connections. The built-in web client opens your sessions in a browser, including on a phone.</p>
-        </div>
-        <div class="qa">
-          <h3>Is Zellij free?</h3>
-          <p>Yes. It's free and open source under the MIT license, with no ads, no telemetry and no account. The maintainers also run <a href="/zellij-online/">zellij.online</a>, an optional paid service for sharing sessions.</p>
-        </div>
-        <div class="qa">
-          <h3>Who makes Zellij?</h3>
-          <p>Aram Drevekenin works on it full-time, funded by sponsors, with a handful of volunteers who help in different areas. The first beta shipped in April 2021, and a new release has followed every few months since.</p>
-        </div>
-      </div>
-    </section>
-
-    <div class="row row-3" id="support">
+    <div class="row row-2" id="support">
       <section class="pane">
-        <span class="pane-title" aria-hidden="true">support</span>
+        <span class="pane-title" aria-hidden="true">sponsor</span>
         <h2>Help keep Zellij independent</h2>
-        <p class="lead">Zellij is developed full-time and paid for by the people who use it. No ads, no telemetry, no venture capital.</p>
+        <p>Zellij is developed full-time and paid for by the people who use it, with no ads, no telemetry and no venture capital. Monthly sponsors get Zellij stickers as a thank you.</p>
+        <div class="actions">
+          <a class="btn btn-rose" href="https://github.com/sponsors/imsnif"><span aria-hidden="true">♥</span> Sponsor on GitHub</a>
+          <a class="link" href="/stickers/">Ko-fi and Liberapay →</a>
+        </div>
       </section>
       <section class="pane">
         <span class="pane-title" aria-hidden="true">zellij.online</span>
-        <div class="card-head"><h3 class="online-name">zellij.online</h3><span class="beta">beta</span></div>
+        <div class="card-head"><h2 class="online-name">zellij.online</h2><span class="beta">beta</span></div>
         <p>Share a terminal session with a link. People join from a browser, a terminal or a phone, end-to-end encrypted, with no certificates or port-forwarding to set up. Run by the Zellij maintainers.</p>
         <div class="actions">
           <a class="btn btn-green" href="https://zellij.online">Join the waiting list</a>
           <a class="link" href="/zellij-online/">What it means for Zellij →</a>
         </div>
       </section>
-      <section class="pane">
-        <span class="pane-title" aria-hidden="true">sponsor</span>
-        <div class="card-head"><h3>Sponsor the developer</h3></div>
-        <p>Recurring sponsorships pay for full-time work on Zellij. Monthly sponsors get Zellij stickers as a thank you.</p>
-        <div class="actions">
-          <a class="btn btn-rose" href="https://github.com/sponsors/imsnif"><span aria-hidden="true">♥</span> Sponsor on GitHub</a>
-          <a class="link" href="/stickers/">Ko-fi and Liberapay →</a>
-        </div>
-      </section>
     </div>
 
-    <div class="group">
-      <section class="pane docs-head" id="next">
-        <span class="pane-title" aria-hidden="true">docs</span>
-        <h2>Start with the basics, or go straight to plugins</h2>
-        <div class="docs-cta">
-          <a class="btn btn-green" href="/documentation/">Read the docs</a>
-          <a class="link" href="/screencasts/">All tutorials →</a>
-          <span class="docs-hint">or press <kbd class="search-key">Ctrl K</kbd> to search</span>
-        </div>
-      </section>
-      <div class="row row-3">
-        <section class="pane">
-          <h3 class="pane-title">getting started</h3>
-          <ul class="pane-links">
-            <li><a href="/documentation/installation.html"><b>Install Zellij</b><span>Packages, binaries, or try it first</span></a></li>
-            <li><a href="/tutorials/basic-functionality/"><b>The basics</b><span>Floating panes, command panes and scrollback</span></a></li>
-            <li><a href="/tutorials/zellij-with-coding-agents/"><b>Managing coding agents</b><span>Every agent, from one inbox</span></a></li>
-            <li><a href="/tutorials/zellij-terminal/"><b>Zellij as your terminal</b><span>Its own window, with desktop integration</span></a></li>
-          </ul>
-        </section>
-        <section class="pane">
-          <h3 class="pane-title">make it yours</h3>
-          <ul class="pane-links">
-            <li><a href="/documentation/configuration.html"><b>Configuration</b><span>The settings screen and the config file</span></a></li>
-            <li><a href="/documentation/rebinding-keys.html"><b>Keybindings</b><span>Presets, and changing any key</span></a></li>
-            <li><a href="/documentation/themes.html"><b>Themes</b><span>Built-in themes, or make your own</span></a></li>
-            <li><a href="/documentation/layouts.html"><b>Layouts</b><span>Save a project's workspace as a file</span></a></li>
-          </ul>
-        </section>
-        <section class="pane">
-          <h3 class="pane-title">build on it</h3>
-          <ul class="pane-links">
-            <li><a href="/documentation/controlling-zellij-through-cli.html"><b>Scripting</b><span>Drive Zellij from scripts and other programs</span></a></li>
-            <li><a href="/documentation/plugins.html"><b>Plugins</b><span>Extend Zellij with WebAssembly</span></a></li>
-            <li><a href="/tutorials/developing-a-rust-plugin/"><b>Your first plugin</b><span>A step-by-step tutorial in Rust</span></a></li>
-            <li><a href="/documentation/distributions.html"><b>Zellij as a library</b><span>Build your own Zellij distribution</span></a></li>
-          </ul>
-        </section>
+    <section class="pane" id="next">
+      <span class="pane-title" aria-hidden="true">docs</span>
+      <h2>Start with the basics, or go straight to plugins</h2>
+      <div class="docs-cta">
+        <a class="btn btn-green" href="/documentation/">Read the docs</a>
+        <a class="link" href="/tutorials/basic-functionality/">The basics →</a>
+        <a class="link" href="/documentation/plugins.html">Plugins →</a>
+        <span class="docs-hint">or press <kbd class="search-key">Ctrl K</kbd> to search</span>
       </div>
-    </div>
+    </section>
   </div>
 
 {{ end }}
@@ -242,10 +167,8 @@
 {{ define "statusbar" }}
 {{- partial "site/statusbar.html" (dict "segs" (slice
   (dict "k" "i" "t" "INSTALL" "target" "install")
-  (dict "k" "t" "t" "TRY IT" "action" "try")
   (dict "k" "a" "t" "AGENTS" "target" "agents")
   (dict "k" "f" "t" "FEATURES" "target" "features")
-  (dict "k" "q" "t" "QUESTIONS" "target" "questions")
   (dict "k" "s" "t" "SUPPORT" "target" "support")
   (dict "k" "d" "t" "DOCS" "target" "next")
 )) }}

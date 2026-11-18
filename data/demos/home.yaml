@@ -1,11 +1,8 @@
 # The homepage demo: a project with an editor, a server and its tests.
 # The window's contents are drawn in layouts/partials/demo/home.html; assets/js/landing.js plays it.
 # The keys are Zellij's defaults, and both are listed in its status bar.
-title: "live demo | code"  # the title of the pane it plays in
+title: "demo | code"  # the title of the pane it plays in
 label: "A Zellij session with an editor, a running server and a test watcher. A floating pane opens on top of the editor and hides again, then a new pane opens below the editor. The status bar at the bottom lists the keys for both."
-caption:
-  title: "Your whole project in one window."
-  text: "Every key is on screen: pop a floating pane over your work, hide it, open a new pane."
 
 # Scenes, played in a loop. Elements with data-states="1 2" show only in those scenes.
 #   key:   the keys shown while it plays
@@ -17,22 +14,3 @@ states:
   - { key: "Alt f", focus: a }
   - { key: "Alt n", focus: n, set: { ".t-left": split } }
 reduced: 1  # shown, still, to people who prefer reduced motion
-start: 0    # where "Try it yourself" starts
-
-# "Try it yourself": each step lists the keys to press, and the scene they lead to.
-# {Alt} reads "Option" on a Mac.
-steps:
-  - keys: ["Alt f"]
-    done: 1
-    text: "Open a floating pane on top of your work:"
-    hint: "{Alt} f shows and hides floating panes. It's in the status bar at the bottom, like every other key. On a phone, tap it."
-  - keys: ["Alt f"]
-    done: 2
-    text: "Hide it again. Whatever runs in it keeps running:"
-    hint: "Press {Alt} f again any time to bring it back where you left it."
-  - keys: ["Alt n"]
-    done: 3
-    text: "Now open a new pane:"
-    hint: "{Alt} n opens a new pane in the largest free space."
-finish: "That's the basics, and every key you need is in the status bar, so there's nothing to memorize."
-more: { text: "Learn the basics →", href: "/tutorials/basic-functionality/" }

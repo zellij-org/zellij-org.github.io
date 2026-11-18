@@ -76,14 +76,8 @@ disableHugoGeneratorInject = false
     releasePost     = "/news/terminal-inbox-session-previews/"
     releaseHeadline = "Zellij now comes with its own terminal"
     title           = "Zellij: a terminal workspace and multiplexer"
-    # Numbers for the proof strip and header, as of 2026-11-14:
-    # stars and contributors from the GitHub API, packages from repology.org/project/zellij,
-    # plugins from the Plugins section of github.com/zellij-org/awesome-zellij (78 on 2026-11-15)
+    # GitHub stars, shown in the header, as of 2026-11-14 (from the GitHub API)
     stars           = "36.1k"
-    contributors    = "220+"
-    plugins         = "75+"
-    packages        = "53"
-    firstRelease    = "2021"
 
   # Social links, in the footer and on the News page
 

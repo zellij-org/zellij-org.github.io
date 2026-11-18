@@ -3,22 +3,27 @@
 {{ define "main" }}
 {{- $t := partial "site/title.html" . -}}
   <div class="wrap session">
-    <div class="row row-hero" id="try">
-      <section class="pane hero-pane is-focus">
-        <span class="pane-title" aria-hidden="true">agents</span>
-        <h1>{{ $t.name }}{{ with $t.tagline }} <span class="tagline">{{ . }}</span>{{ end }}</h1>
-        <p class="lead">{{ .Description }}</p>
-        <div class="actions">
-          <a class="btn btn-green" href="/#install">Install Zellij</a>
-          <a class="link" href="/tutorials/zellij-with-coding-agents/">Managing coding agents →</a>
+    {{- /* Like the homepage's: the title and the demo side by side, then the agents that work with the inbox */}}
+    <section class="pane hero-pane is-focus">
+      <span class="pane-title" aria-hidden="true">agents</span>
+      <div class="hero-top">
+        <div class="hero-main">
+          <h1>{{ $t.name }}{{ with $t.tagline }} <span class="tagline">{{ . }}</span>{{ end }}</h1>
+          <p class="lead">{{ .Description }}</p>
+          <div class="actions">
+            <a class="btn btn-green" href="/#install">Install Zellij</a>
+            <a class="link" href="/tutorials/zellij-with-coding-agents/">Managing coding agents →</a>
+          </div>
         </div>
+        <div class="pane demo-pane">
+          <span class="pane-title" aria-hidden="true">{{ (index hugo.Data.demos "agents").title }}</span>
+          {{ partial "demo/demo.html" (dict "name" "agents") }}
+        </div>
+      </div>
+      <div class="hero-more">
         {{ partial "site/agents-list.html" . }}
-      </section>
-      <section class="pane demo-pane">
-        <span class="pane-title" aria-hidden="true">{{ (index hugo.Data.demos "agents").title }}</span>
-        {{ partial "demo/demo.html" (dict "name" "agents") }}
-      </section>
-    </div>
+      </div>
+    </section>
 
     <section class="pane feature-pane" id="inbox">
       <span class="pane-title" aria-hidden="true">inbox</span>
@@ -118,7 +123,6 @@
 
 {{ define "statusbar" }}
 {{- partial "site/statusbar.html" (dict "segs" (slice
-  (dict "k" "t" "t" "TRY IT" "action" "try")
   (dict "k" "i" "t" "INBOX" "target" "inbox")
   (dict "k" "q" "t" "QUESTIONS" "target" "questions")
   (dict "k" "d" "t" "DOCS" "target" "next")
