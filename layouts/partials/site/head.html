@@ -1,4 +1,4 @@
-{{- /* <head> for every page (layouts/_default/baseof.html). The homepage also gets landing.css, bundled into the same file. */ -}}
+{{- /* <head> for every page (layouts/_default/baseof.html). The landing pages (the homepage and Agents) also get landing.css, bundled into the same file. */ -}}
 {{- $l := .Site.Params.landing -}}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Fira+Code:wght@400;600;700&display=swap">
 {{- $css := resources.Get "css/site.css" }}
-{{- if .IsHome }}{{ $css = slice $css (resources.Get "css/landing.css") | resources.Concat "css/home.css" }}{{ end }}
+{{- if or .IsHome (eq .Layout "agents") }}{{ $css = slice $css (resources.Get "css/landing.css") | resources.Concat "css/landing-pages.css" }}{{ end }}
 {{- $css = $css | resources.Minify | resources.Fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 

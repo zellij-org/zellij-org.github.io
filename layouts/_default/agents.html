@@ -1,0 +1,140 @@
+{{- /* Zellij for coding agents (content/agents.md, layout "agents"). Built like the homepage, with landing.css and landing.js;
+       its demo is data/demos/agents.yaml. The homepage links here from its "agents" section. */ -}}
+{{ define "main" }}
+{{- $t := partial "site/title.html" . -}}
+  <section class="hero" id="try">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1>{{ $t.name }}{{ with $t.tagline }} <span class="tagline">{{ . }}</span>{{ end }}</h1>
+        <p class="lead">{{ .Description }}</p>
+        <div class="actions">
+          <a class="btn btn-green" href="/#install">Install Zellij</a>
+          <a class="link" href="/tutorials/zellij-with-coding-agents/">Managing coding agents →</a>
+        </div>
+        {{ partial "site/agents-list.html" . }}
+      </div>
+      <div class="hero-demo">
+        {{ partial "demo/demo.html" (dict "name" "agents") }}
+      </div>
+    </div>
+  </section>
+
+  <section class="band alt" id="inbox">
+    <div class="wrap">
+      <div class="band-rule"><span>inbox</span></div>
+      <article class="feature">
+        <figure class="shot">
+          <img src="/img/agents-tutorial-2.png" width="948" height="557" loading="lazy" decoding="async" alt="The Zellij inbox listing three coding agents by status.">
+        </figure>
+        <div class="feature-text">
+          <h2>See what every agent is doing</h2>
+          <p>The inbox lists your agents by status, needs you, working, done or failed, across every session on the machine. Answer one through its live preview, mark it as seen with <kbd>c</kbd>, or mute a noisy one with <kbd>m</kbd>.</p>
+          <div class="links">
+            <a class="link" href="/documentation/inbox.html">The inbox →</a>
+            <a class="link" href="/documentation/inbox-integrations.html">What reports to it →</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="desktop">
+    <div class="wrap">
+      <div class="band-rule"><span>desktop</span></div>
+      <article class="feature">
+        <figure class="shot">
+          <img src="/img/terminal-desktop-preview.png" width="1661" height="1114" loading="lazy" decoding="async" alt="The Zellij terminal in its own window on the desktop.">
+        </figure>
+        <div class="feature-text">
+          <h2>Close the window, they keep working</h2>
+          <p>Run Zellij in its own window with <code>zellij terminal</code>. Closing it keeps every session running. The tray icon shows when an agent needs you, and desktop notifications tell you when one finishes, fails or needs you.</p>
+          <div class="links">
+            <a class="link" href="/documentation/zellij-terminal.html">The Zellij terminal →</a>
+            <a class="link" href="/tutorials/zellij-terminal/">Tutorial →</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band alt" id="sessions">
+    <div class="wrap">
+      <div class="band-rule"><span>sessions</span></div>
+      <article class="feature">
+        <figure class="shot">
+          <img src="/img/agents-tutorial-1.png" width="955" height="558" loading="lazy" decoding="async" alt="The Zellij session manager, starting a session for a project.">
+        </figure>
+        <div class="feature-text">
+          <h2>One session per project, one tab per agent</h2>
+          <p>Start a session for each project from the tray or the session manager, and give each agent its own tab. Rename an agent's pane and its name follows it into the inbox and your notifications.</p>
+          <div class="links">
+            <a class="link" href="/tutorials/zellij-with-coding-agents/">Managing coding agents →</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="band" id="questions">
+    <div class="wrap">
+      <div class="band-rule"><span>questions</span></div>
+      <div class="faq">
+        <div class="qa">
+          <h3>Which coding agents does it work with?</h3>
+          <p>Any agent that runs in a terminal. Codex CLI, Claude Code, OpenCode, Pi, goose and others report their status to the inbox on their own. For the rest, Zellij picks up bells, desktop notifications and prompt markers. <a href="/documentation/inbox-integrations.html">Full list</a></p>
+        </div>
+        <div class="qa">
+          <h3>Do I need to set anything up?</h3>
+          <p>Usually not. Agents that support OSC 7501 report exactly what they're doing, and Zellij watches every pane for bells, desktop notifications and shell prompt markers. <a href="/documentation/inbox-integrations.html">Connecting other programs</a></p>
+        </div>
+        <div class="qa">
+          <h3>Do my agents stop when I close the window?</h3>
+          <p>No. Sessions keep running in the background. Reopen them from the tray icon or the session manager, or attach from any other terminal, even over SSH.</p>
+        </div>
+        <div class="qa">
+          <h3>Can I check on them from my phone?</h3>
+          <p>Yes. The built-in <a href="/documentation/web-client.html">web client</a> opens your sessions in a browser, including on a phone.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band alt" id="next">
+    <div class="wrap">
+      <div class="band-rule"><span>docs</span></div>
+      <div class="panes">
+        <section class="pane is-focus">
+          <h3 class="pane-title">get started</h3>
+          <ul class="pane-links">
+            <li><a href="/tutorials/zellij-with-coding-agents/"><b>Managing coding agents</b><span>Sessions, labels and the inbox, step by step</span></a></li>
+            <li><a href="/tutorials/zellij-terminal/"><b>Zellij as your terminal</b><span>Its own window, with a tray icon</span></a></li>
+          </ul>
+        </section>
+        <section class="pane">
+          <h3 class="pane-title">the inbox</h3>
+          <ul class="pane-links">
+            <li><a href="/documentation/inbox.html"><b>Inbox &amp; attention</b><span>States, keys, watching and muting</span></a></li>
+            <li><a href="/documentation/inbox-integrations.html"><b>Inbox integrations</b><span>What reports its status, and how to connect the rest</span></a></li>
+          </ul>
+        </section>
+        <section class="pane">
+          <h3 class="pane-title">anywhere</h3>
+          <ul class="pane-links">
+            <li><a href="/documentation/zellij-terminal.html"><b>The Zellij terminal</b><span>Notifications and the tray icon</span></a></li>
+            <li><a href="/documentation/web-client.html"><b>Web client</b><span>Your sessions in a browser</span></a></li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </section>
+{{ end }}
+
+{{ define "statusbar" }}
+{{- partial "site/statusbar.html" (dict "segs" (slice
+  (dict "k" "t" "t" "TRY IT" "action" "try")
+  (dict "k" "i" "t" "INBOX" "target" "inbox")
+  (dict "k" "q" "t" "QUESTIONS" "target" "questions")
+  (dict "k" "d" "t" "DOCS" "target" "next")
+  (dict "k" "h" "t" "HOME" "href" "/")
+)) }}
+{{ end }}

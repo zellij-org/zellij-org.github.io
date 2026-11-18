@@ -294,12 +294,15 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
   text-transform: uppercase;
 }
 .head-cta .btn { padding: 0.55rem 0.95rem; font-size: 0.86rem; }
-@media (max-width: 1240px) {
-  .gh-text, .online-bracket { display: none; }
+/* Wide screens: one row. The Star label and zellij.online's brackets would crowd the five tabs, so only the two-row
+   layout shows the brackets; the search label goes first when space runs short. */
+.gh-text, .online-bracket { display: none; }
+@media (max-width: 1320px) {
+  .search-btn .search-label { display: none; }
 }
 /* Narrower screens: two rows. The brand and the actions on top; the tabs below, with zellij.online at their
    right end, where Zellij's own tab bar shows the session's status. The ::after item is the line break. */
-@media (max-width: 1100px) {
+@media (max-width: 1180px) {
   .head-row { flex-wrap: wrap; row-gap: 0; }
   .head-cta { display: contents; }
   .brand-wrap { order: 1; margin-right: auto; }
@@ -310,23 +313,33 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
   .tabs { order: 6; flex: 1 1 0; }
   .online { order: 7; }
   .tabs, .online { margin-top: 0.75rem; }
-  .online-bracket { display: inline; }
+  .online-bracket, .search-btn .search-label { display: inline; }
 }
-/* Phones: the star count goes (GitHub stays in the footer), search is an icon, and the tabs get a little tighter */
+/* Phones: the brand, zellij.online and Sponsor on top; the tabs, search and theme below. The version badge and
+   the star count go (GitHub stays in the footer), search is an icon, and the tabs get a little smaller. */
 @media (max-width: 640px) {
   .head-row { column-gap: 0.5rem; }
-  .gh-star { display: none; }
+  .ver, .gh-star { display: none; }
+  .online { order: 2; margin-top: 0; gap: 0.4rem; font-size: 0.78rem; }
+  .head-cta .btn { order: 3; padding: 0.5rem 0.8rem; }
+  .head-tools { display: contents; }
+  .search-btn, .theme-btn { order: 7; margin-top: 0.75rem; }
+  .online-bracket, .online .beta { display: none; }
   .search-btn .search-label, .search-btn kbd { display: none; }
   .search-btn { width: 34px; padding: 0; justify-content: center; }
-  .head-cta .btn { padding: 0.5rem 0.8rem; }
-  .online { gap: 0.4rem; font-size: 0.78rem; }
-  .online-bracket, .online .beta { display: none; }
-  .tabs .seg { padding-inline: 1em 0.9em; font-size: 0.76rem; }
+  .tabs .seg { padding-inline: 0.9em 0.8em; font-size: 0.72rem; }
 }
-/* Small phones (360px): the version badge goes, so the actions keep to the first row */
+/* Small phones (360px) */
 @media (max-width: 380px) {
-  .ver { display: none; }
-  .tabs .seg { padding-inline: 0.8em 0.7em; font-size: 0.72rem; }
+  .tabs .seg { padding-inline: 0.75em 0.65em; font-size: 0.7rem; }
+  .search-btn, .icon-btn { width: 32px; height: 32px; }
+}
+/* Phones under 360px: Sponsor is just its heart, and the theme button moves up to the top row, so both rows fit */
+@media (max-width: 359px) {
+  .theme-btn { order: 3; margin-top: 0; }
+  .head-cta .btn { order: 4; }
+  .head-cta .btn { padding-inline: 0.75rem; }
+  .head-cta .btn-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 }
 
 /* Search dialog, built by site.js */

@@ -1,0 +1,38 @@
+# The coding agents demo: the Agents page's hero, and its sneak peek on the homepage.
+# The window's contents are drawn in layouts/partials/demo/agents.html; assets/js/landing.js plays it.
+title: "photo-sorter | agents"
+label: "The Zellij terminal with three coding agents working side by side. The api agent asks for permission to run the tests. The inbox opens on top, shows which pane needs attention, and the request is approved from there. The tests pass and the docs agent finishes."
+caption:
+  title: "Three agents, one inbox."
+  text: "When an agent needs you, answer it without leaving your tab."
+
+# Scenes, played in a loop. Elements with data-states="1 2" show only in those scenes.
+#   key:   the keys shown while it plays
+#   focus: the pane with the focused frame (its data-pane)
+#   set:   classes the scene adds, by selector
+states:
+  - { key: "", focus: a }
+  - { key: "", focus: a, set: { ".tp-a": need } }
+  - { key: "Ctrl g  o  i", focus: fl, set: { ".tp-a": need, ".tseg-float": "on" } }
+  - { key: "Alt Enter  1", focus: fl, set: { ".tseg-float": "on" } }
+  - { key: "Esc", focus: a }
+reduced: 2  # shown, still, to people who prefer reduced motion
+start: 1    # where "Try it yourself" starts
+
+# "Try it yourself": each step lists the keys to press, and the scene they lead to.
+# {Alt} reads "Option" on a Mac.
+steps:
+  - keys: ["Ctrl g", "o", "i"]
+    done: 2
+    text: "The api agent needs you. Open the inbox:"
+    hint: "Ctrl g unlocks Zellij, o opens session mode and i opens the inbox. On a phone, tap the keys."
+  - keys: ["Alt Enter", "1"]
+    done: 3
+    text: "Answer it from the preview, without leaving the inbox:"
+    hint: "{Alt} Enter types into the agent, and 1 picks \"Allow once\"."
+  - keys: ["Esc"]
+    done: 4
+    text: "The tests are running. Close the inbox:"
+    hint: "You never left your tab, and the other two agents kept working."
+finish: "The tests passed, and the docs agent finished while you were answering. That is the inbox."
+more: { text: "Managing coding agents →", href: "/tutorials/zellij-with-coding-agents/" }

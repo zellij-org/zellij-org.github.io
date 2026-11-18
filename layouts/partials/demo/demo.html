@@ -1,0 +1,32 @@
+{{- /* A drawn Zellij window that plays a scene in a loop, with "Try it yourself" to play it again with the real keys.
+       Takes a dict:
+         name  the scene: its text, scenes and steps in data/demos/<name>.yaml, its window contents in demo/<name>.html
+         peek  optional: a scene number, shown still, with no caption or controls (a sneak peek of another page's demo)
+       Played by assets/js/landing.js. The window's text sizes with its width (container query units). */ -}}
+{{- $d := index hugo.Data.demos .name -}}
+{{- $peek := .peek -}}
+{{- $config := dict "states" $d.states "steps" $d.steps "start" ($d.start | default 0) "reduced" ($d.reduced | default 0) "finish" $d.finish -}}
+{{- $term := partial "demo/window.html" (dict "d" $d "name" .name "state" (cond (ne $peek nil) $peek 0) "hidden" (ne $peek nil)) -}}
+{{- if ne $peek nil }}
+<div class="demo demo-peek" data-demo data-peek="{{ $peek }}" data-config="{{ $config | jsonify }}">
+  {{ $term }}
+</div>
+{{- else }}
+{{- /* The slot keeps the figure's place in the page while "Try it yourself" floats it above */}}
+<div class="term-slot">
+  <figure class="demo hero-term" data-demo data-config="{{ $config | jsonify }}">
+    {{ $term }}
+    <figcaption>
+      <div class="term-cap">
+        <span><strong>{{ $d.caption.title }}</strong> {{ $d.caption.text }}</span>
+        <span class="cap-btns"><button class="btn-try demo-try" type="button">Try it yourself <span aria-hidden="true">→</span></button><button class="btn-quiet demo-pause" type="button" aria-pressed="false">Pause</button></span>
+      </div>
+      <div class="guide" tabindex="-1" hidden>
+        <div class="guide-top"><span class="guide-step">Step 1 of {{ len $d.steps }}</span><p class="guide-text" aria-live="polite"></p><button class="btn-quiet guide-close" type="button">Close<kbd>Esc</kbd></button></div>
+        <div class="guide-row"><div class="guide-keys"></div><p class="guide-hint"></p></div>
+        <div class="guide-end" hidden><button class="btn-try guide-again" type="button">Start over</button>{{ with $d.more }}<a class="link" href="{{ .href }}">{{ .text }}</a>{{ end }}</div>
+      </div>
+    </figcaption>
+  </figure>
+</div>
+{{- end }}

@@ -50,23 +50,7 @@
       </div>
 
       <div class="hero-demo">
-        {{- /* The slot keeps the figure's space in the layout while it floats (landing.js) */}}
-        <div class="term-slot" id="termSlot">
-          <figure class="hero-term" id="tryit">
-            {{ partial "landing/terminal-demo.html" . }}
-            <figcaption>
-              <div class="term-cap" id="termCap">
-                <span><strong>Three agents, one inbox.</strong> When an agent needs you, answer it without leaving your tab.</span>
-                <span class="cap-btns"><button class="btn-try" id="termTry" type="button">Try it yourself <span aria-hidden="true">→</span></button><button class="btn-quiet" id="termToggle" type="button" aria-pressed="false">Pause</button></span>
-              </div>
-              <div class="guide" id="termGuide" tabindex="-1" hidden>
-                <div class="guide-top"><span class="guide-step" id="guideStep">Step 1 of 3</span><p class="guide-text" id="guideText" aria-live="polite"></p><button class="btn-quiet guide-close" id="guideExit" type="button">Close<kbd>Esc</kbd></button></div>
-                <div class="guide-row" id="guideRow"><div class="guide-keys" id="guideKeys"></div><p class="guide-hint" id="guideHint"></p></div>
-                <div class="guide-end" id="guideEnd" hidden><button class="btn-try" id="guideAgain" type="button">Start over</button><a class="link" href="/tutorials/zellij-with-coding-agents/">Managing coding agents →</a></div>
-              </div>
-            </figcaption>
-          </figure>
-        </div>
+        {{ partial "demo/demo.html" (dict "name" "home") }}
       </div>
     </div>
   </section>
@@ -80,14 +64,26 @@
         <li class="fact"><b>{{ $l.packages }}</b><span><a href="https://repology.org/project/zellij/versions">package repositories</a></span></li>
         <li class="fact"><b>{{ $l.firstRelease }}</b><span>first release</span></li>
       </ul>
-      <div class="agents-row">
-        <p class="agents-label">Report their status to the inbox with no setup</p>
-        {{- /* Most popular first: average of GitHub-star rank and weekly-npm-download rank, 2026-11-15.
-               Agents the Inbox Integrations page lists as working with no setup. */}}
-        <ul class="agents">
-          <li>Codex CLI</li><li>Claude Code</li><li>OpenCode</li><li>Pi</li><li>goose</li><li>GitHub Copilot CLI</li><li>Qwen Code</li><li>Crush</li><li>Factory Droid</li>
-        </ul>
-        <a class="link" href="/documentation/inbox-integrations.html">and more →</a>
+    </div>
+  </section>
+
+  {{- /* A way into the Agents page, with a still of its demo */}}
+  <section class="band" id="agents">
+    <div class="wrap">
+      <div class="band-rule"><span>agents</span></div>
+      <div class="peek-grid">
+        <div class="peek-copy">
+          <h2>Running coding agents?</h2>
+          <p class="lead">Run them side by side in tabs and sessions, see at a glance which one needs you, and answer it from the inbox without switching.</p>
+          {{ partial "site/agents-list.html" . }}
+          <div class="actions">
+            <a class="btn btn-green" href="/agents/">Zellij for coding agents <span aria-hidden="true">→</span></a>
+            <a class="link" href="/tutorials/zellij-with-coding-agents/">Tutorial →</a>
+          </div>
+        </div>
+        <a class="peek" href="/agents/" aria-label="Zellij for coding agents: the inbox, answering an agent that asks for permission">
+          {{ partial "demo/demo.html" (dict "name" "agents" "peek" 2) }}
+        </a>
       </div>
     </div>
   </section>
@@ -100,11 +96,11 @@
           <img src="/img/inbox-preview.png" width="841" height="493" loading="lazy" decoding="async" alt="The inbox listing panes that need input, with a coding agent asking for permission to run a command.">
         </figure>
         <div class="feature-text">
-          <h2>One inbox for every agent</h2>
-          <p>Agents, builds and long-running commands tell Zellij whether they're working, done, failed or waiting on you. The inbox lists them across all your sessions, and you answer from its preview without switching.</p>
+          <h2>One inbox for everything that needs you</h2>
+          <p>Builds, tests, long-running commands and coding agents tell Zellij whether they're working, done, failed or waiting on you. The inbox lists them across all your sessions, and you answer from its preview without switching.</p>
           <div class="links">
-            <a class="link" href="/tutorials/zellij-with-coding-agents/">Managing coding agents →</a>
-            <a class="link" href="/documentation/inbox-integrations.html">Supported agents →</a>
+            <a class="link" href="/documentation/inbox.html">The inbox →</a>
+            <a class="link" href="/documentation/inbox-integrations.html">What reports to it →</a>
           </div>
         </div>
       </article>
@@ -160,11 +156,11 @@
       <div class="faq">
         <div class="qa">
           <h3>How is Zellij different from tmux?</h3>
-          <p>Zellij shows its keys on screen, and more comes built in: layouts, restoring sessions after a reboot, a web client, its own terminal window and the agent inbox. It also runs natively on Windows. If your fingers know tmux, press <strong>Ctrl b</strong>: tmux mode keeps <kbd>"</kbd> and <kbd>%</kbd> to split, and <kbd>c</kbd> for a new tab.{{ with $vsTmux }} <a href="{{ .RelPermalink }}">Zellij vs tmux, side by side →</a>{{ end }}</p>
+          <p>Zellij shows its keys on screen, and more comes built in: layouts, restoring sessions after a reboot, a web client, its own terminal window and the inbox. It also runs natively on Windows. If your fingers know tmux, press <strong>Ctrl b</strong>: tmux mode keeps <kbd>"</kbd> and <kbd>%</kbd> to split, and <kbd>c</kbd> for a new tab.{{ with $vsTmux }} <a href="{{ .RelPermalink }}">Zellij vs tmux, side by side →</a>{{ end }}</p>
         </div>
         <div class="qa">
           <h3>Which coding agents does it work with?</h3>
-          <p>Any agent that runs in a terminal. Codex CLI, Claude Code, OpenCode, Pi, goose and others report their status to the inbox on their own. For the rest, Zellij picks up bells, desktop notifications and prompt markers. <a href="/documentation/inbox-integrations.html">Full list</a></p>
+          <p>Any agent that runs in a terminal, and most report their status to the inbox on their own. <a href="/agents/">Zellij for coding agents →</a></p>
         </div>
         <div class="qa">
           <h3>Do I have to give up my terminal?</h3>
@@ -257,13 +253,13 @@
     </div>
   </section>
 
-<div class="try-scrim" id="tryScrim" hidden></div>
 {{ end }}
 
 {{ define "statusbar" }}
 {{- partial "site/statusbar.html" (dict "segs" (slice
   (dict "k" "i" "t" "INSTALL" "target" "install")
   (dict "k" "t" "t" "TRY IT" "action" "try")
+  (dict "k" "a" "t" "AGENTS" "target" "agents")
   (dict "k" "f" "t" "FEATURES" "target" "features")
   (dict "k" "q" "t" "QUESTIONS" "target" "questions")
   (dict "k" "s" "t" "SUPPORT" "target" "support")

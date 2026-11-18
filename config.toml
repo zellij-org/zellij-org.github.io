@@ -65,7 +65,7 @@ disableHugoGeneratorInject = false
 
   # Metadata mostly used in document's head
   #
-  description = "Zellij is a terminal workspace and multiplexer for your shells and coding agents. Every shortcut is on screen, and nothing stops when you close the window."
+  description = "Zellij is a terminal workspace and multiplexer for everything you run in a terminal. Every shortcut is on screen, and nothing stops when you close the window."
   keywords = "rust,terminal,multiplexer"
   images = ["/img/floating-panes-preview.png"]
 

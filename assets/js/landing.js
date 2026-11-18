@@ -1,7 +1,8 @@
-/* zellij.dev homepage: install tabs, and the terminal demo with its guided try-it mode.
+/* zellij.dev landing pages (the homepage and Agents): install tabs, and the demos with their guided "Try it yourself".
    Runs after site.js, which provides window.zj. */
 (function (zj) {
   var $ = zj.$, root = zj.root, reduce = zj.reduce, plat = zj.plat, isMac = zj.isMac, inField = zj.inField;
+  var each = function (list, fn) { Array.prototype.forEach.call(list, fn); };
 
   /* Install tabs, picked from the visitor's OS */
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.os-tab'));
@@ -25,42 +26,72 @@
   });
   if (tabs.length) selectTab(/win/.test(plat) ? 'windows' : isMac ? 'macos' : 'linux');
 
-  /* Terminal demo: three agents; one asks for permission and is answered from the inbox */
-  var term = $('term');
-  var trying = false, visible = true;
-  var startTry = null;
-  if (term) {
-    var panes = term.querySelectorAll('.tpane');
-    var paneA = term.querySelector('.tp-a');
-    var floatSeg = term.querySelector('.tseg-float');
-    var stateEls = term.querySelectorAll('[data-states]');
+  /* Demos (layouts/partials/demo/demo.html). Each plays its scenes in a loop; the scenes, steps and text come from
+     data/demos/<name>.yaml through data-config. "Try it yourself" floats the demo above the page and plays it again
+     with the real keys (or taps). A "peek" only shows one scene, still. */
+  var scrim = null, current = null;
+  function getScrim() {
+    if (!scrim) {
+      scrim = document.createElement('div');
+      scrim.className = 'try-scrim';
+      scrim.hidden = true;
+      scrim.addEventListener('click', function () { if (current) current.stop(); });
+      document.body.appendChild(scrim);
+    }
+    return scrim;
+  }
+  /* The name of a key press, as written in the steps: "Ctrl g", "Alt Enter", "Alt f", "Esc", "1" */
+  function keyName(e) {
+    var k = e.key || '';
+    if (/^(Control|Shift|Alt|Meta|AltGraph|CapsLock)$/.test(k)) return null;
+    if (e.ctrlKey && !e.altKey && !e.metaKey && k.toLowerCase() === 'g') return 'Ctrl g';
+    if (e.altKey && !e.ctrlKey && !e.metaKey) {
+      if (k === 'Enter') return 'Alt Enter';
+      /* By the physical key, since Option + a letter types another character on a Mac */
+      if (/^Key[A-Z]$/.test(e.code || '')) return 'Alt ' + e.code.slice(3).toLowerCase();
+      return null;
+    }
+    if (e.ctrlKey || e.altKey || e.metaKey) return null;
+    if (k === 'Escape') return 'Esc';
+    if (k === 'Enter') return 'Enter';
+    return k.length === 1 ? k.toLowerCase() : null;
+  }
+
+  function Demo(el) {
+    var cfg = JSON.parse(el.getAttribute('data-config'));
+    var states = cfg.states, steps = cfg.steps || [];
+    var term = el.querySelector('.term');
     var chip = term.querySelector('.t-key');
-    var states = [
-      { key: '', focus: 'a', need: false, fl: false },
-      { key: '', focus: 'a', need: true, fl: false },
-      { key: 'Ctrl g  o  i', focus: 'fl', need: true, fl: true },
-      { key: 'Alt Enter  1', focus: 'fl', need: false, fl: true },
-      { key: 'Esc', focus: 'a', need: false, fl: false }
-    ];
-    var showChip = function (text) {
+    var panes = term.querySelectorAll('.tpane[data-pane]');
+    /* Every class a scene can add, so each scene also turns off the ones it doesn't */
+    var managed = [];
+    states.forEach(function (s) {
+      Object.keys(s.set || {}).forEach(function (sel) {
+        String(s.set[sel]).split(/\s+/).forEach(function (cls) {
+          if (!managed.some(function (m) { return m.sel === sel && m.cls === cls; })) managed.push({ sel: sel, cls: cls, els: term.querySelectorAll(sel) });
+        });
+      });
+    });
+    function sets(s, m) { return !!(s.set && s.set[m.sel] && String(s.set[m.sel]).split(/\s+/).indexOf(m.cls) > -1); }
+    function showChip(text) {
       chip.textContent = text;
       chip.hidden = false;
       chip.classList.remove('pop');
       void chip.offsetWidth;
       chip.classList.add('pop');
-    };
-    var render = function (i, quiet) {
-      var s = states[i], id = String(i);
-      Array.prototype.forEach.call(stateEls, function (el) {
-        el.hidden = el.getAttribute('data-states').split(',').indexOf(id) === -1;
-      });
-      Array.prototype.forEach.call(panes, function (p) { p.classList.toggle('focused', p.getAttribute('data-pane') === s.focus); });
-      paneA.classList.toggle('need', s.need);
-      floatSeg.classList.toggle('on', s.fl);
+    }
+    function render(i, quiet) {
+      var s = states[i];
+      term.setAttribute('data-state', i);
+      each(panes, function (p) { p.classList.toggle('focused', p.getAttribute('data-pane') === s.focus); });
+      managed.forEach(function (m) { var on = sets(s, m); each(m.els, function (x) { x.classList.toggle(m.cls, on); }); });
       if (quiet) return;
       if (s.key) showChip(s.key); else chip.hidden = true;
-    };
-    var idx = 0, timer = null, paused = false;
+    }
+
+    if (el.hasAttribute('data-peek')) { render(+el.getAttribute('data-peek'), true); return null; }
+
+    var trying = false, visible = true, paused = false, idx = 0, timer = null;
     var step = function () {
       idx = (idx + 1) % states.length;
       if (idx === 0) {
@@ -75,7 +106,7 @@
       timer = null;
       if (!trying && !paused && visible) timer = setInterval(step, 2600);
     };
-    var toggle = $('termToggle');
+    var toggle = el.querySelector('.demo-pause');
     var setPaused = function (p) {
       paused = p;
       toggle.textContent = p ? 'Play' : 'Pause';
@@ -86,35 +117,25 @@
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; sync(); }).observe(term);
     }
-    if (reduce) { idx = 2; render(2); setPaused(true); }
+    if (reduce) { idx = cfg.reduced; render(idx); setPaused(true); }
     else { render(0); setPaused(false); }
 
-    /* Try it yourself: the same scenes, driven by the real keys (or taps) */
-    var fig = $('tryit');
-    var cap = $('termCap');
-    var guide = $('termGuide');
-    var gStep = $('guideStep');
-    var gText = $('guideText');
-    var gRow = $('guideRow');
-    var gKeys = $('guideKeys');
-    var gHint = $('guideHint');
-    var gEnd = $('guideEnd');
-    var tryBtn = $('termTry');
-    var steps = [
-      { done: 2, keys: ['Ctrl g', 'o', 'i'],
-        text: 'The api agent needs you. Open the inbox:',
-        hint: 'Ctrl g unlocks Zellij, o opens session mode and i opens the inbox. On a phone, tap the keys.' },
-      { done: 3, keys: ['Alt Enter', '1'],
-        text: 'Answer it from the preview, without leaving the inbox:',
-        hint: (isMac ? 'Option Enter' : 'Alt Enter') + ' types into the agent, and 1 picks "Allow once".' },
-      { done: 4, keys: ['Esc'],
-        text: 'The tests are running. Close the inbox:',
-        hint: 'You never left your tab, and the other two agents kept working.' }
-    ];
+    /* Try it yourself */
+    var cap = el.querySelector('.term-cap');
+    var guide = el.querySelector('.guide');
+    var gStep = el.querySelector('.guide-step');
+    var gText = el.querySelector('.guide-text');
+    var gRow = el.querySelector('.guide-row');
+    var gKeys = el.querySelector('.guide-keys');
+    var gHint = el.querySelector('.guide-hint');
+    var gEnd = el.querySelector('.guide-end');
+    var tryBtn = el.querySelector('.demo-try');
+    var slot = el.parentElement;
     var gi = 0, ki = 0;
+    var hint = function (t) { return (t || '').replace(/\{Alt\}/g, isMac ? 'Option' : 'Alt'); };
 
     var paintKeys = function () {
-      Array.prototype.forEach.call(gKeys.querySelectorAll('.g-key'), function (b, i) {
+      each(gKeys.querySelectorAll('.g-key'), function (b, i) {
         b.classList.toggle('is-done', i < ki);
         b.classList.toggle('is-next', i === ki);
       });
@@ -125,7 +146,7 @@
       gKeys.innerHTML = '';
       if (gi >= steps.length) {
         gStep.textContent = 'Done';
-        gText.textContent = 'The tests passed, and the docs agent finished while you were answering. That is the inbox.';
+        gText.textContent = cfg.finish || '';
         gRow.hidden = true;
         gEnd.hidden = false;
         return;
@@ -133,7 +154,7 @@
       var s = steps[gi];
       gStep.textContent = 'Step ' + (gi + 1) + ' of ' + steps.length;
       gText.textContent = s.text;
-      gHint.textContent = s.hint;
+      gHint.textContent = hint(s.hint);
       gRow.hidden = false;
       gEnd.hidden = true;
       s.keys.forEach(function (k, i) {
@@ -159,7 +180,7 @@
         ki++;
         showChip(s.keys.slice(0, ki).join('  '));
         gHint.classList.remove('is-warn');
-        gHint.textContent = s.hint;
+        gHint.textContent = hint(s.hint);
         paintKeys();
         if (ki === s.keys.length) {
           render(s.done, true);
@@ -178,29 +199,30 @@
         gHint.textContent = 'Not quite. Press ' + s.keys[ki] + ' next.';
       }
     };
-    /* The demo floats centered and wide while you try it; the slot keeps its space in the hero */
-    var slot = $('termSlot');
-    var scrim = $('tryScrim');
+    /* While trying, the demo floats centered and wide; the slot keeps its space in the page */
     var floatOpen = function () {
-      if (fig.classList.contains('is-floating')) return;
-      slot.style.minHeight = fig.offsetHeight + 'px';
-      fig.classList.add('is-floating');
-      fig.setAttribute('role', 'dialog');
-      fig.setAttribute('aria-modal', 'true');
-      fig.setAttribute('aria-label', 'Try Zellij');
-      scrim.hidden = false;
+      if (el.classList.contains('is-floating')) return;
+      slot.style.minHeight = el.offsetHeight + 'px';
+      el.classList.add('is-floating');
+      el.setAttribute('role', 'dialog');
+      el.setAttribute('aria-modal', 'true');
+      el.setAttribute('aria-label', 'Try Zellij');
+      getScrim().hidden = false;
       root.classList.add('is-trying');
     };
     var floatClose = function () {
-      fig.classList.remove('is-floating');
-      fig.removeAttribute('role');
-      fig.removeAttribute('aria-modal');
-      fig.removeAttribute('aria-label');
-      scrim.hidden = true;
+      el.classList.remove('is-floating');
+      el.removeAttribute('role');
+      el.removeAttribute('aria-modal');
+      el.removeAttribute('aria-label');
+      getScrim().hidden = true;
       root.classList.remove('is-trying');
       slot.style.minHeight = '';
     };
-    startTry = function () {
+    var api = {};
+    api.start = function () {
+      if (current && current !== api) current.stop();
+      current = api;
       floatOpen();
       trying = true;
       sync();
@@ -208,42 +230,34 @@
       term.classList.add('trying');
       gi = 0;
       ki = 0;
-      render(1, true);
+      render(cfg.start, true);
       chip.hidden = true;
       cap.hidden = true;
       guide.hidden = false;
       showStep();
       guide.focus({ preventScroll: true });
     };
-    var stopTry = function () {
+    api.stop = function () {
+      if (!trying) return;
       trying = false;
+      if (current === api) current = null;
       term.classList.remove('trying');
       guide.hidden = true;
       cap.hidden = false;
-      idx = reduce ? 2 : 0;
+      idx = reduce ? cfg.reduced : 0;
       render(idx);
       sync();
       floatClose();
       tryBtn.focus({ preventScroll: true });
     };
-    var keyName = function (e) {
-      var k = e.key || '';
-      if (/^(Control|Shift|Alt|Meta|AltGraph|CapsLock)$/.test(k)) return null;
-      if (e.ctrlKey && !e.altKey && !e.metaKey && k.toLowerCase() === 'g') return 'Ctrl g';
-      if (e.altKey && !e.ctrlKey && !e.metaKey && k === 'Enter') return 'Alt Enter';
-      if (e.ctrlKey || e.altKey || e.metaKey) return null;
-      if (k === 'Escape') return 'Esc';
-      if (k === 'Enter') return 'Enter';
-      return k.length === 1 ? k.toLowerCase() : null;
-    };
-    /* Capture phase, so the page's own shortcuts (i, Ctrl g...) don't fire while you play */
+    /* Capture phase, so the page's own shortcuts (t, Ctrl g...) don't fire while you play */
     window.addEventListener('keydown', function (e) {
-      if (!trying || !visible || document.querySelector('dialog[open]')) return;
+      if (!trying || document.querySelector('dialog[open]')) return;
       var t = e.target;
       if (inField(t)) return;
-      /* Keep Tab inside the floating panel */
+      /* Keep Tab inside the floating demo */
       if (e.key === 'Tab') {
-        var f = Array.prototype.filter.call(fig.querySelectorAll('button, a[href]'), function (el) { return el.offsetParent !== null; });
+        var f = Array.prototype.filter.call(el.querySelectorAll('button, a[href]'), function (x) { return x.offsetParent !== null; });
         if (!f.length) return;
         var first = f[0], last = f[f.length - 1], at = document.activeElement;
         if (e.shiftKey && (at === first || at === guide)) { e.preventDefault(); last.focus(); }
@@ -256,16 +270,19 @@
       e.preventDefault();
       e.stopPropagation();
       /* Esc closes what's on top: the inbox when that's the step, otherwise the floating demo */
-      if (name === 'Esc' && (gi >= steps.length || steps[gi].keys[ki] !== 'Esc')) { stopTry(); return; }
+      if (name === 'Esc' && (gi >= steps.length || steps[gi].keys[ki] !== 'Esc')) { api.stop(); return; }
       if (gi >= steps.length) return;
       press(name);
     }, true);
-    scrim.addEventListener('click', stopTry);
-    tryBtn.addEventListener('click', startTry);
-    $('guideExit').addEventListener('click', stopTry);
-    $('guideAgain').addEventListener('click', startTry);
+    tryBtn.addEventListener('click', api.start);
+    el.querySelector('.guide-close').addEventListener('click', api.stop);
+    el.querySelector('.guide-again').addEventListener('click', api.start);
+    return api;
   }
 
-  /* The status bar's TRY IT segment, and the t key */
-  zj.actions.try = function () { if (startTry) startTry(); };
+  var demos = [];
+  each(document.querySelectorAll('[data-demo]'), function (el) { var d = Demo(el); if (d) demos.push(d); });
+
+  /* The status bar's TRY IT segment, and the t key: the page's first demo */
+  zj.actions.try = function () { if (demos[0]) demos[0].start(); };
 })(window.zj);

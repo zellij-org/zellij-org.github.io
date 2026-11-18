@@ -1,5 +1,5 @@
 {{- /* Every page except the docs, which mdBook builds. Templates fill "main", and can replace "statusbar" with their own shortcuts.
-       Styles: assets/css/site.css (plus landing.css on the homepage). Behavior: assets/js/site.js (plus landing.js on the homepage). */ -}}
+       Styles: assets/css/site.css, plus landing.css on the landing pages (the homepage and Agents). Behavior: site.js, plus landing.js there. */ -}}
 <!DOCTYPE html>
 <html lang="{{ .Site.Language.Locale }}">
 <head>
@@ -33,7 +33,7 @@
 {{ end }}
 
 {{- $js := resources.Get "js/site.js" }}
-{{- if .IsHome }}{{ $js = slice $js (resources.Get "js/landing.js") | resources.Concat "js/home.js" }}{{ end }}
+{{- if or .IsHome (eq .Layout "agents") }}{{ $js = slice $js (resources.Get "js/landing.js") | resources.Concat "js/landing-pages.js" }}{{ end }}
 {{- $js = $js | resources.Minify | resources.Fingerprint }}
 <script src="{{ $js.RelPermalink }}" defer></script>
 </body>

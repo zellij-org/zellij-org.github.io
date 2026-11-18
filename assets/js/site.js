@@ -73,7 +73,7 @@
   var searchBtn = $('searchBtn');
   var popular = [
     '/documentation/installation.html',
-    '/tutorials/zellij-with-coding-agents/',
+    '/agents/',
     '/documentation/inbox.html',
     '/documentation/keybinding-presets.html',
     '/documentation/layouts.html',

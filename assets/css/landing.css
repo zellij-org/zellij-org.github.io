@@ -1,4 +1,5 @@
-/* Homepage only (layouts/index.html). Loaded after site.css, which has the colors, type, header, search, footer and status bar. */
+/* Landing pages: the homepage (layouts/index.html) and Agents (layouts/_default/agents.html), with their demos.
+   Loaded after site.css, which has the colors, type, header, search, footer and status bar. */
 /* Hero: everything needed to install fits in the first screen */
 .hero { padding-block: clamp(2rem, 4.5vw, 3.25rem) clamp(3rem, 6vw, 4.5rem); scroll-margin-top: 1rem; }
 /* Copy and install on the left, the terminal demo on the right */
@@ -162,6 +163,22 @@
 .tpane pre { margin: 0; font: inherit; white-space: pre; overflow: hidden; }
 .t-right.split .tp-b .tp-body { justify-content: flex-end; }
 .t-right.split .tp-b pre { flex-shrink: 0; }
+/* A scene's elements: data-states lists the scenes an element shows in; the window's data-state is the current one */
+.term[data-state="0"] [data-states]:not([data-states~="0"]),
+.term[data-state="1"] [data-states]:not([data-states~="1"]),
+.term[data-state="2"] [data-states]:not([data-states~="2"]),
+.term[data-state="3"] [data-states]:not([data-states~="3"]),
+.term[data-state="4"] [data-states]:not([data-states~="4"]),
+.term[data-state="5"] [data-states]:not([data-states~="5"]),
+.term[data-state="6"] [data-states]:not([data-states~="6"]),
+.term[data-state="7"] [data-states]:not([data-states~="7"]) { display: none; }
+/* Homepage scene: the editor column splits when a new pane opens */
+.t-left { display: grid; grid-template-rows: minmax(0, 1fr); row-gap: 0.7em; min-width: 0; min-height: 0; }
+.t-left.split { grid-template-rows: minmax(0, 1.35fr) minmax(0, 1fr); }
+.hx-status { margin-top: auto; flex-shrink: 0; }
+.hx-mode { padding: 0 0.5em; background: var(--t-seg); color: var(--t-ink); font-weight: 700; }
+.t-cur { background: var(--t-fg); animation: t-blink 1.1s steps(1) infinite; }
+@keyframes t-blink { 50% { background: transparent; } }
 .tp-float {
   position: absolute;
   left: 20%;
@@ -385,7 +402,7 @@
 @media (max-width: 860px) { .panes { grid-template-columns: minmax(0, 1fr); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .t-key.pop, .g-key.is-wrong { animation: none; }
+  .t-key.pop, .g-key.is-wrong, .t-cur { animation: none; }
   .term-screen, .term { transition: none; }
 }
 
@@ -419,3 +436,15 @@ html.is-trying { overflow: hidden; }
 .guide-close { margin-left: auto; }
 .guide-close kbd { margin-left: 0.4rem; padding: 0.12em 0.35em; border-bottom-width: 1px; font-size: 0.68rem; }
 @media (prefers-reduced-motion: reduce) { .hero-term.is-floating { animation: none; } }
+
+/* Homepage: the way into the Agents page, next to a still of its demo (the whole still is a link) */
+.peek-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+.peek-copy { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.1rem; align-content: start; min-width: 0; }
+.peek-copy .agents-row { margin-top: 0.3rem; }
+.peek { display: block; min-width: 0; border-radius: 12px; color: inherit; text-decoration: none; }
+.peek .term { transition: box-shadow 0.2s ease; }
+.peek:hover .term, .peek:focus-visible .term { box-shadow: 0 0 0 2px var(--accent), 0 40px 80px -40px var(--shadow); }
+.peek:focus-visible { outline: none; }
+@media (max-width: 940px) { .peek-grid { grid-template-columns: minmax(0, 1fr); } }
+.feature-text code { padding: 0.2rem 0.45rem; border-radius: 7px; background: var(--code-bg); color: var(--text-strong); font: 600 0.88em/1.2 var(--font-mono); }
+.hero h1 .tagline { margin-top: 0.75rem; }

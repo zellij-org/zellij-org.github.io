@@ -1,6 +1,6 @@
 {{- /* Header for every page: Zellij-style tab segments, search, theme toggle, and the support links. */ -}}
 {{- $l := .Site.Params.landing -}}
-{{- $tab := cond .IsHome "home" (cond (eq .Section "news") "news" (cond (or (eq .Section "tutorials") (eq .Layout "tutorials")) "tutorials" "")) -}}
+{{- $tab := cond .IsHome "home" (cond (eq .Section "news") "news" (cond (or (eq .Section "tutorials") (eq .Layout "tutorials")) "tutorials" (cond (eq .Layout "agents") "agents" ""))) -}}
 
 {{- /* Search index, loaded by landing.js on first open: docs titles come from the mdBook table of contents, the rest from Hugo's pages. */ -}}
 {{- $entries := slice -}}
@@ -31,6 +31,7 @@
       <a class="seg{{ if eq $tab "home" }} is-active{{ end }}"{{ if .IsHome }} aria-current="page"{{ end }} href="/">Home</a>
       <a class="seg{{ if eq $tab "news" }} is-active{{ end }}"{{ if eq .RelPermalink "/news/" }} aria-current="page"{{ end }} href="/news/">News</a>
       <a class="seg{{ if eq $tab "tutorials" }} is-active{{ end }}"{{ if eq .RelPermalink "/screencasts/" }} aria-current="page"{{ end }} href="/screencasts/">Tutorials</a>
+      <a class="seg{{ if eq $tab "agents" }} is-active{{ end }}"{{ if eq $tab "agents" }} aria-current="page"{{ end }} href="/agents/">Agents</a>
       <a class="seg" href="/documentation/">Docs</a>
     </nav>
     <div class="head-tools">
@@ -43,7 +44,7 @@
         <span class="gh-r"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg><span>{{ $l.stars }}</span></span>
       </a>
       <a class="online" href="https://zellij.online"><span class="online-bracket" aria-hidden="true">[</span><span class="online-name">zellij.online</span><span class="beta">beta</span><span class="online-bracket" aria-hidden="true">]</span></a>
-      <a class="btn btn-rose" href="https://github.com/sponsors/imsnif"><span aria-hidden="true">♥</span> Sponsor</a>
+      <a class="btn btn-rose" href="https://github.com/sponsors/imsnif"><span aria-hidden="true">♥</span> <span class="btn-text">Sponsor</span></a>
     </div>
   </div>
 </header>
