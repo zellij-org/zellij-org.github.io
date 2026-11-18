@@ -297,20 +297,36 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 @media (max-width: 1240px) {
   .gh-text, .online-bracket { display: none; }
 }
-@media (max-width: 1080px) {
-  .head-row { flex-wrap: wrap; row-gap: 0.7rem; }
-  .tabs { order: 3; flex-basis: 100%; }
+/* Narrower screens: two rows. The brand and the actions on top; the tabs below, with zellij.online at their
+   right end, where Zellij's own tab bar shows the session's status. The ::after item is the line break. */
+@media (max-width: 1100px) {
+  .head-row { flex-wrap: wrap; row-gap: 0; }
+  .head-cta { display: contents; }
+  .brand-wrap { order: 1; margin-right: auto; }
+  .head-tools { order: 2; }
+  .gh-star { order: 3; }
+  .head-cta .btn { order: 4; }
+  .head-row::after { content: ""; order: 5; flex-basis: 100%; }
+  .tabs { order: 6; flex: 1 1 0; }
+  .online { order: 7; }
+  .tabs, .online { margin-top: 0.75rem; }
+  .online-bracket { display: inline; }
 }
+/* Phones: the star count goes (GitHub stays in the footer), search is an icon, and the tabs get a little tighter */
 @media (max-width: 640px) {
-  .head-cta { order: 2; flex-basis: 100%; margin-left: 0; justify-content: space-between; gap: 0.6rem; }
-  .head-tools { margin-left: auto; }
+  .head-row { column-gap: 0.5rem; }
+  .gh-star { display: none; }
   .search-btn .search-label, .search-btn kbd { display: none; }
   .search-btn { width: 34px; padding: 0; justify-content: center; }
-  .online { font-size: 0.8rem; }
   .head-cta .btn { padding: 0.5rem 0.8rem; }
+  .online { gap: 0.4rem; font-size: 0.78rem; }
+  .online-bracket, .online .beta { display: none; }
+  .tabs .seg { padding-inline: 1em 0.9em; font-size: 0.76rem; }
 }
-@media (max-width: 420px) {
-  .head-cta .beta { display: none; }
+/* Small phones (360px): the version badge goes, so the actions keep to the first row */
+@media (max-width: 380px) {
+  .ver { display: none; }
+  .tabs .seg { padding-inline: 0.8em 0.7em; font-size: 0.72rem; }
 }
 
 /* Search dialog, built by site.js */
@@ -442,15 +458,13 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 @media (max-width: 560px) { .sb-label { display: none; } }
 
 /* Content pages: news posts, tutorials and the site's own pages (layouts/_default/single.html).
-   Text keeps a readable measure; screenshots and videos can use the wider column. */
-:root { --measure: 46rem; --wide: 60rem; }
+   One column for text, screenshots and videos. A plain block layout, so text that follows a figure
+   without a blank line in the Markdown still flows like a paragraph. */
+:root { --measure: 55rem; }
 .page { padding-block: clamp(2rem, 5vw, 3.25rem) clamp(3.5rem, 7vw, 5.5rem); }
-.page > .wrap { max-width: calc(var(--wide) + 32px); }
-.page-head, .page-foot { max-width: var(--measure); margin-inline: auto; }
+.page > .wrap { max-width: calc(var(--measure) + 32px); }
 .page-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem; margin-bottom: clamp(2rem, 4.5vw, 3rem); }
-.page-rule { margin-bottom: 0.35rem; }
-.page-rule a { color: inherit; text-decoration: none; }
-.page-rule a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.page-head .lead { max-width: none; }
 .page-head h1 { font-size: clamp(1.9rem, 3.5vw, 2.7rem); line-height: 1.14; text-wrap: pretty; }
 .tagline { display: block; margin-top: 0.55rem; color: var(--sub); font: 600 clamp(1.1rem, 1.8vw, 1.35rem)/1.3 var(--font-head); letter-spacing: var(--body-track); }
 .meta { display: flex; flex-wrap: wrap; row-gap: 0.3rem; color: var(--muted); font-size: 0.93rem; }
@@ -460,10 +474,9 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 .meta a { color: inherit; text-decoration-color: var(--line); text-underline-offset: 3px; }
 .meta a:hover { color: var(--text-strong); }
 
-.prose { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, var(--measure)) minmax(0, 1fr); overflow-wrap: break-word; }
-.prose > * { grid-column: 2; min-width: 0; margin: 0; }
+.prose { overflow-wrap: break-word; }
+.prose > * { margin: 0; }
 .prose > * + * { margin-top: 1.15rem; }
-.prose > figure, .prose > p:has(> img:only-child) { grid-column: 1 / -1; }
 .prose > h2 { margin-top: clamp(2.5rem, 5vw, 3.25rem); font-size: clamp(1.45rem, 2.3vw, 1.85rem); }
 .prose > h3 { margin-top: 2rem; }
 .prose > h4 { margin-top: 1.75rem; color: var(--text-strong); font: 700 1.05rem/1.35 var(--font-head); }
@@ -484,21 +497,20 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 .prose th { color: var(--text-strong); }
 
 /* Screenshots */
-.prose figure { margin-top: 2rem; margin-bottom: 0.85rem; }
+.prose figure { margin-top: 1.75rem; margin-bottom: 1.5rem; }
 .prose :is(figure, p) img { display: block; max-width: 100%; height: auto; margin-inline: auto; border-radius: 10px; }
 .prose figure.left img { margin-left: 0; }
 .prose figcaption { margin-top: 0.6rem; color: var(--muted); font-size: 0.9rem; text-align: center; }
 
 /* Screencasts (shortcodes video and video-left-aligned), framed like the homepage's screenshots */
-.prose > .video { grid-column: 1 / -1; }
-.video { margin: 2rem 0 0.85rem; padding: clamp(0.4rem, 1vw, 0.7rem); border: 1px solid #2a2b30; border-radius: 16px; background: var(--t-bg); box-shadow: 0 30px 60px -35px var(--shadow); }
+.video { margin: 1.75rem 0 1.5rem; padding: clamp(0.4rem, 1vw, 0.7rem); border: 1px solid #2a2b30; border-radius: 16px; background: var(--t-bg); box-shadow: 0 30px 60px -35px var(--shadow); }
 .video video { display: block; width: 100%; height: auto; border-radius: 8px; background: #000; }
-.video-small { justify-self: center; width: 100%; max-width: calc(640px + 1.4rem + 2px); }
+.video-small { max-width: calc(640px + 1.4rem + 2px); margin-inline: auto; }
 .prose > :first-child { margin-top: 0; }
 
 /* Inline code, and code blocks drawn as a Zellij pane (layouts/_default/_markup/render-codeblock.html).
    Like the screenshots, they stay dark in the light theme. */
-.prose :not(pre) > code { padding: 0.12em 0.4em; border-radius: 6px; background: var(--code-bg); color: var(--text-strong); font: 500 0.88em/1.4 var(--font-mono); }
+.prose code:not(pre code) { padding: 0.12em 0.4em; border-radius: 6px; background: var(--code-bg); color: var(--text-strong); font: 500 0.88em/1.4 var(--font-mono); }
 .prose > .code-pane, .prose > pre { margin-top: 1.5rem; }
 .code-pane { position: relative; padding: 0.55rem; border-radius: 12px; background: var(--t-bg); }
 .code-pane pre, .prose > pre { margin: 0; padding: 1.2rem 1.1rem 1rem; border: 1px solid #3a3a3a; border-radius: 8px; background: var(--t-bg); color: var(--t-fg); font: 400 0.86rem/1.65 var(--font-mono); overflow-x: auto; tab-size: 4; transition: border-color 0.15s ease; }
@@ -555,16 +567,13 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 
 /* Lists: News, Tutorials and tags. List pages use the full width. */
 .page.is-list > .wrap { max-width: 1160px; }
-.is-list .page-head { max-width: none; margin-inline: 0; }
-.page-body { max-width: var(--measure); margin-inline: auto; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem 1.4rem; margin-top: 0.4rem; }
 .actions .btn kbd { padding: 0.2em 0.4em; border-color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.12); color: inherit; font-size: 0.72rem; }
 .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: clamp(1.25rem, 2.5vw, 1.75rem); }
 .post-card { position: relative; display: grid; grid-template-rows: auto 1fr; overflow: hidden; border: 1px solid var(--line-soft); border-radius: 14px; background: var(--bg-alt); transition: border-color 0.15s ease; }
 .post-card:hover, .post-card:focus-within { border-color: var(--accent); }
 .thumb { aspect-ratio: 16 / 9; overflow: hidden; background: var(--t-bg); }
-.thumb img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.3s ease; }
-.post-card:hover .thumb img { transform: scale(1.02); }
+.thumb img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 .card-body { display: grid; gap: 0.5rem; align-content: start; padding: 1.05rem 1.2rem 1.3rem; }
 .card-body time { color: var(--muted); font: 600 0.78rem/1.2 var(--font-mono); }
 .card-title { margin: 0; color: var(--text-strong); font: 700 1.1rem/1.3 var(--font-head); text-wrap: pretty; }

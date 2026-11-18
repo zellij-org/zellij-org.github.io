@@ -5,7 +5,6 @@
 <article class="page">
   <div class="wrap">
     <header class="page-head">
-      {{ partial "site/page-rule.html" . }}
       <h1>{{ $t.name | markdownify }}{{ with $t.tagline }} <span class="tagline">{{ . }}</span>{{ end }}</h1>
       {{- if ne $kind "page" }}
       {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}

@@ -5,7 +5,6 @@
 <div class="page is-list">
   <div class="wrap">
     <header class="page-head">
-      {{ partial "site/page-rule.html" . }}
       <h1>{{ .Title }}</h1>
       <p class="meta"><span class="meta-label">Follow along:</span>
         {{- with .OutputFormats.Get "rss" }}<a href="{{ .RelPermalink }}">RSS</a>{{ end }}

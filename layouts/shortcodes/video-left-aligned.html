@@ -1,4 +1,4 @@
-{{- /* A screencast, as wide as the page allows. Arguments: the video's path, then an optional class.
+{{- /* A screencast, as wide as the article column. Arguments: the video's path, then an optional class.
        The browser's own player: no script to load, keyboard and captions support built in.
        "#t=0.1" makes Safari show the first frame before playing. */ -}}
 <figure class="video{{ with .Get 1 }} {{ . }}{{ end }}"><video src="{{ .Get 0 | relURL }}#t=0.1" controls preload="metadata" playsinline></video></figure>

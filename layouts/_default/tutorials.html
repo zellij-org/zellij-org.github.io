@@ -1,23 +1,26 @@
 {{- /* Screencasts & Tutorials (content/screencasts.md, layout "tutorials").
-       The page's own list stays the source: each "- **[Title](/tutorials/...)**: Description" line becomes a card,
-       with the tutorial's preview image. Anything else in the page is shown as written. */ -}}
+       Each "- **[Title](/tutorials/...)**: Description" line in the page becomes a card, with that title and description,
+       the tutorial's preview image and its date. Cards are ordered most recent first.
+       A page without such lines is shown as written. */ -}}
 {{ define "main" }}
 {{- $t := partial "site/title.html" . -}}
-{{- $items := findRESubmatch `(?m)^- \*\*\[(.+?)\]\(([^)\s]+)\)\*\*:\s*(.+)$` .RawContent -}}
+{{- $cards := slice -}}
+{{- range findRESubmatch `(?m)^- \*\*\[(.+?)\]\(([^)\s]+)\)\*\*:\s*(.+)$` .RawContent -}}
+  {{- $title := index . 1 -}}
+  {{- $desc := index . 3 | markdownify | plainify | htmlUnescape -}}
+  {{- with site.GetPage (strings.TrimSuffix "/" (index . 2)) -}}
+    {{- $cards = $cards | append (dict "page" . "title" $title "desc" $desc "date" .Date.Unix) -}}
+  {{- end -}}
+{{- end -}}
 <div class="page is-list">
   <div class="wrap">
     <header class="page-head">
-      {{ partial "site/page-rule.html" . }}
       <h1>{{ $t.name }}{{ with $t.tagline }} <span class="tagline">{{ . }}</span>{{ end }}</h1>
     </header>
-    {{- if $items }}
+    {{- if $cards }}
     <div class="cards-grid">
-      {{- range $items }}
-      {{- $title := index . 1 }}
-      {{- $desc := index . 3 | markdownify | plainify | htmlUnescape }}
-      {{- with site.GetPage (strings.TrimSuffix "/" (index . 2)) }}
-      {{ partial "site/card.html" (dict "page" . "title" $title "desc" $desc) }}
-      {{- end }}
+      {{- range sort $cards "date" "desc" }}
+      {{ partial "site/card.html" . }}
       {{- end }}
     </div>
     {{- else }}
