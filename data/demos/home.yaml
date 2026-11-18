@@ -1,7 +1,7 @@
 # The homepage demo: a project with an editor, a server and its tests.
 # The window's contents are drawn in layouts/partials/demo/home.html; assets/js/landing.js plays it.
 # The keys are Zellij's defaults, and both are listed in its status bar.
-title: "photo-sorter | code"
+title: "live demo | code"  # the title of the pane it plays in
 label: "A Zellij session with an editor, a running server and a test watcher. A floating pane opens on top of the editor and hides again, then a new pane opens below the editor. The status bar at the bottom lists the keys for both."
 caption:
   title: "Your whole project in one window."

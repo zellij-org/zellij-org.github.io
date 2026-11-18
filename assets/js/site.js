@@ -209,6 +209,27 @@
     searchBtn.addEventListener('pointerenter', loadIndex);
   }
 
+  /* Panes: like Zellij with mouse focus, the pane under the pointer, or holding keyboard focus, is the focused one.
+     On touch screens, it's the pane crossing the middle of the screen. */
+  var paneEls = document.querySelectorAll('.pane');
+  function focusPane(p) {
+    if (!p || p.classList.contains('is-focus')) return;
+    Array.prototype.forEach.call(paneEls, function (x) { x.classList.toggle('is-focus', x === p); });
+  }
+  if (paneEls.length) {
+    if (!document.querySelector('.pane.is-focus')) paneEls[0].classList.add('is-focus');
+    document.addEventListener('pointerover', function (e) {
+      if (e.pointerType !== 'touch') focusPane(e.target.closest && e.target.closest('.pane'));
+    });
+    document.addEventListener('focusin', function (e) { focusPane(e.target.closest && e.target.closest('.pane')); });
+    if (window.matchMedia && window.matchMedia('(hover: none)').matches && 'IntersectionObserver' in window) {
+      var middle = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { if (en.isIntersecting) focusPane(en.target); });
+      }, { rootMargin: '-50% 0px -50% 0px' });
+      Array.prototype.forEach.call(paneEls, function (p) { if (!p.parentElement.closest('.pane')) middle.observe(p); });
+    }
+  }
+
   /* Status bar: single-key shortcuts, like Zellij's own status bar. Ctrl g locks them. */
   var bar = $('statusbar');
   var locked = false, keymap = {}, setLock = null;

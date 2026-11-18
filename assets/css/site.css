@@ -54,13 +54,15 @@
   --t-key: #4d0b0b;
   --t-ink: #0b0b0b;
 
-  /* Fira Sans and Fira Code. Display: h1 and h2. Head: h3, buttons, tabs and labels.
+  /* Fira Code for headings, labels and controls, like a terminal; Fira Sans for reading.
      Body letter-spacing opens Fira Sans up a little; monospace text keeps its own spacing. */
-  --font-display: "Fira Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --font-head: "Fira Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Fira Code", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-head: "Fira Code", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
   --font-body: "Fira Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --display-w1: 800;
-  --display-w2: 750;
+  --display-w1: 700;
+  --display-w2: 700;
+  --pane-gap: 2rem;        /* between sections */
+  --pane-gap-tight: 0.5rem; /* between panes of the same row, side by side like a Zellij split */
   --display-track: 0em;
   --body-track: 0.015em;
   --font-mono: "Fira Code", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
@@ -129,7 +131,7 @@
 html { scroll-padding-bottom: 4.5rem; -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
-  background: var(--bg);
+  background: var(--bg-deep);
   color: var(--text);
   font: 400 1.0625rem/1.65 var(--font-body);
   letter-spacing: var(--body-track);
@@ -142,9 +144,9 @@ p { margin: 0; }
 strong { color: var(--text-strong); font-weight: 650; }
 h1, h2, h3 { margin: 0; font-family: var(--font-head); color: var(--heading); text-wrap: balance; }
 h1, h2 { font-family: var(--font-display); }
-h1 { font-size: clamp(2.4rem, 4.3vw, 3.7rem); font-weight: var(--display-w1); line-height: 1.06; letter-spacing: var(--display-track); }
-h2 { font-size: clamp(1.6rem, 2.6vw, 2.25rem); font-weight: var(--display-w2); line-height: 1.15; letter-spacing: calc(var(--display-track) * 0.67); }
-h3 { font-size: 1.15rem; font-weight: 700; line-height: 1.3; color: var(--sub); }
+h1 { font-size: clamp(2rem, 3.6vw, 3rem); font-weight: var(--display-w1); line-height: 1.12; letter-spacing: 0; }
+h2 { font-size: clamp(1.35rem, 2.1vw, 1.75rem); font-weight: var(--display-w2); line-height: 1.25; letter-spacing: 0; }
+h3 { font-size: 1.05rem; font-weight: 700; line-height: 1.35; color: var(--sub); letter-spacing: 0; }
 a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 
 .wrap {
@@ -156,27 +158,37 @@ a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid 
 .lead { font-size: clamp(1.1rem, 1.5vw, 1.25rem); max-width: 32em; }
 .link { color: var(--sub); font-weight: 700; text-decoration: none; }
 .link:hover { text-decoration: underline; text-underline-offset: 3px; }
-.btn {
+/* Buttons, written like zellij.online's: [ label ]. Filled for the main action, framed for the rest. */
+.btn, .btn-try, .btn-quiet, .btn-dl, .copy {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.72rem 1.2rem;
-  border: 0;
-  border-radius: 999px;
-  font: 700 0.95rem/1 var(--font-head);
+  gap: 0.45rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: none;
+  color: var(--text-strong);
+  font: 700 0.86rem/1 var(--font-mono);
+  letter-spacing: 0;
   text-decoration: none;
-  cursor: pointer;
   white-space: nowrap;
+  cursor: pointer;
 }
-.btn-green { background: var(--fill-green); color: var(--on-fill); }
+.btn::before, .btn-try::before, .btn-quiet::before, .btn-dl::before, .copy::before { content: "[" / ""; opacity: 0.7; }
+.btn::after, .btn-try::after, .btn-quiet::after, .btn-dl::after, .copy::after { content: "]" / ""; opacity: 0.7; }
+.btn-green, .btn-try, .copy { background: var(--fill-green); color: var(--on-fill); }
 .btn-rose { background: var(--fill-rose); color: var(--on-fill); }
+.btn-quiet, .btn-dl { border-color: var(--line); }
+.btn-quiet:hover, .btn-dl:hover { border-color: var(--text-strong); }
+.btn-try:hover, .copy:hover { filter: brightness(1.07); }
+.copy.is-done { background: var(--fill-amber); }
 .btn:hover { filter: brightness(1.07); }
 kbd {
   font: 700 0.85rem/1 var(--font-mono);
   padding: 0.32em 0.55em;
   border: 1px solid var(--line);
   border-bottom-width: 2px;
-  border-radius: 6px;
+  border-radius: 3px;
   background: var(--bg-deep);
   color: var(--text-strong);
   white-space: nowrap;
@@ -217,7 +229,7 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 .ver {
   padding: 0.24rem 0.42rem;
   border: 1px solid var(--line-soft);
-  border-radius: 6px;
+  border-radius: 0;
   color: var(--muted);
   font: 600 0.7rem/1 var(--font-mono);
   text-decoration: none;
@@ -234,7 +246,7 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
   height: 34px;
   padding: 0 0.4rem 0 0.65rem;
   border: 1px solid var(--line-soft);
-  border-radius: 8px;
+  border-radius: 0;
   background: var(--bg-raised);
   color: var(--muted);
   font: 600 0.84rem/1 var(--font-body);
@@ -250,7 +262,7 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
   height: 34px;
   padding: 0;
   border: 1px solid var(--line-soft);
-  border-radius: 8px;
+  border-radius: 0;
   background: transparent;
   color: var(--text-strong);
   cursor: pointer;
@@ -264,7 +276,7 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
   align-items: stretch;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 0;
   color: var(--text-strong);
   font: 700 0.82rem/1 var(--font-head);
   text-decoration: none;
@@ -286,20 +298,18 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 .online:hover .online-name { text-decoration: underline; text-underline-offset: 3px; }
 .beta {
   padding: 0.28rem 0.45rem;
-  border-radius: 999px;
+  border-radius: 0;
   background: var(--fill-amber);
   color: var(--on-fill);
   font: 800 0.62rem/1 var(--font-head);
   letter-spacing: calc(var(--body-track) + 0.06em);
   text-transform: uppercase;
 }
-.head-cta .btn { padding: 0.55rem 0.95rem; font-size: 0.86rem; }
-/* Wide screens: one row. The Star label and zellij.online's brackets would crowd the five tabs, so only the two-row
-   layout shows the brackets; the search label goes first when space runs short. */
-.gh-text, .online-bracket { display: none; }
-@media (max-width: 1320px) {
-  .search-btn .search-label { display: none; }
-}
+.head-cta .btn { padding: 0.55rem 0.85rem; font-size: 0.84rem; }
+.head-cta .btn::before, .head-cta .btn::after { content: none; }
+/* Wide screens: one row. The Star label, zellij.online's brackets and the search label would crowd the five tabs,
+   so only the two-row layout shows the brackets and the search label. */
+.gh-text, .online-bracket, .search-btn .search-label { display: none; }
 /* Narrower screens: two rows. The brand and the actions on top; the tabs below, with zellij.online at their
    right end, where Zellij's own tab bar shows the session's status. The ::after item is the line break. */
 @media (max-width: 1180px) {
@@ -314,6 +324,10 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
   .online { order: 7; }
   .tabs, .online { margin-top: 0.75rem; }
   .online-bracket, .search-btn .search-label { display: inline; }
+}
+/* Small tablets: the search button is just its icon and keys */
+@media (max-width: 760px) {
+  .search-btn .search-label { display: none; }
 }
 /* Phones: the brand, zellij.online and Sponsor on top; the tabs, search and theme below. The version badge and
    the star count go (GitHub stays in the footer), search is an icon, and the tabs get a little smaller. */
@@ -334,12 +348,12 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
   .tabs .seg { padding-inline: 0.75em 0.65em; font-size: 0.7rem; }
   .search-btn, .icon-btn { width: 32px; height: 32px; }
 }
-/* Phones under 360px: Sponsor is just its heart, and the theme button moves up to the top row, so both rows fit */
+/* Phones under 360px: the brand is just the logo, Sponsor just its heart, and the theme button moves up to the top row */
 @media (max-width: 359px) {
   .theme-btn { order: 3; margin-top: 0; }
   .head-cta .btn { order: 4; }
   .head-cta .btn { padding-inline: 0.75rem; }
-  .head-cta .btn-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .brand span, .head-cta .btn-text { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 }
 
 /* Search dialog, built by site.js */
@@ -349,7 +363,7 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
   margin: 9vh auto auto;
   padding: 0;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 0;
   background: var(--bg-raised);
   color: var(--text);
   box-shadow: 0 30px 80px -20px var(--shadow);
@@ -370,24 +384,20 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 .search-field input:focus-visible { outline: none; }
 .search-field input::placeholder { color: var(--muted); }
 .search-field input::-webkit-search-cancel-button { display: none; }
-.search-close { padding: 0.3rem 0.5rem; border: 1px solid var(--line); border-radius: 6px; background: var(--bg-deep); color: var(--muted); font: 700 0.7rem/1 var(--font-mono); cursor: pointer; }
+.search-close { padding: 0.3rem 0.5rem; border: 1px solid var(--line); border-radius: 0; background: var(--bg-deep); color: var(--muted); font: 700 0.7rem/1 var(--font-mono); cursor: pointer; }
 .search-list { list-style: none; margin: 0; padding: 0.45rem; overflow-y: auto; flex: 1; }
 .search-cap { padding: 0.55rem 0.7rem 0.35rem; color: var(--muted); font: 800 0.68rem/1 var(--font-head); letter-spacing: calc(var(--body-track) + 0.08em); text-transform: uppercase; }
-.search-hit a { display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 0.7rem; border-radius: 9px; text-decoration: none; }
+.search-hit a { display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 0.7rem; border-radius: 0; text-decoration: none; }
 .search-hit .sh-main { display: grid; gap: 0.1rem; flex: 1; min-width: 0; }
 .search-hit b { color: var(--text-strong); font-weight: 650; }
 .search-hit .sh-path { overflow: hidden; color: var(--muted); font: 500 0.78rem/1.3 var(--font-mono); white-space: nowrap; text-overflow: ellipsis; }
-.search-hit .sh-kind { flex-shrink: 0; padding: 0.22rem 0.5rem; border: 1px solid var(--line-soft); border-radius: 999px; color: var(--muted); font: 700 0.7rem/1 var(--font-head); }
+.search-hit .sh-kind { flex-shrink: 0; padding: 0.22rem 0.5rem; border: 1px solid var(--line-soft); border-radius: 0; color: var(--muted); font: 700 0.7rem/1 var(--font-head); }
 .search-hit[aria-selected="true"] a { background: var(--sel); }
 .search-hit[aria-selected="true"] b { color: var(--heading); }
 .search-empty { padding: 1.4rem 0.8rem; color: var(--muted); }
 .search-foot { display: flex; flex-wrap: wrap; gap: 0.4rem 1.1rem; padding: 0.6rem 1rem; border-top: 1px solid var(--line-soft); color: var(--muted); font-size: 0.8rem; }
 .search-foot kbd { font-size: 0.68rem; padding: 0.15em 0.35em; border-bottom-width: 1px; }
 
-/* Bands: each section is a full-width band that alternates in depth */
-.band { padding-block: clamp(3rem, 6vw, 5rem); background: var(--bg); overflow-x: clip; scroll-margin-top: 0.5rem; }
-.band.alt { background: var(--bg-alt); }
-.band.deep { background: var(--bg-deep); }
 /* Section rule: a pane title line, the title sitting on a rule that runs the full content width */
 .band-rule {
   display: flex;
@@ -401,39 +411,67 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 .band-rule::before, .band-rule::after { content: ""; border-top: 1px solid currentColor; opacity: 0.45; }
 .band-rule::before { width: 1.4rem; flex-shrink: 0; }
 .band-rule::after { flex: 1; }
-.section-head { display: grid; gap: 1rem; margin-bottom: clamp(2.75rem, 5.5vw, 4rem); }
 
-/* Pane: a box with its title in the top border, like a Zellij pane. The title takes the background it sits on. */
-.band.alt { --pane-bg: var(--bg-alt); }
-.band.deep { --pane-bg: var(--bg-deep); }
+/* Pane: a section of the page, drawn like a Zellij pane, with a 1px frame and its title in the top border.
+   One pane at a time has the green focused frame: site.js gives it to the pane under the pointer, or holding
+   keyboard focus, like Zellij with mouse focus. */
 .pane {
   position: relative;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   align-content: start;
-  padding: 1.55rem 1.15rem 0.9rem;
+  gap: 1rem;
+  min-width: 0;
+  margin: 0;
+  padding: clamp(1.5rem, 3vw, 2.1rem) clamp(1.1rem, 2.6vw, 1.9rem) clamp(1.25rem, 2.6vw, 1.75rem);
   border: 1px solid var(--line);
-  border-radius: 12px;
+  background: var(--bg);
   transition: border-color 0.15s ease;
 }
 .pane-title {
   position: absolute;
   top: 0;
   left: 0.85rem;
+  z-index: 1;
+  max-width: calc(100% - 1.7rem);
+  overflow: hidden;
   margin: 0;
   padding: 0 0.5rem;
-  background: var(--pane-bg, var(--bg));
+  background: var(--bg-deep);
   color: var(--muted);
-  font: 700 0.95rem/1 var(--font-mono);
+  font: 700 0.85rem/1.25 var(--font-mono);
   letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   transform: translateY(-50%);
   transition: color 0.15s ease;
 }
-.pane.is-focus, .pane:hover, .pane:focus-within { border-color: var(--accent); }
-.pane.is-focus .pane-title, .pane:hover .pane-title, .pane:focus-within .pane-title { color: var(--accent); }
+.pane .pane .pane-title { background: var(--bg); }
+.pane.is-focus { border-color: var(--accent); }
+.pane.is-focus > .pane-title { color: var(--accent); }
+.pane > :is(h1, h2, h3, p, ul, ol) { margin: 0; }
+
+/* A page of panes, laid out like a Zellij session: full-width panes, and rows that split side by side.
+   Panes of a row (or a group) sit close together; separate sections get more room. Stacked panes keep
+   enough room for the title on the lower one's frame. */
+.session > [id], .row > [id] { scroll-margin-top: 1rem; }
+.session { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--pane-gap); padding-block: 2rem 3.5rem; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem var(--pane-gap-tight); }
+.group { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem; }
+.row-hero { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); }
+.row-split { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+.row-split.rev { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.row-split.rev > :first-child { order: 2; }
+.row-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 940px) {
+  .row-hero, .row-split, .row-split.rev { grid-template-columns: minmax(0, 1fr); }
+  .row-split.rev > :first-child { order: 0; }
+}
+@media (max-width: 860px) { .row-3 { grid-template-columns: minmax(0, 1fr); } }
 .pane-links { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.15rem; }
-.pane-links a { display: grid; gap: 0.15rem; margin: 0 -0.6rem; padding: 0.55rem 0.6rem; border-radius: 8px; text-decoration: none; }
+.pane-links a { display: grid; gap: 0.15rem; margin: 0 -0.6rem; padding: 0.55rem 0.6rem; border-radius: 0; text-decoration: none; }
 .pane-links a:hover { background: var(--sel); }
-.pane-links b { color: var(--text-strong); font-weight: 650; }
+.pane-links b { color: var(--text-strong); font: 700 0.95rem/1.35 var(--font-mono); }
 .pane-links b::before { content: "> "; color: var(--accent); font-family: var(--font-mono); letter-spacing: 0; }
 .pane-links span { padding-left: 1.2em; color: var(--muted); font-size: 0.9rem; line-height: 1.45; }
 
@@ -474,8 +512,9 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
    One column for text, screenshots and videos. A plain block layout, so text that follows a figure
    without a blank line in the Markdown still flows like a paragraph. */
 :root { --measure: 55rem; }
-.page { padding-block: clamp(2rem, 5vw, 3.25rem) clamp(3.5rem, 7vw, 5.5rem); }
-.page > .wrap { max-width: calc(var(--measure) + 32px); }
+/* An article is one pane; the text column keeps its measure inside the pane's padding */
+.page-session { max-width: calc(var(--measure) + 2 * 1.9rem + 2px + 32px); }
+.article-pane { gap: 0; }
 .page-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem; margin-bottom: clamp(2rem, 4.5vw, 3rem); }
 .page-head .lead { max-width: none; }
 .page-head h1 { font-size: clamp(1.9rem, 3.5vw, 2.7rem); line-height: 1.14; text-wrap: pretty; }
@@ -511,23 +550,23 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 
 /* Screenshots */
 .prose figure { margin-top: 1.75rem; margin-bottom: 1.5rem; }
-.prose :is(figure, p) img { display: block; max-width: 100%; height: auto; margin-inline: auto; border-radius: 10px; }
+.prose :is(figure, p) img { display: block; max-width: 100%; height: auto; margin-inline: auto; border-radius: 0; }
 .prose figure.left img { margin-left: 0; }
 .prose figcaption { margin-top: 0.6rem; color: var(--muted); font-size: 0.9rem; text-align: center; }
 
 /* Screencasts (shortcodes video and video-left-aligned), framed like the homepage's screenshots */
-.video { margin: 1.75rem 0 1.5rem; padding: clamp(0.4rem, 1vw, 0.7rem); border: 1px solid #2a2b30; border-radius: 16px; background: var(--t-bg); box-shadow: 0 30px 60px -35px var(--shadow); }
-.video video { display: block; width: 100%; height: auto; border-radius: 8px; background: #000; }
+.video { margin: 1.75rem 0 1.5rem; padding: clamp(0.4rem, 1vw, 0.7rem); border: 1px solid #2a2b30; background: var(--t-bg); }
+.video video { display: block; width: 100%; height: auto; border-radius: 0; background: #000; }
 .video-small { max-width: calc(640px + 1.4rem + 2px); margin-inline: auto; }
 .prose > :first-child { margin-top: 0; }
 
 /* Inline code, and code blocks drawn as a Zellij pane (layouts/_default/_markup/render-codeblock.html).
    Like the screenshots, they stay dark in the light theme. */
-.prose code:not(pre code) { padding: 0.12em 0.4em; border-radius: 6px; background: var(--code-bg); color: var(--text-strong); font: 500 0.88em/1.4 var(--font-mono); }
+.prose code:not(pre code) { padding: 0.12em 0.4em; border-radius: 3px; background: var(--code-bg); color: var(--text-strong); font: 500 0.88em/1.4 var(--font-mono); }
 .prose > .code-pane, .prose > pre { margin-top: 1.5rem; }
-.code-pane { position: relative; padding: 0.55rem; border-radius: 12px; background: var(--t-bg); }
-.code-pane pre, .prose > pre { margin: 0; padding: 1.2rem 1.1rem 1rem; border: 1px solid #3a3a3a; border-radius: 8px; background: var(--t-bg); color: var(--t-fg); font: 400 0.86rem/1.65 var(--font-mono); overflow-x: auto; tab-size: 4; transition: border-color 0.15s ease; }
-.prose > pre { border-radius: 12px; }
+.code-pane { position: relative; padding: 0.55rem; border-radius: 0; background: var(--t-bg); }
+.code-pane pre, .prose > pre { margin: 0; padding: 1.2rem 1.1rem 1rem; border: 1px solid #3a3a3a; border-radius: 0; background: var(--t-bg); color: var(--t-fg); font: 400 0.86rem/1.65 var(--font-mono); overflow-x: auto; tab-size: 4; transition: border-color 0.15s ease; }
+.prose > pre { border-radius: 0; }
 .code-pane code, .prose > pre code { font: inherit; }
 .code-title, .code-pane .copy { position: absolute; top: 0.55rem; z-index: 1; padding: 0 0.45rem; background: var(--t-bg); font: 700 0.75rem/1.2 var(--font-mono); transform: translateY(-50%); transition: color 0.15s ease; }
 .code-title { left: 1.3rem; color: var(--t-seg); }
@@ -562,15 +601,15 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 /* After the article: tags, and the neighbouring posts */
 .page-foot { display: grid; gap: 1.75rem; margin-top: clamp(2.5rem, 5vw, 3.5rem); padding-top: 1.75rem; border-top: 1px solid var(--line-soft); }
 .tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.tags a { display: inline-flex; gap: 0.1em; padding: 0.35rem 0.7rem; border: 1px solid var(--line-soft); border-radius: 999px; color: var(--muted); font: 600 0.8rem/1 var(--font-mono); text-decoration: none; }
+.tags a { display: inline-flex; gap: 0.1em; padding: 0.35rem 0.7rem; border: 1px solid var(--line-soft); border-radius: 0; color: var(--muted); font: 600 0.8rem/1 var(--font-mono); text-decoration: none; }
 .tags a::before { content: "#"; color: var(--accent); }
 .tags a:hover { border-color: var(--line); color: var(--text-strong); }
 .tags small { margin-left: 0.4em; color: var(--muted); font-size: 0.72rem; }
 .pager { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-.pager a { display: grid; gap: 0.4rem; align-content: start; padding: 1rem 1.15rem; border: 1px solid var(--line-soft); border-radius: 12px; text-decoration: none; transition: border-color 0.15s ease; }
-.pager a:hover { border-color: var(--accent); }
+.pager a { display: grid; gap: 0.4rem; align-content: start; padding: 1rem 1.15rem; border: 1px solid var(--line); text-decoration: none; transition: border-color 0.15s ease; }
+.pager a:hover, .pager a:focus-visible { border-color: var(--accent); outline: none; }
 .pager span { color: var(--muted); font: 700 0.75rem/1 var(--font-mono); letter-spacing: 0; text-transform: uppercase; }
-.pager b { color: var(--text-strong); font-weight: 650; line-height: 1.35; }
+.pager b { color: var(--text-strong); font: 700 0.95rem/1.4 var(--font-mono); }
 .pager-newer { grid-column: 2; text-align: right; }
 .foot-cta { display: flex; flex-wrap: wrap; gap: 0.75rem 1.75rem; }
 @media (max-width: 640px) {
@@ -579,33 +618,30 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 }
 
 /* Lists: News, Tutorials and tags. List pages use the full width. */
-.page.is-list > .wrap { max-width: 1160px; }
+/* List pages: a pane with the heading, then the posts as panes titled with their date */
+.list-head { gap: 0.75rem; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem 1.4rem; margin-top: 0.4rem; }
 .actions .btn kbd { padding: 0.2em 0.4em; border-color: rgba(0, 0, 0, 0.25); background: rgba(0, 0, 0, 0.12); color: inherit; font-size: 0.72rem; }
-.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: clamp(1.25rem, 2.5vw, 1.75rem); }
-.post-card { position: relative; display: grid; grid-template-rows: auto 1fr; overflow: hidden; border: 1px solid var(--line-soft); border-radius: 14px; background: var(--bg-alt); transition: border-color 0.15s ease; }
-.post-card:hover, .post-card:focus-within { border-color: var(--accent); }
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: 1.5rem; }
+.post-card { grid-template-rows: auto 1fr; gap: 1rem; padding: clamp(1.25rem, 2.4vw, 1.5rem) clamp(1rem, 2vw, 1.25rem) 1.25rem; }
 .thumb { aspect-ratio: 16 / 9; overflow: hidden; background: var(--t-bg); }
 .thumb img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
-.card-body { display: grid; gap: 0.5rem; align-content: start; padding: 1.05rem 1.2rem 1.3rem; }
-.card-body time { color: var(--muted); font: 600 0.78rem/1.2 var(--font-mono); }
-.card-title { margin: 0; color: var(--text-strong); font: 700 1.1rem/1.3 var(--font-head); text-wrap: pretty; }
+.card-body { display: grid; gap: 0.5rem; align-content: start; }
+.card-title { margin: 0; color: var(--text-strong); font: 700 1.02rem/1.35 var(--font-head); text-wrap: pretty; }
 .card-link { color: inherit; text-decoration: none; }
-.card-link::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.card-link::after { content: ""; position: absolute; inset: 0; }
 .card-link:focus-visible { outline: none; }
 .post-card:has(.card-link:focus-visible) { outline: 2px solid var(--focus); outline-offset: 3px; }
 .card-body p { display: -webkit-box; overflow: hidden; color: var(--text); font-size: 0.95rem; line-height: 1.55; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
 /* The latest post: image and text side by side */
-.post-card.is-featured { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); grid-template-rows: none; margin-bottom: clamp(2.5rem, 5vw, 3.5rem); }
-.is-featured .thumb { aspect-ratio: auto; min-height: 100%; }
-.is-featured .card-body { align-content: center; gap: 0.8rem; padding: clamp(1.5rem, 3.5vw, 2.5rem); }
-.is-featured .card-title { color: var(--heading); font: var(--display-w2) clamp(1.5rem, 2.6vw, 2.1rem)/1.15 var(--font-display); }
+.post-card.is-featured { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); grid-template-rows: none; gap: clamp(1.25rem, 3vw, 2rem); align-items: center; }
+.is-featured .card-body { gap: 0.8rem; }
+.is-featured .card-title { color: var(--heading); font: var(--display-w2) clamp(1.35rem, 2.4vw, 1.9rem)/1.2 var(--font-display); }
 .is-featured .card-body p { font-size: 1.02rem; -webkit-line-clamp: 4; }
-.year + .year { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+.year { margin-top: 0.75rem; }
 .year .band-rule { margin-bottom: 1.5rem; }
 @media (max-width: 760px) {
   .post-card.is-featured { grid-template-columns: minmax(0, 1fr); }
-  .is-featured .thumb { aspect-ratio: 16 / 9; }
 }
 .tags-big { gap: 0.65rem; }
 .tags-big a { padding: 0.5rem 0.85rem; font-size: 0.9rem; }
@@ -619,4 +655,4 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 
 /* Body letter-spacing is for the text font only: monospace keeps its natural spacing */
 button { letter-spacing: inherit; }
-code, kbd, pre, samp, .seg, .online, .band-rule, .sb-row, .ver, .search-close, .search-hit .sh-path, .pane-title, .code-title, .code-pane .copy, .tags a, .card-body time, .rows time, .hash, .llm-hint { letter-spacing: 0; }
+code, kbd, pre, samp, h1, h2, h3, .seg, .online, .band-rule, .sb-row, .ver, .brand, .beta, .search-close, .search-hit .sh-path, .pane-title, .pane-links b, .code-title, .code-pane .copy, .tags a, .rows time, .hash, .tagline, .card-title, .pager b, .llm-hint { letter-spacing: 0; }

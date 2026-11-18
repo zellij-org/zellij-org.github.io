@@ -12,20 +12,19 @@
     {{- $cards = $cards | append (dict "page" . "title" $title "desc" $desc "date" .Date.Unix) -}}
   {{- end -}}
 {{- end -}}
-<div class="page is-list">
-  <div class="wrap">
-    <header class="page-head">
-      <h1>{{ $t.name }}{{ with $t.tagline }} <span class="tagline">{{ . }}</span>{{ end }}</h1>
-    </header>
-    {{- if $cards }}
-    <div class="cards-grid">
-      {{- range sort $cards "date" "desc" }}
-      {{ partial "site/card.html" . }}
-      {{- end }}
-    </div>
-    {{- else }}
-    <div class="prose">{{ .Content }}</div>
+<div class="wrap session">
+  <header class="pane list-head is-focus">
+    <span class="pane-title" aria-hidden="true">{{ len $cards }} tutorials</span>
+    <h1>{{ $t.name }}{{ with $t.tagline }} <span class="tagline">{{ . }}</span>{{ end }}</h1>
+  </header>
+  {{- if $cards }}
+  <div class="cards-grid">
+    {{- range sort $cards "date" "desc" }}
+    {{ partial "site/card.html" . }}
     {{- end }}
   </div>
+  {{- else }}
+  <div class="pane"><div class="prose">{{ .Content }}</div></div>
+  {{- end }}
 </div>
 {{ end }}

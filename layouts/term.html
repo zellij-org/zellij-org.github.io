@@ -1,7 +1,8 @@
 {{- /* /tags/<tag>/: the posts with that tag, newest first. */ -}}
 {{ define "main" }}
-<div class="page">
-  <div class="wrap">
+<div class="wrap session page-session">
+  <div class="pane is-focus">
+    <span class="pane-title" aria-hidden="true">{{ len .Pages }} posts</span>
     <header class="page-head">
       <h1><span class="hash" aria-hidden="true">#</span>{{ .Title }}</h1>
     </header>

@@ -1,103 +1,55 @@
 /* Landing pages: the homepage (layouts/index.html) and Agents (layouts/_default/agents.html), with their demos.
-   Loaded after site.css, which has the colors, type, header, search, footer and status bar. */
-/* Hero: everything needed to install fits in the first screen */
-.hero { padding-block: clamp(2rem, 4.5vw, 3.25rem) clamp(3rem, 6vw, 4.5rem); scroll-margin-top: 1rem; }
-/* Copy and install on the left, the terminal demo on the right */
-.hero-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2.5rem, 5vw, 4.5rem); align-items: center; }
-.hero-copy { display: grid; gap: 1.25rem; min-width: 0; }
-.hero-demo { min-width: 0; }
-.install .cmd { font-size: 0.85rem; }
+   Loaded after site.css, which has the colors, type, panes, rows, header, search, footer and status bar. */
+
+/* Hero row: Zellij and how to install it on the left, the demo on the right */
+.hero-pane { gap: 1.25rem; }
+.hero-pane h1 { margin-top: 0.25rem; }
 .news-pill {
   justify-self: start;
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.7rem;
   max-width: 100%;
-  padding: 0.35rem 0.95rem 0.35rem 0.4rem;
-  border: 1px solid var(--line-soft);
-  border-radius: 999px;
-  background: var(--bg-raised);
   color: var(--text-strong);
-  font: 600 0.88rem/1.3 var(--font-body);
+  font: 600 0.9rem/1.35 var(--font-body);
   text-decoration: none;
 }
-.news-pill b { flex-shrink: 0; padding: 0.32rem 0.6rem; border-radius: 999px; background: var(--fill-amber); color: var(--on-fill); font: 800 0.72rem/1 var(--font-head); }
-.news-pill:hover { border-color: var(--line); }
+.news-pill b { flex-shrink: 0; padding: 0.3rem 0.55rem; background: var(--fill-amber); color: var(--on-fill); font: 700 0.74rem/1 var(--font-mono); letter-spacing: 0; }
+.news-pill:hover { text-decoration: underline; text-underline-offset: 3px; }
 
-.install {
-  display: grid;
-  gap: 0.85rem;
-  padding: 0.9rem;
-  border: 1px solid var(--line-soft);
-  border-radius: 18px;
-  background: var(--bg-raised);
-  box-shadow: 0 24px 48px -32px var(--shadow);
-}
-.os-tabs { display: flex; justify-self: start; gap: 0.2rem; padding: 0.22rem; border-radius: 999px; background: var(--bg-deep); }
-.os-tab {
-  padding: 0.45rem 0.95rem;
-  border: 0;
-  border-radius: 999px;
-  background: none;
-  color: var(--muted);
-  font: 700 0.88rem/1 var(--font-head);
-  cursor: pointer;
-}
-.os-tab[aria-selected="true"] { background: var(--tab-on); color: var(--text-strong); box-shadow: 0 1px 2px var(--shadow); }
+.install { display: grid; gap: 0.85rem; margin-top: 0.25rem; }
+/* The systems are tabs, drawn like Zellij's tab bar */
+.os-tabs { display: flex; justify-self: start; }
+.os-tab { font-size: 0.85rem; }
+.os-tab[aria-selected="true"] { background: var(--t-green); color: var(--t-ink); font-weight: 700; }
 .os-panel { display: grid; gap: 0.75rem; }
-.cmd-box {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 0.5rem 0.5rem 1.05rem;
-  border: 1px solid var(--line-soft);
-  border-radius: 12px;
-  background: var(--bg-deep);
-}
+.cmd-box { display: flex; align-items: center; gap: 0.75rem; padding: 0.45rem 0.45rem 0.45rem 1rem; border: 1px solid var(--line); background: var(--bg-deep); }
 .cmd {
   flex: 1;
   min-width: 0;
   overflow-x: auto;
   white-space: nowrap;
   scrollbar-width: none;
-  font: 500 0.95rem/1.6 var(--font-mono);
+  font: 500 0.82rem/1.6 var(--font-mono);
   color: var(--text-strong);
 }
 .cmd::-webkit-scrollbar { display: none; }
 .cmd::before { content: attr(data-prompt) " "; color: var(--heading); }
-.copy {
-  flex-shrink: 0;
-  padding: 0.6rem 1.05rem;
-  border: 0;
-  border-radius: 9px;
-  background: var(--fill-green);
-  color: var(--on-fill);
-  font: 800 0.86rem/1 var(--font-head);
-  cursor: pointer;
-}
-.copy.is-done { background: var(--fill-amber); }
-.dl-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.1rem; padding-inline: 0.15rem; }
-.btn-dl {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.58rem 1rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--text-strong);
-  font: 700 0.9rem/1 var(--font-head);
-  text-decoration: none;
-  white-space: nowrap;
-}
-.btn-dl:hover { border-color: var(--heading); }
-.btn-dl span[aria-hidden] { color: var(--heading); }
+.install .copy { padding: 0.5rem 0.6rem; gap: 0.3rem; font-size: 0.8rem; }
+.dl-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1.1rem; }
 .dl-alt { font-size: 0.9rem; color: var(--muted); }
 .dl-alt a { color: var(--sub); font-weight: 700; text-decoration: none; }
 .dl-alt a:hover { text-decoration: underline; }
-.fine { font-size: 0.9rem; color: var(--muted); padding-inline: 0.15rem; }
-.fine a { color: var(--sub); font-weight: 700; text-decoration: none; }
-.fine a:hover { text-decoration: underline; }
-@media (max-width: 940px) { .hero-grid { grid-template-columns: minmax(0, 1fr); } }
+.fine { font-size: 0.9rem; color: var(--muted); }
+.fine a, .platforms a { color: var(--sub); font-weight: 700; text-decoration: none; }
+.fine a:hover, .platforms a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.platforms { font-size: 0.93rem; color: var(--muted); }
+
+/* The hero row's right column: the live demo, and the numbers under it */
+.hero-side { grid-template-rows: minmax(0, 1fr) auto; }
+/* The demo's pane: the drawing, then its caption or the guided steps */
+.demo-pane { align-content: center; }
+.hero-term { margin: 0; display: grid; gap: 0.9rem; min-width: 0; }
 
 /* Terminal window, drawn with Zellij 0.46's default UI */
 .hero-term { margin: 0; display: grid; gap: 0.8rem; min-width: 0; }
@@ -105,13 +57,12 @@
   position: relative;
   container-type: inline-size;
   overflow: hidden;
-  border: 1px solid #2e2f31;
-  border-radius: 12px;
   background: var(--t-bg);
-  box-shadow: 0 40px 80px -40px var(--shadow);
   transition: box-shadow 0.2s ease;
 }
-.term.trying { box-shadow: 0 0 0 2px var(--accent), 0 40px 80px -40px var(--shadow); }
+.term.trying { box-shadow: 0 0 0 1px var(--accent); }
+/* The window title bar shows only when the demo floats; in the page, the pane title takes its place */
+.pane .term-bar { display: none; }
 .term-bar {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -245,44 +196,12 @@
 }
 .t-key.pop { animation: pop 0.28s ease-out; }
 @keyframes pop { from { transform: scale(0.75); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-.term-cap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem 1rem; font-size: 0.98rem; color: var(--muted); }
+.term-cap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.6rem 1rem; font-size: 0.95rem; color: var(--muted); }
 .term-cap > span:first-child { flex: 1 1 16rem; }
 .cap-btns { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
-.btn-try {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.45rem 0.95rem;
-  border: 0;
-  border-radius: 999px;
-  background: var(--fill-green);
-  color: var(--on-fill);
-  font: 800 0.82rem/1.2 var(--font-head);
-  white-space: nowrap;
-  cursor: pointer;
-}
-.btn-try:hover { filter: brightness(1.07); }
-.btn-quiet {
-  flex-shrink: 0;
-  padding: 0.38rem 0.85rem;
-  border: 1px solid var(--line-soft);
-  border-radius: 999px;
-  background: transparent;
-  color: var(--text-strong);
-  font: 700 0.78rem/1.2 var(--font-head);
-  cursor: pointer;
-}
-.btn-quiet:hover { border-color: var(--line); }
 
 /* Guided try-it: replaces the caption while active */
-.guide {
-  display: grid;
-  gap: 0.65rem;
-  padding: 0.9rem 1rem 1rem;
-  border: 1px solid var(--line-soft);
-  border-radius: 14px;
-  background: var(--bg-raised);
-}
+.guide { display: grid; gap: 0.65rem; padding: 0.85rem 0.95rem 0.95rem; border: 1px solid var(--line); }
 .guide:focus { outline: none; }
 .guide-top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 0.9rem; }
 .guide-top .guide-text { flex: 1 1 16rem; }
@@ -295,13 +214,13 @@
   padding: 0.5em 0.75em;
   border: 1px solid var(--line);
   border-bottom-width: 3px;
-  border-radius: 8px;
+  border-radius: 3px;
   background: var(--bg-deep);
   color: var(--text-strong);
   font: 700 0.86rem/1 var(--font-mono);
   cursor: pointer;
 }
-.g-key.is-next { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+.g-key.is-next { border-color: var(--accent); }
 .g-key.is-done { border-color: var(--fill-green); background: var(--fill-green); color: var(--on-fill); }
 .g-key.is-wrong { animation: nudge 0.32s ease; }
 @keyframes nudge { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
@@ -309,109 +228,11 @@
 .guide-hint { color: var(--muted); font-size: 0.88rem; line-height: 1.45; }
 .guide-hint.is-warn { color: var(--sub); }
 .guide-end { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; }
+.guide-close { margin-left: auto; }
+.guide-close kbd { margin-left: 0.4rem; padding: 0.12em 0.35em; border-bottom-width: 1px; font-size: 0.68rem; }
 
-/* Features: the copy card floats over the screenshot from the opposite side; the screenshot starts a little lower */
-.feature { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: start; }
-.shot {
-  position: relative;
-  grid-column: 1 / span 8;
-  grid-row: 1;
-  margin: 0;
-  min-width: 0;
-  padding: clamp(0.5rem, 1.2vw, 0.85rem);
-  border: 1px solid #2a2b30;
-  border-radius: 16px;
-  background: var(--t-bg);
-  margin-top: clamp(2.5rem, 6vw, 5rem);
-  box-shadow: 0 30px 60px -35px var(--shadow);
-}
-.shot img { display: block; width: 100%; height: auto; border-radius: 8px; }
-.feature-text {
-  grid-column: 7 / -1;
-  grid-row: 1;
-  z-index: 2;
-  display: grid;
-  gap: 1rem;
-  align-content: start;
-  min-width: 0;
-  padding: clamp(1.5rem, 3vw, 2.25rem);
-  border-radius: 20px;
-  background: var(--glass);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-}
-.feature.flip .shot { grid-column: 5 / -1; }
-.feature.flip .feature-text { grid-column: 1 / span 6; }
-@media (max-width: 860px) {
-  .feature { grid-template-columns: minmax(0, 1fr); }
-  .shot, .feature.flip .shot { grid-column: 1; grid-row: 2; margin-top: 0; }
-  .feature-text, .feature.flip .feature-text { grid-column: 1; grid-row: 1; margin: 0 0.75rem -2.75rem; }
-}
-
-/* Hero platform line */
-.platforms { font-size: 0.93rem; color: var(--muted); }
-.platforms a { color: var(--sub); font-weight: 700; text-decoration: none; }
-.platforms a:hover { text-decoration: underline; text-underline-offset: 3px; }
-
-/* Proof strip: real numbers, and the agents the inbox supports */
-.proof { padding-block: clamp(2rem, 4vw, 2.75rem); background: var(--bg-deep); border-block: 1px solid var(--line-soft); }
-.facts-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 1.25rem 2rem; }
-.fact { display: grid; gap: 0.15rem; }
-.fact b { color: var(--text-strong); font: 800 clamp(1.5rem, 2.6vw, 2rem)/1.1 var(--font-head); letter-spacing: calc(var(--display-track) + 0.01em); font-variant-numeric: tabular-nums; }
-.fact span { color: var(--muted); font-size: 0.93rem; }
-.fact a { color: inherit; text-decoration-color: var(--line); text-underline-offset: 3px; }
-.agents-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.7rem 1.6rem; margin-top: 1.6rem; padding-top: 1.4rem; border-top: 1px solid var(--line-soft); }
-.agents-label { color: var(--muted); font-size: 0.93rem; }
-.agents { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.55rem 1.5rem; }
-/* Each name gets the inbox's "working" dot */
-.agents li { display: inline-flex; align-items: center; gap: 0.55em; color: var(--text-strong); font: 600 0.92rem/1.3 var(--font-mono); white-space: nowrap; }
-.agents li::before { content: ""; width: 0.45em; height: 0.45em; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
-
-/* Ways to open a session, and paired links, inside feature cards */
-.modes { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
-.modes li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.65rem; }
-.modes code, .qa code { padding: 0.24rem 0.5rem; border-radius: 7px; background: var(--code-bg); color: var(--text-strong); font: 600 0.85em/1.2 var(--font-mono); }
-.links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; }
-
-/* Questions */
-.faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.75rem, 3.5vw, 2.5rem) clamp(2rem, 5vw, 4rem); }
-.qa { display: grid; gap: 0.6rem; align-content: start; padding-top: 1.1rem; border-top: 1px solid var(--line-soft); }
-.qa a { color: var(--sub); font-weight: 700; text-decoration: none; }
-.qa a:hover { text-decoration: underline; }
-@media (max-width: 820px) { .faq { grid-template-columns: minmax(0, 1fr); } }
-
-.cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.25rem, 3vw, 2rem); }
-.card {
-  display: grid;
-  gap: 1rem;
-  align-content: start;
-  padding: clamp(1.6rem, 3.5vw, 2.4rem);
-  border: 1px solid var(--line-soft);
-  border-radius: 18px;
-  background: var(--bg-raised);
-}
-.card-head { display: flex; align-items: center; gap: 0.6rem; }
-.card-head .online-name { font-family: var(--font-mono); font-size: 1.1rem; }
-@media (max-width: 820px) { .cards { grid-template-columns: minmax(0, 1fr); } }
-
-.panes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.5rem, 2.5vw, 1.9rem); }
-.panes:hover .pane.is-focus:not(:hover), .panes:focus-within .pane.is-focus:not(:focus-within) { border-color: var(--line); }
-.panes:hover .pane.is-focus:not(:hover) .pane-title, .panes:focus-within .pane.is-focus:not(:focus-within) .pane-title { color: var(--muted); }
-.docs-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem 1.5rem; margin-top: clamp(2rem, 4vw, 2.75rem); }
-.docs-hint { color: var(--muted); font-size: 0.92rem; }
-@media (max-width: 860px) { .panes { grid-template-columns: minmax(0, 1fr); } }
-
-@media (prefers-reduced-motion: reduce) {
-  .t-key.pop, .g-key.is-wrong, .t-cur { animation: none; }
-  .term-screen, .term { transition: none; }
-}
-
-/* Single-column grids: keep long no-wrap commands from widening the page on phones */
-.hero-copy, .install, .os-panel, .feature-text, .card, .qa, .pane, .guide, .section-head { grid-template-columns: minmax(0, 1fr); }
-
-code.cmd, .term-screen, .t-key, .agents li, .g-key, .guide-step, .card-head .online-name { letter-spacing: 0; }
-
-/* Try it yourself: the demo floats centered and wide above the page. Esc, Close or a click outside puts it back. */
+/* Try it yourself: the demo floats centered and wide above the page, as a floating pane.
+   Esc, Close or a click outside puts it back. */
 .try-scrim { position: fixed; inset: 0; z-index: 40; background: var(--scrim); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
 html.is-trying { overflow: hidden; }
 .hero-term.is-floating {
@@ -423,28 +244,78 @@ html.is-trying { overflow: hidden; }
   max-height: calc(100vh - 32px);
   overflow-y: auto;
   padding: clamp(0.8rem, 2vw, 1.25rem);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: var(--bg-raised);
-  box-shadow: 0 50px 120px -30px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--accent);
+  background: var(--bg);
+  box-shadow: 0 50px 120px -30px rgba(0, 0, 0, 0.75);
   transform: translate(-50%, -50%);
   animation: float-in 0.22s ease-out;
 }
 @keyframes float-in { from { opacity: 0; transform: translate(-50%, -47%) scale(0.98); } }
 .hero-term.is-floating figcaption { order: -1; }
-.hero-term.is-floating .guide { padding: 0.1rem 0.2rem 0.3rem; border: 0; background: none; }
-.guide-close { margin-left: auto; }
-.guide-close kbd { margin-left: 0.4rem; padding: 0.12em 0.35em; border-bottom-width: 1px; font-size: 0.68rem; }
-@media (prefers-reduced-motion: reduce) { .hero-term.is-floating { animation: none; } }
+.hero-term.is-floating .guide { padding: 0.1rem 0.2rem 0.3rem; border: 0; }
 
-/* Homepage: the way into the Agents page, next to a still of its demo (the whole still is a link) */
-.peek-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; }
-.peek-copy { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.1rem; align-content: start; min-width: 0; }
-.peek-copy .agents-row { margin-top: 0.3rem; }
-.peek { display: block; min-width: 0; border-radius: 12px; color: inherit; text-decoration: none; }
-.peek .term { transition: box-shadow 0.2s ease; }
-.peek:hover .term, .peek:focus-visible .term { box-shadow: 0 0 0 2px var(--accent), 0 40px 80px -40px var(--shadow); }
-.peek:focus-visible { outline: none; }
-@media (max-width: 940px) { .peek-grid { grid-template-columns: minmax(0, 1fr); } }
-.feature-text code { padding: 0.2rem 0.45rem; border-radius: 7px; background: var(--code-bg); color: var(--text-strong); font: 600 0.88em/1.2 var(--font-mono); }
-.hero h1 .tagline { margin-top: 0.75rem; }
+/* Numbers, compact under the demo */
+.stats-pane { padding-block: 1.3rem 1.1rem; container-type: inline-size; }
+.facts-row { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.9rem 1rem; }
+@container (min-width: 30rem) { .facts-row { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+.fact { display: grid; gap: 0.1rem; align-content: start; }
+.fact b { color: var(--text-strong); font: 700 1.35rem/1.1 var(--font-mono); font-variant-numeric: tabular-nums; }
+.fact span { color: var(--muted); font-size: 0.85rem; }
+.fact a { color: inherit; text-decoration-color: var(--line); text-underline-offset: 3px; }
+
+/* The agents that report to the inbox, each with the inbox's "working" dot */
+.agents-row { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.7rem 1.6rem; padding-top: 1.1rem; border-top: 1px solid var(--line-soft); }
+.agents-label { color: var(--muted); font-size: 0.93rem; }
+.agents { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.55rem 1.5rem; }
+.agents li { display: inline-flex; align-items: center; gap: 0.55em; color: var(--text-strong); font: 600 0.9rem/1.3 var(--font-mono); white-space: nowrap; }
+.agents li::before { content: ""; width: 0.45em; height: 0.45em; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+
+/* The homepage's way into the Agents page: the whole still is a link */
+.peek { color: inherit; text-decoration: none; }
+.peek .term { pointer-events: none; }
+
+/* Features: one pane per section, with its illustration in a pane of its own inside it: the screen it describes,
+   titled with the keys that open it, or a live preview. Hovering the inner pane focuses it, like any other. */
+.feature-pane { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(1.5rem, 3vw, 2.5rem); align-items: center; }
+.feature-pane.rev { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.feature-pane.rev > .pane { order: -1; }
+.feature-text { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; align-content: start; min-width: 0; }
+.feature-pane > .pane { padding: 1.3rem clamp(0.75rem, 1.6vw, 1rem) clamp(0.75rem, 1.6vw, 1rem); }
+@media (max-width: 940px) {
+  .feature-pane, .feature-pane.rev { grid-template-columns: minmax(0, 1fr); }
+  .feature-pane.rev > .pane { order: 0; }
+}
+.shot { margin: 0; align-content: center; }
+.shot img { display: block; width: 100%; height: auto; }
+.modes { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+.modes li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.65rem; }
+.links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; }
+
+/* Questions */
+.faq { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.5rem, 3vw, 2.25rem) clamp(2rem, 5vw, 4rem); margin-top: 0.5rem; }
+.qa { display: grid; gap: 0.6rem; align-content: start; padding-top: 1.1rem; border-top: 1px solid var(--line-soft); }
+.qa a { color: var(--sub); font-weight: 700; text-decoration: none; }
+.qa a:hover { text-decoration: underline; }
+@media (max-width: 820px) { .faq { grid-template-columns: minmax(0, 1fr); } }
+
+/* Support */
+.card-head { display: flex; align-items: center; gap: 0.6rem; }
+.card-head .online-name { color: var(--accent); font-size: 1.1rem; }
+
+/* Docs */
+.docs-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem 1.5rem; }
+.docs-hint { color: var(--muted); font-size: 0.92rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .t-key.pop, .g-key.is-wrong, .t-cur { animation: none; }
+  .term-screen, .term { transition: none; }
+  .hero-term.is-floating { animation: none; }
+}
+
+/* Single-column grids: keep long no-wrap commands from widening the page on phones */
+.install, .os-panel, .qa, .guide { grid-template-columns: minmax(0, 1fr); }
+
+code.cmd, .term-screen, .t-key, .agents li, .g-key, .guide-step, .fact b, .news-pill b { letter-spacing: 0; }
+
+/* Inline code in the panes' text */
+.modes code, .qa code, .pane > p code, .feature-text p code { padding: 0.2rem 0.45rem; border-radius: 3px; background: var(--code-bg); color: var(--text-strong); font: 600 0.85em/1.2 var(--font-mono); }

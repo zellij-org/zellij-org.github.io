@@ -6,6 +6,7 @@
 
   /* Install tabs, picked from the visitor's OS */
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.os-tab'));
+  var scrollers = [];
   function selectTab(id, focus) {
     tabs.forEach(function (t) {
       var on = t.getAttribute('data-os') === id;
@@ -14,6 +15,7 @@
       $('panel-' + t.getAttribute('data-os')).hidden = !on;
       if (on && focus) t.focus();
     });
+    scrollers.forEach(function (s) { s.check(); });
   }
   tabs.forEach(function (t, i) {
     t.addEventListener('click', function () { selectTab(t.getAttribute('data-os')); });
@@ -26,9 +28,54 @@
   });
   if (tabs.length) selectTab(/win/.test(plat) ? 'windows' : isMac ? 'macos' : 'linux');
 
+  /* An install command too long for its box scrolls slowly back and forth, pausing at each end, so it can be read whole.
+     Pointing at the box pauses it; scrolling it by hand stops it. It only runs while shown, and never with reduced motion. */
+  function Scroller(el) {
+    var s = { run: false, held: false, stopped: false, visible: true, dir: 1, wait: 0, pos: 0, last: 0 };
+    var SPEED = 28, PAUSE = 1600; /* pixels a second; milliseconds at each end */
+    function tick(t) {
+      if (!s.run) return;
+      var max = el.scrollWidth - el.clientWidth, dt = s.last ? Math.min(t - s.last, 100) : 0;
+      s.last = t;
+      if (s.wait > 0) s.wait -= dt;
+      else {
+        s.pos += s.dir * SPEED * dt / 1000;
+        if (s.pos >= max) { s.pos = max; s.dir = -1; s.wait = PAUSE; }
+        else if (s.pos <= 0) { s.pos = 0; s.dir = 1; s.wait = PAUSE; }
+        el.scrollLeft = s.pos;
+      }
+      requestAnimationFrame(tick);
+    }
+    s.check = function () {
+      var want = !reduce && !s.held && !s.stopped && s.visible && el.offsetParent !== null && el.scrollWidth - el.clientWidth > 1;
+      if (want && !s.run) {
+        s.run = true;
+        s.last = 0;
+        s.pos = el.scrollLeft;
+        if (s.pos <= 0) { s.dir = 1; s.wait = PAUSE; }
+        requestAnimationFrame(tick);
+      } else if (!want) s.run = false;
+    };
+    var box = el.parentElement;
+    box.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') { s.held = true; s.check(); } });
+    box.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') { s.held = false; s.check(); } });
+    var byHand = function () { s.stopped = true; s.check(); };
+    el.addEventListener('touchstart', byHand, { passive: true });
+    el.addEventListener('wheel', byHand, { passive: true });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) { s.visible = entries[0].isIntersecting; s.check(); }).observe(el);
+    }
+    return s;
+  }
+  each(document.querySelectorAll('.cmd'), function (el) { scrollers.push(Scroller(el)); });
+  var recheck = function () { scrollers.forEach(function (s) { s.check(); }); };
+  window.addEventListener('resize', recheck);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(recheck);
+  recheck();
+
   /* Demos (layouts/partials/demo/demo.html). Each plays its scenes in a loop; the scenes, steps and text come from
      data/demos/<name>.yaml through data-config. "Try it yourself" floats the demo above the page and plays it again
-     with the real keys (or taps). A "peek" only shows one scene, still. */
+     with the real keys (or taps). A "peek" plays with no caption or controls. */
   var scrim = null, current = null;
   function getScrim() {
     if (!scrim) {
@@ -89,8 +136,6 @@
       if (s.key) showChip(s.key); else chip.hidden = true;
     }
 
-    if (el.hasAttribute('data-peek')) { render(+el.getAttribute('data-peek'), true); return null; }
-
     var trying = false, visible = true, paused = false, idx = 0, timer = null;
     var step = function () {
       idx = (idx + 1) % states.length;
@@ -106,19 +151,24 @@
       timer = null;
       if (!trying && !paused && visible) timer = setInterval(step, 2600);
     };
+    /* A peek has no controls: it just plays, or shows its own scene to people who prefer reduced motion */
+    var peek = el.hasAttribute('data-peek');
     var toggle = el.querySelector('.demo-pause');
     var setPaused = function (p) {
       paused = p;
-      toggle.textContent = p ? 'Play' : 'Pause';
-      toggle.setAttribute('aria-pressed', p ? 'true' : 'false');
+      if (toggle) {
+        toggle.textContent = p ? 'Play' : 'Pause';
+        toggle.setAttribute('aria-pressed', p ? 'true' : 'false');
+      }
       sync();
     };
-    toggle.addEventListener('click', function () { setPaused(!paused); });
+    if (toggle) toggle.addEventListener('click', function () { setPaused(!paused); });
     if ('IntersectionObserver' in window) {
       new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; sync(); }).observe(term);
     }
-    if (reduce) { idx = cfg.reduced; render(idx); setPaused(true); }
+    if (reduce) { idx = peek ? +el.getAttribute('data-peek') : cfg.reduced; render(idx, peek); setPaused(true); }
     else { render(0); setPaused(false); }
+    if (peek) return null;
 
     /* Try it yourself */
     var cap = el.querySelector('.term-cap');

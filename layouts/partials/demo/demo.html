@@ -1,7 +1,8 @@
 {{- /* A drawn Zellij window that plays a scene in a loop, with "Try it yourself" to play it again with the real keys.
        Takes a dict:
          name  the scene: its text, scenes and steps in data/demos/<name>.yaml, its window contents in demo/<name>.html
-         peek  optional: a scene number, shown still, with no caption or controls (a sneak peek of another page's demo)
+         peek  optional: no caption or controls, it just plays (a sneak peek of another page's demo). The value is the
+               scene shown before the script runs, and to people who prefer reduced motion.
        Played by assets/js/landing.js. The window's text sizes with its width (container query units). */ -}}
 {{- $d := index hugo.Data.demos .name -}}
 {{- $peek := .peek -}}

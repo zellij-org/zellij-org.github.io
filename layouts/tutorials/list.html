@@ -1,15 +1,14 @@
 {{- /* /tutorials/: every tutorial, newest first. The curated list with descriptions is Screencasts & Tutorials (content/screencasts.md). */ -}}
 {{ define "main" }}
-<div class="page is-list">
-  <div class="wrap">
-    <header class="page-head">
-      <h1>{{ .Title }}</h1>
-    </header>
-    <div class="cards-grid">
-      {{- range .Pages.ByDate.Reverse }}
-      {{ partial "site/card.html" (dict "page" .) }}
-      {{- end }}
-    </div>
+<div class="wrap session">
+  <header class="pane list-head is-focus">
+    <span class="pane-title" aria-hidden="true">{{ len .Pages }} tutorials</span>
+    <h1>{{ .Title }}</h1>
+  </header>
+  <div class="cards-grid">
+    {{- range .Pages.ByDate.Reverse }}
+    {{ partial "site/card.html" (dict "page" .) }}
+    {{- end }}
   </div>
 </div>
 {{ end }}

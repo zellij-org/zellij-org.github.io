@@ -1,6 +1,6 @@
 # The coding agents demo: the Agents page's hero, and its sneak peek on the homepage.
 # The window's contents are drawn in layouts/partials/demo/agents.html; assets/js/landing.js plays it.
-title: "photo-sorter | agents"
+title: "live demo | agents"  # the title of the pane it plays in
 label: "The Zellij terminal with three coding agents working side by side. The api agent asks for permission to run the tests. The inbox opens on top, shows which pane needs attention, and the request is approved from there. The tests pass and the docs agent finishes."
 caption:
   title: "Three agents, one inbox."

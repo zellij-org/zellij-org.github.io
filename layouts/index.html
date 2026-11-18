@@ -11,17 +11,20 @@
 {{- $short := delimit (first 2 (split $l.version ".")) "." -}}
 {{- $dl := "https://github.com/zellij-org/zellij/releases/latest/download/" -}}
 {{- $vsTmux := .Site.GetPage "/vs-tmux" -}}
-  <section class="hero" id="install">
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
+  {{- /* The page is a Zellij session: each section is a pane, and rows split side by side like a layout.
+         The pane under the pointer, or holding keyboard focus, gets the focused frame (site.js). */}}
+  <div class="wrap session">
+    <div class="row row-hero" id="install">
+      <section class="pane hero-pane is-focus">
+        <span class="pane-title" aria-hidden="true">zellij</span>
         <a class="news-pill" href="{{ $l.releasePost }}"><b>New in {{ $short }}</b>{{ $l.releaseHeadline }} →</a>
         <h1>Power without complexity.</h1>
         <p class="lead">{{ .Site.Params.description }}</p>
         <div class="install">
           <div class="os-tabs" role="tablist" aria-label="Your system">
-            <button class="os-tab" role="tab" id="tab-linux" data-os="linux" aria-controls="panel-linux" aria-selected="true" type="button">Linux</button>
-            <button class="os-tab" role="tab" id="tab-macos" data-os="macos" aria-controls="panel-macos" aria-selected="false" tabindex="-1" type="button">macOS</button>
-            <button class="os-tab" role="tab" id="tab-windows" data-os="windows" aria-controls="panel-windows" aria-selected="false" tabindex="-1" type="button">Windows</button>
+            <button class="os-tab seg" role="tab" id="tab-linux" data-os="linux" aria-controls="panel-linux" aria-selected="true" type="button">Linux</button>
+            <button class="os-tab seg" role="tab" id="tab-macos" data-os="macos" aria-controls="panel-macos" aria-selected="false" tabindex="-1" type="button">macOS</button>
+            <button class="os-tab seg" role="tab" id="tab-windows" data-os="windows" aria-controls="panel-windows" aria-selected="false" tabindex="-1" type="button">Windows</button>
           </div>
           <div class="os-panel" role="tabpanel" id="panel-linux" aria-labelledby="tab-linux">
             <div class="cmd-box"><code class="cmd" data-prompt="$">bash &lt;(curl -L https://zellij.dev/launch)</code><button class="copy" type="button" data-copy="bash <(curl -L https://zellij.dev/launch)">Copy</button></div>
@@ -47,112 +50,97 @@
           <p class="fine">The script starts the latest release and offers to install it, or you can just try it from a temporary folder. <a href="/documentation/installation.html">More ways to install</a></p>
         </div>
         <p class="platforms">Linux, macOS and Windows. <a href="/documentation/web-client.html">On your phone through the web client&nbsp;→</a></p>
-      </div>
-
-      <div class="hero-demo">
-        {{ partial "demo/demo.html" (dict "name" "home") }}
-      </div>
-    </div>
-  </section>
-
-  <section class="proof" aria-label="Zellij in numbers">
-    <div class="wrap">
-      <ul class="facts-row">
-        <li class="fact"><b>{{ $l.stars }}</b><span>stars on GitHub</span></li>
-        <li class="fact"><b>{{ $l.contributors }}</b><span>contributors</span></li>
-        <li class="fact"><b>{{ $l.plugins }}</b><span><a href="https://github.com/zellij-org/awesome-zellij">community plugins</a></span></li>
-        <li class="fact"><b>{{ $l.packages }}</b><span><a href="https://repology.org/project/zellij/versions">package repositories</a></span></li>
-        <li class="fact"><b>{{ $l.firstRelease }}</b><span>first release</span></li>
-      </ul>
-    </div>
-  </section>
-
-  {{- /* A way into the Agents page, with a still of its demo */}}
-  <section class="band" id="agents">
-    <div class="wrap">
-      <div class="band-rule"><span>agents</span></div>
-      <div class="peek-grid">
-        <div class="peek-copy">
-          <h2>Running coding agents?</h2>
-          <p class="lead">Run them side by side in tabs and sessions, see at a glance which one needs you, and answer it from the inbox without switching.</p>
-          {{ partial "site/agents-list.html" . }}
-          <div class="actions">
-            <a class="btn btn-green" href="/agents/">Zellij for coding agents <span aria-hidden="true">→</span></a>
-            <a class="link" href="/tutorials/zellij-with-coding-agents/">Tutorial →</a>
-          </div>
-        </div>
-        <a class="peek" href="/agents/" aria-label="Zellij for coding agents: the inbox, answering an agent that asks for permission">
-          {{ partial "demo/demo.html" (dict "name" "agents" "peek" 2) }}
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="band alt" id="features">
-    <div class="wrap">
-      <div class="band-rule"><span>inbox</span></div>
-      <article class="feature">
-        <figure class="shot">
-          <img src="/img/inbox-preview.png" width="841" height="493" loading="lazy" decoding="async" alt="The inbox listing panes that need input, with a coding agent asking for permission to run a command.">
-        </figure>
-        <div class="feature-text">
-          <h2>One inbox for everything that needs you</h2>
-          <p>Builds, tests, long-running commands and coding agents tell Zellij whether they're working, done, failed or waiting on you. The inbox lists them across all your sessions, and you answer from its preview without switching.</p>
-          <div class="links">
-            <a class="link" href="/documentation/inbox.html">The inbox →</a>
-            <a class="link" href="/documentation/inbox-integrations.html">What reports to it →</a>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section class="band" id="sessions">
-    <div class="wrap">
-      <div class="band-rule"><span>sessions</span></div>
-      <article class="feature">
-        <figure class="shot">
-          <img src="/img/session-previews.png" width="1454" height="767" loading="lazy" decoding="async" alt="The session manager listing running and recent sessions, with a live preview of the selected one on the right.">
-        </figure>
-        <div class="feature-text">
-          <h2>Pick up any session, from anywhere</h2>
-          <p>Sessions keep running when you close the window or your SSH connection drops, and exited ones come back with their layout and commands.</p>
-          <ul class="modes">
-            <li><code>zellij</code> in any terminal, or on a server over SSH</li>
-            <li><code>zellij terminal</code> in its own window</li>
-            <li><code>zellij web</code> in a browser, even on a phone</li>
+      </section>
+      <div class="group hero-side">
+        <section class="pane demo-pane">
+          <span class="pane-title" aria-hidden="true">{{ (index hugo.Data.demos "home").title }}</span>
+          {{ partial "demo/demo.html" (dict "name" "home") }}
+        </section>
+        <section class="pane stats-pane" aria-label="Zellij in numbers">
+          <span class="pane-title" aria-hidden="true">stats</span>
+          <ul class="facts-row">
+            <li class="fact"><b>{{ $l.stars }}</b><span>stars on GitHub</span></li>
+            <li class="fact"><b>{{ $l.contributors }}</b><span>contributors</span></li>
+            <li class="fact"><b>{{ $l.plugins }}</b><span><a href="https://github.com/zellij-org/awesome-zellij">community plugins</a></span></li>
+            <li class="fact"><b>{{ $l.packages }}</b><span><a href="https://repology.org/project/zellij/versions">package repositories</a></span></li>
+            <li class="fact"><b>{{ $l.firstRelease }}</b><span>first release</span></li>
           </ul>
-          <a class="link" href="/tutorials/session-management/">Managing sessions →</a>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section class="band alt" id="settings">
-    <div class="wrap">
-      <div class="band-rule"><span>settings</span></div>
-      <article class="feature">
-        <figure class="shot">
-          <img src="/img/settings-preview.png" width="1011" height="572" loading="lazy" decoding="async" alt="The Zellij settings screen, with sections for keybindings, appearance and behavior.">
-        </figure>
-        <div class="feature-text">
-          <h2>Easy setup, right in the app</h2>
-          <p>Change keys, options and themes from the settings screen, for this session or for good. The theme editor previews your colors and flags any that are hard to read. Prefer files? Settings save to a plain config file, layouts capture a project's workspace, and plugins extend Zellij in any language that compiles to WebAssembly.</p>
-          <div class="links">
-            <a class="link" href="/documentation/settings-screen.html">The settings screen →</a>
-            <a class="link" href="/tutorials/layouts/">Layouts →</a>
-          </div>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <section class="band" id="questions">
-    <div class="wrap">
-      <div class="band-rule"><span>questions</span></div>
-      <div class="section-head">
-        <h2>Switching is easy</h2>
+        </section>
       </div>
+    </div>
+
+
+    {{- /* A way into the Agents page, with a still of its demo */}}
+    <section class="pane feature-pane" id="agents">
+      <span class="pane-title" aria-hidden="true">agents</span>
+      <div class="feature-text">
+        <h2>Running coding agents?</h2>
+        <p class="lead">Run them side by side in tabs and sessions, see at a glance which one needs you, and answer it from the inbox without switching.</p>
+        {{ partial "site/agents-list.html" . }}
+        <div class="actions">
+          <a class="btn btn-green" href="/agents/">Zellij for coding agents</a>
+          <a class="link" href="/tutorials/zellij-with-coding-agents/">Tutorial →</a>
+        </div>
+      </div>
+      <a class="pane peek" href="/agents/" aria-label="Zellij for coding agents: the inbox, answering an agent that asks for permission">
+        <span class="pane-title" aria-hidden="true">{{ (index hugo.Data.demos "agents").title }}</span>
+        {{ partial "demo/demo.html" (dict "name" "agents" "peek" 2) }}
+      </a>
+    </section>
+
+    <section class="pane feature-pane" id="features">
+      <span class="pane-title" aria-hidden="true">inbox</span>
+      <div class="feature-text">
+        <h2>One inbox for everything that needs you</h2>
+        <p>Builds, tests, long-running commands and coding agents tell Zellij whether they're working, done, failed or waiting on you. The inbox lists them across all your sessions, and you answer from its preview without switching.</p>
+        <div class="links">
+          <a class="link" href="/documentation/inbox.html">The inbox →</a>
+          <a class="link" href="/documentation/inbox-integrations.html">What reports to it →</a>
+        </div>
+      </div>
+      <figure class="pane shot">
+        <span class="pane-title" aria-hidden="true">Ctrl o + i</span>
+        <img src="/img/inbox-preview.png" width="841" height="493" loading="lazy" decoding="async" alt="The inbox listing panes that need input, with a coding agent asking for permission to run a command.">
+      </figure>
+    </section>
+
+    <section class="pane feature-pane rev" id="sessions">
+      <span class="pane-title" aria-hidden="true">sessions</span>
+      <div class="feature-text">
+        <h2>Pick up any session, from anywhere</h2>
+        <p>Sessions keep running when you close the window or your SSH connection drops, and exited ones come back with their layout and commands.</p>
+        <ul class="modes">
+          <li><code>zellij</code> in any terminal, or on a server over SSH</li>
+          <li><code>zellij terminal</code> in its own window</li>
+          <li><code>zellij web</code> in a browser, even on a phone</li>
+        </ul>
+        <a class="link" href="/tutorials/session-management/">Managing sessions →</a>
+      </div>
+      <figure class="pane shot">
+        <span class="pane-title" aria-hidden="true">Ctrl o + w</span>
+        <img src="/img/session-previews.png" width="1454" height="767" loading="lazy" decoding="async" alt="The session manager listing running and recent sessions, with a live preview of the selected one on the right.">
+      </figure>
+    </section>
+
+    <section class="pane feature-pane" id="settings">
+      <span class="pane-title" aria-hidden="true">settings</span>
+      <div class="feature-text">
+        <h2>Easy setup, right in the app</h2>
+        <p>Change keys, options and themes from the settings screen, for this session or for good. The theme editor previews your colors and flags any that are hard to read. Prefer files? Settings save to a plain config file, layouts capture a project's workspace, and plugins extend Zellij in any language that compiles to WebAssembly.</p>
+        <div class="links">
+          <a class="link" href="/documentation/settings-screen.html">The settings screen →</a>
+          <a class="link" href="/tutorials/layouts/">Layouts →</a>
+        </div>
+      </div>
+      <figure class="pane shot">
+        <span class="pane-title" aria-hidden="true">Ctrl o + c</span>
+        <img src="/img/settings-preview.png" width="1011" height="572" loading="lazy" decoding="async" alt="The Zellij settings screen, with sections for keybindings, appearance and behavior.">
+      </figure>
+    </section>
+
+    <section class="pane" id="questions">
+      <span class="pane-title" aria-hidden="true">questions</span>
+      <h2>Switching is easy</h2>
       <div class="faq">
         <div class="qa">
           <h3>How is Zellij different from tmux?</h3>
@@ -179,45 +167,46 @@
           <p>Aram Drevekenin works on it full-time, funded by sponsors, with a handful of volunteers who help in different areas. The first beta shipped in April 2021, and a new release has followed every few months since.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="band deep" id="support">
-    <div class="wrap">
-      <div class="band-rule"><span>support</span></div>
-      <div class="section-head">
+    <div class="row row-3" id="support">
+      <section class="pane">
+        <span class="pane-title" aria-hidden="true">support</span>
         <h2>Help keep Zellij independent</h2>
         <p class="lead">Zellij is developed full-time and paid for by the people who use it. No ads, no telemetry, no venture capital.</p>
-      </div>
-      <div class="cards">
-        <article class="card">
-          <div class="card-head"><h3 class="online-name">zellij.online</h3><span class="beta">beta</span></div>
-          <p>Share a terminal session with a link. People join from a browser, a terminal or a phone, end-to-end encrypted, with no certificates or port-forwarding to set up. Run by the Zellij maintainers.</p>
-          <div class="actions">
-            <a class="btn btn-green" href="https://zellij.online">Join the waiting list</a>
-            <a class="link" href="/zellij-online/">What it means for Zellij →</a>
-          </div>
-        </article>
-        <article class="card">
-          <div class="card-head"><h3>Sponsor the developer</h3></div>
-          <p>Recurring sponsorships pay for full-time work on Zellij. Monthly sponsors get Zellij stickers as a thank you.</p>
-          <div class="actions">
-            <a class="btn btn-rose" href="https://github.com/sponsors/imsnif"><span aria-hidden="true">♥</span> Sponsor on GitHub</a>
-            <a class="link" href="/stickers/">Ko-fi and Liberapay →</a>
-          </div>
-        </article>
-      </div>
+      </section>
+      <section class="pane">
+        <span class="pane-title" aria-hidden="true">zellij.online</span>
+        <div class="card-head"><h3 class="online-name">zellij.online</h3><span class="beta">beta</span></div>
+        <p>Share a terminal session with a link. People join from a browser, a terminal or a phone, end-to-end encrypted, with no certificates or port-forwarding to set up. Run by the Zellij maintainers.</p>
+        <div class="actions">
+          <a class="btn btn-green" href="https://zellij.online">Join the waiting list</a>
+          <a class="link" href="/zellij-online/">What it means for Zellij →</a>
+        </div>
+      </section>
+      <section class="pane">
+        <span class="pane-title" aria-hidden="true">sponsor</span>
+        <div class="card-head"><h3>Sponsor the developer</h3></div>
+        <p>Recurring sponsorships pay for full-time work on Zellij. Monthly sponsors get Zellij stickers as a thank you.</p>
+        <div class="actions">
+          <a class="btn btn-rose" href="https://github.com/sponsors/imsnif"><span aria-hidden="true">♥</span> Sponsor on GitHub</a>
+          <a class="link" href="/stickers/">Ko-fi and Liberapay →</a>
+        </div>
+      </section>
     </div>
-  </section>
 
-  <section class="band alt" id="next">
-    <div class="wrap">
-      <div class="band-rule"><span>docs</span></div>
-      <div class="section-head">
+    <div class="group">
+      <section class="pane docs-head" id="next">
+        <span class="pane-title" aria-hidden="true">docs</span>
         <h2>Start with the basics, or go straight to plugins</h2>
-      </div>
-      <div class="panes">
-        <section class="pane is-focus">
+        <div class="docs-cta">
+          <a class="btn btn-green" href="/documentation/">Read the docs</a>
+          <a class="link" href="/screencasts/">All tutorials →</a>
+          <span class="docs-hint">or press <kbd class="search-key">Ctrl K</kbd> to search</span>
+        </div>
+      </section>
+      <div class="row row-3">
+        <section class="pane">
           <h3 class="pane-title">getting started</h3>
           <ul class="pane-links">
             <li><a href="/documentation/installation.html"><b>Install Zellij</b><span>Packages, binaries, or try it first</span></a></li>
@@ -245,13 +234,8 @@
           </ul>
         </section>
       </div>
-      <div class="docs-cta">
-        <a class="btn btn-green" href="/documentation/">Read the docs</a>
-        <a class="link" href="/screencasts/">All tutorials →</a>
-        <span class="docs-hint">or press <kbd class="search-key">Ctrl K</kbd> to search</span>
-      </div>
     </div>
-  </section>
+  </div>
 
 {{ end }}
 
