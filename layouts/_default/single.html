@@ -1,10 +1,8 @@
-{{- /* News posts, tutorials and the site's own pages (About, Features, FAQ...): one pane, titled with the page's path. */ -}}
 {{ define "main" }}
 {{- $kind := cond (eq .Section "news") "news" (cond (eq .Section "tutorials") "tutorials" "page") -}}
 {{- $t := partial "site/title.html" . -}}
-<div class="wrap session page-session">
-  <article class="pane article-pane is-focus">
-    <span class="pane-title" aria-hidden="true">{{ strings.TrimSuffix "/" (strings.TrimPrefix "/" .RelPermalink) }}</span>
+<div class="wrap session">
+  <article class="article">
     <header class="page-head">
       <h1>{{ $t.name | markdownify }}{{ with $t.tagline }} <span class="tagline">{{ . }}</span>{{ end }}</h1>
       {{- if ne $kind "page" }}

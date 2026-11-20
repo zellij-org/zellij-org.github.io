@@ -65,7 +65,7 @@ disableHugoGeneratorInject = false
 
   # Metadata mostly used in document's head
   #
-  description = "Zellij is a terminal workspace and multiplexer for everything you run in a terminal. Every shortcut is on screen, and nothing stops when you close the window."
+  description = "Zellij is a terminal and multiplexer you learn in minutes and keep for years. Every shortcut is on screen, and nothing stops when you close the window."
   keywords = "rust,terminal,multiplexer"
   images = ["/img/floating-panes-preview.png"]
 
@@ -74,8 +74,7 @@ disableHugoGeneratorInject = false
   [params.landing]
     version         = "0.46.0"
     releasePost     = "/news/terminal-inbox-session-previews/"
-    releaseHeadline = "Zellij now comes with its own terminal"
-    title           = "Zellij: a terminal workspace and multiplexer"
+    title           = "Zellij: a terminal and multiplexer you learn in minutes"
     # GitHub stars, shown in the header, as of 2026-11-14 (from the GitHub API)
     stars           = "36.1k"
 

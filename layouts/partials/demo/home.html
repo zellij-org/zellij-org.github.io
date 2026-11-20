@@ -1,62 +1,6 @@
-{{- /* Homepage demo (data/demos/home.yaml): an editor, a server and a test watcher.
-       Scene 1 shows a floating pane (Alt f), scene 2 hides it again, scene 3 opens a new pane below the editor (Alt n).
-       Elements with data-states show only in those scenes. */ -}}
-<div class="t-tabbar"><span class="t-sess">Zellij (photo-sorter)</span><span class="tseg on">code</span><span class="tseg">notes</span><span class="tseg">+</span></div>
-<div class="t-body">
-  <div class="t-left">
-    <section class="tpane tp-a focused" data-pane="a">
-      <div class="tp-title">hx src/routes/photos.rs</div>
-      <div class="tp-body">
-<pre><span class="d">  1</span> <span class="mg">use</span> axum::{extract::<span class="ty">Query</span>, <span class="ty">Json</span>};
-<span class="d">  2</span> <span class="mg">use</span> crate::db::{self, <span class="ty">Photo</span>};
-<span class="d">  3</span>
-<span class="d">  4</span> <span class="o">#[derive(Deserialize)]</span>
-<span class="d">  5</span> <span class="mg">pub struct</span> <span class="ty">Page</span> {
-<span class="d">  6</span>     cursor: <span class="ty">Option</span>&lt;<span class="ty">i64</span>&gt;,
-<span class="d">  7</span> }
-<span class="d">  8</span>
-<span class="d">  9</span> <span class="mg">pub async fn</span> <span class="f">list_photos</span>(
-<span class="d"> 10</span>     <span class="ty">Query</span>(page): <span class="ty">Query</span>&lt;<span class="ty">Page</span>&gt;,
-<span class="d"> 11</span> ) -&gt; <span class="ty">Json</span>&lt;<span class="ty">Vec</span>&lt;<span class="ty">Photo</span>&gt;&gt; {
-<span class="d"> 12</span>     <span class="mg">let</span> photos = db::<span class="f">photos</span>(page.cursor, <span class="o">50</span>).<span class="mg">await</span>;
-<span class="d"> 13</span>     <span class="ty">Json</span>(photos)
-<span class="d"> 14</span> }
-</pre>
-        <div class="hx-status"><pre><span class="hx-mode">NOR</span> src/routes/photos.rs   <span class="d">12:31</span></pre></div>
-      </div>
-    </section>
-    <section class="tpane tp-n" data-pane="n" data-states="3">
-      <div class="tp-title">~/photo-sorter</div>
-      <div class="tp-body"><pre><span class="g">~/photo-sorter</span> <span class="f">(main)</span> $ <span class="t-cur"> </span></pre></div>
-    </section>
-  </div>
-  <div class="t-right split">
-    <section class="tpane tp-b" data-pane="b">
-      <div class="tp-title">cargo run</div>
-      <div class="tp-body">
-<pre><span class="g">   Compiling</span> photo-sorter v0.3.0
-<span class="g">    Finished</span> dev profile in 4.21s
-<span class="g">     Running</span> target/debug/photo-sorter
-listening on 127.0.0.1:8080
-GET /photos <span class="g">200</span> <span class="d">12ms</span>
-GET /photos?cursor=50 <span class="g">200</span> <span class="d">9ms</span>
-GET /photos?cursor=100 <span class="g">200</span> <span class="d">8ms</span></pre>
-      </div>
-    </section>
-    <section class="tpane tp-c" data-pane="c">
-      <div class="tp-title">cargo watch -x test</div>
-      <div class="tp-body">
-<pre><span class="ty">[Running 'cargo test']</span>
-running 14 tests
-..............
-test result: <span class="g">ok</span>. 14 passed; 0 failed
-
-<span class="ty">[Finished running. Exit status: 0]</span></pre>
-      </div>
-    </section>
-  </div>
-  <section class="tpane tp-float" data-pane="fl" data-states="1">
-    <div class="tp-title"><span>~/photo-sorter</span><span>PIN [ ]</span></div>
-    <div class="tp-body"><pre><span class="g">~/photo-sorter</span> <span class="f">(main)</span> $ <span class="t-cur"> </span></pre></div>
-  </section>
+{{- range $i, $c := .d.chapters }}
+<div class="t-chapter" data-chapter="{{ $i }}"{{ if $i }} hidden{{ end }}>
+  {{ partial (printf "demo/home/%s.html" $c.id) . }}
+  <div class="t-cap"><b class="t-cap-title">{{ $c.title }}</b></div>
 </div>
+{{- end }}

@@ -1,12 +1,5 @@
-{{- /* The window around a demo scene: the scene's tabs and panes (demo/<name>.html), and Zellij's status bar.
-       data-state picks which scene's elements show (landing.css); landing.js changes it as the scene plays.
-       Whitespace outside <pre> uses &nbsp; so `hugo --minify` keeps the columns aligned. */ -}}
-<div class="term" data-state="{{ .state }}"{{ if .hidden }} aria-hidden="true"{{ else }} role="img" aria-label="{{ .d.label }}"{{ end }}>
+<div class="term term-{{ .name }}" data-state="0" role="img" aria-label="{{ .d.label }}">
   <div class="term-screen" aria-hidden="true">
     {{ partial (printf "demo/%s.html" .name) . }}
-    <div class="t-status">
-      <div class="t-row"><b class="mg">Ctrl g</b><span class="tseg">UNLOCK</span><span class="t-hints"><b class="or">Alt +</b><span class="tseg"><i>&lt;n&gt;</i>New Pane</span><span class="tseg tseg-float"><i>&lt;f&gt;</i>Floating</span></span></div>
-    </div>
   </div>
-  <div class="t-key" hidden></div>
 </div>

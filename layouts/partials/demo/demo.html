@@ -1,22 +1,20 @@
-{{- /* A drawn Zellij window that plays its scenes in a loop. It only shows what Zellij looks like: the page's call to
-       action is installing the real thing.
-       Takes a dict:
-         name  the demo: its scenes in data/demos/<name>.yaml, its window contents in demo/<name>.html
-         peek  optional, for a demo inside a link (a sneak peek of another page's demo), which has no pause button.
-               The value is the scene shown before the script runs, and to people who prefer reduced motion.
-       Played by assets/js/landing.js. The window's text sizes with its width (container query units). */ -}}
-{{- $d := index hugo.Data.demos .name -}}
-{{- $peek := .peek -}}
-{{- $config := dict "states" $d.states "reduced" ($d.reduced | default 0) -}}
-{{- $term := partial "demo/window.html" (dict "d" $d "name" .name "state" (cond (ne $peek nil) $peek 0) "hidden" (ne $peek nil)) -}}
-{{- if ne $peek nil }}
-<div class="demo" data-demo data-peek="{{ $peek }}" data-config="{{ $config | jsonify }}">
-  {{ $term }}
-</div>
-{{- else }}
-{{- /* The pause button sits on the pane's frame, across from its title */}}
-<div class="demo" data-demo data-config="{{ $config | jsonify }}">
-  {{ $term }}
-  <button class="pane-ctl demo-pause" type="button" aria-label="Pause the demo">pause</button>
-</div>
+{{- $d := index site.Data.demos .name -}}
+{{- with .only }}
+  {{- $d = merge $d (dict "chapters" (where $d.chapters "id" .)) }}
 {{- end }}
+{{- $chapters := slice -}}
+{{- range $d.chapters }}
+  {{- $chapters = $chapters | append (dict "states" .states "reduced" (.reduced | default 0)) }}
+{{- end }}
+{{- $config := dict "chapters" $chapters "still" ($d.still | default 0) "scene" ($d.scene | default 2600) "caption" ($d.caption | default 3800) -}}
+<div class="demo" data-nosnippet data-demo data-config="{{ $config | jsonify }}">
+  {{ partial "demo/window.html" (dict "d" $d "name" .name) }}
+  <button class="pane-ctl demo-pause" type="button" aria-label="Pause the demo">pause</button>
+  {{- if gt (len $d.chapters) 1 }}
+  <div class="demo-nav" role="group" aria-label="Parts of the demo">
+    {{- range $i, $c := $d.chapters }}
+    <button class="demo-ch{{ if not $i }} is-on{{ end }}" type="button" data-ch="{{ $i }}" aria-label="{{ $c.label }}: {{ $c.title }}"{{ if not $i }} aria-current="step"{{ end }}>{{ $c.label }}</button>
+    {{- end }}
+  </div>
+  {{- end }}
+</div>

@@ -1,6 +1,3 @@
-/* zellij.dev: colors, type and the parts every page shares (layouts/_default/baseof.html).
-   Dark by default, like the rest of the site. Light comes from the system setting or the header toggle.
-   The terminal drawing and screenshots stay dark in both themes. */
 :root {
   color-scheme: dark;
 
@@ -139,6 +136,13 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 img { max-width: 100%; }
+img.img-light { display: none !important; }
+:root[data-theme="light"] img.img-dark { display: none !important; }
+:root[data-theme="light"] img.img-light { display: block !important; }
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) img.img-dark { display: none !important; }
+  :root:not([data-theme="dark"]) img.img-light { display: block !important; }
+}
 a { color: inherit; }
 p { margin: 0; }
 strong { color: var(--text-strong); font-weight: 650; }
@@ -289,22 +293,16 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 .online {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  align-self: center;
   gap: 0.5rem;
+  text-align: center;
   color: var(--accent);
   font: 700 0.88rem/1 var(--font-mono);
   text-decoration: none;
   white-space: nowrap;
 }
 .online:hover .online-name { text-decoration: underline; text-underline-offset: 3px; }
-.beta {
-  padding: 0.28rem 0.45rem;
-  border-radius: 0;
-  background: var(--fill-amber);
-  color: var(--on-fill);
-  font: 800 0.62rem/1 var(--font-head);
-  letter-spacing: calc(var(--body-track) + 0.06em);
-  text-transform: uppercase;
-}
 .head-cta .btn { padding: 0.55rem 0.85rem; font-size: 0.84rem; }
 .head-cta .btn::before, .head-cta .btn::after { content: none; }
 /* Wide screens: one row. The Star label, zellij.online's brackets and the search label would crowd the five tabs,
@@ -338,7 +336,7 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
   .head-cta .btn { order: 3; padding: 0.5rem 0.8rem; }
   .head-tools { display: contents; }
   .search-btn, .theme-btn { order: 7; margin-top: 0.75rem; }
-  .online-bracket, .online .beta { display: none; }
+  .online-bracket { display: none; }
   .search-btn .search-label, .search-btn kbd { display: none; }
   .search-btn { width: 34px; padding: 0; justify-content: center; }
   .tabs .seg { padding-inline: 0.9em 0.8em; font-size: 0.72rem; }
@@ -502,8 +500,6 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 /* Footer */
 .site-foot { background: var(--bg-deep); border-top: 1px solid var(--line-soft); padding-block: 3rem 3.5rem; color: var(--muted); font-size: 0.93rem; }
 .foot-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 1.5rem 3rem; }
-.foot-brand { display: grid; gap: 0.4rem; }
-.foot-brand b { color: var(--text-strong); font: 800 1.05rem/1.2 var(--font-head); }
 .foot-links { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; }
 .foot-links a { text-decoration: none; }
 .foot-links a:hover { color: var(--text-strong); text-decoration: underline; }
@@ -536,9 +532,8 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
    One column for text, screenshots and videos. A plain block layout, so text that follows a figure
    without a blank line in the Markdown still flows like a paragraph. */
 :root { --measure: 55rem; }
-/* An article is one pane; the text column keeps its measure inside the pane's padding */
 .page-session { max-width: calc(var(--measure) + 2 * 1.9rem + 2px + 32px); }
-.article-pane { gap: 0; }
+.article { min-width: 0; }
 .page-head { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem; margin-bottom: clamp(2rem, 4.5vw, 3rem); }
 .page-head .lead { max-width: none; }
 .page-head h1 { font-size: clamp(1.9rem, 3.5vw, 2.7rem); line-height: 1.14; text-wrap: pretty; }
@@ -679,4 +674,4 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 
 /* Body letter-spacing is for the text font only: monospace keeps its natural spacing */
 button { letter-spacing: inherit; }
-code, kbd, pre, samp, h1, h2, h3, .seg, .online, .band-rule, .sb-row, .ver, .brand, .beta, .search-close, .search-hit .sh-path, .pane-title, .pane-ctl, .pane-links b, .code-title, .code-pane .copy, .tags a, .rows time, .hash, .tagline, .card-title, .pager b, .llm-hint { letter-spacing: 0; }
+code, kbd, pre, samp, h1, h2, h3, .seg, .online, .band-rule, .sb-row, .ver, .brand, .search-close, .search-hit .sh-path, .pane-title, .pane-ctl, .pane-links b, .code-title, .code-pane .copy, .tags a, .rows time, .hash, .tagline, .card-title, .pager b, .llm-hint { letter-spacing: 0; }

@@ -40,7 +40,7 @@ In some cases, the `Unlock-First (non-colliding)` preset is not enough. For exam
 ## Manually Changing the Configuration file
 If one would like more fine-grained control over which keys exactly would be bound or unbound, one can directly change them in the configuration file (without needing to restart Zellij). This can be done by editing the file and changing the keys, as detailed [here](https://zellij.dev/documentation/keybindings).
 
-# Do you like Zellij ❤️ ?
+## Do you like Zellij ❤️ ?
 Me too! So much so that I spend 100% of my time developing and maintaining it and have no other income.
 
 Zellij will always be free and open-source. Zellij will never contain ads or collect your data.

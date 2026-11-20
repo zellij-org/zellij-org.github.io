@@ -8,30 +8,30 @@
 
 {{ define "main" }}
 {{- $l := .Site.Params.landing -}}
-{{- $short := delimit (first 2 (split $l.version ".")) "." -}}
 {{- $dl := "https://github.com/zellij-org/zellij/releases/latest/download/" -}}
   {{- /* The page is a Zellij session: each section is a pane, and rows split side by side like a layout.
          The pane under the pointer, or holding keyboard focus, gets the focused frame (site.js). */}}
   <div class="wrap session">
     {{- /* Zellij and how to get it: the title, the install command and a demo side by side, then the details below */}}
-    <section class="pane hero-pane is-focus" id="install">
-      <span class="pane-title" aria-hidden="true">zellij</span>
-      <div class="hero-top">
-        <div class="hero-main">
-          <a class="news-pill" href="{{ $l.releasePost }}"><b>New in {{ $short }}</b><span>{{ $l.releaseHeadline }}&nbsp;→</span></a>
-          <h1>Power without complexity.</h1>
-          <p class="lead">{{ .Site.Params.description }}</p>
+    <div class="group" id="install">
+      <div class="row hero-row">
+        <section class="pane hero-main is-focus">
+          <span class="pane-title" aria-hidden="true">zellij</span>
+          <h1>Simple and powerful. <span class="hero-sub">A terminal and multiplexer you learn in minutes and keep for years.</span></h1>
           <div class="install">
-            <div class="os-tabs" role="tablist" aria-label="Your system">
+            <div class="os-row">
+            <span class="os-label" id="os-label">Install</span>
+            <div class="os-tabs" role="tablist" aria-labelledby="os-label">
               <button class="os-tab seg" role="tab" id="tab-linux" data-os="linux" aria-controls="panel-linux" aria-selected="true" type="button">Linux</button>
               <button class="os-tab seg" role="tab" id="tab-macos" data-os="macos" aria-controls="panel-macos" aria-selected="false" tabindex="-1" type="button">macOS</button>
               <button class="os-tab seg" role="tab" id="tab-windows" data-os="windows" aria-controls="panel-windows" aria-selected="false" tabindex="-1" type="button">Windows</button>
             </div>
+            </div>
             <div class="os-panel" role="tabpanel" id="panel-linux" aria-labelledby="tab-linux">
               <div class="cmd-box"><code class="cmd" data-prompt="$">bash &lt;(curl -L https://zellij.dev/launch)</code><button class="copy" type="button" data-copy="bash <(curl -L https://zellij.dev/launch)">Copy</button></div>
               <div class="dl-row">
-                <a class="btn-dl" href="{{ $dl }}zellij-x86_64-unknown-linux-musl.tar.gz"><span aria-hidden="true">↓</span> Download {{ $l.version }} for Linux</a>
-                <span class="dl-alt"><a href="{{ $dl }}zellij-aarch64-unknown-linux-musl.tar.gz">ARM64</a> · <a href="https://repology.org/project/zellij/versions">Packages</a></span>
+                <a class="btn-dl" href="{{ $dl }}zellij-x86_64-unknown-linux-gnu.tar.gz"><span aria-hidden="true">↓</span> Download {{ $l.version }} for Linux</a>
+                <span class="dl-alt"><a href="{{ $dl }}zellij-aarch64-unknown-linux-gnu.tar.gz">ARM64</a> · <a href="https://repology.org/project/zellij/versions">Packages</a></span>
               </div>
             </div>
             <div class="os-panel" role="tabpanel" id="panel-macos" aria-labelledby="tab-macos" hidden>
@@ -49,83 +49,56 @@
               </div>
             </div>
           </div>
-        </div>
+        </section>
         <div class="pane demo-pane">
-          <span class="pane-title" aria-hidden="true">{{ (index hugo.Data.demos "home").title }}</span>
+          <span class="pane-title" aria-hidden="true">{{ (index site.Data.demos "home").title }}</span>
           {{ partial "demo/demo.html" (dict "name" "home") }}
         </div>
       </div>
-      <div class="hero-more">
-        <p><strong>Try it before you install it.</strong> The script starts the latest release and offers to install it, or runs it from a temporary folder. <a href="/documentation/installation.html">More ways to install&nbsp;→</a></p>
-        <p><strong>Wherever you work.</strong> Linux, macOS and Windows, on your computer or on a server over SSH, and in a browser, even on a phone, with the <a href="/documentation/web-client.html">web client&nbsp;→</a></p>
-        <p><strong>Free and open source.</strong> MIT licensed, with no ads, no telemetry and no account. Developed full-time, and paid for by its <a href="#support">sponsors&nbsp;→</a></p>
-      </div>
-    </section>
+      <section class="pane hero-notes">
+        <span class="pane-title" aria-hidden="true">about</span>
+        <p><strong>Inside your terminal, or instead of it.</strong> Zellij runs in any terminal emulator, and comes with a complete, modern terminal of its own, with image support, a tray icon and desktop notifications. <a href="/tutorials/zellij-terminal/">The Zellij terminal&nbsp;→</a></p>
+        <p><strong>Cross platform.</strong> Runs natively on Linux, macOS and Windows, on your computer or on a server over SSH, in a browser, even on a phone, with the <a href="/documentation/web-client.html">web client&nbsp;→</a></p>
+        <p><strong>Free and open source.</strong> MIT licensed, no ads, no telemetry and no account. Not funded by venture capital, but <a href="#support">sponsored by the community&nbsp;→</a></p>
+      </section>
+    </div>
 
-    {{- /* A way into the Agents page, with its demo playing */}}
-    <section class="pane feature-pane rev" id="agents">
-      <span class="pane-title" aria-hidden="true">agents</span>
+    <section class="pane feature-pane" id="panes">
+      <span class="pane-title" aria-hidden="true">panes</span>
       <div class="feature-text">
-        <h2>Running coding agents?</h2>
-        <p class="lead">Run them side by side in tabs and sessions, see at a glance which one needs you, and answer it from the inbox without switching.</p>
-        <div class="actions">
-          <a class="btn btn-green" href="/agents/">Zellij for coding agents</a>
-          <a class="link" href="/tutorials/zellij-with-coding-agents/">Tutorial →</a>
-        </div>
+        <h2>Panes, tabs and sessions</h2>
+        <p>Sessions for each project. Tabs for separate tasks. Panes side by side for things you watch together. Stacks when you have more panes than room. Floating panes for a quick look or a one-off command, pinned on top if you like.</p>
+        <a class="link" href="/tutorials/basic-functionality/">The basics →</a>
       </div>
-      <a class="pane peek" href="/agents/" aria-label="Zellij for coding agents: the inbox, answering an agent that asks for permission">
-        <span class="pane-title" aria-hidden="true">{{ (index hugo.Data.demos "agents").title }}</span>
-        {{ partial "demo/demo.html" (dict "name" "agents" "peek" 2) }}
-      </a>
+      <figure class="shot shot-bare">
+        <img class="img-dark" src="/img/panes-tabs.png" width="1098" height="713" loading="lazy" decoding="async" alt="A Zellij session with two tabs: a cargo build scrolling on the left, an editor and a stack of panes on the right, and a pinned floating pane tailing a colorful log on top."><img class="img-light" src="/img/panes-tabs-light.png" width="1098" height="713" loading="lazy" decoding="async" alt="A Zellij session with two tabs: a cargo build scrolling on the left, an editor and a stack of panes on the right, and a pinned floating pane tailing a colorful log on top.">
+      </figure>
     </section>
 
-    <section class="pane feature-pane" id="features">
+    <section class="pane feature-pane rev" id="agents">
       <span class="pane-title" aria-hidden="true">inbox</span>
       <div class="feature-text">
         <h2>One inbox for everything that needs you</h2>
-        <p>Builds, tests, long-running commands and coding agents tell Zellij whether they're working, done, failed or waiting on you. The inbox lists them across all your sessions, and you answer from its preview without switching.</p>
-        <div class="links">
-          <a class="link" href="/documentation/inbox.html">The inbox →</a>
-          <a class="link" href="/documentation/inbox-integrations.html">What reports to it →</a>
+        <p class="lead">See at a glance which coding agents, builds and long-running commands are working, done, failed or waiting on you, across every session. Answer directly from the inbox or switch to jump right back in.</p>
+        <div class="actions">
+          <a class="btn btn-green" href="/agents/">Zellij for coding agents</a>
         </div>
       </div>
       <figure class="pane shot">
         <span class="pane-title" aria-hidden="true">Ctrl o + i</span>
-        <img src="/img/inbox-preview.png" width="841" height="493" loading="lazy" decoding="async" alt="The inbox listing panes that need input, with a coding agent asking for permission to run a command.">
+        <img class="img-dark" src="/img/inbox-preview.png" width="841" height="493" loading="lazy" decoding="async" alt="The inbox listing panes that need input, with a coding agent asking for permission to run a command."><img class="img-light" src="/img/inbox-preview-light.png" width="841" height="493" loading="lazy" decoding="async" alt="The inbox listing panes that need input, with a coding agent asking for permission to run a command.">
       </figure>
     </section>
 
-    <section class="pane feature-pane rev" id="sessions">
-      <span class="pane-title" aria-hidden="true">sessions</span>
+    <section class="pane feature-pane" id="terminal">
+      <span class="pane-title" aria-hidden="true">terminal</span>
       <div class="feature-text">
-        <h2>Pick up any session, from anywhere</h2>
-        <p>Sessions keep running when you close the window or your SSH connection drops, and exited ones come back with their layout and commands.</p>
-        <ul class="modes">
-          <li><code>zellij</code> in any terminal, or on a server over SSH</li>
-          <li><code>zellij terminal</code> in its own window</li>
-          <li><code>zellij web</code> in a browser, even on a phone</li>
-        </ul>
-        <a class="link" href="/tutorials/session-management/">Managing sessions →</a>
+        <h2>Zellij as your terminal</h2>
+        <p>Zellij comes with its own modern terminal, complete with image support and desktop integration. Get a tray icon that shows when something needs you. Receive a desktop notification when a command finishes, fails or waits on you. Click the icon to see, open and manage your sessions, even with every window closed.</p>
+        <a class="link" href="/tutorials/zellij-terminal/">Use Zellij as your terminal →</a>
       </div>
-      <figure class="pane shot">
-        <span class="pane-title" aria-hidden="true">Ctrl o + w</span>
-        <img src="/img/session-previews.png" width="1454" height="767" loading="lazy" decoding="async" alt="The session manager listing running and recent sessions, with a live preview of the selected one on the right.">
-      </figure>
-    </section>
-
-    <section class="pane feature-pane" id="settings">
-      <span class="pane-title" aria-hidden="true">settings</span>
-      <div class="feature-text">
-        <h2>Easy setup, right in the app</h2>
-        <p>Change keys, options and themes from the settings screen, for this session or for good. The theme editor previews your colors and flags any that are hard to read. Prefer files? Settings save to a plain config file, layouts capture a project's workspace, and plugins extend Zellij in any language that compiles to WebAssembly.</p>
-        <div class="links">
-          <a class="link" href="/documentation/settings-screen.html">The settings screen →</a>
-          <a class="link" href="/tutorials/layouts/">Layouts →</a>
-        </div>
-      </div>
-      <figure class="pane shot">
-        <span class="pane-title" aria-hidden="true">Ctrl o + c</span>
-        <img src="/img/settings-preview.png" width="1011" height="572" loading="lazy" decoding="async" alt="The Zellij settings screen, with sections for keybindings, appearance and behavior.">
+      <figure class="shot shot-bare">
+        <img class="img-dark" src="/img/terminal-desktop-preview.png" width="1661" height="1114" loading="lazy" decoding="async" alt="The Zellij terminal on a desktop, next to its icon, showing its welcome screen: closing the window keeps sessions running, the tray icon shows when something needs you, and desktop notifications report finished, failed and waiting commands."><img class="img-light" src="/img/terminal-desktop-preview-light.png" width="1661" height="1114" loading="lazy" decoding="async" alt="The Zellij terminal on a desktop, next to its icon, showing its welcome screen: closing the window keeps sessions running, the tray icon shows when something needs you, and desktop notifications report finished, failed and waiting commands.">
       </figure>
     </section>
 
@@ -141,7 +114,7 @@
       </section>
       <section class="pane">
         <span class="pane-title" aria-hidden="true">zellij.online</span>
-        <div class="card-head"><h2 class="online-name">zellij.online</h2><span class="beta">beta</span></div>
+        <div class="card-head"><h2 class="online-name">zellij.online</h2></div>
         <p>Share a terminal session with a link. People join from a browser, a terminal or a phone, end-to-end encrypted, with no certificates or port-forwarding to set up. Run by the Zellij maintainers.</p>
         <div class="actions">
           <a class="btn btn-green" href="https://zellij.online">Join the waiting list</a>
@@ -150,16 +123,6 @@
       </section>
     </div>
 
-    <section class="pane" id="next">
-      <span class="pane-title" aria-hidden="true">docs</span>
-      <h2>Start with the basics, or go straight to plugins</h2>
-      <div class="docs-cta">
-        <a class="btn btn-green" href="/documentation/">Read the docs</a>
-        <a class="link" href="/tutorials/basic-functionality/">The basics →</a>
-        <a class="link" href="/documentation/plugins.html">Plugins →</a>
-        <span class="docs-hint">or press <kbd class="search-key">Ctrl K</kbd> to search</span>
-      </div>
-    </section>
   </div>
 
 {{ end }}
@@ -168,8 +131,7 @@
 {{- partial "site/statusbar.html" (dict "segs" (slice
   (dict "k" "i" "t" "INSTALL" "target" "install")
   (dict "k" "a" "t" "AGENTS" "target" "agents")
-  (dict "k" "f" "t" "FEATURES" "target" "features")
+  (dict "k" "f" "t" "FEATURES" "target" "panes")
   (dict "k" "s" "t" "SUPPORT" "target" "support")
-  (dict "k" "d" "t" "DOCS" "target" "next")
 )) }}
 {{ end }}

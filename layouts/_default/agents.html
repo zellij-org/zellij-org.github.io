@@ -1,9 +1,6 @@
-{{- /* Zellij for coding agents (content/agents.md, layout "agents"). Built like the homepage, with landing.css and landing.js:
-       a session of panes, with the agents demo (data/demos/agents.yaml). The homepage links here from its "agents" pane. */ -}}
 {{ define "main" }}
 {{- $t := partial "site/title.html" . -}}
   <div class="wrap session">
-    {{- /* Like the homepage's: the title and the demo side by side, then the agents that work with the inbox */}}
     <section class="pane hero-pane is-focus">
       <span class="pane-title" aria-hidden="true">agents</span>
       <div class="hero-top">
@@ -16,8 +13,8 @@
           </div>
         </div>
         <div class="pane demo-pane">
-          <span class="pane-title" aria-hidden="true">{{ (index hugo.Data.demos "agents").title }}</span>
-          {{ partial "demo/demo.html" (dict "name" "agents") }}
+          <span class="pane-title" aria-hidden="true">{{ (index site.Data.demos "home").title }}</span>
+          {{ partial "demo/demo.html" (dict "name" "home" "only" "agents") }}
         </div>
       </div>
       <div class="hero-more">
@@ -53,7 +50,7 @@
       </div>
       <figure class="pane shot">
         <span class="pane-title" aria-hidden="true">zellij terminal</span>
-        <img src="/img/terminal-desktop-preview.png" width="1661" height="1114" loading="lazy" decoding="async" alt="The Zellij terminal in its own window on the desktop.">
+        <img src="/img/terminal-desktop-preview.png" width="1661" height="1114" loading="lazy" decoding="async" alt="The Zellij terminal on the desktop, with its tray icon and desktop notifications for coding agents that finish, fail or wait for approval.">
       </figure>
     </section>
 
@@ -76,22 +73,12 @@
       <span class="pane-title" aria-hidden="true">questions</span>
       <h2>Working with agents</h2>
       <div class="faq">
+        {{- range .Params.faq }}
         <div class="qa">
-          <h3>Which coding agents does it work with?</h3>
-          <p>Any agent that runs in a terminal. Codex CLI, Claude Code, OpenCode, Pi, goose and others report their status to the inbox on their own. For the rest, Zellij picks up bells, desktop notifications and prompt markers. <a href="/documentation/inbox-integrations.html">Full list</a></p>
+          <h3>{{ .q }}</h3>
+          <p>{{ .a | markdownify }}</p>
         </div>
-        <div class="qa">
-          <h3>Do I need to set anything up?</h3>
-          <p>Usually not. Agents that support OSC 7501 report exactly what they're doing, and Zellij watches every pane for bells, desktop notifications and shell prompt markers. <a href="/documentation/inbox-integrations.html">Connecting other programs</a></p>
-        </div>
-        <div class="qa">
-          <h3>Do my agents stop when I close the window?</h3>
-          <p>No. Sessions keep running in the background. Reopen them from the tray icon or the session manager, or attach from any other terminal, even over SSH.</p>
-        </div>
-        <div class="qa">
-          <h3>Can I check on them from my phone?</h3>
-          <p>Yes. The built-in <a href="/documentation/web-client.html">web client</a> opens your sessions in a browser, including on a phone.</p>
-        </div>
+        {{- end }}
       </div>
     </section>
 
@@ -128,4 +115,15 @@
   (dict "k" "d" "t" "DOCS" "target" "next")
   (dict "k" "h" "t" "HOME" "href" "/")
 )) }}
+{{ end }}
+
+{{ define "head" }}
+<script type="application/ld+json">
+{{- $qs := slice -}}
+{{- range .Params.faq }}{{ $qs = $qs | append (dict "@type" "Question" "name" .q "acceptedAnswer" (dict "@type" "Answer" "text" (.a | markdownify | plainify | htmlUnescape))) }}{{ end -}}
+{{ dict "@context" "https://schema.org" "@type" "FAQPage" "mainEntity" $qs | jsonify | safeJS }}
+</script>
+<script type="application/ld+json">
+{{ dict "@context" "https://schema.org" "@type" "SoftwareApplication" "name" "Zellij" "applicationCategory" "DeveloperApplication" "operatingSystem" (slice "Linux" "macOS" "Windows") "offers" (dict "@type" "Offer" "price" "0" "priceCurrency" "USD") "description" .Description "url" .Permalink | jsonify | safeJS }}
+</script>
 {{ end }}

@@ -242,7 +242,7 @@ Zellij runs natively on Windows. Windows binaries and an installer are available
 
 Ready to try these features?
 
-- [Try Zellij without installing](/documentation/installation.html#try-zellij-without-installing)
+- [Try Zellij without installing](/documentation/installation.html)
 - [Watch screencasts and tutorials](/screencasts) to see features in action
 - [Read the documentation](/documentation) for comprehensive guides
 - [Check out the roadmap](/roadmap) to see what's coming next

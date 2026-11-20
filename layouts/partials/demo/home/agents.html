@@ -1,0 +1,61 @@
+<div class="t-desk">
+  {{ partial "demo/home/menubar.html" (dict "app" "Browser" "items" "File&nbsp;&nbsp; Edit&nbsp;&nbsp; View" "badge" "1 2 3 4" "done" "6 7 8") }}
+  <div class="t-desk-area">
+    <div class="t-app">
+      <div class="b-tabs"><span class="t-dots"><i></i><i></i><i></i></span><span class="b-tab on">Cat pictures</span><span class="b-tab">Pull request #214</span></div>
+      <div class="b-bar"><span class="b-nav">‹ ›</span><span class="b-url">cats.example/today</span></div>
+      <div class="b-page">
+        <div class="b-head"><b class="b-logo"></b><i style="--w: 18%"></i><i style="--w: 12%"></i><i style="--w: 14%"></i></div>
+        <div class="b-hero"><svg class="b-cat" viewBox="-20 14 160 56" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect x="-40" y="0" width="200" height="80" class="b-sky"/><circle cx="112" cy="28" r="7" class="b-sun"/><path d="M-40 62 Q10 54 60 63 T160 58 V80 H-40z" class="b-hill"/><path d="M44 66 Q44 44 60 44 Q76 44 76 66z" class="b-fur"/><path d="M76 62 Q92 60 90 48 Q89 42 85 44" class="b-tail"/><circle cx="60" cy="38" r="12" class="b-fur"/><path d="M50 31 L49 20 L57 27z M70 31 L71 20 L63 27z" class="b-fur"/><circle cx="55.5" cy="37" r="1.6" class="b-eye"/><circle cx="64.5" cy="37" r="1.6" class="b-eye"/><path d="M58.5 41.5 L60 43 L61.5 41.5" class="b-nose"/></svg></div>
+        <i class="b-line" style="--w: 62%"></i><i class="b-line" style="--w: 84%"></i><i class="b-line" style="--w: 48%"></i>
+        <div class="b-grid"><i class="b-th b-th1"></i><i class="b-th b-th2"></i><i class="b-th b-th3"></i><i class="b-th b-th4"></i></div>
+      </div>
+    </div>
+    <div class="t-win t-win-wide" data-states="3 4 5 6 7 8">
+      <div class="t-app-bar"><span>Zellij</span><span class="t-win-ctl"><i>–</i><i>□</i><i>✕</i></span></div>
+      <section class="tpane t-win-body" data-pane="ib">
+        <div class="tp-title">Session Manager</div>
+        <div class="tp-body inbox">
+          <div class="ib-head"><span class="g">Inbox (5)</span><span class="d">│</span><span class="d">Sessions (4)</span></div>
+          <div class="ib-cols">
+            <div class="ib-list">
+              <div class="am" data-states="3 4">Needs you <span class="d">(1)</span></div>
+              <div class="sel" data-states="3 4"><span class="am">●</span> <span class="f">photo-sorter</span>&nbsp; api</div>
+              <div class="ib-gap" data-states="3 4">&nbsp;</div>
+              <div class="f">Working <span class="d" data-states="3 4 6 7 8">(2)</span><span class="d" data-states="5">(3)</span></div>
+              <div class="r-api" data-states="5 6 7 8"><span class="f spin"></span> <span class="f">photo-sorter</span>&nbsp; api</div>
+              <div data-states="3 4 5"><span class="f spin"></span> <span class="f">photo-sorter</span>&nbsp; web</div>
+              <div><span class="f spin"></span> <span class="f">blog</span>&nbsp; drafts</div>
+              <div class="ib-gap">&nbsp;</div>
+              <div class="g">Done <span class="d" data-states="3 4 5">(1)</span><span class="d" data-states="6 7 8">(2)</span></div>
+              <div data-states="6 7 8"><span class="g">✓</span> <span class="f">photo-sorter</span>&nbsp; web</div>
+              <div><span class="g">✓</span> <span class="f">docs</span>&nbsp; release notes</div>
+              <div class="ib-gap">&nbsp;</div>
+              <div class="r">Failed <span class="d">(1)</span></div>
+              <div class="r-infra"><span class="r">✗</span> <span class="f">infra</span>&nbsp; terraform apply</div>
+            </div>
+            <div class="ib-preview">
+              <div class="ib-from" data-states="3 4 5 6 7"><span class="d">photo-sorter · api</span></div>
+              <div class="ag-perm" data-states="3 4"><pre><span class="am">⚠ Permission required</span>
+$ cargo test
+
+<span class="ag-opt on t-allow">Allow once</span>  <span class="d">Reject</span></pre></div>
+              <div data-states="5 6 7"><pre>$ cargo test
+<span class="f spin"></span> Running tests…</pre></div>
+              <div class="ib-from" data-states="8"><span class="d">infra · terraform apply</span></div>
+              <div data-states="8"><pre><span class="r">Error:</span> timed out waiting
+for load balancer
+
+<span class="d">exit status 1 · 4m 12s</span></pre></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="t-toasts">
+      <div class="t-toast" data-states="1 2"><span class="t-toast-h">{{ partial "demo/home/zicon.html" }}Zellij · now</span><b>api needs you</b><span>Permission to run cargo test</span></div>
+      <div class="t-toast is-done" data-states="6 7"><span class="t-toast-h">{{ partial "demo/home/zicon.html" }}Zellij · now</span><b>web is done</b><span>photo-sorter · dark mode toggle</span></div>
+    </div>
+  </div>
+  <span class="t-mouse"><i></i><b></b></span>
+</div>

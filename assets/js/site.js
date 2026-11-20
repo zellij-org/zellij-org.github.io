@@ -14,6 +14,30 @@
   /* Shared with page scripts. They add status bar actions to zj.actions (data-action="name"). */
   var zj = window.zj = { $: $, root: root, reduce: reduce, plat: plat, isMac: isMac, inField: inField, actions: {} };
 
+  var starEl = document.querySelector('[data-stars]');
+  if (starEl && window.fetch) {
+    var fmt = function (n) { return n >= 1000 ? (Math.round(n / 100) / 10).toFixed(1) + 'k' : String(n); };
+    var show = function (n) {
+      var t = fmt(n);
+      starEl.textContent = t;
+      var link = starEl.closest('a');
+      if (link) link.setAttribute('aria-label', 'Zellij on GitHub, ' + t + ' stars');
+    };
+    var cached = null;
+    try { cached = JSON.parse(store.get('zj-stars') || 'null'); } catch (e) {}
+    if (cached && typeof cached.n === 'number') show(cached.n);
+    if (!cached || Date.now() - cached.t > 6 * 3600 * 1000) {
+      fetch('https://api.github.com/repos/zellij-org/zellij', { headers: { Accept: 'application/vnd.github+json' } })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (!d || typeof d.stargazers_count !== 'number') return;
+          store.set('zj-stars', JSON.stringify({ n: d.stargazers_count, t: Date.now() }));
+          show(d.stargazers_count);
+        })
+        .catch(function () {});
+    }
+  }
+
   /* Theme: the system setting until the visitor picks one */
   var themeBtn = $('themeBtn');
   var mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: light)') : null;
