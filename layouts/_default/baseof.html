@@ -1,0 +1,41 @@
+{{- /* Every page except the docs, which mdBook builds. Templates fill "main", and can replace "statusbar" with their own shortcuts.
+       Styles: assets/css/site.css, plus landing.css on the landing pages (the homepage and Agents). Behavior: site.js, plus landing.js there. */ -}}
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}">
+<head>
+{{ partial "site/head.html" . }}
+{{- block "head" . }}{{ end }}
+</head>
+<body>
+{{- block "top" . }}{{ end }}
+
+{{ partial "site/header.html" . }}
+
+<main id="main">
+{{ block "main" . }}{{ end }}
+</main>
+
+{{ partial "site/footer.html" . }}
+
+{{ block "statusbar" . }}
+  {{- /* By default: back to the top, the neighbouring posts in News, the section's index, the docs and home */ -}}
+  {{- $segs := slice (dict "k" "t" "t" "TOP" "action" "top") -}}
+  {{- if and .IsPage (eq .Section "news") }}
+    {{- $n := partial "site/neighbours.html" . }}
+    {{- with $n.older }}{{ $segs = $segs | append (dict "k" "o" "t" "OLDER" "href" .RelPermalink) }}{{ end }}
+    {{- with $n.newer }}{{ $segs = $segs | append (dict "k" "n" "t" "NEWER" "href" .RelPermalink) }}{{ end }}
+    {{- $segs = $segs | append (dict "k" "a" "t" "ALL NEWS" "href" "/news/") }}
+  {{- else if and .IsPage (eq .Section "tutorials") }}
+    {{- $segs = $segs | append (dict "k" "a" "t" "ALL TUTORIALS" "href" "/screencasts/") }}
+  {{- end }}
+  {{- $segs = $segs | append (dict "k" "d" "t" "DOCS" "href" "/documentation/") }}
+  {{- if not .IsHome }}{{ $segs = $segs | append (dict "k" "h" "t" "HOME" "href" "/") }}{{ end }}
+  {{- partial "site/statusbar.html" (dict "segs" $segs) }}
+{{ end }}
+
+{{- $js := resources.Get "js/site.js" }}
+{{- if or .IsHome (eq .Layout "agents") .Params.demo }}{{ $js = slice $js (resources.Get "js/landing.js") | resources.Concat "js/landing-pages.js" }}{{ end }}
+{{- $js = $js | resources.Minify | resources.Fingerprint }}
+<script src="{{ $js.RelPermalink }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{{- /* Site pages write their titles "Name - Tagline" for search results. On the page, the name is the heading and the tagline sits under it.
+       Returns a dict with "name" and "tagline" (empty when the title has no tagline, and for news posts and tutorials). */ -}}
+{{- $name := .Title -}}
+{{- $tagline := "" -}}
+{{- if not (in (slice "news" "tutorials") .Section) -}}
+  {{- with split .Title " - " }}{{ if eq (len .) 2 }}{{ $name = index . 0 }}{{ $tagline = index . 1 }}{{ end }}{{ end -}}
+{{- end -}}
+{{- return (dict "name" $name "tagline" $tagline) -}}

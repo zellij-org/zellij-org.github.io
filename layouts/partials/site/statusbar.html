@@ -1,0 +1,17 @@
+{{- /* Status bar at the bottom of every page, like Zellij's own: single-key shortcuts for the page, run by site.js. Ctrl g locks them.
+       "segs" is a list of dicts: k (the key), t (the label), and one of target (the id of a section to scroll to),
+       href (a page to open) or action (a function in zj.actions, see site.js). */ -}}
+<div class="statusbar" id="statusbar">
+  <div class="wrap sb-row">
+    <span class="sb-label" id="sbLabel">zellij.dev</span>
+    <div class="sb-segs" role="group" aria-label="Page shortcuts">
+      {{- range .segs }}
+      <span class="sb-key" aria-hidden="true">{{ .k }}</span>
+      {{- if .href }}<a class="seg" href="{{ .href }}" data-key="{{ .k }}">{{ .t }}</a>
+      {{- else }}<button class="seg" type="button" data-key="{{ .k }}"{{ with .target }} data-target="{{ . }}"{{ end }}{{ with .action }} data-action="{{ . }}"{{ end }}>{{ .t }}</button>
+      {{- end }}
+      {{- end }}
+    </div>
+    <div class="sb-lock"><span class="sb-key" aria-hidden="true">Ctrl g</span><button class="seg" type="button" data-action="lock"><span class="seg-text">LOCK</span></button></div>
+  </div>
+</div>

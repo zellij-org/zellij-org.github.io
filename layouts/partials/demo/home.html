@@ -1,0 +1,6 @@
+{{- range $i, $c := .d.chapters }}
+<div class="t-chapter" data-chapter="{{ $i }}"{{ if $i }} hidden{{ end }}>
+  {{ partial (printf "demo/home/%s.html" $c.id) . }}
+  <div class="t-cap"><b class="t-cap-title">{{ $c.title }}</b></div>
+</div>
+{{- end }}

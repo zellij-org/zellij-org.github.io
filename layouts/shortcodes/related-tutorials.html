@@ -1,10 +1,11 @@
-<div class="related-tutorials">
-  <h3>Related Tutorials</h3>
-  <ul>
-    {{ range .Site.RegularPages }}
-      {{ if and (in .Permalink "/tutorials/") (ne .Permalink $.Page.Permalink) }}
-        <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
-      {{ end }}
-    {{ end }}
+{{- /* The other tutorials, newest first, in a pane like the homepage's docs section. */ -}}
+<section class="pane related">
+  <h3 class="pane-title">related tutorials</h3>
+  <ul class="pane-links">
+    {{- range (where .Site.RegularPages "Section" "tutorials").ByDate.Reverse }}
+    {{- if ne . $.Page }}
+    <li><a href="{{ .RelPermalink }}"><b>{{ .Title }}</b></a></li>
+    {{- end }}
+    {{- end }}
   </ul>
-</div>
+</section>

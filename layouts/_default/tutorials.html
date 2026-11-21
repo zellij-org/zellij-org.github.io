@@ -1,0 +1,30 @@
+{{- /* Screencasts & Tutorials (content/screencasts.md, layout "tutorials").
+       Each "- **[Title](/tutorials/...)**: Description" line in the page becomes a card, with that title and description,
+       the tutorial's preview image and its date. Cards are ordered most recent first.
+       A page without such lines is shown as written. */ -}}
+{{ define "main" }}
+{{- $t := partial "site/title.html" . -}}
+{{- $cards := slice -}}
+{{- range findRESubmatch `(?m)^- \*\*\[(.+?)\]\(([^)\s]+)\)\*\*:\s*(.+)$` .RawContent -}}
+  {{- $title := index . 1 -}}
+  {{- $desc := index . 3 | markdownify | plainify | htmlUnescape -}}
+  {{- with site.GetPage (strings.TrimSuffix "/" (index . 2)) -}}
+    {{- $cards = $cards | append (dict "page" . "title" $title "desc" $desc "date" .Date.Unix) -}}
+  {{- end -}}
+{{- end -}}
+<div class="wrap session">
+  <header class="pane list-head is-focus">
+    <span class="pane-title" aria-hidden="true">{{ len $cards }} tutorials</span>
+    <h1>{{ $t.name }}{{ with $t.tagline }} <span class="tagline">{{ . }}</span>{{ end }}</h1>
+  </header>
+  {{- if $cards }}
+  <div class="cards-grid">
+    {{- range sort $cards "date" "desc" }}
+    {{ partial "site/card.html" . }}
+    {{- end }}
+  </div>
+  {{- else }}
+  <div class="pane"><div class="prose">{{ .Content }}</div></div>
+  {{- end }}
+</div>
+{{ end }}

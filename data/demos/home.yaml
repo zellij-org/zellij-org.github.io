@@ -1,0 +1,88 @@
+title: "demo"
+label: "A short tour of Zellij in four parts: panes, tabs and floating panes; sessions that keep running after their window closes, reopened from the tray icon and switched between with the session manager; desktop notifications and the inbox, which follows coding agents and long commands across sessions; and Zellij on a remote server over SSH, browsing its sessions with live previews and attaching to one inside the local session."
+scene: 3600
+caption: 2600
+still: 0
+
+chapters:
+  - id: panes
+    label: "Panes & Tabs"
+    title: "Panes and Tabs"
+    states:
+      - { focus: a, time: 3600 }
+      - { focus: a, mouse: ".t-mk-menu", time: 1150 }
+      - { focus: a, mouse: ".m-new", set: { ".t-mouse": click }, time: 1900 }
+      - { focus: b, mouse: ".m-new", set: { ".t-body": two, ".t-mouse": click2 }, time: 2600 }
+      - { focus: b, mouse: ".t-mk-grip", set: { ".t-body": two }, time: 1150 }
+      - { focus: b, mouse: ".t-mk-grip-to", set: { ".t-body": "two wide" }, time: 1400 }
+      - { focus: b, mouse: ".t-mk-draw", set: { ".t-body": "two wide" }, time: 1150 }
+      - { focus: b, mouse: ".t-mk-draw-to", set: { ".t-body": "two wide" }, time: 1400 }
+      - { focus: fl, mouse: ".t-mk-draw-to", set: { ".t-body": "two wide" }, time: 2600 }
+      - { focus: fl, mouse: ".t-pin", set: { ".t-body": "two wide" }, time: 1150 }
+      - { focus: fl, mouse: ".t-pin", set: { ".t-body": "two wide", ".t-mouse": click }, time: 1600 }
+      - { focus: fl, mouse: ".t-mk-fl-from", set: { ".t-body": "two wide" }, time: 1150 }
+      - { focus: fl, mouse: ".t-mk-fl-to", set: { ".t-body": "two wide", ".t-drawn": corner }, time: 1400 }
+      - { focus: fl, mouse: ".t-mk-a", set: { ".t-body": "two wide", ".t-drawn": corner }, time: 1150 }
+      - { focus: a, mouse: ".t-mk-a", set: { ".t-body": "two wide", ".t-drawn": corner, ".t-mouse": click }, time: 400 }
+      - { focus: a, mouse: ".t-mk-a", set: { ".t-body": "two wide", ".t-drawn": corner, ".t-mouse": click }, time: 4200 }
+    reduced: 8
+
+  - id: keep
+    label: "Sessions"
+    title: "Close the window, keep your work"
+    states:
+      - { focus: a, set: { ".t-cam": zoom }, time: 5200 }
+      - { focus: a, time: 1400 }
+      - { focus: a, mouse: ".t-close", time: 1150 }
+      - { mouse: ".t-close", set: { ".t-tray-z": "ring late", ".t-mouse": click }, time: 2500 }
+      - { mouse: ".t-tray-z", set: { ".t-tray-z": "ring late" }, time: 1150 }
+      - { focus: sm, mouse: ".t-tray-z", set: { ".s-keep": sel, ".t-mouse": click }, time: 3000 }
+      - { focus: sm, mouse: ".s-keep .f", set: { ".s-keep": sel }, time: 1150 }
+      - { focus: a2, mouse: ".s-keep .f", set: { ".t-mouse": click }, time: 1200 }
+      - { focus: a2, set: { ".t-cam": zoom }, time: 1400 }
+      - { focus: a2, set: { ".t-cam": zoom }, time: 1200 }
+      - { focus: fl, set: { ".t-cam": zoom, ".s2-ps": sel }, time: 2400 }
+      - { focus: fl, mouse: ".s2-blog .f", set: { ".t-cam": zoom, ".s2-ps": sel }, time: 1150 }
+      - { focus: fl, mouse: ".s2-blog .f", set: { ".t-cam": zoom, ".s2-blog": sel, ".t-mouse": click }, time: 2400 }
+      - { focus: bl, mouse: ".s2-blog .f", set: { ".t-cam": zoom, ".t-mouse": click2 }, time: 1800 }
+      - { focus: bl, mouse: ".t-mk-menu", set: { ".t-cam": zoom }, time: 1150 }
+      - { focus: bl, mouse: ".m-new", set: { ".t-cam": zoom, ".t-mouse": click }, time: 1900 }
+      - { focus: bn, mouse: ".m-new", set: { ".t-cam": zoom, ".t-body": two, ".t-mouse": click2 }, time: 3600 }
+      - { focus: fl, mouse: ".m-new", set: { ".t-cam": zoom, ".t-body": two, ".s2-blog": sel }, time: 2000 }
+      - { focus: fl, mouse: ".s2-ps .f", set: { ".t-cam": zoom, ".t-body": two, ".s2-blog": sel }, time: 1150 }
+      - { focus: fl, mouse: ".s2-ps .f", set: { ".t-cam": zoom, ".t-body": two, ".s2-ps": sel, ".t-mouse": click }, time: 2400 }
+      - { focus: a3, mouse: ".s2-ps .f", set: { ".t-cam": zoom, ".t-mouse": click2 }, time: 3400 }
+    reduced: 5
+
+  - id: agents
+    label: "Agents"
+    title: "Follow your agents across sessions"
+    states:
+      - { time: 1800 }
+      - { set: { ".t-tray-z": ring }, time: 2600 }
+      - { mouse: ".t-tray-z", set: { ".t-tray-z": ring }, time: 1150 }
+      - { focus: ib, mouse: ".t-tray-z", set: { ".t-mouse": click }, time: 2800 }
+      - { focus: ib, mouse: ".t-allow", time: 1150 }
+      - { focus: ib, mouse: ".t-allow", set: { ".t-mouse": click, ".r-api": sel }, time: 2600 }
+      - { focus: ib, mouse: ".t-allow", set: { ".r-api": sel, ".t-tray-z": ring }, time: 2800 }
+      - { focus: ib, mouse: ".r-infra .f", set: { ".r-api": sel }, time: 1150 }
+      - { focus: ib, mouse: ".r-infra .f", set: { ".t-mouse": click, ".r-infra": sel }, time: 3200 }
+    reduced: 3
+
+  - id: remote
+    label: "Remote"
+    title: "Zellij on your servers"
+    states:
+      - { focus: a, time: 2600 }
+      - { focus: sm, set: { ".r-dep": sel, ".pv-dep": "on" }, time: 2600 }
+      - { focus: sm, mouse: ".r-logs .f", set: { ".r-dep": sel, ".pv-dep": "on" }, time: 1150 }
+      - { focus: sm, mouse: ".r-logs .f", set: { ".r-logs": sel, ".pv-logs": "on", ".t-mouse": click }, time: 2400 }
+      - { focus: sm, mouse: ".r-bak .f", set: { ".r-logs": sel, ".pv-logs": "on" }, time: 1150 }
+      - { focus: sm, mouse: ".r-bak .f", set: { ".r-bak": sel, ".pv-bak": "on", ".t-mouse": click }, time: 2400 }
+      - { focus: sm, mouse: ".r-dep .f", set: { ".r-bak": sel, ".pv-bak": "on" }, time: 1150 }
+      - { focus: sm, mouse: ".r-dep .f", set: { ".r-dep": sel, ".pv-dep": "on", ".t-mouse": click }, time: 2200 }
+      - { focus: dp, mouse: ".r-dep .f", set: { ".t-mouse": click2 }, time: 2000 }
+      - { focus: dp, mouse: ".t-mk-menu", time: 1150 }
+      - { focus: dp, mouse: ".m-new", set: { ".t-mouse": click }, time: 1900 }
+      - { focus: dn, mouse: ".m-new", set: { ".t-rb": two, ".t-mouse": click2 }, time: 4600 }
+    reduced: 3
