@@ -33,28 +33,34 @@
   function Scroller(el) {
     var s = { run: false, held: false, stopped: false, visible: true, dir: 1, wait: 0, pos: 0, last: 0 };
     var SPEED = 28, PAUSE = 1600; /* pixels a second; milliseconds at each end */
+    var max = 0, timer = null;
     function tick(t) {
       if (!s.run) return;
-      var max = el.scrollWidth - el.clientWidth, dt = s.last ? Math.min(t - s.last, 100) : 0;
+      var dt = s.last ? Math.min(t - s.last, 100) : 0;
       s.last = t;
-      if (s.wait > 0) s.wait -= dt;
-      else {
-        s.pos += s.dir * SPEED * dt / 1000;
-        if (s.pos >= max) { s.pos = max; s.dir = -1; s.wait = PAUSE; }
-        else if (s.pos <= 0) { s.pos = 0; s.dir = 1; s.wait = PAUSE; }
-        el.scrollLeft = s.pos;
-      }
+      s.pos += s.dir * SPEED * dt / 1000;
+      if (s.pos >= max && s.dir > 0) { s.pos = max; s.dir = -1; s.wait = PAUSE; }
+      else if (s.pos <= 0 && s.dir < 0) { s.pos = 0; s.dir = 1; s.wait = PAUSE; }
+      el.scrollLeft = s.pos;
+      if (s.wait > 0) { hold(); return; }
       requestAnimationFrame(tick);
+    }
+    function hold() {
+      var w = s.wait;
+      s.wait = 0;
+      clearTimeout(timer);
+      timer = setTimeout(function () { timer = null; if (s.run) { s.last = 0; requestAnimationFrame(tick); } }, w);
     }
     s.check = function () {
       var want = !reduce && !s.held && !s.stopped && s.visible && el.offsetParent !== null && !el.closest('[hidden]') && el.scrollWidth - el.clientWidth > 1;
+      if (want) max = el.scrollWidth - el.clientWidth;
       if (want && !s.run) {
         s.run = true;
         s.last = 0;
         s.pos = el.scrollLeft;
-        if (s.pos <= 0) { s.dir = 1; s.wait = PAUSE; }
-        requestAnimationFrame(tick);
-      } else if (!want) s.run = false;
+        if (s.pos <= 0) { s.dir = 1; s.wait = PAUSE; hold(); }
+        else requestAnimationFrame(tick);
+      } else if (!want) { s.run = false; clearTimeout(timer); timer = null; }
     };
     var box = el.parentElement;
     box.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') { s.held = true; s.check(); } });
@@ -121,21 +127,21 @@
       var m = c.mouse;
       if (!m) return;
       if (m.offsetParent === null) { m.removeAttribute('data-at'); return; }
+      var W = m.offsetParent.offsetWidth, H = m.offsetParent.offsetHeight;
+      if (!m.hasAttribute('data-at')) {
+        m.style.transition = 'none';
+        m.style.transform = 'translate(' + W * 0.5 + 'px, ' + H * 0.62 + 'px)';
+        void m.offsetWidth;
+        m.style.transition = '';
+        m.setAttribute('data-at', '');
+      }
       if (!s.mouse || m.getAttribute('data-at') === s.mouse) return;
       var t = c.scope.querySelector(s.mouse);
       if (!t) return;
       var box = m.offsetParent.getBoundingClientRect(), r = t.getBoundingClientRect();
       if (!box.width || !box.height) return;
-      if (!m.hasAttribute('data-at')) {
-        m.style.transition = 'none';
-        m.style.left = '';
-        m.style.top = '';
-        void m.offsetWidth;
-        m.style.transition = '';
-      }
       m.setAttribute('data-at', s.mouse);
-      m.style.left = ((r.left + r.width / 2 - box.left) / box.width * 100) + '%';
-      m.style.top = ((r.top + r.height / 2 - box.top) / box.height * 100) + '%';
+      m.style.transform = 'translate(' + (r.left + r.width / 2 - box.left) / box.width * W + 'px, ' + (r.top + r.height / 2 - box.top) / box.height * H + 'px)';
     }
 
     var ci = 0, si = 0, capOn = false;
@@ -248,6 +254,7 @@
     var progs = term.querySelectorAll('.t-prog');
     if (progs.length) {
       setInterval(function () {
+        if (!running() || capOn || fading || blocks[ci] && !blocks[ci].querySelector('.t-prog')) return;
         each(progs, function (p) {
           if (p.offsetParent === null) return;
           var own = p.closest('.t-ln'), n = 0;

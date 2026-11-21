@@ -137,8 +137,8 @@
 .term[data-state="21"] [data-states]:not([data-states~="21"]),
 .term[data-state="22"] [data-states]:not([data-states~="22"]),
 .term[data-state="23"] [data-states]:not([data-states~="23"]) { display: none; }
-.t-cur { background: var(--t-fg); animation: t-blink 1.1s steps(1) infinite; }
-@keyframes t-blink { 50% { background: transparent; } }
+.t-cur { background: var(--t-fg); animation: t-blink 1.1s steps(1) infinite; will-change: opacity; }
+@keyframes t-blink { 50% { opacity: 0; } }
 .tp-float {
   position: absolute;
   left: 20%;
@@ -255,7 +255,8 @@
 .term-home .t-body { display: grid; grid-template-columns: minmax(0, 1fr); grid-auto-rows: minmax(0, 1fr); column-gap: 1.6em; flex: 1 1 0; height: auto; min-height: 0; margin-top: 0.6em; }
 .term-home .t-body.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .term-home .tp-r::before { content: ""; position: absolute; left: -0.8em; top: 0; bottom: 0; border-left: 1px solid var(--t-rule); }
-.term-home .tp-body { padding-top: 0.3em; }
+.term-home .tp-body { padding-top: 0.3em; contain: layout paint; }
+.term-home .ib-preview { contain: layout paint; }
 .term-home .tpane:not(.tp-float) > .tp-title { display: none; }
 .term-home .tp-float > .tp-title > span:first-child { visibility: hidden; }
 .term-home .tp-float > .tp-title { justify-content: flex-end; }
@@ -358,8 +359,8 @@
 .term-home .t-body.two.wide { --lw: 62%; }
 .t-draw { position: absolute; left: 30%; top: 32%; z-index: 3; width: 52%; height: 52%; border: 1px solid var(--t-green); animation: t-draw 0.95s cubic-bezier(0.45, 0, 0.25, 1) 0.1s both; }
 @keyframes t-draw { from { width: 0; height: 0; } to { width: 52%; height: 52%; } }
-.term-home .tp-float.t-drawn { left: 30%; top: 32%; width: 52%; height: 52%; transition: left 0.95s cubic-bezier(0.45, 0, 0.25, 1) 0.1s, top 0.95s cubic-bezier(0.45, 0, 0.25, 1) 0.1s; }
-.term-home .tp-float.t-drawn.corner { left: 46%; top: 3%; }
+.term-home .tp-float.t-drawn { left: 30%; top: 32%; width: 52%; height: 52%; transition: transform 0.95s cubic-bezier(0.45, 0, 0.25, 1) 0.1s; }
+.term-home .tp-float.t-drawn.corner { transform: translate(calc(16 / 52 * 100%), calc(-29 / 52 * 100%)); }
 .t-mk-fl-from { left: calc(30% + 1em + 7ch); top: 32%; }
 .t-mk-fl-to { left: calc(46% + 1em + 7ch); top: 3%; }
 .t-mk-a { left: 22%; top: 84%; }
@@ -369,7 +370,7 @@
 .t-run.t-tail { --t0: 1.6s; --dt: 350ms; }
 .t-run.t-build { --t0: 1.9s; --dt: 180ms; }
 .t-run.t-slow { --t0: 1.7s; --dt: 1s; }
-.t-mouse { position: absolute; left: 50%; top: 62%; z-index: 8; width: 0; height: 0; pointer-events: none; transition: left 0.95s cubic-bezier(0.45, 0, 0.25, 1) 0.1s, top 0.95s cubic-bezier(0.45, 0, 0.25, 1) 0.1s; }
+.t-mouse { position: absolute; left: 0; top: 0; z-index: 8; width: 0; height: 0; pointer-events: none; transform: translate(-100vw, 0); transition: transform 0.95s cubic-bezier(0.45, 0, 0.25, 1) 0.1s; will-change: transform; }
 @keyframes t-clk { 0% { opacity: 0; transform: scale(0.3); } 1% { opacity: 0.9; transform: scale(0.3); } 100% { opacity: 0; transform: scale(1.4); } }
 .t-l, .t-ln { display: block; }
 .t-ln { max-height: 0; overflow: hidden; animation: t-ln-in 1ms linear forwards; animation-delay: calc(var(--t0) + var(--i) * var(--dt)); }
@@ -428,7 +429,7 @@
 .demo-ch::after { background: var(--accent); transform: scaleX(0); transform-origin: left; }
 .demo-ch:hover, .demo-ch.is-on { color: var(--text-strong); }
 .demo-ch.is-on::after { transform: scaleX(1); }
-.demo-ch.run::after { animation: demo-fill var(--ch-dur, 10s) linear both; }
+.demo-ch.run::after { animation: demo-fill var(--ch-dur, 10s) linear both; will-change: transform; }
 .demo.is-held .demo-ch.run::after { animation-play-state: paused; }
 .demo-ch:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 @keyframes demo-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
@@ -485,7 +486,7 @@
   .term-screen, .t-cap { transition: none; }
   .t-ln { max-height: none; animation: none; }
   .t-type { width: auto; animation: none; }
-  .t-mouse { transition: none; }
+  .t-mouse, .term-home .tp-float.t-drawn { transition: none; }
   .t-cur-type, .t-mouse b { display: none; }
   .term-home .t-body.two, .term-home .tp-float.t-drawn, .t-desk.t-cam { transition: none; }
   .t-draw, .m-new { animation: none; }
