@@ -13,7 +13,7 @@
           </div>
         </div>
         <div class="pane demo-pane">
-          <span class="pane-title" aria-hidden="true">{{ (index site.Data.demos "home").title }}</span>
+          <span class="pane-title" aria-hidden="true">{{ (index hugo.Data.demos "home").title }}</span>
           {{ partial "demo/demo.html" (dict "name" "home" "only" "agents") }}
         </div>
       </div>

@@ -1,4 +1,4 @@
-{{- $d := index site.Data.demos .name -}}
+{{- $d := index hugo.Data.demos .name -}}
 {{- with .only }}
   {{- $d = merge $d (dict "chapters" (where $d.chapters "id" .)) }}
 {{- end }}
