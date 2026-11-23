@@ -26,15 +26,24 @@
     var cached = null;
     try { cached = JSON.parse(store.get('zj-stars') || 'null'); } catch (e) {}
     if (cached && typeof cached.n === 'number') show(cached.n);
-    if (!cached || Date.now() - cached.t > 6 * 3600 * 1000) {
+    var next = cached ? (cached.retry || cached.t + 6 * 3600 * 1000) : 0;
+    var later = function (until) {
+      store.set('zj-stars', JSON.stringify({ n: cached && cached.n, t: Date.now(), retry: until }));
+    };
+    if (Date.now() >= next) {
       fetch('https://api.github.com/repos/zellij-org/zellij', { headers: { Accept: 'application/vnd.github+json' } })
-        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (r) {
+          if (r.ok) return r.json();
+          var reset = +r.headers.get('X-RateLimit-Reset') * 1000;
+          later(reset > Date.now() ? reset : Date.now() + 3600 * 1000);
+          return null;
+        })
         .then(function (d) {
           if (!d || typeof d.stargazers_count !== 'number') return;
           store.set('zj-stars', JSON.stringify({ n: d.stargazers_count, t: Date.now() }));
           show(d.stargazers_count);
         })
-        .catch(function () {});
+        .catch(function () { later(Date.now() + 3600 * 1000); });
     }
   }
 

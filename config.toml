@@ -75,8 +75,8 @@ disableHugoGeneratorInject = false
     version         = "0.46.0"
     releasePost     = "/news/terminal-inbox-session-previews/"
     title           = "Zellij: a terminal and multiplexer you learn in minutes"
-    # GitHub stars, shown in the header, as of 2026-11-14 (from the GitHub API)
-    stars           = "36.1k"
+    # GitHub stars, shown in the header, as of 2026-11-23 (from the GitHub API)
+    stars           = "36.2k"
 
   # Social links, in the footer and on the News page
 
