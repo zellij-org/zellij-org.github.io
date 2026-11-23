@@ -53,6 +53,12 @@
 .dl-alt { font-size: 0.9rem; color: var(--muted); }
 .dl-alt a { color: var(--sub); font-weight: 700; text-decoration: none; }
 .dl-alt a:hover { text-decoration: underline; }
+.corp-sponsor { margin-top: 1rem; font-size: 0.85rem; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; }
+.corp-sponsor a { display: inline-flex; opacity: 0.8; }
+.corp-sponsor a:hover { opacity: 1; }
+.corp-sponsor img { height: 18px; width: auto; }
+:root[data-theme="light"] .corp-sponsor img.img-light { display: inline-block !important; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .corp-sponsor img.img-light { display: inline-block !important; } }
 
 /* The demo, in its pane beside the hero's text, with its pause button on the frame. Side by side, the window is 4:3,
    whatever its scene holds, so the page never moves as it plays; its panes get the extra lines. Stacked, it keeps
