@@ -1,0 +1,45 @@
+<figure{{ with .Get "class" }} class="{{ . }}"{{ end }}>
+	{{- if .Get "link" -}}
+		<a href="{{ .Get "link" }}"{{ with .Get "target" }} target="{{ . }}"{{ end }}{{ with .Get "rel" }} rel="{{ . }}"{{ end }}>
+	{{- end -}}
+
+	{{- $u := urls.Parse (.Get "src") -}}
+	{{- $src := $u.String -}}
+	{{- if not $u.IsAbs -}}
+		{{- with or (.Page.Resources.Get $u.Path) (resources.Get $u.Path) -}}
+			{{- $src = .RelPermalink -}}
+		{{- end -}}
+	{{- end -}}
+	{{- $light := "" -}}
+	{{- if and (not $u.IsAbs) (strings.HasSuffix $u.Path ".png") -}}
+		{{- $l := printf "%s-light.png" (strings.TrimSuffix ".png" $u.Path) -}}
+		{{- if fileExists (path.Join "static" $l) }}{{ $light = $l }}{{ end -}}
+	{{- end -}}
+	{{- $attrs := "" -}}
+	{{- if or (.Get "alt") (.Get "caption") }}{{ $attrs = printf "%s alt=%q" $attrs (cond (ne (.Get "alt") "") (.Get "alt") (.Get "caption" | markdownify | plainify)) }}{{ end -}}
+	{{- with .Get "width" }}{{ $attrs = printf "%s width=%q" $attrs . }}{{ end -}}
+	{{- with .Get "height" }}{{ $attrs = printf "%s height=%q" $attrs . }}{{ end -}}
+	{{- with .Get "loading" }}{{ $attrs = printf "%s loading=%q" $attrs . }}{{ end -}}
+
+	{{- if $light }}
+	<img class="img-dark" src="{{ $src }}"{{ $attrs | safeHTMLAttr }}><img class="img-light" src="{{ $light }}"{{ $attrs | safeHTMLAttr }}>
+	{{- else }}
+	<img src="{{ $src }}"{{ $attrs | safeHTMLAttr }}>
+	{{- end -}}
+	{{- if .Get "link" }}</a>{{ end -}}
+	{{- if or (or (.Get "title") (.Get "caption")) (.Get "attr") -}}
+		<figcaption>
+			{{ with (.Get "title") -}}
+				<h4>{{ . }}</h4>
+			{{- end -}}
+			{{- if or (.Get "caption") (.Get "attr") -}}<p>
+					{{- .Get "caption" | markdownify -}}
+					{{- with .Get "attrlink" }}
+						<a href="{{ . }}">
+					{{- end -}}
+					{{- .Get "attr" | markdownify -}}
+					{{- if .Get "attrlink" }}</a>{{ end }}</p>
+			{{- end }}
+		</figcaption>
+	{{- end }}
+</figure>

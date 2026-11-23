@@ -1,0 +1,20 @@
+{{- $d := index hugo.Data.demos .name -}}
+{{- with .only }}
+  {{- $d = merge $d (dict "chapters" (where $d.chapters "id" .)) }}
+{{- end }}
+{{- $chapters := slice -}}
+{{- range $d.chapters }}
+  {{- $chapters = $chapters | append (dict "states" .states "reduced" (.reduced | default 0)) }}
+{{- end }}
+{{- $config := dict "chapters" $chapters "still" ($d.still | default 0) "scene" ($d.scene | default 2600) "caption" ($d.caption | default 3800) -}}
+<div class="demo" data-nosnippet data-demo data-config="{{ $config | jsonify }}">
+  {{ partial "demo/window.html" (dict "d" $d "name" .name) }}
+  <button class="pane-ctl demo-pause" type="button" aria-label="Pause the demo">pause</button>
+  {{- if gt (len $d.chapters) 1 }}
+  <div class="demo-nav" role="group" aria-label="Parts of the demo">
+    {{- range $i, $c := $d.chapters }}
+    <button class="demo-ch{{ if not $i }} is-on{{ end }}" type="button" data-ch="{{ $i }}" aria-label="{{ $c.label }}: {{ $c.title }}"{{ if not $i }} aria-current="step"{{ end }}>{{ $c.label }}</button>
+    {{- end }}
+  </div>
+  {{- end }}
+</div>

@@ -3,7 +3,7 @@ title: "Dealing with Colliding Keyboard Shortcuts"
 date: 2024-11-11T14:45:48+01:00
 images: ["/img/configuration-screen-1.png"]
 description: "Solve keyboard shortcut conflicts in Zellij. Learn about the unlock-first preset to prevent key intercepts while maintaining workflow efficiency."
-linktitle: "How to quickly solve the issue of Zellij intercepting keys while still maintaining peak efficiency in one\'s workflow"
+linktitle: "How to quickly solve the issue of Zellij intercepting keys while still maintaining peak efficiency in one's workflow"
 ---
 {{<video-left-aligned "/video/colliding-keybindings-screencast.mp4">}}
 
@@ -40,7 +40,7 @@ In some cases, the `Unlock-First (non-colliding)` preset is not enough. For exam
 ## Manually Changing the Configuration file
 If one would like more fine-grained control over which keys exactly would be bound or unbound, one can directly change them in the configuration file (without needing to restart Zellij). This can be done by editing the file and changing the keys, as detailed [here](https://zellij.dev/documentation/keybindings).
 
-# Do you like Zellij ❤️ ?
+## Do you like Zellij ❤️ ?
 Me too! So much so that I spend 100% of my time developing and maintaining it and have no other income.
 
 Zellij will always be free and open-source. Zellij will never contain ads or collect your data.

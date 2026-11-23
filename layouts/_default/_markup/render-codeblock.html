@@ -1,0 +1,8 @@
+{{- /* Fenced code blocks, drawn as a Zellij pane: the language is the pane title, and a copy button sits on the frame.
+       Colors come from the .chroma rules in assets/css/site.css ([markup.highlight] noClasses = false). */ -}}
+{{- $result := transform.HighlightCodeBlock . -}}
+<div class="code-pane">
+  {{- with .Type }}<span class="code-title">{{ . }}</span>{{ end }}
+  <button class="copy" type="button">Copy</button>
+  {{ $result.Wrapped }}
+</div>

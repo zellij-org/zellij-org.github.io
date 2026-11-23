@@ -1,0 +1,129 @@
+{{ define "main" }}
+{{- $t := partial "site/title.html" . -}}
+  <div class="wrap session">
+    <section class="pane hero-pane is-focus">
+      <span class="pane-title" aria-hidden="true">agents</span>
+      <div class="hero-top">
+        <div class="hero-main">
+          <h1>{{ $t.name }}{{ with $t.tagline }} <span class="tagline">{{ . }}</span>{{ end }}</h1>
+          <p class="lead">{{ .Description }}</p>
+          <div class="actions">
+            <a class="btn btn-green" href="/#install">Install Zellij</a>
+            <a class="link" href="/tutorials/zellij-with-coding-agents/">Managing coding agents →</a>
+          </div>
+        </div>
+        <div class="pane demo-pane">
+          <span class="pane-title" aria-hidden="true">{{ (index hugo.Data.demos "home").title }}</span>
+          {{ partial "demo/demo.html" (dict "name" "home" "only" "agents") }}
+        </div>
+      </div>
+      <div class="hero-more">
+        {{ partial "site/agents-list.html" . }}
+      </div>
+    </section>
+
+    <section class="pane feature-pane" id="inbox">
+      <span class="pane-title" aria-hidden="true">inbox</span>
+      <div class="feature-text">
+        <h2>See what every agent is doing</h2>
+        <p>The inbox lists your agents by status, needs you, working, done or failed, across every session on the machine. Answer one through its live preview, mark it as seen with <kbd>c</kbd>, or mute a noisy one with <kbd>m</kbd>.</p>
+        <div class="links">
+          <a class="link" href="/documentation/inbox.html">The inbox →</a>
+          <a class="link" href="/documentation/inbox-integrations.html">What reports to it →</a>
+        </div>
+      </div>
+      <figure class="pane shot">
+        <span class="pane-title" aria-hidden="true">Ctrl o + i</span>
+        <img class="img-dark" src="/img/agents-tutorial-2.png" width="948" height="557" loading="lazy" decoding="async" alt="The Zellij inbox listing three coding agents by status."><img class="img-light" src="/img/agents-tutorial-2-light.png" width="948" height="557" loading="lazy" decoding="async" alt="The Zellij inbox listing three coding agents by status.">
+      </figure>
+    </section>
+
+    <section class="pane feature-pane rev" id="desktop">
+      <span class="pane-title" aria-hidden="true">desktop</span>
+      <div class="feature-text">
+        <h2>Close the window, they keep working</h2>
+        <p>Run Zellij in its own window with <code>zellij terminal</code>. Closing it keeps every session running. The tray icon shows when an agent needs you, and desktop notifications tell you when one finishes, fails or needs you.</p>
+        <div class="links">
+          <a class="link" href="/documentation/zellij-terminal.html">The Zellij terminal →</a>
+          <a class="link" href="/tutorials/zellij-terminal/">Tutorial →</a>
+        </div>
+      </div>
+      <figure class="pane shot">
+        <span class="pane-title" aria-hidden="true">zellij terminal</span>
+        <img class="img-dark" src="/img/terminal-desktop-preview.png" width="1661" height="1114" loading="lazy" decoding="async" alt="The Zellij terminal on the desktop, with its tray icon and desktop notifications for coding agents that finish, fail or wait for approval."><img class="img-light" src="/img/terminal-desktop-preview-light.png" width="1661" height="1114" loading="lazy" decoding="async" alt="The Zellij terminal on the desktop, with its tray icon and desktop notifications for coding agents that finish, fail or wait for approval.">
+      </figure>
+    </section>
+
+    <section class="pane feature-pane" id="sessions">
+      <span class="pane-title" aria-hidden="true">sessions</span>
+      <div class="feature-text">
+        <h2>One session per project, one tab per agent</h2>
+        <p>Start a session for each project from the tray or the session manager, and give each agent its own tab. Rename an agent's pane and its name follows it into the inbox and your notifications.</p>
+        <div class="links">
+          <a class="link" href="/tutorials/zellij-with-coding-agents/">Managing coding agents →</a>
+        </div>
+      </div>
+      <figure class="pane shot">
+        <span class="pane-title" aria-hidden="true">Ctrl o + w</span>
+        <img class="img-dark" src="/img/agents-tutorial-1.png" width="955" height="558" loading="lazy" decoding="async" alt="The Zellij session manager, starting a session for a project."><img class="img-light" src="/img/agents-tutorial-1-light.png" width="955" height="558" loading="lazy" decoding="async" alt="The Zellij session manager, starting a session for a project.">
+      </figure>
+    </section>
+
+    <section class="pane" id="questions">
+      <span class="pane-title" aria-hidden="true">questions</span>
+      <h2>Working with agents</h2>
+      <div class="faq">
+        {{- range .Params.faq }}
+        <div class="qa">
+          <h3>{{ .q }}</h3>
+          <p>{{ .a | markdownify }}</p>
+        </div>
+        {{- end }}
+      </div>
+    </section>
+
+    <div class="row row-3" id="next">
+      <section class="pane">
+        <h3 class="pane-title">get started</h3>
+        <ul class="pane-links">
+          <li><a href="/tutorials/zellij-with-coding-agents/"><b>Managing coding agents</b><span>Sessions, labels and the inbox, step by step</span></a></li>
+          <li><a href="/tutorials/zellij-terminal/"><b>Zellij as your terminal</b><span>Its own window, with a tray icon</span></a></li>
+        </ul>
+      </section>
+      <section class="pane">
+        <h3 class="pane-title">the inbox</h3>
+        <ul class="pane-links">
+          <li><a href="/documentation/inbox.html"><b>Inbox &amp; attention</b><span>States, keys, watching and muting</span></a></li>
+          <li><a href="/documentation/inbox-integrations.html"><b>Inbox integrations</b><span>What reports its status, and how to connect the rest</span></a></li>
+        </ul>
+      </section>
+      <section class="pane">
+        <h3 class="pane-title">anywhere</h3>
+        <ul class="pane-links">
+          <li><a href="/documentation/zellij-terminal.html"><b>The Zellij terminal</b><span>Notifications and the tray icon</span></a></li>
+          <li><a href="/documentation/web-client.html"><b>Web client</b><span>Your sessions in a browser</span></a></li>
+        </ul>
+      </section>
+    </div>
+  </div>
+{{ end }}
+
+{{ define "statusbar" }}
+{{- partial "site/statusbar.html" (dict "segs" (slice
+  (dict "k" "i" "t" "INBOX" "target" "inbox")
+  (dict "k" "q" "t" "QUESTIONS" "target" "questions")
+  (dict "k" "d" "t" "DOCS" "target" "next")
+  (dict "k" "h" "t" "HOME" "href" "/")
+)) }}
+{{ end }}
+
+{{ define "head" }}
+<script type="application/ld+json">
+{{- $qs := slice -}}
+{{- range .Params.faq }}{{ $qs = $qs | append (dict "@type" "Question" "name" .q "acceptedAnswer" (dict "@type" "Answer" "text" (.a | markdownify | plainify | htmlUnescape))) }}{{ end -}}
+{{ dict "@context" "https://schema.org" "@type" "FAQPage" "mainEntity" $qs | jsonify | safeJS }}
+</script>
+<script type="application/ld+json">
+{{ dict "@context" "https://schema.org" "@type" "SoftwareApplication" "name" "Zellij" "applicationCategory" "DeveloperApplication" "operatingSystem" (slice "Linux" "macOS" "Windows") "offers" (dict "@type" "Offer" "price" "0" "priceCurrency" "USD") "description" .Description "url" .Permalink | jsonify | safeJS }}
+</script>
+{{ end }}

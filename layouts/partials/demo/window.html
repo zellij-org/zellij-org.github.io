@@ -1,0 +1,5 @@
+<div class="term term-{{ .name }}" data-state="0" role="img" aria-label="{{ .d.label }}">
+  <div class="term-screen" aria-hidden="true">
+    {{ partial (printf "demo/%s.html" .name) . }}
+  </div>
+</div>

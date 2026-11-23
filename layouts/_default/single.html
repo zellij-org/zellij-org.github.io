@@ -1,65 +1,47 @@
 {{ define "main" }}
-    <main class="post">
+{{- $kind := cond (eq .Section "news") "news" (cond (eq .Section "tutorials") "tutorials" "page") -}}
+{{- $t := partial "site/title.html" . -}}
+<div class="wrap session">
+  <article class="article">
+    <header class="page-head">
+      <h1>{{ $t.name | markdownify }}{{ with $t.tagline }} <span class="tagline">{{ . }}</span>{{ end }}</h1>
+      {{- if ne $kind "page" }}
+      {{ with .Description }}<p class="lead">{{ . }}</p>{{ end }}
+      <p class="meta">
+        {{- if not .Date.IsZero }}<time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format .Site.Params.dateform }}</time>{{ end }}
+        {{- with .Params.author }}<span>{{ with $.Params.authorlink }}<a href="{{ . }}">{{ $.Params.author }}</a>{{ else }}{{ . }}{{ end }}</span>{{ end }}
+        <span>{{ .ReadingTime }} min read</span>
+      </p>
+      {{- end }}
+    </header>
 
-        <div class="post-info">
-            {{ if .IsTranslated }}
-                {{ i18n "postAvailable" }}
-                {{ range .Translations }}
-                    <a href="{{ .Permalink }}"><span class="flag flag-icon flag-icon-{{ index $.Site.Data.langFlags (.Lang) }} flag-icon-squared"></span></a>
-                {{ end}}
-            {{ end }}
-            </p>
-        </div>
+    <div class="prose">
+      {{ .Content }}
+    </div>
 
-        <article>
-            <h2 class="post-title"><a href="{{ .Permalink }}">{{ .Title | markdownify }}</a></h2>
-
-            {{ if .Params.Cover }}
-                <figure class="post-cover">
-                    <img src="{{ .Params.Cover | absURL }}" alt="{{ .Title }}" />
-                
-                    {{ if .Params.CoverCaption }}
-                        <figcaption class="center">{{ .Params.CoverCaption | markdownify }}</figcaption>
-                    {{ end }}
-                </figure>
-            {{ end }}
-            
-            {{ if .Params.toc }}
-                <hr />
-                <aside id="toc">
-                <div class="toc-title">{{ i18n "tableOfContents" }}</div>
-                    {{ .TableOfContents }}
-                </aside>
-                <hr />
-            {{ end }}
-
-                  {{ if .Params.Date }}
-                <span class="post-date">
-                  {{ .Date.Format "2006-01-02" }}
-                </span>
-                {{ end }}
-                {{ if .Params.Author }}
-                  <span class="post-author">::
-                    {{ if .Params.Authorlink }}
-                    <a href="{{ .Params.Authorlink }}">{{ .Params.Author }}</a>
-                    {{ else }}
-                      {{ .Params.Author }}
-                    {{ end }}
-                  </span>
-                {{ end }}
-                {{ .Content }}
-            </div>
-        </article>
-
-        <hr />
-
-        <div class="post-info">
-            {{ partial "tags.html" .Params.tags }}
-            {{ partial "categories.html" . }}
-
-            {{- if .GitInfo }}
-			    <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-git-commit"><circle cx="12" cy="12" r="4"></circle><line x1="1.05" y1="12" x2="7" y2="12"></line><line x1="17.01" y1="12" x2="22.96" y2="12"></line></svg><a href="{{ .Site.Params.gitUrl -}}{{ .GitInfo.Hash }}" target="_blank" rel="noopener">{{ .GitInfo.AbbreviatedHash }}</a> @ {{ if .Site.Params.dateformNum }}{{ dateFormat .Site.Params.dateformNum .GitInfo.AuthorDate.Local }}{{ else }}{{ dateFormat "2006-01-02" .GitInfo.AuthorDate.Local }}{{ end }}</p>
-			{{- end }}
-  		</div>
-    </main>
+    {{- if eq $kind "news" }}
+    <footer class="page-foot">
+      {{- with .GetTerms "tags" }}
+      <ul class="tags" aria-label="Tags">
+        {{- range . }}<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>{{ end }}
+      </ul>
+      {{- end }}
+      {{- $n := partial "site/neighbours.html" . }}
+      {{- if or $n.older $n.newer }}
+      <nav class="pager" aria-label="More news">
+        {{- with $n.older }}<a class="pager-older" href="{{ .RelPermalink }}"><span>← Older</span><b>{{ .LinkTitle }}</b></a>{{ end }}
+        {{- with $n.newer }}<a class="pager-newer" href="{{ .RelPermalink }}"><span>Newer →</span><b>{{ .LinkTitle }}</b></a>{{ end }}
+      </nav>
+      {{- end }}
+    </footer>
+    {{- else if eq $kind "tutorials" }}
+    <footer class="page-foot">
+      <div class="foot-cta">
+        <a class="link" href="/screencasts/">All tutorials →</a>
+        <a class="link" href="/documentation/">Read the docs →</a>
+      </div>
+    </footer>
+    {{- end }}
+  </article>
+</div>
 {{ end }}
