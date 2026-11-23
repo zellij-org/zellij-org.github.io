@@ -136,6 +136,7 @@ body {
 }
 img { max-width: 100%; }
 img.img-light { display: none !important; }
+.prose img.img-light { outline: 1px solid #c3c0b6; outline-offset: -1px; }
 :root[data-theme="light"] img.img-dark { display: none !important; }
 :root[data-theme="light"] img.img-light { display: block !important; }
 @media (prefers-color-scheme: light) {
