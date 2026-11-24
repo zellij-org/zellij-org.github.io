@@ -22,6 +22,7 @@ Zellij will search for the `config` directory as follows:
 - default location
     - Linux: `/home/alice/.config/zellij`
     - Mac: `/Users/Alice/Library/Application Support/org.Zellij-Contributors.Zellij`
+    - Windows: `C:\Users\Alice\AppData\Roaming\Zellij`
 
 - system location (`/etc/zellij`)
 
