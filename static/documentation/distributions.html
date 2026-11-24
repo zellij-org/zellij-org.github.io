@@ -163,7 +163,7 @@
 <h2 id="a-minimal-distribution"><a class="header" href="#a-minimal-distribution">A minimal distribution</a></h2>
 <p>A distribution is a Rust program that depends on the <code>zellij</code> crate and calls <code>zellij::run</code> with a <code>Distribution</code>, instead of using the <code>zellij</code> binary:</p>
 <pre><code class="language-toml">[dependencies]
-zellij = "0.46.0"
+zellij = "0.46.1"
 </code></pre>
 <pre><pre class="playground"><code class="language-rust">use zellij::{Distribution, DistributionLayout};
 
@@ -215,7 +215,7 @@ default_layout "my-layout"
 <li>The plugin and data folders under <code>&lt;prefix&gt;/share/&lt;name&gt;</code></li>
 <li>The command name shown in <code>--help</code></li>
 </ul>
-<p><code>--version</code> shows the distribution's version followed by the Zellij version it is built on, eg. <code>1.0.0 (zellij 0.46.0)</code>.</p>
+<p><code>--version</code> shows the distribution's version followed by the Zellij version it is built on, eg. <code>1.0.0 (zellij 0.46.1)</code>.</p>
 <h2 id="replacing-a-built-in-plugin"><a class="header" href="#replacing-a-built-in-plugin">Replacing a built-in plugin</a></h2>
 <p>A bundled plugin cannot use the name of one of Zellij's built-in plugins, unless that built-in is dropped with <code>without_plugin</code> first. Dropping a built-in plugin does not remove the <a href="./plugin-aliases.html">plugin alias</a> that points to it: point that alias somewhere valid in the bundled configuration, or anything still using it (a keybinding, a layout) fails to load.</p>
 <p>To leave the built-in alone and use a different implementation, give the bundled plugin its own name and point the alias at it:</p>

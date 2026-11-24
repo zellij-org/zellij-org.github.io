@@ -227,12 +227,13 @@ running sessions are killed and deleted as well. <code>-y</code>, <code>--yes</c
 <h2 id="list-aliases"><a class="header" href="#list-aliases"><code>list-aliases</code></a></h2>
 <p>short: <code>la</code></p>
 <p>Will list the existing <a href="./plugin-aliases.html">plugin aliases</a>.</p>
-<h2 id="run-edit-plugin-pipe-action-and-subscribe"><a class="header" href="#run-edit-plugin-pipe-action-and-subscribe"><code>run</code>, <code>edit</code>, <code>plugin</code>, <code>pipe</code>, <code>action</code> and <code>subscribe</code></a></h2>
+<h2 id="run-edit-plugin-pipe-action-subscribe-and-events"><a class="header" href="#run-edit-plugin-pipe-action-subscribe-and-events"><code>run</code>, <code>edit</code>, <code>plugin</code>, <code>pipe</code>, <code>action</code>, <code>subscribe</code> and <code>events</code></a></h2>
 <p>These commands control a running session from the command line. They are described in
 <a href="./controlling-zellij-through-cli.html">Controlling Zellij through the CLI</a>:
 <a href="./zellij-run-and-edit.html"><code>run</code> and <code>edit</code></a> (short: <code>r</code> and <code>e</code>),
 <a href="./zellij-plugin-and-pipe.html"><code>plugin</code> and <code>pipe</code></a> (short for <code>plugin</code>: <code>p</code>),
-<a href="./cli-actions.html"><code>action</code></a> (short: <code>ac</code>) and <a href="./zellij-subscribe.html"><code>subscribe</code></a>.</p>
+<a href="./cli-actions.html"><code>action</code></a> (short: <code>ac</code>), <a href="./zellij-subscribe.html"><code>subscribe</code></a> and
+<a href="./zellij-events.html"><code>events</code></a>.</p>
 <h2 id="web"><a class="header" href="#web"><code>web</code></a></h2>
 <p>Runs and manages the web server. See <a href="./web-client.html">Web Client</a>.</p>
 <h2 id="options"><a class="header" href="#options"><code>options</code></a></h2>
@@ -275,7 +276,7 @@ $ zellij setup --keybinding-preset unlock-first
 <tr><td style="text-align: left">--help</td><td>Display the help prompt</td></tr>
 <tr><td style="text-align: left">--debug</td><td>Gather additional debug information</td></tr>
 <tr><td style="text-align: left">--version</td><td>Print version information</td></tr>
-<tr><td style="text-align: left">--session [NAME]</td><td>Name of a new session, or the session to send <code>action</code>, <code>run</code>, <code>edit</code>, <code>plugin</code>, <code>pipe</code>, <code>subscribe</code> and <code>prompt</code> commands to</td></tr>
+<tr><td style="text-align: left">--session [NAME]</td><td>Name of a new session, or the session to send <code>action</code>, <code>run</code>, <code>edit</code>, <code>plugin</code>, <code>pipe</code>, <code>subscribe</code>, <code>events</code> and <code>prompt</code> commands to</td></tr>
 <tr><td style="text-align: left">--layout [LAYOUT]</td><td>Name of a layout in the layout directory or path to a layout file. Inside a session (or with <code>--session</code>) it is added to the session as new tab(s), otherwise a new session is started with it</td></tr>
 <tr><td style="text-align: left">--new-session-with-layout [LAYOUT]</td><td>Like <code>--layout</code>, but always starts a new session</td></tr>
 <tr><td style="text-align: left">--layout-string [KDL]</td><td>Use a raw KDL layout string instead of a layout file</td></tr>

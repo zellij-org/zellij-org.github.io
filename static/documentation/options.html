@@ -189,6 +189,7 @@
 <li><a href="#stacked_resize">stacked_resize</a></li>
 <li><a href="#show_startup_tips">show_startup_tips</a></li>
 <li><a href="#show_release_notes">show_release_notes</a></li>
+<li><a href="#show_setup_screen">show_setup_screen</a></li>
 <li><a href="#post_command_discovery_hook">post_command_discovery_hook</a></li>
 <li><a href="#web_server">web_server</a></li>
 <li><a href="#web_server_ip">web_server_ip</a></li>
@@ -520,8 +521,17 @@ Options:</p>
 </ul>
 <pre><code class="language-javascript">show_release_notes true
 </code></pre>
+<h3 id="show_setup_screen"><a class="header" href="#show_setup_screen">show_setup_screen</a></h3>
+<p>Offer the <a href="./desktop-setup.html#the-setup-screen">desktop setup screen</a> when a new session starts. When <code>false</code>, the setup screen is not shown by itself, but can still be opened from the settings screen or the About screen. Requires a restart.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">show_setup_screen false
+</code></pre>
 <h3 id="post_command_discovery_hook"><a class="header" href="#post_command_discovery_hook">post_command_discovery_hook</a></h3>
-<p>When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a <code>post_command_discovery_hook</code>. This is a command that will run in the context of te user's default shell and be provided the <code>$RESURRECT_COMMAND</code> that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over <code>STDOUT</code> will be serialized in place of the discovered command.</p>
+<p>When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a <code>post_command_discovery_hook</code>. This is a command that runs with <code>sh -c</code> (with <code>cmd</code> on Windows, where the variable is written as <code>%RESURRECT_COMMAND%</code>) and is provided the <code>$RESURRECT_COMMAND</code> that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over <code>STDOUT</code> will be serialized in place of the discovered command.</p>
 <p>Example, removing <code>sudo</code> from the start of commands:</p>
 <pre><code class="language-javascript">post_command_discovery_hook "echo \"$RESURRECT_COMMAND\" | sed 's/^sudo\\s\\+//'"
 </code></pre>

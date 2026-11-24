@@ -185,6 +185,7 @@ Zellij exposes its full control surface through CLI commands, making it possible
 
 - **Conditionally blocking panes**: Open a pane that blocks the calling script until the command succeeds (`--block-until-exit-success`), fails (`--block-until-exit-failure`), or simply finishes (`--block-until-exit`). Failed commands can be retried interactively without the script losing its place.
 - **Live pane output streaming**: `zellij subscribe` streams the rendered output of any pane to stdout in real time, with optional JSON formatting for structured processing.
+- **Session event stream**: `zellij events` prints each change to a session (panes and tabs opening, closing, being focused or renamed, input mode changes, users attaching and detaching) as a JSON line, so scripts and external status bars can react to them as they happen. See [Zellij Events](/documentation/zellij-events.html).
 - **Structured state queries**: `list-panes --json`, `list-tabs --json`, and `current-tab-info --json` return full session state as JSON, enabling scripts to discover panes, check exit statuses, and make decisions based on session state.
 - **Background sessions**: Create headless sessions with `zellij attach --create-background`, then control them entirely from external scripts - opening panes, sending input, reading output, and tearing down when done.
 - **ID capture**: Pane and tab creation commands return the created resource's ID on stdout, enabling scripts to target specific panes by ID for subsequent operations.
@@ -199,7 +200,7 @@ zellij action new-pane --block-until-exit-success --name "build" -- make build
 zellij action new-pane --block-until-exit --name "deploy" -- ./deploy.sh
 ```
 
-For full details, see [Programmatic Control](/documentation/programmatic-control.html), [CLI Recipes](/documentation/cli-recipes.html), and [Zellij Subscribe](/documentation/zellij-subscribe.html).
+For full details, see [Programmatic Control](/documentation/programmatic-control.html), [CLI Recipes](/documentation/cli-recipes.html), [Zellij Subscribe](/documentation/zellij-subscribe.html), and [Zellij Events](/documentation/zellij-events.html).
 
 
 ## Multiple Pane Select

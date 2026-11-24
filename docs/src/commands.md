@@ -113,13 +113,14 @@ short: `la`
 
 Will list the existing [plugin aliases](./plugin-aliases.md).
 
-## `run`, `edit`, `plugin`, `pipe`, `action` and `subscribe`
+## `run`, `edit`, `plugin`, `pipe`, `action`, `subscribe` and `events`
 
 These commands control a running session from the command line. They are described in
 [Controlling Zellij through the CLI](./controlling-zellij-through-cli.md):
 [`run` and `edit`](./zellij-run-and-edit.md) (short: `r` and `e`),
 [`plugin` and `pipe`](./zellij-plugin-and-pipe.md) (short for `plugin`: `p`),
-[`action`](./cli-actions.md) (short: `ac`) and [`subscribe`](./zellij-subscribe.md).
+[`action`](./cli-actions.md) (short: `ac`), [`subscribe`](./zellij-subscribe.md) and
+[`events`](./zellij-events.md).
 
 ## `web`
 
@@ -176,7 +177,7 @@ These flags can be invoked with `zellij --flag`.
 | --help                             |   Display the help prompt |
 | --debug                             |  Gather additional debug information |
 | --version                       |  Print version information |
-| --session [NAME]                |  Name of a new session, or the session to send `action`, `run`, `edit`, `plugin`, `pipe`, `subscribe` and `prompt` commands to |
+| --session [NAME]                |  Name of a new session, or the session to send `action`, `run`, `edit`, `plugin`, `pipe`, `subscribe`, `events` and `prompt` commands to |
 | --layout [LAYOUT]               |  Name of a layout in the layout directory or path to a layout file. Inside a session (or with `--session`) it is added to the session as new tab(s), otherwise a new session is started with it |
 | --new-session-with-layout [LAYOUT] |  Like `--layout`, but always starts a new session |
 | --layout-string [KDL]           |  Use a raw KDL layout string instead of a layout file |

@@ -28,7 +28,7 @@ terminal {
 - [Cursor](#cursor): [cursor_style](#cursor_style), [cursor_blink](#cursor_blink), [cursor_unfocused_hollow](#cursor_unfocused_hollow)
 - [Keys](#keys): [paste_keys](#paste_keys), [copy_keys](#copy_keys), [fullscreen_keys](#fullscreen_keys), [zoom_in_keys, zoom_out_keys and zoom_reset_keys](#zoom_in_keys-zoom_out_keys-and-zoom_reset_keys), [macos_option_as_alt](#macos_option_as_alt)
 - [Mouse and scrolling](#mouse-and-scrolling): [middle_click_paste](#middle_click_paste), [open_links](#open_links), [open_links_with_shift](#open_links_with_shift), [shift_drag_selects](#shift_drag_selects), [hide_pointer_while_typing](#hide_pointer_while_typing), [smooth_scrolling](#smooth_scrolling), [scroll_animation_duration](#scroll_animation_duration), [scroll_momentum](#scroll_momentum), [scroll_momentum_friction](#scroll_momentum_friction)
-- [Window](#window): [opacity](#opacity), [opacity_mode](#opacity_mode), [blur](#blur), [startup_mode](#startup_mode), [initial_columns and initial_rows](#initial_columns-and-initial_rows), [reuse_session_windows](#reuse_session_windows), [terminal_requests](#terminal_requests), [bell](#bell)
+- [Window](#window): [opacity](#opacity), [opacity_mode](#opacity_mode), [blur](#blur), [window_decorations](#window_decorations), [titlebar_theme](#titlebar_theme), [startup_mode](#startup_mode), [initial_columns and initial_rows](#initial_columns-and-initial_rows), [reuse_session_windows](#reuse_session_windows), [terminal_requests](#terminal_requests), [bell](#bell)
 - [Clipboard](#clipboard): [allow_remote_clipboard_read](#allow_remote_clipboard_read)
 - [Colors](#colors): [theme](#theme)
 
@@ -219,7 +219,7 @@ paste_keys "Ctrl Shift v" "Shift Insert"
 ```
 
 ### copy_keys
-The keys that copy the text marked with shift and drag (see [`shift_drag_selects`](#shift_drag_selects)).
+The keys that copy the text marked with shift and drag (see [`shift_drag_selects`](#shift_drag_selects)). When no text is marked that way, they copy the text selected in the session (eg. with the mouse).
 
 Default: `"Ctrl Shift c"`, plus `"Super c"` on macOS
 
@@ -275,7 +275,7 @@ middle_click_paste false
 ```
 
 ### open_links
-Whether clicking an OSC 8 hyperlink opens it with the system's default handler. A plain left click opens it; over a pane whose program asks for mouse reporting, shift must be held instead. Dragging is a selection and never opens anything, and the click still reaches the pane either way. Only `http`, `https`, `ftp`, `ftps`, `mailto` and `file` links are opened.
+Whether clicking an OSC 8 hyperlink opens it with the system's default handler. A plain left click opens it; over a pane whose program asks for mouse reporting, shift must be held instead. Dragging is a selection and never opens anything, and the click still reaches the pane either way. On macOS, Cmd and click opens a web link in any pane, and the click does not reach the pane. Only `http`, `https`, `ftp`, `ftps`, `mailto` and `file` links are opened; `file`, `ftp` and `ftps` links only open with Ctrl and click (Cmd and click on macOS).
 
 Default: `true`
 
@@ -373,6 +373,27 @@ Default: `false`
 
 ```javascript
 blur true
+```
+
+### window_decorations
+Whether the window has a titlebar and borders. Without them, the window is resized by dragging one of its edges. Requires restart.
+
+Default: `true`
+
+```javascript
+window_decorations false
+```
+
+### titlebar_theme
+Whether the titlebar is light or dark.
+
+Options:
+  - `"system"` (default) - follow the system setting
+  - `"light"`
+  - `"dark"`
+
+```javascript
+titlebar_theme "dark"
 ```
 
 ### startup_mode

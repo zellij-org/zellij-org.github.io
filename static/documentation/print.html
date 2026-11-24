@@ -201,6 +201,11 @@
 <h2 id="binary-download"><a class="header" href="#binary-download">Binary Download</a></h2>
 <p>Pre-built binaries are available each release for Linux, macOS, and Windows on the <a href="https://github.com/zellij-org/zellij/releases">release page</a>.</p>
 <h3 id="linux--macos"><a class="header" href="#linux--macos">Linux / macOS</a></h3>
+<p>Linux binaries come in two builds:</p>
+<ul>
+<li><code>zellij-&lt;arch&gt;-unknown-linux-gnu.tar.gz</code> - for most distributions (glibc 2.17 or newer). This is the build that includes the <a href="./zellij-terminal.html">Zellij terminal</a>.</li>
+<li><code>zellij-&lt;arch&gt;-unknown-linux-musl.tar.gz</code> - a fully static build for systems without glibc (eg. Alpine). It cannot run <code>zellij terminal</code>.</li>
+</ul>
 <p>Once downloaded, untar the file:</p>
 <pre><code>tar -xvf zellij*.tar.gz
 </code></pre>
@@ -238,7 +243,8 @@ echo $ZELLIJ_SESSION_NAME
 <p>The <code>ZELLIJ_SESSION_NAME</code> has the session name as its value, and <code>ZELLIJ</code> gets
 set to <code>0</code> inside a zellij session.
 Arbitrary key value pairs can be set through configuration, or layouts.
-Note that <code>ZELLIJ_SESSION_NAME</code> will not be updated for existing terminal panes when renaming a session (but will for new panes).</p>
+Note that <code>ZELLIJ_SESSION_NAME</code> will not be updated for existing terminal panes when renaming a session (but will for new panes).
+<code>ZELLIJ_SESSION_ID</code> identifies the session and does not change when it is renamed. Zellij commands run from a pane (eg. <code>zellij action</code>, <code>zellij events</code> or <code>zellij prompt</code>) use it to find the pane's session.</p>
 <h2 id="reporting-status-to-the-inbox"><a class="header" href="#reporting-status-to-the-inbox">Reporting status to the inbox</a></h2>
 <p>Programs and scripts can tell Zellij whether they are working, waiting for the user, finished or failed, and Zellij shows this in its <a href="./inbox.html">inbox</a>. Many programs already do this. See <a href="./inbox-integrations.html">Inbox Integrations</a> for the list, and for a shell function that reports the status of a script.</p>
 <p>A command can also be run in a watched pane, so that Zellij reports when it finishes:</p>
@@ -258,18 +264,18 @@ zellij terminal --sessions
 <tr><td><code>ZELLIJ_SOCKET_DIR</code></td><td>The folder for session sockets. The same as <code>zellij terminal --socket-dir</code></td></tr>
 <tr><td><code>ZELLIJ_DESKTOP_INTEGRATION</code></td><td><code>on</code> treats the environment as a desktop, <code>off</code> never offers desktop items. See <a href="./desktop-setup.html">Desktop Setup</a></td></tr>
 <tr><td><code>ZELLIJ_TERMINAL_STANDALONE</code></td><td>When set, <code>zellij terminal</code> opens its window on its own, outside the desktop app (the same as <code>--standalone</code>)</td></tr>
+<tr><td><code>ZELLIJ_CONPTY_DLL</code></td><td>Windows only. The path to a <code>conpty.dll</code> to use for panes, or <code>system</code> to always use the one built into Windows. See <a href="./faq.html#does-zellij-run-on-windows">Does Zellij run on Windows?</a></td></tr>
 </tbody></table>
 </div>
 <p>Here are some limited examples to help get you started:</p>
 <h2 id="autostart-on-shell-creation"><a class="header" href="#autostart-on-shell-creation">Autostart on shell creation</a></h2>
 <p>Autostart a new zellij shell, if not already inside one.
 Shell dependent, fish:</p>
-<pre><code>if set -q ZELLIJ
-else
+<pre><code>if status is-interactive; and isatty stdin; and not set -q ZELLIJ
   zellij
 end
 </code></pre>
-<p>other ways, zellij provides a pre-defined auto start scripts.</p>
+<p>other ways, zellij provides a pre-defined auto start scripts. They only start Zellij in interactive shells that run in a terminal, so shells started by scripts or by the desktop (eg. a login shell reading the environment) are left alone.</p>
 <h3 id="bash"><a class="header" href="#bash">bash</a></h3>
 <pre><code>echo 'eval "$(zellij setup --generate-auto-start bash)"' &gt;&gt; ~/.bashrc
 </code></pre>
@@ -383,7 +389,7 @@ copy_command "pbcopy"                     // osx
 <p>Yes. Zellij runs natively on Windows. The following differences apply compared to Linux/macOS:</p>
 <ul>
 <li><strong>IPC</strong>: Named pipes (<code>\\.\pipe\...</code>) are used instead of Unix domain sockets. The maximum socket path length is 256 characters (vs 104 on macOS and 108 on Linux).</li>
-<li><strong>PTY</strong>: Windows pseudo-terminals (ConPTY) are used instead of Unix PTYs.</li>
+<li><strong>PTY</strong>: Windows pseudo-terminals (ConPTY) are used instead of Unix PTYs. The ConPTY built into Windows does not pass some terminal features through, so nested sessions, sixel images and color queries do not work in panes. A newer <code>conpty.dll</code> fixes this: Zellij uses one placed next to <code>zellij.exe</code>, or in a folder on <code>PATH</code>, as long as <code>OpenConsole.exe</code> is in the same folder. Both files come with the <a href="https://www.nuget.org/packages/Microsoft.Windows.Console.ConPTY"><code>Microsoft.Windows.Console.ConPTY</code></a> package. The <code>ZELLIJ_CONPTY_DLL</code> environment variable can point at a specific <code>conpty.dll</code>, or be set to <code>system</code> to always use the one built into Windows.</li>
 <li><strong>Web Server</strong>: The built-in web server is fully functional on Windows, including the <code>--daemonize</code> flag which uses a <code>--server-startup-timeout</code> option (default: 10 seconds) for background server startup.</li>
 <li><strong>Session names</strong>: a session name cannot contain <code>\</code>. Renamed sessions can be attached to again on Windows.</li>
 <li><strong>Desktop app</strong>: Zellij can run in its own window, the <a href="./zellij-terminal.html">Zellij terminal</a>, started with <code>zellij-terminal.exe</code> (installed next to <code>zellij.exe</code>) or <code>zellij terminal</code>. It has an icon in the notification area (tray) and shows notifications as Windows notifications. The setup screen can add a Start menu shortcut and an "Open Zellij here" item to the Explorer right-click menu of folders and drives (see <a href="./desktop-setup.html#windows">desktop setup</a>).</li>
@@ -466,6 +472,7 @@ $ zellij terminal https://my-server:8082/my-session
 <ul>
 <li><strong>Closing a window keeps its session running.</strong> It can be opened again from the session list. This follows the <a href="./options.html#on_force_close"><code>on_force_close</code></a> option: with <code>on_force_close "quit"</code>, closing a window quits its session instead.</li>
 <li><strong>One window per session.</strong> With <code>reuse_session_windows</code> on (the default), switching a window to a session that another window already shows brings that other window forward instead. See <a href="./terminal-options.html#reuse_session_windows"><code>reuse_session_windows</code></a>.</li>
+<li><strong>Upgrading.</strong> When a newer <code>zellij terminal</code> is started while an older desktop app is running, it offers to close the older app (Enter) or cancel (Escape). Sessions keep running either way.</li>
 <li>Windows opened with <code>--standalone</code>, <code>--watch</code>, a remote URL, <code>--index</code>, an <code>options</code> subcommand, or with the <code>ZELLIJ_TERMINAL_STANDALONE</code> environment variable set run on their own, outside the desktop app.</li>
 </ul>
 <h3 id="the-tray-icon"><a class="header" href="#the-tray-icon">The tray icon</a></h3>
@@ -479,7 +486,9 @@ $ zellij terminal https://my-server:8082/my-session
 <li>Quit Zellij and stop all sessions</li>
 </ul>
 <p>The icon can also be toggled with <code>zellij action toggle-tray-icon</code> until the app restarts. Sessions and notifications keep working while it is hidden.</p>
-<p>The launcher's right-click menu (in the app menu, the Dock or the taskbar) has Show Inbox and Show Sessions as well. <code>zellij terminal --inbox</code> and <code>zellij terminal --sessions</code> do the same, and can be bound to a desktop keyboard shortcut.</p>
+<p>The launcher's right-click menu has Show Inbox, Show Sessions and New Window in the app menu on Linux and in the taskbar on Windows, and New Window in the Dock on macOS. <code>zellij terminal --inbox</code> and <code>zellij terminal --sessions</code> do the same, and can be bound to a desktop keyboard shortcut.</p>
+<h3 id="environment-variables"><a class="header" href="#environment-variables">Environment variables</a></h3>
+<p>Sessions opened in the Zellij terminal have <code>TERM_PROGRAM=zellij</code> and <code>TERM_PROGRAM_VERSION</code> set to the version of Zellij. Variables set by the terminal <code>zellij terminal</code> was started from (eg. <code>ITERM_SESSION_ID</code>, <code>KITTY_WINDOW_ID</code>, <code>WEZTERM_PANE</code>, <code>GHOSTTY_*</code>, <code>VTE_VERSION</code>, <code>WT_SESSION</code> or <code>TERMINFO</code>) are not passed on to the session.</p>
 <h3 id="desktop-notifications"><a class="header" href="#desktop-notifications">Desktop notifications</a></h3>
 <p>The desktop app turns <a href="./inbox.html">inbox</a> items into desktop notifications: when something needs you, when a command fails and when a long command finishes. Which ones are shown, and whether they include the command text, is set in the <code>desktop_notifications</code> and <code>notification_details</code> settings of the <a href="./inbox.html#configuration"><code>attention</code> block</a>, or in Settings → Notifications.</p>
 <h2 id="platform-notes"><a class="header" href="#platform-notes">Platform notes</a></h2>
@@ -499,6 +508,8 @@ $ zellij terminal https://my-server:8082/my-session
 <li>The window has the standard macOS menu. Quitting from the Dock saves the state of every window.</li>
 <li>Which Option key acts as Alt is set with <a href="./terminal-options.html#macos_option_as_alt"><code>macos_option_as_alt</code></a>.</li>
 <li>The Cmd versions of the copy, paste and zoom keys work in addition to the Ctrl ones.</li>
+<li>Cmd and click opens a link in any pane (see <a href="./terminal-options.html#open_links"><code>open_links</code></a>).</li>
+<li>Shell scripts and folders can be opened with Zellij.app (eg. with "Open With" in Finder, or by dropping them on its Dock icon). A folder opens a new window in that folder. A script runs in a new window, in its own folder. Zellij.app does not become the default app for these files.</li>
 </ul>
 <h3 id="windows-1"><a class="header" href="#windows-1">Windows</a></h3>
 <ul>
@@ -511,7 +522,7 @@ $ zellij terminal https://my-server:8082/my-session
 <div style="break-before: page; page-break-before: always;"></div><h1 id="desktop-setup"><a class="header" href="#desktop-setup">Desktop Setup</a></h1>
 <p>Zellij can add itself to the desktop: a copy of Zellij in a permanent folder, a desktop entry (an app menu launcher, Zellij.app on macOS, or a Start menu shortcut on Windows), and Zellij as the default terminal. These open the <a href="./zellij-terminal.html">Zellij terminal</a>.</p>
 <h2 id="the-setup-screen"><a class="header" href="#the-setup-screen">The setup screen</a></h2>
-<p>The setup screen is shown when a new session starts for the first time (when Zellij had to create its configuration file). Until it is approved or dismissed with "Don't Show Again", it is offered again in new sessions while one of its items is still missing.</p>
+<p>The setup screen is shown when a new session starts for the first time (when Zellij had to create its configuration file). Until it is approved or dismissed with "Don't Show Again", it is offered again in new sessions while one of its items is still missing. To never show it by itself, set <a href="./options.html#show_setup_screen"><code>show_setup_screen false</code></a> in the configuration (or turn off "Setup screen" under General → Startup in the settings screen).</p>
 <p>It can be opened at any time:</p>
 <ul>
 <li>From the <a href="./settings-screen.html">settings screen</a>, with <code>Ctrl w</code></li>
@@ -598,7 +609,7 @@ $ zellij setup --keybinding-preset unlock-first
 <li><a href="terminal-options.html#cursor">Cursor</a>: <a href="terminal-options.html#cursor_style">cursor_style</a>, <a href="terminal-options.html#cursor_blink">cursor_blink</a>, <a href="terminal-options.html#cursor_unfocused_hollow">cursor_unfocused_hollow</a></li>
 <li><a href="terminal-options.html#keys">Keys</a>: <a href="terminal-options.html#paste_keys">paste_keys</a>, <a href="terminal-options.html#copy_keys">copy_keys</a>, <a href="terminal-options.html#fullscreen_keys">fullscreen_keys</a>, <a href="terminal-options.html#zoom_in_keys-zoom_out_keys-and-zoom_reset_keys">zoom_in_keys, zoom_out_keys and zoom_reset_keys</a>, <a href="terminal-options.html#macos_option_as_alt">macos_option_as_alt</a></li>
 <li><a href="terminal-options.html#mouse-and-scrolling">Mouse and scrolling</a>: <a href="terminal-options.html#middle_click_paste">middle_click_paste</a>, <a href="terminal-options.html#open_links">open_links</a>, <a href="terminal-options.html#open_links_with_shift">open_links_with_shift</a>, <a href="terminal-options.html#shift_drag_selects">shift_drag_selects</a>, <a href="terminal-options.html#hide_pointer_while_typing">hide_pointer_while_typing</a>, <a href="terminal-options.html#smooth_scrolling">smooth_scrolling</a>, <a href="terminal-options.html#scroll_animation_duration">scroll_animation_duration</a>, <a href="terminal-options.html#scroll_momentum">scroll_momentum</a>, <a href="terminal-options.html#scroll_momentum_friction">scroll_momentum_friction</a></li>
-<li><a href="terminal-options.html#window">Window</a>: <a href="terminal-options.html#opacity">opacity</a>, <a href="terminal-options.html#opacity_mode">opacity_mode</a>, <a href="terminal-options.html#blur">blur</a>, <a href="terminal-options.html#startup_mode">startup_mode</a>, <a href="terminal-options.html#initial_columns-and-initial_rows">initial_columns and initial_rows</a>, <a href="terminal-options.html#reuse_session_windows">reuse_session_windows</a>, <a href="terminal-options.html#terminal_requests">terminal_requests</a>, <a href="terminal-options.html#bell">bell</a></li>
+<li><a href="terminal-options.html#window">Window</a>: <a href="terminal-options.html#opacity">opacity</a>, <a href="terminal-options.html#opacity_mode">opacity_mode</a>, <a href="terminal-options.html#blur">blur</a>, <a href="terminal-options.html#window_decorations">window_decorations</a>, <a href="terminal-options.html#titlebar_theme">titlebar_theme</a>, <a href="terminal-options.html#startup_mode">startup_mode</a>, <a href="terminal-options.html#initial_columns-and-initial_rows">initial_columns and initial_rows</a>, <a href="terminal-options.html#reuse_session_windows">reuse_session_windows</a>, <a href="terminal-options.html#terminal_requests">terminal_requests</a>, <a href="terminal-options.html#bell">bell</a></li>
 <li><a href="terminal-options.html#clipboard">Clipboard</a>: <a href="terminal-options.html#allow_remote_clipboard_read">allow_remote_clipboard_read</a></li>
 <li><a href="terminal-options.html#colors">Colors</a>: <a href="terminal-options.html#theme">theme</a></li>
 </ul>
@@ -711,7 +722,7 @@ padding_top 4
 <pre><code class="language-javascript">paste_keys "Ctrl Shift v" "Shift Insert"
 </code></pre>
 <h3 id="copy_keys"><a class="header" href="#copy_keys">copy_keys</a></h3>
-<p>The keys that copy the text marked with shift and drag (see <a href="terminal-options.html#shift_drag_selects"><code>shift_drag_selects</code></a>).</p>
+<p>The keys that copy the text marked with shift and drag (see <a href="terminal-options.html#shift_drag_selects"><code>shift_drag_selects</code></a>). When no text is marked that way, they copy the text selected in the session (eg. with the mouse).</p>
 <p>Default: <code>"Ctrl Shift c"</code>, plus <code>"Super c"</code> on macOS</p>
 <pre><code class="language-javascript">copy_keys "Ctrl Shift c"
 </code></pre>
@@ -750,7 +761,7 @@ zoom_reset_keys "Ctrl 0"
 <pre><code class="language-javascript">middle_click_paste false
 </code></pre>
 <h3 id="open_links"><a class="header" href="#open_links">open_links</a></h3>
-<p>Whether clicking an OSC 8 hyperlink opens it with the system's default handler. A plain left click opens it; over a pane whose program asks for mouse reporting, shift must be held instead. Dragging is a selection and never opens anything, and the click still reaches the pane either way. Only <code>http</code>, <code>https</code>, <code>ftp</code>, <code>ftps</code>, <code>mailto</code> and <code>file</code> links are opened.</p>
+<p>Whether clicking an OSC 8 hyperlink opens it with the system's default handler. A plain left click opens it; over a pane whose program asks for mouse reporting, shift must be held instead. Dragging is a selection and never opens anything, and the click still reaches the pane either way. On macOS, Cmd and click opens a web link in any pane, and the click does not reach the pane. Only <code>http</code>, <code>https</code>, <code>ftp</code>, <code>ftps</code>, <code>mailto</code> and <code>file</code> links are opened; <code>file</code>, <code>ftp</code> and <code>ftps</code> links only open with Ctrl and click (Cmd and click on macOS).</p>
 <p>Default: <code>true</code></p>
 <pre><code class="language-javascript">open_links false
 </code></pre>
@@ -807,6 +818,21 @@ zoom_reset_keys "Ctrl 0"
 <p>Whether to ask the compositor to blur what is behind the window. It is only visible with an <code>opacity</code> below <code>1.0</code>. It is supported on macOS, KDE Plasma and Windows 11 22H2 or later, and ignored elsewhere. On Windows it is the system's Acrylic material, which only shows while the window is focused.</p>
 <p>Default: <code>false</code></p>
 <pre><code class="language-javascript">blur true
+</code></pre>
+<h3 id="window_decorations"><a class="header" href="#window_decorations">window_decorations</a></h3>
+<p>Whether the window has a titlebar and borders. Without them, the window is resized by dragging one of its edges. Requires restart.</p>
+<p>Default: <code>true</code></p>
+<pre><code class="language-javascript">window_decorations false
+</code></pre>
+<h3 id="titlebar_theme"><a class="header" href="#titlebar_theme">titlebar_theme</a></h3>
+<p>Whether the titlebar is light or dark.</p>
+<p>Options:</p>
+<ul>
+<li><code>"system"</code> (default) - follow the system setting</li>
+<li><code>"light"</code></li>
+<li><code>"dark"</code></li>
+</ul>
+<pre><code class="language-javascript">titlebar_theme "dark"
 </code></pre>
 <h3 id="startup_mode"><a class="header" href="#startup_mode">startup_mode</a></h3>
 <p>How a new window opens. Requires restart. The <code>--startup-mode</code> flag of <code>zellij terminal</code> overrides it.</p>
@@ -964,12 +990,13 @@ running sessions are killed and deleted as well. <code>-y</code>, <code>--yes</c
 <h2 id="list-aliases"><a class="header" href="#list-aliases"><code>list-aliases</code></a></h2>
 <p>short: <code>la</code></p>
 <p>Will list the existing <a href="./plugin-aliases.html">plugin aliases</a>.</p>
-<h2 id="run-edit-plugin-pipe-action-and-subscribe"><a class="header" href="#run-edit-plugin-pipe-action-and-subscribe"><code>run</code>, <code>edit</code>, <code>plugin</code>, <code>pipe</code>, <code>action</code> and <code>subscribe</code></a></h2>
+<h2 id="run-edit-plugin-pipe-action-subscribe-and-events"><a class="header" href="#run-edit-plugin-pipe-action-subscribe-and-events"><code>run</code>, <code>edit</code>, <code>plugin</code>, <code>pipe</code>, <code>action</code>, <code>subscribe</code> and <code>events</code></a></h2>
 <p>These commands control a running session from the command line. They are described in
 <a href="./controlling-zellij-through-cli.html">Controlling Zellij through the CLI</a>:
 <a href="./zellij-run-and-edit.html"><code>run</code> and <code>edit</code></a> (short: <code>r</code> and <code>e</code>),
 <a href="./zellij-plugin-and-pipe.html"><code>plugin</code> and <code>pipe</code></a> (short for <code>plugin</code>: <code>p</code>),
-<a href="./cli-actions.html"><code>action</code></a> (short: <code>ac</code>) and <a href="./zellij-subscribe.html"><code>subscribe</code></a>.</p>
+<a href="./cli-actions.html"><code>action</code></a> (short: <code>ac</code>), <a href="./zellij-subscribe.html"><code>subscribe</code></a> and
+<a href="./zellij-events.html"><code>events</code></a>.</p>
 <h2 id="web"><a class="header" href="#web"><code>web</code></a></h2>
 <p>Runs and manages the web server. See <a href="./web-client.html">Web Client</a>.</p>
 <h2 id="options"><a class="header" href="#options"><code>options</code></a></h2>
@@ -1012,7 +1039,7 @@ $ zellij setup --keybinding-preset unlock-first
 <tr><td style="text-align: left">--help</td><td>Display the help prompt</td></tr>
 <tr><td style="text-align: left">--debug</td><td>Gather additional debug information</td></tr>
 <tr><td style="text-align: left">--version</td><td>Print version information</td></tr>
-<tr><td style="text-align: left">--session [NAME]</td><td>Name of a new session, or the session to send <code>action</code>, <code>run</code>, <code>edit</code>, <code>plugin</code>, <code>pipe</code>, <code>subscribe</code> and <code>prompt</code> commands to</td></tr>
+<tr><td style="text-align: left">--session [NAME]</td><td>Name of a new session, or the session to send <code>action</code>, <code>run</code>, <code>edit</code>, <code>plugin</code>, <code>pipe</code>, <code>subscribe</code>, <code>events</code> and <code>prompt</code> commands to</td></tr>
 <tr><td style="text-align: left">--layout [LAYOUT]</td><td>Name of a layout in the layout directory or path to a layout file. Inside a session (or with <code>--session</code>) it is added to the session as new tab(s), otherwise a new session is started with it</td></tr>
 <tr><td style="text-align: left">--new-session-with-layout [LAYOUT]</td><td>Like <code>--layout</code>, but always starts a new session</td></tr>
 <tr><td style="text-align: left">--layout-string [KDL]</td><td>Use a raw KDL layout string instead of a layout file</td></tr>
@@ -1348,6 +1375,7 @@ zellij setup --dump-config &gt; ~/.config/zellij/config.kdl
 <li><a href="options.html#stacked_resize">stacked_resize</a></li>
 <li><a href="options.html#show_startup_tips">show_startup_tips</a></li>
 <li><a href="options.html#show_release_notes">show_release_notes</a></li>
+<li><a href="options.html#show_setup_screen">show_setup_screen</a></li>
 <li><a href="options.html#post_command_discovery_hook">post_command_discovery_hook</a></li>
 <li><a href="options.html#web_server">web_server</a></li>
 <li><a href="options.html#web_server_ip">web_server_ip</a></li>
@@ -1679,8 +1707,17 @@ Options:</p>
 </ul>
 <pre><code class="language-javascript">show_release_notes true
 </code></pre>
+<h3 id="show_setup_screen"><a class="header" href="#show_setup_screen">show_setup_screen</a></h3>
+<p>Offer the <a href="./desktop-setup.html#the-setup-screen">desktop setup screen</a> when a new session starts. When <code>false</code>, the setup screen is not shown by itself, but can still be opened from the settings screen or the About screen. Requires a restart.</p>
+<p>Options:</p>
+<ul>
+<li>true (default)</li>
+<li>false</li>
+</ul>
+<pre><code class="language-javascript">show_setup_screen false
+</code></pre>
 <h3 id="post_command_discovery_hook"><a class="header" href="#post_command_discovery_hook">post_command_discovery_hook</a></h3>
-<p>When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a <code>post_command_discovery_hook</code>. This is a command that will run in the context of te user's default shell and be provided the <code>$RESURRECT_COMMAND</code> that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over <code>STDOUT</code> will be serialized in place of the discovered command.</p>
+<p>When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a <code>post_command_discovery_hook</code>. This is a command that runs with <code>sh -c</code> (with <code>cmd</code> on Windows, where the variable is written as <code>%RESURRECT_COMMAND%</code>) and is provided the <code>$RESURRECT_COMMAND</code> that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over <code>STDOUT</code> will be serialized in place of the discovered command.</p>
 <p>Example, removing <code>sudo</code> from the start of commands:</p>
 <pre><code class="language-javascript">post_command_discovery_hook "echo \"$RESURRECT_COMMAND\" | sed 's/^sudo\\s\\+//'"
 </code></pre>
@@ -3424,7 +3461,7 @@ bind "Left" { NewPane; }
 </code></pre>
 <ul>
 <li>The first argument is the name of the fact. It cannot be one of the built-in names.</li>
-<li><code>command</code> runs with <code>sh -c</code> in the folder. Its output, with spaces at the start and end removed, is the value of the fact. A command that fails, prints nothing, or takes longer than 1.5 seconds gives no value.</li>
+<li><code>command</code> runs with <code>sh -c</code> in the folder (with <code>cmd</code> on Windows, where variables are written as <code>%PROJECT%</code>). Its output, with spaces at the start and end removed, is the value of the fact. A command that fails, prints nothing, or takes longer than 1.5 seconds gives no value.</li>
 <li><code>column</code> (optional) shows the fact as a column with this title in the session manager.</li>
 <li><code>at</code> (optional) is when the command runs:
 <ul>
@@ -3649,7 +3686,7 @@ theme_light "catppuccin-latte"
 <li><strong>Previewing</strong>: a sample of the Zellij interface drawn with the theme's colors is shown next to them (when the pane is wide enough). When the theme being edited is the active one, the whole of Zellij changes along with it.</li>
 <li><strong>Hover colors</strong>: the editor has a row for each of the six <a href="themes.html#ribbon_hover"><code>ribbon_hover</code></a> colors, and the preview shows a "Hover" ribbon next to "Tab" and "Active". When a theme without a <code>ribbon_hover</code> section is opened, these rows are filled with the colors the theme currently uses for hover, and saving writes the section to the theme.</li>
 <li><strong>Fixing contrast</strong>: colors that are hard to read against their background are pointed out. Most text colors are checked against a contrast of 3:1. The <code>emphasis_1</code> and <code>emphasis_2</code> colors of ribbons are checked against their ribbon's background, and the hover text colors against the hover fill, at 4.5:1. <code>Ctrl f</code> raises the contrast of the selected color to its target. <code>Ctrl e</code> fixes every color below 3:1, changing each color only as much as needed; colors between 3:1 and 4.5:1 are marked but left for <code>Ctrl f</code>.</li>
-<li><strong>Managing themes</strong>: <code>n</code> renames a theme, <code>Del</code> deletes it, <code>r</code> reverts unsaved changes and <code>/</code> searches the list.</li>
+<li><strong>Managing themes</strong>: <code>n</code> renames a theme, <code>Del</code> (or <code>Backspace</code>) deletes it, <code>r</code> reverts unsaved changes and <code>/</code> searches the list.</li>
 </ul>
 <h2 id="getting-zellij-to-pick-up-the-theme"><a class="header" href="#getting-zellij-to-pick-up-the-theme">Getting Zellij to pick up the theme</a></h2>
 <p>While developing and iterating over a theme, the easiest way would be to define it directly in the main configuration file (add the <code>themes</code> block defined above with your theme) and then set the:</p>
@@ -4022,6 +4059,11 @@ Options:
 
           [possible values: true, false]
 
+      --show-setup-screen &lt;SHOW_SETUP_SCREEN&gt;
+          Whether to offer the desktop integration setup screen when a new session starts default is true
+
+          [possible values: true, false]
+
       --advanced-mouse-actions &lt;ADVANCED_MOUSE_ACTIONS&gt;
           Whether to enable mouse hover effects and pane grouping functionality default is true
 
@@ -4148,6 +4190,7 @@ Options:
 <li><a href="./cli-actions.html">Zellij Action</a> - Full reference of all <code>zellij action</code> subcommands for controlling panes, tabs, layouts, and more</li>
 <li><a href="./zellij-plugin-and-pipe.html">Zellij Plugin &amp; Pipe</a> - Load plugins and send data to them from the command line</li>
 <li><a href="./zellij-subscribe.html">Zellij Subscribe</a> - Stream the rendered output of one or more panes to stdout in real time</li>
+<li><a href="./zellij-events.html">Zellij Events</a> - Print pane, tab, mode, client and session changes as JSON lines as they happen</li>
 <li><a href="./zellij-prompt.html">Zellij Prompt</a> - Ask the user a question, a choice or a value in a popup and print the answer</li>
 <li><a href="controlling-zellij-through-cli.html#zellij-watch">Zellij Watch</a> - Watch a session in read-only mode</li>
 <li><a href="./cli-recipes.html">CLI Recipes &amp; Scripting</a> - Task-oriented examples and common workflows for scripting with Zellij</li>
@@ -5634,6 +5677,7 @@ tail -f /tmp/my-live-logfile | zellij pipe --name logs --plugin https://example.
 <p>If Zellij reports an error for the pipe, the command exits with status <code>2</code>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="zellij-subscribe"><a class="header" href="#zellij-subscribe">Zellij Subscribe</a></h1>
 <p>Zellij provides a top-level <code>subscribe</code> command that streams the rendered output of one or more panes to stdout in real time. This is useful for monitoring, scripting, and building external tooling around Zellij sessions.</p>
+<p>To follow changes to the session itself (panes and tabs opening, closing, being focused or renamed...) rather than the contents of panes, see <a href="./zellij-events.html">Zellij Events</a>.</p>
 <hr />
 <ul>
 <li><a href="zellij-subscribe.html#usage">Usage</a> - Command syntax</li>
@@ -5710,6 +5754,207 @@ tail -f /tmp/my-live-logfile | zellij pipe --name logs --plugin https://example.
 <p>Monitor a pane in a background session:</p>
 <pre><code>$ zellij --session build-server subscribe --pane-id terminal_1 --format json
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="zellij-events"><a class="header" href="#zellij-events">Zellij Events</a></h1>
+<p>Since <code>0.46.1</code>, Zellij provides a top-level <code>events</code> command that prints what happens in a session as it happens: panes and tabs opening, closing, being focused, renamed or moved, input mode changes, clients attaching and detaching, and the session being renamed or ending. Each event is printed as one JSON object per line, which makes it easy to react to changes from a script or to drive an external status bar.</p>
+<p>To stream the contents of panes rather than changes to the session, see <a href="./zellij-subscribe.html">Zellij Subscribe</a>.</p>
+<hr />
+<ul>
+<li><a href="zellij-events.html#usage">Usage</a> - Command syntax</li>
+<li><a href="zellij-events.html#options">Options</a> - Available flags and parameters</li>
+<li><a href="zellij-events.html#filtering">Filtering</a> - Choosing which events are printed</li>
+<li><a href="zellij-events.html#output">Output</a> - The format of each line</li>
+<li><a href="zellij-events.html#events">Events</a> - Every event and its fields</li>
+<li><a href="zellij-events.html#exit-codes">Exit Codes</a> - How the command ends</li>
+<li><a href="zellij-events.html#listening-to-a-different-session">Listening to a Different Session</a> - Background or other sessions</li>
+<li><a href="zellij-events.html#examples">Examples</a> - Common usage patterns with <code>jq</code></li>
+</ul>
+<hr />
+<h2 id="usage-1"><a class="header" href="#usage-1">Usage</a></h2>
+<pre><code>zellij [--session &lt;SESSION_NAME&gt;] events [OPTIONS]
+</code></pre>
+<p>When run inside a Zellij pane, the events of that pane's session are printed. Outside of Zellij, the only running session is used, or the session given with <code>--session</code> (which must come before <code>events</code>).</p>
+<p>The command keeps running until the session ends or it is stopped (eg. with <code>Ctrl c</code>).</p>
+<h2 id="options-3"><a class="header" href="#options-3">Options</a></h2>
+<pre><code>-t, --type &lt;TYPE&gt;...       Only print events of these types (eg. --type pane_focused tab_created)
+-p, --pane-id &lt;PANE_ID&gt;... Only print events about these panes. Accepts terminal_N, plugin_N,
+                           or bare integer N (equivalent to terminal_N)
+    --tab-id &lt;TAB_ID&gt;...   Only print events about these tabs or the panes in them (tab ids,
+                           as shown by `zellij action list-tabs`)
+    --no-initial-state     Do not print the initial_state event when the command starts
+</code></pre>
+<p>Each option takes one or more values, and can be given more than once.</p>
+<h2 id="filtering"><a class="header" href="#filtering">Filtering</a></h2>
+<ul>
+<li><code>--type</code> keeps only the listed event types.</li>
+<li><code>--pane-id</code> and <code>--tab-id</code> keep only the events about the listed panes, the listed tabs, or the panes in the listed tabs. An event matches if it is about any of them.</li>
+<li>When <code>--type</code> is combined with <code>--pane-id</code> or <code>--tab-id</code>, an event must match both.</li>
+<li>Events that are not about a pane or a tab (<code>mode_changed</code>, <code>client_attached</code>, <code>client_detached</code>, <code>session_renamed</code> and <code>session_ending</code>) are not removed by <code>--pane-id</code> or <code>--tab-id</code>.</li>
+<li><code>pane_moved</code> matches the tab the pane moved from and the tab it moved to.</li>
+<li>With <code>--pane-id</code> or <code>--tab-id</code>, the <code>initial_state</code> event only lists the matching panes and their tabs.</li>
+</ul>
+<h2 id="output"><a class="header" href="#output">Output</a></h2>
+<p>Every line is a JSON object whose <code>event</code> key holds the event name:</p>
+<pre><code class="language-json">{"event":"tab_focused","client_id":1,"tab_id":1,"previous_tab_id":0}
+</code></pre>
+<ul>
+<li>Pane ids are strings, eg. <code>"terminal_1"</code> or <code>"plugin_2"</code>.</li>
+<li>Tab ids are numbers that stay the same when tabs are moved, the same ids shown by <code>zellij action list-tabs</code>. The place of a tab in the tab bar is its <code>position</code>, starting at <code>0</code>.</li>
+<li><code>client_id</code> is a number identifying a connected user (see <code>zellij action list-clients</code>). Events about focus and input modes are reported separately for each connected user.</li>
+<li>Input modes are lowercase names, eg. <code>normal</code>, <code>locked</code>, <code>pane</code>, <code>tab</code>, <code>resize</code>, <code>scroll</code>, <code>search</code>, <code>entersearch</code>, <code>renametab</code>, <code>renamepane</code>, <code>renamesession</code>, <code>session</code>, <code>move</code>, <code>prompt</code> or <code>tmux</code>.</li>
+<li>Fields that have no value are <code>null</code>.</li>
+</ul>
+<h2 id="events"><a class="header" href="#events">Events</a></h2>
+<h3 id="initial_state"><a class="header" href="#initial_state">initial_state</a></h3>
+<p>Printed first, describing the session at the moment the command starts. It is printed whatever <code>--type</code> is given, unless <code>--no-initial-state</code> is used.</p>
+<pre><code class="language-json">{"event":"initial_state","session_name":"my-session","tabs":[...],"panes":[...],"clients":[...]}
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>session_name</code></td><td>Name of the session</td></tr>
+<tr><td><code>tabs</code></td><td>List of <a href="zellij-events.html#tab">tabs</a>, in tab bar order</td></tr>
+<tr><td><code>panes</code></td><td>List of <a href="zellij-events.html#pane">panes</a>, including plugin panes such as the tab bar</td></tr>
+<tr><td><code>clients</code></td><td>List of <a href="zellij-events.html#client">clients</a></td></tr>
+</tbody></table>
+</div>
+<h4 id="tab"><a class="header" href="#tab">Tab</a></h4>
+<pre><code class="language-json">{"tab_id":0,"position":0,"name":"Tab #1","is_fullscreen_active":false,"is_sync_panes_active":false,"are_floating_panes_visible":false}
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>tab_id</code></td><td>Id of the tab</td></tr>
+<tr><td><code>position</code></td><td>Place of the tab in the tab bar, starting at <code>0</code></td></tr>
+<tr><td><code>name</code></td><td>Name of the tab</td></tr>
+<tr><td><code>is_fullscreen_active</code></td><td>Whether a pane in the tab is fullscreen</td></tr>
+<tr><td><code>is_sync_panes_active</code></td><td>Whether input is sent to all panes of the tab</td></tr>
+<tr><td><code>are_floating_panes_visible</code></td><td>Whether the floating panes of the tab are shown</td></tr>
+</tbody></table>
+</div>
+<h4 id="pane"><a class="header" href="#pane">Pane</a></h4>
+<pre><code class="language-json">{"pane_id":"terminal_1","tab_id":0,"title":"~/project","is_plugin":false,"is_floating":false,"is_fullscreen":false,"is_suppressed":false,"is_selectable":true,"exited":false,"exit_status":null,"terminal_command":null,"plugin_url":null}
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>pane_id</code></td><td>Id of the pane</td></tr>
+<tr><td><code>tab_id</code></td><td>Id of the tab the pane is in</td></tr>
+<tr><td><code>title</code></td><td>Title of the pane</td></tr>
+<tr><td><code>is_plugin</code></td><td>Whether the pane is a plugin</td></tr>
+<tr><td><code>is_floating</code></td><td>Whether the pane is floating</td></tr>
+<tr><td><code>is_fullscreen</code></td><td>Whether the pane is fullscreen</td></tr>
+<tr><td><code>is_suppressed</code></td><td>Whether the pane is hidden behind another pane (eg. a pane replaced with <code>--in-place</code>)</td></tr>
+<tr><td><code>is_selectable</code></td><td>Whether the pane can be focused (<code>false</code> for bars such as the tab bar and status bar)</td></tr>
+<tr><td><code>exited</code></td><td>Whether the command of a command pane has exited</td></tr>
+<tr><td><code>exit_status</code></td><td>Exit status of that command, if known</td></tr>
+<tr><td><code>terminal_command</code></td><td>The command and arguments of a command pane</td></tr>
+<tr><td><code>plugin_url</code></td><td>The location of a plugin pane, eg. <code>zellij:tab-bar</code></td></tr>
+</tbody></table>
+</div>
+<h4 id="client"><a class="header" href="#client">Client</a></h4>
+<pre><code class="language-json">{"client_id":1,"is_web_client":false,"tab_id":0,"pane_id":"terminal_1","mode":"normal"}
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>client_id</code></td><td>Id of the client</td></tr>
+<tr><td><code>is_web_client</code></td><td>Whether the client is connected through the <a href="./web-client.html">web client</a></td></tr>
+<tr><td><code>tab_id</code></td><td>Id of the tab the client is on</td></tr>
+<tr><td><code>pane_id</code></td><td>Id of the pane the client has focused</td></tr>
+<tr><td><code>mode</code></td><td>The client's input mode</td></tr>
+</tbody></table>
+</div>
+<h3 id="pane-events"><a class="header" href="#pane-events">Pane events</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Event</th><th>When</th><th>Fields</th></tr></thead><tbody>
+<tr><td><code>pane_opened</code></td><td>A pane is opened</td><td><code>pane</code> (a <a href="zellij-events.html#pane">pane</a>)</td></tr>
+<tr><td><code>pane_closed</code></td><td>A pane is closed</td><td><code>pane_id</code>, <code>tab_id</code></td></tr>
+<tr><td><code>pane_focused</code></td><td>A client focuses a pane</td><td><code>client_id</code>, <code>pane_id</code>, <code>tab_id</code>, <code>previous_pane_id</code></td></tr>
+<tr><td><code>pane_renamed</code></td><td>The title of a pane changes, either because it was renamed or because the program in it set its title</td><td><code>pane_id</code>, <code>tab_id</code>, <code>title</code>, <code>previous_title</code></td></tr>
+<tr><td><code>pane_moved</code></td><td>A pane is moved to another tab</td><td><code>pane_id</code>, <code>tab_id</code>, <code>previous_tab_id</code></td></tr>
+<tr><td><code>pane_floating_changed</code></td><td>A pane becomes floating or tiled</td><td><code>pane_id</code>, <code>tab_id</code>, <code>is_floating</code></td></tr>
+<tr><td><code>pane_fullscreen_changed</code></td><td>A pane enters or leaves fullscreen</td><td><code>pane_id</code>, <code>tab_id</code>, <code>is_fullscreen</code></td></tr>
+<tr><td><code>pane_exited</code></td><td>The command of a <a href="./zellij-run-and-edit.html">command pane</a> exits and the pane stays open</td><td><code>pane_id</code>, <code>tab_id</code>, <code>exit_status</code></td></tr>
+<tr><td><code>pane_cwd_changed</code></td><td>The working directory of a terminal pane changes</td><td><code>pane_id</code>, <code>tab_id</code>, <code>cwd</code></td></tr>
+<tr><td><code>pane_command_changed</code></td><td>The program running in the foreground of a terminal pane changes</td><td><code>pane_id</code>, <code>tab_id</code>, <code>command</code>, <code>is_foreground</code></td></tr>
+</tbody></table>
+</div>
+<p>In <code>pane_command_changed</code>, <code>command</code> is the program and its arguments as a list of strings (eg. <code>["vim","notes.md"]</code>). When the pane goes back to its shell, <code>is_foreground</code> is <code>false</code> and <code>command</code> is the shell.</p>
+<p><code>previous_pane_id</code> and <code>exit_status</code> can be <code>null</code>, as can <code>tab_id</code> in <code>pane_closed</code>, <code>pane_cwd_changed</code> and <code>pane_command_changed</code>.</p>
+<pre><code class="language-json">{"event":"pane_opened","pane":{"pane_id":"terminal_2","tab_id":0,"title":"Pane #2","is_plugin":false,"is_floating":false,"is_fullscreen":false,"is_suppressed":false,"is_selectable":true,"exited":false,"exit_status":null,"terminal_command":null,"plugin_url":null}}
+{"event":"pane_focused","client_id":1,"pane_id":"terminal_2","tab_id":0,"previous_pane_id":"terminal_1"}
+{"event":"pane_renamed","pane_id":"terminal_2","tab_id":0,"title":"logs","previous_title":"Pane #2"}
+{"event":"pane_cwd_changed","pane_id":"terminal_2","tab_id":0,"cwd":"/home/me/project"}
+{"event":"pane_command_changed","pane_id":"terminal_2","tab_id":0,"command":["vim","notes.md"],"is_foreground":true}
+{"event":"pane_exited","pane_id":"terminal_3","tab_id":0,"exit_status":1}
+{"event":"pane_closed","pane_id":"terminal_2","tab_id":0}
+</code></pre>
+<h3 id="tab-events"><a class="header" href="#tab-events">Tab events</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Event</th><th>When</th><th>Fields</th></tr></thead><tbody>
+<tr><td><code>tab_created</code></td><td>A tab is opened</td><td><code>tab</code> (a <a href="zellij-events.html#tab">tab</a>)</td></tr>
+<tr><td><code>tab_closed</code></td><td>A tab is closed</td><td><code>tab_id</code>, <code>name</code></td></tr>
+<tr><td><code>tab_renamed</code></td><td>A tab is renamed</td><td><code>tab_id</code>, <code>name</code>, <code>previous_name</code></td></tr>
+<tr><td><code>tab_moved</code></td><td>A tab is moved to another place in the tab bar</td><td><code>tab_id</code>, <code>position</code>, <code>previous_position</code></td></tr>
+<tr><td><code>tab_focused</code></td><td>A client switches to a tab</td><td><code>client_id</code>, <code>tab_id</code>, <code>previous_tab_id</code></td></tr>
+</tbody></table>
+</div>
+<p><code>previous_tab_id</code> can be <code>null</code>. When a tab is closed, a <code>pane_closed</code> event is printed for each of its panes before <code>tab_closed</code>.</p>
+<pre><code class="language-json">{"event":"tab_created","tab":{"tab_id":1,"position":1,"name":"Tab #2","is_fullscreen_active":false,"is_sync_panes_active":false,"are_floating_panes_visible":false}}
+{"event":"tab_focused","client_id":1,"tab_id":1,"previous_tab_id":0}
+{"event":"tab_renamed","tab_id":1,"name":"build","previous_name":"Tab #2"}
+{"event":"tab_moved","tab_id":1,"position":0,"previous_position":1}
+{"event":"tab_closed","tab_id":1,"name":"build"}
+</code></pre>
+<h3 id="mode-client-and-session-events"><a class="header" href="#mode-client-and-session-events">Mode, client and session events</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Event</th><th>When</th><th>Fields</th></tr></thead><tbody>
+<tr><td><code>mode_changed</code></td><td>A client's input mode changes</td><td><code>client_id</code>, <code>mode</code>, <code>previous_mode</code></td></tr>
+<tr><td><code>client_attached</code></td><td>A user attaches to the session</td><td><code>client_id</code>, <code>is_web_client</code></td></tr>
+<tr><td><code>client_detached</code></td><td>A user detaches from the session</td><td><code>client_id</code></td></tr>
+<tr><td><code>session_renamed</code></td><td>The session is renamed</td><td><code>name</code>, <code>previous_name</code></td></tr>
+<tr><td><code>session_ending</code></td><td>The session is ending. This is always the last line printed</td><td>none</td></tr>
+</tbody></table>
+</div>
+<p><code>previous_mode</code> can be <code>null</code>. When a user attaches, <code>client_attached</code> is followed by <code>tab_focused</code>, <code>pane_focused</code> and <code>mode_changed</code> events for that user.</p>
+<pre><code class="language-json">{"event":"mode_changed","client_id":1,"mode":"locked","previous_mode":"normal"}
+{"event":"client_attached","client_id":3,"is_web_client":false}
+{"event":"client_detached","client_id":3}
+{"event":"session_renamed","name":"work","previous_name":"my-session"}
+{"event":"session_ending"}
+</code></pre>
+<h2 id="exit-codes"><a class="header" href="#exit-codes">Exit Codes</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Exit code</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>0</code></td><td>The session ended, or the output was closed (eg. the program reading it exited)</td></tr>
+<tr><td><code>1</code></td><td>No session was found, eg. no session is running, the <code>--session</code> given does not exist, or several sessions are running and none was chosen</td></tr>
+<tr><td><code>2</code></td><td>An error, eg. a wrong flag or event type, an invalid pane id, or a session running a version of Zellij that does not support <code>events</code></td></tr>
+</tbody></table>
+</div>
+<h2 id="listening-to-a-different-session"><a class="header" href="#listening-to-a-different-session">Listening to a Different Session</a></h2>
+<p>To listen to a session other than the current one, use the global <code>--session</code> flag:</p>
+<pre><code>$ zellij --session my-background-session events
+</code></pre>
+<p>This is especially useful when combined with <a href="./cli-recipes.html#starting-and-controlling-background-sessions">background sessions</a>.</p>
+<h2 id="examples-1"><a class="header" href="#examples-1">Examples</a></h2>
+<p>Print every event of the current session:</p>
+<pre><code>$ zellij events
+</code></pre>
+<p>Print only focus changes, without the initial state:</p>
+<pre><code>$ zellij events --type pane_focused tab_focused --no-initial-state
+</code></pre>
+<p>Follow a single pane:</p>
+<pre><code>$ zellij events --pane-id terminal_1
+</code></pre>
+<p>Follow everything that happens in a tab:</p>
+<pre><code>$ zellij events --tab-id 2
+</code></pre>
+<p>Print the name of each tab as it is opened:</p>
+<pre><code>$ zellij events --type tab_created --no-initial-state | jq --unbuffered -r '.tab.name'
+</code></pre>
+<p>Wait for a command pane to finish and print its exit status:</p>
+<pre><code>$ read -r status &lt; &lt;(zellij events --type pane_exited --pane-id terminal_3 --no-initial-state | jq --unbuffered -r '.exit_status')
+$ echo "$status"
+</code></pre>
+<p>Show a notice whenever a command pane fails:</p>
+<pre><code>$ zellij events --type pane_exited --no-initial-state \
+    | jq --unbuffered -r 'select(.exit_status != 0) | .pane_id' \
+    | while read -r pane; do zellij prompt notify "$pane failed"; done
+</code></pre>
+<p>Print the current input mode, for an external status bar:</p>
+<pre><code>$ zellij events --type mode_changed --no-initial-state | jq --unbuffered -r '.mode'
+</code></pre>
+<p>Print the folder a pane is in each time it changes:</p>
+<pre><code>$ zellij events --type pane_cwd_changed --pane-id terminal_1 --no-initial-state | jq --unbuffered -r '.cwd'
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="zellij-prompt"><a class="header" href="#zellij-prompt">Zellij Prompt</a></h1>
 <p>Zellij includes a top-level <code>prompt</code> command that shows a small UI element (a question, a list, a text field, a notice...) as a popup over the pane it was run from, waits for the user to answer, and prints the answer to stdout. This makes it possible to ask the user something from a shell script without leaving Zellij.</p>
 <pre><code>$ zellij prompt confirm "Force push?" &amp;&amp; git push --force
@@ -5727,13 +5972,13 @@ $ zellij prompt notify "Build finished" --timeout 5s
 <li><a href="zellij-prompt.html#opening-plugins-as-popups">Opening Plugins as Popups</a> - The <code>--popup</code> flags of <code>zellij action pipe</code></li>
 </ul>
 <hr />
-<h2 id="usage-1"><a class="header" href="#usage-1">Usage</a></h2>
+<h2 id="usage-2"><a class="header" href="#usage-2">Usage</a></h2>
 <pre><code>zellij prompt [--title &lt;TITLE&gt;] [--timeout &lt;DURATION&gt;] &lt;ELEMENT&gt; [OPTIONS] [ARGS]
 </code></pre>
 <p><code>zellij prompt</code> must be run inside a Zellij pane: it reads the <code>ZELLIJ_PANE_ID</code> environment variable to know which pane it was called from, and exits with status <code>2</code> if it is not set.</p>
 <p>The popup is drawn by the built-in <code>prompt</code> plugin (<code>zellij:prompt</code>). If a plugin alias named <code>prompt</code> is defined in the configuration, that plugin is used instead (see <a href="./prompt-alias.html">the prompt alias</a>).</p>
 <p>Running <code>zellij prompt &lt;ELEMENT&gt; --help</code> shows the options and examples of each element.</p>
-<h2 id="exit-codes"><a class="header" href="#exit-codes">Exit Codes</a></h2>
+<h2 id="exit-codes-1"><a class="header" href="#exit-codes-1">Exit Codes</a></h2>
 <div class="table-wrapper"><table><thead><tr><th>Exit code</th><th>Meaning</th></tr></thead><tbody>
 <tr><td><code>0</code></td><td>The prompt was answered (for <code>confirm</code>: the user chose the "yes" button)</td></tr>
 <tr><td><code>1</code></td><td>The prompt was cancelled or closed (for <code>confirm</code>: the user chose the "no" button)</td></tr>
@@ -5932,6 +6177,7 @@ $ zellij action pipe --plugin file:/path/to/my-plugin.wasm --popup mouse --popup
 <li><a href="cli-recipes.html#targeting-specific-panes-and-tabs">Targeting Specific Panes and Tabs</a></li>
 <li><a href="cli-recipes.html#sending-input-to-another-pane">Sending Input to Another Pane</a></li>
 <li><a href="cli-recipes.html#watching-pane-output-in-real-time">Watching Pane Output in Real Time</a></li>
+<li><a href="cli-recipes.html#reacting-to-session-events">Reacting to Session Events</a></li>
 <li><a href="cli-recipes.html#starting-and-controlling-background-sessions">Starting and Controlling Background Sessions</a></li>
 <li><a href="cli-recipes.html#scripting-pane-and-tab-creation">Scripting Pane and Tab Creation</a></li>
 <li><a href="cli-recipes.html#inspecting-session-state">Inspecting Session State</a></li>
@@ -6016,7 +6262,7 @@ terminal_2   terminal  vim main.rs
 id: 0
 position: 0
 </code></pre>
-<h3 id="examples-1"><a class="header" href="#examples-1">Examples</a></h3>
+<h3 id="examples-2"><a class="header" href="#examples-2">Examples</a></h3>
 <p>Clear a specific pane without focusing it:</p>
 <pre><code>zellij action clear --pane-id terminal_3
 </code></pre>
@@ -6054,6 +6300,26 @@ position: 0
 <p>Monitor multiple panes simultaneously:</p>
 <pre><code>zellij subscribe --pane-id terminal_1 --pane-id terminal_2 --format json
 </code></pre>
+<h2 id="reacting-to-session-events"><a class="header" href="#reacting-to-session-events">Reacting to Session Events</a></h2>
+<p>The <a href="./zellij-events.html">zellij events</a> command prints a JSON line each time something changes in the session: a pane or tab opens, closes, is focused, renamed or moved, the input mode changes, a user attaches or detaches, or the session is renamed or ends.</p>
+<p>Print every event:</p>
+<pre><code>zellij events
+</code></pre>
+<p>Print only some events, without the description of the session that is printed first:</p>
+<pre><code>zellij events --type pane_focused tab_focused --no-initial-state
+</code></pre>
+<p>Follow one pane, or everything in one tab:</p>
+<pre><code>zellij events --pane-id terminal_1
+zellij events --tab-id 2
+</code></pre>
+<p>Print the id of the focused tab each time it changes:</p>
+<pre><code>zellij events --type tab_focused --no-initial-state | jq --unbuffered -r '.tab_id'
+</code></pre>
+<p>Show a notice when a command pane fails:</p>
+<pre><code>zellij events --type pane_exited --no-initial-state \
+  | jq --unbuffered -r 'select(.exit_status != 0) | .pane_id' \
+  | while read -r pane; do zellij prompt notify "$pane failed"; done
+</code></pre>
 <h2 id="starting-and-controlling-background-sessions"><a class="header" href="#starting-and-controlling-background-sessions">Starting and Controlling Background Sessions</a></h2>
 <p>A Zellij session can be created in the background without attaching to it. This is useful for headless workflows, CI pipelines, and scripted environments.</p>
 <p>Create a background session:</p>
@@ -6077,6 +6343,9 @@ zellij --session my-session action send-keys --pane-id $PANE_ID "Enter"
 </code></pre>
 <p>Subscribe to a pane's output in the background session (see <a href="./zellij-subscribe.html">Zellij Subscribe</a>):</p>
 <pre><code>zellij --session my-session subscribe --pane-id terminal_1 --format json
+</code></pre>
+<p>Follow what happens in the background session (see <a href="./zellij-events.html">Zellij Events</a>):</p>
+<pre><code>zellij --session my-session events
 </code></pre>
 <p>Dump the screen of a specific pane in the background session:</p>
 <pre><code>zellij --session my-session action dump-screen --pane-id terminal_1 --full
@@ -6131,7 +6400,7 @@ zellij action send-keys --pane-id $PANE_ID "Enter"
 <pre><code class="language-bash">TAB_ID=$(zellij action new-tab --name "tests" --layout /path/to/test-layout.kdl)
 </code></pre>
 <h2 id="inspecting-session-state"><a class="header" href="#inspecting-session-state">Inspecting Session State</a></h2>
-<p>Information about the current session can be queried for use in scripts or external status bars. For a full reference of these commands, see the <a href="./cli-actions.html">CLI Actions</a> page.</p>
+<p>Information about the current session can be queried for use in scripts or external status bars. For a full reference of these commands, see the <a href="./cli-actions.html">CLI Actions</a> page. To be told when this information changes instead of querying it again, see <a href="cli-recipes.html#reacting-to-session-events">Reacting to Session Events</a>.</p>
 <h3 id="listing-panes"><a class="header" href="#listing-panes">Listing Panes</a></h3>
 <p>List all panes with full details:</p>
 <pre><code>zellij action list-panes --all
@@ -6507,7 +6776,7 @@ zellij action apply-floating-swap-layout spread --tab-id 2
 </ul>
 <hr />
 <h2 id="the-control-surface-at-a-glance"><a class="header" href="#the-control-surface-at-a-glance">The Control Surface at a Glance</a></h2>
-<p>Zellij exposes its entire control surface through <code>zellij action</code> subcommands and the <code>zellij subscribe</code> command. No socket, HTTP API, or library binding is required - all interaction occurs through subprocess invocation, and structured data is available as JSON on stdout.</p>
+<p>Zellij exposes its entire control surface through <code>zellij action</code> subcommands and the <code>zellij subscribe</code> and <code>zellij events</code> commands. No socket, HTTP API, or library binding is required - all interaction occurs through subprocess invocation, and structured data is available as JSON on stdout.</p>
 <p>The surface divides into four categories:</p>
 <h3 id="query-read-state"><a class="header" href="#query-read-state">Query (read state)</a></h3>
 <div class="table-wrapper"><table><thead><tr><th>Command</th><th>Output</th></tr></thead><tbody>
@@ -6537,6 +6806,7 @@ zellij action apply-floating-swap-layout spread --tab-id 2
 <div class="table-wrapper"><table><thead><tr><th>Command</th><th>Description</th></tr></thead><tbody>
 <tr><td><a href="./zellij-subscribe.html"><code>subscribe --format json</code></a></td><td>Real-time NDJSON stream of rendered pane viewport content</td></tr>
 <tr><td><a href="./zellij-subscribe.html"><code>subscribe</code></a></td><td>Real-time raw text stream of rendered pane viewport content</td></tr>
+<tr><td><a href="./zellij-events.html"><code>events</code></a></td><td>Real-time NDJSON stream of pane, tab, mode, client and session changes</td></tr>
 <tr><td><a href="./cli-actions.html#dump-screen"><code>dump-screen</code></a></td><td>One-shot viewport/scrollback snapshot</td></tr>
 </tbody></table>
 </div>
@@ -6651,11 +6921,25 @@ done
 # Read the final output
 zellij action dump-screen --pane-id "$PANE_ID" --full
 </code></pre>
+<h3 id="waiting-with-events"><a class="header" href="#waiting-with-events">Waiting with events</a></h3>
+<p><a href="./zellij-events.html"><code>events</code></a> reports when the command of a pane exits, so no polling is needed. The <code>initial_state</code> event covers a command that already exited before <code>events</code> started:</p>
+<pre><code class="language-bash">read -r STATUS &lt; &lt;(zellij events --pane-id "$PANE_ID" \
+  | jq --unbuffered -r '
+      if .event == "initial_state" then (.panes[] | select(.exited) | .exit_status)
+      elif .event == "pane_exited" then .exit_status
+      else empty end')
+echo "exited with $STATUS"
+</code></pre>
 <h3 id="streaming-with-subscribe"><a class="header" href="#streaming-with-subscribe">Streaming with subscribe</a></h3>
 <p>For real-time observation without polling, <a href="./zellij-subscribe.html"><code>subscribe</code></a> streams viewport changes as they happen:</p>
 <pre><code class="language-bash">zellij subscribe --pane-id terminal_1 --format json
 </code></pre>
 <p>This is useful for live monitoring and logging. See <a href="./zellij-subscribe.html">Zellij Subscribe</a> for details and filtering examples.</p>
+<h3 id="streaming-session-events"><a class="header" href="#streaming-session-events">Streaming session events</a></h3>
+<p>To react to changes to the session rather than to pane output (a pane or tab opening, closing or being focused, the input mode changing, a user attaching...), <a href="./zellij-events.html"><code>events</code></a> prints each change as a JSON line:</p>
+<pre><code class="language-bash">zellij events --type pane_opened pane_closed tab_created tab_closed
+</code></pre>
+<p>See <a href="./zellij-events.html">Zellij Events</a> for every event and its fields.</p>
 <hr />
 <h2 id="point-in-time-vs-streaming-observation"><a class="header" href="#point-in-time-vs-streaming-observation">Point-in-Time vs. Streaming Observation</a></h2>
 <p>Two mechanisms exist for reading pane output. The right choice depends on the use case:</p>
@@ -6684,6 +6968,8 @@ zellij action dump-screen --pane-id "$PANE_ID" --full
 <tr><td>"Give me all output as it happens"</td><td><code>subscribe</code></td></tr>
 <tr><td>"Capture the final result after completion"</td><td><code>dump-screen --full</code> (after blocking pane unblocks)</td></tr>
 <tr><td>Periodic polling (e.g., every 5 seconds)</td><td><code>dump-screen</code> in a loop</td></tr>
+<tr><td>"Tell me when a pane or tab opens, closes, is focused or renamed"</td><td><a href="./zellij-events.html"><code>events</code></a></td></tr>
+<tr><td>"Tell me when a command finishes"</td><td><a href="./zellij-events.html"><code>events</code></a> with <code>--type pane_exited</code></td></tr>
 </tbody></table>
 </div>
 <hr />
@@ -6714,6 +7000,7 @@ zellij subscribe --pane-id terminal_1 --ansi
 <tr><td><a href="./cli-actions.html#list-tabs"><code>list-tabs --json</code></a></td><td>Array of tab objects: <code>tab_id</code>, <code>position</code>, <code>name</code>, <code>active</code>, <code>is_fullscreen_active</code>, <code>is_sync_panes_active</code>, <code>are_floating_panes_visible</code>, <code>active_swap_layout_name</code>, <code>attention</code>, viewport dimensions, pane counts</td></tr>
 <tr><td><a href="./cli-actions.html#current-tab-info"><code>current-tab-info --json</code></a></td><td>Single tab object (same fields as <code>list-tabs</code>)</td></tr>
 <tr><td><a href="./zellij-subscribe.html"><code>subscribe --format json</code></a></td><td>NDJSON stream: <code>pane_update</code> events with <code>viewport[]</code> and <code>scrollback[]</code> arrays, <code>pane_closed</code> events</td></tr>
+<tr><td><a href="./zellij-events.html"><code>events</code></a></td><td>NDJSON stream: an <code>initial_state</code> event with all tabs, panes and clients, then pane, tab, mode, client and session events</td></tr>
 <tr><td><a href="./zellij-prompt.html#json-output"><code>zellij prompt ... --json</code></a></td><td><code>result</code> (<code>answered</code>, <code>cancelled</code>, <code>timeout</code> or <code>error</code>) and <code>value</code></td></tr>
 </tbody></table>
 </div>
@@ -6733,6 +7020,7 @@ zellij subscribe --pane-id terminal_1 --ansi
 <tr><td><code>show-floating-panes</code></td><td><code>0</code> = panes were shown, <code>1</code> = no floating panes existed, <code>2</code> = panes were already visible</td></tr>
 <tr><td><code>apply-tiled-swap-layout</code>, <code>apply-floating-swap-layout</code></td><td><code>0</code> = the layout was applied, <code>1</code> = no swap layout with that name fits the current number of panes</td></tr>
 <tr><td><code>toggle-tray-icon</code></td><td><code>0</code> = done, <code>1</code> = the desktop app is not running</td></tr>
+<tr><td><a href="./zellij-events.html#exit-codes"><code>zellij events</code></a></td><td><code>0</code> = the session ended, <code>1</code> = no session found, <code>2</code> = error</td></tr>
 <tr><td><a href="./zellij-prompt.html#exit-codes"><code>zellij prompt</code></a></td><td><code>0</code> = answered, <code>1</code> = cancelled (or "no" for <code>confirm</code>), <code>2</code> = error, <code>124</code> = timed out without a default</td></tr>
 <tr><td><a href="./zellij-plugin-and-pipe.html#exit-status"><code>zellij pipe</code></a></td><td><code>0</code> by default, or the exit status set by the plugin; <code>2</code> on error</td></tr>
 </tbody></table>
@@ -6772,11 +7060,12 @@ wait
 <li><a href="./cli-actions.html">CLI Actions</a> - Full reference of all <code>zellij action</code> subcommands</li>
 <li><a href="./cli-recipes.html">CLI Recipes &amp; Scripting</a> - Task-oriented examples and common workflows</li>
 <li><a href="./zellij-subscribe.html">Zellij Subscribe</a> - Real-time pane output streaming</li>
+<li><a href="./zellij-events.html">Zellij Events</a> - Real-time stream of session changes</li>
 <li><a href="./zellij-run-and-edit.html">Zellij Run &amp; Edit</a> - Launching commands and opening files in panes</li>
 <li><a href="./zellij-plugin-and-pipe.html">Zellij Plugin &amp; Pipe</a> - Plugin communication from the CLI</li>
 <li><a href="./zellij-prompt.html">Zellij Prompt</a> - Asking the user a question from a script</li>
 </ul>
-<p>For deeper integration, the <a href="./plugin-api.html">Plugin API</a> provides access to 120+ commands and 52 event types from compiled WASM plugins, including structured lifecycle events (<code>CommandPaneExited</code>, <code>PaneUpdate</code>, <code>TabUpdate</code>) that are not available through the CLI.</p>
+<p>For deeper integration, the <a href="./plugin-api.html">Plugin API</a> provides access to 120+ commands and 52 event types from compiled WASM plugins, including events that are not available through <a href="./zellij-events.html"><code>zellij events</code></a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="layouts"><a class="header" href="#layouts">Layouts</a></h1>
 <p>Layouts are text files that define an arrangement of Zellij panes and tabs.</p>
 <p>You can read more about <a href="./creating-a-layout.html">creating a layout</a></p>
@@ -7845,6 +8134,7 @@ keybinds {
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="plugin-api---events"><a class="header" href="#plugin-api---events">Plugin API - Events</a></h1>
 <p>A plugin can <a href="./plugin-api-commands.html#subscribe">subscribe</a> to events using their <a href="./plugin-api-types.html#eventtype"><code>EventType</code></a> discriminant. Once subscribed, events are delivered to the plugin's <a href="./plugin-lifecycle.html#update"><code>update</code></a> method with their associated payload.</p>
+<p>Many of the changes to the session reported by these events can also be followed outside of a plugin, from a script, with <a href="./zellij-events.html"><code>zellij events</code></a>.</p>
 <p>For complete type definitions referenced below, see the <a href="./plugin-api-types.html">Type Reference</a>. For additional details, see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
 <p>A plugin built with <code>zellij-tile</code> <code>0.46.0</code> or later that receives an event it cannot read (eg. one added in a newer Zellij version) skips it, printing a message to its log, instead of crashing.</p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>
@@ -15527,6 +15817,7 @@ print_text_with_coordinates(text, 0, 0, None, None);
 <tr><td><code>unbold_indices</code>, <code>unbold_range</code>, <code>unbold_substring</code>, <code>unbold_all</code></td><td>Not bold (text that has any styling is drawn bold by default)</td></tr>
 <tr><td><code>italic_range</code>, <code>italic_all</code></td><td>Italic</td></tr>
 <tr><td><code>rgb_color_range([r, g, b], range)</code></td><td>Any RGB color, regardless of the theme</td></tr>
+<tr><td><code>link_indices(url, vec)</code>, <code>link_range(url, range)</code>, <code>link_substring(url, s)</code>, <code>link_all(url)</code></td><td>A link to <code>url</code> (see below)</td></tr>
 </tbody></table>
 </div>
 <p>For example:</p>
@@ -15538,6 +15829,15 @@ print_text_with_coordinates(text, 0, 0, None, None);
     .italic_range(0..5)
     .rgb_color_range([142, 78, 198], 15..16);
 <span class="boring">}</span></code></pre></pre>
+<h5 id="links"><a class="header" href="#links">Links</a></h5>
+<p>The <code>link_*</code> methods turn characters into a link that the terminal showing Zellij opens, usually with Ctrl and click or Shift and click. Linking does not change how the text looks, so linked text is usually also styled:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let text = Text::from("See the docs for details")
+    .color_substring(0, "docs")
+    .link_substring("https://zellij.dev/documentation/", "docs");
+<span class="boring">}</span></code></pre></pre>
+<p>The URL must start with a scheme (eg. <code>https:</code>), and cannot contain spaces or control characters or be longer than 2048 bytes. Otherwise the link is left out and the text is shown without it. Links work in text, tables, ribbons and nested lists.</p>
 <h5 id="measuring-and-wrapping"><a class="header" href="#measuring-and-wrapping">Measuring and wrapping</a></h5>
 <div class="table-wrapper"><table><thead><tr><th>Method</th><th>Returns</th></tr></thead><tbody>
 <tr><td><code>content()</code></td><td>The text itself, as <code>&amp;str</code></td></tr>
@@ -15940,7 +16240,7 @@ Opaque components are best used as part of status bars, transparent components w
 <tr><td>6</td><td>The theme's "error" color</td></tr>
 <tr><td>7</td><td>The theme's "success" color</td></tr>
 <tr><td>8</td><td>Italic</td></tr>
-<tr><td>9 and above</td><td>A custom RGB color (see below)</td></tr>
+<tr><td>9 and above</td><td>A custom RGB color or a link (see below)</td></tr>
 </tbody></table>
 </div>
 <p>Example:</p>
@@ -15948,6 +16248,7 @@ Opaque components are best used as part of status bars, transparent components w
 </code></pre>
 <p>Here, indices 1, 2, 3 and 4 will be colored in index color 0 while 5 and 6 will be colored in index color 1. Index color 2 is empty, so no elements will be colored using it, and element number 7 will be colored in index color 3.</p>
 <p>A custom color level (9 and above) contains one marker value, <code>1073741824</code> (<code>1 &lt;&lt; 30</code>) plus the color as <code>0xRRGGBB</code>, followed by the indices to paint in that color. Each color uses its own level. For example, <code>1083068102,0,1</code> (<code>1073741824 + 0x8e4ec6</code>) paints characters 0 and 1 in <code>#8e4ec6</code>.</p>
+<p>A link level (9 and above) begins with <code>l</code> followed by the URL in hexadecimal (two characters per byte), followed by the indices to link. Each URL uses its own level, separate from the custom color levels. For example, <code>l68747470733a2f2f7a656c6c696a2e646576,0,1</code> links characters 0 and 1 to <code>https://zellij.dev</code>.</p>
 <h4 id="indentation"><a class="header" href="#indentation">Indentation</a></h4>
 <p>In the context of a Nested List, elements can be arbitrarily indented. This is done one or more pipe (<code>|</code>) characters preceding the utf-8 byte list.
 Example:</p>
@@ -16227,8 +16528,8 @@ Example (2 columns, 2 rows):</p>
 <tr><td style="text-align: left"><code>Tab</code> / <code>Shift Tab</code></td><td style="text-align: left">Complete the typed name, cycling through the matching sessions. When the inbox is shown, <code>Tab</code> switches to it</td></tr>
 <tr><td style="text-align: left"><code>Ctrl l</code></td><td style="text-align: left">Create a new session with a layout</td></tr>
 <tr><td style="text-align: left"><code>Ctrl r</code></td><td style="text-align: left">Rename the current session</td></tr>
-<tr><td style="text-align: left"><code>Del</code></td><td style="text-align: left">Stop or delete the selected session</td></tr>
-<tr><td style="text-align: left"><code>Shift Del</code></td><td style="text-align: left">Delete all exited sessions</td></tr>
+<tr><td style="text-align: left"><code>Del</code> (or <code>Backspace</code> when the search is empty)</td><td style="text-align: left">Stop or delete the selected session</td></tr>
+<tr><td style="text-align: left"><code>Shift Del</code> (or <code>Shift Backspace</code> when the search is empty)</td><td style="text-align: left">Delete all exited sessions</td></tr>
 <tr><td style="text-align: left"><code>Alt w</code></td><td style="text-align: left">Open the selected session in a Zellij terminal window</td></tr>
 <tr><td style="text-align: left"><code>Ctrl c</code></td><td style="text-align: left">Clear the search, or close the session manager when the search is empty</td></tr>
 <tr><td style="text-align: left"><code>F1</code></td><td style="text-align: left">Show all keys</td></tr>
@@ -17027,7 +17328,7 @@ enforce_https_for_localhost true
 <h2 id="a-minimal-distribution"><a class="header" href="#a-minimal-distribution">A minimal distribution</a></h2>
 <p>A distribution is a Rust program that depends on the <code>zellij</code> crate and calls <code>zellij::run</code> with a <code>Distribution</code>, instead of using the <code>zellij</code> binary:</p>
 <pre><code class="language-toml">[dependencies]
-zellij = "0.46.0"
+zellij = "0.46.1"
 </code></pre>
 <pre><pre class="playground"><code class="language-rust">use zellij::{Distribution, DistributionLayout};
 
@@ -17079,7 +17380,7 @@ default_layout "my-layout"
 <li>The plugin and data folders under <code>&lt;prefix&gt;/share/&lt;name&gt;</code></li>
 <li>The command name shown in <code>--help</code></li>
 </ul>
-<p><code>--version</code> shows the distribution's version followed by the Zellij version it is built on, eg. <code>1.0.0 (zellij 0.46.0)</code>.</p>
+<p><code>--version</code> shows the distribution's version followed by the Zellij version it is built on, eg. <code>1.0.0 (zellij 0.46.1)</code>.</p>
 <h2 id="replacing-a-built-in-plugin"><a class="header" href="#replacing-a-built-in-plugin">Replacing a built-in plugin</a></h2>
 <p>A bundled plugin cannot use the name of one of Zellij's built-in plugins, unless that built-in is dropped with <code>without_plugin</code> first. Dropping a built-in plugin does not remove the <a href="./plugin-aliases.html">plugin alias</a> that points to it: point that alias somewhere valid in the bundled configuration, or anything still using it (a keybinding, a layout) fails to load.</p>
 <p>To leave the built-in alone and use a different implementation, give the bundled plugin its own name and point the alias at it:</p>

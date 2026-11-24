@@ -120,6 +120,7 @@ The available styles:
 | `unbold_indices`, `unbold_range`, `unbold_substring`, `unbold_all` | Not bold (text that has any styling is drawn bold by default) |
 | `italic_range`, `italic_all` | Italic |
 | `rgb_color_range([r, g, b], range)` | Any RGB color, regardless of the theme |
+| `link_indices(url, vec)`, `link_range(url, range)`, `link_substring(url, s)`, `link_all(url)` | A link to `url` (see below) |
 
 For example:
 
@@ -130,6 +131,18 @@ let text = Text::from("Saved 3 files, 1 failed")
     .italic_range(0..5)
     .rgb_color_range([142, 78, 198], 15..16);
 ```
+
+##### Links
+
+The `link_*` methods turn characters into a link that the terminal showing Zellij opens, usually with Ctrl and click or Shift and click. Linking does not change how the text looks, so linked text is usually also styled:
+
+```rust
+let text = Text::from("See the docs for details")
+    .color_substring(0, "docs")
+    .link_substring("https://zellij.dev/documentation/", "docs");
+```
+
+The URL must start with a scheme (eg. `https:`), and cannot contain spaces or control characters or be longer than 2048 bytes. Otherwise the link is left out and the text is shown without it. Links work in text, tables, ribbons and nested lists.
 
 ##### Measuring and wrapping
 
@@ -567,7 +580,7 @@ A utf-8 separated byte list can be preceded by a dollar (`$`) separated index li
 | 6 | The theme's "error" color |
 | 7 | The theme's "success" color |
 | 8 | Italic |
-| 9 and above | A custom RGB color (see below) |
+| 9 and above | A custom RGB color or a link (see below) |
 
 Example:
 ```
@@ -576,6 +589,8 @@ Example:
 Here, indices 1, 2, 3 and 4 will be colored in index color 0 while 5 and 6 will be colored in index color 1. Index color 2 is empty, so no elements will be colored using it, and element number 7 will be colored in index color 3.
 
 A custom color level (9 and above) contains one marker value, `1073741824` (`1 << 30`) plus the color as `0xRRGGBB`, followed by the indices to paint in that color. Each color uses its own level. For example, `1083068102,0,1` (`1073741824 + 0x8e4ec6`) paints characters 0 and 1 in `#8e4ec6`.
+
+A link level (9 and above) begins with `l` followed by the URL in hexadecimal (two characters per byte), followed by the indices to link. Each URL uses its own level, separate from the custom color levels. For example, `l68747470733a2f2f7a656c6c696a2e646576,0,1` links characters 0 and 1 to `https://zellij.dev`.
 
 #### Indentation
 In the context of a Nested List, elements can be arbitrarily indented. This is done one or more pipe (`|`) characters preceding the utf-8 byte list.

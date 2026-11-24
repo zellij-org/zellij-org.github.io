@@ -167,7 +167,7 @@
 </ul>
 <hr />
 <h2 id="the-control-surface-at-a-glance"><a class="header" href="#the-control-surface-at-a-glance">The Control Surface at a Glance</a></h2>
-<p>Zellij exposes its entire control surface through <code>zellij action</code> subcommands and the <code>zellij subscribe</code> command. No socket, HTTP API, or library binding is required - all interaction occurs through subprocess invocation, and structured data is available as JSON on stdout.</p>
+<p>Zellij exposes its entire control surface through <code>zellij action</code> subcommands and the <code>zellij subscribe</code> and <code>zellij events</code> commands. No socket, HTTP API, or library binding is required - all interaction occurs through subprocess invocation, and structured data is available as JSON on stdout.</p>
 <p>The surface divides into four categories:</p>
 <h3 id="query-read-state"><a class="header" href="#query-read-state">Query (read state)</a></h3>
 <div class="table-wrapper"><table><thead><tr><th>Command</th><th>Output</th></tr></thead><tbody>
@@ -197,6 +197,7 @@
 <div class="table-wrapper"><table><thead><tr><th>Command</th><th>Description</th></tr></thead><tbody>
 <tr><td><a href="./zellij-subscribe.html"><code>subscribe --format json</code></a></td><td>Real-time NDJSON stream of rendered pane viewport content</td></tr>
 <tr><td><a href="./zellij-subscribe.html"><code>subscribe</code></a></td><td>Real-time raw text stream of rendered pane viewport content</td></tr>
+<tr><td><a href="./zellij-events.html"><code>events</code></a></td><td>Real-time NDJSON stream of pane, tab, mode, client and session changes</td></tr>
 <tr><td><a href="./cli-actions.html#dump-screen"><code>dump-screen</code></a></td><td>One-shot viewport/scrollback snapshot</td></tr>
 </tbody></table>
 </div>
@@ -311,11 +312,25 @@ done
 # Read the final output
 zellij action dump-screen --pane-id "$PANE_ID" --full
 </code></pre>
+<h3 id="waiting-with-events"><a class="header" href="#waiting-with-events">Waiting with events</a></h3>
+<p><a href="./zellij-events.html"><code>events</code></a> reports when the command of a pane exits, so no polling is needed. The <code>initial_state</code> event covers a command that already exited before <code>events</code> started:</p>
+<pre><code class="language-bash">read -r STATUS &lt; &lt;(zellij events --pane-id "$PANE_ID" \
+  | jq --unbuffered -r '
+      if .event == "initial_state" then (.panes[] | select(.exited) | .exit_status)
+      elif .event == "pane_exited" then .exit_status
+      else empty end')
+echo "exited with $STATUS"
+</code></pre>
 <h3 id="streaming-with-subscribe"><a class="header" href="#streaming-with-subscribe">Streaming with subscribe</a></h3>
 <p>For real-time observation without polling, <a href="./zellij-subscribe.html"><code>subscribe</code></a> streams viewport changes as they happen:</p>
 <pre><code class="language-bash">zellij subscribe --pane-id terminal_1 --format json
 </code></pre>
 <p>This is useful for live monitoring and logging. See <a href="./zellij-subscribe.html">Zellij Subscribe</a> for details and filtering examples.</p>
+<h3 id="streaming-session-events"><a class="header" href="#streaming-session-events">Streaming session events</a></h3>
+<p>To react to changes to the session rather than to pane output (a pane or tab opening, closing or being focused, the input mode changing, a user attaching...), <a href="./zellij-events.html"><code>events</code></a> prints each change as a JSON line:</p>
+<pre><code class="language-bash">zellij events --type pane_opened pane_closed tab_created tab_closed
+</code></pre>
+<p>See <a href="./zellij-events.html">Zellij Events</a> for every event and its fields.</p>
 <hr />
 <h2 id="point-in-time-vs-streaming-observation"><a class="header" href="#point-in-time-vs-streaming-observation">Point-in-Time vs. Streaming Observation</a></h2>
 <p>Two mechanisms exist for reading pane output. The right choice depends on the use case:</p>
@@ -344,6 +359,8 @@ zellij action dump-screen --pane-id "$PANE_ID" --full
 <tr><td>"Give me all output as it happens"</td><td><code>subscribe</code></td></tr>
 <tr><td>"Capture the final result after completion"</td><td><code>dump-screen --full</code> (after blocking pane unblocks)</td></tr>
 <tr><td>Periodic polling (e.g., every 5 seconds)</td><td><code>dump-screen</code> in a loop</td></tr>
+<tr><td>"Tell me when a pane or tab opens, closes, is focused or renamed"</td><td><a href="./zellij-events.html"><code>events</code></a></td></tr>
+<tr><td>"Tell me when a command finishes"</td><td><a href="./zellij-events.html"><code>events</code></a> with <code>--type pane_exited</code></td></tr>
 </tbody></table>
 </div>
 <hr />
@@ -374,6 +391,7 @@ zellij subscribe --pane-id terminal_1 --ansi
 <tr><td><a href="./cli-actions.html#list-tabs"><code>list-tabs --json</code></a></td><td>Array of tab objects: <code>tab_id</code>, <code>position</code>, <code>name</code>, <code>active</code>, <code>is_fullscreen_active</code>, <code>is_sync_panes_active</code>, <code>are_floating_panes_visible</code>, <code>active_swap_layout_name</code>, <code>attention</code>, viewport dimensions, pane counts</td></tr>
 <tr><td><a href="./cli-actions.html#current-tab-info"><code>current-tab-info --json</code></a></td><td>Single tab object (same fields as <code>list-tabs</code>)</td></tr>
 <tr><td><a href="./zellij-subscribe.html"><code>subscribe --format json</code></a></td><td>NDJSON stream: <code>pane_update</code> events with <code>viewport[]</code> and <code>scrollback[]</code> arrays, <code>pane_closed</code> events</td></tr>
+<tr><td><a href="./zellij-events.html"><code>events</code></a></td><td>NDJSON stream: an <code>initial_state</code> event with all tabs, panes and clients, then pane, tab, mode, client and session events</td></tr>
 <tr><td><a href="./zellij-prompt.html#json-output"><code>zellij prompt ... --json</code></a></td><td><code>result</code> (<code>answered</code>, <code>cancelled</code>, <code>timeout</code> or <code>error</code>) and <code>value</code></td></tr>
 </tbody></table>
 </div>
@@ -393,6 +411,7 @@ zellij subscribe --pane-id terminal_1 --ansi
 <tr><td><code>show-floating-panes</code></td><td><code>0</code> = panes were shown, <code>1</code> = no floating panes existed, <code>2</code> = panes were already visible</td></tr>
 <tr><td><code>apply-tiled-swap-layout</code>, <code>apply-floating-swap-layout</code></td><td><code>0</code> = the layout was applied, <code>1</code> = no swap layout with that name fits the current number of panes</td></tr>
 <tr><td><code>toggle-tray-icon</code></td><td><code>0</code> = done, <code>1</code> = the desktop app is not running</td></tr>
+<tr><td><a href="./zellij-events.html#exit-codes"><code>zellij events</code></a></td><td><code>0</code> = the session ended, <code>1</code> = no session found, <code>2</code> = error</td></tr>
 <tr><td><a href="./zellij-prompt.html#exit-codes"><code>zellij prompt</code></a></td><td><code>0</code> = answered, <code>1</code> = cancelled (or "no" for <code>confirm</code>), <code>2</code> = error, <code>124</code> = timed out without a default</td></tr>
 <tr><td><a href="./zellij-plugin-and-pipe.html#exit-status"><code>zellij pipe</code></a></td><td><code>0</code> by default, or the exit status set by the plugin; <code>2</code> on error</td></tr>
 </tbody></table>
@@ -432,11 +451,12 @@ wait
 <li><a href="./cli-actions.html">CLI Actions</a> - Full reference of all <code>zellij action</code> subcommands</li>
 <li><a href="./cli-recipes.html">CLI Recipes &amp; Scripting</a> - Task-oriented examples and common workflows</li>
 <li><a href="./zellij-subscribe.html">Zellij Subscribe</a> - Real-time pane output streaming</li>
+<li><a href="./zellij-events.html">Zellij Events</a> - Real-time stream of session changes</li>
 <li><a href="./zellij-run-and-edit.html">Zellij Run &amp; Edit</a> - Launching commands and opening files in panes</li>
 <li><a href="./zellij-plugin-and-pipe.html">Zellij Plugin &amp; Pipe</a> - Plugin communication from the CLI</li>
 <li><a href="./zellij-prompt.html">Zellij Prompt</a> - Asking the user a question from a script</li>
 </ul>
-<p>For deeper integration, the <a href="./plugin-api.html">Plugin API</a> provides access to 120+ commands and 52 event types from compiled WASM plugins, including structured lifecycle events (<code>CommandPaneExited</code>, <code>PaneUpdate</code>, <code>TabUpdate</code>) that are not available through the CLI.</p>
+<p>For deeper integration, the <a href="./plugin-api.html">Plugin API</a> provides access to 120+ commands and 52 event types from compiled WASM plugins, including events that are not available through <a href="./zellij-events.html"><code>zellij events</code></a>.</p>
 
                     </main>
 

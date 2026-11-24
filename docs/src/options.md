@@ -38,6 +38,7 @@ Configuration options can be set directly at the root of the [configuration file
 - [stacked_resize](#stacked_resize)
 - [show_startup_tips](#show_startup_tips)
 - [show_release_notes](#show_release_notes)
+- [show_setup_screen](#show_setup_screen)
 - [post_command_discovery_hook](#post_command_discovery_hook)
 - [web_server](#web_server)
 - [web_server_ip](#web_server_ip)
@@ -480,8 +481,19 @@ Options:
 show_release_notes true
 ```
 
+### show_setup_screen
+Offer the [desktop setup screen](./desktop-setup.md#the-setup-screen) when a new session starts. When `false`, the setup screen is not shown by itself, but can still be opened from the settings screen or the About screen. Requires a restart.
+
+Options:
+  - true (default)
+  - false
+
+```javascript
+show_setup_screen false
+```
+
 ### post_command_discovery_hook
-When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a `post_command_discovery_hook`. This is a command that will run in the context of te user's default shell and be provided the `$RESURRECT_COMMAND` that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over `STDOUT` will be serialized in place of the discovered command.
+When Zellij attempts to discover commands running inside panes so that it can serialize them, it can sometimes be inaccurate. This can happen when (for example) commands are run inside some sort of wrapper. To get around this, it's possible to define a `post_command_discovery_hook`. This is a command that runs with `sh -c` (with `cmd` on Windows, where the variable is written as `%RESURRECT_COMMAND%`) and is provided the `$RESURRECT_COMMAND` that has just been discovered for a specific pane and not yet serialized. Whatever this command sends over `STDOUT` will be serialized in place of the discovered command.
 
 Example, removing `sudo` from the start of commands:
 ```javascript

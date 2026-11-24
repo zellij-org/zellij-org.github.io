@@ -220,7 +220,7 @@ Themes can be created and edited from inside Zellij, without editing files by ha
 - **Previewing**: a sample of the Zellij interface drawn with the theme's colors is shown next to them (when the pane is wide enough). When the theme being edited is the active one, the whole of Zellij changes along with it.
 - **Hover colors**: the editor has a row for each of the six [`ribbon_hover`](#ribbon_hover) colors, and the preview shows a "Hover" ribbon next to "Tab" and "Active". When a theme without a `ribbon_hover` section is opened, these rows are filled with the colors the theme currently uses for hover, and saving writes the section to the theme.
 - **Fixing contrast**: colors that are hard to read against their background are pointed out. Most text colors are checked against a contrast of 3:1. The `emphasis_1` and `emphasis_2` colors of ribbons are checked against their ribbon's background, and the hover text colors against the hover fill, at 4.5:1. `Ctrl f` raises the contrast of the selected color to its target. `Ctrl e` fixes every color below 3:1, changing each color only as much as needed; colors between 3:1 and 4.5:1 are marked but left for `Ctrl f`.
-- **Managing themes**: `n` renames a theme, `Del` deletes it, `r` reverts unsaved changes and `/` searches the list.
+- **Managing themes**: `n` renames a theme, `Del` (or `Backspace`) deletes it, `r` reverts unsaved changes and `/` searches the list.
 
 ## Getting Zellij to pick up the theme
 While developing and iterating over a theme, the easiest way would be to define it directly in the main configuration file (add the `themes` block defined above with your theme) and then set the:
