@@ -61,6 +61,10 @@ Pre-built binaries are available each release for Linux, macOS, and Windows on t
 
 ### Linux / macOS
 
+Linux binaries come in two builds:
+- `zellij-<arch>-unknown-linux-gnu.tar.gz` - for most distributions (glibc 2.17 or newer). This is the build that includes the [Zellij terminal](./zellij-terminal.md).
+- `zellij-<arch>-unknown-linux-musl.tar.gz` - a fully static build for systems without glibc (eg. Alpine). It cannot run `zellij terminal`.
+
 Once downloaded, untar the file:
 ```
 tar -xvf zellij*.tar.gz

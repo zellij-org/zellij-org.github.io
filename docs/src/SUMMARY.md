@@ -32,6 +32,7 @@
   - [Zellij Action](./cli-actions.md)
   - [Zellij Plugin & Pipe](./zellij-plugin-and-pipe.md)
   - [Zellij Subscribe](./zellij-subscribe.md)
+  - [Zellij Events](./zellij-events.md)
   - [Zellij Prompt](./zellij-prompt.md)
   - [CLI Recipes & Scripting](./cli-recipes.md)
   - [Programmatic Control](./programmatic-control.md)

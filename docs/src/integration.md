@@ -12,6 +12,7 @@ The `ZELLIJ_SESSION_NAME` has the session name as its value, and `ZELLIJ` gets
 set to `0` inside a zellij session.
 Arbitrary key value pairs can be set through configuration, or layouts.
 Note that `ZELLIJ_SESSION_NAME` will not be updated for existing terminal panes when renaming a session (but will for new panes).
+`ZELLIJ_SESSION_ID` identifies the session and does not change when it is renamed. Zellij commands run from a pane (eg. `zellij action`, `zellij events` or `zellij prompt`) use it to find the pane's session.
 
 
 ## Reporting status to the inbox
@@ -42,6 +43,7 @@ On Linux, Zellij can also become the default terminal, so that apps that open a 
 | `ZELLIJ_SOCKET_DIR` | The folder for session sockets. The same as `zellij terminal --socket-dir` |
 | `ZELLIJ_DESKTOP_INTEGRATION` | `on` treats the environment as a desktop, `off` never offers desktop items. See [Desktop Setup](./desktop-setup.md) |
 | `ZELLIJ_TERMINAL_STANDALONE` | When set, `zellij terminal` opens its window on its own, outside the desktop app (the same as `--standalone`) |
+| `ZELLIJ_CONPTY_DLL` | Windows only. The path to a `conpty.dll` to use for panes, or `system` to always use the one built into Windows. See [Does Zellij run on Windows?](./faq.md#does-zellij-run-on-windows) |
 
 Here are some limited examples to help get you started:
 
@@ -49,13 +51,12 @@ Here are some limited examples to help get you started:
 Autostart a new zellij shell, if not already inside one.
 Shell dependent, fish:
 ```
-if set -q ZELLIJ
-else
+if status is-interactive; and isatty stdin; and not set -q ZELLIJ
   zellij
 end
 ```
 
-other ways, zellij provides a pre-defined auto start scripts.
+other ways, zellij provides a pre-defined auto start scripts. They only start Zellij in interactive shells that run in a terminal, so shells started by scripts or by the desktop (eg. a login shell reading the environment) are left alone.
 
 ### bash
 ```

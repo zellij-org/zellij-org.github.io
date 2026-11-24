@@ -1,0 +1,407 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Zellij Events - Zellij User Guide</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Zellij User Guide</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="zellij-events"><a class="header" href="#zellij-events">Zellij Events</a></h1>
+<p>Since <code>0.46.1</code>, Zellij provides a top-level <code>events</code> command that prints what happens in a session as it happens: panes and tabs opening, closing, being focused, renamed or moved, input mode changes, clients attaching and detaching, and the session being renamed or ending. Each event is printed as one JSON object per line, which makes it easy to react to changes from a script or to drive an external status bar.</p>
+<p>To stream the contents of panes rather than changes to the session, see <a href="./zellij-subscribe.html">Zellij Subscribe</a>.</p>
+<hr />
+<ul>
+<li><a href="#usage">Usage</a> - Command syntax</li>
+<li><a href="#options">Options</a> - Available flags and parameters</li>
+<li><a href="#filtering">Filtering</a> - Choosing which events are printed</li>
+<li><a href="#output">Output</a> - The format of each line</li>
+<li><a href="#events">Events</a> - Every event and its fields</li>
+<li><a href="#exit-codes">Exit Codes</a> - How the command ends</li>
+<li><a href="#listening-to-a-different-session">Listening to a Different Session</a> - Background or other sessions</li>
+<li><a href="#examples">Examples</a> - Common usage patterns with <code>jq</code></li>
+</ul>
+<hr />
+<h2 id="usage"><a class="header" href="#usage">Usage</a></h2>
+<pre><code>zellij [--session &lt;SESSION_NAME&gt;] events [OPTIONS]
+</code></pre>
+<p>When run inside a Zellij pane, the events of that pane's session are printed. Outside of Zellij, the only running session is used, or the session given with <code>--session</code> (which must come before <code>events</code>).</p>
+<p>The command keeps running until the session ends or it is stopped (eg. with <code>Ctrl c</code>).</p>
+<h2 id="options"><a class="header" href="#options">Options</a></h2>
+<pre><code>-t, --type &lt;TYPE&gt;...       Only print events of these types (eg. --type pane_focused tab_created)
+-p, --pane-id &lt;PANE_ID&gt;... Only print events about these panes. Accepts terminal_N, plugin_N,
+                           or bare integer N (equivalent to terminal_N)
+    --tab-id &lt;TAB_ID&gt;...   Only print events about these tabs or the panes in them (tab ids,
+                           as shown by `zellij action list-tabs`)
+    --no-initial-state     Do not print the initial_state event when the command starts
+</code></pre>
+<p>Each option takes one or more values, and can be given more than once.</p>
+<h2 id="filtering"><a class="header" href="#filtering">Filtering</a></h2>
+<ul>
+<li><code>--type</code> keeps only the listed event types.</li>
+<li><code>--pane-id</code> and <code>--tab-id</code> keep only the events about the listed panes, the listed tabs, or the panes in the listed tabs. An event matches if it is about any of them.</li>
+<li>When <code>--type</code> is combined with <code>--pane-id</code> or <code>--tab-id</code>, an event must match both.</li>
+<li>Events that are not about a pane or a tab (<code>mode_changed</code>, <code>client_attached</code>, <code>client_detached</code>, <code>session_renamed</code> and <code>session_ending</code>) are not removed by <code>--pane-id</code> or <code>--tab-id</code>.</li>
+<li><code>pane_moved</code> matches the tab the pane moved from and the tab it moved to.</li>
+<li>With <code>--pane-id</code> or <code>--tab-id</code>, the <code>initial_state</code> event only lists the matching panes and their tabs.</li>
+</ul>
+<h2 id="output"><a class="header" href="#output">Output</a></h2>
+<p>Every line is a JSON object whose <code>event</code> key holds the event name:</p>
+<pre><code class="language-json">{"event":"tab_focused","client_id":1,"tab_id":1,"previous_tab_id":0}
+</code></pre>
+<ul>
+<li>Pane ids are strings, eg. <code>"terminal_1"</code> or <code>"plugin_2"</code>.</li>
+<li>Tab ids are numbers that stay the same when tabs are moved, the same ids shown by <code>zellij action list-tabs</code>. The place of a tab in the tab bar is its <code>position</code>, starting at <code>0</code>.</li>
+<li><code>client_id</code> is a number identifying a connected user (see <code>zellij action list-clients</code>). Events about focus and input modes are reported separately for each connected user.</li>
+<li>Input modes are lowercase names, eg. <code>normal</code>, <code>locked</code>, <code>pane</code>, <code>tab</code>, <code>resize</code>, <code>scroll</code>, <code>search</code>, <code>entersearch</code>, <code>renametab</code>, <code>renamepane</code>, <code>renamesession</code>, <code>session</code>, <code>move</code>, <code>prompt</code> or <code>tmux</code>.</li>
+<li>Fields that have no value are <code>null</code>.</li>
+</ul>
+<h2 id="events"><a class="header" href="#events">Events</a></h2>
+<h3 id="initial_state"><a class="header" href="#initial_state">initial_state</a></h3>
+<p>Printed first, describing the session at the moment the command starts. It is printed whatever <code>--type</code> is given, unless <code>--no-initial-state</code> is used.</p>
+<pre><code class="language-json">{"event":"initial_state","session_name":"my-session","tabs":[...],"panes":[...],"clients":[...]}
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>session_name</code></td><td>Name of the session</td></tr>
+<tr><td><code>tabs</code></td><td>List of <a href="#tab">tabs</a>, in tab bar order</td></tr>
+<tr><td><code>panes</code></td><td>List of <a href="#pane">panes</a>, including plugin panes such as the tab bar</td></tr>
+<tr><td><code>clients</code></td><td>List of <a href="#client">clients</a></td></tr>
+</tbody></table>
+</div>
+<h4 id="tab"><a class="header" href="#tab">Tab</a></h4>
+<pre><code class="language-json">{"tab_id":0,"position":0,"name":"Tab #1","is_fullscreen_active":false,"is_sync_panes_active":false,"are_floating_panes_visible":false}
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>tab_id</code></td><td>Id of the tab</td></tr>
+<tr><td><code>position</code></td><td>Place of the tab in the tab bar, starting at <code>0</code></td></tr>
+<tr><td><code>name</code></td><td>Name of the tab</td></tr>
+<tr><td><code>is_fullscreen_active</code></td><td>Whether a pane in the tab is fullscreen</td></tr>
+<tr><td><code>is_sync_panes_active</code></td><td>Whether input is sent to all panes of the tab</td></tr>
+<tr><td><code>are_floating_panes_visible</code></td><td>Whether the floating panes of the tab are shown</td></tr>
+</tbody></table>
+</div>
+<h4 id="pane"><a class="header" href="#pane">Pane</a></h4>
+<pre><code class="language-json">{"pane_id":"terminal_1","tab_id":0,"title":"~/project","is_plugin":false,"is_floating":false,"is_fullscreen":false,"is_suppressed":false,"is_selectable":true,"exited":false,"exit_status":null,"terminal_command":null,"plugin_url":null}
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>pane_id</code></td><td>Id of the pane</td></tr>
+<tr><td><code>tab_id</code></td><td>Id of the tab the pane is in</td></tr>
+<tr><td><code>title</code></td><td>Title of the pane</td></tr>
+<tr><td><code>is_plugin</code></td><td>Whether the pane is a plugin</td></tr>
+<tr><td><code>is_floating</code></td><td>Whether the pane is floating</td></tr>
+<tr><td><code>is_fullscreen</code></td><td>Whether the pane is fullscreen</td></tr>
+<tr><td><code>is_suppressed</code></td><td>Whether the pane is hidden behind another pane (eg. a pane replaced with <code>--in-place</code>)</td></tr>
+<tr><td><code>is_selectable</code></td><td>Whether the pane can be focused (<code>false</code> for bars such as the tab bar and status bar)</td></tr>
+<tr><td><code>exited</code></td><td>Whether the command of a command pane has exited</td></tr>
+<tr><td><code>exit_status</code></td><td>Exit status of that command, if known</td></tr>
+<tr><td><code>terminal_command</code></td><td>The command and arguments of a command pane</td></tr>
+<tr><td><code>plugin_url</code></td><td>The location of a plugin pane, eg. <code>zellij:tab-bar</code></td></tr>
+</tbody></table>
+</div>
+<h4 id="client"><a class="header" href="#client">Client</a></h4>
+<pre><code class="language-json">{"client_id":1,"is_web_client":false,"tab_id":0,"pane_id":"terminal_1","mode":"normal"}
+</code></pre>
+<div class="table-wrapper"><table><thead><tr><th>Field</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>client_id</code></td><td>Id of the client</td></tr>
+<tr><td><code>is_web_client</code></td><td>Whether the client is connected through the <a href="./web-client.html">web client</a></td></tr>
+<tr><td><code>tab_id</code></td><td>Id of the tab the client is on</td></tr>
+<tr><td><code>pane_id</code></td><td>Id of the pane the client has focused</td></tr>
+<tr><td><code>mode</code></td><td>The client's input mode</td></tr>
+</tbody></table>
+</div>
+<h3 id="pane-events"><a class="header" href="#pane-events">Pane events</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Event</th><th>When</th><th>Fields</th></tr></thead><tbody>
+<tr><td><code>pane_opened</code></td><td>A pane is opened</td><td><code>pane</code> (a <a href="#pane">pane</a>)</td></tr>
+<tr><td><code>pane_closed</code></td><td>A pane is closed</td><td><code>pane_id</code>, <code>tab_id</code></td></tr>
+<tr><td><code>pane_focused</code></td><td>A client focuses a pane</td><td><code>client_id</code>, <code>pane_id</code>, <code>tab_id</code>, <code>previous_pane_id</code></td></tr>
+<tr><td><code>pane_renamed</code></td><td>The title of a pane changes, either because it was renamed or because the program in it set its title</td><td><code>pane_id</code>, <code>tab_id</code>, <code>title</code>, <code>previous_title</code></td></tr>
+<tr><td><code>pane_moved</code></td><td>A pane is moved to another tab</td><td><code>pane_id</code>, <code>tab_id</code>, <code>previous_tab_id</code></td></tr>
+<tr><td><code>pane_floating_changed</code></td><td>A pane becomes floating or tiled</td><td><code>pane_id</code>, <code>tab_id</code>, <code>is_floating</code></td></tr>
+<tr><td><code>pane_fullscreen_changed</code></td><td>A pane enters or leaves fullscreen</td><td><code>pane_id</code>, <code>tab_id</code>, <code>is_fullscreen</code></td></tr>
+<tr><td><code>pane_exited</code></td><td>The command of a <a href="./zellij-run-and-edit.html">command pane</a> exits and the pane stays open</td><td><code>pane_id</code>, <code>tab_id</code>, <code>exit_status</code></td></tr>
+<tr><td><code>pane_cwd_changed</code></td><td>The working directory of a terminal pane changes</td><td><code>pane_id</code>, <code>tab_id</code>, <code>cwd</code></td></tr>
+<tr><td><code>pane_command_changed</code></td><td>The program running in the foreground of a terminal pane changes</td><td><code>pane_id</code>, <code>tab_id</code>, <code>command</code>, <code>is_foreground</code></td></tr>
+</tbody></table>
+</div>
+<p>In <code>pane_command_changed</code>, <code>command</code> is the program and its arguments as a list of strings (eg. <code>["vim","notes.md"]</code>). When the pane goes back to its shell, <code>is_foreground</code> is <code>false</code> and <code>command</code> is the shell.</p>
+<p><code>previous_pane_id</code> and <code>exit_status</code> can be <code>null</code>, as can <code>tab_id</code> in <code>pane_closed</code>, <code>pane_cwd_changed</code> and <code>pane_command_changed</code>.</p>
+<pre><code class="language-json">{"event":"pane_opened","pane":{"pane_id":"terminal_2","tab_id":0,"title":"Pane #2","is_plugin":false,"is_floating":false,"is_fullscreen":false,"is_suppressed":false,"is_selectable":true,"exited":false,"exit_status":null,"terminal_command":null,"plugin_url":null}}
+{"event":"pane_focused","client_id":1,"pane_id":"terminal_2","tab_id":0,"previous_pane_id":"terminal_1"}
+{"event":"pane_renamed","pane_id":"terminal_2","tab_id":0,"title":"logs","previous_title":"Pane #2"}
+{"event":"pane_cwd_changed","pane_id":"terminal_2","tab_id":0,"cwd":"/home/me/project"}
+{"event":"pane_command_changed","pane_id":"terminal_2","tab_id":0,"command":["vim","notes.md"],"is_foreground":true}
+{"event":"pane_exited","pane_id":"terminal_3","tab_id":0,"exit_status":1}
+{"event":"pane_closed","pane_id":"terminal_2","tab_id":0}
+</code></pre>
+<h3 id="tab-events"><a class="header" href="#tab-events">Tab events</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Event</th><th>When</th><th>Fields</th></tr></thead><tbody>
+<tr><td><code>tab_created</code></td><td>A tab is opened</td><td><code>tab</code> (a <a href="#tab">tab</a>)</td></tr>
+<tr><td><code>tab_closed</code></td><td>A tab is closed</td><td><code>tab_id</code>, <code>name</code></td></tr>
+<tr><td><code>tab_renamed</code></td><td>A tab is renamed</td><td><code>tab_id</code>, <code>name</code>, <code>previous_name</code></td></tr>
+<tr><td><code>tab_moved</code></td><td>A tab is moved to another place in the tab bar</td><td><code>tab_id</code>, <code>position</code>, <code>previous_position</code></td></tr>
+<tr><td><code>tab_focused</code></td><td>A client switches to a tab</td><td><code>client_id</code>, <code>tab_id</code>, <code>previous_tab_id</code></td></tr>
+</tbody></table>
+</div>
+<p><code>previous_tab_id</code> can be <code>null</code>. When a tab is closed, a <code>pane_closed</code> event is printed for each of its panes before <code>tab_closed</code>.</p>
+<pre><code class="language-json">{"event":"tab_created","tab":{"tab_id":1,"position":1,"name":"Tab #2","is_fullscreen_active":false,"is_sync_panes_active":false,"are_floating_panes_visible":false}}
+{"event":"tab_focused","client_id":1,"tab_id":1,"previous_tab_id":0}
+{"event":"tab_renamed","tab_id":1,"name":"build","previous_name":"Tab #2"}
+{"event":"tab_moved","tab_id":1,"position":0,"previous_position":1}
+{"event":"tab_closed","tab_id":1,"name":"build"}
+</code></pre>
+<h3 id="mode-client-and-session-events"><a class="header" href="#mode-client-and-session-events">Mode, client and session events</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Event</th><th>When</th><th>Fields</th></tr></thead><tbody>
+<tr><td><code>mode_changed</code></td><td>A client's input mode changes</td><td><code>client_id</code>, <code>mode</code>, <code>previous_mode</code></td></tr>
+<tr><td><code>client_attached</code></td><td>A user attaches to the session</td><td><code>client_id</code>, <code>is_web_client</code></td></tr>
+<tr><td><code>client_detached</code></td><td>A user detaches from the session</td><td><code>client_id</code></td></tr>
+<tr><td><code>session_renamed</code></td><td>The session is renamed</td><td><code>name</code>, <code>previous_name</code></td></tr>
+<tr><td><code>session_ending</code></td><td>The session is ending. This is always the last line printed</td><td>none</td></tr>
+</tbody></table>
+</div>
+<p><code>previous_mode</code> can be <code>null</code>. When a user attaches, <code>client_attached</code> is followed by <code>tab_focused</code>, <code>pane_focused</code> and <code>mode_changed</code> events for that user.</p>
+<pre><code class="language-json">{"event":"mode_changed","client_id":1,"mode":"locked","previous_mode":"normal"}
+{"event":"client_attached","client_id":3,"is_web_client":false}
+{"event":"client_detached","client_id":3}
+{"event":"session_renamed","name":"work","previous_name":"my-session"}
+{"event":"session_ending"}
+</code></pre>
+<h2 id="exit-codes"><a class="header" href="#exit-codes">Exit Codes</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Exit code</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>0</code></td><td>The session ended, or the output was closed (eg. the program reading it exited)</td></tr>
+<tr><td><code>1</code></td><td>No session was found, eg. no session is running, the <code>--session</code> given does not exist, or several sessions are running and none was chosen</td></tr>
+<tr><td><code>2</code></td><td>An error, eg. a wrong flag or event type, an invalid pane id, or a session running a version of Zellij that does not support <code>events</code></td></tr>
+</tbody></table>
+</div>
+<h2 id="listening-to-a-different-session"><a class="header" href="#listening-to-a-different-session">Listening to a Different Session</a></h2>
+<p>To listen to a session other than the current one, use the global <code>--session</code> flag:</p>
+<pre><code>$ zellij --session my-background-session events
+</code></pre>
+<p>This is especially useful when combined with <a href="./cli-recipes.html#starting-and-controlling-background-sessions">background sessions</a>.</p>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<p>Print every event of the current session:</p>
+<pre><code>$ zellij events
+</code></pre>
+<p>Print only focus changes, without the initial state:</p>
+<pre><code>$ zellij events --type pane_focused tab_focused --no-initial-state
+</code></pre>
+<p>Follow a single pane:</p>
+<pre><code>$ zellij events --pane-id terminal_1
+</code></pre>
+<p>Follow everything that happens in a tab:</p>
+<pre><code>$ zellij events --tab-id 2
+</code></pre>
+<p>Print the name of each tab as it is opened:</p>
+<pre><code>$ zellij events --type tab_created --no-initial-state | jq --unbuffered -r '.tab.name'
+</code></pre>
+<p>Wait for a command pane to finish and print its exit status:</p>
+<pre><code>$ read -r status &lt; &lt;(zellij events --type pane_exited --pane-id terminal_3 --no-initial-state | jq --unbuffered -r '.exit_status')
+$ echo "$status"
+</code></pre>
+<p>Show a notice whenever a command pane fails:</p>
+<pre><code>$ zellij events --type pane_exited --no-initial-state \
+    | jq --unbuffered -r 'select(.exit_status != 0) | .pane_id' \
+    | while read -r pane; do zellij prompt notify "$pane failed"; done
+</code></pre>
+<p>Print the current input mode, for an external status bar:</p>
+<pre><code>$ zellij events --type mode_changed --no-initial-state | jq --unbuffered -r '.mode'
+</code></pre>
+<p>Print the folder a pane is in each time it changes:</p>
+<pre><code>$ zellij events --type pane_cwd_changed --pane-id terminal_1 --no-initial-state | jq --unbuffered -r '.cwd'
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="zellij-subscribe.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="zellij-prompt.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="zellij-subscribe.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="zellij-prompt.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

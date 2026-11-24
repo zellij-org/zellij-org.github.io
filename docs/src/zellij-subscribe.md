@@ -2,6 +2,8 @@
 
 Zellij provides a top-level `subscribe` command that streams the rendered output of one or more panes to stdout in real time. This is useful for monitoring, scripting, and building external tooling around Zellij sessions.
 
+To follow changes to the session itself (panes and tabs opening, closing, being focused or renamed...) rather than the contents of panes, see [Zellij Events](./zellij-events.md).
+
 ---
 
 - [Usage](#usage) - Command syntax

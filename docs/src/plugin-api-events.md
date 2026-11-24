@@ -2,6 +2,8 @@
 
 A plugin can [subscribe](./plugin-api-commands.md#subscribe) to events using their [`EventType`](./plugin-api-types.md#eventtype) discriminant. Once subscribed, events are delivered to the plugin's [`update`](./plugin-lifecycle.md#update) method with their associated payload.
 
+Many of the changes to the session reported by these events can also be followed outside of a plugin, from a script, with [`zellij events`](./zellij-events.md).
+
 For complete type definitions referenced below, see the [Type Reference](./plugin-api-types.md). For additional details, see the [`zellij-tile`](https://docs.rs/zellij-tile/latest/zellij_tile/) API documentation.
 
 A plugin built with `zellij-tile` `0.46.0` or later that receives an event it cannot read (eg. one added in a newer Zellij version) skips it, printing a message to its log, instead of crashing.

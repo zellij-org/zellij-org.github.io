@@ -72,7 +72,7 @@ disableHugoGeneratorInject = false
   # Homepage (layouts/index.html). Update these with each release.
   #
   [params.landing]
-    version         = "0.46.0"
+    version         = "0.46.1"
     releasePost     = "/news/terminal-inbox-session-previews/"
     title           = "Zellij: a terminal and multiplexer you learn in minutes"
     # GitHub stars, shown in the header, as of 2026-11-23 (from the GitHub API)

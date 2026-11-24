@@ -18,7 +18,7 @@ All of the primitives described here are documented individually elsewhere. This
 
 ## The Control Surface at a Glance
 
-Zellij exposes its entire control surface through `zellij action` subcommands and the `zellij subscribe` command. No socket, HTTP API, or library binding is required - all interaction occurs through subprocess invocation, and structured data is available as JSON on stdout.
+Zellij exposes its entire control surface through `zellij action` subcommands and the `zellij subscribe` and `zellij events` commands. No socket, HTTP API, or library binding is required - all interaction occurs through subprocess invocation, and structured data is available as JSON on stdout.
 
 The surface divides into four categories:
 
@@ -54,6 +54,7 @@ The surface divides into four categories:
 |---------|-------------|
 | [`subscribe --format json`](./zellij-subscribe.md) | Real-time NDJSON stream of rendered pane viewport content |
 | [`subscribe`](./zellij-subscribe.md) | Real-time raw text stream of rendered pane viewport content |
+| [`events`](./zellij-events.md) | Real-time NDJSON stream of pane, tab, mode, client and session changes |
 | [`dump-screen`](./cli-actions.md#dump-screen) | One-shot viewport/scrollback snapshot |
 
 ### Block (synchronize)
@@ -217,6 +218,19 @@ done
 zellij action dump-screen --pane-id "$PANE_ID" --full
 ```
 
+### Waiting with events
+
+[`events`](./zellij-events.md) reports when the command of a pane exits, so no polling is needed. The `initial_state` event covers a command that already exited before `events` started:
+
+```bash
+read -r STATUS < <(zellij events --pane-id "$PANE_ID" \
+  | jq --unbuffered -r '
+      if .event == "initial_state" then (.panes[] | select(.exited) | .exit_status)
+      elif .event == "pane_exited" then .exit_status
+      else empty end')
+echo "exited with $STATUS"
+```
+
 ### Streaming with subscribe
 
 For real-time observation without polling, [`subscribe`](./zellij-subscribe.md) streams viewport changes as they happen:
@@ -226,6 +240,16 @@ zellij subscribe --pane-id terminal_1 --format json
 ```
 
 This is useful for live monitoring and logging. See [Zellij Subscribe](./zellij-subscribe.md) for details and filtering examples.
+
+### Streaming session events
+
+To react to changes to the session rather than to pane output (a pane or tab opening, closing or being focused, the input mode changing, a user attaching...), [`events`](./zellij-events.md) prints each change as a JSON line:
+
+```bash
+zellij events --type pane_opened pane_closed tab_created tab_closed
+```
+
+See [Zellij Events](./zellij-events.md) for every event and its fields.
 
 ---
 
@@ -264,6 +288,8 @@ zellij subscribe --pane-id terminal_1 --format json
 | "Give me all output as it happens" | `subscribe` |
 | "Capture the final result after completion" | `dump-screen --full` (after blocking pane unblocks) |
 | Periodic polling (e.g., every 5 seconds) | `dump-screen` in a loop |
+| "Tell me when a pane or tab opens, closes, is focused or renamed" | [`events`](./zellij-events.md) |
+| "Tell me when a command finishes" | [`events`](./zellij-events.md) with `--type pane_exited` |
 
 ---
 
@@ -307,6 +333,7 @@ The following commands support `--json` output for machine consumption:
 | [`list-tabs --json`](./cli-actions.md#list-tabs) | Array of tab objects: `tab_id`, `position`, `name`, `active`, `is_fullscreen_active`, `is_sync_panes_active`, `are_floating_panes_visible`, `active_swap_layout_name`, `attention`, viewport dimensions, pane counts |
 | [`current-tab-info --json`](./cli-actions.md#current-tab-info) | Single tab object (same fields as `list-tabs`) |
 | [`subscribe --format json`](./zellij-subscribe.md) | NDJSON stream: `pane_update` events with `viewport[]` and `scrollback[]` arrays, `pane_closed` events |
+| [`events`](./zellij-events.md) | NDJSON stream: an `initial_state` event with all tabs, panes and clients, then pane, tab, mode, client and session events |
 | [`zellij prompt ... --json`](./zellij-prompt.md#json-output) | `result` (`answered`, `cancelled`, `timeout` or `error`) and `value` |
 
 Commands that return created resource IDs (plain text on stdout):
@@ -328,6 +355,7 @@ Commands that use exit codes to communicate state:
 | `show-floating-panes` | `0` = panes were shown, `1` = no floating panes existed, `2` = panes were already visible |
 | `apply-tiled-swap-layout`, `apply-floating-swap-layout` | `0` = the layout was applied, `1` = no swap layout with that name fits the current number of panes |
 | `toggle-tray-icon` | `0` = done, `1` = the desktop app is not running |
+| [`zellij events`](./zellij-events.md#exit-codes) | `0` = the session ended, `1` = no session found, `2` = error |
 | [`zellij prompt`](./zellij-prompt.md#exit-codes) | `0` = answered, `1` = cancelled (or "no" for `confirm`), `2` = error, `124` = timed out without a default |
 | [`zellij pipe`](./zellij-plugin-and-pipe.md#exit-status) | `0` by default, or the exit status set by the plugin; `2` on error |
 
@@ -369,8 +397,9 @@ For individual command references and task-oriented scripting examples, see:
 - [CLI Actions](./cli-actions.md) - Full reference of all `zellij action` subcommands
 - [CLI Recipes & Scripting](./cli-recipes.md) - Task-oriented examples and common workflows
 - [Zellij Subscribe](./zellij-subscribe.md) - Real-time pane output streaming
+- [Zellij Events](./zellij-events.md) - Real-time stream of session changes
 - [Zellij Run & Edit](./zellij-run-and-edit.md) - Launching commands and opening files in panes
 - [Zellij Plugin & Pipe](./zellij-plugin-and-pipe.md) - Plugin communication from the CLI
 - [Zellij Prompt](./zellij-prompt.md) - Asking the user a question from a script
 
-For deeper integration, the [Plugin API](./plugin-api.md) provides access to 120+ commands and 52 event types from compiled WASM plugins, including structured lifecycle events (`CommandPaneExited`, `PaneUpdate`, `TabUpdate`) that are not available through the CLI.
+For deeper integration, the [Plugin API](./plugin-api.md) provides access to 120+ commands and 52 event types from compiled WASM plugins, including events that are not available through [`zellij events`](./zellij-events.md).

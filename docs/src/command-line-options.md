@@ -256,6 +256,11 @@ Options:
 
           [possible values: true, false]
 
+      --show-setup-screen <SHOW_SETUP_SCREEN>
+          Whether to offer the desktop integration setup screen when a new session starts default is true
+
+          [possible values: true, false]
+
       --advanced-mouse-actions <ADVANCED_MOUSE_ACTIONS>
           Whether to enable mouse hover effects and pane grouping functionality default is true
 

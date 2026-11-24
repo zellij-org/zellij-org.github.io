@@ -159,6 +159,7 @@
 <li><a href="#targeting-specific-panes-and-tabs">Targeting Specific Panes and Tabs</a></li>
 <li><a href="#sending-input-to-another-pane">Sending Input to Another Pane</a></li>
 <li><a href="#watching-pane-output-in-real-time">Watching Pane Output in Real Time</a></li>
+<li><a href="#reacting-to-session-events">Reacting to Session Events</a></li>
 <li><a href="#starting-and-controlling-background-sessions">Starting and Controlling Background Sessions</a></li>
 <li><a href="#scripting-pane-and-tab-creation">Scripting Pane and Tab Creation</a></li>
 <li><a href="#inspecting-session-state">Inspecting Session State</a></li>
@@ -281,6 +282,26 @@ position: 0
 <p>Monitor multiple panes simultaneously:</p>
 <pre><code>zellij subscribe --pane-id terminal_1 --pane-id terminal_2 --format json
 </code></pre>
+<h2 id="reacting-to-session-events"><a class="header" href="#reacting-to-session-events">Reacting to Session Events</a></h2>
+<p>The <a href="./zellij-events.html">zellij events</a> command prints a JSON line each time something changes in the session: a pane or tab opens, closes, is focused, renamed or moved, the input mode changes, a user attaches or detaches, or the session is renamed or ends.</p>
+<p>Print every event:</p>
+<pre><code>zellij events
+</code></pre>
+<p>Print only some events, without the description of the session that is printed first:</p>
+<pre><code>zellij events --type pane_focused tab_focused --no-initial-state
+</code></pre>
+<p>Follow one pane, or everything in one tab:</p>
+<pre><code>zellij events --pane-id terminal_1
+zellij events --tab-id 2
+</code></pre>
+<p>Print the id of the focused tab each time it changes:</p>
+<pre><code>zellij events --type tab_focused --no-initial-state | jq --unbuffered -r '.tab_id'
+</code></pre>
+<p>Show a notice when a command pane fails:</p>
+<pre><code>zellij events --type pane_exited --no-initial-state \
+  | jq --unbuffered -r 'select(.exit_status != 0) | .pane_id' \
+  | while read -r pane; do zellij prompt notify "$pane failed"; done
+</code></pre>
 <h2 id="starting-and-controlling-background-sessions"><a class="header" href="#starting-and-controlling-background-sessions">Starting and Controlling Background Sessions</a></h2>
 <p>A Zellij session can be created in the background without attaching to it. This is useful for headless workflows, CI pipelines, and scripted environments.</p>
 <p>Create a background session:</p>
@@ -304,6 +325,9 @@ zellij --session my-session action send-keys --pane-id $PANE_ID "Enter"
 </code></pre>
 <p>Subscribe to a pane's output in the background session (see <a href="./zellij-subscribe.html">Zellij Subscribe</a>):</p>
 <pre><code>zellij --session my-session subscribe --pane-id terminal_1 --format json
+</code></pre>
+<p>Follow what happens in the background session (see <a href="./zellij-events.html">Zellij Events</a>):</p>
+<pre><code>zellij --session my-session events
 </code></pre>
 <p>Dump the screen of a specific pane in the background session:</p>
 <pre><code>zellij --session my-session action dump-screen --pane-id terminal_1 --full
@@ -358,7 +382,7 @@ zellij action send-keys --pane-id $PANE_ID "Enter"
 <pre><code class="language-bash">TAB_ID=$(zellij action new-tab --name "tests" --layout /path/to/test-layout.kdl)
 </code></pre>
 <h2 id="inspecting-session-state"><a class="header" href="#inspecting-session-state">Inspecting Session State</a></h2>
-<p>Information about the current session can be queried for use in scripts or external status bars. For a full reference of these commands, see the <a href="./cli-actions.html">CLI Actions</a> page.</p>
+<p>Information about the current session can be queried for use in scripts or external status bars. For a full reference of these commands, see the <a href="./cli-actions.html">CLI Actions</a> page. To be told when this information changes instead of querying it again, see <a href="#reacting-to-session-events">Reacting to Session Events</a>.</p>
 <h3 id="listing-panes"><a class="header" href="#listing-panes">Listing Panes</a></h3>
 <p>List all panes with full details:</p>
 <pre><code>zellij action list-panes --all

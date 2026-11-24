@@ -51,7 +51,7 @@ session_suggestions {
 ```
 
 - The first argument is the name of the fact. It cannot be one of the built-in names.
-- `command` runs with `sh -c` in the folder. Its output, with spaces at the start and end removed, is the value of the fact. A command that fails, prints nothing, or takes longer than 1.5 seconds gives no value.
+- `command` runs with `sh -c` in the folder (with `cmd` on Windows, where variables are written as `%PROJECT%`). Its output, with spaces at the start and end removed, is the value of the fact. A command that fails, prints nothing, or takes longer than 1.5 seconds gives no value.
 - `column` (optional) shows the fact as a column with this title in the session manager.
 - `at` (optional) is when the command runs:
   - `"live"` (default) - again each time the folder of the focused pane changes

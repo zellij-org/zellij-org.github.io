@@ -34,8 +34,8 @@ Sharing sessions in the browser is done from the [share screen](./web-client.md)
 | `Tab` / `Shift Tab` | Complete the typed name, cycling through the matching sessions. When the inbox is shown, `Tab` switches to it |
 | `Ctrl l` | Create a new session with a layout |
 | `Ctrl r` | Rename the current session |
-| `Del` | Stop or delete the selected session |
-| `Shift Del` | Delete all exited sessions |
+| `Del` (or `Backspace` when the search is empty) | Stop or delete the selected session |
+| `Shift Del` (or `Shift Backspace` when the search is empty) | Delete all exited sessions |
 | `Alt w` | Open the selected session in a Zellij terminal window |
 | `Ctrl c` | Clear the search, or close the session manager when the search is empty |
 | `F1` | Show all keys |

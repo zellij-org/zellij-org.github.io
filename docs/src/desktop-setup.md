@@ -4,7 +4,7 @@ Zellij can add itself to the desktop: a copy of Zellij in a permanent folder, a 
 
 ## The setup screen
 
-The setup screen is shown when a new session starts for the first time (when Zellij had to create its configuration file). Until it is approved or dismissed with "Don't Show Again", it is offered again in new sessions while one of its items is still missing.
+The setup screen is shown when a new session starts for the first time (when Zellij had to create its configuration file). Until it is approved or dismissed with "Don't Show Again", it is offered again in new sessions while one of its items is still missing. To never show it by itself, set [`show_setup_screen false`](./options.md#show_setup_screen) in the configuration (or turn off "Setup screen" under General → Startup in the settings screen).
 
 It can be opened at any time:
 

@@ -75,6 +75,7 @@ Windows opened with `zellij terminal` are run by one desktop app in the backgrou
 
 - **Closing a window keeps its session running.** It can be opened again from the session list. This follows the [`on_force_close`](./options.md#on_force_close) option: with `on_force_close "quit"`, closing a window quits its session instead.
 - **One window per session.** With `reuse_session_windows` on (the default), switching a window to a session that another window already shows brings that other window forward instead. See [`reuse_session_windows`](./terminal-options.md#reuse_session_windows).
+- **Upgrading.** When a newer `zellij terminal` is started while an older desktop app is running, it offers to close the older app (Enter) or cancel (Escape). Sessions keep running either way.
 - Windows opened with `--standalone`, `--watch`, a remote URL, `--index`, an `options` subcommand, or with the `ZELLIJ_TERMINAL_STANDALONE` environment variable set run on their own, outside the desktop app.
 
 ### The tray icon
@@ -91,7 +92,11 @@ Its menu has:
 
 The icon can also be toggled with `zellij action toggle-tray-icon` until the app restarts. Sessions and notifications keep working while it is hidden.
 
-The launcher's right-click menu (in the app menu, the Dock or the taskbar) has Show Inbox and Show Sessions as well. `zellij terminal --inbox` and `zellij terminal --sessions` do the same, and can be bound to a desktop keyboard shortcut.
+The launcher's right-click menu has Show Inbox, Show Sessions and New Window in the app menu on Linux and in the taskbar on Windows, and New Window in the Dock on macOS. `zellij terminal --inbox` and `zellij terminal --sessions` do the same, and can be bound to a desktop keyboard shortcut.
+
+### Environment variables
+
+Sessions opened in the Zellij terminal have `TERM_PROGRAM=zellij` and `TERM_PROGRAM_VERSION` set to the version of Zellij. Variables set by the terminal `zellij terminal` was started from (eg. `ITERM_SESSION_ID`, `KITTY_WINDOW_ID`, `WEZTERM_PANE`, `GHOSTTY_*`, `VTE_VERSION`, `WT_SESSION` or `TERMINFO`) are not passed on to the session.
 
 ### Desktop notifications
 
@@ -115,6 +120,8 @@ The desktop app turns [inbox](./inbox.md) items into desktop notifications: when
 - The window has the standard macOS menu. Quitting from the Dock saves the state of every window.
 - Which Option key acts as Alt is set with [`macos_option_as_alt`](./terminal-options.md#macos_option_as_alt).
 - The Cmd versions of the copy, paste and zoom keys work in addition to the Ctrl ones.
+- Cmd and click opens a link in any pane (see [`open_links`](./terminal-options.md#open_links)).
+- Shell scripts and folders can be opened with Zellij.app (eg. with "Open With" in Finder, or by dropping them on its Dock icon). A folder opens a new window in that folder. A script runs in a new window, in its own folder. Zellij.app does not become the default app for these files.
 
 ### Windows
 

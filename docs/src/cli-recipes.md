@@ -7,6 +7,7 @@ This page provides task-oriented examples for controlling Zellij from the comman
 - [Targeting Specific Panes and Tabs](#targeting-specific-panes-and-tabs)
 - [Sending Input to Another Pane](#sending-input-to-another-pane)
 - [Watching Pane Output in Real Time](#watching-pane-output-in-real-time)
+- [Reacting to Session Events](#reacting-to-session-events)
 - [Starting and Controlling Background Sessions](#starting-and-controlling-background-sessions)
 - [Scripting Pane and Tab Creation](#scripting-pane-and-tab-creation)
 - [Inspecting Session State](#inspecting-session-state)
@@ -182,6 +183,38 @@ Monitor multiple panes simultaneously:
 zellij subscribe --pane-id terminal_1 --pane-id terminal_2 --format json
 ```
 
+## Reacting to Session Events
+
+The [zellij events](./zellij-events.md) command prints a JSON line each time something changes in the session: a pane or tab opens, closes, is focused, renamed or moved, the input mode changes, a user attaches or detaches, or the session is renamed or ends.
+
+Print every event:
+```
+zellij events
+```
+
+Print only some events, without the description of the session that is printed first:
+```
+zellij events --type pane_focused tab_focused --no-initial-state
+```
+
+Follow one pane, or everything in one tab:
+```
+zellij events --pane-id terminal_1
+zellij events --tab-id 2
+```
+
+Print the id of the focused tab each time it changes:
+```
+zellij events --type tab_focused --no-initial-state | jq --unbuffered -r '.tab_id'
+```
+
+Show a notice when a command pane fails:
+```
+zellij events --type pane_exited --no-initial-state \
+  | jq --unbuffered -r 'select(.exit_status != 0) | .pane_id' \
+  | while read -r pane; do zellij prompt notify "$pane failed"; done
+```
+
 ## Starting and Controlling Background Sessions
 
 A Zellij session can be created in the background without attaching to it. This is useful for headless workflows, CI pipelines, and scripted environments.
@@ -219,6 +252,11 @@ zellij --session my-session action send-keys --pane-id $PANE_ID "Enter"
 Subscribe to a pane's output in the background session (see [Zellij Subscribe](./zellij-subscribe.md)):
 ```
 zellij --session my-session subscribe --pane-id terminal_1 --format json
+```
+
+Follow what happens in the background session (see [Zellij Events](./zellij-events.md)):
+```
+zellij --session my-session events
 ```
 
 Dump the screen of a specific pane in the background session:
@@ -288,7 +326,7 @@ TAB_ID=$(zellij action new-tab --name "tests" --layout /path/to/test-layout.kdl)
 
 ## Inspecting Session State
 
-Information about the current session can be queried for use in scripts or external status bars. For a full reference of these commands, see the [CLI Actions](./cli-actions.md) page.
+Information about the current session can be queried for use in scripts or external status bars. For a full reference of these commands, see the [CLI Actions](./cli-actions.md) page. To be told when this information changes instead of querying it again, see [Reacting to Session Events](#reacting-to-session-events).
 
 ### Listing Panes
 

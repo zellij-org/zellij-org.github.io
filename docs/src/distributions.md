@@ -14,7 +14,7 @@ A distribution is a Rust program that depends on the `zellij` crate and calls `z
 
 ```toml
 [dependencies]
-zellij = "0.46.0"
+zellij = "0.46.1"
 ```
 
 ```rust
@@ -77,7 +77,7 @@ The name of a distribution names everything it owns, so it does not share files 
 - The plugin and data folders under `<prefix>/share/<name>`
 - The command name shown in `--help`
 
-`--version` shows the distribution's version followed by the Zellij version it is built on, eg. `1.0.0 (zellij 0.46.0)`.
+`--version` shows the distribution's version followed by the Zellij version it is built on, eg. `1.0.0 (zellij 0.46.1)`.
 
 ## Replacing a built-in plugin
 

@@ -198,7 +198,7 @@
 </code></pre>
 <ul>
 <li>The first argument is the name of the fact. It cannot be one of the built-in names.</li>
-<li><code>command</code> runs with <code>sh -c</code> in the folder. Its output, with spaces at the start and end removed, is the value of the fact. A command that fails, prints nothing, or takes longer than 1.5 seconds gives no value.</li>
+<li><code>command</code> runs with <code>sh -c</code> in the folder (with <code>cmd</code> on Windows, where variables are written as <code>%PROJECT%</code>). Its output, with spaces at the start and end removed, is the value of the fact. A command that fails, prints nothing, or takes longer than 1.5 seconds gives no value.</li>
 <li><code>column</code> (optional) shows the fact as a column with this title in the session manager.</li>
 <li><code>at</code> (optional) is when the command runs:
 <ul>
