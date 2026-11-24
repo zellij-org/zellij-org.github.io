@@ -523,7 +523,7 @@ a.seg:hover, button.seg:hover { filter: brightness(1.1); }
 .sb-key { flex-shrink: 0; margin: 0 0.45em 0 0.75em; color: var(--sb-key); font-weight: 700; }
 .sb-key:first-child { margin-left: 0; }
 .sb-segs .seg, .sb-lock .seg { margin-left: 0; font-size: 0.74rem; padding-block: 0.38em; }
-.is-locked .sb-segs { opacity: 0.45; }
+.is-locked .sb-segs { opacity: 0.45; pointer-events: none; }
 .sb-lock { display: flex; align-items: center; flex-shrink: 0; margin-left: auto; }
 @media (max-width: 560px) { .sb-label { display: none; } }
 

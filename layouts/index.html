@@ -75,7 +75,7 @@
       </figure>
     </section>
 
-    <section class="pane feature-pane rev" id="agents">
+    <section class="pane feature-pane rev" id="inbox">
       <span class="pane-title" aria-hidden="true">inbox</span>
       <div class="feature-text">
         <h2>One inbox for everything that needs you</h2>
@@ -132,10 +132,12 @@
 {{ end }}
 
 {{ define "statusbar" }}
+{{- /* One shortcut per section, in page order, named after its pane */}}
 {{- partial "site/statusbar.html" (dict "segs" (slice
   (dict "k" "i" "t" "INSTALL" "target" "install")
-  (dict "k" "a" "t" "AGENTS" "target" "agents")
-  (dict "k" "f" "t" "FEATURES" "target" "panes")
+  (dict "k" "p" "t" "PANES" "target" "panes")
+  (dict "k" "n" "t" "INBOX" "target" "inbox")
+  (dict "k" "t" "t" "TERMINAL" "target" "terminal")
   (dict "k" "s" "t" "SUPPORT" "target" "support")
 )) }}
 {{ end }}

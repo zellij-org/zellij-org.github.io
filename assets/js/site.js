@@ -267,44 +267,73 @@
   var bar = $('statusbar');
   var locked = false, keymap = {}, setLock = null;
   if (bar) {
-    var navSegs = Array.prototype.slice.call(bar.querySelectorAll('.seg[data-target]'));
     Array.prototype.forEach.call(bar.querySelectorAll('.seg[data-key]'), function (b) { keymap[b.getAttribute('data-key')] = b; });
-    navSegs.forEach(function (b) {
-      b.addEventListener('click', function () {
-        var el = $(b.getAttribute('data-target'));
-        if (el) el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+
+    /* Section shortcuts. The one for the section being read is lit: the first section still at least half on screen
+       (or filling half the screen, for one taller than it), and the last one at the end of the page.
+       A clicked shortcut stays lit until the visitor scrolls, even when its section can't scroll up to the top. */
+    var spots = Array.prototype.slice.call(bar.querySelectorAll('.seg[data-target]'))
+      .map(function (b) { return { b: b, el: $(b.getAttribute('data-target')) }; })
+      .filter(function (s) { return s.el; });
+    var pinned = false, spyQueued = false;
+    var light = function (b) { spots.forEach(function (s) { s.b.classList.toggle('is-active', s.b === b); }); };
+    var spy = function () {
+      spyQueued = false;
+      if (pinned) return;
+      var h = window.innerHeight - bar.offsetHeight, last = spots.length - 1, i = -1, j;
+      var shown = spots.map(function (s) {
+        var r = s.el.getBoundingClientRect();
+        return Math.max(0, Math.min(r.bottom, h) - Math.max(r.top, 0)) / Math.min(r.height, h);
+      });
+      if (shown[last] >= 0.5 && document.documentElement.scrollHeight - window.innerHeight - window.scrollY < 2) i = last;
+      for (j = 0; i < 0 && j <= last; j++) if (shown[j] >= 0.5) i = j;
+      /* Between two big sections, neither half on screen: the one showing more */
+      for (j = 0; j <= last; j++) if (shown[j] > 0 && (i < 0 || (shown[i] < 0.5 && shown[j] > shown[i]))) i = j;
+      light(i < 0 ? null : spots[i].b);
+    };
+    var spySoon = function () { if (!spyQueued) { spyQueued = true; window.requestAnimationFrame(spy); } };
+    var unpin = function () { pinned = false; };
+    spots.forEach(function (s) {
+      s.b.addEventListener('click', function () {
+        pinned = true;
+        light(s.b);
+        s.el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
       });
     });
-    /* Page actions: TRY IT on the homepage (landing.js), TOP everywhere */
+    if (spots.length) {
+      window.addEventListener('scroll', spySoon, { passive: true });
+      window.addEventListener('resize', spySoon);
+      ['wheel', 'touchstart', 'mousedown'].forEach(function (t) { window.addEventListener(t, unpin, { passive: true }); });
+      window.addEventListener('keydown', function (e) { if (/^(Arrow(Up|Down)|Page(Up|Down)|Home|End| )$/.test(e.key)) unpin(); });
+      spy();
+    }
+    /* Page actions: TOP on most pages. Page scripts can add their own to zj.actions. */
     zj.actions.top = function () { window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); };
     Array.prototype.forEach.call(bar.querySelectorAll('[data-action]:not([data-action="lock"])'), function (b) {
       b.addEventListener('click', function () { var fn = zj.actions[b.getAttribute('data-action')]; if (fn) fn(); });
     });
 
+    /* Locked, like Zellij's locked mode: only UNLOCK answers, to a click or Ctrl g. The shortcuts can't be clicked, focused or typed. */
     var lockBtn = bar.querySelector('[data-action="lock"]');
+    var sbSegs = bar.querySelector('.sb-segs');
     var sbLabel = $('sbLabel');
     var sbName = sbLabel ? sbLabel.textContent : '';
     setLock = function (on) {
       locked = on;
       bar.classList.toggle('is-locked', on);
+      if (sbSegs) sbSegs.inert = on;
       lockBtn.classList.toggle('is-active', on);
       lockBtn.querySelector('.seg-text').textContent = on ? 'UNLOCK' : 'LOCK';
       if (sbLabel) sbLabel.textContent = on ? 'LOCKED' : sbName;
     };
     if (lockBtn) lockBtn.addEventListener('click', function () { setLock(!locked); });
 
-    if ('IntersectionObserver' in window) {
-      var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) {
-          if (!en.isIntersecting) return;
-          navSegs.forEach(function (b) { b.classList.toggle('is-active', b.getAttribute('data-target') === en.target.id); });
-        });
-      }, { rootMargin: '-45% 0px -50% 0px' });
-      navSegs.forEach(function (b) {
-        var el = $(b.getAttribute('data-target'));
-        if (el) io.observe(el);
-      });
-    }
+    /* A shortcut clicked with the mouse doesn't keep the focus, or the next key pressed would show it in focus blue,
+       next to the green of the section shortcut lit, and Space would press it again instead of scrolling. */
+    bar.addEventListener('click', function (e) {
+      var a = document.activeElement;
+      if (e.detail > 0 && a && bar.contains(a)) a.blur();
+    });
   }
 
   document.addEventListener('keydown', function (e) {
@@ -329,6 +358,8 @@
     var b = keymap[(e.key || '').toLowerCase()];
     if (!b) return;
     e.preventDefault();
+    /* The same for a shortcut tabbed to before, when another one is typed */
+    if (bar.contains(document.activeElement)) document.activeElement.blur();
     b.click();
   });
 })();
