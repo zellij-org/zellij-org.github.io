@@ -154,6 +154,7 @@
                     <main>
                         <h1 id="plugin-api---events"><a class="header" href="#plugin-api---events">Plugin API - Events</a></h1>
 <p>A plugin can <a href="./plugin-api-commands.html#subscribe">subscribe</a> to events using their <a href="./plugin-api-types.html#eventtype"><code>EventType</code></a> discriminant. Once subscribed, events are delivered to the plugin's <a href="./plugin-lifecycle.html#update"><code>update</code></a> method with their associated payload.</p>
+<p>Many of the changes to the session reported by these events can also be followed outside of a plugin, from a script, with <a href="./zellij-events.html"><code>zellij events</code></a>.</p>
 <p>For complete type definitions referenced below, see the <a href="./plugin-api-types.html">Type Reference</a>. For additional details, see the <a href="https://docs.rs/zellij-tile/latest/zellij_tile/"><code>zellij-tile</code></a> API documentation.</p>
 <p>A plugin built with <code>zellij-tile</code> <code>0.46.0</code> or later that receives an event it cannot read (eg. one added in a newer Zellij version) skips it, printing a message to its log, instead of crashing.</p>
 <h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h2>

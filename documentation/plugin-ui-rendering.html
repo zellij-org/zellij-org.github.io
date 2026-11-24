@@ -249,6 +249,7 @@ print_text_with_coordinates(text, 0, 0, None, None);
 <tr><td><code>unbold_indices</code>, <code>unbold_range</code>, <code>unbold_substring</code>, <code>unbold_all</code></td><td>Not bold (text that has any styling is drawn bold by default)</td></tr>
 <tr><td><code>italic_range</code>, <code>italic_all</code></td><td>Italic</td></tr>
 <tr><td><code>rgb_color_range([r, g, b], range)</code></td><td>Any RGB color, regardless of the theme</td></tr>
+<tr><td><code>link_indices(url, vec)</code>, <code>link_range(url, range)</code>, <code>link_substring(url, s)</code>, <code>link_all(url)</code></td><td>A link to <code>url</code> (see below)</td></tr>
 </tbody></table>
 </div>
 <p>For example:</p>
@@ -260,6 +261,15 @@ print_text_with_coordinates(text, 0, 0, None, None);
     .italic_range(0..5)
     .rgb_color_range([142, 78, 198], 15..16);
 <span class="boring">}</span></code></pre></pre>
+<h5 id="links"><a class="header" href="#links">Links</a></h5>
+<p>The <code>link_*</code> methods turn characters into a link that the terminal showing Zellij opens, usually with Ctrl and click or Shift and click. Linking does not change how the text looks, so linked text is usually also styled:</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let text = Text::from("See the docs for details")
+    .color_substring(0, "docs")
+    .link_substring("https://zellij.dev/documentation/", "docs");
+<span class="boring">}</span></code></pre></pre>
+<p>The URL must start with a scheme (eg. <code>https:</code>), and cannot contain spaces or control characters or be longer than 2048 bytes. Otherwise the link is left out and the text is shown without it. Links work in text, tables, ribbons and nested lists.</p>
 <h5 id="measuring-and-wrapping"><a class="header" href="#measuring-and-wrapping">Measuring and wrapping</a></h5>
 <div class="table-wrapper"><table><thead><tr><th>Method</th><th>Returns</th></tr></thead><tbody>
 <tr><td><code>content()</code></td><td>The text itself, as <code>&amp;str</code></td></tr>
@@ -662,7 +672,7 @@ Opaque components are best used as part of status bars, transparent components w
 <tr><td>6</td><td>The theme's "error" color</td></tr>
 <tr><td>7</td><td>The theme's "success" color</td></tr>
 <tr><td>8</td><td>Italic</td></tr>
-<tr><td>9 and above</td><td>A custom RGB color (see below)</td></tr>
+<tr><td>9 and above</td><td>A custom RGB color or a link (see below)</td></tr>
 </tbody></table>
 </div>
 <p>Example:</p>
@@ -670,6 +680,7 @@ Opaque components are best used as part of status bars, transparent components w
 </code></pre>
 <p>Here, indices 1, 2, 3 and 4 will be colored in index color 0 while 5 and 6 will be colored in index color 1. Index color 2 is empty, so no elements will be colored using it, and element number 7 will be colored in index color 3.</p>
 <p>A custom color level (9 and above) contains one marker value, <code>1073741824</code> (<code>1 &lt;&lt; 30</code>) plus the color as <code>0xRRGGBB</code>, followed by the indices to paint in that color. Each color uses its own level. For example, <code>1083068102,0,1</code> (<code>1073741824 + 0x8e4ec6</code>) paints characters 0 and 1 in <code>#8e4ec6</code>.</p>
+<p>A link level (9 and above) begins with <code>l</code> followed by the URL in hexadecimal (two characters per byte), followed by the indices to link. Each URL uses its own level, separate from the custom color levels. For example, <code>l68747470733a2f2f7a656c6c696a2e646576,0,1</code> links characters 0 and 1 to <code>https://zellij.dev</code>.</p>
 <h4 id="indentation"><a class="header" href="#indentation">Indentation</a></h4>
 <p>In the context of a Nested List, elements can be arbitrarily indented. This is done one or more pipe (<code>|</code>) characters preceding the utf-8 byte list.
 Example:</p>

@@ -214,6 +214,7 @@ $ zellij terminal https://my-server:8082/my-session
 <ul>
 <li><strong>Closing a window keeps its session running.</strong> It can be opened again from the session list. This follows the <a href="./options.html#on_force_close"><code>on_force_close</code></a> option: with <code>on_force_close "quit"</code>, closing a window quits its session instead.</li>
 <li><strong>One window per session.</strong> With <code>reuse_session_windows</code> on (the default), switching a window to a session that another window already shows brings that other window forward instead. See <a href="./terminal-options.html#reuse_session_windows"><code>reuse_session_windows</code></a>.</li>
+<li><strong>Upgrading.</strong> When a newer <code>zellij terminal</code> is started while an older desktop app is running, it offers to close the older app (Enter) or cancel (Escape). Sessions keep running either way.</li>
 <li>Windows opened with <code>--standalone</code>, <code>--watch</code>, a remote URL, <code>--index</code>, an <code>options</code> subcommand, or with the <code>ZELLIJ_TERMINAL_STANDALONE</code> environment variable set run on their own, outside the desktop app.</li>
 </ul>
 <h3 id="the-tray-icon"><a class="header" href="#the-tray-icon">The tray icon</a></h3>
@@ -227,7 +228,9 @@ $ zellij terminal https://my-server:8082/my-session
 <li>Quit Zellij and stop all sessions</li>
 </ul>
 <p>The icon can also be toggled with <code>zellij action toggle-tray-icon</code> until the app restarts. Sessions and notifications keep working while it is hidden.</p>
-<p>The launcher's right-click menu (in the app menu, the Dock or the taskbar) has Show Inbox and Show Sessions as well. <code>zellij terminal --inbox</code> and <code>zellij terminal --sessions</code> do the same, and can be bound to a desktop keyboard shortcut.</p>
+<p>The launcher's right-click menu has Show Inbox, Show Sessions and New Window in the app menu on Linux and in the taskbar on Windows, and New Window in the Dock on macOS. <code>zellij terminal --inbox</code> and <code>zellij terminal --sessions</code> do the same, and can be bound to a desktop keyboard shortcut.</p>
+<h3 id="environment-variables"><a class="header" href="#environment-variables">Environment variables</a></h3>
+<p>Sessions opened in the Zellij terminal have <code>TERM_PROGRAM=zellij</code> and <code>TERM_PROGRAM_VERSION</code> set to the version of Zellij. Variables set by the terminal <code>zellij terminal</code> was started from (eg. <code>ITERM_SESSION_ID</code>, <code>KITTY_WINDOW_ID</code>, <code>WEZTERM_PANE</code>, <code>GHOSTTY_*</code>, <code>VTE_VERSION</code>, <code>WT_SESSION</code> or <code>TERMINFO</code>) are not passed on to the session.</p>
 <h3 id="desktop-notifications"><a class="header" href="#desktop-notifications">Desktop notifications</a></h3>
 <p>The desktop app turns <a href="./inbox.html">inbox</a> items into desktop notifications: when something needs you, when a command fails and when a long command finishes. Which ones are shown, and whether they include the command text, is set in the <code>desktop_notifications</code> and <code>notification_details</code> settings of the <a href="./inbox.html#configuration"><code>attention</code> block</a>, or in Settings → Notifications.</p>
 <h2 id="platform-notes"><a class="header" href="#platform-notes">Platform notes</a></h2>
@@ -247,6 +250,8 @@ $ zellij terminal https://my-server:8082/my-session
 <li>The window has the standard macOS menu. Quitting from the Dock saves the state of every window.</li>
 <li>Which Option key acts as Alt is set with <a href="./terminal-options.html#macos_option_as_alt"><code>macos_option_as_alt</code></a>.</li>
 <li>The Cmd versions of the copy, paste and zoom keys work in addition to the Ctrl ones.</li>
+<li>Cmd and click opens a link in any pane (see <a href="./terminal-options.html#open_links"><code>open_links</code></a>).</li>
+<li>Shell scripts and folders can be opened with Zellij.app (eg. with "Open With" in Finder, or by dropping them on its Dock icon). A folder opens a new window in that folder. A script runs in a new window, in its own folder. Zellij.app does not become the default app for these files.</li>
 </ul>
 <h3 id="windows"><a class="header" href="#windows">Windows</a></h3>
 <ul>

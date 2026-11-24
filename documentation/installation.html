@@ -188,6 +188,11 @@
 <h2 id="binary-download"><a class="header" href="#binary-download">Binary Download</a></h2>
 <p>Pre-built binaries are available each release for Linux, macOS, and Windows on the <a href="https://github.com/zellij-org/zellij/releases">release page</a>.</p>
 <h3 id="linux--macos"><a class="header" href="#linux--macos">Linux / macOS</a></h3>
+<p>Linux binaries come in two builds:</p>
+<ul>
+<li><code>zellij-&lt;arch&gt;-unknown-linux-gnu.tar.gz</code> - for most distributions (glibc 2.17 or newer). This is the build that includes the <a href="./zellij-terminal.html">Zellij terminal</a>.</li>
+<li><code>zellij-&lt;arch&gt;-unknown-linux-musl.tar.gz</code> - a fully static build for systems without glibc (eg. Alpine). It cannot run <code>zellij terminal</code>.</li>
+</ul>
 <p>Once downloaded, untar the file:</p>
 <pre><code>tar -xvf zellij*.tar.gz
 </code></pre>

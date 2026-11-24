@@ -161,7 +161,8 @@ echo $ZELLIJ_SESSION_NAME
 <p>The <code>ZELLIJ_SESSION_NAME</code> has the session name as its value, and <code>ZELLIJ</code> gets
 set to <code>0</code> inside a zellij session.
 Arbitrary key value pairs can be set through configuration, or layouts.
-Note that <code>ZELLIJ_SESSION_NAME</code> will not be updated for existing terminal panes when renaming a session (but will for new panes).</p>
+Note that <code>ZELLIJ_SESSION_NAME</code> will not be updated for existing terminal panes when renaming a session (but will for new panes).
+<code>ZELLIJ_SESSION_ID</code> identifies the session and does not change when it is renamed. Zellij commands run from a pane (eg. <code>zellij action</code>, <code>zellij events</code> or <code>zellij prompt</code>) use it to find the pane's session.</p>
 <h2 id="reporting-status-to-the-inbox"><a class="header" href="#reporting-status-to-the-inbox">Reporting status to the inbox</a></h2>
 <p>Programs and scripts can tell Zellij whether they are working, waiting for the user, finished or failed, and Zellij shows this in its <a href="./inbox.html">inbox</a>. Many programs already do this. See <a href="./inbox-integrations.html">Inbox Integrations</a> for the list, and for a shell function that reports the status of a script.</p>
 <p>A command can also be run in a watched pane, so that Zellij reports when it finishes:</p>
@@ -181,18 +182,18 @@ zellij terminal --sessions
 <tr><td><code>ZELLIJ_SOCKET_DIR</code></td><td>The folder for session sockets. The same as <code>zellij terminal --socket-dir</code></td></tr>
 <tr><td><code>ZELLIJ_DESKTOP_INTEGRATION</code></td><td><code>on</code> treats the environment as a desktop, <code>off</code> never offers desktop items. See <a href="./desktop-setup.html">Desktop Setup</a></td></tr>
 <tr><td><code>ZELLIJ_TERMINAL_STANDALONE</code></td><td>When set, <code>zellij terminal</code> opens its window on its own, outside the desktop app (the same as <code>--standalone</code>)</td></tr>
+<tr><td><code>ZELLIJ_CONPTY_DLL</code></td><td>Windows only. The path to a <code>conpty.dll</code> to use for panes, or <code>system</code> to always use the one built into Windows. See <a href="./faq.html#does-zellij-run-on-windows">Does Zellij run on Windows?</a></td></tr>
 </tbody></table>
 </div>
 <p>Here are some limited examples to help get you started:</p>
 <h2 id="autostart-on-shell-creation"><a class="header" href="#autostart-on-shell-creation">Autostart on shell creation</a></h2>
 <p>Autostart a new zellij shell, if not already inside one.
 Shell dependent, fish:</p>
-<pre><code>if set -q ZELLIJ
-else
+<pre><code>if status is-interactive; and isatty stdin; and not set -q ZELLIJ
   zellij
 end
 </code></pre>
-<p>other ways, zellij provides a pre-defined auto start scripts.</p>
+<p>other ways, zellij provides a pre-defined auto start scripts. They only start Zellij in interactive shells that run in a terminal, so shells started by scripts or by the desktop (eg. a login shell reading the environment) are left alone.</p>
 <h3 id="bash"><a class="header" href="#bash">bash</a></h3>
 <pre><code>echo 'eval "$(zellij setup --generate-auto-start bash)"' &gt;&gt; ~/.bashrc
 </code></pre>
