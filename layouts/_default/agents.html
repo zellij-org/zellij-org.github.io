@@ -1,7 +1,7 @@
 {{ define "main" }}
 {{- $t := partial "site/title.html" . -}}
   <div class="wrap session">
-    <section class="pane hero-pane is-focus">
+    <section class="pane hero-pane is-focus" id="agents">
       <span class="pane-title" aria-hidden="true">agents</span>
       <div class="hero-top">
         <div class="hero-main">
@@ -109,10 +109,13 @@
 {{ end }}
 
 {{ define "statusbar" }}
+{{- /* One shortcut per section, in page order, named after its pane */}}
 {{- partial "site/statusbar.html" (dict "segs" (slice
+  (dict "k" "a" "t" "AGENTS" "target" "agents")
   (dict "k" "i" "t" "INBOX" "target" "inbox")
+  (dict "k" "d" "t" "DESKTOP" "target" "desktop")
+  (dict "k" "s" "t" "SESSIONS" "target" "sessions")
   (dict "k" "q" "t" "QUESTIONS" "target" "questions")
-  (dict "k" "d" "t" "DOCS" "target" "next")
   (dict "k" "h" "t" "HOME" "href" "/")
 )) }}
 {{ end }}
