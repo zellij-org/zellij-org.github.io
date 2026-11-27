@@ -659,7 +659,7 @@ By default bound to `a` in `pane` mode.
 
  Open a new pane (in the specified direction)
 
-**Possible arguments**: `Down` | `Right` | `Stacked`
+**Possible arguments**: `Down` | `Right` | `stacked`
 
 **Behaviour without arguments**: Opens a pane in the largest available space or if floating panes are visible, in the next floating pane position.
 
@@ -668,7 +668,7 @@ By default bound to `a` in `pane` mode.
 ```
 or open a stacked pane:
 ```javascript
-    bind "a" { NewPane "Stacked"; }
+    bind "a" { NewPane "stacked"; }
 ```
 
 **Note**: For more advanced pane creation options (floating coordinates, borderless, close-on-exit, cwd, etc.), use the [`Run`](#run) keybinding action instead.
