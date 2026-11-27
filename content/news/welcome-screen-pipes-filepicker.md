@@ -90,7 +90,7 @@ Read more about [Plugin Aliases](/documentation/plugin-aliases.html).
 Thanks to some community contributions, it is now possible to bind `Ctrl`/`Alt` + Function keys (eg. `Ctrl F1`), as well as `Ctrl Space`. We as Zellij maintainers are aware that colliding keybindings are a big problem for many users and intend to fully and finally address this issue in the next version after this one.
 
 ## Start session in the background
-nother much requested feature was added in this release: it's now possible to start a new Zellij session in the background with the new `zellij attach --create-background` flag.
+Another much requested feature was added in this release: it's now possible to start a new Zellij session in the background with the new `zellij attach --create-background` flag.
 
 ## Performance Improvements
 This version introduces two major performance improvements:
