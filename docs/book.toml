@@ -3,3 +3,7 @@ authors = ["Brooks J Rady"]
 language = "en"
 src = "src"
 title = "Zellij User Guide"
+
+[output.html]
+git-repository-url = "https://github.com/zellij-org/zellij"
+edit-url-template = "https://github.com/zellij-org/zellij-org.github.io/edit/main/docs/{path}"
