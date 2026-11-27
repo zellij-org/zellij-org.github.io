@@ -172,7 +172,7 @@ eg.
 ```
 or with ANSI styling preserved:
 ```javascript
-    bind "a" { EditScrollback { ansi true; } }
+    bind "a" { EditScrollback { ansi true; }; }
 ```
 
 An ANSI snapshot contains escape sequences, not editor highlights. To view the
