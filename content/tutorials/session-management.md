@@ -38,9 +38,10 @@ We choose between these three options by typing in a session name (or choosing o
 In most terminals, it's possible to set up the Zellij `welcome-screen` to start up every time the terminal window is opened. Doing this will create a powerful integration between Zellij and your favorite terminal, allowing Zellij to manage not only your panes, layouts and tabs - but also your sessions and contexts.
 
 ### In Alacritty
-Open the Alacritty [configuration file](https://github.com/alacritty/alacritty?tab=readme-ov-file#configuration) and replace the `[shell]` section with the following:
+Open the Alacritty [configuration file](https://github.com/alacritty/alacritty?tab=readme-ov-file#configuration) and add or update the `[terminal]` section:
+
 ```toml
-[shell]
+[terminal.shell]
 program = "zellij"
 args = ["-l", "welcome"]
 ```
