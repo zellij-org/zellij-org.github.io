@@ -28,7 +28,7 @@ When using the terminal, we often open new terminal windows for different tasks,
 ## The Zellij Welcome Screen
 {{<figure src="/img/welcome-screen-single.png" style="max-width 995px;" alt="An image of Zellij welcome screen.">}}
 The Zellij `welcome-screen` is a friendly start-up menu that allows users to:
-1. Start a new sessions, optionally in a specific folder and/or with a specific [layout](/tutorials/layouts).
+1. Start a new session, optionally in a specific folder and/or with a specific [layout](/tutorials/layouts).
 2. Attach to currently running sessions and switch between them.
 3. Resurrect exited sessions, creating a new session from old context.
 
