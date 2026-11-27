@@ -5,6 +5,6 @@ Requires [Hugo](https://gohugo.io/installation/), and [mdBook](https://rust-lang
 
 To run: `hugo server`
 
-To watch-build documentation: `mdbook watch docs/ -d ../static/documentation`
+To watch-build documentation: `mdbook watch docs/ --dest-dir ../static/documentation`
 
 For both, run: `./watch-serve.sh`
