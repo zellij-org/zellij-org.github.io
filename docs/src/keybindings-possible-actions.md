@@ -172,8 +172,26 @@ eg.
 ```
 or with ANSI styling preserved:
 ```javascript
-    bind "a" { EditScrollback { ansi true; } }
+    bind "a" { EditScrollback { ansi true; }; }
 ```
+
+An ANSI snapshot contains escape sequences, not editor highlights. To view the
+colors and yank plain text in Neovim, set `scrollback_editor "nvim"`, use an
+ANSI-enabled binding as above, and install
+[Baleia](https://github.com/m00qek/baleia.nvim). In the opened buffer, run:
+
+```vim
+:set termguicolors
+:lua require('baleia').setup({ strip_ansi_codes = true }).once(vim.api.nvim_get_current_buf())
+```
+
+The colors are applied as highlights, so the buffer is editable and yanks do
+not contain ANSI escape sequences. Use `"+y` to copy a selection to the system
+clipboard if Neovim has a clipboard provider.
+
+When the pane is scrolled up, the snapshot ends at the bottom of the current
+viewport. Return to the live bottom first to include all retained output.
+
 ## `FocusGuestSession`
 
  When the focused pane contains a [nested Zellij session](./nested-sessions.md), descend into it - routing keyboard and mouse input to the nested (guest) session and dimming the chrome of the host session.
