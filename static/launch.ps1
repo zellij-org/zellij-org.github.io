@@ -5,14 +5,14 @@ $binary = Join-Path $dir "zellij.exe"
 
 if (Test-Path $binary) {
     & $binary @args
-    exit $LASTEXITCODE
+    return
 }
 
 switch ($env:PROCESSOR_ARCHITECTURE) {
     "AMD64" { $arch = "x86_64" }
     default {
         Write-Host "Unsupported cpu arch: $env:PROCESSOR_ARCHITECTURE"
-        exit 2
+        return
     }
 }
 
@@ -26,7 +26,7 @@ try {
     Write-Host "Download failed, cannot launch zellij :("
     Write-Host "One probable cause is that a new release just happened and the binary is currently building."
     Write-Host "Maybe try again later? :)"
-    exit 1
+    return
 }
 
 try {
@@ -37,8 +37,8 @@ try {
     Write-Host "Extracting binary failed, cannot launch zellij :("
     Write-Host "One probable cause is that a new release just happened and the binary is currently building."
     Write-Host "Maybe try again later? :)"
-    exit 1
+    return
 }
 
 & $binary @args
-exit $LASTEXITCODE
+return
